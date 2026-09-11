@@ -161,6 +161,57 @@
     });
   }
 
+  // ---------- 独自編集コンテンツ(data-game-editorial.js に登録されているゲームのみ表示) ----------
+  // GAME_EDITORIAL に該当ゲームのキーが無い場合は何も表示しない(従来のページ構成のまま)。
+  const editorial = (typeof GAME_EDITORIAL === "undefined" ? null : GAME_EDITORIAL[game]) || null;
+  if (editorial) {
+    const introBox = document.getElementById("game-editorial-intro-box");
+    const introEl = document.getElementById("game-editorial-intro");
+    if (introBox && introEl && editorial.intro) {
+      introEl.textContent = editorial.intro;
+      introBox.hidden = false;
+    }
+
+    const watchingBox = document.getElementById("game-editorial-watching-box");
+    const watchingEl = document.getElementById("game-editorial-watching");
+    if (watchingBox && watchingEl && editorial.watchingPoints) {
+      watchingEl.textContent = editorial.watchingPoints;
+      watchingBox.hidden = false;
+    }
+
+    const howToBox = document.getElementById("game-editorial-howto-box");
+    const howToEl = document.getElementById("game-editorial-howto");
+    if (howToBox && howToEl && editorial.howToFind) {
+      howToEl.textContent = editorial.howToFind;
+      howToBox.hidden = false;
+
+      const linksList = document.getElementById("game-editorial-links");
+      if (linksList) {
+        linksList.innerHTML = "";
+        [
+          { href: "streamers.html", label: "🎥 VTuberから探す" },
+          { href: "ranking.html", label: "🏆 人気ランキング" },
+          { href: "new.html", label: "🆕 新着／最近更新" },
+          { href: "playlists.html", label: "📺 再生リスト一覧" },
+        ].forEach(({ href, label }) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = href;
+          a.textContent = label;
+          li.appendChild(a);
+          linksList.appendChild(li);
+        });
+      }
+    }
+
+    const recommendBox = document.getElementById("game-editorial-recommend-box");
+    const recommendEl = document.getElementById("game-editorial-recommend");
+    if (recommendBox && recommendEl && editorial.recommendedFor) {
+      recommendEl.textContent = editorial.recommendedFor;
+      recommendBox.hidden = false;
+    }
+  }
+
   // ---------- 再生リストカード ----------
   function createPlaylistCard(item) {
     const genre = genreById[item.genre] || genreById.other;
