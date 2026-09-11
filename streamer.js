@@ -40,6 +40,20 @@
   const items = getPlaylistsByStreamer(streamer);
   const standalone = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).filter((p) => p.streamer === streamer);
 
+  // 再生リスト・単発実況が1件も無いVTuberは、ページの本題である再生リストが
+  // 空のままになるため、検索結果には出さない(noindex)が、他ページからの
+  // リンクは辿れるようにする(follow)。STREAMERS(data-core.js)にだけ登録
+  // されていてPLAYLISTS側のデータがまだ無い実況者が対象。
+  if (streamer && items.length === 0 && standalone.length === 0) {
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.setAttribute("name", "robots");
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute("content", "noindex,follow");
+  }
+
   // ---------- 統計(実況したゲーム数・再生リスト数) ----------
   const gameCounts = {};
   const gameOrder = [];

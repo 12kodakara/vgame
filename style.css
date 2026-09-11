@@ -671,6 +671,8 @@ select:focus-visible,
   border-radius: 2px;
   font-size: 0.82rem;
   cursor: pointer;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .controls input[type="search"],

@@ -1,4 +1,18 @@
 (function () {
+  // 単発・PLなし実況(STANDALONE_PLAYS)がまだ1件も登録されていない間は、
+  // 常に「まだ登録されていません」だけが表示される空のページになるため、
+  // 検索結果には出さない(noindex)。他ページからのリンクは辿れるようにする
+  // (follow)。データが追加され次第、次回の表示から自動的に解除される。
+  if ((typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).length === 0) {
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.setAttribute("name", "robots");
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute("content", "noindex,follow");
+  }
+
   const input = document.getElementById("single-search");
   const format = document.getElementById("format-select");
   const grid = document.getElementById("single-grid");

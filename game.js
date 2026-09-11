@@ -25,6 +25,20 @@
   const items = getPlaylistsByGame(game);
   const standalone = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).filter((p) => p.game === game);
 
+  // 再生リスト・単発実況が1件も無いゲームは、実質的に中身が無い空のページに
+  // なるため、検索結果には出さない(noindex)が、他ページからのリンクは辿れる
+  // ようにする(follow)。GAMES(data-core.js)にだけ登録されていて
+  // PLAYLISTS側のデータがまだ無いゲームが対象。
+  if (game && items.length === 0 && standalone.length === 0) {
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.setAttribute("name", "robots");
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute("content", "noindex,follow");
+  }
+
   // ---------- 統計(実況VTuber数・再生リスト数・動画数・最終更新日) ----------
   const streamerNames = new Set();
   items.forEach((p) => streamerNames.add(p.streamer));
