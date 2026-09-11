@@ -1424,3 +1424,43 @@ select:focus-visible,
   color: var(--text-dim);
   font-size: 0.8rem;
 }
+
+/* ---------- お問い合わせボタン(contact.html) ---------- */
+.cta-button-wrap {
+  margin: 4px 0 28px;
+  text-align: center;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 16px 36px;
+  max-width: 100%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cta-button:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.cta-note {
+  margin: 12px 0 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .cta-button {
+    display: block;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}
