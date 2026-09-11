@@ -150,8 +150,8 @@
     .slice(0, LIST_LIMIT);
   renderPlaylistDiscoverList("discover-recent-updated", recentUpdated, "更新された再生リストはまだありません。");
 
-  // ⭐ 人気／注目VTuber(再生リストのpopularity合計が高い実況者上位、20件)
-  const topStreamers = aggregateBy((p) => p.streamer).slice(0, 20);
+  // ⭐ 人気／注目VTuber(再生リストのpopularity合計が高い実況者上位、10件)
+  const topStreamers = aggregateBy((p) => p.streamer).slice(0, 10);
   const streamerGrid = document.getElementById("discover-popular-streamers");
   if (streamerGrid) {
     streamerGrid.innerHTML = "";
