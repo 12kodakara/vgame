@@ -69,12 +69,21 @@ function getPlaylistsByStreamer(streamerName) {
  * 不一致(ドメイン変更時の更新漏れ等)を防ぐ保険として実行している。
  * game.html/streamer.html等が後から呼ぶ setPageMeta() は、そのページの
  * 正しいパスを使って改めて上書きするので、ここでの処理と競合しない。
+ *
+ * SITE_URL が GitHub Pages のプロジェクトページ(例: ".../vgame")のように
+ * パスの一部を含む場合、絶対URLの pathname にもそのパスが含まれるため、
+ * 単純に "SITE_URL + pathname" で連結すると "/vgame/vgame/..." のように
+ * 重複してしまう。そのため、URLのオリジン(ドメイン部分)が既に SITE_URL の
+ * オリジンと一致する場合はパスに一切手を加えず、オリジンが異なる場合
+ * (ドメイン移行時)のみオリジン部分だけを置き換える。
  */
 function syncSiteUrl() {
   function withSiteUrl(url) {
     try {
+      const siteOrigin = new URL(SITE_URL).origin;
       const u = new URL(url, SITE_URL);
-      return SITE_URL + u.pathname + u.search + u.hash;
+      if (u.origin === siteOrigin) return url;
+      return siteOrigin + u.pathname + u.search + u.hash;
     } catch (e) {
       return url;
     }

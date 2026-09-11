@@ -1090,6 +1090,16 @@ select:focus-visible,
   text-decoration: underline;
 }
 
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
 /* ---------- レスポンシブ ---------- */
 @media (max-width: 720px) {
   .wiki-body {
@@ -1388,3 +1398,29 @@ select:focus-visible,
 .playlist-card-streamer{align-self:flex-start;font-size:.82rem;color:var(--link);text-decoration:none}
 .playlist-card-streamer:hover{text-decoration:underline}
 .playlist-card-meta{margin:4px 0 0;font-size:.78rem;color:var(--text-dim)}
+
+/* ---------- 文章ページ(サイトについて/運営者情報/プライバシーポリシー/お問い合わせ) ---------- */
+.text-page {
+  max-width: 760px;
+}
+
+.text-page p,
+.text-page li {
+  line-height: 1.9;
+}
+
+.text-page p {
+  margin: 0 0 14px;
+}
+
+.text-page ul,
+.text-page ol {
+  margin: 0 0 14px;
+  padding-left: 1.4em;
+}
+
+.text-page .page-date {
+  margin: 24px 0 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}

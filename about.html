@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D3FY26G29X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D3FY26G29X');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="「ぶいゲー」はVTuberのゲーム実況・再生リストをゲーム別・VTuber別・実況シリーズ別に整理して探せる、非公式のファン向け情報整理サイトです。サイトの目的やご利用にあたっての注意点を説明します。">
+<title>サイトについて | ぶいゲー</title>
+<link rel="canonical" href="https://12kodakara.github.io/vgame/about.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20width%3D'100'%20height%3D'100'%20rx%3D'22'%20fill%3D'%2314748f'%2F%3E%3Ctext%20x%3D'50'%20y%3D'70'%20font-size%3D'58'%20text-anchor%3D'middle'%3E%F0%9F%8E%AE%3C%2Ftext%3E%3C%2Fsvg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ぶいゲー">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="サイトについて | ぶいゲー">
+<meta property="og:description" content="「ぶいゲー」はVTuberのゲーム実況・再生リストをゲーム別・VTuber別・実況シリーズ別に整理して探せる、非公式のファン向け情報整理サイトです。サイトの目的やご利用にあたっての注意点を説明します。">
+<meta property="og:url" content="https://12kodakara.github.io/vgame/about.html">
+<meta property="og:image" content="https://12kodakara.github.io/vgame/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="サイトについて | ぶいゲー">
+<meta name="twitter:description" content="「ぶいゲー」はVTuberのゲーム実況・再生リストをゲーム別・VTuber別・実況シリーズ別に整理して探せる、非公式のファン向け情報整理サイトです。サイトの目的やご利用にあたっての注意点を説明します。">
+<meta name="twitter:image" content="https://12kodakara.github.io/vgame/og-image.png">
+</head>
+<body>
+
+<header class="wiki-banner">
+  <div class="wiki-banner-inner">
+    <p class="wiki-banner-title"><a href="index.html">ぶいゲー｜VTuberゲーム実況・再生リストまとめ</a></p>
+    <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-expanded="false" aria-controls="wiki-sidebar"><span aria-hidden="true">☰</span> メニュー</button>
+  </div>
+</header>
+
+<div class="wiki-body">
+
+  <aside class="wiki-sidebar" id="wiki-sidebar">
+    <div class="menu-box">
+      <h2 class="menu-box-title">探す</h2>
+      <form class="menu-search" onsubmit="return wikiSearchSubmit(this)">
+        <input type="search" name="q" aria-label="ゲーム名・VTuber を検索">
+        <button type="submit">検索</button>
+      </form>
+      <ul class="menu-list">
+        <li><a href="games.html">🎮 ゲームから探す</a></li>
+        <li><a href="streamers.html">🎥 VTuberから探す</a></li>
+        <li><a href="playlists.html">📺 再生リスト</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-box">
+      <h2 class="menu-box-title">見つける</h2>
+      <ul class="menu-list">
+        <li><a href="ranking.html">🏆 人気ランキング</a></li>
+        <li><a href="new.html">🆕 新着／最近更新</a></li>
+        <li><button type="button" class="menu-action" id="sidebar-random-btn">🎲 ランダムで実況を探す</button></li>
+      </ul>
+    </div>
+
+    <div class="menu-box">
+      <h2 class="menu-box-title">人気コンテンツ</h2>
+      <ul class="sidebar-popular-list" id="sidebar-popular-games"></ul>
+      <a class="more-link" href="games.html">もっと見る →</a>
+    </div>
+  </aside>
+
+  <main class="wiki-content">
+    <div class="content-box">
+      <nav class="breadcrumb-wiki"><a href="index.html">トップページ</a> › サイトについて</nav>
+      <h1 class="page-title">サイトについて</h1>
+      <p class="page-lead">「ぶいゲー」がどんなサイトなのか、目的やご利用にあたっての注意点をまとめています。</p>
+
+      <div class="text-page">
+        <div class="section-box">
+          <h2>「ぶいゲー」とは</h2>
+          <p>「ぶいゲー」は、VTuberのゲーム実況・実況シリーズ・再生リストを探しやすく整理することを目的にした情報サイトです。ゲーム名やVTuber名から実況コンテンツを探せるほか、人気の作品、最近更新された実況、ランキングなどからも関連コンテンツを見つけられます。</p>
+          <p>「この実況、他に誰がやってるんだろう」「このVTuberが実況してるゲーム一覧が見たい」といった探し方を、なるべくスムーズにできるようにすることを目指しています。</p>
+        </div>
+
+        <div class="section-box">
+          <h2>当サイトでできること</h2>
+          <ul>
+            <li><strong>ゲーム別整理</strong>：同じゲームを実況しているVTuber・実況シリーズをまとめて一覧できます。</li>
+            <li><strong>VTuber別整理</strong>：特定のVTuberが実況しているゲーム・再生リストをまとめて探せます。</li>
+            <li><strong>実況シリーズ別整理</strong>：単発の実況から複数回にわたるシリーズまで、再生リスト単位で整理しています。</li>
+            <li><strong>更新状況の把握</strong>：新着・最近更新された再生リストを一覧で確認できます。</li>
+            <li><strong>関連コンテンツ探索</strong>：ジャンルやランキングから、興味のありそうな実況を横断的に探せます。</li>
+          </ul>
+          <p>単に動画を羅列するだけでなく、上記のような切り口で情報を整理し、探しやすくすることが当サイト独自の価値だと考えています。</p>
+        </div>
+
+        <div class="section-box">
+          <h2>掲載内容について</h2>
+          <p>当サイトは、YouTube上に公開されている動画・再生リストへのリンクや関連情報を掲載する情報整理サイトです。掲載している動画自体を当サイトが制作・所有しているわけではなく、各動画・再生リストの権利は、それぞれの配信者・権利者等に帰属します。</p>
+          <p>当サイトは、情報整理・検索性向上を目的とした非公式のファン向け情報サイトであり、YouTube、Google、各VTuberの所属事務所、各ゲーム会社等とは公式な提携関係がありません。</p>
+        </div>
+
+        <div class="section-box">
+          <h2>掲載情報の正確性について</h2>
+          <p>掲載している情報は可能な限り正確な状態を保つよう努めていますが、内容の完全性・正確性を保証するものではありません。リンク切れや誤った情報を見つけられた場合は、<a href="contact.html">お問い合わせ</a>ページよりご連絡いただけますと幸いです。</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<footer class="wiki-footer">
+  <p>ぶいゲー｜VTuberのゲーム実況・再生リストをゲーム別・実況者別にまとめています。</p>
+  <nav class="footer-nav" aria-label="サイト情報">
+    <a href="about.html">サイトについて</a>
+    <a href="operator.html">運営者情報</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="contact.html">お問い合わせ</a>
+  </nav>
+</footer>
+
+<script src="data-core.js"></script>
+<script src="data-counts.js"></script>
+<script src="common.js"></script>
+</body>
+</html>

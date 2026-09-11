@@ -12,9 +12,9 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="VTuberのゲーム実況を探す。ゲーム名・VTuber名から実況シリーズを検索できるまとめサイトです。人気のゲーム・最近更新された再生リスト・人気VTuberなどをトップページで発見できます。">
-<title>ぶいゲー｜VTuberゲーム実況・再生リストまとめ</title>
-<link rel="canonical" href="https://12kodakara.github.io/vgame/">
+<meta name="description" content="「ぶいゲー」の運営者情報です。運営形態・サイトURL・サイト内容などを掲載しています。">
+<title>運営者情報 | ぶいゲー</title>
+<link rel="canonical" href="https://12kodakara.github.io/vgame/operator.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
@@ -23,15 +23,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ぶいゲー">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:title" content="ぶいゲー｜VTuberゲーム実況・再生リストまとめ">
-<meta property="og:description" content="VTuberのゲーム実況を探す。ゲーム名・VTuber名から実況シリーズを検索できるまとめサイトです。人気のゲーム・最近更新された再生リスト・人気VTuberなどをトップページで発見できます。">
-<meta property="og:url" content="https://12kodakara.github.io/vgame/">
+<meta property="og:title" content="運営者情報 | ぶいゲー">
+<meta property="og:description" content="「ぶいゲー」の運営者情報です。運営形態・サイトURL・サイト内容などを掲載しています。">
+<meta property="og:url" content="https://12kodakara.github.io/vgame/operator.html">
 <meta property="og:image" content="https://12kodakara.github.io/vgame/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ぶいゲー｜VTuberゲーム実況・再生リストまとめ">
-<meta name="twitter:description" content="VTuberのゲーム実況を探す。ゲーム名・VTuber名から実況シリーズを検索できるまとめサイトです。人気のゲーム・最近更新された再生リスト・人気VTuberなどをトップページで発見できます。">
+<meta name="twitter:title" content="運営者情報 | ぶいゲー">
+<meta name="twitter:description" content="「ぶいゲー」の運営者情報です。運営形態・サイトURL・サイト内容などを掲載しています。">
 <meta name="twitter:image" content="https://12kodakara.github.io/vgame/og-image.png">
 </head>
 <body>
@@ -77,52 +77,23 @@
 
   <main class="wiki-content">
     <div class="content-box">
-      <section class="hero">
-        <h1 class="hero-title">VTuberのゲーム実況を探す</h1>
-        <p class="hero-sub">ゲーム名・VTuber名から実況シリーズを検索できます。</p>
-        <form class="hero-search" onsubmit="return wikiSearchSubmit(this)">
-          <input type="search" name="q" placeholder="ゲーム名・VTuber名を入力" aria-label="ゲーム名・VTuber名を入力">
-          <button type="submit">検索</button>
-        </form>
-        <p class="hero-stats" id="hero-stats" hidden></p>
-      </section>
+      <nav class="breadcrumb-wiki"><a href="index.html">トップページ</a> › 運営者情報</nav>
+      <h1 class="page-title">運営者情報</h1>
+      <p class="page-lead">「ぶいゲー」の運営に関する基本情報です。</p>
 
-      <div class="section-box" id="recent-viewed-section" hidden>
-        <h2>🕒 最近見た実況</h2>
-        <ul class="index-list" id="recent-viewed-list"></ul>
-      </div>
+      <div class="text-page">
+        <div class="section-box">
+          <h2>サイト情報</h2>
+          <p><strong>サイト名：</strong>ぶいゲー</p>
+          <p><strong>運営形態：</strong>個人運営</p>
+          <p><strong>サイトURL：</strong><a href="https://12kodakara.github.io/vgame/">https://12kodakara.github.io/vgame/</a></p>
+          <p><strong>サイト内容：</strong>VTuberのゲーム実況・再生リスト等の情報整理・検索サイト</p>
+        </div>
 
-      <div class="section-box" id="favorites-section" hidden>
-        <h2>⭐ お気に入り</h2>
-        <ul class="index-list" id="favorites-list"></ul>
-      </div>
-
-      <div class="section-box">
-        <h2>🔥 人気のゲーム</h2>
-        <ol class="discover-list" id="discover-popular-games"></ol>
-        <a class="more-link" href="games.html">もっと見る →</a>
-      </div>
-
-      <div class="section-box">
-        <h2>🔄 最近更新された再生リスト</h2>
-        <ol class="discover-list" id="discover-recent-updated"></ol>
-        <a class="more-link" href="playlists.html">もっと見る →</a>
-      </div>
-
-      <div class="section-box">
-        <h2>⭐ 人気／注目VTuber</h2>
-        <ul class="streamer-grid" id="discover-popular-streamers"></ul>
-        <a class="more-link" href="streamers.html">もっと見る →</a>
-      </div>
-
-      <div class="section-box">
-        <h2>🎮 ゲームから探す</h2>
-        <ul class="index-list" id="discover-game-rows"></ul>
-      </div>
-
-      <div class="section-box">
-        <h2>🎥 VTuberから探す</h2>
-        <ul class="agency-tiles" id="discover-agencies"></ul>
+        <div class="section-box">
+          <h2>お問い合わせについて</h2>
+          <p>運営者への連絡は、<a href="contact.html">お問い合わせ</a>ページよりお願いいたします。</p>
+        </div>
       </div>
     </div>
   </main>
@@ -141,8 +112,6 @@
 
 <script src="data-core.js"></script>
 <script src="data-counts.js"></script>
-<script src="data-playlists.js"></script>
 <script src="common.js"></script>
-<script src="home.js"></script>
 </body>
 </html>
