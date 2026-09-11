@@ -18,18 +18,18 @@
  */
 
 /**
- * サイト全体の設定(SEO関連)。本番公開時は、ここの SITE_URL を1箇所
- * 変更するだけで以下すべてに反映される(他ファイルを手で書き換える必要はない)。
- * SITE_URL   : 公開ドメイン(末尾スラッシュ無し)。ここはまだプレースホルダーです。
- *              - 各HTMLの <link rel="canonical">/<meta property="og:url"> は、
- *                common.js の syncSiteUrl() がページ読み込み時にこの値へ
- *                自動で書き換える(HTML側の "https://example.com" は
- *                そのままで構わない)。
+ * サイト全体の設定(SEO関連)。
+ * SITE_URL   : 公開ドメイン(末尾スラッシュ無し)。現在の公開URLに設定済みです。
+ *              - 各HTMLの <link rel="canonical">/<meta property="og:url"> 等は
+ *                この値で直接記述している(JS未実行のクローラーやSNSでも
+ *                正しいURLが見えるようにするため)。common.js の syncSiteUrl()
+ *                はページ読み込み時にドメイン部分をこの値へ再同期する保険。
  *              - sitemap.xml と robots.txt の Sitemap: 行は、
  *                .\generate-sitemap.ps1 を実行すると自動でこの値を読み取って
  *                再生成される(-SiteUrl オプションで一時的に上書きも可能)。
- *              実際に公開するドメインが決まったら、この行の値を変更したうえで
- *              generate-sitemap.ps1 を1回実行してください。
+ *              ドメインを変更する場合は、この行の値を変更したうえで
+ *              各HTMLのcanonical/og:url/og:image/twitter:image・
+ *              generate-sitemap.ps1・build-public.ps1 を再実行してください。
  * SITE_NAME  : og:site_name やページタイトルの "| ぶいゲー" 部分に使う表示名。
  */
 const SITE_URL = "https://12kodakara.github.io/vgame";

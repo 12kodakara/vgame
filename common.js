@@ -64,10 +64,9 @@ function getPlaylistsByStreamer(streamerName) {
 /**
  * 各HTMLの <head> に書かれた canonical / og:url の「ドメイン部分」を
  * data-core.js の SITE_URL に合わせて上書きする(パス部分はHTMLに書かれた
- * ものをそのまま使う)。本番公開時は SITE_URL を1箇所変更するだけで、
- * sed 等による全HTML書き換えなしにサイト全体の canonical / og:url へ
- * 反映される。common.js は全ページ共通で読み込まれるため、ここで1回
- * 呼んでおけば動的なタイトルを持たないページ(playlists.html等)にも効く。
+ * ものをそのまま使う)。各HTMLのcanonical/og:url自体は既に正しい公開URLを
+ * 直接記述しているため通常はここで書き換わる内容は無いが、SITE_URLとの
+ * 不一致(ドメイン変更時の更新漏れ等)を防ぐ保険として実行している。
  * game.html/streamer.html等が後から呼ぶ setPageMeta() は、そのページの
  * 正しいパスを使って改めて上書きするので、ここでの処理と競合しない。
  */
