@@ -108,50 +108,8 @@
         </div>
       </div>
 
-      <section class="section-box" id="game-popular-section" hidden>
-        <h2>人気実況</h2>
-        <ol class="discover-list" id="game-popular-list"></ol>
-      </section>
-
-      <section class="section-box" id="game-recent-section" hidden>
-        <h2>最近更新された実況</h2>
-        <ol class="discover-list" id="game-recent-list"></ol>
-      </section>
-
-      <section class="section-box" id="game-streamer-section" hidden>
-        <h2>このゲームを実況しているVTuber</h2>
-        <ul class="streamer-grid" id="game-streamer-grid"></ul>
-        <button type="button" class="more-toggle" id="game-streamer-more" hidden>すべてを見る →</button>
-      </section>
-
-      <section class="section-box" id="game-related-section" hidden>
-        <h2>関連ゲーム</h2>
-        <ul class="index-list" id="game-related-list"></ul>
-      </section>
-
-      <section class="section-box" id="game-editorial-intro-box" hidden>
-        <h2>このゲームについて</h2>
-        <p id="game-editorial-intro"></p>
-      </section>
-
-      <section class="section-box" id="game-editorial-watching-box" hidden>
-        <h2>VTuber実況を見るポイント</h2>
-        <p id="game-editorial-watching"></p>
-      </section>
-
-      <section class="section-box" id="game-editorial-howto-box" hidden>
-        <h2>ぶいゲーでの探し方</h2>
-        <p id="game-editorial-howto"></p>
-        <ul class="index-list" id="game-editorial-links"></ul>
-      </section>
-
-      <section class="section-box" id="game-editorial-recommend-box" hidden>
-        <h2>こんな人におすすめ</h2>
-        <p id="game-editorial-recommend"></p>
-      </section>
-
       <section class="section-box">
-        <h2>全再生リスト</h2>
+        <h2>再生リストを探す</h2>
         <div class="controls-row">
           <select id="sort-select">
             <option value="updatedDate" selected>更新が新しい順</option>
@@ -159,7 +117,8 @@
             <option value="streamer">VTuber名順</option>
           </select>
           <select id="pagesize-select">
-            <option value="20" selected>20件表示</option>
+            <option value="10" selected>10件表示</option>
+            <option value="20">20件表示</option>
             <option value="50">50件表示</option>
             <option value="100">100件表示</option>
           </select>
@@ -181,6 +140,58 @@
         <h2>単発・専用再生リストなし実況</h2>
         <div id="standalone-summary" class="tabs-summary"></div>
         <div id="standalone-grid" class="play-cards"></div>
+      </section>
+
+      <section class="section-box" id="game-streamer-section" hidden>
+        <h2>このゲームを実況しているVTuber</h2>
+        <ul class="streamer-grid" id="game-streamer-grid"></ul>
+        <button type="button" class="more-toggle" id="game-streamer-more" aria-expanded="false" hidden>もっと見る</button>
+      </section>
+
+      <section class="section-box" id="game-featured-section" hidden>
+        <h2>注目の実況</h2>
+        <div class="featured-tabs" role="tablist" aria-label="注目の実況の種類">
+          <button type="button" class="featured-tab" id="featured-tab-popular" role="tab" aria-selected="true" aria-controls="featured-panel-popular">人気実況</button>
+          <button type="button" class="featured-tab" id="featured-tab-recent" role="tab" aria-selected="false" aria-controls="featured-panel-recent" tabindex="-1">最近更新</button>
+        </div>
+        <div class="featured-panel" id="featured-panel-popular" role="tabpanel" aria-labelledby="featured-tab-popular">
+          <ol class="discover-list" id="game-popular-list"></ol>
+        </div>
+        <div class="featured-panel" id="featured-panel-recent" role="tabpanel" aria-labelledby="featured-tab-recent" hidden>
+          <ol class="discover-list" id="game-recent-list"></ol>
+        </div>
+      </section>
+
+      <section class="section-box game-editorial-wrap" id="game-editorial-section" hidden>
+        <h2>
+          <button type="button" class="editorial-toggle" id="game-editorial-toggle" aria-expanded="false" aria-controls="game-editorial-panel">
+            <span id="game-editorial-toggle-label"></span>
+            <span class="editorial-toggle-arrow" aria-hidden="true">▼</span>
+          </button>
+        </h2>
+        <div class="editorial-panel" id="game-editorial-panel" hidden>
+          <div id="game-editorial-intro-box" hidden>
+            <h3>このゲームについて</h3>
+            <p id="game-editorial-intro"></p>
+          </div>
+          <div id="game-editorial-watching-box" hidden>
+            <h3>VTuber実況を見るポイント</h3>
+            <p id="game-editorial-watching"></p>
+          </div>
+          <div id="game-editorial-howto-box" hidden>
+            <h3>ぶいゲーでの探し方</h3>
+            <p id="game-editorial-howto"></p>
+          </div>
+          <div id="game-editorial-recommend-box" hidden>
+            <h3>こんな人におすすめ</h3>
+            <p id="game-editorial-recommend"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-box" id="game-related-section" hidden>
+        <h2>関連ゲーム</h2>
+        <ul class="index-list" id="game-related-list"></ul>
       </section>
     </div>
   </main>

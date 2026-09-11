@@ -58,25 +58,71 @@
     );
   }
 
-  // ---------- 人気実況(このゲームの再生リストのうち人気度が高い上位5件) ----------
+  // ---------- 注目の実況(人気実況・最近更新をタブで切り替えて表示) ----------
+  // データ・集計ロジック自体は従来と同じ(上位5件)で、表示だけをタブにまとめている。
   const popularItems = items
     .slice()
     .sort((a, b) => calculatePopularity(b) - calculatePopularity(a))
     .slice(0, 5);
-  if (document.getElementById("game-popular-section") && popularItems.length) {
-    document.getElementById("game-popular-section").hidden = false;
-    renderPlaylistDiscoverList("game-popular-list", popularItems, "", { showGame: false });
-  }
-
-  // ---------- 最近更新された実況(このゲームの再生リストのうち更新日が新しい上位5件) ----------
   const recentItems = items
     .filter((p) => p.updatedDate || p.addedDate)
     .slice()
     .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
     .slice(0, 5);
-  if (document.getElementById("game-recent-section") && recentItems.length) {
-    document.getElementById("game-recent-section").hidden = false;
-    renderPlaylistDiscoverList("game-recent-list", recentItems, "", { showGame: false });
+
+  const featuredSection = document.getElementById("game-featured-section");
+  const featuredTabPopular = document.getElementById("featured-tab-popular");
+  const featuredTabRecent = document.getElementById("featured-tab-recent");
+  const featuredPanelPopular = document.getElementById("featured-panel-popular");
+  const featuredPanelRecent = document.getElementById("featured-panel-recent");
+
+  if (featuredSection && (popularItems.length || recentItems.length)) {
+    featuredSection.hidden = false;
+    if (popularItems.length) renderPlaylistDiscoverList("game-popular-list", popularItems, "", { showGame: false });
+    if (recentItems.length) renderPlaylistDiscoverList("game-recent-list", recentItems, "", { showGame: false });
+
+    function selectFeaturedTab(which) {
+      const showPopular = which === "popular";
+      if (featuredTabPopular) {
+        featuredTabPopular.setAttribute("aria-selected", String(showPopular));
+        featuredTabPopular.tabIndex = showPopular ? 0 : -1;
+      }
+      if (featuredTabRecent) {
+        featuredTabRecent.setAttribute("aria-selected", String(!showPopular));
+        featuredTabRecent.tabIndex = showPopular ? -1 : 0;
+      }
+      if (featuredPanelPopular) featuredPanelPopular.hidden = !showPopular;
+      if (featuredPanelRecent) featuredPanelRecent.hidden = showPopular;
+    }
+
+    // どちらかのタブに実データが無い場合は、そのタブ自体を隠して空のタブへの
+    // 切り替えができないようにする(既存のデータ有無ロジックは変えていない)。
+    if (!popularItems.length && recentItems.length) {
+      if (featuredTabPopular) featuredTabPopular.hidden = true;
+      selectFeaturedTab("recent");
+    } else if (!recentItems.length && popularItems.length) {
+      if (featuredTabRecent) featuredTabRecent.hidden = true;
+      selectFeaturedTab("popular");
+    } else {
+      selectFeaturedTab("popular");
+    }
+
+    if (featuredTabPopular) featuredTabPopular.addEventListener("click", () => selectFeaturedTab("popular"));
+    if (featuredTabRecent) featuredTabRecent.addEventListener("click", () => selectFeaturedTab("recent"));
+
+    // 矢印キーでのタブ切り替え(WAI-ARIA Tabsの標準的な操作パターン)。
+    const featuredTabsBar = featuredSection.querySelector(".featured-tabs");
+    if (featuredTabsBar) {
+      featuredTabsBar.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        const popularActive = featuredTabPopular && featuredTabPopular.getAttribute("aria-selected") === "true";
+        const next = popularActive ? featuredTabRecent : featuredTabPopular;
+        if (!next || next.hidden) return;
+        e.preventDefault();
+        selectFeaturedTab(next === featuredTabPopular ? "popular" : "recent");
+        next.focus();
+      });
+    }
   }
 
   // ---------- このゲームを実況しているVTuber ----------
@@ -97,7 +143,7 @@
     .map((name) => ({ name: name, stat: streamerStats[name] }))
     .sort((a, b) => b.stat.videoCount - a.stat.videoCount || a.name.localeCompare(b.name, "ja"));
 
-  const STREAMERS_SHOWN_INITIALLY = 30;
+  const STREAMERS_SHOWN_INITIALLY = 10;
   const streamerSection = document.getElementById("game-streamer-section");
   const streamerGrid = document.getElementById("game-streamer-grid");
   const streamerMoreBtn = document.getElementById("game-streamer-more");
@@ -120,7 +166,8 @@
       streamerMoreBtn.addEventListener("click", () => {
         streamersExpanded = !streamersExpanded;
         renderStreamerGrid(streamersExpanded);
-        streamerMoreBtn.textContent = streamersExpanded ? "元に戻す ←" : "すべてを見る →";
+        streamerMoreBtn.textContent = streamersExpanded ? "閉じる" : "もっと見る";
+        streamerMoreBtn.setAttribute("aria-expanded", String(streamersExpanded));
       });
     }
   }
@@ -161,10 +208,16 @@
     });
   }
 
-  // ---------- 独自編集コンテンツ(data-game-editorial.js に登録されているゲームのみ表示) ----------
-  // GAME_EDITORIAL に該当ゲームのキーが無い場合は何も表示しない(従来のページ構成のまま)。
+  // ---------- 独自編集コンテンツ(data-game-editorial.js に登録されているゲームのみ、折りたたみで表示) ----------
+  // GAME_EDITORIAL に該当ゲームのキーが無い場合は折りたたみ自体を表示しない(従来のページ構成のまま)。
   const editorial = (typeof GAME_EDITORIAL === "undefined" ? null : GAME_EDITORIAL[game]) || null;
   if (editorial) {
+    const editorialSection = document.getElementById("game-editorial-section");
+    const editorialToggle = document.getElementById("game-editorial-toggle");
+    const editorialToggleLabel = document.getElementById("game-editorial-toggle-label");
+    const editorialArrow = editorialToggle ? editorialToggle.querySelector(".editorial-toggle-arrow") : null;
+    const editorialPanel = document.getElementById("game-editorial-panel");
+
     const introBox = document.getElementById("game-editorial-intro-box");
     const introEl = document.getElementById("game-editorial-intro");
     if (introBox && introEl && editorial.intro) {
@@ -184,24 +237,6 @@
     if (howToBox && howToEl && editorial.howToFind) {
       howToEl.textContent = editorial.howToFind;
       howToBox.hidden = false;
-
-      const linksList = document.getElementById("game-editorial-links");
-      if (linksList) {
-        linksList.innerHTML = "";
-        [
-          { href: "streamers.html", label: "🎥 VTuberから探す" },
-          { href: "ranking.html", label: "🏆 人気ランキング" },
-          { href: "new.html", label: "🆕 新着／最近更新" },
-          { href: "playlists.html", label: "📺 再生リスト一覧" },
-        ].forEach(({ href, label }) => {
-          const li = document.createElement("li");
-          const a = document.createElement("a");
-          a.href = href;
-          a.textContent = label;
-          li.appendChild(a);
-          linksList.appendChild(li);
-        });
-      }
     }
 
     const recommendBox = document.getElementById("game-editorial-recommend-box");
@@ -209,6 +244,18 @@
     if (recommendBox && recommendEl && editorial.recommendedFor) {
       recommendEl.textContent = editorial.recommendedFor;
       recommendBox.hidden = false;
+    }
+
+    // 折りたたみ本体の表示・開閉(ボタンを押すたびに開く/閉じるを繰り返せる)。
+    if (editorialSection) editorialSection.hidden = false;
+    if (editorialToggleLabel) editorialToggleLabel.textContent = gameDisplayName(game) + "の実況について・探し方";
+    if (editorialToggle && editorialPanel) {
+      editorialToggle.addEventListener("click", () => {
+        const nowExpanded = editorialToggle.getAttribute("aria-expanded") !== "true";
+        editorialToggle.setAttribute("aria-expanded", String(nowExpanded));
+        editorialPanel.hidden = !nowExpanded;
+        if (editorialArrow) editorialArrow.textContent = nowExpanded ? "▲" : "▼";
+      });
     }
   }
 
@@ -305,7 +352,7 @@
 
   const setPageItems = initPagination((pageItems) => {
     renderCards(grid, pageItems, "このゲームの再生リストはまだ登録されていません。");
-  }, 20);
+  }, 10);
 
   const sortSelect = document.getElementById("sort-select");
   function applySort() {
