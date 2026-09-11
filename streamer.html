@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="実況者ごとにVTuberのゲーム実況・再生リストをまとめたページです。実況者一覧から選んでご覧ください。">
+<title>VTuberのゲーム実況・再生リスト一覧 | ぶいゲー</title>
+<link rel="canonical" href="https://example.com/streamers.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20width%3D'100'%20height%3D'100'%20rx%3D'22'%20fill%3D'%2314748f'%2F%3E%3Ctext%20x%3D'50'%20y%3D'70'%20font-size%3D'58'%20text-anchor%3D'middle'%3E%F0%9F%8E%AE%3C%2Ftext%3E%3C%2Fsvg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ぶいゲー">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="VTuberのゲーム実況・再生リスト一覧 | ぶいゲー">
+<meta property="og:description" content="実況者ごとにVTuberのゲーム実況・再生リストをまとめたページです。実況者一覧から選んでご覧ください。">
+<meta property="og:url" content="https://example.com/streamers.html">
+<meta property="og:image" content="https://example.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VTuberのゲーム実況・再生リスト一覧 | ぶいゲー">
+<meta name="twitter:description" content="実況者ごとにVTuberのゲーム実況・再生リストをまとめたページです。実況者一覧から選んでご覧ください。">
+<meta name="twitter:image" content="https://example.com/og-image.png">
+</head>
+<body class="streamer-page">
+
+<header class="wiki-banner">
+  <div class="wiki-banner-inner">
+    <p class="wiki-banner-title"><a href="index.html">ぶいゲー｜VTuberゲーム実況・再生リストまとめ</a></p>
+    <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-expanded="false" aria-controls="wiki-sidebar"><span aria-hidden="true">☰</span> メニュー</button>
+  </div>
+</header>
+
+<div class="wiki-body">
+
+  <aside class="wiki-sidebar" id="wiki-sidebar">
+    <div class="menu-box">
+      <h2 class="menu-box-title">探す</h2>
+      <form class="menu-search" onsubmit="return wikiSearchSubmit(this)">
+        <input type="search" name="q" aria-label="ゲーム名・VTuber を検索">
+        <button type="submit">検索</button>
+      </form>
+      <ul class="menu-list">
+        <li><a href="games.html">🎮 ゲームから探す</a></li>
+        <li><a href="streamers.html" class="active">🎥 VTuberから探す</a></li>
+        <li><a href="playlists.html">📺 再生リスト</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-box">
+      <h2 class="menu-box-title">見つける</h2>
+      <ul class="menu-list">
+        <li><a href="ranking.html">🏆 人気ランキング</a></li>
+        <li><a href="new.html">🆕 新着／最近更新</a></li>
+        <li><button type="button" class="menu-action" id="sidebar-random-btn">🎲 ランダムで実況を探す</button></li>
+      </ul>
+    </div>
+
+    <div class="menu-box">
+      <h2 class="menu-box-title">人気コンテンツ</h2>
+      <ul class="sidebar-popular-list" id="sidebar-popular-games"></ul>
+      <a class="more-link" href="games.html">もっと見る →</a>
+    </div>
+  </aside>
+
+  <main class="wiki-content">
+    <div class="content-box">
+      <nav class="breadcrumb-wiki">
+        <a href="index.html">トップページ</a> ›
+        <a href="streamers.html">実況者一覧</a> ›
+        <span id="breadcrumb-current"></span>
+      </nav>
+      <div class="streamer-header">
+        <img id="streamer-icon" class="streamer-icon" alt="" hidden>
+        <div class="streamer-header-text">
+          <div class="page-title-row">
+            <h1 class="page-title" id="page-title">実況者の再生リスト</h1>
+            <button type="button" class="favorite-btn" id="favorite-btn" aria-pressed="false">☆ お気に入りに追加</button>
+          </div>
+          <p class="page-meta" id="page-meta" hidden></p>
+          <div class="social-links" id="social-links" hidden>
+            <a id="social-youtube" class="social-link social-link--youtube" target="_blank" rel="noopener" hidden aria-label="YouTubeチャンネル">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12Z"/></svg>
+              <span>YouTube</span>
+            </a>
+            <a id="social-x" class="social-link social-link--x" target="_blank" rel="noopener" hidden aria-label="X (旧Twitter)">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.7 8.8L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.2-9.4L1 2h6.9l4.8 6.3Zm-1.2 18h1.7L7.4 3.9H5.6Z"/></svg>
+              <span>X</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="stat-tiles" id="streamer-stats">
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-games">-</span>
+          <span class="stat-tile-label">実況したゲーム数</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-playlists">-</span>
+          <span class="stat-tile-label">再生リスト数</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-videos">-</span>
+          <span class="stat-tile-label">動画数</span>
+        </div>
+      </div>
+
+      <section class="section-box" id="streamer-popular-section" hidden>
+        <h2>人気実況</h2>
+        <ol class="discover-list" id="streamer-popular-list"></ol>
+      </section>
+
+      <section class="section-box" id="streamer-recent-section" hidden>
+        <h2>最近更新された実況</h2>
+        <ol class="discover-list" id="streamer-recent-list"></ol>
+      </section>
+
+      <section class="section-box" id="streamer-agency-section" hidden>
+        <h2>同じ事務所・グループのVTuber</h2>
+        <ul class="streamer-grid" id="streamer-agency-grid"></ul>
+      </section>
+
+      <section class="section-box" id="streamer-games-section" hidden>
+        <h2>このVTuberが実況したゲーム</h2>
+        <ul class="index-list" id="streamer-games-list"></ul>
+        <button type="button" class="more-toggle" id="streamer-games-more" hidden>もっと見る →</button>
+      </section>
+
+      <section class="section-box" id="streamer-genres-section" hidden>
+        <h2>よく実況しているジャンル</h2>
+        <ul class="index-list" id="streamer-genres-list"></ul>
+      </section>
+
+      <section class="section-box" id="streamer-related-section" hidden>
+        <h2>同じゲームを実況しているVTuber</h2>
+        <ul class="streamer-grid" id="streamer-related-grid"></ul>
+      </section>
+
+      <section class="section-box">
+        <h2>すべての再生リスト</h2>
+        <div class="controls-row">
+          <select id="pagesize-select">
+            <option value="20" selected>20件表示</option>
+            <option value="50">50件表示</option>
+            <option value="100">100件表示</option>
+          </select>
+        </div>
+        <p class="result-count" id="result-count"></p>
+        <div class="wiki-table-wrap">
+          <table class="wiki-table">
+            <thead>
+              <tr>
+                <th class="sortable col-genre" data-sort="genre"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></th><th class="sortable title-cell" data-sort="title"><span class="th-label">タイトル</span><span class="sort-arrow"></span></th><th class="sortable col-game" data-sort="game"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></th><th class="sortable col-count" data-sort="videoCount"><span class="th-label">動画数</span><span class="sort-arrow"></span></th>
+                <th class="sortable col-date" data-sort="updatedDate"><span class="th-label">更新日</span><span class="sort-arrow"></span></th>
+              </tr>
+            </thead>
+            <tbody id="grid"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination">
+          <button type="button" id="page-prev">← 前へ</button>
+          <span id="page-indicator"></span>
+          <button type="button" id="page-next">次へ →</button>
+          <form id="page-jump-form" class="page-jump">
+            <label for="page-jump-input">ページ指定</label>
+            <input type="number" id="page-jump-input" min="1" inputmode="numeric">
+            <button type="submit">移動</button>
+          </form>
+        </div>
+      </section>
+      <section id="standalone-section" class="section-box" hidden>
+        <h2>単発・専用再生リストなし実況</h2>
+        <div id="standalone-summary" class="tabs-summary"></div>
+        <div id="standalone-grid" class="play-cards"></div>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<footer class="wiki-footer">
+  <p>ぶいゲー｜VTuberのゲーム実況・再生リストをゲーム別・実況者別にまとめています。</p>
+</footer>
+
+<script src="data-core.js"></script>
+<script src="data-counts.js"></script>
+<script src="data-playlists.js"></script>
+<script src="data-standalone.js"></script>
+<script src="common.js"></script>
+<script src="streamer.js"></script>
+</body>
+</html>

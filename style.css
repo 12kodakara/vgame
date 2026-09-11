@@ -1,0 +1,1390 @@
+/* ============================================================
+   ぶいゲー｜VTuberゲーム実況・再生リストまとめ ― @wiki(アットウィキ)風テーマ
+   ============================================================ */
+
+:root {
+  --page-bg: #ffffff;
+  --content-bg: #ffffff;
+  --sidebar-bg: #eaf7fb;
+  --border: #cdeaf2;
+  --border-strong: #7ec3dc;
+  --text: #22303a;
+  /* #7c8a92 から変更(白背景でコントラスト比3.55:1 → 5.47:1。WCAG AA(4.5:1)を満たすよう調整) */
+  --text-dim: #5f6b73;
+  --link: #3d5aa8;
+  --accent: #14748f;
+  /* #c25b4f から変更(白背景/白文字でのコントラスト比4.28:1 → 4.61:1) */
+  --accent-dark: #ba574c;
+  --accent-2: #c93f8e;
+  --th-bg: #fdeeec;
+  --row-alt: #f4fbfd;
+  --row-hover: #fdeeee;
+
+  /* ジャンルバッジの色。いずれも白文字でコントラスト比4.6:1以上になるよう
+     元の色調(色相)を保ったまま明度を落として調整している。 */
+  --horror: #c94657;
+  --fps: #3b77ad;
+  --rpg: #7d64bc;
+  --action: #a1662d;
+  --sandbox: #3d815b;
+  --puzzle: #218075;
+  --racing: #c54d3e;
+  --sports: #3d815b;
+  --sim: #8c6f2e;
+  --other: #6c747f;
+
+  /* 角丸の基準値。フォーム部品・小さなバッジは sm(引き締まったwiki風の見た目)、
+     カード・タイルなど面積の大きい要素は md で統一する。 */
+  --radius-sm: 3px;
+  --radius-md: 8px;
+
+  /* ホバー等の状態変化用。短く控えめにし、装飾的な動きは付けない。 */
+  --transition-fast: 0.12s ease;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+a { color: var(--link); }
+
+/* OSで「視差効果を減らす」等を設定しているユーザーには、ホバー時の色変化なども
+   含めてアニメーションをほぼ無効化する。 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* キーボード操作時のフォーカスを明確にする(マウスクリック時は表示しない)。
+   カスタムのクリック領域(role="button" の行・カード等)にも同じスタイルで効く。 */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- バナー ---------- */
+.wiki-banner {
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent) 48%, var(--accent-dark) 52%, var(--accent-dark) 100%);
+  border-bottom: 3px solid var(--accent-dark);
+}
+
+.wiki-banner-inner {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.mobile-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* サイトロゴ(全ページ共通のバナー内表示名)。各ページの内容見出しは
+   別に <h1 class="page-title"> を持つため、見出しレベルが重複しないよう
+   ここは <h1> ではなく <p> にしている。 */
+.wiki-banner-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.wiki-banner-title a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---------- 全体レイアウト ---------- */
+.wiki-body {
+  width: 100%;
+  max-width: 1360px;
+  margin: 16px auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.wiki-sidebar {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 16px;
+  align-self: flex-start;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
+
+.wiki-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- サイドバー ---------- */
+.menu-box {
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.menu-box-title {
+  margin: 0;
+  padding: 7px 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+}
+
+.menu-search {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+}
+
+.menu-search input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border-strong);
+  padding: 4px 6px;
+  font-size: 0.78rem;
+  border-radius: 2px;
+}
+
+.menu-search button {
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  font-size: 0.78rem;
+  padding: 4px 9px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.menu-search button:hover {
+  background: var(--row-hover);
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 8px;
+  font-size: 0.82rem;
+}
+
+.menu-list li {
+  border-top: 1px solid var(--border);
+}
+
+.menu-list > li:first-child {
+  border-top: none;
+}
+
+.menu-list > li > a {
+  display: block;
+  padding: 8px 12px;
+  color: var(--link);
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+.menu-list > li > a:hover {
+  background: #fff;
+  text-decoration: underline;
+}
+
+.menu-list > li > a.active {
+  background: #fff;
+  font-weight: 700;
+  color: var(--text);
+  border-left: 3px solid var(--accent-2);
+  padding-left: 9px;
+}
+
+/* サイドバーの操作ボタン(「ランダムで実況を探す」など)を通常のリンクと
+   同じ見た目にする。<button>はブラウザ既定の枠・背景を持つためリセットする。 */
+.menu-list button.menu-action {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  color: var(--link);
+  font: inherit;
+  cursor: pointer;
+}
+
+.menu-list button.menu-action:hover {
+  background: #fff;
+  text-decoration: underline;
+}
+
+/* ---------- サイドバー「人気コンテンツ」 ---------- */
+.sidebar-popular-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 8px;
+  font-size: 0.78rem;
+}
+
+.sidebar-popular-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-popular-list li:first-child {
+  border-top: none;
+}
+
+.sidebar-popular-list .rank {
+  flex: 0 0 auto;
+  color: var(--accent-2);
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.sidebar-popular-list a {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--link);
+  text-decoration: none;
+}
+
+.sidebar-popular-list a:hover {
+  text-decoration: underline;
+}
+
+.sidebar-popular-empty {
+  padding: 6px 12px;
+  color: var(--text-dim);
+  font-size: 0.74rem;
+}
+
+.menu-box .more-link {
+  padding: 0 12px 8px;
+}
+
+/* ---------- コンテンツボックス ---------- */
+.content-box {
+  background: var(--content-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 22px 26px 30px;
+}
+
+.breadcrumb-wiki {
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  margin: 0 0 10px;
+}
+
+.breadcrumb-wiki a {
+  text-decoration: none;
+}
+
+.breadcrumb-wiki a:hover {
+  text-decoration: underline;
+}
+
+.page-title {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text);
+}
+
+.page-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-title-row .page-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.favorite-btn {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--content-bg);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.favorite-btn:hover {
+  background: var(--row-hover);
+}
+
+.favorite-btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.favorite-btn-star {
+  color: inherit;
+}
+
+.favorite-btn[aria-pressed="true"] .favorite-btn-star {
+  color: #f0b400;
+}
+
+.streamer-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 4px;
+}
+
+.streamer-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.streamer-header-text .page-title {
+  margin: 0 0 4px;
+}
+
+.streamer-icon {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-strong);
+  background: var(--sidebar-bg);
+}
+
+.streamer-icon[hidden] {
+  display: none;
+}
+
+.page-meta {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  margin: 8px 0 14px;
+}
+
+.social-links {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.social-links[hidden] {
+  display: none;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--sidebar-bg);
+  color: var(--text-dim);
+  font-size: 0.74rem;
+  text-decoration: none;
+}
+
+.social-link[hidden] {
+  display: none;
+}
+
+.social-link:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---------- 実況者カード一覧(実況者一覧ページ) ---------- */
+.streamer-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 16px 8px;
+}
+
+.streamer-card {
+  text-align: center;
+}
+
+.streamer-card a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.streamer-card a:hover .streamer-card-name {
+  text-decoration: underline;
+  color: var(--link);
+}
+
+.streamer-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-strong);
+  background: var(--sidebar-bg);
+}
+
+.streamer-card-icon--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.streamer-card-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.streamer-card .count {
+  color: var(--text-dim);
+  font-size: 0.7rem;
+}
+
+.page-lead {
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  margin: 0 0 18px;
+}
+
+.result-count {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin: 0 0 8px;
+}
+
+/* ---------- 見出しボックス(トップページ等のセクション) ---------- */
+.section-box {
+  margin: 0 0 24px;
+}
+
+.section-box h2 {
+  font-size: 0.98rem;
+  margin: 0 0 8px;
+  padding: 5px 10px;
+  background: var(--th-bg);
+  border-left: 4px solid var(--accent);
+  scroll-margin-top: 12px;
+}
+
+/* ---------- ジャンプナビ(ゲーム一覧・実況者一覧ページ) ---------- */
+.kana-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--th-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.kana-nav a,
+.kana-nav button {
+  display: inline-block;
+  min-width: 1.8em;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-family: inherit;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.kana-nav a:hover,
+.kana-nav button:not(:disabled):hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.kana-nav button:disabled {
+  color: var(--text-dim);
+  cursor: default;
+  opacity: 0.5;
+}
+
+.kana-nav a.active,
+.kana-nav button.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.kana-nav + .kana-subnav {
+  margin-top: -12px;
+}
+
+.kana-subnav:empty {
+  display: none;
+}
+
+/* ---------- 事務所アコーディオン(実況者一覧ページ) ---------- */
+.agency-box {
+  margin: 0 0 20px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.agency-header-row {
+  background: var(--accent);
+}
+
+.agency-header-label {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.agency-body {
+  padding: 16px 16px 2px;
+}
+
+.agency-body .section-box:last-child {
+  margin-bottom: 8px;
+}
+
+.more-link {
+  display: block;
+  text-align: right;
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+.more-toggle {
+  display: block;
+  width: 100%;
+  text-align: right;
+  font-size: 0.78rem;
+  margin-top: 4px;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  color: var(--link);
+  cursor: pointer;
+}
+
+.more-toggle:hover {
+  text-decoration: underline;
+}
+
+/* ---------- 検索・絞り込みフォーム ---------- */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 10px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.controls-row select {
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 6px 8px;
+  border-radius: 2px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.controls input[type="search"],
+.controls select {
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 6px 8px;
+  border-radius: 2px;
+  font-size: 0.82rem;
+}
+
+.controls input[type="search"] {
+  flex: 1 1 220px;
+}
+
+.controls select {
+  flex: 0 0 auto;
+}
+
+/* ---------- ページネーション ---------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 14px 0 4px;
+  font-size: 0.82rem;
+}
+
+.page-jump {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-jump input[type="number"] {
+  width: 4.5em;
+  padding: 5px 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  font-size: 0.82rem;
+}
+
+.pagination button {
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  color: var(--accent);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.pagination button:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+}
+
+.pagination button:disabled {
+  color: var(--text-dim);
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ---------- Wikiテーブル ---------- */
+/* サムネイル列を含めると、事務所名・ゲーム名が長い場合などにテーブルの
+   最小幅がコンテンツ幅を超えることがある。その場合にページ全体がズレて
+   見えないよう、テーブルの外側(.wiki-table-wrap)だけで横スクロールさせて
+   吸収する(table 自体の display は変えないため、thead/tbody の列幅は
+   引き続き1つの表として自動で揃う)。 */
+.wiki-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.wiki-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  margin: 4px 0 20px;
+}
+
+.wiki-table th,
+.wiki-table td {
+  border: 1px solid var(--border);
+  padding: 8px 11px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.wiki-table th {
+  background: var(--th-bg);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wiki-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--transition-fast);
+}
+
+.wiki-table th.sortable:hover {
+  background: var(--row-hover);
+}
+
+.wiki-table th .sort-arrow {
+  display: inline-block;
+  min-width: 0.9em;
+  margin-left: 2px;
+  color: var(--accent);
+}
+
+.wiki-table tbody tr:nth-child(even) {
+  background: var(--row-alt);
+}
+
+.wiki-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.wiki-table tbody tr:hover {
+  background: var(--row-hover);
+  cursor: pointer;
+}
+
+.wiki-table .rank-cell {
+  text-align: center;
+  width: 2.6em;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+
+.wiki-table .title-cell {
+  min-width: 240px;
+}
+
+/* ---------- playlists.html / streamer.html 専用: 横スクロールなしで幅に収める ----------
+   table-layout: fixed + 列ごとの % 幅指定により、事務所名・ゲーム名・VTuber名が
+   長くてもテーブル全体の幅は常にコンテナ幅(width:100%)に収まる。
+   サムネイルは(下の .row-thumb で)120px固定のまま変えず、タイトルセルの
+   残り幅をタイトル文字列に使う。動画数・更新日は折り返さず、それ以外の
+   長い文字列は必要に応じて折り返す。ranking.html・new.html・search.html の
+   .wiki-table(auto layout + .wiki-table-wrap の横スクロール)には影響しないよう、
+   body の .playlists-page / .streamer-page でスコープする。 */
+.playlists-page .wiki-table,
+.streamer-page .wiki-table {
+  table-layout: fixed;
+}
+
+.playlists-page .wiki-table .title-cell,
+.streamer-page .wiki-table .title-cell {
+  min-width: 0;
+}
+
+.playlists-page .wiki-table th,
+.playlists-page .wiki-table td,
+.streamer-page .wiki-table th,
+.streamer-page .wiki-table td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.playlists-page .wiki-table .col-count,
+.playlists-page .wiki-table .col-date,
+.streamer-page .wiki-table .col-count,
+.streamer-page .wiki-table .col-date {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* ジャンルバッジ(.badge)は他ページでは崩れないよう nowrap のままだが、
+   この2ページはジャンル列がかなり狭い(9〜10%)ため、「シミュレーション」
+   等の長いラベルがバッジからはみ出して隣の列に重なってしまう。
+   ここでは折り返しを許可してバッジの中に収める。 */
+.playlists-page .wiki-table .badge,
+.streamer-page .wiki-table .badge {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* playlists.html: ジャンル/タイトル/ゲーム/事務所/実況者/動画数/更新日 の7列 */
+.playlists-page .wiki-table .col-genre { width: 8%; }
+.playlists-page .wiki-table .title-cell { width: 33%; }
+.playlists-page .wiki-table .col-game { width: 15%; }
+.playlists-page .wiki-table .col-agency { width: 11%; }
+.playlists-page .wiki-table .col-streamer { width: 14%; }
+.playlists-page .wiki-table .col-count { width: 8%; }
+.playlists-page .wiki-table .col-date { width: 11%; }
+
+/* streamer.html: このVTuber専用ページなので「事務所」「実況者」列は
+   そもそも生成しない(common.js の createRow / streamer.js 側)。
+   ジャンル/タイトル/ゲーム/動画数/更新日 の5列で、タイトル列を広く取る。 */
+.streamer-page .wiki-table .col-genre { width: 10%; }
+.streamer-page .wiki-table .title-cell { width: 45%; }
+.streamer-page .wiki-table .col-game { width: 19%; }
+.streamer-page .wiki-table .col-count { width: 9%; }
+.streamer-page .wiki-table .col-date { width: 17%; }
+
+/* 721px〜1000px: サイドバー(220px)分の割合が大きくなり表の使える幅が
+   狭くなるため、セルの左右paddingを縮め、playlists.html では優先度の低い
+   「事務所」列を非表示にしてタイトル・動画数・更新日に幅を回す
+   (th/tdどちらも同じ.col-agencyクラスで隠すため、thead/tbodyの列は
+   ズレない)。 */
+@media (min-width: 721px) and (max-width: 1000px) {
+  .playlists-page .wiki-table th,
+  .playlists-page .wiki-table td,
+  .streamer-page .wiki-table th,
+  .streamer-page .wiki-table td {
+    padding: 6px 5px;
+  }
+
+  .playlists-page .wiki-table .col-agency {
+    display: none;
+  }
+  .playlists-page .wiki-table .col-genre { width: 9%; }
+  .playlists-page .wiki-table .title-cell { width: 37%; }
+  .playlists-page .wiki-table .col-game { width: 13%; }
+  .playlists-page .wiki-table .col-streamer { width: 13%; }
+  .playlists-page .wiki-table .col-count { width: 10%; }
+  .playlists-page .wiki-table .col-date { width: 18%; }
+
+  .streamer-page .wiki-table .col-genre { width: 9%; }
+  .streamer-page .wiki-table .title-cell { width: 43%; }
+  .streamer-page .wiki-table .col-game { width: 16%; }
+  .streamer-page .wiki-table .col-count { width: 11%; }
+  .streamer-page .wiki-table .col-date { width: 21%; }
+}
+
+/* ---------- 再生リストサムネイル(表の行・カードで共通) ----------
+   新しい列は増やさず、タイトルセル内に小さな16:9画像として置く。
+   width/height 属性(HTML側)+ aspect-ratio(ここ)の両方でレイアウトシフトを防ぐ。 */
+.row-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.row-title-text {
+  flex: 1;
+  min-width: 0;
+}
+.row-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 120px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+}
+.row-thumb:empty {
+  display: none;
+}
+.row-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.row-thumb-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-dim);
+}
+@media (max-width: 480px) {
+  .row-thumb {
+    width: 96px;
+  }
+}
+
+.title-link {
+  color: var(--link);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.title-link:hover {
+  text-decoration: underline;
+}
+
+.streamer-link,
+.game-link,
+.agency-link {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.streamer-link:hover,
+.game-link:hover,
+.agency-link:hover {
+  text-decoration: underline;
+}
+
+.wiki-table .note-cell {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  padding: 2px 7px;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge--horror { background: var(--horror); }
+.badge--fps { background: var(--fps); }
+.badge--rpg { background: var(--rpg); }
+.badge--action { background: var(--action); }
+.badge--sandbox { background: var(--sandbox); }
+.badge--puzzle { background: var(--puzzle); }
+.badge--racing { background: var(--racing); }
+.badge--sports { background: var(--sports); }
+.badge--sim { background: var(--sim); }
+.badge--other { background: var(--other); }
+
+.new-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--accent-2);
+  color: #fff;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ---------- 索引リスト(ゲーム一覧・実況者一覧) ---------- */
+.index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.88rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+}
+
+.index-list li {
+  border-bottom: 1px dotted var(--border);
+  padding: 7px 0;
+}
+
+.index-list a {
+  text-decoration: none;
+}
+
+.index-list a:hover {
+  text-decoration: underline;
+}
+
+.index-list .count {
+  color: var(--text-dim);
+  font-size: 0.76rem;
+  margin-left: 6px;
+}
+
+/* ---------- 補足ボックス ---------- */
+.note-box-wrap {
+  margin: 0 0 16px;
+}
+
+.note-box {
+  padding: 10px 14px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.empty-state {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+}
+
+/* ---------- フッター ---------- */
+.wiki-footer {
+  width: 100%;
+  max-width: 1360px;
+  margin: 8px auto 24px;
+  padding: 14px 20px 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.74rem;
+}
+
+.wiki-footer a {
+  text-decoration: none;
+}
+
+.wiki-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- レスポンシブ ---------- */
+@media (max-width: 720px) {
+  .wiki-body {
+    flex-direction: column;
+    /* .wiki-body の align-items: flex-start はPC(横並び)ではサイドバーを
+       上寄せするためのものだが、列方向ではクロス軸が幅になるため、そのままだと
+       サイドバー・本文が「幅いっぱいに広げる」ではなく「中身の幅に合わせる」
+       動作になり、長いテキストを含む行がページ全体を横に押し広げてしまう。
+       スマホ幅では明示的に stretch に戻し、幅いっぱいまで広げる。 */
+    align-items: stretch;
+    padding: 0 12px;
+  }
+  .content-box {
+    padding: 16px 14px 22px;
+  }
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+  /* ゲーム名・VTuber名は長さが不定なため、幅の狭い画面では見出しと
+     お気に入りボタンを横並びのまま縮めようとすると崩れることがある。
+     スマホ幅では縦積みにして常に折り返す。 */
+  .page-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .page-title-row .favorite-btn {
+    align-self: flex-start;
+  }
+  /* スマホではPC用サイドバーをそのまま並べず、ハンバーガーボタンで開閉する
+     折りたたみパネルにする(既定は非表示)。 */
+  .wiki-sidebar {
+    display: none;
+    flex: 1 1 auto;
+    width: 100%;
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    margin: 0 0 16px;
+  }
+  .wiki-sidebar.is-open {
+    display: flex;
+  }
+  .index-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* 横長テーブルは横スクロールにせず、1件=1カードに組み替える。
+     セル自体は common.js の createRow() が出力するものをそのまま使う
+     (data-label 属性・col-* クラス・row-thumb で見た目だけを作り替える)。 */
+  .wiki-table {
+    display: block;
+    border: none;
+    white-space: normal;
+  }
+  .wiki-table thead {
+    display: none;
+  }
+  .wiki-table tbody {
+    display: block;
+  }
+  .wiki-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0 0 12px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--content-bg);
+  }
+  .wiki-table tbody tr:nth-child(even) {
+    background: var(--content-bg);
+  }
+  .wiki-table tbody tr:hover {
+    background: var(--content-bg);
+  }
+  .wiki-table td {
+    display: block;
+    border: none;
+    padding: 0;
+    min-width: 0;
+    font-size: 0.82rem;
+  }
+
+  /* playlists-page / streamer-page 用に付けた列の % 幅は、カード表示
+     (display: block)ではそのまま幅指定として残ってしまうため打ち消す
+     (同じ詳細度の class 3つのセレクタで上書きする必要がある)。 */
+  .playlists-page .wiki-table .col-genre,
+  .playlists-page .wiki-table .title-cell,
+  .playlists-page .wiki-table .col-game,
+  .playlists-page .wiki-table .col-agency,
+  .playlists-page .wiki-table .col-streamer,
+  .playlists-page .wiki-table .col-count,
+  .playlists-page .wiki-table .col-date,
+  .streamer-page .wiki-table .col-genre,
+  .streamer-page .wiki-table .title-cell,
+  .streamer-page .wiki-table .col-game,
+  .streamer-page .wiki-table .col-count,
+  .streamer-page .wiki-table .col-date {
+    width: auto;
+  }
+
+  /* 重要な情報(サムネイル・ゲーム名・VTuber名・更新日)を優先して上に表示 */
+  .wiki-table .rank-cell {
+    order: -2;
+    text-align: left;
+  }
+  .wiki-table .title-cell {
+    order: -1;
+  }
+  .wiki-table .col-game {
+    order: 1;
+    font-size: 0.9rem;
+  }
+  .wiki-table .col-streamer {
+    order: 2;
+    font-size: 0.9rem;
+  }
+  .wiki-table .col-date {
+    order: 3;
+    color: var(--text-dim);
+  }
+  .wiki-table .col-genre {
+    order: 4;
+  }
+  .wiki-table .col-agency {
+    order: 5;
+    color: var(--text-dim);
+  }
+  .wiki-table .col-count {
+    order: 6;
+    color: var(--text-dim);
+  }
+  .wiki-table td[data-label]::before {
+    content: attr(data-label);
+    display: inline-block;
+    min-width: 56px;
+    margin-right: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+
+  /* サムネイル(.row-thumb)自体のサイズ・角丸は画面幅を問わず共通(前述の
+     ベーススタイル参照)。ここではカード内での並びだけを整える。 */
+  .row-title-row {
+    align-items: center;
+  }
+  .title-cell .title-link {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* ---- 検索欄・ボタン・カードなど、指で操作しやすいサイズを確保 ---- */
+  .menu-search input,
+  .search-box-large input,
+  .controls input[type="search"] {
+    padding: 11px 12px;
+    font-size: 1rem;
+  }
+  .menu-search button,
+  .search-box-large button {
+    padding: 11px 16px;
+    min-height: 44px;
+    font-size: 0.95rem;
+  }
+  .controls-row select,
+  .controls select,
+  .search-box-large select {
+    padding: 11px 14px;
+    min-height: 44px;
+    font-size: 0.95rem;
+  }
+  .menu-list > li > a,
+  .menu-list button.menu-action {
+    padding: 12px 12px;
+  }
+  .pagination button {
+    padding: 11px 16px;
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+  .page-jump input[type="number"] {
+    padding: 9px 8px;
+    min-height: 40px;
+  }
+  .kana-nav a,
+  .kana-nav button {
+    padding: 8px 12px;
+    min-height: 36px;
+  }
+  .social-link {
+    padding: 9px 14px;
+  }
+  .play-card .play-actions a {
+    padding: 10px 14px;
+  }
+  .search-suggest-item {
+    padding: 11px 10px;
+  }
+}
+
+
+/* 単発実況・横断検索 */
+.format-badge{display:inline-block;margin-left:.45em;padding:.12em .55em;border:1px solid var(--border-strong);border-radius:999px;font-size:.78em;font-weight:700;background:var(--sidebar-bg);color:var(--accent-dark);vertical-align:middle}
+.play-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:14px 0 24px}
+.play-card{border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;background:var(--content-bg);transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.play-card:hover{border-color:var(--border-strong)}
+.play-card h3{font-size:1rem;margin:0 0 8px}
+.play-card p{margin:5px 0;color:var(--text-dim);font-size:.9rem}
+.play-card .play-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.play-card .play-actions a{display:inline-block;padding:6px 10px;border:1px solid var(--border-strong);border-radius:6px;text-decoration:none;color:var(--link)}
+.tabs-summary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
+.summary-chip{padding:5px 10px;border-radius:999px;background:var(--th-bg);color:var(--accent-dark);font-size:.9rem}
+.search-result-section{margin:22px 0}
+.search-result-list{display:grid;gap:10px}
+.search-result-list--2col{grid-template-columns:1fr 1fr}
+.search-result-item{border-bottom:1px solid var(--border);padding:12px 6px}
+.search-result-item h3{margin:0 0 5px;font-size:1rem}
+.search-result-meta{font-size:.88rem;color:var(--text-dim)}
+.search-result-item--streamer{display:flex;align-items:center;gap:10px}
+.search-result-item--streamer h3,.search-result-item--streamer .search-result-meta{margin:0}
+.search-result-icon{flex:0 0 auto;width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--border-strong);background:var(--sidebar-bg)}
+.search-result-icon--placeholder{display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:var(--text-dim)}
+@media (max-width:520px){.search-result-list--2col{grid-template-columns:1fr}}
+.search-box-large{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}.search-box-large input{flex:1;min-width:0;padding:10px 12px;font-size:1rem;border:1px solid var(--border-strong);border-radius:3px}
+.search-box-large select{padding:10px 12px;font-size:1rem;border:1px solid var(--border-strong);border-radius:3px;background:#fff;color:var(--text);cursor:pointer}
+.search-box-large button{padding:10px 18px;font-size:1rem;font-weight:700;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:3px;cursor:pointer}
+.search-box-large button:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+
+/* ---------- トップページ ファーストビュー(キャッチコピー+大きな検索欄) ---------- */
+.hero{text-align:center;padding:34px 18px 30px;margin:0 0 26px;background:linear-gradient(180deg,var(--sidebar-bg),var(--content-bg));border:1px solid var(--border);border-radius:var(--radius-md)}
+.hero-title{margin:0 0 10px;font-size:1.7rem;font-weight:900;color:var(--accent)}
+.hero-sub{margin:0 0 20px;font-size:.92rem;color:var(--text-dim)}
+.hero-search{display:flex;gap:8px;max-width:640px;margin:0 auto;padding:6px;background:var(--content-bg);border:1px solid var(--border-strong);border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.hero-search input{flex:1;min-width:0;padding:14px 16px;font-size:1.08rem;border:none;border-radius:4px;background:transparent}
+.hero-search button{padding:14px 24px;font-size:1rem;font-weight:700;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:4px;cursor:pointer}
+.hero-search button:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+.hero-stats{margin:14px 0 0;font-size:.82rem;color:var(--text-dim)}
+@media (max-width:480px){.hero-search{flex-direction:column}}
+
+/* ---------- トップページ 発見コンテンツ(人気のゲーム/最近追加された実況/最近更新された再生リスト) ---------- */
+.discover-list{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:2px}
+.discover-item{display:flex;align-items:flex-start;gap:10px;padding:10px 6px;border-bottom:1px solid var(--border)}
+.discover-item:last-child{border-bottom:none}
+.discover-rank{flex:0 0 auto;min-width:1.8em;padding-top:1px;font-weight:700;color:var(--accent-2);text-align:center}
+.discover-body{flex:1;min-width:0}
+.discover-title{display:block;color:var(--link);text-decoration:none;font-weight:700;font-size:.94rem}
+.discover-title:hover{text-decoration:underline}
+.discover-meta{margin-top:2px;font-size:.78rem;color:var(--text-dim)}
+.discover-meta a{color:var(--text-dim);text-decoration:none}
+.discover-meta a:hover{color:var(--link);text-decoration:underline}
+
+/* ---------- トップページ「VTuberから探す」事務所タイル ---------- */
+.agency-tiles{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.agency-tile a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:18px 12px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--sidebar-bg);text-decoration:none;color:var(--text);text-align:center;transition:background-color var(--transition-fast),border-color var(--transition-fast)}
+.agency-tile a:hover{background:var(--th-bg);border-color:var(--border-strong)}
+.agency-tile-name{font-weight:700;font-size:1rem}
+.agency-tile-count{font-size:.78rem;color:var(--text-dim)}
+
+/* ---------- 検索サジェスト(入力候補ドロップダウン) ---------- */
+.search-suggest-list{position:fixed;z-index:1000;margin:0;padding:4px;list-style:none;background:var(--content-bg);border:1px solid var(--border-strong);border-radius:4px;box-shadow:0 6px 18px rgba(0,0,0,.14);max-height:340px;overflow-y:auto}
+.search-suggest-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:3px;cursor:pointer}
+.search-suggest-item:hover,.search-suggest-item.active{background:var(--row-hover)}
+.search-suggest-badge{flex:0 0 auto;font-size:.66rem;font-weight:700;padding:2px 7px;border-radius:3px;color:#fff;white-space:nowrap}
+.search-suggest-badge--game{background:var(--accent)}
+.search-suggest-badge--streamer{background:var(--accent-2)}
+.search-suggest-badge--playlist{background:var(--accent-dark)}
+.search-suggest-badge--recent{background:var(--text-dim)}
+.search-suggest-text{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.search-suggest-main{font-size:.86rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-suggest-sub{font-size:.72rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-suggest-item--footer{cursor:default;padding:2px 4px;border-top:1px solid var(--border);margin-top:2px;padding-top:6px}
+.search-suggest-item--footer:hover{background:none}
+.search-suggest-clear{width:100%;padding:6px 8px;background:none;border:none;font-family:inherit;font-size:.78rem;color:var(--link);text-align:left;cursor:pointer;border-radius:3px}
+.search-suggest-clear:hover{background:var(--row-hover);text-decoration:underline}
+
+/* ---------- 統計タイル(ゲーム別ページ・実況者別ページ共通) ---------- */
+.stat-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0 22px}
+.stat-tile{padding:14px 16px;background:var(--sidebar-bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-md)}
+.stat-tile-value{display:block;font-size:1.4rem;font-weight:700;color:var(--text);line-height:1.25}
+.stat-tile-label{display:block;margin-top:2px;font-size:.74rem;color:var(--text-dim)}
+
+/* ---------- ゲーム別ページ 再生リストカード ---------- */
+.playlist-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:14px 0 20px}
+.playlist-card{display:flex;gap:12px;padding:14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--content-bg);cursor:pointer;transition:background-color var(--transition-fast),border-color var(--transition-fast)}
+.playlist-card:hover{background:var(--row-hover);border-color:var(--border-strong)}
+.playlist-card-thumb{flex:0 0 auto;width:120px;aspect-ratio:16/9;border-radius:var(--radius-sm);overflow:hidden;background:var(--sidebar-bg);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.playlist-card-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.playlist-card-thumb-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.2rem;font-weight:700;color:var(--text-dim)}
+@media (max-width:400px){.playlist-card-thumb{width:96px}}
+.playlist-card-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.playlist-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.playlist-card-date{font-size:.7rem;color:var(--text-dim);white-space:nowrap}
+.playlist-card-title{margin:0 0 4px;font-size:.9rem;font-weight:700;line-height:1.4;color:var(--text);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.playlist-card-streamer{align-self:flex-start;font-size:.82rem;color:var(--link);text-decoration:none}
+.playlist-card-streamer:hover{text-decoration:underline}
+.playlist-card-meta{margin:4px 0 0;font-size:.78rem;color:var(--text-dim)}
