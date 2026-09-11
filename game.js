@@ -58,71 +58,20 @@
     );
   }
 
-  // ---------- 注目の実況(人気実況・最近更新をタブで切り替えて表示) ----------
-  // データ・集計ロジック自体は従来と同じ(上位5件)で、表示だけをタブにまとめている。
+  // ---------- 人気実況(上位3件) ----------
+  // ランキングロジック自体は従来と同じ(popularity降順)で、表示件数のみ絞り込む。
+  // 「最近更新」は「再生リストを探す」の並び替えと役割が重複するため、
+  // ゲーム詳細ページの表示からは削除した(データ・他ページの機能はそのまま)。
   const popularItems = items
     .slice()
     .sort((a, b) => calculatePopularity(b) - calculatePopularity(a))
-    .slice(0, 5);
-  const recentItems = items
-    .filter((p) => p.updatedDate || p.addedDate)
-    .slice()
-    .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
-    .slice(0, 5);
+    .slice(0, 3);
 
   const featuredSection = document.getElementById("game-featured-section");
-  const featuredTabPopular = document.getElementById("featured-tab-popular");
-  const featuredTabRecent = document.getElementById("featured-tab-recent");
-  const featuredPanelPopular = document.getElementById("featured-panel-popular");
-  const featuredPanelRecent = document.getElementById("featured-panel-recent");
 
-  if (featuredSection && (popularItems.length || recentItems.length)) {
+  if (featuredSection && popularItems.length) {
     featuredSection.hidden = false;
-    if (popularItems.length) renderPlaylistDiscoverList("game-popular-list", popularItems, "", { showGame: false });
-    if (recentItems.length) renderPlaylistDiscoverList("game-recent-list", recentItems, "", { showGame: false });
-
-    function selectFeaturedTab(which) {
-      const showPopular = which === "popular";
-      if (featuredTabPopular) {
-        featuredTabPopular.setAttribute("aria-selected", String(showPopular));
-        featuredTabPopular.tabIndex = showPopular ? 0 : -1;
-      }
-      if (featuredTabRecent) {
-        featuredTabRecent.setAttribute("aria-selected", String(!showPopular));
-        featuredTabRecent.tabIndex = showPopular ? -1 : 0;
-      }
-      if (featuredPanelPopular) featuredPanelPopular.hidden = !showPopular;
-      if (featuredPanelRecent) featuredPanelRecent.hidden = showPopular;
-    }
-
-    // どちらかのタブに実データが無い場合は、そのタブ自体を隠して空のタブへの
-    // 切り替えができないようにする(既存のデータ有無ロジックは変えていない)。
-    if (!popularItems.length && recentItems.length) {
-      if (featuredTabPopular) featuredTabPopular.hidden = true;
-      selectFeaturedTab("recent");
-    } else if (!recentItems.length && popularItems.length) {
-      if (featuredTabRecent) featuredTabRecent.hidden = true;
-      selectFeaturedTab("popular");
-    } else {
-      selectFeaturedTab("popular");
-    }
-
-    if (featuredTabPopular) featuredTabPopular.addEventListener("click", () => selectFeaturedTab("popular"));
-    if (featuredTabRecent) featuredTabRecent.addEventListener("click", () => selectFeaturedTab("recent"));
-
-    // 矢印キーでのタブ切り替え(WAI-ARIA Tabsの標準的な操作パターン)。
-    const featuredTabsBar = featuredSection.querySelector(".featured-tabs");
-    if (featuredTabsBar) {
-      featuredTabsBar.addEventListener("keydown", (e) => {
-        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-        const popularActive = featuredTabPopular && featuredTabPopular.getAttribute("aria-selected") === "true";
-        const next = popularActive ? featuredTabRecent : featuredTabPopular;
-        if (!next || next.hidden) return;
-        e.preventDefault();
-        selectFeaturedTab(next === featuredTabPopular ? "popular" : "recent");
-        next.focus();
-      });
-    }
+    renderPlaylistDiscoverList("game-popular-list", popularItems, "", { showGame: false });
   }
 
   // ---------- このゲームを実況しているVTuber ----------

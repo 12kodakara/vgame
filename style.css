@@ -1465,37 +1465,6 @@ select:focus-visible,
   }
 }
 
-/* ---------- 注目の実況タブ(game.html) ---------- */
-.featured-tabs {
-  display: flex;
-  gap: 8px;
-  margin: 0 0 14px;
-}
-
-.featured-tab {
-  flex: 1 1 0;
-  padding: 9px 14px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  background: var(--sidebar-bg);
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-}
-
-.featured-tab:hover {
-  background: var(--row-hover);
-}
-
-.featured-tab[aria-selected="true"] {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
 /* ---------- 独自編集コンテンツの折りたたみ(game.html) ---------- */
 .game-editorial-wrap h2 {
   padding: 0;
@@ -1547,10 +1516,6 @@ select:focus-visible,
 }
 
 @media (max-width: 480px) {
-  .featured-tab {
-    font-size: 0.8rem;
-    padding: 9px 8px;
-  }
   .editorial-toggle {
     font-size: 0.9rem;
   }
