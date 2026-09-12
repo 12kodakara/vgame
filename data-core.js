@@ -32,7 +32,7 @@
  *              generate-sitemap.ps1・build-public.ps1 を再実行してください。
  * SITE_NAME  : og:site_name やページタイトルの "| ぶいゲー" 部分に使う表示名。
  */
-const SITE_URL = "https://12kodakara.github.io/vgame";
+const SITE_URL = "https://vgame-navi.jp";
 const SITE_NAME = "ぶいゲー";
 
 // ジャンル一覧。id はプレイリストの genre 値と対応させる。

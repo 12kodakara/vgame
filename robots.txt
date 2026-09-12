@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin-standalone.html
 
-Sitemap: https://12kodakara.github.io/vgame/sitemap.xml
+Sitemap: https://vgame-navi.jp/sitemap.xml
