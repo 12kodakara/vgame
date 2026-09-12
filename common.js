@@ -943,6 +943,19 @@ function formatDate(dateStr) {
   return d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
 }
 
+/** 文章中で使う「2026年9月7日」形式の日付表記(一覧・カードの表記は formatDate のまま変更しない)。 */
+function formatDateJa(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr + "T00:00:00");
+  if (isNaN(d.getTime())) return dateStr;
+  return d.getFullYear() + "年" + (d.getMonth() + 1) + "月" + d.getDate() + "日";
+}
+
+/** 数値を3桁区切りにする(例: 13114 → "13,114")。 */
+function formatNumberJa(n) {
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 /**
  * 再生リスト1件分の <tr> を作成する。
  * opts.rank          : 数値を渡すとランキング番号列を表示

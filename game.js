@@ -53,10 +53,34 @@
     return d && d > latest ? d : latest;
   }, "");
 
-  document.getElementById("stat-streamers").textContent = streamerNames.size ? streamerNames.size + "組" : "-";
-  document.getElementById("stat-playlists").textContent = items.length + "件";
-  document.getElementById("stat-videos").textContent = totalVideos ? totalVideos + "本" : "-";
+  document.getElementById("stat-streamers").textContent = streamerNames.size ? formatNumberJa(streamerNames.size) + "組" : "-";
+  document.getElementById("stat-playlists").textContent = formatNumberJa(items.length) + "件";
+  document.getElementById("stat-videos").textContent = totalVideos ? formatNumberJa(totalVideos) + "本" : "-";
   document.getElementById("stat-updated").textContent = lastUpdated ? formatDate(lastUpdated) : "-";
+
+  // ---------- 実況データサマリー ----------
+  // 上の統計(実況VTuber数・再生リスト数・動画数・最終更新日)だけを使って短い文章にする。
+  // ゲーム内容・発売日等の推測は一切行わない。再生リストが1件以上あるゲームでは全件表示する
+  // (許可リストは使わず、既存の集計結果 items/streamerNames/totalVideos/lastUpdated から動的に
+  // 生成しているため、927ゲームへの対応は自動的に完了している)。0件・未取得の項目は文章に含めない。
+  const summaryWrap = document.getElementById("game-summary-wrap");
+  const summaryNote = document.getElementById("game-summary-note");
+  if (summaryWrap && summaryNote && items.length > 0 && streamerNames.size > 0) {
+    // VTuberが1名だけの場合に限り、実データから確実に取れる名前をそのまま文章に入れる。
+    // 2名以上のときは個人名を列挙せず人数だけを使う。
+    const soleStreamer = streamerNames.size === 1 ? streamerNames.values().next().value : null;
+    let summaryText = soleStreamer
+      ? soleStreamer + "による" + formatNumberJa(items.length) + "件の実況再生リストを掲載しています。"
+      : formatNumberJa(streamerNames.size) + "名のVTuberによる" + formatNumberJa(items.length) + "件の実況再生リストを掲載しています。";
+
+    const detailParts = [];
+    if (totalVideos > 0) detailParts.push("登録動画は" + formatNumberJa(totalVideos) + "本");
+    if (lastUpdated) detailParts.push("最終更新は" + formatDateJa(lastUpdated) + "です");
+    if (detailParts.length) summaryText += detailParts.join("、") + "。";
+
+    summaryNote.textContent = summaryText;
+    summaryWrap.hidden = false;
+  }
 
   if (game) {
     const statsSummary =
