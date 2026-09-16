@@ -170,6 +170,7 @@
         gamesExpanded = !gamesExpanded;
         renderGameList(gamesExpanded);
         gamesMoreBtn.textContent = gamesExpanded ? "元に戻す ←" : "もっと見る →";
+        gamesMoreBtn.setAttribute("aria-expanded", String(gamesExpanded));
       });
     }
   }

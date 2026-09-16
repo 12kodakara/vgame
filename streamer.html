@@ -135,8 +135,8 @@
           <table class="wiki-table">
             <thead>
               <tr>
-                <th class="sortable col-genre" data-sort="genre"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></th><th class="sortable title-cell" data-sort="title"><span class="th-label">タイトル</span><span class="sort-arrow"></span></th><th class="sortable col-game" data-sort="game"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></th><th class="sortable col-count" data-sort="videoCount"><span class="th-label">動画数</span><span class="sort-arrow"></span></th>
-                <th class="sortable col-date" data-sort="updatedDate"><span class="th-label">更新日</span><span class="sort-arrow"></span></th>
+                <th class="sortable col-genre" data-sort="genre"><button type="button" class="th-sort-btn"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></button></th><th class="sortable title-cell" data-sort="title"><button type="button" class="th-sort-btn"><span class="th-label">タイトル</span><span class="sort-arrow"></span></button></th><th class="sortable col-game" data-sort="game"><button type="button" class="th-sort-btn"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></button></th><th class="sortable col-count" data-sort="videoCount"><button type="button" class="th-sort-btn"><span class="th-label">動画数</span><span class="sort-arrow"></span></button></th>
+                <th class="sortable col-date" data-sort="updatedDate"><button type="button" class="th-sort-btn"><span class="th-label">更新日</span><span class="sort-arrow"></span></button></th>
               </tr>
             </thead>
             <tbody id="grid"></tbody>
@@ -172,7 +172,7 @@
       <section class="section-box" id="streamer-games-section" hidden>
         <h2>このVTuberが実況したゲーム</h2>
         <ul class="index-list" id="streamer-games-list"></ul>
-        <button type="button" class="more-toggle" id="streamer-games-more" hidden>もっと見る →</button>
+        <button type="button" class="more-toggle" id="streamer-games-more" aria-expanded="false" hidden>もっと見る →</button>
       </section>
 
       <section class="section-box" id="streamer-agency-section" hidden>

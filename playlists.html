@@ -87,13 +87,13 @@
 
       <form class="controls" onsubmit="return false">
         <div class="controls-row">
-          <input type="search" id="search-input" placeholder="ゲーム名・VTuber を検索">
-          <select id="genre-select"></select>
-          <select id="game-select"></select>
+          <input type="search" id="search-input" placeholder="ゲーム名・VTuber を検索" aria-label="ゲーム名・VTuber を検索">
+          <select id="genre-select" aria-label="ジャンルで絞り込み"></select>
+          <select id="game-select" aria-label="ゲームで絞り込み"></select>
         </div>
         <div class="controls-row">
-          <select id="agency-select"></select>
-          <select id="streamer-select"></select>
+          <select id="agency-select" aria-label="事務所で絞り込み"></select>
+          <select id="streamer-select" aria-label="実況者で絞り込み"></select>
           <select id="pagesize-select">
             <option value="20" selected>20件表示</option>
             <option value="50">50件表示</option>
@@ -107,13 +107,13 @@
         <table class="wiki-table">
           <thead>
             <tr>
-              <th class="sortable col-genre" data-sort="genre"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></th>
-              <th class="sortable title-cell" data-sort="title"><span class="th-label">タイトル</span><span class="sort-arrow"></span></th>
-              <th class="sortable col-game" data-sort="game"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></th>
-              <th class="sortable col-agency" data-sort="agency"><span class="th-label">事務所</span><span class="sort-arrow"></span></th>
-              <th class="sortable col-streamer" data-sort="streamer"><span class="th-label">実況者</span><span class="sort-arrow"></span></th>
-              <th class="sortable col-count" data-sort="videoCount"><span class="th-label">動画数</span><span class="sort-arrow"></span></th>
-              <th class="sortable col-date" data-sort="updatedDate"><span class="th-label">更新日</span><span class="sort-arrow"></span></th>
+              <th class="sortable col-genre" data-sort="genre"><button type="button" class="th-sort-btn"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable title-cell" data-sort="title"><button type="button" class="th-sort-btn"><span class="th-label">タイトル</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-game" data-sort="game"><button type="button" class="th-sort-btn"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-agency" data-sort="agency"><button type="button" class="th-sort-btn"><span class="th-label">事務所</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-streamer" data-sort="streamer"><button type="button" class="th-sort-btn"><span class="th-label">実況者</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-count" data-sort="videoCount"><button type="button" class="th-sort-btn"><span class="th-label">動画数</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-date" data-sort="updatedDate"><button type="button" class="th-sort-btn"><span class="th-label">更新日</span><span class="sort-arrow"></span></button></th>
             </tr>
           </thead>
           <tbody id="grid"></tbody>

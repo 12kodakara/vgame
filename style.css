@@ -606,10 +606,22 @@ select:focus-visible,
 .agency-header-label {
   flex: 1;
   min-width: 0;
+  margin: 0;
   padding: 10px 14px;
   font-size: 1.05rem;
   font-weight: 700;
   color: #fff;
+}
+
+/* streamers.html: 事務所(h2)の下位に来るユニット見出し(h3)。
+   .section-box h2 と同じ見た目にするための専用クラス(他ページのh2/h3には影響させない) */
+.streamer-unit-heading {
+  font-size: 0.98rem;
+  margin: 0 0 8px;
+  padding: 5px 10px;
+  background: var(--th-bg);
+  border-left: 4px solid var(--accent);
+  scroll-margin-top: 12px;
 }
 
 .agency-body {
@@ -780,6 +792,21 @@ select:focus-visible,
 
 .wiki-table th.sortable:hover {
   background: var(--row-hover);
+}
+
+/* ソート見出しをネイティブbuttonにしても見た目が変わらないようにする
+   (キーボード操作対応のため。クリック処理は既存のth click委譲のまま。
+   outlineは触らずbutton:focus-visibleの共通スタイルをそのまま活かす) */
+.wiki-table th.sortable .th-sort-btn {
+  display: inline-flex;
+  align-items: baseline;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .wiki-table th .sort-arrow {

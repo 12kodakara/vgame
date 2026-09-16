@@ -26,7 +26,7 @@
     const headerRow = document.createElement("div");
     headerRow.className = "menu-row agency-header-row";
 
-    const label = document.createElement("span");
+    const label = document.createElement("h2");
     label.className = "agency-header-label";
     label.textContent = agency;
     headerRow.appendChild(label);
@@ -53,9 +53,10 @@
 
       const label = unitLabelOf(unit);
       if (label) {
-        const h2 = document.createElement("h2");
-        h2.textContent = label;
-        section.appendChild(h2);
+        const h3 = document.createElement("h3");
+        h3.className = "streamer-unit-heading";
+        h3.textContent = label;
+        section.appendChild(h3);
       }
 
       const ul = document.createElement("ul");
