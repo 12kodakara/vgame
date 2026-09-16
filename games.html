@@ -83,7 +83,22 @@
     <div class="content-box">
       <nav class="breadcrumb-wiki"><a href="index.html">トップページ</a> › ゲーム一覧</nav>
       <h1 class="page-title">ゲーム一覧</h1>
-      <p class="page-lead">ゲームタイトルの50音(あいうえお)順に、行ごとのページへ分けています。見たい行を選んでください。</p>
+      <p class="page-lead">ゲーム名で検索するか、50音(あいうえお)順の行から選んでください。</p>
+
+      <div class="search-box-large">
+        <input type="search" id="game-search-input" placeholder="ゲーム名で検索(例: Minecraft、ゼルダ)" aria-label="ゲーム名で検索">
+        <select id="game-sort-select" hidden>
+          <option value="relevance" selected>関連度順</option>
+          <option value="count">再生リスト数が多い順</option>
+        </select>
+      </div>
+      <p class="result-count" id="game-search-count" hidden></p>
+      <div class="empty-state" id="game-search-empty" hidden>
+        <p>該当するゲームが見つかりませんでした。</p>
+        <button type="button" id="game-search-clear">検索条件をクリア</button>
+      </div>
+      <ul class="index-list" id="game-search-results" hidden></ul>
+
       <div id="category-list"></div>
     </div>
   </main>
