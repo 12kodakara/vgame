@@ -96,6 +96,15 @@
     );
   }
 
+  // 「人気実況」が「再生リストを探す」の実データ集合と実質同じ内容になる場合、
+  // セクションごと非表示にする。件数の一致ではなく、一意なplaylist id集合が
+  // 完全に一致するかで判定するため、データが増減しても自動で正しく動作する。
+  function isSameItemSet(subset, mainSet) {
+    if (subset.length !== mainSet.length) return false;
+    const mainIds = new Set(mainSet.map((p) => p.id));
+    return subset.every((p) => mainIds.has(p.id));
+  }
+
   // ---------- 人気実況(上位3件) ----------
   // ランキングロジック自体は従来と同じ(popularity降順)で、表示件数のみ絞り込む。
   // 「最近更新」は「再生リストを探す」の並び替えと役割が重複するため、
@@ -107,7 +116,7 @@
 
   const featuredSection = document.getElementById("game-featured-section");
 
-  if (featuredSection && popularItems.length) {
+  if (featuredSection && popularItems.length && !isSameItemSet(popularItems, items)) {
     featuredSection.hidden = false;
     renderPlaylistDiscoverList("game-popular-list", popularItems, "", { showGame: false });
   }

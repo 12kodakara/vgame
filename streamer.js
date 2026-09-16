@@ -90,12 +90,23 @@
     initFavoriteButton(document.getElementById("favorite-btn"), "streamer", { key: streamer, label: streamer, url: streamerUrl(streamer) });
   }
 
+  // 補助セクション(人気実況・最近更新)が「すべての再生リスト」と実質同じ内容に
+  // なる場合、その補助セクションごと非表示にする。件数の一致ではなく、
+  // 一意なplaylist id集合が完全に一致するか(＝メイン一覧に無い項目も、
+  // メイン一覧にしか無い項目も無いか)で判定するため、データが増減しても
+  // 閾値の手動調整なしに自動で正しく動作する。
+  function isSameItemSet(subset, mainSet) {
+    if (subset.length !== mainSet.length) return false;
+    const mainIds = new Set(mainSet.map((p) => p.id));
+    return subset.every((p) => mainIds.has(p.id));
+  }
+
   // ---------- 人気実況(このVTuberの再生リストのうち人気度が高い上位5件) ----------
   const popularItems = items
     .slice()
     .sort((a, b) => calculatePopularity(b) - calculatePopularity(a))
     .slice(0, 5);
-  if (document.getElementById("streamer-popular-section") && popularItems.length) {
+  if (document.getElementById("streamer-popular-section") && popularItems.length && !isSameItemSet(popularItems, items)) {
     document.getElementById("streamer-popular-section").hidden = false;
     renderPlaylistDiscoverList("streamer-popular-list", popularItems, "", { showStreamer: false });
   }
@@ -106,7 +117,7 @@
     .slice()
     .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
     .slice(0, 5);
-  if (document.getElementById("streamer-recent-section") && recentUpdated.length) {
+  if (document.getElementById("streamer-recent-section") && recentUpdated.length && !isSameItemSet(recentUpdated, items)) {
     document.getElementById("streamer-recent-section").hidden = false;
     renderPlaylistDiscoverList("streamer-recent-list", recentUpdated, "", { showStreamer: false });
   }
