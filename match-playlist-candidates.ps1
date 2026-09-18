@@ -29,6 +29,21 @@
       にして両方を候補に残す(勝手にどちらか一方に決め打ちしない)
     - シリーズの集約名(例:「〇〇シリーズ」)自体への一致は confidence を
       下げて出力する(具体的な個別タイトルの誤検知を招きやすいため)
+    - 部分一致ガード(第4回データ拡充で追加): 単にゲーム名の文字列が
+      含まれているだけではHIGHにしない。次の2点を機械的に確認する。
+        (1) 境界の強さ … 一致箇所の隣が漢字やASCII英数字である場合は
+            「より長い別タイトルの一部」とみなしてLOWにする
+            (例:「刀剣乱舞無双」を「刀剣乱舞」、「超魔界村」を「魔界村」と
+             誤認するケースを実データで確認したため)。
+            ひらがな・記号・空白の隣接は助詞や装飾のため強い境界として扱う。
+        (2) 名前の識別力 … そのゲーム名が別の登録済みゲーム名の一部に
+            なっている場合はMEDIUMに留める
+            (例:「ゼルダの伝説」は「ゼルダの伝説 ブレス オブ ザ ワイルド」の
+             一部であり、タイトルに含まれていてもどの作品か特定できない)。
+      いずれもGAMESカタログと文字種だけから導く一般規則で、
+      個別タイトルのハードコードは行わない。
+    - シリーズ関係は既存の series フィールド(集約名の判定)以外には使わない。
+      「同じシリーズだと思われる」という推測でconfidenceを上げることはしない。
 
   出力される候補はすべて「要人間確認」であり、実在確認・削除済み/非公開で
   ないかの確認・本編プレイであることの確認は人間が行ってください。
@@ -205,6 +220,66 @@ function Normalize-SearchText([string]$s) {
   return ($n.ToLowerInvariant().Trim() -replace '\s+', '')
 }
 
+# ---- 部分一致ガード(第4回データ拡充で追加) ----
+# Normalize-SearchText は空白を完全に除去するため、
+#   「聖剣伝説3 トライアルズオブマナ」→「聖剣伝説3とらいあるずおぶまな」
+# のように、元タイトルで空白に区切られていた語まで地続きに見えてしまう。
+# その結果「一致箇所の隣が何の文字か」で境界の強さを判断できなくなる。
+# そこで「空白を1個に潰しただけのテキスト(collapsed)」と
+# 「空白を除去したテキスト(stripped)」を同時に作り、
+# stripped 上の位置から collapsed 上の位置を引けるようにインデックス表(map)を持つ。
+function Build-MatchText([string]$s) {
+  if (-not $s) { return [PSCustomObject]@{ stripped = ""; collapsed = ""; map = @() } }
+  $n = $s.Normalize([System.Text.NormalizationForm]::FormKC)
+  $n = ConvertTo-Hiragana $n
+  $n = $n.ToLowerInvariant().Trim()
+  $n = ($n -replace '\s+', ' ')
+  $sb = New-Object System.Text.StringBuilder
+  $map = New-Object System.Collections.Generic.List[int]
+  for ($i = 0; $i -lt $n.Length; $i++) {
+    if ($n[$i] -eq ' ') { continue }
+    [void]$sb.Append($n[$i])
+    $map.Add($i)
+  }
+  return [PSCustomObject]@{ stripped = $sb.ToString(); collapsed = $n; map = $map.ToArray() }
+}
+
+# 一致箇所の隣がこの種類の文字である場合、「より長い語の一部を切り出しただけ」
+# である可能性が高いとみなす(=境界が弱い)。
+#   - 漢字        : 「刀剣乱舞」+「無双」、「超」+「魔界村」のような別タイトルの複合語
+#   - ASCII英数字 : 「太鼓の達人」+「Nintendo」のような続き
+# ひらがな・長音符・記号・絵文字・空白は、助詞や装飾として自然に隣接するため
+# 弱い境界とはみなさない(例:「海こんにゃくで仁王2」「PIENぴえん」「壺おじさん」は
+# いずれも正しい一致であり、これらまで落とすと正常な候補を壊してしまう)。
+function Test-WeakBoundaryChar([char]$ch) {
+  if ($ch -ge [char]0x3400 -and $ch -le [char]0x9FFF) { return $true }  # CJK統合漢字(拡張A含む)
+  if ($ch -eq [char]0x3005) { return $true }                            # 々(踊り字)
+  if ($ch -ge 'a' -and $ch -le 'z') { return $true }
+  if ($ch -ge '0' -and $ch -le '9') { return $true }
+  return $false
+}
+
+# Test-BoundaryMatch を通った一致について、さらに「強い境界で一致しているか」を判定する。
+# 強い境界 = 前後が「文字列の端 / 空白 / 記号・絵文字 / ひらがな」のいずれか。
+# 複数箇所で一致する場合は、1箇所でも強い境界があれば true を返す。
+function Test-CleanBoundaryMatch($ctx, [string]$needle) {
+  if (-not $needle -or -not $ctx -or -not $ctx.stripped) { return $false }
+  $hay = $ctx.stripped
+  $idx = $hay.IndexOf($needle)
+  while ($idx -ge 0) {
+    $ok = $true
+    $prevPos = $ctx.map[$idx] - 1
+    if ($prevPos -ge 0 -and (Test-WeakBoundaryChar $ctx.collapsed[$prevPos])) { $ok = $false }
+    if ($ok) {
+      $nextPos = $ctx.map[$idx + $needle.Length - 1] + 1
+      if ($nextPos -lt $ctx.collapsed.Length -and (Test-WeakBoundaryChar $ctx.collapsed[$nextPos])) { $ok = $false }
+    }
+    if ($ok) { return $true }
+    $idx = $hay.IndexOf($needle, $idx + 1)
+  }
+  return $false
+}
+
 # ---- False Positive警告キーワード(STEP6) ----
 $nonGameKeywords = @(
   "切り抜き", "きりぬき", "まとめ", "shorts", "ショート", "sh0rts",
@@ -253,6 +328,36 @@ foreach ($o in $gameObjs) {
 # 長い一致を優先して誤検知を減らすため、突き合わせ文字列が長い順に並べる
 $matchTargets = @($matchTargets | Sort-Object { $_.matchText.Length } -Descending)
 
+# ---- 識別力チェック(第4回データ拡充で追加) ----
+# あるゲーム名が、別の登録済みゲーム名の一部になっている場合、
+# タイトルにその名前が含まれていても「どの作品か」を一意に特定できない。
+#   例:「ゼルダの伝説」は「ゼルダの伝説 ブレス オブ ザ ワイルド」等13件の一部
+#      「星のカービィ」は「星のカービィ スーパーデラックス」等7件の一部
+#      「魔界村」は「大魔界村」「帰ってきた魔界村」の一部
+# このようなゲーム名への一致は HIGH に昇格させず MEDIUM(要人間確認)に留める。
+# 個別タイトルのハードコードではなく、GAMESカタログの包含関係だけから機械的に導く。
+$normNameList = New-Object System.Collections.Generic.List[string]
+$normNameOf = @{}
+foreach ($o in $gameObjs) {
+  $gn = Field $o "name"
+  if (-not $gn) { continue }
+  $nrm = Normalize-SearchText $gn
+  $normNameOf[$gn] = $nrm
+  $normNameList.Add($nrm)
+}
+$normNames = $normNameList.ToArray()
+$nonDiscriminativeGames = @{}
+foreach ($gn in $normNameOf.Keys) {
+  $me = $normNameOf[$gn]
+  $meLen = $me.Length
+  foreach ($other in $normNames) {
+    # 自分より長い名前だけを調べれば十分(同じ長さで内容が違えば包含しない)
+    if ($other.Length -le $meLen) { continue }
+    if ($other.Contains($me)) { $nonDiscriminativeGames[$gn] = $true; break }
+  }
+}
+Write-Output ("識別力チェック: {0} / {1} 件のゲーム名が、より具体的な登録名の一部です(HIGHに昇格させません)。" -f $nonDiscriminativeGames.Count, $normNameOf.Count)
+
 # ---- discover-playlists.ps1 の出力を読み込み ----
 $discovered = Get-Content $DiscoveredJson -Raw -Encoding UTF8 | ConvertFrom-Json
 
@@ -272,7 +377,8 @@ foreach ($entry in $discovered) {
     if (-not $pl.playlistId -or -not $pl.title) { continue }
     if ($existingPlaylistIds.ContainsKey($pl.playlistId)) { continue } # 登録済みは除外(重複防止)
 
-    $normTitle = Normalize-SearchText $pl.title
+    $titleCtx = Build-MatchText $pl.title
+    $normTitle = $titleCtx.stripped
     $normDesc = Normalize-SearchText $pl.description
 
     $titleMatches = New-Object System.Collections.Generic.List[object]
@@ -281,7 +387,18 @@ foreach ($entry in $discovered) {
       if ($matchedGames.ContainsKey($t.gameName)) { continue } # 同じゲームへの重複一致は1回だけ記録
       if (Test-BoundaryMatch $normTitle $t.matchText) {
         $matchedGames[$t.gameName] = $true
-        $titleMatches.Add([PSCustomObject]@{ game = $t.gameName; via = $(if ($t.isAlias) { "alias" } else { "name" }); isUmbrella = $t.isUmbrella; currentPlaylistCount = $t.playlistCount })
+        $titleMatches.Add([PSCustomObject]@{
+          game = $t.gameName
+          via = $(if ($t.isAlias) { "alias" } else { "name" })
+          isUmbrella = $t.isUmbrella
+          currentPlaylistCount = $t.playlistCount
+          # タイトル全体がゲーム名そのものなら最も強い一致
+          exactTitle = ($normTitle -eq $t.matchText)
+          # 前後が「端 / 空白 / 記号 / ひらがな」で区切られた一致かどうか
+          cleanBoundary = (Test-CleanBoundaryMatch $titleCtx $t.matchText)
+          # より具体的な登録名の一部にあたるゲーム名かどうか
+          nonDiscriminative = $nonDiscriminativeGames.ContainsKey($t.gameName)
+        })
       }
     }
     if ($titleMatches.Count -eq 0) { continue }
@@ -299,8 +416,19 @@ foreach ($entry in $discovered) {
       # 判定した既存の品質ルールをここに反映する(HIGHに昇格させない)。
       $isEmpty = ($null -ne $pl.itemCount -and [int]$pl.itemCount -eq 0)
       $lowConf = ($m.isUmbrella -or $isNonGame -or $ambiguous -or -not $officialChannelMatch -or $isEmpty)
+      # ---- confidence の定義(第4回データ拡充で再定義) ----
+      #   HIGH   : ゲームを一意に特定できる強い一致
+      #            (タイトル全体一致、または 強い境界での正式名一致 かつ
+      #             そのゲーム名が他の登録名の一部になっていない)
+      #   MEDIUM : 関連性は高いが、どの作品かの確定に人間確認が必要
+      #            (より具体的な登録名が存在する / aliasesでの一致)
+      #   LOW    : 部分一致・曖昧一致・誤判定可能性あり
+      #            (既存の失格条件、または境界の弱い部分一致)
+      #   迷う場合はHIGHに上げず、MEDIUM/LOWへ落とす(件数より安全性を優先)。
+      $weakBoundary = (-not $m.cleanBoundary -and -not $m.exactTitle)
       $confidence =
-        if ($lowConf) { "LOW" }
+        if ($lowConf -or $weakBoundary) { "LOW" }
+        elseif ($m.nonDiscriminative) { "MEDIUM" }
         elseif ($m.via -eq "alias") { "MEDIUM" }
         else { "HIGH" }
       $results.Add([PSCustomObject][ordered]@{
@@ -322,8 +450,14 @@ foreach ($entry in $discovered) {
         publishedAt    = $pl.publishedAt
         likelyNonGame  = $isNonGame
         confidence     = $confidence
+        exactTitle          = $m.exactTitle
+        cleanBoundary       = $m.cleanBoundary
+        weakBoundaryMatch   = $weakBoundary
+        nonDiscriminativeName = $m.nonDiscriminative
         warning        = $(
           $w = @()
+          if ($weakBoundary) { $w += "部分一致です(一致箇所の隣が漢字/英数字。より長い別タイトルの一部の可能性)" }
+          if ($m.nonDiscriminative) { $w += "「$($m.game)」はより具体的な登録ゲーム名の一部です(どの作品か特定できないため要確認)" }
           if (-not $officialChannelMatch) { $w += "STREAMERSに現在登録されているVTuber名と確認できません" }
           if ($isNonGame) { $w += "タイトル/説明文に切り抜き・宣伝等を示す語が含まれます" }
           if ($m.isUmbrella) { $w += "シリーズ集約名への一致です(具体的な個別タイトルではない可能性)" }

@@ -51,8 +51,35 @@
   指定すると、YouTube APIを一切呼び出さず、指定したJSON(discover-playlists.ps1
   と同じ形式)を探索結果として使う動作確認用モード(quota消費ゼロ)。
 
-.PARAMETER MaxResultsPerGame
-  未使用(将来のsearch.list方式向けに予約。現在の既定経路では使用しない)。
+.PARAMETER Strategy
+  探索対象VTuberの「選び方」を切り替える。探索範囲(登録済みVTuberの公式チャンネル)と
+  安全判定は、どちらを選んでも一切変わらない。
+
+    Vtuber (既定) … 従来どおり「既存再生リスト件数が少ない順・長期未探索を優先」で選ぶ。
+                    -Strategy を省略した場合はこれになるため、既存運用の動作は変わらない。
+    Game          … ゲーム側のplaylist不足状況を起点に選ぶ。まずローカルキャッシュ
+                    ($CachePath)を match-playlist-candidates.ps1 で再照合し(API呼び出し
+                    ゼロ)、「再生リストが不足しているゲームに、公式チャンネル由来の未登録
+                    playlistが実在するVTuber」だけを候補にする。推測(「有名だから実況して
+                    いそう」等)は一切使わず、キャッシュ内の実在一致のみを根拠にする。
+
+  YouTube Data API の search.list によるゲーム名の全体検索は、いずれのStrategyでも
+  行わない(quota消費が大きく、非公式チャンネル混入・誤登録のリスクがあるため)。
+
+.PARAMETER CacheOnly
+  YouTube APIを一切呼び出さず、ローカルキャッシュ($CachePath)だけを探索結果として使う。
+  -Strategy Game の第1段階(キャッシュ再照合)だけを実行して結果を確認したい場合に使う。
+  quota消費ゼロ。APIを使っていないため探索履歴(search-history.json)は更新せず、
+  30日再探索抑制も適用しない(抑制はAPI消費を抑えるための仕組みのため)。
+
+.PARAMETER CachePath
+  ローカルキャッシュ(discover-playlists.ps1と同じ形式)のパス。既定は
+  discovered-playlists.json。-Strategy Game と -CacheOnly で使用する。
+
+.PARAMETER InsufficientMax
+  「不足ゲーム」とみなす再生リスト件数の上限(既定2 = 0件/1件/2件)。この範囲で
+  -MaxVtubers 人を選べなかった場合にかぎり、自動的に $script:InsufficientFallbackMax
+  (既定5 = 3〜5件)まで対象を広げる。
 
 .EXAMPLE
   .\run-playlist-cycle.ps1
@@ -62,13 +89,24 @@
   .\run-playlist-cycle.ps1 -Force
 .EXAMPLE
   .\run-playlist-cycle.ps1 -TestDiscoveredJson reports/discovered-merged-cycle2b.json
+.EXAMPLE
+  # ゲーム不足起点・APIを一切使わない確認(第1段階のみ)
+  .\run-playlist-cycle.ps1 -Strategy Game -CacheOnly
+.EXAMPLE
+  # ゲーム不足起点で対象VTuberを選び、そのVTuberの公式チャンネルだけを実APIで再取得(第2段階)
+  .\run-playlist-cycle.ps1 -Strategy Game
 #>
 param(
+  [ValidateSet("Vtuber", "Game")]
+  [string]$Strategy = "Vtuber",
   [int]$MaxVtubers = 6,
   [int]$SuppressDays = 30,
   [switch]$Force,
   [bool]$FetchVideoSamples = $true,
-  [string]$TestDiscoveredJson
+  [string]$TestDiscoveredJson,
+  [switch]$CacheOnly,
+  [string]$CachePath = "discovered-playlists.json",
+  [int]$InsufficientMax = 2
 )
 
 $ErrorActionPreference = "Stop"
@@ -84,6 +122,8 @@ $validateScript = Join-Path $scriptDir "validate-data.ps1"
 $script:DefaultMaxVtubers = 6
 $script:DefaultSuppressDays = 30
 $script:MaxVideoSampleCalls = 10   # manual-review向け追加API呼び出しの安全弁(念のための上限)
+$script:InsufficientFallbackMax = 5 # -Strategy Game で候補が足りない場合に広げる上限(3〜5件)
+$script:MaxEvidencePerVtuber = 5    # レポートに載せる根拠ゲームの表示上限
 
 $opsDir = Join-Path $scriptDir "reports\playlist-operations"
 $historyPath = Join-Path $opsDir "search-history.json"
@@ -91,8 +131,18 @@ $cycleId = "cycle-" + (Get-Date).ToString("yyyyMMdd-HHmm")
 $cycleDir = Join-Path $opsDir $cycleId
 New-Item -ItemType Directory -Path $cycleDir -Force | Out-Null
 
+if ($TestDiscoveredJson -and $CacheOnly) {
+  Write-Error "-TestDiscoveredJson と -CacheOnly は同時に指定できません(探索結果の入力元が二重になるため)。どちらか一方を指定してください。"
+  exit 1
+}
+
+# キャッシュのパスはスクリプトディレクトリ基準で解決する(相対指定を許す)
+$cacheFullPath = $CachePath
+if (-not [System.IO.Path]::IsPathRooted($cacheFullPath)) { $cacheFullPath = Join-Path $scriptDir $CachePath }
+
 $apiKey = $env:YOUTUBE_API_KEY
-$usingLiveApi = -not $TestDiscoveredJson
+# APIを呼び出さないモードは2つ: -TestDiscoveredJson(任意のJSONを入力) と -CacheOnly(ローカルキャッシュを入力)
+$usingLiveApi = (-not $TestDiscoveredJson) -and (-not $CacheOnly)
 if ($usingLiveApi -and -not $apiKey) {
   Write-Error "YOUTUBE_API_KEY が環境変数に見つかりません。値を直接指定せず、環境変数を設定するか -TestDiscoveredJson でテストモードを使ってください。"
   exit 1
@@ -105,6 +155,7 @@ function Get-RedactedMessage([string]$msg) {
 Write-Output "=============================="
 Write-Output "ぶいゲー 定常データ拡充 (run-playlist-cycle.ps1)"
 Write-Output "cycleId: $cycleId"
+Write-Output "strategy: $($Strategy.ToLowerInvariant())"
 Write-Output "=============================="
 Write-Output ""
 
@@ -173,10 +224,10 @@ function Field([string]$obj, [string]$name) {
 #   優先順位(シンプルな2キーソートで説明可能にする):
 #     1. 再生リスト数が少ない(0件優先)
 #     2. 同数なら、最後に探索してからの経過日数が長い(未探索は最優先)
-#   ゲーム側からの補完(優先順位5)は、未探索VTuberとゲームを推測で
-#   紐付けることになり安全性を損なうため、今回は選定に含めない
-#   (find-expansion-candidates.ps1 側で別途、内部データだけのゲーム側分析は
-#   既に提供済みのためそちらを参照してください)。
+#   -Strategy Game を指定した場合は、この2キーソートの代わりに
+#   「ゲーム側のplaylist不足」を起点にした選定(STEP2-G)を使う。
+#   ただしそちらも推測は使わず、ローカルキャッシュ内に実在する未登録playlistが
+#   不足ゲームに一致したという事実だけを根拠にする。
 # ============================================================
 Write-Output "[STEP2] 探索対象VTuberを選定しています..."
 
@@ -208,11 +259,207 @@ foreach ($o in $streamerObjs) {
     $last = [DateTime]::Parse($history[$name].lastSearchedAt)
     $daysSince = (Get-Date) - $last | Select-Object -ExpandProperty TotalDays
   }
-  if (-not $Force -and $daysSince -lt $SuppressDays) { continue } # 直近探索済みは除外
-  $candidatesForSelection.Add([PSCustomObject]@{ name = $name; youtube = $yt; playlistCount = $count; daysSinceSearch = $daysSince })
+  $isSuppressed = ((-not $Force) -and ($daysSince -lt $SuppressDays))
+  $candidatesForSelection.Add([PSCustomObject]@{ name = $name; youtube = $yt; playlistCount = $count; daysSinceSearch = $daysSince; suppressed = $isSuppressed })
 }
 
-$selected = @($candidatesForSelection | Sort-Object playlistCount, @{Expression = { -$_.daysSinceSearch } } | Select-Object -First $MaxVtubers)
+# ---- 30日再探索抑制(-SuppressDays)の適用範囲 ----
+#   API呼び出しを伴う場合 : 必ず適用する(従来どおり。quota消費を抑えるための仕組み)
+#   API呼び出しが無い場合 : 適用しない(-CacheOnly / -TestDiscoveredJson)。
+#     quotaを消費せず、探索履歴(search-history.json)も更新しないため、
+#     抑制の目的に当たらない。ここで除外すると、せっかく手元にある
+#     キャッシュを不必要に読み飛ばすことになる。
+#   注意: この環境の Windows PowerShell 5.1 では @($genericList) が
+#   ArgumentException("Argument types do not match") を投げるため、
+#   List を配列化するときは .ToArray() を使う(パイプライン経由の @(...) は可)。
+$applySuppression = $usingLiveApi
+if ($applySuppression) {
+  $selectionPool = @($candidatesForSelection | Where-Object { -not $_.suppressed })
+} else {
+  $selectionPool = $candidatesForSelection.ToArray()
+}
+
+# STEP2-G / レポート用の記録(Vtuber strategyでは0のまま)
+$insufficientGamesChecked = 0
+$cacheMatchCount = 0
+$insufficientThresholdUsed = 0
+$vtubersSelectedFromGames = @()
+
+if ($Strategy -eq "Game") {
+  # ============================================================
+  # STEP2-G: ゲーム不足起点の選定(YouTube APIは呼び出さない)
+  #   第1段階: ローカルキャッシュを既存 match-playlist-candidates.ps1 で再照合し、
+  #            「過去に公式チャンネルから取得済みだが未登録のplaylist」を洗い出す。
+  #   そのうえで「再生リストが不足しているゲームに一致したもの」だけを根拠として、
+  #   そのplaylistを持つVTuberを選ぶ。判定ロジックは一切書かず、既存スクリプトの
+  #   出力(confidence / game / streamer)をそのまま使う。
+  # ============================================================
+  Write-Output "  [STEP2-G] ゲーム不足起点(Strategy=Game)。まずローカルキャッシュを再照合します(YouTube API呼び出しなし)..."
+  if (-not (Test-Path $cacheFullPath)) {
+    Write-Error "ローカルキャッシュが見つかりません: $cacheFullPath  (-CachePath で指定してください)"
+    exit 1
+  }
+
+  # ゲーム別playlist数(既存PLAYLISTSの単純集計。判定ロジックではない)
+  $gamePlaylistCount = @{}
+  foreach ($o in $playlistObjs) {
+    $gn = Field $o "game"
+    if ($gn) {
+      if (-not $gamePlaylistCount.ContainsKey($gn)) { $gamePlaylistCount[$gn] = 0 }
+      $gamePlaylistCount[$gn] = $gamePlaylistCount[$gn] + 1
+    }
+  }
+  $allGameNames = New-Object System.Collections.Generic.List[string]
+  foreach ($o in (Get-Objects (Get-ArrayInner "GAMES" $coreText))) {
+    $gn = Field $o "name"
+    if ($gn) { $allGameNames.Add($gn) }
+  }
+  Write-Output ("    ゲームカタログ: {0}件 / 再生リスト: {1}件" -f $allGameNames.Count, $playlistObjs.Count)
+
+  # 既存 match-playlist-candidates.ps1 をそのまま再利用(APIは呼ばれない)
+  $cacheMatchPath = Join-Path $cycleDir "cache-match.json"
+  & powershell.exe -NoProfile -File $matchScript -DiscoveredJson $cacheFullPath -Json $cacheMatchPath | Out-Null
+  $cacheReport = Get-Content $cacheMatchPath -Raw -Encoding UTF8 | ConvertFrom-Json
+  $cacheCandidates = @($cacheReport.candidates)
+  $cacheMatchCount = $cacheCandidates.Count
+  Write-Output ("    キャッシュ再照合: 未登録playlist由来の候補 {0}件 (HIGH {1} / MEDIUM {2} / LOW {3})" -f `
+    $cacheMatchCount,
+    @($cacheCandidates | Where-Object { $_.confidence -eq "HIGH" }).Count,
+    @($cacheCandidates | Where-Object { $_.confidence -eq "MEDIUM" }).Count,
+    @($cacheCandidates | Where-Object { $_.confidence -eq "LOW" }).Count)
+
+  # 不足しきい値を段階的に広げる(既定: まず0/1/2件。足りなければ3〜5件まで)
+  $thresholds = New-Object System.Collections.Generic.List[int]
+  $thresholds.Add($InsufficientMax)
+  if ($script:InsufficientFallbackMax -gt $InsufficientMax) { $thresholds.Add($script:InsufficientFallbackMax) }
+
+  $poolByName = @{}
+  foreach ($p in $selectionPool) { $poolByName[$p.name] = $p }
+
+  $gameRanked = @()
+  foreach ($threshold in $thresholds) {
+    $insufficientNames = @{}
+    foreach ($gn in $allGameNames) {
+      $c = 0
+      if ($gamePlaylistCount.ContainsKey($gn)) { $c = $gamePlaylistCount[$gn] }
+      if ($c -le $threshold) { $insufficientNames[$gn] = $c }
+    }
+    $insufficientGamesChecked = $insufficientNames.Count
+    $insufficientThresholdUsed = $threshold
+
+    # VTuberごとに「不足ゲームへの一致」を集計する(推測は一切加えない)
+    $byStreamer = @{}
+    foreach ($c in $cacheCandidates) {
+      if (-not $insufficientNames.ContainsKey($c.game)) { continue }
+      $sname = $c.streamer
+      if (-not $byStreamer.ContainsKey($sname)) {
+        $byStreamer[$sname] = [PSCustomObject]@{
+          highGames    = New-Object 'System.Collections.Generic.HashSet[string]'
+          anyGames     = New-Object 'System.Collections.Generic.HashSet[string]'
+          medGames     = New-Object 'System.Collections.Generic.HashSet[string]'
+          highCount    = 0
+          medCount     = 0
+          anyCount     = 0
+          minGameCount = [int]::MaxValue
+          perGame      = @{}   # ゲーム名 -> @{ count=現playlist数; high=HIGH数; med=MEDIUM数; total=候補数 }
+        }
+      }
+      $e = $byStreamer[$sname]
+      [void]$e.anyGames.Add($c.game)
+      $e.anyCount++
+      if ($c.confidence -eq "HIGH") { [void]$e.highGames.Add($c.game); $e.highCount++ }
+      elseif ($c.confidence -eq "MEDIUM") { [void]$e.medGames.Add($c.game); $e.medCount++ }
+      $gc = $insufficientNames[$c.game]
+      if ($gc -lt $e.minGameCount) { $e.minGameCount = $gc }
+      if (-not $e.perGame.ContainsKey($c.game)) { $e.perGame[$c.game] = @{ count = $gc; high = 0; med = 0; total = 0 } }
+      $e.perGame[$c.game].total++
+      if ($c.confidence -eq "HIGH") { $e.perGame[$c.game].high++ }
+      elseif ($c.confidence -eq "MEDIUM") { $e.perGame[$c.game].med++ }
+    }
+
+    $ranked = New-Object System.Collections.Generic.List[object]
+    foreach ($sname in $byStreamer.Keys) {
+      # STREAMERSに実在し、かつ(API使用時は)30日抑制に掛かっていないVTuberだけを対象にする
+      if (-not $poolByName.ContainsKey($sname)) { continue }
+      $p = $poolByName[$sname]
+      $e = $byStreamer[$sname]
+      # 根拠の表示はゲーム単位で重複を除き、HIGHを持つゲーム→現playlist数が少ない順に並べる
+      $evidenceParts = New-Object System.Collections.Generic.List[string]
+      $orderedGames = @($e.perGame.Keys | Sort-Object `
+        @{Expression = { if ($e.perGame[$_].high -gt 0) { 0 } elseif ($e.perGame[$_].med -gt 0) { 1 } else { 2 } } }, `
+        @{Expression = { $e.perGame[$_].count } }, `
+        @{Expression = { $_ } })
+      foreach ($gname2 in $orderedGames) {
+        if ($evidenceParts.Count -ge $script:MaxEvidencePerVtuber) { break }
+        $info = $e.perGame[$gname2]
+        $confLabel =
+          if ($info.high -gt 0) { "HIGH {0}件" -f $info.high }
+          elseif ($info.med -gt 0) { "MEDIUM {0}件" -f $info.med }
+          else { "LOWのみ {0}件" -f $info.total }
+        $evidenceParts.Add(("{0}(現{1}件/キャッシュ{2})" -f $gname2, $info.count, $confLabel))
+      }
+      $ranked.Add([PSCustomObject]@{
+        name             = $sname
+        youtube          = $p.youtube
+        playlistCount    = $p.playlistCount
+        daysSinceSearch  = $p.daysSinceSearch
+        highGameCount    = $e.highGames.Count
+        highCount        = $e.highCount
+        medGameCount     = $e.medGames.Count
+        medCount         = $e.medCount
+        anyGameCount     = $e.anyGames.Count
+        anyCount         = $e.anyCount
+        minGameCount     = $e.minGameCount
+        evidence         = ($evidenceParts -join " / ")
+      })
+    }
+
+    # 並び順(説明可能な固定キー):
+    #   1. HIGHで一致した不足ゲームの数が多い(=ゲームを一意に特定できる根拠)
+    #   2. HIGH候補の件数が多い
+    #   3. MEDIUMで一致した不足ゲームの数が多い(=関連性は確認できるが作品の確定に確認が要る根拠)
+    #   4. MEDIUM候補の件数が多い
+    #   5. 何らかのconfidenceで一致した不足ゲームの数が多い
+    #   6. 一致したゲームの現playlist数が少ない(0件 → 1件 → 2件)
+    #   7. 最後に探索してからの経過日数が長い(未探索が最優先)
+    #   8. 名前昇順(同点時の再現性確保)
+    # LOWだけしか根拠が無いVTuberは1〜4がすべて0になるため、自動的に最下位へ回る。
+    # 「不足しているだけで関連根拠が無いゲーム」は、そもそもキャッシュ一致が
+    # 発生しないため候補集合に入らない。
+    $gameRanked = @($ranked | Sort-Object `
+      @{Expression = { -$_.highGameCount } }, `
+      @{Expression = { -$_.highCount } }, `
+      @{Expression = { -$_.medGameCount } }, `
+      @{Expression = { -$_.medCount } }, `
+      @{Expression = { -$_.anyGameCount } }, `
+      minGameCount, `
+      @{Expression = { -$_.daysSinceSearch } }, `
+      name)
+
+    Write-Output ("    不足ゲーム(<= {0}件): {1}件 / 根拠を持つVTuber: {2}名" -f $threshold, $insufficientGamesChecked, $gameRanked.Count)
+    if ($gameRanked.Count -ge $MaxVtubers) { break }
+  }
+
+  $selected = @($gameRanked | Select-Object -First $MaxVtubers)
+  $vtubersSelectedFromGames = @($selected | ForEach-Object { $_.name })
+
+  if ($selected.Count -eq 0) {
+    Write-Output "  ゲーム不足起点で根拠のあるVTuberが0名でした(キャッシュ内に不足ゲームと一致する未登録playlistがない可能性)。"
+    Write-Output "  -MaxVtubers / -InsufficientMax を見直すか、-Strategy Vtuber をご利用ください。"
+    Write-Output ""
+    Write-Output "=============================="
+    Write-Output "本番データは変更していません"
+    Write-Output "=============================="
+    exit 0
+  }
+
+  Write-Output "  選定根拠(キャッシュ内に実在する未登録playlistのみ。推測は使用していません):"
+  foreach ($s in $selected) {
+    Write-Output ("    - {0}: 不足ゲーム{1}件に一致(HIGH {2}件 / MEDIUM {3}件) … {4}" -f $s.name, $s.anyGameCount, $s.highCount, $s.medCount, $s.evidence)
+  }
+} else {
+  $selected = @($selectionPool | Sort-Object playlistCount, @{Expression = { -$_.daysSinceSearch } } | Select-Object -First $MaxVtubers)
+}
 
 if ($selected.Count -eq 0 -and $usingLiveApi) {
   Write-Output "  探索対象が0件でした(直近${SuppressDays}日以内に対象VTuberが探索済みの可能性)。-Force で再探索するか、対象を増やしてください。"
@@ -238,8 +485,40 @@ New-Item -ItemType Directory -Path $rawDir -Force | Out-Null
 $allDiscovered = @()
 $searchedNames = New-Object System.Collections.Generic.List[string]
 $apiCallCount = 0
+# streamer名 -> @{ status; errorType; errorDetail }
+# 「API探索が成立したVTuber」だけを search-history.json に記録するために使う。
+$discoverStatus = @{}
 
-if (-not $usingLiveApi) {
+# ---- 探索が成立したかどうかの判定(第5回データ拡充で追加) ----
+# discover-playlists.ps1 は各VTuberについて status(success/failed) を返す。
+#   success … channels.list / playlists.list が最後まで成功した
+#             (取得件数が0件でも「正常に探索した結果0件」なので成立扱い)
+#   failed  … API_KEY_INVALID / quota / HTTPエラー / チャンネル解決失敗 /
+#             ページング途中での失敗 など、探索そのものが成立しなかった
+# status を持たない古い形式のJSONに対しては、channelIdを解決できているかで代替判定する
+# (チャンネルIDすら取れていない結果は探索成立とみなさない)。
+function Test-DiscoverSucceeded($entry) {
+  if ($null -eq $entry) { return $false }
+  $hasStatus = $false
+  if ($entry.PSObject -and $entry.PSObject.Properties) {
+    $hasStatus = @($entry.PSObject.Properties.Name) -contains "status"
+  }
+  if ($hasStatus -and $entry.status) { return ([string]$entry.status -eq "success") }
+  return [bool]$entry.channelId
+}
+
+if ($CacheOnly) {
+  # 第1段階のみ(APIなし)。STEP2で選定したVTuberぶんのキャッシュだけを探索結果として扱う。
+  # -TestDiscoveredJson と違い、選定結果($selected)をそのまま尊重する
+  # (-MaxVtubers の上限をキャッシュ利用時にも効かせるため)。
+  Write-Output "[STEP3] -CacheOnly: APIを呼び出さず、選定済みVTuberぶんのローカルキャッシュを使用します。"
+  Write-Output "  入力: $cacheFullPath"
+  $cacheAll = Get-Content $cacheFullPath -Raw -Encoding UTF8 | ConvertFrom-Json
+  $selectedNameSet = @{}
+  foreach ($s in $selected) { $selectedNameSet[$s.name] = $true }
+  $allDiscovered = @($cacheAll | Where-Object { $selectedNameSet.ContainsKey($_.streamer) })
+  foreach ($e in $allDiscovered) { $searchedNames.Add($e.streamer) }
+} elseif (-not $usingLiveApi) {
   Write-Output "[STEP3] テストモード(-TestDiscoveredJson指定): APIを呼び出さず既存JSONを使用します。"
   $allDiscovered = Get-Content $TestDiscoveredJson -Raw -Encoding UTF8 | ConvertFrom-Json
   foreach ($e in $allDiscovered) { $searchedNames.Add($e.streamer) }
@@ -266,15 +545,44 @@ if (-not $usingLiveApi) {
       if (Test-Path $out) {
         $data = Get-Content $out -Raw -Encoding UTF8 | ConvertFrom-Json
         $allDiscovered += $data
-        $searchedNames.Add($s.name)
+        foreach ($entry in @($data)) {
+          if ($entry.streamer -ne $s.name) { continue }
+          if (Test-DiscoverSucceeded $entry) {
+            $searchedNames.Add($s.name)
+            $discoverStatus[$s.name] = @{ status = "success"; errorType = ""; errorDetail = "" }
+          } else {
+            $et = if ($entry.errorType) { [string]$entry.errorType } else { "DISCOVER_FAILED" }
+            $ed = if ($entry.errorDetail) { Get-RedactedMessage ([string]$entry.errorDetail) } else { "" }
+            $discoverStatus[$s.name] = @{ status = "failed"; errorType = $et; errorDetail = $ed }
+            Write-Warning ("  [{0}] API探索が成立しませんでした[{1}] {2} … 探索履歴には記録しません(30日再探索抑制の対象外)" -f $s.name, $et, $ed)
+          }
+        }
+        if (-not $discoverStatus.ContainsKey($s.name)) {
+          $discoverStatus[$s.name] = @{ status = "failed"; errorType = "NO_RESULT_ENTRY"; errorDetail = "discover結果に該当streamerのエントリがありません" }
+          Write-Warning ("  [{0}] discover結果に該当エントリがありません … 探索履歴には記録しません" -f $s.name)
+        }
+      } else {
+        $discoverStatus[$s.name] = @{ status = "failed"; errorType = "NO_OUTPUT_FILE"; errorDetail = "discover-playlists.ps1 の出力ファイルが作成されませんでした" }
+        Write-Warning ("  [{0}] discover出力ファイルがありません … 探索履歴には記録しません" -f $s.name)
       }
     } catch {
-      Write-Warning ("  [{0}] 取得失敗: {1}" -f $s.name, (Get-RedactedMessage $_.Exception.Message))
+      $msg = Get-RedactedMessage $_.Exception.Message
+      $discoverStatus[$s.name] = @{ status = "failed"; errorType = "DISCOVER_INVOCATION_FAILED"; errorDetail = $msg }
+      Write-Warning ("  [{0}] 取得失敗: {1} … 探索履歴には記録しません" -f $s.name, $msg)
     }
+  }
+  $failedNames = @($discoverStatus.Keys | Where-Object { $discoverStatus[$_].status -ne "success" })
+  if ($failedNames.Count -gt 0) {
+    Write-Output ("  ※ API探索が成立しなかったVTuber: {0}名 ({1})。search-history.json には記録しないため、次回以降も探索対象になります。" -f $failedNames.Count, ($failedNames -join ", "))
   }
 }
 
-Write-Output ("  対象{0}名(既存再生リスト件数の少ない順・未探索/長期未探索を優先。テストモード時は入力JSONのstreamerに合わせて表示):" -f $selected.Count)
+$selectionLabel = if ($Strategy -eq "Game") {
+  "不足ゲームにキャッシュ内の未登録playlistが一致した順"
+} else {
+  "既存再生リスト件数の少ない順・未探索/長期未探索を優先。テストモード時は入力JSONのstreamerに合わせて表示"
+}
+Write-Output ("  対象{0}名({1}):" -f $selected.Count, $selectionLabel)
 foreach ($s in $selected) {
   $daysLabel = if ($s.daysSinceSearch -eq [double]::MaxValue) { "未探索" } else { "{0:N0}日前に探索" -f $s.daysSinceSearch }
   Write-Output ("    - {0} (既存{1}件、{2})" -f $s.name, $s.playlistCount, $daysLabel)
@@ -404,11 +712,30 @@ Write-Output ""
 # ============================================================
 # STEP9/11: レポート保存
 # ============================================================
+$modeLabel = if ($usingLiveApi) { "live-api" } elseif ($CacheOnly) { "cache-only(no-api)" } else { "test-mode(no-api)" }
 $summary = [ordered]@{
   cycleId            = $cycleId
   generatedAt        = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
-  mode               = if ($usingLiveApi) { "live-api" } else { "test-mode(no-api)" }
+  strategy           = $Strategy.ToLowerInvariant()
+  mode               = $modeLabel
+  # ---- Strategy=game の選定内訳(Vtuber strategyでは0/空) ----
+  insufficientGamesChecked = $insufficientGamesChecked
+  insufficientThreshold    = $insufficientThresholdUsed
+  cacheMatches             = $cacheMatchCount
+  vtubersSelectedFromGames = $vtubersSelectedFromGames
+  cachePath                = $(if ($Strategy -eq "Game") { $CachePath } else { "" })
+  gameStrategyEvidence     = $(if ($Strategy -eq "Game") {
+      @($selected | ForEach-Object { [ordered]@{ streamer = $_.name; insufficientGamesMatched = $_.anyGameCount; highCandidates = $_.highCount; mediumCandidates = $_.medCount; evidence = $_.evidence } })
+    } else { @() })
   targetVtubers      = @($selected | ForEach-Object { $_.name })
+  # ---- API探索の成否(第5回データ拡充で追加) ----
+  # failed のVTuberは search-history.json に記録されないため、
+  # 30日再探索抑制の対象にはならない(次回以降も探索対象に戻る)。
+  discoverResults    = @($selected | ForEach-Object {
+      $st = if ($discoverStatus.ContainsKey($_.name)) { $discoverStatus[$_.name] } else { @{ status = $(if ($usingLiveApi) { "not-searched" } else { "no-api" }); errorType = ""; errorDetail = "" } }
+      [ordered]@{ streamer = $_.name; status = $st.status; errorType = $st.errorType; errorDetail = $st.errorDetail }
+    })
+  discoverFailedCount = @($selected | Where-Object { $discoverStatus.ContainsKey($_.name) -and $discoverStatus[$_.name].status -ne "success" }).Count
   playlistsFound     = $totalPlaylistsFound
   newCandidates      = $allCandidates.Count
   importReadyCount   = $importReady.Count
@@ -417,7 +744,9 @@ $summary = [ordered]@{
   dryRunPass         = $dryRunPass
   dryRunErrorCount   = $dryRunErrorCount
   preAudit           = [ordered]@{ games = $preAudit.totals.games; streamers = $preAudit.totals.streamers; playlists = $preAudit.totals.playlists; errorTotal = $preAudit.errorTotal }
-  apiCallsUsedApprox = $apiCallCount
+  apiCallsUsed       = $apiCallCount
+  apiCallsUsedApprox = $apiCallCount   # 旧キー(既存レポートとの互換のため残す)
+  searchListUsed     = $false          # search.listによるYouTube全体検索は実装していない
   productionChanged  = $false
 }
 ($summary | ConvertTo-Json -Depth 6) | Set-Content -Path (Join-Path $cycleDir "summary.json") -Encoding UTF8
@@ -466,7 +795,8 @@ $md -join "`n" | Set-Content -Path (Join-Path $cycleDir "manual-review.md") -Enc
 #   履歴を汚さないよう更新をスキップする。
 # ============================================================
 if (-not $usingLiveApi) {
-  Write-Output "[補足] テストモードのため探索履歴(search-history.json)は更新していません。"
+  $noApiReason = if ($CacheOnly) { "-CacheOnly(API呼び出しゼロ)" } else { "テストモード" }
+  Write-Output "[補足] ${noApiReason}のため探索履歴(search-history.json)は更新していません(30日再探索抑制にも影響しません)。"
   Write-Output ""
 }
 if ($usingLiveApi) {
@@ -490,7 +820,18 @@ foreach ($h in $historyArr) {
   $historyList.Add($h)
 }
 
+$historyRecorded = New-Object System.Collections.Generic.List[string]
+$historySkipped = New-Object System.Collections.Generic.List[string]
 foreach ($s in $selected) {
+  # API探索が成立しなかったVTuberは「探索済み」として記録しない。
+  # 記録してしまうと lastSearchedAt が更新され、実際には探索できていないのに
+  # 30日間再探索対象から外れてしまうため(第5回データ拡充で修正)。
+  if (-not ($discoverStatus.ContainsKey($s.name) -and $discoverStatus[$s.name].status -eq "success")) {
+    $et = if ($discoverStatus.ContainsKey($s.name)) { $discoverStatus[$s.name].errorType } else { "NOT_SEARCHED" }
+    $historySkipped.Add(("{0}({1})" -f $s.name, $et))
+    continue
+  }
+  $historyRecorded.Add($s.name)
   $streamerCandidates = @($allCandidates | Where-Object { $_.streamer -eq $s.name })
   $existing = $historyList | Where-Object { $_.streamerName -eq $s.name } | Select-Object -First 1
   $entry = [ordered]@{
@@ -503,6 +844,7 @@ foreach ($s in $selected) {
     manualReviewCount = @($streamerCandidates | Where-Object { $_.confidence -ne "HIGH" -and $_.likelyNonGame -ne $true }).Count
     rejectCount      = @($streamerCandidates | Where-Object { $_.likelyNonGame -eq $true }).Count
     searchMethod     = "discover-playlists.ps1(official-channel)"
+    strategy         = $Strategy.ToLowerInvariant()
     apiUsed          = $usingLiveApi
     cycleId          = $cycleId
   }
@@ -510,6 +852,11 @@ foreach ($s in $selected) {
   $historyList.Add([PSCustomObject]$entry)
 }
 ($historyList | ConvertTo-Json -Depth 6) | Set-Content -Path $historyPath -Encoding UTF8
+Write-Output ("[履歴] search-history.json に記録: {0}名 ({1})" -f $historyRecorded.Count, $(if ($historyRecorded.Count -gt 0) { $historyRecorded -join ", " } else { "なし" }))
+if ($historySkipped.Count -gt 0) {
+  Write-Output ("[履歴] 探索が成立しなかったため未記録: {0}名 ({1})" -f $historySkipped.Count, ($historySkipped -join ", "))
+}
+Write-Output ""
 }
 
 # ============================================================
@@ -519,6 +866,17 @@ Write-Output "=============================="
 Write-Output "ぶいゲー 定常データ拡充"
 Write-Output "=============================="
 Write-Output ""
+Write-Output "strategy："
+Write-Output "  $($Strategy.ToLowerInvariant())  (mode: $modeLabel)"
+Write-Output ""
+if ($Strategy -eq "Game") {
+  Write-Output "不足ゲーム確認数(<= $insufficientThresholdUsed 件)："
+  Write-Output "  $insufficientGamesChecked"
+  Write-Output ""
+  Write-Output "キャッシュ再照合の候補数："
+  Write-Output "  $cacheMatchCount"
+  Write-Output ""
+}
 Write-Output "探索VTuber："
 Write-Output "  $($selected.Count)"
 Write-Output ""
@@ -539,6 +897,9 @@ Write-Output "  $($reject.Count)"
 Write-Output ""
 Write-Output "dry-run："
 Write-Output "  $(if ($importReady.Count -eq 0) { 'N/A(import-ready 0件)' } elseif ($dryRunPass) { 'PASS' } else { 'FAIL' })"
+Write-Output ""
+Write-Output "API呼び出し回数："
+Write-Output "  $apiCallCount  (search.listによるYouTube全体検索: 未使用)"
 Write-Output ""
 Write-Output "audit："
 Write-Output "  ERROR $($preAudit.errorTotal)(実行前。本番は今回変更していません)"
