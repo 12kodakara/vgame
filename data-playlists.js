@@ -78437,6 +78437,38 @@ const PLAYLISTS = [
     videoCount: 5,
     addedDate: "2026-09-19",
   },
+
+  // ---- Game Strategy(ゲーム不足起点探索)による追加 ----
+  {
+    id: "gap795",
+    title: "【メンタル回復後進行】Five Nights at Freddy's: Security Breach",
+    streamer: "夜見れな",
+    game: "Five Nights at Freddy's",
+    genre: "horror",
+    playlistId: "PLOq7ZLlTsTczsaRprfcZfjknNL6I4uwez",
+    videoCount: 3,
+    addedDate: "2026-09-19",
+  },
+  {
+    id: "gap796",
+    title: "【完結】DARK SOULSⅢ",
+    streamer: "叶",
+    game: "DARK SOULS III",
+    genre: "action",
+    playlistId: "PLXKMRoeWMiAk2HBDZZcZfY8AeWMjxfDvn",
+    videoCount: 8,
+    addedDate: "2026-09-19",
+  },
+  {
+    id: "gap797",
+    title: "✧桃太郎電鉄 │ 天宮こころ",
+    streamer: "天宮こころ",
+    game: "桃太郎電鉄",
+    genre: "other",
+    playlistId: "PLf_iCnxqBv4j6VasTg02T9Ch4k7WmMXVH",
+    videoCount: 5,
+    addedDate: "2026-09-19",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました
