@@ -265,6 +265,20 @@ function Get-GameIdIndex([string]$corePath) {
   }
 }
 
+# ---- alias所有インデックス (alias ownership index) ----
+#   正規化alias -> そのaliasを持つgameの集合。$index.normAlias がそのまま該当する。
+#   シリーズ略称のように複数の作品が正当に共有するaliasは存在するため、aliasを
+#   消すのではなく「共有aliasだけを根拠に一意確定しない」ために使う。
+function Get-GameIdAliasOwners($index, [string]$aliasText) {
+  $empty = New-Object 'System.Collections.Generic.HashSet[string]'
+  if (-not $index) { return $empty }
+  if (-not (@($index.PSObject.Properties.Name) -contains "normAlias")) { return $empty }
+  $nz = Get-GameIdNormalizedText $aliasText
+  if (-not $nz) { return $empty }
+  if (-not $index.normAlias.ContainsKey($nz)) { return $empty }
+  return $index.normAlias[$nz]
+}
+
 # ---- 解決本体 ----
 # 戻り値: gameId / matchedName / matchType / confidence / ambiguous / candidateIds
 function Resolve-GameId($candidateGameName, $index) {
@@ -278,9 +292,9 @@ function Resolve-GameId($candidateGameName, $index) {
 
   $levels = @(
     @{ map = $index.exact;      key = $candidateGameName;                                    type = "exact";            conf = "high" },
-    @{ map = $index.aliasExact; key = $candidateGameName;                                    type = "alias-exact";      conf = "high" },
+    @{ map = $index.aliasExact; key = $candidateGameName;                                    type = "alias-exact";      conf = "high"; aliasOwnership = $true },
     @{ map = $index.normalized; key = (Get-GameIdNormalizedText $candidateGameName);         type = "normalized-exact"; conf = "high" },
-    @{ map = $index.normAlias;  key = (Get-GameIdNormalizedText $candidateGameName);         type = "canonical-alias";  conf = "medium" }
+    @{ map = $index.normAlias;  key = (Get-GameIdNormalizedText $candidateGameName);         type = "canonical-alias";  conf = "medium"; aliasOwnership = $true }
   )
 
   foreach ($lv in $levels) {
@@ -289,6 +303,22 @@ function Resolve-GameId($candidateGameName, $index) {
     if (-not $lv.map.ContainsKey($key)) { continue }
     $hits = @($lv.map[$key])
     if ($hits.Count -eq 1) {
+      # 共有alias(複数gameが所有する略称)だけを根拠に一意確定しない。
+      #   生aliasキーの上では単独所有に見えても、表記ゆれを正規化すると同じaliasを
+      #   複数のgameが持っている場合がある(例: 半角「FF」と全角「ＦＦ」)。その場合は
+      #   alias所有インデックスに従って ambiguous として扱い、manual-reviewへ送る。
+      #   正式タイトル一致(LEVEL1/LEVEL3)はこの判定を通らないため、作品固有情報を
+      #   含むタイトルの既存判定は妨げない。
+      if ($lv.aliasOwnership) {
+        $owners = Get-GameIdAliasOwners $index $key
+        if ($owners.Count -ge 2) {
+          return [PSCustomObject]@{
+            candidateGameName = $candidateGameName
+            gameId = $null; matchedName = $null; matchType = "ambiguous"
+            confidence = "none"; ambiguous = $true; candidateIds = @($owners | Sort-Object)
+          }
+        }
+      }
       return [PSCustomObject]@{
         candidateGameName = $candidateGameName
         gameId = $hits[0]; matchedName = $hits[0]; matchType = $lv.type
@@ -417,7 +447,24 @@ elseif ($SelfTest) {
     @{ n = "16. 偶然の完全アナグラム(別作品)"; input = "DELTARUNE";                    expectType = "not-found";        expectId = $null },
     @{ n = "16b. 同上(小文字表記)";      input = "Deltarune";                        expectType = "not-found";        expectId = $null },
     @{ n = "17. 局所的な並べ替え(語順)";  input = "ドラゴンクエストXI 過ぎ去りし時を求めて S"; expectType = "permuted-exact"; expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
-    @{ n = "18. 局所的な並べ替え(かな入替)"; input = "おにぎり屋さんシュミレーター"; expectType = "permuted-exact"; expectId = "おにぎり屋さんシミュレーター" }
+    @{ n = "18. 局所的な並べ替え(かな入替)"; input = "おにぎり屋さんシュミレーター"; expectType = "permuted-exact"; expectId = "おにぎり屋さんシミュレーター" },
+    # --- 共有alias(複数gameが所有する略称) ---
+    @{ n = "19. 共有alias単独(モンハン)";  input = "モンハン";                        expectType = "ambiguous";        expectId = $null },
+    @{ n = "19b. 共有alias単独(MGS)";     input = "MGS";                           expectType = "ambiguous";        expectId = $null },
+    @{ n = "19c. 共有alias単独(キムタク)"; input = "キムタク";                       expectType = "ambiguous";        expectId = $null },
+    @{ n = "19d. 共有alias(ひらがな表記)"; input = "きむたく";                       expectType = "ambiguous";        expectId = $null },
+    @{ n = "20. 単独所有aliasは従来どおり"; input = "MGSΔ";                          expectType = "alias-exact";      expectId = "METAL GEAR SOLID Δ: SNAKE EATER" },
+    @{ n = "20b. 単独所有alias(新規game)"; input = "キャラバンハート";               expectType = "alias-exact";      expectId = "ドラゴンクエストモンスターズ キャラバンハート" },
+    # --- シリーズ+ナンバリング / 版 / 表記 ---
+    @{ n = "21. シリーズ+ナンバリング";    input = "FINAL FANTASY VII";             expectType = "exact";            expectId = "FINAL FANTASY VII" },
+    @{ n = "21b. 共有alias+ナンバリング";  input = "ドラクエXI";                     expectType = "not-found";        expectId = $null },
+    @{ n = "22. Remake(正式名)";          input = "FINAL FANTASY VII REMAKE";      expectType = "exact";            expectId = "FINAL FANTASY VII REMAKE" },
+    @{ n = "22b. Remake(共有alias+版)";   input = "FF7 REMAKE";                    expectType = "not-found";        expectId = $null },
+    @{ n = "23. HD版(正式名)";            input = "ゼルダの伝説 スカイウォードソード HD"; expectType = "exact";        expectId = "ゼルダの伝説 スカイウォードソード HD" },
+    @{ n = "24. 日本語表記(alias)";        input = "サイレントヒル2";                expectType = "canonical-alias";  expectId = "SILENT HILL 2" },
+    @{ n = "25. 英語表記(alias)";          input = "Silent Hill 2";                 expectType = "alias-exact";      expectId = "SILENT HILL 2" },
+    @{ n = "26. 新規game 正式名";          input = "METAL GEAR SOLID Δ: SNAKE EATER"; expectType = "exact";          expectId = "METAL GEAR SOLID Δ: SNAKE EATER" },
+    @{ n = "27. 新規game 正式名(和名)";    input = "星のカービィ 夢の泉の物語";       expectType = "exact";            expectId = "星のカービィ 夢の泉の物語" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
@@ -434,9 +481,81 @@ elseif ($SelfTest) {
     if (-not $ok) { Write-Output ("        期待: matchType={0} gameId={1}" -f $c.expectType, $(if ($c.expectId) { "`"$($c.expectId)`"" } else { "(null)" })) }
     $rows.Add([PSCustomObject]@{ name = $c.n; input = $c.input; expectType = $c.expectType; expectId = $c.expectId; actualType = $r.matchType; actualId = $r.gameId; pass = $ok })
   }
+  # ---- テーブル駆動: 共有aliasはすべて ambiguous になること ----
+  #   カタログから「正規化aliasを2game以上が所有している」ものを列挙し、その生alias
+  #   表記すべてについて一意確定しないことを確認する。データが増えても自動で追従する。
+  Write-Output ""
+  Write-Output "=== 共有alias テーブル駆動テスト ==="
+  $sharedRows = New-Object System.Collections.Generic.List[object]
+  $aliasByNorm = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.List[string]]'([StringComparer]::Ordinal)
+  foreach ($g in $index.games) {
+    foreach ($a in @($g.aliases)) {
+      if (-not $a) { continue }
+      $nz = Get-GameIdNormalizedText $a
+      if (-not $nz) { continue }
+      if (-not $aliasByNorm.ContainsKey($nz)) { $aliasByNorm[$nz] = New-Object 'System.Collections.Generic.List[string]' }
+      if (-not $aliasByNorm[$nz].Contains($a)) { $aliasByNorm[$nz].Add($a) }
+    }
+  }
+  $sharedNorm = @($aliasByNorm.Keys | Where-Object { $index.normAlias.ContainsKey($_) -and $index.normAlias[$_].Count -ge 2 } | Sort-Object)
+  $sharedRawCount = 0
+  foreach ($nz in $sharedNorm) { $sharedRawCount += $aliasByNorm[$nz].Count }
+  Write-Output ("  共有alias(正規化キー): {0} 件 / 生alias表記: {1} 件" -f $sharedNorm.Count, $sharedRawCount)
+  foreach ($nz in $sharedNorm) {
+    foreach ($a in @($aliasByNorm[$nz])) {
+      $r = Resolve-GameId $a $index
+      $ok = ($r.matchType -eq "ambiguous") -and ($null -eq $r.gameId)
+      if ($ok) { $pass++ } else { $fail++ }
+      Write-Output ("  [{0}] 共有alias「{1}」(所有 {2} game) -> {3}{4}" -f $(if ($ok) { "PASS" } else { "FAIL" }), $a, $index.normAlias[$nz].Count, $r.matchType, $(if ($r.gameId) { " / $($r.gameId)" } else { "" }))
+      $sharedRows.Add([PSCustomObject]@{ alias = $a; normalized = $nz; owners = $index.normAlias[$nz].Count; actualType = $r.matchType; actualId = $r.gameId; pass = $ok })
+      $rows.Add([PSCustomObject]@{ name = "共有alias: $a"; input = $a; expectType = "ambiguous"; expectId = $null; actualType = $r.matchType; actualId = $r.gameId; pass = $ok })
+    }
+  }
+
+  # ---- alias所有インデックスの単体テスト(合成インデックス) ----
+  #   「生aliasキーでは単独所有だが、正規化すると複数gameが共有している」ケースを
+  #   合成データで再現し、一意確定しないことを確認する。本番データには依存しない。
+  Write-Output ""
+  Write-Output "=== alias所有インデックス 単体テスト(合成データ) ==="
+  function Add-FakeKey($map, [string]$k, [string]$v) {
+    if (-not $map.ContainsKey($k)) { $map[$k] = New-Object 'System.Collections.Generic.HashSet[string]' }
+    [void]$map[$k].Add($v)
+  }
+  $fx = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
+  $fae = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
+  $fnm = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
+  $fna = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
+  $fpm = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
+  $fps = New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
+  # GAME A と GAME B が半角「FF」を共有し、GAME C だけが全角「ＦＦ」を持つ
+  foreach ($n in @("GAME A", "GAME B", "GAME C")) {
+    Add-FakeKey $fx $n $n
+    Add-FakeKey $fnm (Get-GameIdNormalizedText $n) $n
+  }
+  Add-FakeKey $fae "FF" "GAME A"
+  Add-FakeKey $fae "FF" "GAME B"
+  Add-FakeKey $fae "ＦＦ" "GAME C"
+  Add-FakeKey $fna (Get-GameIdNormalizedText "FF") "GAME A"
+  Add-FakeKey $fna (Get-GameIdNormalizedText "FF") "GAME B"
+  Add-FakeKey $fna (Get-GameIdNormalizedText "ＦＦ") "GAME C"
+  $fake = [PSCustomObject]@{ games = @(); exact = $fx; aliasExact = $fae; normalized = $fnm; normAlias = $fna; permuted = $fpm; permutedSrc = $fps }
+  $fakeCases = @(
+    @{ n = "F1. 共有alias(半角)";          input = "FF";      expectType = "ambiguous"; expectId = $null },
+    @{ n = "F2. 共有aliasの全角表記ゆれ";   input = "ＦＦ";    expectType = "ambiguous"; expectId = $null },
+    @{ n = "F3. 正式名は従来どおり優先";    input = "GAME C";  expectType = "exact";     expectId = "GAME C" }
+  )
+  foreach ($c in $fakeCases) {
+    $r = Resolve-GameId $c.input $fake
+    $ok = ($r.matchType -eq $c.expectType) -and ($r.gameId -eq $c.expectId)
+    if ($ok) { $pass++ } else { $fail++ }
+    Write-Output ("  [{0}] {1}: input=`"{2}`" -> {3}{4}" -f $(if ($ok) { "PASS" } else { "FAIL" }), $c.n, $c.input, $r.matchType, $(if ($r.gameId) { " / $($r.gameId)" } else { "" }))
+    if (-not $ok) { Write-Output ("        期待: matchType={0} gameId={1}" -f $c.expectType, $(if ($c.expectId) { "`"$($c.expectId)`"" } else { "(null)" })) }
+    $rows.Add([PSCustomObject]@{ name = $c.n; input = $c.input; expectType = $c.expectType; expectId = $c.expectId; actualType = $r.matchType; actualId = $r.gameId; pass = $ok })
+  }
+
   Write-Output ""
   Write-Output ("PASS: {0}  FAIL: {1}" -f $pass, $fail)
-  $result = [PSCustomObject]@{ pass = $pass; fail = $fail; cases = $rows.ToArray() }
+  $result = [PSCustomObject]@{ pass = $pass; fail = $fail; cases = $rows.ToArray(); sharedAliases = $sharedRows.ToArray() }
 }
 elseif ($Name) {
   $r = Resolve-GameId $Name $index
