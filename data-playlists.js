@@ -78469,6 +78469,58 @@ const PLAYLISTS = [
     videoCount: 5,
     addedDate: "2026-09-19",
   },
+
+  // ---- Game Strategy(ゲーム不足起点探索)による追加 ----
+  {
+    id: "gap798",
+    title: "ゼルダの伝説 TOTK",
+    streamer: "叶",
+    game: "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+    genre: "action",
+    playlistId: "PLXKMRoeWMiAlikTkwC7oyjd5k5GYAABRo",
+    videoCount: 10,
+    addedDate: "2026-09-19",
+  },
+  {
+    id: "gap799",
+    title: "【完結】ゼルダの伝説 BOTW",
+    streamer: "叶",
+    game: "ゼルダの伝説 ブレス オブ ザ ワイルド",
+    genre: "action",
+    playlistId: "PLXKMRoeWMiAkhVgm5OLI1jfR7TvpKNwry",
+    videoCount: 15,
+    addedDate: "2026-09-19",
+  },
+  {
+    id: "gap800",
+    title: "✧星のカービィウルトラスーパーデラックス │ 天宮こころ",
+    streamer: "天宮こころ",
+    game: "星のカービィ スーパーデラックス",
+    genre: "action",
+    playlistId: "PLf_iCnxqBv4iEdrkf2bIuFNcm5Qtyn03v",
+    videoCount: 3,
+    addedDate: "2026-09-19",
+  },
+  {
+    id: "gap801",
+    title: "ゼノブレイドクロス",
+    streamer: "五十嵐梨花",
+    game: "ゼノブレイド",
+    genre: "rpg",
+    playlistId: "PL32352VPrExvn-6IrvQ3yQwhaoYuG88oX",
+    videoCount: 6,
+    addedDate: "2026-09-19",
+  },
+  {
+    id: "gap802",
+    title: "ゼルダの伝説 ~裸ブレワイ~",
+    streamer: "榊ネス",
+    game: "ゼルダの伝説 ブレス オブ ザ ワイルド",
+    genre: "action",
+    playlistId: "PLE8B3Zkgr_v8vC8lw2zInDpVgEStFAdGY",
+    videoCount: 9,
+    addedDate: "2026-09-19",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました

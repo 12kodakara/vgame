@@ -115,6 +115,7 @@ $corePath = Join-Path $scriptDir "data-core.js"
 $playlistsPath = Join-Path $scriptDir "data-playlists.js"
 $discoverScript = Join-Path $scriptDir "discover-playlists.ps1"
 $matchScript = Join-Path $scriptDir "match-playlist-candidates.ps1"
+$filterScript = Join-Path $scriptDir "filter-rejected-playlists.ps1"
 $auditScript = Join-Path $scriptDir "data-audit.ps1"
 $validateScript = Join-Path $scriptDir "validate-data.ps1"
 
@@ -599,11 +600,39 @@ if (-not $totalPlaylistsFound) { $totalPlaylistsFound = 0 }
 #   (既存 match-playlist-candidates.ps1 をそのまま再利用。判定ロジックの
 #    二重実装はしていない)
 # ============================================================
+# ---- 前処理: 人間確認で reject 確定済みのplaylistを入力から間引く ----
+#   判定ロジック(match-playlist-candidates.ps1 / resolve-game-id.ps1)には触れず、
+#   「既知rejectを入力から除く」だけの独立した前処理として適用する。
+#   rejected-playlists.json が無い環境では何も除外せず従来どおり動く。
+$filteredPath = $mergedPath
+$pairRejectPath = Join-Path $cycleDir "rejected-pairs.json"
+if (Test-Path $filterScript) {
+  Write-Output "[STEP4-0] 既知reject playlistを除外しています(前処理)..."
+  $filteredPath = Join-Path $cycleDir "discovered-filtered.json"
+  & powershell.exe -NoProfile -File $filterScript -DiscoveredJson $mergedPath -OutJson $filteredPath -PairReport $pairRejectPath |
+    ForEach-Object { Write-Output ("  " + $_) }
+  if (-not (Test-Path $filteredPath)) { $filteredPath = $mergedPath }
+}
+
 Write-Output "[STEP4-7] match-playlist-candidates.ps1で照合・分類しています..."
 $candidatesJsonPath = Join-Path $cycleDir "candidates.json"
-& powershell.exe -NoProfile -File $matchScript -DiscoveredJson $mergedPath -Json $candidatesJsonPath | Out-Null
+& powershell.exe -NoProfile -File $matchScript -DiscoveredJson $filteredPath -Json $candidatesJsonPath | Out-Null
 $matchReport = Get-Content $candidatesJsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $allCandidates = @($matchReport.candidates)
+
+# ---- 前処理の後段: scope=game-assignment の除外(playlistId+game の組だけ落とす) ----
+#   同じplaylistの別ゲームへの一致は候補として残すため、候補生成後に適用する。
+if (Test-Path $pairRejectPath) {
+  $pairRaw = Get-Content $pairRejectPath -Raw -Encoding UTF8 | ConvertFrom-Json
+  $pairKeys = @{}
+  foreach ($p in @($pairRaw)) { if ($p.playlistId -and $p.game) { $pairKeys["$($p.playlistId)|$($p.game)"] = $true } }
+  if ($pairKeys.Count -gt 0) {
+    $beforePair = $allCandidates.Count
+    $allCandidates = @($allCandidates | Where-Object { -not $pairKeys.ContainsKey("$($_.playlistId)|$($_.game)") })
+    $droppedPair = $beforePair - $allCandidates.Count
+    if ($droppedPair -gt 0) { Write-Output ("  既知reject(ゲーム割当)を候補から除外: {0} 件" -f $droppedPair) }
+  }
+}
 
 # HIGH/MEDIUM/LOW を A(import-ready)/B(manual-review)/C(reject) へ対応付ける。
 # 判定基準を緩める余地を無くすため、A判定は「confidence=HIGHのみ」に限定する
