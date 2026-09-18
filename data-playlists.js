@@ -78303,6 +78303,48 @@ const PLAYLISTS = [
     videoCount: 7,
     addedDate: "2026-09-18",
   },
+
+  // ---- Game Strategy(ゲーム不足起点探索)による追加 ----
+  {
+    id: "gap782",
+    title: "【壺おじさん】実況",
+    streamer: "鈴原るる",
+    game: "壺おじ",
+    genre: "other",
+    playlistId: "PLWvfTqENT0rzDD-SiOCvHmf0VSL_RRd1t",
+    videoCount: 3,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap783",
+    title: "428~封鎖された渋谷で~【完】",
+    streamer: "梢桃音",
+    game: "428",
+    genre: "other",
+    playlistId: "PLnZB0mC8umaCXK7XaBOzR6kgMSchAtP2j",
+    videoCount: 9,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap784",
+    title: "CRAZY TAXI: WORLD TOUR",
+    streamer: "姫森ルーナ",
+    game: "CRAZY TAXI",
+    genre: "racing",
+    playlistId: "PLaxM54eIayXc",
+    videoCount: 1,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap785",
+    title: "夜勤事件",
+    streamer: "姫森ルーナ",
+    game: "夜勤事件",
+    genre: "horror",
+    playlistId: "PL6gUpTCMieF5sUAf8zV6HrbdqWBzjBoCV",
+    videoCount: 1,
+    addedDate: "2026-09-18",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました
