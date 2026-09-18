@@ -78251,6 +78251,58 @@ const PLAYLISTS = [
     videoCount: 3,
     addedDate: "2026-09-17",
   },
+
+  // ---- Game Strategy(ゲーム不足起点探索)による追加 ----
+  {
+    id: "gap777",
+    title: "【完結】🌤️空の軌跡 the 1st🌤️",
+    streamer: "ニュイ・ソシエール",
+    game: "空の軌跡",
+    genre: "rpg",
+    playlistId: "PLCkTosaqp5q3Oj68rOqRDyFJCNEbpJ1tD",
+    videoCount: 11,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap778",
+    title: "【完結】🔺聖剣伝説3 トライアルズオブマナ🔺",
+    streamer: "ニュイ・ソシエール",
+    game: "聖剣伝説3",
+    genre: "rpg",
+    playlistId: "PLCkTosaqp5q25-GFDem8ziZwKXO0VlGPh",
+    videoCount: 6,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap779",
+    title: "トルネコの大冒険 不思議のダンジョン ちょっとステキなリマスター: Dragon Quest Heroes: Torneko's Mystery Dungeon -Classic HD-",
+    streamer: "葉山舞鈴",
+    game: "トルネコの大冒険 不思議のダンジョン",
+    genre: "rpg",
+    playlistId: "PLAOhnf4XynUM",
+    videoCount: 1,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap780",
+    title: "【完】仁王３┊︎Nioh 3",
+    streamer: "葉山舞鈴",
+    game: "仁王3",
+    genre: "action",
+    playlistId: "PLfeoyQHLFPySLJyEkp8n3Pbnn086IAMGK",
+    videoCount: 7,
+    addedDate: "2026-09-18",
+  },
+  {
+    id: "gap781",
+    title: "⋆⸜ 空の軌跡 the 1st ⸝⋆",
+    streamer: "山神カルタ",
+    game: "空の軌跡",
+    genre: "rpg",
+    playlistId: "PLGEeokBkTJrU",
+    videoCount: 7,
+    addedDate: "2026-09-18",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました
