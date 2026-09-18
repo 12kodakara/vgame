@@ -150,6 +150,65 @@ function Get-GameIdNormalizedText([string]$s) {
   return $sb.ToString()
 }
 
+# 語順入れ替え(アナグラム)正規形。
+#   正規化後の文字を序数順に並べ替えた「文字の多重集合」を鍵にする。
+#   構成文字が1文字でも違えば一致しないため、部分一致や編集距離のような
+#   「近いから通す」判定ではなく、あくまで完全一致の一種である。
+#   短い名前は偶然の一致が起きやすいので、下限長に満たないものは鍵を作らない。
+$script:GameIdMinPermutationLength = 8
+function Get-GameIdPermutationKey([string]$s) {
+  $n = Get-GameIdNormalizedText $s
+  if (-not $n) { return "" }
+  if ($n.Length -lt $script:GameIdMinPermutationLength) { return "" }
+  $chars = $n.ToCharArray()
+  [array]::Sort($chars)
+  return (-join $chars)
+}
+
+# 数字・ローマ数字に使われる文字。続編番号/ナンバリングの判別に使う。
+$script:GameIdNumeralChars = "0123456789ivxlcdm"
+# 2つの正規化文字列の、共通する先頭長 $p と末尾長 $t、および相違部分を返す。
+function Get-GameIdDiffRegion([string]$a, [string]$b) {
+  $p = 0
+  while ($p -lt $a.Length -and $p -lt $b.Length -and $a[$p] -ceq $b[$p]) { $p++ }
+  $t = 0
+  while (($t -lt ($a.Length - $p)) -and ($t -lt ($b.Length - $p)) -and ($a[$a.Length - 1 - $t] -ceq $b[$b.Length - 1 - $t])) { $t++ }
+  return [PSCustomObject]@{
+    prefix = $p; suffix = $t
+    da = $a.Substring($p, $a.Length - $p - $t)
+    db = $b.Substring($p, $b.Length - $p - $t)
+  }
+}
+
+function Test-GameIdNumeralOnlyDifference([string]$a, [string]$b) {
+  # 相違部分が数字・ローマ数字だけで構成されているかを調べる。
+  # 例: finalfantasyiv / finalfantasyvi -> 相違部分 "iv" / "vi" は数字のみ -> $true
+  #     FF IV と FF VI は語順入れ替えでは区別できないため、一致させてはいけない。
+  if ($a -ceq $b) { return $false }
+  $d = Get-GameIdDiffRegion $a $b
+  if (-not $d.da -and -not $d.db) { return $false }
+  foreach ($ch in ($d.da + $d.db).ToCharArray()) {
+    if ($script:GameIdNumeralChars.IndexOf([string]$ch, [System.StringComparison]::Ordinal) -lt 0) { return $false }
+  }
+  return $true
+}
+
+# 並べ替えが「局所的」かどうか。
+#   語順入れ替えは本来「タイトルの一部が入れ替わった表記ゆれ」を拾うためのもので、
+#   文字列全体が総入れ替えになっている一致は、意味の近さではなく偶然である可能性が高い。
+#   実例: DELTARUNE と UNDERTALE は構成文字が完全に同じ別作品で、共通の先頭が0文字。
+#   そこで「先頭が一定数一致していること」と「入れ替わらなかった部分が一定割合以上
+#   残っていること」を要求し、全面スクランブルは採用しない。
+$script:GameIdMinPermutationPrefix = 2
+$script:GameIdMinPermutationKeepRatio = 0.40
+function Test-GameIdLocalRearrangement([string]$a, [string]$b) {
+  if ($a.Length -eq 0) { return $false }
+  $d = Get-GameIdDiffRegion $a $b
+  if ($d.prefix -lt $script:GameIdMinPermutationPrefix) { return $false }
+  $keep = ($d.prefix + $d.suffix) / [double]$a.Length
+  return ($keep -ge $script:GameIdMinPermutationKeepRatio)
+}
+
 # ---- インデックス構築 ----
 function Get-GameIdIndex([string]$corePath) {
   $coreText = [System.IO.File]::ReadAllText($corePath, [System.Text.Encoding]::UTF8)
@@ -174,6 +233,7 @@ function Get-GameIdIndex([string]$corePath) {
     return New-Object 'System.Collections.Generic.Dictionary[string,System.Collections.Generic.HashSet[string]]'([StringComparer]::Ordinal)
   }
   $exact = New-OrdinalMap; $aliasExact = New-OrdinalMap; $norm = New-OrdinalMap; $normAlias = New-OrdinalMap
+  $permuted = New-OrdinalMap; $permutedSrc = New-OrdinalMap
   function Add-Key($map, [string]$key, [string]$gameName) {
     if (-not $key) { return }
     if (-not $map.ContainsKey($key)) { $map[$key] = New-Object 'System.Collections.Generic.HashSet[string]' }
@@ -182,10 +242,16 @@ function Get-GameIdIndex([string]$corePath) {
   foreach ($g in $games) {
     Add-Key $exact      $g.name                              $g.name
     Add-Key $norm       (Get-GameIdNormalizedText $g.name)    $g.name
+    # 語順入れ替え鍵は正式名・aliasの両方から作る。permutedSrc にはその鍵を
+    # 生み出した正規化文字列を持たせ、後段の続編番号ガードで使う。
+    Add-Key $permuted    (Get-GameIdPermutationKey $g.name)    $g.name
+    Add-Key $permutedSrc (Get-GameIdPermutationKey $g.name)    (Get-GameIdNormalizedText $g.name)
     foreach ($a in $g.aliases) {
       if (-not $a) { continue }
       Add-Key $aliasExact $a                                 $g.name
       Add-Key $normAlias  (Get-GameIdNormalizedText $a)       $g.name
+      Add-Key $permuted    (Get-GameIdPermutationKey $a)       $g.name
+      Add-Key $permutedSrc (Get-GameIdPermutationKey $a)       (Get-GameIdNormalizedText $a)
     }
   }
   return [PSCustomObject]@{
@@ -194,6 +260,8 @@ function Get-GameIdIndex([string]$corePath) {
     aliasExact = $aliasExact
     normalized = $norm
     normAlias  = $normAlias
+    permuted    = $permuted
+    permutedSrc = $permutedSrc
   }
 }
 
@@ -232,6 +300,42 @@ function Resolve-GameId($candidateGameName, $index) {
       candidateGameName = $candidateGameName
       gameId = $null; matchedName = $null; matchType = "ambiguous"
       confidence = "none"; ambiguous = $true; candidateIds = @($hits | Sort-Object)
+    }
+  }
+
+  # LEVEL 5: 語順入れ替え一致 (permuted-exact)
+  #   LEVEL 1-4 がどれも鍵を持たなかった場合だけ到達する最終手段。
+  #   構成文字が完全に同じで並び順だけが違うものを拾う
+  #   (例:「ゼルダの伝説スカイソードウォード」->「ゼルダの伝説 スカイウォードソード」)。
+  #   次の3条件をすべて満たすときだけ確定させる。
+  #     (a) 正規化後の長さが下限以上   … Get-GameIdPermutationKey が保証
+  #     (b) カタログ全体で該当が1件だけ … 2件以上なら ambiguous で打ち切る
+  #     (c) 相違部分が数字・ローマ数字だけではない … 続編番号の取り違え防止
+  #     (d) 並べ替えが局所的である … 全面スクランブル(偶然のアナグラム)を排除
+  if (@($index.PSObject.Properties.Name) -contains "permuted") {
+    $pkey = Get-GameIdPermutationKey $candidateGameName
+    if ($pkey -and $index.permuted.ContainsKey($pkey)) {
+      $phits = @($index.permuted[$pkey])
+      if ($phits.Count -gt 1) {
+        return [PSCustomObject]@{
+          candidateGameName = $candidateGameName
+          gameId = $null; matchedName = $null; matchType = "ambiguous"
+          confidence = "none"; ambiguous = $true; candidateIds = @($phits | Sort-Object)
+        }
+      }
+      $qn = Get-GameIdNormalizedText $candidateGameName
+      $blocked = $false
+      foreach ($src in @($index.permutedSrc[$pkey])) {
+        if (Test-GameIdNumeralOnlyDifference $qn $src) { $blocked = $true; break }
+        if (-not (Test-GameIdLocalRearrangement $qn $src)) { $blocked = $true; break }
+      }
+      if (-not $blocked) {
+        return [PSCustomObject]@{
+          candidateGameName = $candidateGameName
+          gameId = $phits[0]; matchedName = $phits[0]; matchType = "permuted-exact"
+          confidence = "medium"; ambiguous = $false; candidateIds = @($phits[0])
+        }
+      }
     }
   }
   return $empty
@@ -300,7 +404,20 @@ elseif ($SelfTest) {
     @{ n = "10c. 第3回HOLD候補1の生タイトル"; input = "〖ドラクエV〗";           expectType = "not-found";        expectId = $null },
     @{ n = "10d. 第3回HOLD候補4の指定"; input = "ときめきメモリアル Girl's Side"; expectType = "exact";           expectId = "ときめきメモリアル Girl's Side" },
     @{ n = "10e. 第3回HOLD候補4(空白差)"; input = "ときめきメモリアルGirl's Side"; expectType = "normalized-exact"; expectId = "ときめきメモリアル Girl's Side" },
-    @{ n = "10f. 第3回HOLD候補4の略称"; input = "ときめきメモリアルGS";          expectType = "not-found";        expectId = $null }
+    @{ n = "10f. 第3回HOLD候補4の略称"; input = "ときめきメモリアルGS";          expectType = "not-found";        expectId = $null },
+    # --- LEVEL5 語順入れ替え一致 ---
+    @{ n = "11. 語順入れ替え(今回の候補8)"; input = "ゼルダの伝説スカイソードウォード"; expectType = "permuted-exact"; expectId = "ゼルダの伝説 スカイウォードソード" },
+    @{ n = "11b. 語順入れ替え+空白差";   input = "ゼルダの伝説 スカイ ソード ウォード"; expectType = "permuted-exact"; expectId = "ゼルダの伝説 スカイウォードソード" },
+    @{ n = "11c. 語順入れ替え+全角カナ差"; input = "ゼルダの伝説スカイソードウォード"; expectType = "permuted-exact"; expectId = "ゼルダの伝説 スカイウォードソード" },
+    @{ n = "12. 続編番号ガード(XI vs IX)"; input = "ドラゴンクエストXI";           expectType = "not-found";        expectId = $null },
+    @{ n = "12b. 続編番号ガード(FF語順)"; input = "FANTASY FINAL VI";              expectType = "ambiguous";        expectId = $null },
+    @{ n = "13. 短い名前は語順入れ替え対象外"; input = "すりとて";                  expectType = "not-found";        expectId = $null },
+    @{ n = "14. 語順入れ替えでも一致0件"; input = "存在しないゲーム名ZZZZZZZZ";   expectType = "not-found";        expectId = $null },
+    @{ n = "15. 別ゲームの文字を混ぜた偽名"; input = "ゼルダの伝説スカイウォードソードX"; expectType = "not-found";  expectId = $null },
+    @{ n = "16. 偶然の完全アナグラム(別作品)"; input = "DELTARUNE";                    expectType = "not-found";        expectId = $null },
+    @{ n = "16b. 同上(小文字表記)";      input = "Deltarune";                        expectType = "not-found";        expectId = $null },
+    @{ n = "17. 局所的な並べ替え(語順)";  input = "ドラゴンクエストXI 過ぎ去りし時を求めて S"; expectType = "permuted-exact"; expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
+    @{ n = "18. 局所的な並べ替え(かな入替)"; input = "おにぎり屋さんシュミレーター"; expectType = "permuted-exact"; expectId = "おにぎり屋さんシミュレーター" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

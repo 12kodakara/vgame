@@ -78521,6 +78521,18 @@ const PLAYLISTS = [
     videoCount: 9,
     addedDate: "2026-09-19",
   },
+
+  // ---- Game Strategy(ゲーム不足起点探索)による追加 ----
+  {
+    id: "gap803",
+    title: "ゼルダの伝説スカイソードウォード",
+    streamer: "花畑チャイカ",
+    game: "ゼルダの伝説 スカイウォードソード",
+    genre: "action",
+    playlistId: "PLDtz7RRpQ_7rqeDJ0KFyLWSA1_36Dj2wW",
+    videoCount: 1,
+    addedDate: "2026-09-19",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました
