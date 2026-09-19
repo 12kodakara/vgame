@@ -471,7 +471,21 @@ elseif ($SelfTest) {
     # 複合タイトルは resolver では確定しない(部分一致による自動確定を行わない仕様)。
     # playlist題名からの候補生成は match-playlist-candidates.ps1 側の責務。
     @{ n = "28c. 拡張名を含む複合タイトル";   input = "モンハンサンブレイク";             expectType = "not-found";        expectId = $null },
-    @{ n = "28d. 拡張名を含む複合タイトル2";  input = "ポケモンSV 「ゼロの秘宝」";        expectType = "not-found";        expectId = $null }
+    @{ n = "28d. 拡張名を含む複合タイトル2";  input = "ポケモンSV 「ゼロの秘宝」";        expectType = "not-found";        expectId = $null },
+    # --- 定着した短縮カナ表記(ブレワイ)。単独所有aliasなので一意確定してよい ---
+    @{ n = "29. 短縮カナalias 単独(ブレワイ)"; input = "ブレワイ";                       expectType = "alias-exact";      expectId = "ゼルダの伝説 ブレス オブ ザ ワイルド" },
+    @{ n = "29b. 同上(ひらがな表記)";        input = "ぶれわい";                       expectType = "canonical-alias";  expectId = "ゼルダの伝説 ブレス オブ ザ ワイルド" },
+    @{ n = "29c. 同上(半角カナ表記)";        input = "ﾌﾞﾚﾜｲ";                        expectType = "canonical-alias";  expectId = "ゼルダの伝説 ブレス オブ ザ ワイルド" },
+    @{ n = "29d. 短縮aliasを含む複合タイトル"; input = "ゼルダの伝説 ブレワイ";            expectType = "not-found";        expectId = $null },
+    @{ n = "29e. 短縮alias+ナンバリング";     input = "ブレワイ2";                      expectType = "not-found";        expectId = $null },
+    # --- 英字3文字の略称(BOW)はaliasに登録していないため一致しないこと。
+    #     一般語・別作品名(Rainbow / BOWIE / BOWMAN)に埋もれた誤爆も起きないこと ---
+    @{ n = "30. 未登録の3文字略称(BOW)";     input = "BOW";                           expectType = "not-found";        expectId = $null },
+    @{ n = "30b. 同上(小文字)";              input = "bow";                           expectType = "not-found";        expectId = $null },
+    @{ n = "30c. 一般語(Rainbow)";           input = "Rainbow";                       expectType = "not-found";        expectId = $null },
+    @{ n = "30d. 人名(BOWIE)";               input = "BOWIE";                         expectType = "not-found";        expectId = $null },
+    @{ n = "30e. 一般語(BOWMAN)";            input = "BOWMAN";                        expectType = "not-found";        expectId = $null },
+    @{ n = "30f. bowを含む既存gameは自分自身へ"; input = "Rainbow Six Siege";            expectType = "exact";            expectId = "Rainbow Six Siege" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

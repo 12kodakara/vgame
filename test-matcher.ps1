@@ -93,6 +93,30 @@ $cases = @(
      expectCount = 1; expectTopGame = "Doki Doki Literature Club"; expectTopConf = "HIGH"; expectNoTokens = "dlc" }
   @{ n = "21. コレクションが正式名の一部";    title = "トモダチコレクション 新生活";
      expectCount = 1; expectTopGame = "トモダチコレクション 新生活"; expectTopConf = "HIGH" }
+
+  # --- 定着した短縮カナ表記(ブレワイ)を拾えること ---
+  #     alias一致はHIGHに昇格しない仕様のため、期待値は MEDIUM である。
+  @{ n = "22. 短縮カナalias 単独";            title = "ブレワイ";
+     expectCount = 1; expectTopGame = "ゼルダの伝説 ブレス オブ ザ ワイルド"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "23. 短縮カナalias 装飾付き";        title = "【ブレワイ】";
+     expectCount = 1; expectTopGame = "ゼルダの伝説 ブレス オブ ザ ワイルド" }
+  # 総称game「ゼルダの伝説」も同時に一致するため ambiguous になるが、
+  # 正解が候補に含まれること自体が改善点なので、そこを固定する。
+  @{ n = "24. 総称名と併記(ambiguous)";       title = "ゼルダの伝説 ブレワイ";
+     expectAmbiguous = $true; expectContainsGame = "ゼルダの伝説 ブレス オブ ザ ワイルド" }
+
+  # --- 英字3文字「BOW」はaliasに登録していないため、一般語・人名・別作品名から
+  #     切り出されて誤一致しないこと(監査で D 判定にした表記) ---
+  @{ n = "25. 未登録の3文字略称は一致しない"; title = "BOW";
+     expectCount = 0 }
+  @{ n = "26. 一般語Rainbowから切り出さない"; title = "Rainbow";
+     expectCount = 0 }
+  @{ n = "27. 人名BOWIEから切り出さない";     title = "BOWIE";
+     expectCount = 0 }
+  @{ n = "28. 一般語BOWMANから切り出さない";  title = "BOWMAN 実況";
+     expectCount = 0 }
+  @{ n = "29. bowを含む既存gameは自分自身へ"; title = "Rainbow Six Siege";
+     expectCount = 1; expectTopGame = "Rainbow Six Siege"; expectTopConf = "HIGH"; expectNotGame = "ゼルダの伝説 ブレス オブ ザ ワイルド" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
@@ -152,6 +176,9 @@ try {
     if ($c.ContainsKey("expectTopConf") -and $top -and $top.confidence -ne $c.expectTopConf) { $problems.Add("top confidence 期待$($c.expectTopConf) 実際$($top.confidence)") }
     if ($c.ContainsKey("expectAmbiguous") -and $top -and [bool]$top.ambiguousMatch -ne [bool]$c.expectAmbiguous) { $problems.Add("ambiguousMatch 期待$($c.expectAmbiguous) 実際$($top.ambiguousMatch)") }
     if ($c.ContainsKey("expectNotGame") -and (@($got | Where-Object { $_.game -eq $c.expectNotGame }).Count -gt 0)) { $problems.Add("含まれてはいけないgame「$($c.expectNotGame)」が候補にある") }
+    # ambiguous になる想定のケースでは top が一意に決まらないため、
+    # 「正解が候補集合に含まれていること」だけを固定できるようにする。
+    if ($c.ContainsKey("expectContainsGame") -and (@($got | Where-Object { $_.game -eq $c.expectContainsGame }).Count -eq 0)) { $problems.Add("候補に含まれるべきgame「$($c.expectContainsGame)」がない") }
     if ($c.ContainsKey("expectTokens") -and $c.expectTokens -ne "") {
       foreach ($t in ($c.expectTokens -split ',')) { $t = $t.Trim(); if ($t -and ($tokens -notcontains $t)) { $problems.Add("版語クラス「$t」が検出されていない") } }
     }
