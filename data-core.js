@@ -1169,7 +1169,7 @@ const GAMES = [
   { name: "メイドインワリオ", kana: "めいどいんわりお", series: "" },
   { name: "メグとばけもの", kana: "めぐとばけもの", series: "" },
   { name: "メタルギアソリッド", kana: "めたるぎあそりっど", aliases: ["MGS"], series: "メタルギアソリッドシリーズ" },
-  { name: "メタルギアソリッド2 サンズ・オブ・リバティ", kana: "めたるぎあそりっどつーさんずおぶりばてぃ", aliases: ["MGS", "METAL GEAR SOLID 2"], series: "メタルギアソリッドシリーズ" },
+  { name: "メタルギアソリッド2 サンズ・オブ・リバティ", kana: "めたるぎあそりっどつーさんずおぶりばてぃ", aliases: ["MGS", "METAL GEAR SOLID 2", "メタルギアソリッド2"], series: "メタルギアソリッドシリーズ" },
   { name: "メタルギアソリッドシリーズ", kana: "めたるぎあそりっどしりーず", aliases: ["MGS"], series: "メタルギアソリッドシリーズ" },
   { name: "めっちゃカメレオン", kana: "めっちゃかめれおん", series: "" },
   { name: "メンヘラフレシア", kana: "めんへらふれしあ", series: "" },
