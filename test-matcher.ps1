@@ -142,6 +142,20 @@ $cases = @(
      expectCount = 1; expectTopGame = "プロジェクトセカイ"; expectTopConf = "HIGH" }
   @{ n = "39. 数字が続く場合は切り出さない";  title = "プロセカ2";
      expectCount = 0 }
+
+  # --- 作品略称 ポケモンZA。alias一致はHIGHに昇格しないため期待値は MEDIUM ---
+  @{ n = "40. 作品略称alias 単独";            title = "ポケモンZA";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "41. 括弧付き";                      title = "【ポケモンZA】";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "MEDIUM" }
+  @{ n = "42. ZA単独は切り出さない";          title = "ZA";
+     expectCount = 0 }
+  @{ n = "43. ポケモンSVには効かない";        title = "ポケモンSV";
+     expectNotGame = "Pokémon LEGENDS Z-A" }
+  @{ n = "44. アルセウス正式名は従来どおりHIGH"; title = "Pokémon LEGENDS アルセウス";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "HIGH"; expectNotGame = "Pokémon LEGENDS Z-A" }
+  @{ n = "45. Z-A正式名は従来どおりHIGH";     title = "Pokémon LEGENDS Z-A";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "HIGH" }
 )
 
 # ---- 合成入力を作って matcher に通す ----

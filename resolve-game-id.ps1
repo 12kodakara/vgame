@@ -501,7 +501,17 @@ elseif ($SelfTest) {
     @{ n = "32d. 正式名は従来どおり";         input = "プロジェクトセカイ";            expectType = "exact";            expectId = "プロジェクトセカイ" },
     @{ n = "32e. 数字が続く場合は一致しない"; input = "プロセカ2";                     expectType = "not-found";        expectId = $null },
     # 英語表記は alias 未登録のため既存どおり not-found。今回の追加で挙動が変わらないことを固定する
-    @{ n = "32f. 英語表記は既存どおり";       input = "Project Sekai";                 expectType = "not-found";        expectId = $null }
+    @{ n = "32f. 英語表記は既存どおり";       input = "Project Sekai";                 expectType = "not-found";        expectId = $null },
+    # --- 作品固有の略称 ポケモンZA。「ZA」「Z-A」単独や他のポケモン作品には効かないこと ---
+    @{ n = "33. 作品略称alias 単独(ポケモンZA)"; input = "ポケモンZA";                   expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "33b. 同上(空白入り)";             input = "ポケモン ZA";                   expectType = "canonical-alias";  expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "33c. 複合タイトルは確定しない";   input = "ポケモンZA実況";                expectType = "not-found";        expectId = $null },
+    @{ n = "33d. ZA単独は解決しない";         input = "ZA";                            expectType = "not-found";        expectId = $null },
+    @{ n = "33e. Z-A単独は解決しない";        input = "Z-A";                           expectType = "not-found";        expectId = $null },
+    @{ n = "33f. ポケモンZは解決しない";      input = "ポケモンZ";                     expectType = "not-found";        expectId = $null },
+    @{ n = "33g. ポケモンSVは変化しない";     input = "ポケモンSV";                    expectType = "not-found";        expectId = $null },
+    @{ n = "33h. アルセウスは既存どおり";     input = "Pokémon LEGENDS アルセウス";    expectType = "exact";            expectId = "Pokémon LEGENDS アルセウス" },
+    @{ n = "33i. Z-A正式名は既存どおり";      input = "Pokémon LEGENDS Z-A";           expectType = "exact";            expectId = "Pokémon LEGENDS Z-A" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
