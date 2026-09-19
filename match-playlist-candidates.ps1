@@ -305,6 +305,71 @@ foreach ($obj in $playlistObjs) {
   if ($g) { if (-not $gamePlaylistCount.ContainsKey($g)) { $gamePlaylistCount[$g] = 0 }; $gamePlaylistCount[$g] = $gamePlaylistCount[$g] + 1 }
 }
 
+# ---- 版語(版・派生・集約を示す語)の辞書 ----
+#   Normalize-SearchText 後の表記で定義する(NFKC -> カタカナはひらがな -> 小文字 -> 空白除去)。
+#   同じ意味の別表記は1つのクラスにまとめる。クラスにまとめる理由:
+#   「マリオカート8DX」(title) と「マリオカート8 デラックス」(登録名) のように、
+#   同じ版を指しながら表記が違うものを同一視できないと、正しい既存判定まで
+#   manual-review へ落としてしまうため。
+# 原則B(版語があるのに裏付けが無ければHIGHに上げない)の対象外とするクラス。
+#   拡張/DLC は「本編gameへ統合する」のが既存の運用規則で、既存17件に例外がない。
+#   DLC語があることを理由に HIGH を落とすと、その正しい運用まで人間確認へ送ってしまう。
+$script:EditionClassesExemptFromCap = @("dlc")
+
+$script:EditionTokenClasses = [ordered]@{
+  remake     = @("りめいく", "remake")
+  remaster   = @("りますたー", "りますたーど", "remaster", "remastered")
+  hd2d       = @("hd-2d", "hd2d")
+  hd         = @("hd")
+  dx         = @("dx", "deluxe", "でらっくす")
+  definitive = @("definitive")
+  dlc        = @("dlc", "expansion", "拡張", "追加こんてんつ")
+  collection = @("collection", "これくしょん", "selection", "せれくしょん", "trilogy", "とりろじー", "anthology", "合集", "三部作")
+  aggregate  = @("i・ii", "i&ii", "i・ii・iii", "1・2", "1&2", "1+2", "1.5+2.5", "123", "456")
+}
+
+# 版語のうち ASCII の英数字・記号だけで構成されるものは、長い語の一部を切り出した
+# だけの誤検知が起きやすい。前後の文字も見て境界を確かめる。
+#   例: 「ドキドキ文芸部(DDLC)」の "ddlc" から "dlc" を切り出してはいけない
+#       「beatmania IIDX」の "iidx" から "dx" を切り出してはいけない
+#   一方「マリオカート8dx」の "8dx" は直前が数字なので "dx" として認めてよい。
+function Test-EditionTokenPresent([string]$haystack, [string]$token) {
+  if (-not $haystack -or -not $token) { return $false }
+  $asciiOnly = ($token -match '^[a-z0-9\-\+\.&]+$')
+  $hasDigit = ($token -match '[0-9]')
+  $idx = $haystack.IndexOf($token)
+  while ($idx -ge 0) {
+    $ok = $true
+    if ($asciiOnly) {
+      if ($idx -gt 0) {
+        $p = $haystack[$idx - 1]
+        if ($p -ge "a" -and $p -le "z") { $ok = $false }
+        if ($ok -and $hasDigit -and $p -ge "0" -and $p -le "9") { $ok = $false }
+      }
+      $e = $idx + $token.Length
+      if ($ok -and $e -lt $haystack.Length) {
+        $n = $haystack[$e]
+        if ($n -ge "a" -and $n -le "z") { $ok = $false }
+        if ($ok -and $hasDigit -and $n -ge "0" -and $n -le "9") { $ok = $false }
+      }
+    }
+    if ($ok) { return $true }
+    $idx = $haystack.IndexOf($token, $idx + 1)
+  }
+  return $false
+}
+
+# 正規化済みテキストに含まれる版語クラスの集合を返す。
+function Get-EditionClasses([string]$normText) {
+  $set = New-Object 'System.Collections.Generic.HashSet[string]'
+  if (-not $normText) { return $set }
+  foreach ($cls in $script:EditionTokenClasses.Keys) {
+    foreach ($tok in $script:EditionTokenClasses[$cls]) {
+      if (Test-EditionTokenPresent $normText $tok) { [void]$set.Add($cls); break }
+    }
+  }
+  return $set
+}
 # ---- 突き合わせ用のゲーム名候補(name + aliases。短すぎる名前は除外) ----
 $matchTargets = New-Object System.Collections.Generic.List[object]
 foreach ($o in $gameObjs) {
@@ -327,6 +392,23 @@ foreach ($o in $gameObjs) {
 }
 # 長い一致を優先して誤検知を減らすため、突き合わせ文字列が長い順に並べる
 $matchTargets = @($matchTargets | Sort-Object { $_.matchText.Length } -Descending)
+
+# ---- 各ゲームが name / aliases のどこかに持っている版語クラス ----
+#   「版語がタイトルにあるとき、その版を明示しているゲームはどれか」を判定するための表。
+#   aliases に版固有語が登録されている場合(例: モンスターハンターライズ の「サンブレイク」)も
+#   正当な根拠として扱えるように、name と aliases の両方から集める。
+$gameEditionClasses = @{}
+foreach ($o in $gameObjs) {
+  $gn = Field $o "name"
+  if (-not $gn) { continue }
+  $set = New-Object 'System.Collections.Generic.HashSet[string]'
+  foreach ($txt in (@($gn) + @(FieldArray $o "aliases"))) {
+    if (-not $txt) { continue }
+    # 版語の境界判定に空白が必要なため、空白を保持した正規化(collapsed)を使う
+    foreach ($c in (Get-EditionClasses (Build-MatchText $txt).collapsed)) { [void]$set.Add($c) }
+  }
+  $gameEditionClasses[$gn] = $set
+}
 
 # ---- 識別力チェック(第4回データ拡充で追加) ----
 # あるゲーム名が、別の登録済みゲーム名の一部になっている場合、
@@ -384,10 +466,16 @@ foreach ($entry in $discovered) {
     $titleMatches = New-Object System.Collections.Generic.List[object]
     $matchedGames = @{}
     foreach ($t in $matchTargets) {
-      if ($matchedGames.ContainsKey($t.gameName)) { continue } # 同じゲームへの重複一致は1回だけ記録
-      if (Test-BoundaryMatch $normTitle $t.matchText) {
-        $matchedGames[$t.gameName] = $true
-        $titleMatches.Add([PSCustomObject]@{
+      if (-not (Test-BoundaryMatch $normTitle $t.matchText)) { continue }
+      if ($matchedGames.ContainsKey($t.gameName)) {
+        # 同じゲームに2つ目以降の根拠が当たった場合、判定の強さ(via/境界)は最初に
+        # 記録した最長一致のものを保つが、「根拠」としては全部ためておく。
+        # 後段で「どのゲームがより具体的に一致しているか」を根拠集合の包含関係から判定する。
+        [void]$matchedGames[$t.gameName].evidences.Add($t.matchText)
+        continue
+      }
+      if ($true) {
+        $rec = [PSCustomObject]@{
           game = $t.gameName
           via = $(if ($t.isAlias) { "alias" } else { "name" })
           isUmbrella = $t.isUmbrella
@@ -398,10 +486,72 @@ foreach ($entry in $discovered) {
           cleanBoundary = (Test-CleanBoundaryMatch $titleCtx $t.matchText)
           # より具体的な登録名の一部にあたるゲーム名かどうか
           nonDiscriminative = $nonDiscriminativeGames.ContainsKey($t.gameName)
-        })
+          # このゲームに当たった突き合わせ文字列(name / alias)の集合
+          evidences = (New-Object System.Collections.Generic.List[string])
+        }
+        [void]$rec.evidences.Add($t.matchText)
+        $matchedGames[$t.gameName] = $rec
+        $titleMatches.Add($rec)
       }
     }
     if ($titleMatches.Count -eq 0) { continue }
+
+    # ---- A-2: 版語と根拠の具体性で候補を絞る ----
+    #   原則A: タイトルの版語が候補ゲームの name / aliases に明示されている場合、
+    #          その一致は正当な強い根拠として扱い、版語を理由に落とさない。
+    #   原則B: タイトルに版語があるのに、どの候補もその版を明示していない場合は
+    #          自動確定させない(HIGHへ上げない)。
+    #   原則C: 複数の根拠が同じゲームへ収束している場合は ambiguous にしない。
+    #          ただし根拠が増えただけで confidence を無条件に上げることはしない。
+    #   原則D: 別ゲームが複数残る場合は従来どおり ambiguous のまま。
+    # タイトル側も空白を保持した collapsed で判定する(理由は $gameEditionClasses と同じ)
+    $titleEditionClasses = Get-EditionClasses $titleCtx.collapsed
+    foreach ($tm in $titleMatches) {
+      $backed = $false
+      if ($titleEditionClasses.Count -gt 0 -and $gameEditionClasses.ContainsKey($tm.game)) {
+        foreach ($c in $titleEditionClasses) { if ($gameEditionClasses[$tm.game].Contains($c)) { $backed = $true; break } }
+      }
+      $tm | Add-Member -NotePropertyName editionBacked -NotePropertyValue $backed -Force
+    }
+    $preferredGame = $null
+    $preferredBy = ""
+    if ($titleMatches.Count -gt 1) {
+      # 原則A: 版語の裏付けを持つ候補を優先する。
+      #   複数の候補が裏付けを持つ場合は「タイトルの版語クラスをより多く満たす」方が
+      #   具体的なので、被覆数が唯一最大の候補だけを採用する。同数で並ぶ場合は
+      #   どちらとも決められないため従来どおり ambiguous のままにする(原則D)。
+      $backedGames = @($titleMatches | Where-Object { $_.editionBacked })
+      if ($backedGames.Count -ge 1) {
+        $bestCover = -1; $bestGame = $null; $bestTied = $false
+        foreach ($bg in $backedGames) {
+          $cover = 0
+          foreach ($c in $titleEditionClasses) { if ($gameEditionClasses[$bg.game].Contains($c)) { $cover++ } }
+          if ($cover -gt $bestCover) { $bestCover = $cover; $bestGame = $bg.game; $bestTied = $false }
+          elseif ($cover -eq $bestCover) { $bestTied = $true }
+        }
+        if (-not $bestTied -and $bestGame) {
+          $preferredGame = $bestGame
+          $preferredBy = "edition-token"
+        }
+      }
+      if (-not $preferredGame -and $backedGames.Count -eq 0) {
+        # 原則C: 根拠集合が他候補すべてを包含し、かつ自身が追加の根拠を持つ候補を優先する
+        foreach ($cand in $titleMatches) {
+          $isDominant = $true
+          foreach ($other in $titleMatches) {
+            if ($other.game -eq $cand.game) { continue }
+            if ($cand.evidences.Count -le $other.evidences.Count) { $isDominant = $false; break }
+            foreach ($ev in $other.evidences) { if (-not $cand.evidences.Contains($ev)) { $isDominant = $false; break } }
+            if (-not $isDominant) { break }
+          }
+          if ($isDominant) { $preferredGame = $cand.game; $preferredBy = "evidence-subsumption"; break }
+        }
+      }
+    }
+    # 原則B の適用条件: タイトルに版語があるのに裏付け候補が1件も無い
+    # 原則B の判定では、上限対象外クラス(拡張/DLC)だけの場合はキャップしない
+    $capClasses = @($titleEditionClasses | Where-Object { $script:EditionClassesExemptFromCap -notcontains $_ })
+    $editionUnbacked = ($capClasses.Count -gt 0) -and ((@($titleMatches | Where-Object { $_.editionBacked })).Count -eq 0)
 
     $isNonGame = $false
     foreach ($kw in $nonGameKeywords) {
@@ -409,9 +559,12 @@ foreach ($entry in $discovered) {
     }
 
     foreach ($m in $titleMatches) {
+      # 優先候補が決まった場合、具体性で劣る候補は候補一覧から落とす
+      # (落とした側は優先候補の otherMatches に残るので追跡できる)
+      if ($preferredGame -and $m.game -ne $preferredGame) { continue }
       if ($GapOnly -and $m.currentPlaylistCount -ge 2) { continue }
       $seq++
-      $ambiguous = ($titleMatches.Count -gt 1)
+      $ambiguous = ($titleMatches.Count -gt 1) -and (-not $preferredGame)
       # itemCount=0(空のplaylist)は、第1サイクルの本番反映確認で「投入対象外」と
       # 判定した既存の品質ルールをここに反映する(HIGHに昇格させない)。
       $isEmpty = ($null -ne $pl.itemCount -and [int]$pl.itemCount -eq 0)
@@ -431,6 +584,9 @@ foreach ($entry in $discovered) {
         elseif ($m.nonDiscriminative) { "MEDIUM" }
         elseif ($m.via -eq "alias") { "MEDIUM" }
         else { "HIGH" }
+      # 原則B: タイトルが版を主張しているのにカタログ側がその版を区別していない場合、
+      #        自動確定させず人間確認へ送る(HIGH には上げない)。
+      if ($editionUnbacked -and $confidence -eq "HIGH") { $confidence = "MEDIUM" }
       $results.Add([PSCustomObject][ordered]@{
         candidateId    = "match-" + $seq.ToString("D4")
         streamer       = $streamer
@@ -454,6 +610,10 @@ foreach ($entry in $discovered) {
         cleanBoundary       = $m.cleanBoundary
         weakBoundaryMatch   = $weakBoundary
         nonDiscriminativeName = $m.nonDiscriminative
+        editionTokens  = @($titleEditionClasses | Sort-Object)
+        editionBacked  = $m.editionBacked
+        preferredBy    = $preferredBy
+        matchEvidence  = @($m.evidences)
         warning        = $(
           $w = @()
           if ($weakBoundary) { $w += "部分一致です(一致箇所の隣が漢字/英数字。より長い別タイトルの一部の可能性)" }
