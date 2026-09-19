@@ -130,6 +130,18 @@ $cases = @(
      expectCount = 0 }
   @{ n = "34. シーズン表記から切り出さない";  title = "APEXS12";
      expectCount = 0 }
+
+  # --- 定着した略称 プロセカ を拾えること。alias一致はHIGHに昇格しないため期待値は MEDIUM ---
+  @{ n = "35. 略称alias を含む通常タイトル";  title = "【音ゲー】プロセカ";
+     expectCount = 1; expectTopGame = "プロジェクトセカイ"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "36. 略称alias 単独";                title = "プロセカ";
+     expectCount = 1; expectTopGame = "プロジェクトセカイ"; expectTopConf = "MEDIUM" }
+  @{ n = "37. 正式名は従来どおりHIGH";        title = "プロジェクトセカイ";
+     expectCount = 1; expectTopGame = "プロジェクトセカイ"; expectTopConf = "HIGH" }
+  @{ n = "38. 英語併記の既存正常表記を壊さない"; title = "Project Sekai・プロジェクトセカイ";
+     expectCount = 1; expectTopGame = "プロジェクトセカイ"; expectTopConf = "HIGH" }
+  @{ n = "39. 数字が続く場合は切り出さない";  title = "プロセカ2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

@@ -493,7 +493,15 @@ elseif ($SelfTest) {
     @{ n = "31d. 同上(全角)";                 input = "ＡＰＥＸ";                       expectType = "canonical-alias";  expectId = "Apex Legends" },
     @{ n = "31e. 正式名は従来どおり";         input = "Apex Legends";                  expectType = "exact";            expectId = "Apex Legends" },
     @{ n = "31f. 数字が続く場合は一致しない"; input = "APEX2";                         expectType = "not-found";        expectId = $null },
-    @{ n = "31g. 英字が続く場合は一致しない"; input = "apexpredator";                  expectType = "not-found";        expectId = $null }
+    @{ n = "31g. 英字が続く場合は一致しない"; input = "apexpredator";                  expectType = "not-found";        expectId = $null },
+    # --- 定着した略称 プロセカ。表記ゆれは正規化で吸収されるため alias は1件だけ登録する ---
+    @{ n = "32. 定着した略称alias 単独(プロセカ)"; input = "プロセカ";                    expectType = "alias-exact";      expectId = "プロジェクトセカイ" },
+    @{ n = "32b. 同上(ひらがな)";             input = "ぷろせか";                      expectType = "canonical-alias";  expectId = "プロジェクトセカイ" },
+    @{ n = "32c. 同上(半角カナ)";             input = "ﾌﾟﾛｾｶ";                       expectType = "canonical-alias";  expectId = "プロジェクトセカイ" },
+    @{ n = "32d. 正式名は従来どおり";         input = "プロジェクトセカイ";            expectType = "exact";            expectId = "プロジェクトセカイ" },
+    @{ n = "32e. 数字が続く場合は一致しない"; input = "プロセカ2";                     expectType = "not-found";        expectId = $null },
+    # 英語表記は alias 未登録のため既存どおり not-found。今回の追加で挙動が変わらないことを固定する
+    @{ n = "32f. 英語表記は既存どおり";       input = "Project Sekai";                 expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

@@ -445,7 +445,7 @@ const GAMES = [
   { name: "バイオハザード HDリマスター", kana: "ばいおはざーどえいちでぃーりますたー", series: "バイオハザードシリーズ" },
   { name: "バイオハザード レクイエム", kana: "ばいおはざーどれくいえむ", series: "バイオハザードシリーズ" },
   { name: "ファッションドリーマー", kana: "ふぁっしょんどりーまー", series: "" },
-  { name: "プロジェクトセカイ", kana: "ぷろじぇくとせかい", series: "" },
+  { name: "プロジェクトセカイ", kana: "ぷろじぇくとせかい", aliases: ["プロセカ"], series: "" },
   { name: "ポケモンカードゲーム Pokémon Trading Card Game Pocket", kana: "ぽけもんかーどげーむぽけっと", series: "ポケモンシリーズ" },
   { name: "マリオストーリー", kana: "まりおすとーりー", series: "マリオシリーズ" },
   { name: "ヨッシーとフカシギの図鑑", kana: "よっしーとふかしぎのずかん", series: "" },
