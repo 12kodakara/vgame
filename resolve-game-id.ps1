@@ -485,7 +485,15 @@ elseif ($SelfTest) {
     @{ n = "30c. 一般語(Rainbow)";           input = "Rainbow";                       expectType = "not-found";        expectId = $null },
     @{ n = "30d. 人名(BOWIE)";               input = "BOWIE";                         expectType = "not-found";        expectId = $null },
     @{ n = "30e. 一般語(BOWMAN)";            input = "BOWMAN";                        expectType = "not-found";        expectId = $null },
-    @{ n = "30f. bowを含む既存gameは自分自身へ"; input = "Rainbow Six Siege";            expectType = "exact";            expectId = "Rainbow Six Siege" }
+    @{ n = "30f. bowを含む既存gameは自分自身へ"; input = "Rainbow Six Siege";            expectType = "exact";            expectId = "Rainbow Six Siege" },
+    # --- 英字略称 APEX。大文字小文字・全角半角は正規化で吸収されるため alias は1件だけ登録する ---
+    @{ n = "31. 英字略称alias 単独(APEX)";    input = "APEX";                          expectType = "alias-exact";      expectId = "Apex Legends" },
+    @{ n = "31b. 同上(小文字)";               input = "apex";                          expectType = "canonical-alias";  expectId = "Apex Legends" },
+    @{ n = "31c. 同上(先頭大文字)";           input = "Apex";                          expectType = "canonical-alias";  expectId = "Apex Legends" },
+    @{ n = "31d. 同上(全角)";                 input = "ＡＰＥＸ";                       expectType = "canonical-alias";  expectId = "Apex Legends" },
+    @{ n = "31e. 正式名は従来どおり";         input = "Apex Legends";                  expectType = "exact";            expectId = "Apex Legends" },
+    @{ n = "31f. 数字が続く場合は一致しない"; input = "APEX2";                         expectType = "not-found";        expectId = $null },
+    @{ n = "31g. 英字が続く場合は一致しない"; input = "apexpredator";                  expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

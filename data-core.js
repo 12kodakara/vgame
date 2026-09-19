@@ -565,7 +565,7 @@ const GAMES = [
   { name: "Minecraft", kana: "まいんくらふと", aliases: ["マイクラ", "マインクラフト"], series: "" },
   { name: "ドラゴンボールZ カカロット", kana: "どらごんぼーるぜっとかかろっと", series: "" },
   { name: "7 Days to Die", kana: "せぶんでいずとぅだい", series: "" },
-  { name: "Apex Legends", kana: "えーぺっくすれじぇんず", series: "" },
+  { name: "Apex Legends", kana: "えーぺっくすれじぇんず", aliases: ["APEX"], series: "" },
   { name: "ARK: Survival Ascended", kana: "あーくさばいばるあせんでっど", series: "" },
   { name: "ARMORED CORE VI FIRES OF RUBICON", kana: "あーまーどこあしっくすふぁいやーずおぶるびこん", series: "フロムソフトウェアのゲーム" },
   { name: "BLEACH Rebirth of Souls", kana: "ぶりーちりばーすおぶそうるず", series: "" },

@@ -117,6 +117,19 @@ $cases = @(
      expectCount = 0 }
   @{ n = "29. bowを含む既存gameは自分自身へ"; title = "Rainbow Six Siege";
      expectCount = 1; expectTopGame = "Rainbow Six Siege"; expectTopConf = "HIGH"; expectNotGame = "ゼルダの伝説 ブレス オブ ザ ワイルド" }
+
+  # --- 英字略称 APEX を拾えること。alias一致はHIGHに昇格しないため期待値は MEDIUM ---
+  @{ n = "30. 英字略称alias 単独(APEX)";      title = "APEX";
+     expectCount = 1; expectTopGame = "Apex Legends"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "31. 装飾付きの英字略称";            title = "🔫APEX🔫";
+     expectCount = 1; expectTopGame = "Apex Legends" }
+  @{ n = "32. 正式名は従来どおりHIGH";        title = "Apex Legends";
+     expectCount = 1; expectTopGame = "Apex Legends"; expectTopConf = "HIGH" }
+  # 一般英単語の複合語やシーズン表記からは切り出さない(境界ガードの確認)
+  @{ n = "33. 複合語から切り出さない";        title = "apexpredator";
+     expectCount = 0 }
+  @{ n = "34. シーズン表記から切り出さない";  title = "APEXS12";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
