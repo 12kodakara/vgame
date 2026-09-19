@@ -156,6 +156,14 @@ $cases = @(
      expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "HIGH"; expectNotGame = "Pokémon LEGENDS Z-A" }
   @{ n = "45. Z-A正式名は従来どおりHIGH";     title = "Pokémon LEGENDS Z-A";
      expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "HIGH" }
+
+  # --- F2: 同じ長さの name と alias が同時に当たる場合、GAMES の並び順に関係なく name として記録する ---
+  @{ n = "46. F2 name と alias の正規化結果が同一"; title = "SILENT HILL 2 リメイク";
+     expectCount = 1; expectTopGame = "SILENT HILL 2 リメイク"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "47. F2 alias表記でも正規化後が正式名と同一"; title = "SILENT HILL2リメイク";
+     expectCount = 1; expectTopGame = "SILENT HILL 2 リメイク"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "48. F2 alias だけの一致は従来どおりMEDIUM"; title = "Silent Hill 2 Remake";
+     expectCount = 1; expectTopGame = "SILENT HILL 2 リメイク"; expectTopConf = "MEDIUM"; expectVia = "alias" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
@@ -214,6 +222,7 @@ try {
     }
     if ($c.ContainsKey("expectTopConf") -and $top -and $top.confidence -ne $c.expectTopConf) { $problems.Add("top confidence 期待$($c.expectTopConf) 実際$($top.confidence)") }
     if ($c.ContainsKey("expectAmbiguous") -and $top -and [bool]$top.ambiguousMatch -ne [bool]$c.expectAmbiguous) { $problems.Add("ambiguousMatch 期待$($c.expectAmbiguous) 実際$($top.ambiguousMatch)") }
+    if ($c.ContainsKey("expectVia") -and $top -and $top.matchVia -ne $c.expectVia) { $problems.Add("matchVia 期待$($c.expectVia) 実際$($top.matchVia)") }
     if ($c.ContainsKey("expectNotGame") -and (@($got | Where-Object { $_.game -eq $c.expectNotGame }).Count -gt 0)) { $problems.Add("含まれてはいけないgame「$($c.expectNotGame)」が候補にある") }
     # ambiguous になる想定のケースでは top が一意に決まらないため、
     # 「正解が候補集合に含まれていること」だけを固定できるようにする。
@@ -240,6 +249,80 @@ try {
       pass = $ok; problems = $problems.ToArray()
     })
   }
+
+  # ---- F2: GAMES の並び順を変えても判定が変わらないこと ----
+  # data-core.js の GAMES エントリ(と各エントリ内の aliases)の並びだけを変えた複製を作り、
+  # 同じ合成入力で matcher を実行して、全ケースの判定が元の並びと完全に一致することを確かめる。
+  # シャッフルは固定seedのみ使う(実行ごとに結果が変わるテストにしない)。
+  $sigOf = {
+    param($list)
+    $map = @{}
+    foreach ($c in $cases) {
+      $plid = $idOf[$c.n]
+      $map[$c.n] = (@($list | Where-Object { $_.playlistId -eq $plid } | ForEach-Object {
+        "{0}|{1}|{2}|{3}|{4}|{5}|{6}" -f $_.game, $_.confidence, $_.matchVia, $_.ambiguousMatch, $_.exactTitle, $_.cleanBoundary, $_.preferredBy
+      }) | Sort-Object) -join " ; "
+    }
+    $map
+  }
+  $baseSig = & $sigOf $cands
+  $coreLines = $coreText -split "`r?`n"
+  $gStart = -1; $gEnd = -1
+  for ($k = 0; $k -lt $coreLines.Count; $k++) {
+    if ($gStart -lt 0 -and $coreLines[$k].StartsWith("const GAMES = [")) { $gStart = $k; continue }
+    if ($gStart -ge 0 -and $coreLines[$k] -match '^\];') { $gEnd = $k; break }
+  }
+  $slots = @(for ($k = $gStart + 1; $k -lt $gEnd; $k++) { if ($coreLines[$k] -match '^\s*\{ name: "') { $k } })
+  $entries = @($slots | ForEach-Object { $coreLines[$_] })
+  $reorderAliases = {
+    param([string]$line, [scriptblock]$fn)
+    $am = [regex]::Match($line, 'aliases: \[([^\]]*)\]')
+    if (-not $am.Success) { return $line }
+    $items = @([regex]::Matches($am.Groups[1].Value, '"(?:[^"\\]|\\.)*"') | ForEach-Object { $_.Value })
+    if ($items.Count -lt 2) { return $line }
+    $line.Replace($am.Value, "aliases: [" + ((& $fn $items) -join ", ") + "]")
+  }
+  $seededShuffle = {
+    param($arr, [int]$seed)
+    $a = @($arr); $rnd = New-Object System.Random $seed
+    for ($k = $a.Count - 1; $k -gt 0; $k--) { $j = $rnd.Next($k + 1); $tmp = $a[$k]; $a[$k] = $a[$j]; $a[$j] = $tmp }
+    , $a
+  }
+  $nameOf = { param($l) [regex]::Match($l, 'name: "((?:[^"\\]|\\.)*)"').Groups[1].Value }
+  $nameSorted = [string[]]$entries.Clone()
+  [Array]::Sort([string[]]@($nameSorted | ForEach-Object { & $nameOf $_ }), $nameSorted, [System.StringComparer]::Ordinal)
+  $perms = @(
+    @{ n = "reverse";   games = @($entries[($entries.Count - 1)..0]); alias = { param($x) @($x[($x.Count - 1)..0]) } }
+    @{ n = "name順";    games = @($nameSorted);                        alias = { param($x) @($x | Sort-Object) } }
+    @{ n = "shuffle(seed=20260919)"; games = @(& $seededShuffle $entries 20260919); alias = { param($x) @(& $seededShuffle $x 7031) } }
+  )
+  foreach ($p in $perms) {
+    $permDir = Join-Path $tmpDir ("perm-" + [guid]::NewGuid().ToString("N").Substring(0, 6))
+    New-Item -ItemType Directory -Path $permDir -Force | Out-Null
+    $out = [string[]]$coreLines.Clone()
+    for ($k = 0; $k -lt $slots.Count; $k++) { $out[$slots[$k]] = & $reorderAliases $p.games[$k] $p.alias }
+    [System.IO.File]::WriteAllText((Join-Path $permDir "data-core.js"), ($out -join "`r`n"), (New-Object System.Text.UTF8Encoding $false))
+    Copy-Item -LiteralPath $matcher -Destination $permDir
+    Copy-Item -LiteralPath (Join-Path $scriptDir "data-playlists.js") -Destination $permDir
+    $permOut = Join-Path $permDir "candidates.json"
+    & powershell.exe -NoProfile -File (Join-Path $permDir "match-playlist-candidates.ps1") -DiscoveredJson $inputPath -Json $permOut *> (Join-Path $permDir "matcher.log")
+    $problems = New-Object System.Collections.Generic.List[string]
+    if (-not (Test-Path $permOut)) { $problems.Add("matcher の実行に失敗しました") }
+    else {
+      $permSig = & $sigOf @((Get-Content $permOut -Raw -Encoding UTF8 | ConvertFrom-Json).candidates)
+      foreach ($c in $cases) {
+        if ($permSig[$c.n] -ne $baseSig[$c.n]) { $problems.Add("「$($c.title)」 元の並び[$($baseSig[$c.n])] / 並べ替え後[$($permSig[$c.n])]") }
+      }
+    }
+    $ok = ($problems.Count -eq 0)
+    if ($ok) { $pass++ } else { $fail++ }
+    $label = "F2. GAMES並び順の入れ替えで判定が変わらない($($p.n))"
+    Write-Output ("  [{0}] {1}" -f $(if ($ok) { "PASS" } else { "FAIL" }), $label)
+    Write-Output ("        先頭ゲーム=「{0}」 / 比較ケース {1} 件" -f (& $nameOf $p.games[0]), $cases.Count)
+    foreach ($q in $problems) { Write-Output "        NG: $q" }
+    $rows.Add([PSCustomObject]@{ name = $label; title = ""; count = $null; topGame = $null; topConf = $null; ambiguous = $null; tokens = @(); pass = $ok; problems = $problems.ToArray() })
+  }
+
   Write-Output ""
   Write-Output ("PASS: {0}  FAIL: {1}" -f $pass, $fail)
 

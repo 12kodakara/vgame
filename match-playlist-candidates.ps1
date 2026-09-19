@@ -390,8 +390,21 @@ foreach ($o in $gameObjs) {
     })
   }
 }
-# 長い一致を優先して誤検知を減らすため、突き合わせ文字列が長い順に並べる
-$matchTargets = @($matchTargets | Sort-Object { $_.matchText.Length } -Descending)
+# 長い一致を優先して誤検知を減らすため、突き合わせ文字列が長い順に並べる。
+# Sort-Object は安定ソートではなく、長さが同じもの同士の順序が GAMES の並びや件数で
+# 変わってしまう(F2)。同じゲームで name と alias の正規化結果が同じ場合などに
+# via(name/alias) が入れ替わり confidence が揺れるため、長さが同じときの順序を固定する:
+#   name を alias より先(candidates を name, aliases の順に作っている意図どおり)
+#   → 以降は判定に影響しない決定性のためだけの序数比較(matchText → gameName)
+# キーは「長さ(降順・固定幅) / name=0・alias=1 / matchText / gameName」を連結し序数比較する
+# (末尾の添字はキーを一意にして元の要素へ戻すためのもので、完全に同じ内容の要素同士でしか効かない)。
+$sortKeys = New-Object System.Collections.Generic.List[string]
+for ($ti = 0; $ti -lt $matchTargets.Count; $ti++) {
+  $t = $matchTargets[$ti]
+  $sortKeys.Add((99999 - $t.matchText.Length).ToString("D5") + $(if ($t.isAlias) { "1" } else { "0" }) + $t.matchText + [char]0 + $t.gameName + [char]0 + $ti.ToString("D6"))
+}
+$sortKeys.Sort([System.StringComparer]::Ordinal)
+$matchTargets = @($sortKeys | ForEach-Object { $matchTargets[[int]$_.Substring($_.Length - 6)] })
 
 # ---- 各ゲームが name / aliases のどこかに持っている版語クラス ----
 #   「版語がタイトルにあるとき、その版を明示しているゲームはどれか」を判定するための表。
