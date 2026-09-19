@@ -509,9 +509,21 @@ elseif ($SelfTest) {
     @{ n = "33d. ZA単独は解決しない";         input = "ZA";                            expectType = "not-found";        expectId = $null },
     @{ n = "33e. Z-A単独は解決しない";        input = "Z-A";                           expectType = "not-found";        expectId = $null },
     @{ n = "33f. ポケモンZは解決しない";      input = "ポケモンZ";                     expectType = "not-found";        expectId = $null },
-    @{ n = "33g. ポケモンSVは変化しない";     input = "ポケモンSV";                    expectType = "not-found";        expectId = $null },
+    @{ n = "33g. ポケモンSVはZAへ寄らない";   input = "ポケモンSV";                    expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
     @{ n = "33h. アルセウスは既存どおり";     input = "Pokémon LEGENDS アルセウス";    expectType = "exact";            expectId = "Pokémon LEGENDS アルセウス" },
-    @{ n = "33i. Z-A正式名は既存どおり";      input = "Pokémon LEGENDS Z-A";           expectType = "exact";            expectId = "Pokémon LEGENDS Z-A" }
+    @{ n = "33i. Z-A正式名は既存どおり";      input = "Pokémon LEGENDS Z-A";           expectType = "exact";            expectId = "Pokémon LEGENDS Z-A" },
+    # --- 作品固有の略称 ポケモンSV。「SV」単独や他のポケモン作品には効かないこと ---
+    @{ n = "34. 作品略称alias 単独(ポケモンSV)"; input = "ポケモンSV";                  expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
+    @{ n = "34a. 同上(全角)";                 input = "ポケモンＳＶ";                  expectType = "canonical-alias";  expectId = "ポケットモンスター スカーレット・バイオレット" },
+    @{ n = "34b. 同上(小文字)";               input = "ポケモンsv";                    expectType = "canonical-alias";  expectId = "ポケットモンスター スカーレット・バイオレット" },
+    @{ n = "34c. SV単独は解決しない";         input = "SV";                            expectType = "not-found";        expectId = $null },
+    @{ n = "34d. ポケモンSは解決しない";      input = "ポケモンS";                     expectType = "not-found";        expectId = $null },
+    @{ n = "34e. ポケモンVは解決しない";      input = "ポケモンV";                     expectType = "not-found";        expectId = $null },
+    # 複合タイトルは resolver では確定しない(28c/28d と同じ理由。候補生成は matcher 側の責務)
+    @{ n = "34f. 複合タイトルは確定しない";   input = "ポケモンSV実況";                expectType = "not-found";        expectId = $null },
+    @{ n = "34g. 複合タイトルは確定しない2";  input = "ポケモンSVニュース";            expectType = "not-found";        expectId = $null },
+    @{ n = "34h. SV正式名は既存どおり";       input = "ポケットモンスター スカーレット・バイオレット"; expectType = "exact"; expectId = "ポケットモンスター スカーレット・バイオレット" },
+    @{ n = "34i. 剣盾は既存どおり";           input = "ポケットモンスター ソード・シールド"; expectType = "exact";        expectId = "ポケットモンスター ソード・シールド" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

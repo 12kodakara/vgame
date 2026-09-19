@@ -164,6 +164,25 @@ $cases = @(
      expectCount = 1; expectTopGame = "SILENT HILL 2 リメイク"; expectTopConf = "HIGH"; expectVia = "name" }
   @{ n = "48. F2 alias だけの一致は従来どおりMEDIUM"; title = "Silent Hill 2 Remake";
      expectCount = 1; expectTopGame = "SILENT HILL 2 リメイク"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+
+  # --- 作品略称 ポケモンSV。alias一致はHIGHに昇格しないため期待値は MEDIUM ---
+  @{ n = "49. 作品略称alias 単独";            title = "ポケモンSV";
+     expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "50. 括弧付き";                      title = "【ポケモンSV】";
+     expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectTopConf = "MEDIUM" }
+  @{ n = "51. SV単独は切り出さない";          title = "SV";
+     expectCount = 0 }
+  @{ n = "52. 数字が続く場合は切り出さない";  title = "ポケモンSV2";
+     expectCount = 0 }
+  # 境界が弱い接尾(漢字が続く)は既存仕様どおりLOWに落とす。ここを広げる変更はしない
+  @{ n = "53. 漢字が続く場合はLOW";           title = "ポケモンSV実況";
+     expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectTopConf = "LOW" }
+  @{ n = "54. ポケモンZAには効かない";        title = "ポケモンZA";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectNotGame = "ポケットモンスター スカーレット・バイオレット" }
+  @{ n = "55. SV正式名は従来どおりHIGH";      title = "ポケットモンスター スカーレット・バイオレット";
+     expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "56. 剣盾は従来どおりHIGH";          title = "ポケットモンスター ソード・シールド";
+     expectCount = 1; expectTopGame = "ポケットモンスター ソード・シールド"; expectTopConf = "HIGH"; expectNotGame = "ポケットモンスター スカーレット・バイオレット" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
