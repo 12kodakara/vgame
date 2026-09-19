@@ -464,7 +464,14 @@ elseif ($SelfTest) {
     @{ n = "24. 日本語表記(alias)";        input = "サイレントヒル2";                expectType = "canonical-alias";  expectId = "SILENT HILL 2" },
     @{ n = "25. 英語表記(alias)";          input = "Silent Hill 2";                 expectType = "alias-exact";      expectId = "SILENT HILL 2" },
     @{ n = "26. 新規game 正式名";          input = "METAL GEAR SOLID Δ: SNAKE EATER"; expectType = "exact";          expectId = "METAL GEAR SOLID Δ: SNAKE EATER" },
-    @{ n = "27. 新規game 正式名(和名)";    input = "星のカービィ 夢の泉の物語";       expectType = "exact";            expectId = "星のカービィ 夢の泉の物語" }
+    @{ n = "27. 新規game 正式名(和名)";    input = "星のカービィ 夢の泉の物語";       expectType = "exact";            expectId = "星のカービィ 夢の泉の物語" },
+    # --- 大型DLC/拡張は本編gameのaliasとして解決する(独立game IDは作らない) ---
+    @{ n = "28. 拡張名 単独(サンブレイク)";   input = "サンブレイク";                    expectType = "alias-exact";      expectId = "モンスターハンターライズ" },
+    @{ n = "28b. 拡張名 単独(ゼロの秘宝)";   input = "ゼロの秘宝";                     expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
+    # 複合タイトルは resolver では確定しない(部分一致による自動確定を行わない仕様)。
+    # playlist題名からの候補生成は match-playlist-candidates.ps1 側の責務。
+    @{ n = "28c. 拡張名を含む複合タイトル";   input = "モンハンサンブレイク";             expectType = "not-found";        expectId = $null },
+    @{ n = "28d. 拡張名を含む複合タイトル2";  input = "ポケモンSV 「ゼロの秘宝」";        expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
