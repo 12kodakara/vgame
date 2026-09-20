@@ -221,6 +221,28 @@ $cases = @(
   # 漢字が続く弱い境界はLOWに落とす既存仕様の固定(ここを広げる変更はしない)
   @{ n = "71. 漢字が続く場合はLOW";           title = "Genshin Impact実況";
      expectCount = 1; expectTopGame = "原神"; expectTopConf = "LOW" }
+
+  # --- 作品略称 ポケモン剣盾。73-74 は実データにある表記をそのまま使っている ---
+  @{ n = "72. 作品略称alias 単独";            title = "ポケモン剣盾";
+     expectCount = 1; expectTopGame = "ポケットモンスター ソード・シールド"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "73. 括弧付きの実例";                title = "〖ポケモン剣盾〗";
+     expectCount = 1; expectTopGame = "ポケットモンスター ソード・シールド"; expectTopConf = "MEDIUM" }
+  # DLC は本編gameへ統合する既存運用(原則Bの対象外クラス)を壊さないことの固定
+  @{ n = "74. DLC表記の実例";                 title = "ポケモン剣盾+DLC";
+     expectCount = 1; expectTopGame = "ポケットモンスター ソード・シールド"; expectTopConf = "MEDIUM"; expectTokens = "dlc" }
+  @{ n = "75. 正式名はaliasに奪われない";     title = "ポケットモンスター ソード・シールド";
+     expectCount = 1; expectTopGame = "ポケットモンスター ソード・シールド"; expectTopConf = "HIGH"; expectVia = "name" }
+  # 実データ(卯月コウ「剣盾ランクマ」)由来。「剣盾」単独は拾わない
+  @{ n = "76. 剣盾単独は切り出さない";        title = "剣盾ランクマ";
+     expectCount = 0 }
+  @{ n = "77. 数字が続く場合は切り出さない";  title = "ポケモン剣盾2";
+     expectCount = 0 }
+  @{ n = "78. SVは剣盾へ寄らない";            title = "ポケモンSV";
+     expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectNotGame = "ポケットモンスター ソード・シールド" }
+  @{ n = "79. ZAは剣盾へ寄らない";            title = "ポケモンZA";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectNotGame = "ポケットモンスター ソード・シールド" }
+  @{ n = "80. アルセウスは剣盾へ寄らない";    title = "Pokémon LEGENDS アルセウス";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "HIGH"; expectNotGame = "ポケットモンスター ソード・シールド" }
 )
 
 # ---- 合成入力を作って matcher に通す ----

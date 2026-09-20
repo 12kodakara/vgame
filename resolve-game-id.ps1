@@ -544,7 +544,19 @@ elseif ($SelfTest) {
     # 実データ(リゼ・ヘルエスタ「【原神/Genshin】星と深淵を目指せ」)に由来する境界ケース
     @{ n = "36c. 原神/Genshin併記は確定しない"; input = "原神/Genshin";                 expectType = "not-found";        expectId = $null },
     @{ n = "36d. 数字が続く場合は一致しない"; input = "Genshin Impact2";               expectType = "not-found";        expectId = $null },
-    @{ n = "36e. 複合タイトルは確定しない";   input = "Genshin Impact実況";            expectType = "not-found";        expectId = $null }
+    @{ n = "36e. 複合タイトルは確定しない";   input = "Genshin Impact実況";            expectType = "not-found";        expectId = $null },
+    # --- 作品略称 ポケモン剣盾。「剣」「盾」「剣盾」単独や他のポケモン作品には効かないこと ---
+    @{ n = "37. 作品略称alias(ポケモン剣盾)"; input = "ポケモン剣盾";                  expectType = "alias-exact";      expectId = "ポケットモンスター ソード・シールド" },
+    @{ n = "37a. 正式名は既存どおり";         input = "ポケットモンスター ソード・シールド"; expectType = "exact";        expectId = "ポケットモンスター ソード・シールド" },
+    @{ n = "37b. ポケモン剣は解決しない";     input = "ポケモン剣";                    expectType = "not-found";        expectId = $null },
+    @{ n = "37c. ポケモン盾は解決しない";     input = "ポケモン盾";                    expectType = "not-found";        expectId = $null },
+    @{ n = "37d. 剣盾単独は解決しない";       input = "剣盾";                          expectType = "not-found";        expectId = $null },
+    @{ n = "37e. 複合タイトルは確定しない";   input = "ポケモン剣盾実況";              expectType = "not-found";        expectId = $null },
+    @{ n = "37f. 数字が続く場合は一致しない"; input = "ポケモン剣盾2";                 expectType = "not-found";        expectId = $null },
+    @{ n = "37g. BDSPは既存どおり";           input = "ポケモンBDSP";                  expectType = "not-found";        expectId = $null },
+    @{ n = "37h. SVは既存どおり";             input = "ポケモンSV";                    expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
+    @{ n = "37i. ZAは既存どおり";             input = "ポケモンZA";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "37j. アルセウスは既存どおり";     input = "アルセウス";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS アルセウス" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
