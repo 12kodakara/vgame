@@ -243,6 +243,25 @@ $cases = @(
      expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectNotGame = "ポケットモンスター ソード・シールド" }
   @{ n = "80. アルセウスは剣盾へ寄らない";    title = "Pokémon LEGENDS アルセウス";
      expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "HIGH"; expectNotGame = "ポケットモンスター ソード・シールド" }
+
+  # --- 定着した略称 ツイステ。82-84 は実データにある表記をそのまま使っている ---
+  @{ n = "81. 略称alias 単独";                title = "ツイステ";
+     expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "82. 副題のみの実例";                title = "ツイステッドワンダーランド";
+     expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "MEDIUM" }
+  @{ n = "83. 括弧内に略称がある実例";        title = "Ser.魔道士の「ツイステ」";
+     expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "MEDIUM" }
+  @{ n = "84. 英語名との併記の実例";          title = "Twisted Wonderland・ツイステ (w/ Elira)";
+     expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "MEDIUM" }
+  @{ n = "85. 正式名はaliasに奪われない";     title = "ディズニー ツイステッドワンダーランド";
+     expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "86. 途中までの文字列は拾わない";    title = "ツイス";
+     expectCount = 0 }
+  @{ n = "87. 数字が続く場合は切り出さない";  title = "ツイステ2";
+     expectCount = 0 }
+  # アニメ同時視聴は既存の非ゲーム語ルールでLOWに落ちる。現在の挙動を固定する
+  @{ n = "88. アニメ同時視聴はLOW";           title = "ツイステアニメ同時視聴";
+     expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "LOW" }
 )
 
 # ---- 合成入力を作って matcher に通す ----

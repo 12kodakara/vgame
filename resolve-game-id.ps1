@@ -556,7 +556,13 @@ elseif ($SelfTest) {
     @{ n = "37g. BDSPは既存どおり";           input = "ポケモンBDSP";                  expectType = "not-found";        expectId = $null },
     @{ n = "37h. SVは既存どおり";             input = "ポケモンSV";                    expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
     @{ n = "37i. ZAは既存どおり";             input = "ポケモンZA";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
-    @{ n = "37j. アルセウスは既存どおり";     input = "アルセウス";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS アルセウス" }
+    @{ n = "37j. アルセウスは既存どおり";     input = "アルセウス";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS アルセウス" },
+    # --- 定着した略称 ツイステ。短い前方部分や複合語には効かないこと ---
+    @{ n = "38. 略称alias(ツイステ)";         input = "ツイステ";                      expectType = "alias-exact";      expectId = "ディズニー ツイステッドワンダーランド" },
+    @{ n = "38a. 正式名は既存どおり";         input = "ディズニー ツイステッドワンダーランド"; expectType = "exact";      expectId = "ディズニー ツイステッドワンダーランド" },
+    @{ n = "38b. ツイスは解決しない";         input = "ツイス";                        expectType = "not-found";        expectId = $null },
+    @{ n = "38c. 複合タイトルは確定しない";   input = "ツイステ実況";                  expectType = "not-found";        expectId = $null },
+    @{ n = "38d. 数字が続く場合は一致しない"; input = "ツイステ2";                     expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
