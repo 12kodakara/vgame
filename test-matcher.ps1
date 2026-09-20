@@ -203,6 +203,24 @@ $cases = @(
      expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectNotGame = "Pokémon LEGENDS アルセウス" }
   @{ n = "64. SVはアルセウスへ寄らない";      title = "ポケモンSV";
      expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectNotGame = "Pokémon LEGENDS アルセウス" }
+
+  # --- 英語公式名 Genshin Impact。65-67 は実データにある表記をそのまま使っている ---
+  @{ n = "65. 英語公式名alias 単独";          title = "Genshin Impact";
+     expectCount = 1; expectTopGame = "原神"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "66. 和名と英語公式名の併記";        title = "原神／Genshin Impact";
+     expectCount = 1; expectTopGame = "原神"; expectTopConf = "MEDIUM" }
+  @{ n = "67. 配信者名が前置された実例";      title = "Layla Plays : Genshin Impact";
+     expectCount = 1; expectTopGame = "原神"; expectTopConf = "MEDIUM" }
+  # 実データ(リゼ・ヘルエスタ)由来。Genshin単独は拾わない。和名「原神」は2文字のため突き合わせ対象外
+  @{ n = "68. Genshin単独は切り出さない";     title = "【原神/Genshin】星と深淵を目指せ";
+     expectCount = 0 }
+  @{ n = "69. 和名のみは従来どおり候補0件";   title = "原神";
+     expectCount = 0 }
+  @{ n = "70. 数字が続く場合は切り出さない";  title = "Genshin Impact2";
+     expectCount = 0 }
+  # 漢字が続く弱い境界はLOWに落とす既存仕様の固定(ここを広げる変更はしない)
+  @{ n = "71. 漢字が続く場合はLOW";           title = "Genshin Impact実況";
+     expectCount = 1; expectTopGame = "原神"; expectTopConf = "LOW" }
 )
 
 # ---- 合成入力を作って matcher に通す ----

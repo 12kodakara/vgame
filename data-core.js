@@ -741,7 +741,7 @@ const GAMES = [
   { name: "逆転裁判123 成歩堂セレクション", kana: "ぎゃくてんさいばんいちにーさんなるほどうせれくしょん", aliases: ["ぎゃくさい"], series: "逆転裁判シリーズ", order: 1 },
   { name: "近畿地方のある場所について", kana: "きんきちほうのあるばしょについて", series: "" },
   { name: "空の軌跡", kana: "そらのきせき", series: "" },
-  { name: "原神", kana: "げんしん", series: "" },
+  { name: "原神", kana: "げんしん", aliases: ["Genshin Impact"], series: "" },
   { name: "初音ミク -Project DIVA- X HD", kana: "はつねみくぷろじぇくとでぃーばえっくすえいちでぃー", series: "" },
   { name: "雀魂", kana: "じゃんたま", series: "" },
   { name: "大神", kana: "おおかみ", series: "" },

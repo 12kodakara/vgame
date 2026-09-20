@@ -536,7 +536,15 @@ elseif ($SelfTest) {
     @{ n = "35f. 英字表記はalias未登録";      input = "ARCEUS";                        expectType = "not-found";        expectId = $null },
     @{ n = "35g. ZAは既存どおり";             input = "ポケモンZA";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
     @{ n = "35h. SVは既存どおり";             input = "ポケモンSV";                    expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
-    @{ n = "35i. SV単独は今回も解決しない";   input = "SV";                            expectType = "not-found";        expectId = $null }
+    @{ n = "35i. SV単独は今回も解決しない";   input = "SV";                            expectType = "not-found";        expectId = $null },
+    # --- 英語公式名 Genshin Impact。「Genshin」単独や複合語には効かないこと ---
+    @{ n = "36. 英語公式名alias(Genshin Impact)"; input = "Genshin Impact";            expectType = "alias-exact";      expectId = "原神" },
+    @{ n = "36a. 和名は既存どおり";           input = "原神";                          expectType = "exact";            expectId = "原神" },
+    @{ n = "36b. Genshin単独は解決しない";    input = "Genshin";                       expectType = "not-found";        expectId = $null },
+    # 実データ(リゼ・ヘルエスタ「【原神/Genshin】星と深淵を目指せ」)に由来する境界ケース
+    @{ n = "36c. 原神/Genshin併記は確定しない"; input = "原神/Genshin";                 expectType = "not-found";        expectId = $null },
+    @{ n = "36d. 数字が続く場合は一致しない"; input = "Genshin Impact2";               expectType = "not-found";        expectId = $null },
+    @{ n = "36e. 複合タイトルは確定しない";   input = "Genshin Impact実況";            expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
