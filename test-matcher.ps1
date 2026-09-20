@@ -262,6 +262,27 @@ $cases = @(
   # アニメ同時視聴は既存の非ゲーム語ルールでLOWに落ちる。現在の挙動を固定する
   @{ n = "88. アニメ同時視聴はLOW";           title = "ツイステアニメ同時視聴";
      expectCount = 1; expectTopGame = "ディズニー ツイステッドワンダーランド"; expectTopConf = "LOW" }
+
+  # --- 英語公式名 LOST JUDGMENT。90-92 は実データにある表記をそのまま使っている ---
+  @{ n = "89. 英語公式名alias 単独";          title = "LOST JUDGMENT";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "90. 記号付きの実例";                title = "【完結】⚖LOST JUDGMENT⚖";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "MEDIUM" }
+  # 正式名は「:」区切り。実データには空白区切りの表記があり、name一致せずalias一致になる
+  @{ n = "91. 空白区切りの副題つき実例";      title = "【完結】LOST JUDGMENT 裁かれざる記憶";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "MEDIUM" }
+  @{ n = "92. 英題併記の実例";                title = "🏫LOST JUDGMENT 裁かれざる記憶：Lost Judgment：完結🏫";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "MEDIUM" }
+  @{ n = "93. 正式名はaliasに奪われない";     title = "LOST JUDGMENT:裁かれざる記憶";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "94. 姉妹作の正式名は従来どおりHIGH"; title = "JUDGE EYES:死神の遺言";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "LOST JUDGMENT:裁かれざる記憶" }
+  @{ n = "95. JUDGMENT単独は切り出さない";    title = "JUDGMENT";
+     expectCount = 0 }
+  @{ n = "96. 英字が続く場合は切り出さない";  title = "LOST JUDGMENT Remastered";
+     expectCount = 0 }
+  @{ n = "97. 数字が続く場合は切り出さない";  title = "LOST JUDGMENT2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

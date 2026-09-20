@@ -562,7 +562,16 @@ elseif ($SelfTest) {
     @{ n = "38a. 正式名は既存どおり";         input = "ディズニー ツイステッドワンダーランド"; expectType = "exact";      expectId = "ディズニー ツイステッドワンダーランド" },
     @{ n = "38b. ツイスは解決しない";         input = "ツイス";                        expectType = "not-found";        expectId = $null },
     @{ n = "38c. 複合タイトルは確定しない";   input = "ツイステ実況";                  expectType = "not-found";        expectId = $null },
-    @{ n = "38d. 数字が続く場合は一致しない"; input = "ツイステ2";                     expectType = "not-found";        expectId = $null }
+    @{ n = "38d. 数字が続く場合は一致しない"; input = "ツイステ2";                     expectType = "not-found";        expectId = $null },
+    # --- 英語公式名 LOST JUDGMENT。姉妹作 JUDGE EYES や単語単独には効かないこと ---
+    @{ n = "39. 英語公式名alias(LOST JUDGMENT)"; input = "LOST JUDGMENT";             expectType = "alias-exact";      expectId = "LOST JUDGMENT:裁かれざる記憶" },
+    @{ n = "39a. 正式名は既存どおり";         input = "LOST JUDGMENT:裁かれざる記憶";  expectType = "exact";            expectId = "LOST JUDGMENT:裁かれざる記憶" },
+    @{ n = "39b. 和名aliasは既存どおり";      input = "ロストジャッジメント";          expectType = "alias-exact";      expectId = "LOST JUDGMENT:裁かれざる記憶" },
+    @{ n = "39c. JUDGMENT単独は解決しない";   input = "JUDGMENT";                      expectType = "not-found";        expectId = $null },
+    @{ n = "39d. LOST単独は解決しない";       input = "LOST";                          expectType = "not-found";        expectId = $null },
+    @{ n = "39e. 姉妹作の正式名は既存どおり"; input = "JUDGE EYES:死神の遺言";         expectType = "exact";            expectId = "JUDGE EYES:死神の遺言" },
+    @{ n = "39f. JUDGE EYES単独は解決しない"; input = "JUDGE EYES";                    expectType = "not-found";        expectId = $null },
+    @{ n = "39g. 数字が続く場合は一致しない"; input = "LOST JUDGMENT2";                expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
