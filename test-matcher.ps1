@@ -183,6 +183,26 @@ $cases = @(
      expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectTopConf = "HIGH"; expectVia = "name" }
   @{ n = "56. 剣盾は従来どおりHIGH";          title = "ポケットモンスター ソード・シールド";
      expectCount = 1; expectTopGame = "ポケットモンスター ソード・シールド"; expectTopConf = "HIGH"; expectNotGame = "ポケットモンスター スカーレット・バイオレット" }
+
+  # --- 作品略称 アルセウス。57-59 は実データにある表記をそのまま使っている ---
+  @{ n = "57. 作品略称alias 単独";            title = "アルセウス";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "58. 和名表記";                      title = "ポケモンレジェンズアルセウス";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "MEDIUM" }
+  @{ n = "59. ポケモン+作品名";               title = "ポケモンアルセウス";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "MEDIUM" }
+  @{ n = "60. 正式名はaliasに奪われない";     title = "Pokémon LEGENDS アルセウス";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "61. 数字が続く場合は切り出さない";  title = "アルセウス2";
+     expectCount = 0 }
+  # ポケモン個体としての「アルセウス」用法。現在の登録データには実例が無いため合成タイトルで、
+  # 「漢字が続く弱い境界はLOWに落ちる(自動確定しない)」という現在の挙動をそのまま固定する。
+  @{ n = "62. 個体を指す用法はLOWに落ちる";   title = "アルセウス捕獲";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS アルセウス"; expectTopConf = "LOW" }
+  @{ n = "63. ZAはアルセウスへ寄らない";      title = "ポケモンZA";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectNotGame = "Pokémon LEGENDS アルセウス" }
+  @{ n = "64. SVはアルセウスへ寄らない";      title = "ポケモンSV";
+     expectCount = 1; expectTopGame = "ポケットモンスター スカーレット・バイオレット"; expectNotGame = "Pokémon LEGENDS アルセウス" }
 )
 
 # ---- 合成入力を作って matcher に通す ----

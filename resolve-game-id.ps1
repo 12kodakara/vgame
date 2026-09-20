@@ -523,7 +523,20 @@ elseif ($SelfTest) {
     @{ n = "34f. 複合タイトルは確定しない";   input = "ポケモンSV実況";                expectType = "not-found";        expectId = $null },
     @{ n = "34g. 複合タイトルは確定しない2";  input = "ポケモンSVニュース";            expectType = "not-found";        expectId = $null },
     @{ n = "34h. SV正式名は既存どおり";       input = "ポケットモンスター スカーレット・バイオレット"; expectType = "exact"; expectId = "ポケットモンスター スカーレット・バイオレット" },
-    @{ n = "34i. 剣盾は既存どおり";           input = "ポケットモンスター ソード・シールド"; expectType = "exact";        expectId = "ポケットモンスター ソード・シールド" }
+    @{ n = "34i. 剣盾は既存どおり";           input = "ポケットモンスター ソード・シールド"; expectType = "exact";        expectId = "ポケットモンスター ソード・シールド" },
+    # --- 作品略称 アルセウス。ポケモン「アルセウス」自体を指す複合語には効かないこと ---
+    @{ n = "35. 作品略称alias 単独(アルセウス)"; input = "アルセウス";                   expectType = "alias-exact";      expectId = "Pokémon LEGENDS アルセウス" },
+    @{ n = "35a. 正式名は既存どおり";         input = "Pokémon LEGENDS アルセウス";    expectType = "exact";            expectId = "Pokémon LEGENDS アルセウス" },
+    # 複合タイトルは resolver では確定しない(28c/28d/34f と同じ仕様)。
+    # 「捕獲」「対戦」などポケモン個体を指す用法をここで拾わないことの回帰固定でもある。
+    @{ n = "35b. 複合タイトルは確定しない";   input = "アルセウス実況";                expectType = "not-found";        expectId = $null },
+    @{ n = "35c. 個体を指す用法は確定しない"; input = "アルセウス捕獲";                expectType = "not-found";        expectId = $null },
+    @{ n = "35d. 同上(対戦)";                 input = "アルセウス対戦";                expectType = "not-found";        expectId = $null },
+    @{ n = "35e. 数字が続く場合は一致しない"; input = "アルセウス2";                   expectType = "not-found";        expectId = $null },
+    @{ n = "35f. 英字表記はalias未登録";      input = "ARCEUS";                        expectType = "not-found";        expectId = $null },
+    @{ n = "35g. ZAは既存どおり";             input = "ポケモンZA";                    expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "35h. SVは既存どおり";             input = "ポケモンSV";                    expectType = "alias-exact";      expectId = "ポケットモンスター スカーレット・バイオレット" },
+    @{ n = "35i. SV単独は今回も解決しない";   input = "SV";                            expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
