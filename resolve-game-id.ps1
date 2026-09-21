@@ -583,7 +583,16 @@ elseif ($SelfTest) {
     @{ n = "40e. 重複表記は確定しない";       input = "JUDGE EYES / JUDGE EYES";       expectType = "not-found";        expectId = $null },
     @{ n = "40f. 版語つきは確定しない";       input = "JUDGE EYES：死神の遺言 Remastered"; expectType = "not-found";    expectId = $null },
     @{ n = "40g. 数字が続く場合は一致しない"; input = "JUDGE EYES2";                   expectType = "not-found";        expectId = $null },
-    @{ n = "40h. 姉妹作は既存どおり";         input = "LOST JUDGMENT";                 expectType = "alias-exact";      expectId = "LOST JUDGMENT:裁かれざる記憶" }
+    @{ n = "40h. 姉妹作は既存どおり";         input = "LOST JUDGMENT";                 expectType = "alias-exact";      expectId = "LOST JUDGMENT:裁かれざる記憶" },
+    # --- 版を含む略称 ドラクエ11S。無印版・他ナンバリング・シリーズ略称には効かないこと ---
+    @{ n = "41. 版つき略称alias(ドラクエ11S)"; input = "ドラクエ11S";                   expectType = "alias-exact";      expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
+    @{ n = "41a. 正式名は既存どおり";         input = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectType = "exact";  expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
+    @{ n = "41b. 無印版は解決しない";         input = "ドラクエ11";                    expectType = "not-found";        expectId = $null },
+    @{ n = "41c. 他ナンバリングは解決しない"; input = "ドラクエ3";                     expectType = "not-found";        expectId = $null },
+    @{ n = "41d. 数字が続く場合は一致しない"; input = "ドラクエ11S2";                  expectType = "not-found";        expectId = $null },
+    @{ n = "41e. 複合タイトルは確定しない";   input = "ドラクエ11S 実況";              expectType = "not-found";        expectId = $null },
+    @{ n = "41f. 正式名の一部は解決しない";   input = "ドラゴンクエストXI";            expectType = "not-found";        expectId = $null },
+    @{ n = "41g. 同上(S付き)";                input = "ドラゴンクエストXI S";          expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

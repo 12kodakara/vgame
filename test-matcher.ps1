@@ -310,6 +310,30 @@ $cases = @(
      expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectNotGame = "JUDGE EYES:死神の遺言" }
   @{ n = "108. 姉妹作の正式名も寄らない";     title = "LOST JUDGMENT:裁かれざる記憶";
      expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "JUDGE EYES:死神の遺言" }
+
+  # --- 版を含む略称 ドラクエ11S。110-112 は実データにある表記をそのまま使っている ---
+  @{ n = "109. 版つき略称alias 単独";         title = "ドラクエ11S";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "110. 記号付きの実例";               title = "▶完結◀ドラクエ11S💙";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM" }
+  @{ n = "111. 小文字表記の実例";             title = "ドラクエ11s";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM" }
+  # 漢字が直前に来る弱い境界はLOWに落ちる。実データ(猫又おかゆ)の挙動をそのまま固定する
+  @{ n = "112. 漢字が直前に来る実例はLOW";    title = "深夜ドラクエ11S🍙";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "LOW" }
+  @{ n = "113. 括弧付き";                     title = "【ドラクエ11S】";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM" }
+  @{ n = "114. 無印版は切り出さない";         title = "ドラクエ11";
+     expectCount = 0 }
+  @{ n = "115. 数字が続く場合は切り出さない"; title = "ドラクエ11S2";
+     expectCount = 0 }
+  @{ n = "116. 他ナンバリングは切り出さない"; title = "ドラクエ3";
+     expectCount = 0 }
+  # 正式名の一部だけでは本作へ寄らない(既存の「ドラゴンクエスト」一致のまま)
+  @{ n = "117. 正式名の一部は本作へ寄らない"; title = "ドラゴンクエストXI S";
+     expectCount = 1; expectTopGame = "ドラゴンクエスト"; expectNotGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて" }
+  @{ n = "118. 正式名は従来どおりの候補";     title = "ドラゴンクエストXI S 過ぎ去りし時を求めて";
+     expectCount = 2; expectContainsGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectAmbiguous = $true }
 )
 
 # ---- 合成入力を作って matcher に通す ----
