@@ -570,8 +570,20 @@ elseif ($SelfTest) {
     @{ n = "39c. JUDGMENT単独は解決しない";   input = "JUDGMENT";                      expectType = "not-found";        expectId = $null },
     @{ n = "39d. LOST単独は解決しない";       input = "LOST";                          expectType = "not-found";        expectId = $null },
     @{ n = "39e. 姉妹作の正式名は既存どおり"; input = "JUDGE EYES:死神の遺言";         expectType = "exact";            expectId = "JUDGE EYES:死神の遺言" },
-    @{ n = "39f. JUDGE EYES単独は解決しない"; input = "JUDGE EYES";                    expectType = "not-found";        expectId = $null },
-    @{ n = "39g. 数字が続く場合は一致しない"; input = "LOST JUDGMENT2";                expectType = "not-found";        expectId = $null }
+    # 39f は「LOST JUDGMENT の alias が姉妹作へ漏れないこと」を固定していたケース。
+    # JUDGE EYES 自身に alias を持たせたため、期待値を「姉妹作ではなく自分のcanonicalへ解決する」へ更新する。
+    @{ n = "39f. JUDGE EYESは姉妹作へ寄らない"; input = "JUDGE EYES";                  expectType = "alias-exact";      expectId = "JUDGE EYES:死神の遺言" },
+    @{ n = "39g. 数字が続く場合は一致しない"; input = "LOST JUDGMENT2";                expectType = "not-found";        expectId = $null },
+    # --- 英語公式名 JUDGE EYES。単語単独・重複表記・姉妹作には効かないこと ---
+    @{ n = "40. 英語公式名alias(JUDGE EYES)"; input = "JUDGE EYES";                    expectType = "alias-exact";      expectId = "JUDGE EYES:死神の遺言" },
+    @{ n = "40a. 正式名は既存どおり";         input = "JUDGE EYES:死神の遺言";         expectType = "exact";            expectId = "JUDGE EYES:死神の遺言" },
+    @{ n = "40b. 和名aliasは既存どおり";      input = "ジャッジアイズ";                expectType = "alias-exact";      expectId = "JUDGE EYES:死神の遺言" },
+    @{ n = "40c. JUDGE単独は解決しない";      input = "JUDGE";                         expectType = "not-found";        expectId = $null },
+    @{ n = "40d. EYES単独は解決しない";       input = "EYES";                          expectType = "not-found";        expectId = $null },
+    @{ n = "40e. 重複表記は確定しない";       input = "JUDGE EYES / JUDGE EYES";       expectType = "not-found";        expectId = $null },
+    @{ n = "40f. 版語つきは確定しない";       input = "JUDGE EYES：死神の遺言 Remastered"; expectType = "not-found";    expectId = $null },
+    @{ n = "40g. 数字が続く場合は一致しない"; input = "JUDGE EYES2";                   expectType = "not-found";        expectId = $null },
+    @{ n = "40h. 姉妹作は既存どおり";         input = "LOST JUDGMENT";                 expectType = "alias-exact";      expectId = "LOST JUDGMENT:裁かれざる記憶" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

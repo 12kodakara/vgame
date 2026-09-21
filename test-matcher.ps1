@@ -283,6 +283,33 @@ $cases = @(
      expectCount = 0 }
   @{ n = "97. 数字が続く場合は切り出さない";  title = "LOST JUDGMENT2";
      expectCount = 0 }
+
+  # --- 英語公式名 JUDGE EYES。99-101 は実データにある表記をそのまま使っている ---
+  @{ n = "98. 英語公式名alias 単独";          title = "JUDGE EYES";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  # 正式名は「:」区切り。実データには空白区切りの表記があり、name一致せずalias一致になる
+  @{ n = "99. 空白区切りの副題つき実例";      title = "【🦋完結】JUDGE EYES 死神の遺言";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "MEDIUM" }
+  @{ n = "100. VTuber名が前置された実例";     title = "月ノ美兎のJUDGE EYES 死神の遺言";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "MEDIUM" }
+  # 全角空白で区切られ漢字が続く実例。弱い境界でLOWに落ちる現在の挙動を固定する
+  @{ n = "101. 漢字が続く実例はLOW";          title = "JUDGE　EYES実況";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "LOW" }
+  @{ n = "102. 正式名はaliasに奪われない";    title = "JUDGE EYES:死神の遺言";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "HIGH"; expectVia = "name" }
+  # Remastered は同一作品の再発売。既存どおり name 一致の MEDIUM(原則Bのキャップ)を保つ
+  @{ n = "103. Remastered表記の実例";         title = "🔎JUDGE EYES：死神の遺言 Remastered：本編完結🔎";
+     expectCount = 1; expectTopGame = "JUDGE EYES:死神の遺言"; expectTopConf = "MEDIUM"; expectVia = "name" }
+  @{ n = "104. JUDGE単独は切り出さない";      title = "JUDGE";
+     expectCount = 0 }
+  @{ n = "105. EYES単独は切り出さない";       title = "EYES";
+     expectCount = 0 }
+  @{ n = "106. 数字が続く場合は切り出さない"; title = "JUDGE EYES2";
+     expectCount = 0 }
+  @{ n = "107. 姉妹作は寄らない";             title = "LOST JUDGMENT";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectNotGame = "JUDGE EYES:死神の遺言" }
+  @{ n = "108. 姉妹作の正式名も寄らない";     title = "LOST JUDGMENT:裁かれざる記憶";
+     expectCount = 1; expectTopGame = "LOST JUDGMENT:裁かれざる記憶"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "JUDGE EYES:死神の遺言" }
 )
 
 # ---- 合成入力を作って matcher に通す ----

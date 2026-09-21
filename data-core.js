@@ -557,7 +557,7 @@ const GAMES = [
   { name: "FINAL FANTASY X", kana: "ふぁいなるふぁんたじーてん", aliases: ["FF"], series: "FINAL FANTASYシリーズ" },
   { name: "WWE 2K22", kana: "だぶりゅーだぶりゅーいーとぅーけーとぅえんてぃとぅー", series: "" },
   { name: "ELDEN RING", kana: "えるでんりんぐ", series: "フロムソフトウェアのゲーム" },
-  { name: "JUDGE EYES:死神の遺言", kana: "じゃっじあいずしにがみのゆいごん", aliases: ["ジャッジアイズ:死神の遺言", "ジャッジアイズ", "キムタク", "きむたく"], series: "" },
+  { name: "JUDGE EYES:死神の遺言", kana: "じゃっじあいずしにがみのゆいごん", aliases: ["ジャッジアイズ:死神の遺言", "ジャッジアイズ", "キムタク", "きむたく", "JUDGE EYES"], series: "" },
   { name: "アンチャーテッド", kana: "あんちゃーてっど", series: "" },
   { name: "ARK: Survival Evolved", kana: "あーくさばいばるえぼるぶど", series: "" },
   { name: "ドラゴンクエストV 天空の花嫁", kana: "どらごんくえすとふぁいぶてんくうのはなよめ", aliases: ["ドラクエ"], series: "ドラゴンクエストシリーズ" },
