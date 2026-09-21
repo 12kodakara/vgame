@@ -491,6 +491,25 @@ $cases = @(
      expectCount = 0 }
   @{ n = "185. 英単語が続く場合は切り出さない"; title = "キャプテン翼 RISE OF NEW CHAMPIONS Remastered";
      expectCount = 0 }
+
+  # --- コロンなし表記 モンスターハンターワールド。187-188 は実データにある表記をそのまま使っている ---
+  @{ n = "186. コロンなし表記alias 単独";    title = "モンスターハンターワールド";
+     expectCount = 1; expectTopGame = "モンスターハンター：ワールド"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "187. 全角空白+実況の実例";         title = "モンスターハンターワールド　実況プレイ";
+     expectCount = 1; expectTopGame = "モンスターハンター：ワールド"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "188. 拡張コンテンツ併記の実例";    title = "🦖モンスターハンターワールド：アイスボーン🧊";
+     expectCount = 1; expectTopGame = "モンスターハンター：ワールド"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "189. 正式名はaliasに奪われない";   title = "モンスターハンター：ワールド";
+     expectCount = 1; expectTopGame = "モンスターハンター：ワールド"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasがシリーズ他作品・シリーズ名・数字違いへ広がらない」ことの固定 ---
+  @{ n = "190. ワイルズは従来どおり";        title = "モンスターハンターワイルズ";
+     expectCount = 1; expectTopGame = "モンスターハンターワイルズ"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "モンスターハンター：ワールド" }
+  @{ n = "191. ライズは従来どおり";          title = "モンスターハンターライズ";
+     expectCount = 1; expectTopGame = "モンスターハンターライズ"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "モンスターハンター：ワールド" }
+  @{ n = "192. シリーズ名だけでは切り出さない"; title = "モンスターハンター";
+     expectCount = 0 }
+  @{ n = "193. 数字が続く場合は切り出さない"; title = "モンスターハンターワールド2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

@@ -650,7 +650,13 @@ elseif ($SelfTest) {
     @{ n = "48. ハイフンなし表記alias";       input = "キャプテン翼 RISE OF NEW CHAMPIONS"; expectType = "alias-exact"; expectId = "キャプテン翼 -RISE OF NEW CHAMPIONS-" },
     @{ n = "48a. 正式名は既存どおり";         input = "キャプテン翼 -RISE OF NEW CHAMPIONS-"; expectType = "exact";     expectId = "キャプテン翼 -RISE OF NEW CHAMPIONS-" },
     @{ n = "48b. 2作目は既存どおり";          input = "キャプテン翼2 WORLD FIGHTERS";  expectType = "exact";            expectId = "キャプテン翼2 WORLD FIGHTERS" },
-    @{ n = "48c. キャプテン翼だけでは解決しない"; input = "キャプテン翼";              expectType = "not-found";        expectId = $null }
+    @{ n = "48c. キャプテン翼だけでは解決しない"; input = "キャプテン翼";              expectType = "not-found";        expectId = $null },
+    # --- コロンなし表記 モンスターハンターワールド。シリーズ他作品・数字違いには効かないこと ---
+    @{ n = "49. コロンなし表記alias";         input = "モンスターハンターワールド";    expectType = "alias-exact";      expectId = "モンスターハンター：ワールド" },
+    @{ n = "49a. 正式名は既存どおり";         input = "モンスターハンター：ワールド";  expectType = "exact";            expectId = "モンスターハンター：ワールド" },
+    @{ n = "49b. ワイルズは既存どおり";       input = "モンスターハンターワイルズ";    expectType = "exact";            expectId = "モンスターハンターワイルズ" },
+    @{ n = "49c. シリーズ名だけでは解決しない"; input = "モンスターハンター";          expectType = "not-found";        expectId = $null },
+    @{ n = "49d. 数字が続く場合は一致しない"; input = "モンスターハンターワールド2";   expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
