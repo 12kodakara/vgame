@@ -615,7 +615,14 @@ elseif ($SelfTest) {
     @{ n = "43g. VIIIは解決しない";           input = "ARMORED CORE VIII";             expectType = "not-found";        expectId = $null },
     @{ n = "43h. 4は既存どおり";              input = "ARMORED CORE 4";                expectType = "exact";            expectId = "ARMORED CORE 4" },
     @{ n = "43i. for Answerは既存どおり";     input = "ARMORED CORE for Answer";       expectType = "exact";            expectId = "ARMORED CORE for Answer" },
-    @{ n = "43j. シリーズ名だけでは解決しない"; input = "ARMORED CORE";               expectType = "not-found";        expectId = $null }
+    @{ n = "43j. シリーズ名だけでは解決しない"; input = "ARMORED CORE";               expectType = "not-found";        expectId = $null },
+    # --- 中黒なし表記 ホグワーツレガシー。続編の数字表記や英題・別作品には効かないこと ---
+    @{ n = "44. 中黒なし表記alias(ホグワーツレガシー)"; input = "ホグワーツレガシー"; expectType = "alias-exact"; expectId = "ホグワーツ・レガシー" },
+    @{ n = "44a. 正式名は既存どおり";         input = "ホグワーツ・レガシー";          expectType = "exact";            expectId = "ホグワーツ・レガシー" },
+    @{ n = "44b. 空白区切りは既存どおり";     input = "ホグワーツ レガシー";           expectType = "normalized-exact"; expectId = "ホグワーツ・レガシー" },
+    @{ n = "44c. 続編の数字表記は解決しない"; input = "ホグワーツレガシー2";           expectType = "not-found";        expectId = $null },
+    @{ n = "44d. 英題は解決しない(既存どおり)"; input = "Hogwarts Legacy";            expectType = "not-found";        expectId = $null },
+    @{ n = "44e. ホグワーツだけでは解決しない"; input = "ホグワーツ";                 expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

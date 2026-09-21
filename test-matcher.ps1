@@ -391,6 +391,25 @@ $cases = @(
      expectCount = 1; expectTopGame = "ARMORED CORE 4"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "ARMORED CORE VI FIRES OF RUBICON" }
   @{ n = "143. for Answerは従来どおり";      title = "ARMORED CORE for Answer";
      expectCount = 1; expectTopGame = "ARMORED CORE for Answer"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "ARMORED CORE VI FIRES OF RUBICON" }
+
+  # --- 中黒なし表記 ホグワーツレガシー。145 は実データにある表記をそのまま使っている ---
+  @{ n = "144. 中黒なし表記alias 単独";      title = "ホグワーツレガシー";
+     expectCount = 1; expectTopGame = "ホグワーツ・レガシー"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "145. 完結タグ付きの実例";          title = "【完結】ホグワーツレガシー";
+     expectCount = 1; expectTopGame = "ホグワーツ・レガシー"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "146. 正式名はaliasに奪われない";   title = "ホグワーツ・レガシー";
+     expectCount = 1; expectTopGame = "ホグワーツ・レガシー"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "147. 正式名と併記でも降格しない";  title = "ホグワーツ・レガシー / ホグワーツレガシー";
+     expectCount = 1; expectTopGame = "ホグワーツ・レガシー"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが続編の数字表記・英題・別作品へ広がらない」ことの固定 ---
+  @{ n = "148. 続編の数字表記は切り出さない"; title = "ホグワーツレガシー2";
+     expectCount = 0 }
+  @{ n = "149. 空白+数字も切り出さない";     title = "ホグワーツレガシー 2";
+     expectCount = 0 }
+  @{ n = "150. 英題の続編は従来どおり";      title = "Hogwarts Legacy 2";
+     expectCount = 0 }
+  @{ n = "151. 別作品は従来どおり";          title = "ホグワーツミステリー";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
