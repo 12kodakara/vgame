@@ -645,7 +645,12 @@ elseif ($SelfTest) {
     @{ n = "47b. 既存alias ドラクエ11S は既存どおり"; input = "ドラクエ11S";         expectType = "alias-exact";      expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
     @{ n = "47c. S なしは解決しない";         input = "ドラゴンクエスト11";            expectType = "not-found";        expectId = $null },
     @{ n = "47d. 12は解決しない";             input = "ドラゴンクエスト12";            expectType = "not-found";        expectId = $null },
-    @{ n = "47e. 英字略称は解決しない";       input = "DQ11S";                         expectType = "not-found";        expectId = $null }
+    @{ n = "47e. 英字略称は解決しない";       input = "DQ11S";                         expectType = "not-found";        expectId = $null },
+    # --- ハイフンなし表記 キャプテン翼 RISE OF NEW CHAMPIONS。2作目・シリーズ名には効かないこと ---
+    @{ n = "48. ハイフンなし表記alias";       input = "キャプテン翼 RISE OF NEW CHAMPIONS"; expectType = "alias-exact"; expectId = "キャプテン翼 -RISE OF NEW CHAMPIONS-" },
+    @{ n = "48a. 正式名は既存どおり";         input = "キャプテン翼 -RISE OF NEW CHAMPIONS-"; expectType = "exact";     expectId = "キャプテン翼 -RISE OF NEW CHAMPIONS-" },
+    @{ n = "48b. 2作目は既存どおり";          input = "キャプテン翼2 WORLD FIGHTERS";  expectType = "exact";            expectId = "キャプテン翼2 WORLD FIGHTERS" },
+    @{ n = "48c. キャプテン翼だけでは解決しない"; input = "キャプテン翼";              expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

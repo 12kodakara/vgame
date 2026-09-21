@@ -548,7 +548,7 @@ const GAMES = [
   { name: "ポケットモンスター ファイアレッド・リーフグリーン", kana: "ぽけっともんすたーふぁいあれっどりーふぐりーん", series: "ポケモンシリーズ" },
   { name: "バイオハザードシリーズ", kana: "ばいおはざーどしりーず", series: "バイオハザードシリーズ" },
   { name: "ナルティメットストーム", kana: "なるてぃめっとすとーむ", series: "" },
-  { name: "キャプテン翼 -RISE OF NEW CHAMPIONS-", kana: "きゃぷてんつばさらいずおぶにゅーちゃんぴおんず", series: "" },
+  { name: "キャプテン翼 -RISE OF NEW CHAMPIONS-", kana: "きゃぷてんつばさらいずおぶにゅーちゃんぴおんず", aliases: ["キャプテン翼 RISE OF NEW CHAMPIONS"], series: "" },
   { name: "メタルギアソリッド3 スネークイーター", kana: "めたるぎあそりっどすりーすねーくいーたー", aliases: ["MGS"], series: "" },
   { name: "ペルソナ4 ザ・ゴールデン", kana: "ぺるそなふぉーざごーるでん", series: "ペルソナシリーズ" },
   { name: "Assetto Corsa Competizione", kana: "あせっとこるさこんぺてぃつぃおーね", series: "" },

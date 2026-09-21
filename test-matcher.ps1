@@ -472,6 +472,25 @@ $cases = @(
      expectCount = 0 }
   @{ n = "177. 英単語が続く場合は切り出さない"; title = "ドラゴンクエスト11S Switch";
      expectCount = 0 }
+
+  # --- ハイフンなし表記 キャプテン翼 RISE OF NEW CHAMPIONS。179-180 は実データにある表記をそのまま使っている ---
+  @{ n = "178. ハイフンなし表記alias 単独";  title = "キャプテン翼 RISE OF NEW CHAMPIONS";
+     expectCount = 1; expectTopGame = "キャプテン翼 -RISE OF NEW CHAMPIONS-"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "179. 絵文字付きの実例";            title = "⚽キャプテン翼 RISE OF NEW CHAMPIONS⚽";
+     expectCount = 1; expectTopGame = "キャプテン翼 -RISE OF NEW CHAMPIONS-"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "180. 英題併記の実例";              title = "⚽キャプテン翼 RISE OF NEW CHAMPIONS：Captain Tsubasa: Rise of New Champions：一旦完結⚽";
+     expectCount = 1; expectTopGame = "キャプテン翼 -RISE OF NEW CHAMPIONS-"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "181. 正式名はaliasに奪われない";   title = "キャプテン翼 -RISE OF NEW CHAMPIONS-";
+     expectCount = 1; expectTopGame = "キャプテン翼 -RISE OF NEW CHAMPIONS-"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが2作目・シリーズ名・英単語付きへ広がらない」ことの固定 ---
+  @{ n = "182. 2作目は従来どおり";           title = "キャプテン翼２ WORLD FIGHTERS";
+     expectCount = 1; expectTopGame = "キャプテン翼2 WORLD FIGHTERS"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "キャプテン翼 -RISE OF NEW CHAMPIONS-" }
+  @{ n = "183. キャプテン翼だけでは切り出さない"; title = "キャプテン翼";
+     expectCount = 0 }
+  @{ n = "184. 数字が続く場合は切り出さない"; title = "キャプテン翼 RISE OF NEW CHAMPIONS2";
+     expectCount = 0 }
+  @{ n = "185. 英単語が続く場合は切り出さない"; title = "キャプテン翼 RISE OF NEW CHAMPIONS Remastered";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
