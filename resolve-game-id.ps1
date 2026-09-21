@@ -622,7 +622,16 @@ elseif ($SelfTest) {
     @{ n = "44b. 空白区切りは既存どおり";     input = "ホグワーツ レガシー";           expectType = "normalized-exact"; expectId = "ホグワーツ・レガシー" },
     @{ n = "44c. 続編の数字表記は解決しない"; input = "ホグワーツレガシー2";           expectType = "not-found";        expectId = $null },
     @{ n = "44d. 英題は解決しない(既存どおり)"; input = "Hogwarts Legacy";            expectType = "not-found";        expectId = $null },
-    @{ n = "44e. ホグワーツだけでは解決しない"; input = "ホグワーツ";                 expectType = "not-found";        expectId = $null }
+    @{ n = "44e. ホグワーツだけでは解決しない"; input = "ホグワーツ";                 expectType = "not-found";        expectId = $null },
+    # --- ナンバリング略称 龍が如く0。数字違い・他ナンバリング・外伝には効かないこと ---
+    @{ n = "45. ナンバリング略称alias(龍が如く0)"; input = "龍が如く0";           expectType = "alias-exact";      expectId = "龍が如く0 誓いの場所" },
+    @{ n = "45a. 全角数字も同じ扱い";         input = "龍が如く０";                    expectType = "canonical-alias";  expectId = "龍が如く0 誓いの場所" },
+    @{ n = "45b. 正式名は既存どおり";         input = "龍が如く0 誓いの場所";          expectType = "exact";            expectId = "龍が如く0 誓いの場所" },
+    @{ n = "45c. 1作目は既存どおり";          input = "龍が如く";                      expectType = "exact";            expectId = "龍が如く" },
+    @{ n = "45d. 8は既存どおり";              input = "龍が如く8";                     expectType = "exact";            expectId = "龍が如く8" },
+    @{ n = "45e. 7外伝は既存どおり";          input = "龍が如く7外伝";                 expectType = "alias-exact";      expectId = "龍が如く7外伝 名を消した男" },
+    @{ n = "45f. 数字が続く場合は一致しない"; input = "龍が如く02";                    expectType = "not-found";        expectId = $null },
+    @{ n = "45g. 10は解決しない";             input = "龍が如く10";                    expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

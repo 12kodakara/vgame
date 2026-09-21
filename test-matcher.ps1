@@ -410,6 +410,27 @@ $cases = @(
      expectCount = 0 }
   @{ n = "151. 別作品は従来どおり";          title = "ホグワーツミステリー";
      expectCount = 0 }
+
+  # --- ナンバリング略称 龍が如く0。152-154 は実データにある表記をそのまま使っている ---
+  @{ n = "152. ナンバリング略称alias 単独";  title = "龍が如く0";
+     expectCount = 1; expectTopGame = "龍が如く0 誓いの場所"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "153. 全角数字の実例";              title = "🍑龍が如く０🍑";
+     expectCount = 1; expectTopGame = "龍が如く0 誓いの場所"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "154. 空白+全角数字の実例";         title = "龍が如く ０";
+     expectCount = 1; expectTopGame = "龍が如く0 誓いの場所"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "155. 正式名はaliasに奪われない";   title = "龍が如く0 誓いの場所";
+     expectCount = 1; expectTopGame = "龍が如く0 誓いの場所"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「0 aliasが他ナンバリング・数字違いへ広がらない」ことの固定 ---
+  @{ n = "156. 1作目は従来どおり";           title = "龍が如く";
+     expectCount = 1; expectTopGame = "龍が如く"; expectTopConf = "MEDIUM"; expectVia = "name"; expectNotGame = "龍が如く0 誓いの場所" }
+  @{ n = "157. 8は従来どおり";               title = "龍が如く8";
+     expectCount = 1; expectTopGame = "龍が如く8"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "龍が如く0 誓いの場所" }
+  @{ n = "158. 7外伝は従来どおり";           title = "龍が如く7外伝";
+     expectCount = 1; expectTopGame = "龍が如く7外伝 名を消した男"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectNotGame = "龍が如く0 誓いの場所" }
+  @{ n = "159. 数字が続く場合は切り出さない"; title = "龍が如く02";
+     expectCount = 0 }
+  @{ n = "160. 10は切り出さない";            title = "龍が如く10";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
