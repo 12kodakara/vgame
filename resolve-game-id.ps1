@@ -631,7 +631,14 @@ elseif ($SelfTest) {
     @{ n = "45d. 8は既存どおり";              input = "龍が如く8";                     expectType = "exact";            expectId = "龍が如く8" },
     @{ n = "45e. 7外伝は既存どおり";          input = "龍が如く7外伝";                 expectType = "alias-exact";      expectId = "龍が如く7外伝 名を消した男" },
     @{ n = "45f. 数字が続く場合は一致しない"; input = "龍が如く02";                    expectType = "not-found";        expectId = $null },
-    @{ n = "45g. 10は解決しない";             input = "龍が如く10";                    expectType = "not-found";        expectId = $null }
+    @{ n = "45g. 10は解決しない";             input = "龍が如く10";                    expectType = "not-found";        expectId = $null },
+    # --- 「スーパー」省略の略称 マリオメーカー2。数字違い・無印には効かないこと ---
+    @{ n = "46. 略称alias(マリオメーカー2)";  input = "マリオメーカー2";              expectType = "alias-exact";      expectId = "スーパーマリオメーカー2" },
+    @{ n = "46a. 全角数字も同じ扱い";         input = "マリオメーカー２";              expectType = "canonical-alias";  expectId = "スーパーマリオメーカー2" },
+    @{ n = "46b. 正式名は既存どおり";         input = "スーパーマリオメーカー2";       expectType = "exact";            expectId = "スーパーマリオメーカー2" },
+    @{ n = "46c. 無印は解決しない";           input = "マリオメーカー";                expectType = "not-found";        expectId = $null },
+    @{ n = "46d. 3は解決しない";              input = "マリオメーカー3";               expectType = "not-found";        expectId = $null },
+    @{ n = "46e. 数字が続く場合は一致しない"; input = "マリオメーカー20";              expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

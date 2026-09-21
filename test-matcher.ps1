@@ -431,6 +431,25 @@ $cases = @(
      expectCount = 0 }
   @{ n = "160. 10は切り出さない";            title = "龍が如く10";
      expectCount = 0 }
+
+  # --- 「スーパー」省略の略称 マリオメーカー2。162-163 は実データにある表記をそのまま使っている ---
+  @{ n = "161. 略称alias 単独";              title = "マリオメーカー2";
+     expectCount = 1; expectTopGame = "スーパーマリオメーカー2"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "162. 全角数字+実況の実例";         title = "マリオメーカー２　実況プレイ";
+     expectCount = 1; expectTopGame = "スーパーマリオメーカー2"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "163. 括弧付きの実例";              title = "【マリオメーカー2】まずは腕試しなのだ！";
+     expectCount = 1; expectTopGame = "スーパーマリオメーカー2"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "164. 正式名はaliasに奪われない";   title = "スーパーマリオメーカー2";
+     expectCount = 1; expectTopGame = "スーパーマリオメーカー2"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが数字違い・無印・別のマリオ作品へ広がらない」ことの固定 ---
+  @{ n = "165. 無印は切り出さない";          title = "マリオメーカー";
+     expectCount = 0 }
+  @{ n = "166. 3は切り出さない";             title = "マリオメーカー3";
+     expectCount = 0 }
+  @{ n = "167. 数字が続く場合は切り出さない"; title = "マリオメーカー20";
+     expectCount = 0 }
+  @{ n = "168. 別のマリオ作品は従来どおり";  title = "マリオカート8 デラックス";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "スーパーマリオメーカー2" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
