@@ -592,7 +592,18 @@ elseif ($SelfTest) {
     @{ n = "41d. 数字が続く場合は一致しない"; input = "ドラクエ11S2";                  expectType = "not-found";        expectId = $null },
     @{ n = "41e. 複合タイトルは確定しない";   input = "ドラクエ11S 実況";              expectType = "not-found";        expectId = $null },
     @{ n = "41f. 正式名の一部は解決しない";   input = "ドラゴンクエストXI";            expectType = "not-found";        expectId = $null },
-    @{ n = "41g. 同上(S付き)";                input = "ドラゴンクエストXI S";          expectType = "not-found";        expectId = $null }
+    @{ n = "41g. 同上(S付き)";                input = "ドラゴンクエストXI S";          expectType = "not-found";        expectId = $null },
+    # --- 外伝作品の略称 龍が如く7外伝。ナンバリング本編やシリーズ一般には効かないこと ---
+    @{ n = "42. 外伝略称alias(龍が如く7外伝)"; input = "龍が如く7外伝";                expectType = "alias-exact";      expectId = "龍が如く7外伝 名を消した男" },
+    @{ n = "42a. 全角数字も同じ扱い";         input = "龍が如く７外伝";                expectType = "canonical-alias";  expectId = "龍が如く7外伝 名を消した男" },
+    @{ n = "42b. 正式名は既存どおり";         input = "龍が如く7外伝 名を消した男";    expectType = "exact";            expectId = "龍が如く7外伝 名を消した男" },
+    @{ n = "42c. 本編7は解決しない";          input = "龍が如く7";                     expectType = "not-found";        expectId = $null },
+    @{ n = "42d. 本編7の正式名は既存どおり";  input = "龍が如く7 光と闇の行方";        expectType = "exact";            expectId = "龍が如く7 光と闇の行方" },
+    @{ n = "42e. 8は既存どおり";              input = "龍が如く8";                     expectType = "exact";            expectId = "龍が如く8" },
+    @{ n = "42f. 8外伝は解決しない";          input = "龍が如く8外伝";                 expectType = "not-found";        expectId = $null },
+    @{ n = "42g. 1作目は既存どおり";          input = "龍が如く";                      expectType = "exact";            expectId = "龍が如く" },
+    @{ n = "42h. 龍が如く外伝は解決しない";   input = "龍が如く外伝";                  expectType = "not-found";        expectId = $null },
+    @{ n = "42i. 数字が続く場合は一致しない"; input = "龍が如く7外伝2";               expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

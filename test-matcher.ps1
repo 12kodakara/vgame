@@ -334,6 +334,32 @@ $cases = @(
      expectCount = 1; expectTopGame = "ドラゴンクエスト"; expectNotGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて" }
   @{ n = "118. 正式名は従来どおりの候補";     title = "ドラゴンクエストXI S 過ぎ去りし時を求めて";
      expectCount = 2; expectContainsGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectAmbiguous = $true }
+
+  # --- 外伝作品の略称 龍が如く7外伝。120-121 は実データにある表記をそのまま使っている ---
+  @{ n = "119. 外伝略称alias 単独";           title = "龍が如く7外伝";
+     expectCount = 1; expectTopGame = "龍が如く7外伝 名を消した男"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "120. 全角数字+空白の実例";          title = "龍が如く７ 外伝";
+     expectCount = 1; expectTopGame = "龍が如く7外伝 名を消した男"; expectTopConf = "MEDIUM" }
+  @{ n = "121. 副題を波ダッシュで繋いだ実例"; title = "龍が如く7外伝～名を消した男～🐉【完結】";
+     expectCount = 1; expectTopGame = "龍が如く7外伝 名を消した男"; expectTopConf = "MEDIUM" }
+  @{ n = "122. 正式名はaliasに奪われない";    title = "龍が如く7外伝 名を消した男";
+     expectCount = 1; expectTopGame = "龍が如く7外伝 名を消した男"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「外伝aliasが本編・シリーズへ広がらない」ことの固定 ---
+  @{ n = "123. 本編7は切り出さない";          title = "龍が如く7";
+     expectCount = 0 }
+  @{ n = "124. 本編7の正式名は従来どおり";    title = "龍が如く7 光と闇の行方";
+     expectCount = 1; expectTopGame = "龍が如く7 光と闇の行方"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "龍が如く7外伝 名を消した男" }
+  @{ n = "125. 8は従来どおり";                title = "龍が如く8";
+     expectCount = 1; expectTopGame = "龍が如く8"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "龍が如く7外伝 名を消した男" }
+  # 実データに3件ある「龍が如く8外伝」。8側のLOWのまま、7外伝へは寄らない
+  @{ n = "126. 8外伝は7外伝へ寄らない";       title = "龍が如く8外伝";
+     expectCount = 1; expectTopGame = "龍が如く8"; expectTopConf = "LOW"; expectNotGame = "龍が如く7外伝 名を消した男" }
+  @{ n = "127. シリーズ1作目は従来どおり";    title = "龍が如く";
+     expectCount = 1; expectTopGame = "龍が如く"; expectTopConf = "MEDIUM"; expectNotGame = "龍が如く7外伝 名を消した男" }
+  @{ n = "128. 龍が如く外伝は寄らない";       title = "龍が如く外伝";
+     expectCount = 1; expectTopGame = "龍が如く"; expectTopConf = "LOW"; expectNotGame = "龍が如く7外伝 名を消した男" }
+  @{ n = "129. 数字が続く場合は切り出さない"; title = "龍が如く7外伝2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
