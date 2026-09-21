@@ -603,7 +603,19 @@ elseif ($SelfTest) {
     @{ n = "42f. 8外伝は解決しない";          input = "龍が如く8外伝";                 expectType = "not-found";        expectId = $null },
     @{ n = "42g. 1作目は既存どおり";          input = "龍が如く";                      expectType = "exact";            expectId = "龍が如く" },
     @{ n = "42h. 龍が如く外伝は解決しない";   input = "龍が如く外伝";                  expectType = "not-found";        expectId = $null },
-    @{ n = "42i. 数字が続く場合は一致しない"; input = "龍が如く7外伝2";               expectType = "not-found";        expectId = $null }
+    @{ n = "42i. 数字が続く場合は一致しない"; input = "龍が如く7外伝2";               expectType = "not-found";        expectId = $null },
+    # --- ナンバリング略称 ARMORED CORE VI。V / VII / IV など隣接ナンバリングには効かないこと ---
+    @{ n = "43. ナンバリング略称alias(ARMORED CORE VI)"; input = "ARMORED CORE VI"; expectType = "alias-exact"; expectId = "ARMORED CORE VI FIRES OF RUBICON" },
+    @{ n = "43a. 正式名は既存どおり";         input = "ARMORED CORE VI FIRES OF RUBICON"; expectType = "exact"; expectId = "ARMORED CORE VI FIRES OF RUBICON" },
+    @{ n = "43b. Vは解決しない";              input = "ARMORED CORE V";                expectType = "not-found";        expectId = $null },
+    @{ n = "43c. VIIは解決しない";            input = "ARMORED CORE VII";              expectType = "not-found";        expectId = $null },
+    @{ n = "43d. IVは解決しない";             input = "ARMORED CORE IV";               expectType = "not-found";        expectId = $null },
+    @{ n = "43e. IIIは解決しない";            input = "ARMORED CORE III";              expectType = "not-found";        expectId = $null },
+    @{ n = "43f. IIは解決しない";             input = "ARMORED CORE II";               expectType = "not-found";        expectId = $null },
+    @{ n = "43g. VIIIは解決しない";           input = "ARMORED CORE VIII";             expectType = "not-found";        expectId = $null },
+    @{ n = "43h. 4は既存どおり";              input = "ARMORED CORE 4";                expectType = "exact";            expectId = "ARMORED CORE 4" },
+    @{ n = "43i. for Answerは既存どおり";     input = "ARMORED CORE for Answer";       expectType = "exact";            expectId = "ARMORED CORE for Answer" },
+    @{ n = "43j. シリーズ名だけでは解決しない"; input = "ARMORED CORE";               expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

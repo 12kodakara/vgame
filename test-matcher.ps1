@@ -360,6 +360,37 @@ $cases = @(
      expectCount = 1; expectTopGame = "龍が如く"; expectTopConf = "LOW"; expectNotGame = "龍が如く7外伝 名を消した男" }
   @{ n = "129. 数字が続く場合は切り出さない"; title = "龍が如く7外伝2";
      expectCount = 0 }
+
+  # --- ナンバリング略称 ARMORED CORE VI。130-133 は実データにある表記をそのまま使っている ---
+  @{ n = "130. ナンバリング略称alias 単独";  title = "ARMORED CORE VI";
+     expectCount = 1; expectTopGame = "ARMORED CORE VI FIRES OF RUBICON"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "131. 墨付き括弧・装飾付きの実例";  title = "🎮【完結】ARMORED CORE VI";
+     expectCount = 1; expectTopGame = "ARMORED CORE VI FIRES OF RUBICON"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "132. 大小文字混在の実例";          title = "Armored Core VI";
+     expectCount = 1; expectTopGame = "ARMORED CORE VI FIRES OF RUBICON"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "133. 正式名はaliasに奪われない";   title = "🤍ARMORED CORE VI FIRES OF RUBICON │AC6";
+     expectCount = 1; expectTopGame = "ARMORED CORE VI FIRES OF RUBICON"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "134. 実況付き";                    title = "ARMORED CORE VI 実況";
+     expectCount = 1; expectTopGame = "ARMORED CORE VI FIRES OF RUBICON"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  # --- ここから下は「VI aliasが隣接ナンバリング・派生語へ広がらない」ことの固定 ---
+  @{ n = "135. Vは切り出さない";             title = "ARMORED CORE V";
+     expectCount = 0 }
+  @{ n = "136. VIIは切り出さない";           title = "ARMORED CORE VII";
+     expectCount = 0 }
+  @{ n = "137. IVは切り出さない";            title = "ARMORED CORE IV";
+     expectCount = 0 }
+  @{ n = "138. IIIは切り出さない";           title = "ARMORED CORE III";
+     expectCount = 0 }
+  @{ n = "139. IIは切り出さない";            title = "ARMORED CORE II";
+     expectCount = 0 }
+  @{ n = "140. VIIIは切り出さない";          title = "ARMORED CORE VIII";
+     expectCount = 0 }
+  @{ n = "141. 英単語が続く場合は切り出さない"; title = "ARMORED CORE VI Online";
+     expectCount = 0 }
+  @{ n = "142. 4は従来どおり";               title = "ARMORED CORE 4";
+     expectCount = 1; expectTopGame = "ARMORED CORE 4"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "ARMORED CORE VI FIRES OF RUBICON" }
+  @{ n = "143. for Answerは従来どおり";      title = "ARMORED CORE for Answer";
+     expectCount = 1; expectTopGame = "ARMORED CORE for Answer"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "ARMORED CORE VI FIRES OF RUBICON" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
