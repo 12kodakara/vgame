@@ -638,7 +638,14 @@ elseif ($SelfTest) {
     @{ n = "46b. 正式名は既存どおり";         input = "スーパーマリオメーカー2";       expectType = "exact";            expectId = "スーパーマリオメーカー2" },
     @{ n = "46c. 無印は解決しない";           input = "マリオメーカー";                expectType = "not-found";        expectId = $null },
     @{ n = "46d. 3は解決しない";              input = "マリオメーカー3";               expectType = "not-found";        expectId = $null },
-    @{ n = "46e. 数字が続く場合は一致しない"; input = "マリオメーカー20";              expectType = "not-found";        expectId = $null }
+    @{ n = "46e. 数字が続く場合は一致しない"; input = "マリオメーカー20";              expectType = "not-found";        expectId = $null },
+    # --- 正式表記寄りの略称 ドラゴンクエスト11S。S なし・他ナンバリング・英字略称には効かないこと ---
+    @{ n = "47. 略称alias(ドラゴンクエスト11S)"; input = "ドラゴンクエスト11S";     expectType = "alias-exact";      expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
+    @{ n = "47a. 全角・小文字も同じ扱い";     input = "ドラゴンクエスト１１ｓ";        expectType = "canonical-alias";  expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
+    @{ n = "47b. 既存alias ドラクエ11S は既存どおり"; input = "ドラクエ11S";         expectType = "alias-exact";      expectId = "ドラゴンクエストXI S 過ぎ去りし時を求めて" },
+    @{ n = "47c. S なしは解決しない";         input = "ドラゴンクエスト11";            expectType = "not-found";        expectId = $null },
+    @{ n = "47d. 12は解決しない";             input = "ドラゴンクエスト12";            expectType = "not-found";        expectId = $null },
+    @{ n = "47e. 英字略称は解決しない";       input = "DQ11S";                         expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

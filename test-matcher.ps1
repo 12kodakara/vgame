@@ -450,6 +450,28 @@ $cases = @(
      expectCount = 0 }
   @{ n = "168. 別のマリオ作品は従来どおり";  title = "マリオカート8 デラックス";
      expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "スーパーマリオメーカー2" }
+
+  # --- 正式表記寄りの略称 ドラゴンクエスト11S。170-171 は実データにある表記をそのまま使っている ---
+  @{ n = "169. 略称alias 単独";              title = "ドラゴンクエスト11S";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "170. 墨付き括弧・英字略称併記の実例"; title = "【ドラゴンクエスト11S/DQ11S】";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "171. 小文字 s の実例";             title = "ドラゴンクエスト11s";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "172. 実況付き";                    title = "ドラゴンクエスト11S 実況";
+     expectCount = 1; expectTopGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  # 正式名は従来どおり(シリーズ名「ドラゴンクエスト」と並ぶ曖昧候補のまま。aliasに奪われない)
+  @{ n = "173. 正式名は従来どおり";          title = "ドラゴンクエストXI S 過ぎ去りし時を求めて";
+     expectCount = 2; expectContainsGame = "ドラゴンクエストXI S 過ぎ去りし時を求めて"; expectAmbiguous = $true }
+  # --- ここから下は「aliasが S なし・他ナンバリング・英単語付きへ広がらない」ことの固定 ---
+  @{ n = "174. S なしは切り出さない";        title = "ドラゴンクエスト11";
+     expectCount = 0 }
+  @{ n = "175. 12は切り出さない";            title = "ドラゴンクエスト12";
+     expectCount = 0 }
+  @{ n = "176. 数字が続く場合は切り出さない"; title = "ドラゴンクエスト11S2";
+     expectCount = 0 }
+  @{ n = "177. 英単語が続く場合は切り出さない"; title = "ドラゴンクエスト11S Switch";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
