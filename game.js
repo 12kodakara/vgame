@@ -1,6 +1,24 @@
 (function () {
   const game = getQueryParam("game") || "";
 
+  // ゲーム一覧(GAMES)に無く、再生リスト・単発実況も1件も無い名前は存在しないゲームとして扱う。
+  // GAMESに登録済みで再生リストがまだ無いゲームは、従来どおり空のページ(noindex)を表示する。
+  const hasAnyPlay =
+    getPlaylistsByGame(game).length > 0 ||
+    (typeof STANDALONE_PLAYS !== "undefined" && STANDALONE_PLAYS.some((p) => p.game === game));
+  if (!gameCatalogOf(game) && !hasAnyPlay) {
+    renderNotFoundPage({
+      title: game ? "ゲームが見つかりません" : "ゲームが指定されていません",
+      message: game
+        ? "「" + game + "」というゲームは、ぶいゲーに登録されていません。名前が変わったか、URLが間違っている可能性があります。"
+        : "表示するゲームが指定されていません。",
+      backHref: "games.html",
+      backLabel: "ゲーム一覧へ戻る",
+      docTitle: "ゲームが見つかりません | " + SITE_NAME,
+    });
+    return;
+  }
+
   document.getElementById("page-title").textContent = game
     ? gameDisplayName(game)
     : "ゲームが指定されていません";

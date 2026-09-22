@@ -356,6 +356,53 @@ function debounce(fn, delayMs) {
  *                 (代表的な再生リストのサムネイルなど、既に存在するURLを渡す想定。
  *                 画像を新規生成・アップロードする仕組みではない)。
  */
+/**
+ * 存在しないゲーム/VTuberのURLを開いたときの「見つかりません」表示。
+ * 見出し・パンくずを差し替え、統計や各セクションを隠して、一覧へ戻る導線だけを出す。
+ * URLの値は利用者の入力なので、DOM APIと textContent だけで組み立てる。
+ * 隠す要素はCSS側で display が指定されているものがあるため、hidden属性ではなく style で隠す。
+ *
+ * opts: title(見出し) / message(説明文) / backHref / backLabel(戻り先リンク) / docTitle(<title>)
+ */
+function renderNotFoundPage(opts) {
+  const content = document.querySelector("main.wiki-content .content-box");
+  const titleEl = document.getElementById("page-title");
+  if (titleEl) titleEl.textContent = opts.title;
+  const breadcrumbEl = document.getElementById("breadcrumb-current");
+  if (breadcrumbEl) breadcrumbEl.textContent = opts.title;
+  const favoriteBtn = document.getElementById("favorite-btn");
+  if (favoriteBtn) favoriteBtn.style.display = "none";
+
+  if (content) {
+    Array.from(content.children).forEach((el) => {
+      const keep = el.matches(".breadcrumb-wiki") || el.contains(titleEl);
+      if (!keep) el.style.display = "none";
+    });
+    const box = document.createElement("section");
+    box.className = "section-box";
+    const message = document.createElement("p");
+    message.className = "page-lead";
+    message.textContent = opts.message;
+    const back = document.createElement("p");
+    const link = document.createElement("a");
+    link.href = opts.backHref;
+    link.textContent = opts.backLabel;
+    back.appendChild(link);
+    box.appendChild(message);
+    box.appendChild(back);
+    content.appendChild(box);
+  }
+
+  document.title = opts.docTitle;
+  let robotsMeta = document.querySelector('meta[name="robots"]');
+  if (!robotsMeta) {
+    robotsMeta = document.createElement("meta");
+    robotsMeta.setAttribute("name", "robots");
+    document.head.appendChild(robotsMeta);
+  }
+  robotsMeta.setAttribute("content", "noindex,follow");
+}
+
 function setPageMeta(title, description, canonicalPath, imageUrl) {
   document.title = title;
 

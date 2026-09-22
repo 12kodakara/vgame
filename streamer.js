@@ -1,6 +1,24 @@
 (function () {
   const streamer = getQueryParam("streamer") || "";
 
+  // 実況者一覧(STREAMERS)に無く、再生リスト・単発実況も1件も無い名前は存在しないVTuberとして扱う。
+  // STREAMERSに登録済みで再生リストがまだ無いVTuberは、従来どおり空のページ(noindex)を表示する。
+  const hasAnyPlay =
+    getPlaylistsByStreamer(streamer).length > 0 ||
+    (typeof STANDALONE_PLAYS !== "undefined" && STANDALONE_PLAYS.some((p) => p.streamer === streamer));
+  if (!streamerByName[streamer] && !hasAnyPlay) {
+    renderNotFoundPage({
+      title: streamer ? "VTuberが見つかりません" : "VTuberが指定されていません",
+      message: streamer
+        ? "「" + streamer + "」というVTuberは、ぶいゲーに登録されていません。名前が変わったか、URLが間違っている可能性があります。"
+        : "表示するVTuberが指定されていません。",
+      backHref: "streamers.html",
+      backLabel: "VTuber一覧へ戻る",
+      docTitle: "VTuberが見つかりません | " + SITE_NAME,
+    });
+    return;
+  }
+
   document.getElementById("page-title").textContent = streamer
     ? streamer + " の再生リスト"
     : "実況者が指定されていません";
