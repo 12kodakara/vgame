@@ -620,7 +620,7 @@ const GAMES = [
   { name: "世界のアソビ大全51", kana: "せかいのあそびたいぜんごじゅういち", series: "任天堂のゲーム" },
   { name: "都市伝説解体センター", kana: "としでんせつかいたいせんたー", series: "" },
   { name: "東方Project", kana: "とうほうぷろじぇくと", series: "" },
-  { name: "崩壊：スターレイル", kana: "ほうかいすたーれいる", series: "" },
+  { name: "崩壊：スターレイル", kana: "ほうかいすたーれいる", aliases: ["崩壊スターレイル"], series: "" },
   { name: "鳴潮", kana: "めいちょう", series: "" },
   { name: "18TRIP", kana: "いちはちとりっぷ", series: "" },
   { name: "1bitHeart", kana: "わんびっとはーと", series: "" },

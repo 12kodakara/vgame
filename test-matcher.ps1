@@ -548,6 +548,25 @@ $cases = @(
      expectCount = 0 }
   @{ n = "209. 英字表記は対象外";            title = "BIOHAZARD RE2";
      expectCount = 0 }
+
+  # --- 全角コロンなし表記 崩壊スターレイル。211 は実データにある表記をそのまま使っている ---
+  @{ n = "210. 全角コロンなし表記alias 単独"; title = "崩壊スターレイル";
+     expectCount = 1; expectTopGame = "崩壊：スターレイル"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "211. 絵文字付きの実例";            title = "🎮崩壊スターレイル";
+     expectCount = 1; expectTopGame = "崩壊：スターレイル"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "212. 正式名はaliasに奪われない";   title = "崩壊：スターレイル";
+     expectCount = 1; expectTopGame = "崩壊：スターレイル"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "213. 正式名と併記でも降格しない";  title = "崩壊：スターレイル【ゲーム実況/崩壊スターレイル】";
+     expectCount = 1; expectTopGame = "崩壊：スターレイル"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが崩壊3rd・短い語・英題・数字違いへ広がらない」ことの固定 ---
+  @{ n = "214. 崩壊3rdは従来どおり";         title = "崩壊3rd";
+     expectCount = 1; expectTopGame = "崩壊3rd"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "崩壊：スターレイル" }
+  @{ n = "215. スターレイルだけでは切り出さない"; title = "スターレイル";
+     expectCount = 0 }
+  @{ n = "216. 英題は対象外";                title = "Honkai: Star Rail";
+     expectCount = 0 }
+  @{ n = "217. 数字が続く場合は切り出さない"; title = "崩壊スターレイル2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

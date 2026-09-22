@@ -670,7 +670,14 @@ elseif ($SelfTest) {
     @{ n = "51b. RE3は既存どおり自作品へ";    input = "バイオハザードRE3";             expectType = "normalized-exact"; expectId = "バイオハザード RE:3" },
     @{ n = "51c. 無印2は解決しない";          input = "バイオハザード2";               expectType = "not-found";        expectId = $null },
     @{ n = "51d. RE2だけでは解決しない";      input = "RE2";                           expectType = "not-found";        expectId = $null },
-    @{ n = "51e. 英字表記は解決しない";       input = "BIOHAZARD RE2";                 expectType = "not-found";        expectId = $null }
+    @{ n = "51e. 英字表記は解決しない";       input = "BIOHAZARD RE2";                 expectType = "not-found";        expectId = $null },
+    # --- 全角コロンなし表記 崩壊スターレイル。崩壊3rd・短い語・英題には効かないこと ---
+    @{ n = "52. 全角コロンなし表記alias";     input = "崩壊スターレイル";              expectType = "alias-exact";      expectId = "崩壊：スターレイル" },
+    @{ n = "52a. 正式名は既存どおり";         input = "崩壊：スターレイル";            expectType = "exact";            expectId = "崩壊：スターレイル" },
+    @{ n = "52b. 崩壊3rdは既存どおり";        input = "崩壊3rd";                       expectType = "exact";            expectId = "崩壊3rd" },
+    @{ n = "52c. 崩壊だけでは解決しない";     input = "崩壊";                          expectType = "not-found";        expectId = $null },
+    @{ n = "52d. スターレイルだけでは解決しない"; input = "スターレイル";              expectType = "not-found";        expectId = $null },
+    @{ n = "52e. 英題は解決しない";           input = "Honkai: Star Rail";             expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
