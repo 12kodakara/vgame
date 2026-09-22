@@ -667,7 +667,7 @@ elseif ($SelfTest) {
     # --- 空白・コロンなし表記 バイオハザードRE2。RE3・RE4・無印2・英字表記には効かないこと ---
     @{ n = "51. 空白・コロンなし表記alias";   input = "バイオハザードRE2";             expectType = "alias-exact";      expectId = "バイオハザード RE:2" },
     @{ n = "51a. 正式名は既存どおり";         input = "バイオハザード RE:2";           expectType = "exact";            expectId = "バイオハザード RE:2" },
-    @{ n = "51b. RE3は既存どおり自作品へ";    input = "バイオハザードRE3";             expectType = "normalized-exact"; expectId = "バイオハザード RE:3" },
+    @{ n = "51b. RE3はRE2ではなく自作品へ(監査65でalias追加)"; input = "バイオハザードRE3"; expectType = "alias-exact"; expectId = "バイオハザード RE:3" },
     @{ n = "51c. 無印2は解決しない";          input = "バイオハザード2";               expectType = "not-found";        expectId = $null },
     @{ n = "51d. RE2だけでは解決しない";      input = "RE2";                           expectType = "not-found";        expectId = $null },
     @{ n = "51e. 英字表記は解決しない";       input = "BIOHAZARD RE2";                 expectType = "not-found";        expectId = $null },
@@ -677,7 +677,14 @@ elseif ($SelfTest) {
     @{ n = "52b. 崩壊3rdは既存どおり";        input = "崩壊3rd";                       expectType = "exact";            expectId = "崩壊3rd" },
     @{ n = "52c. 崩壊だけでは解決しない";     input = "崩壊";                          expectType = "not-found";        expectId = $null },
     @{ n = "52d. スターレイルだけでは解決しない"; input = "スターレイル";              expectType = "not-found";        expectId = $null },
-    @{ n = "52e. 英題は解決しない";           input = "Honkai: Star Rail";             expectType = "not-found";        expectId = $null }
+    @{ n = "52e. 英題は解決しない";           input = "Honkai: Star Rail";             expectType = "not-found";        expectId = $null },
+    # --- 空白・コロンなし表記 バイオハザードRE3。RE2・RE4・無印3・短い語・英字表記には効かないこと ---
+    @{ n = "53. 空白・コロンなし表記alias";   input = "バイオハザードRE3";             expectType = "alias-exact";      expectId = "バイオハザード RE:3" },
+    @{ n = "53a. 正式名は既存どおり";         input = "バイオハザード RE:3";           expectType = "exact";            expectId = "バイオハザード RE:3" },
+    @{ n = "53b. RE2は既存aliasどおり";       input = "バイオハザードRE2";             expectType = "alias-exact";      expectId = "バイオハザード RE:2" },
+    @{ n = "53c. 無印3は解決しない";          input = "バイオハザード3";               expectType = "not-found";        expectId = $null },
+    @{ n = "53d. RE3だけでは解決しない";      input = "RE3";                           expectType = "not-found";        expectId = $null },
+    @{ n = "53e. 英字表記は解決しない";       input = "BIOHAZARD RE3";                 expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
