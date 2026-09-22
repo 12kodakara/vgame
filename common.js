@@ -561,9 +561,18 @@ function playlistUrl(item) {
  * 保存した値をそのまま使う。ページ閲覧時にAPIへアクセスすることは無い。
  */
 
-/** 再生リストのサムネイルURL(未取得なら null)。API通信は行わない。 */
+/**
+ * YouTube が「サムネイルなし」の再生リストに返す灰色のプレースホルダー画像。
+ * HTTP 404 だが画像本体が付いて返るため、ブラウザは error を発火せずそのまま表示し、
+ * VTuberアイコンへのフォールバックが働かない。サムネイル未取得と同じ扱いにする。
+ */
+const YOUTUBE_NO_THUMBNAIL_URL = /^https?:\/\/i\.ytimg\.com\/img\/no_thumbnail\.jpg$/;
+
+/** 再生リストのサムネイルURL(未取得・YouTubeのプレースホルダーなら null)。API通信は行わない。 */
 function getPlaylistThumbnailUrl(item) {
-  return (item && item.thumbnailUrl) || null;
+  const url = (item && item.thumbnailUrl) || null;
+  if (url && YOUTUBE_NO_THUMBNAIL_URL.test(url)) return null;
+  return url;
 }
 
 /**
