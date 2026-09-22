@@ -510,6 +510,23 @@ $cases = @(
      expectCount = 0 }
   @{ n = "193. 数字が続く場合は切り出さない"; title = "モンスターハンターワールド2";
      expectCount = 0 }
+
+  # --- 英題表記 Pokémon Legends: Z-A。194 は実データにある表記をそのまま使っている ---
+  @{ n = "194. 英題表記alias 単独";          title = "Pokémon Legends: Z-A";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "195. 実況付き";                    title = "Pokémon Legends: Z-A 実況";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "196. 正式名はaliasに奪われない";   title = "Pokémon LEGENDS Z-A";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが é なし・アルセウス・英単語付き・数字付きへ広がらない」ことの固定 ---
+  @{ n = "197. é なし表記は切り出さない";    title = "Pokemon Legends: Z-A";
+     expectCount = 0 }
+  @{ n = "198. アルセウス英題は切り出さない"; title = "Pokémon Legends: Arceus";
+     expectCount = 0 }
+  @{ n = "199. 英単語が続く場合は切り出さない"; title = "Pokémon Legends: Z-A DLC";
+     expectCount = 0 }
+  @{ n = "200. 数字が続く場合は切り出さない"; title = "Pokémon Legends: Z-A2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

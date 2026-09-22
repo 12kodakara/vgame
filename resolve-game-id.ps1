@@ -656,7 +656,14 @@ elseif ($SelfTest) {
     @{ n = "49a. 正式名は既存どおり";         input = "モンスターハンター：ワールド";  expectType = "exact";            expectId = "モンスターハンター：ワールド" },
     @{ n = "49b. ワイルズは既存どおり";       input = "モンスターハンターワイルズ";    expectType = "exact";            expectId = "モンスターハンターワイルズ" },
     @{ n = "49c. シリーズ名だけでは解決しない"; input = "モンスターハンター";          expectType = "not-found";        expectId = $null },
-    @{ n = "49d. 数字が続く場合は一致しない"; input = "モンスターハンターワールド2";   expectType = "not-found";        expectId = $null }
+    @{ n = "49d. 数字が続く場合は一致しない"; input = "モンスターハンターワールド2";   expectType = "not-found";        expectId = $null },
+    # --- 英題表記 Pokémon Legends: Z-A。é なし表記・アルセウス・短い文字列には効かないこと ---
+    @{ n = "50. 英題表記alias";               input = "Pokémon Legends: Z-A";          expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "50a. 正式名は既存どおり";         input = "Pokémon LEGENDS Z-A";           expectType = "exact";            expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "50b. 既存alias ポケモンZA は既存どおり"; input = "ポケモンZA";             expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
+    @{ n = "50c. é なし表記は解決しない";     input = "Pokemon Legends: Z-A";          expectType = "not-found";        expectId = $null },
+    @{ n = "50d. アルセウス英題は解決しない"; input = "Pokémon Legends: Arceus";       expectType = "not-found";        expectId = $null },
+    @{ n = "50e. Z-Aだけでは解決しない";      input = "Z-A";                           expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

@@ -580,7 +580,7 @@ const GAMES = [
   { name: "Hollow Knight", kana: "ほろうないと", series: "" },
   { name: "MOTHER", kana: "まざー", series: "任天堂のゲーム" },
   { name: "Phasmophobia", kana: "ふぁずもふぉびあ", series: "" },
-  { name: "Pokémon LEGENDS Z-A", kana: "ぽけもんれじぇんずぜっとえー", aliases: ["ポケモンZA"], series: "ポケモンシリーズ" },
+  { name: "Pokémon LEGENDS Z-A", kana: "ぽけもんれじぇんずぜっとえー", aliases: ["ポケモンZA", "Pokémon Legends: Z-A"], series: "ポケモンシリーズ" },
   { name: "R.E.P.O.", kana: "れぽ", series: "" },
   { name: "Stardew Valley", kana: "すたーでゅーばれー", series: "" },
   { name: "Subnautica", kana: "さぶのーてぃか", series: "" },
