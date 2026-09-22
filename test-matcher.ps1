@@ -527,6 +527,27 @@ $cases = @(
      expectCount = 0 }
   @{ n = "200. 数字が続く場合は切り出さない"; title = "Pokémon Legends: Z-A2";
      expectCount = 0 }
+
+  # --- 空白・コロンなし表記 バイオハザードRE2。202-203 は実データにある表記をそのまま使っている ---
+  @{ n = "201. 空白・コロンなし表記alias 単独"; title = "バイオハザードRE2";
+     expectCount = 1; expectTopGame = "バイオハザード RE:2"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "202. 小文字 e の実例";             title = "バイオハザードRe2🧟‍♂️";
+     expectCount = 1; expectTopGame = "バイオハザード RE:2"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "203. 全角空白+実況の実例";         title = "バイオハザードRE2　実況プレイ";
+     expectCount = 1; expectTopGame = "バイオハザード RE:2"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "204. 正式名はaliasに奪われない";   title = "バイオハザード RE:2";
+     expectCount = 1; expectTopGame = "バイオハザード RE:2"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "205. 正式名と併記でも降格しない";  title = "バイオハザードRE2 / バイオハザード RE:2";
+     expectCount = 1; expectTopGame = "バイオハザード RE:2"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが RE3・無印2・英字表記・数字違いへ広がらない」ことの固定 ---
+  @{ n = "206. RE3は切り出さない";           title = "バイオハザードRE3";
+     expectNotGame = "バイオハザード RE:2" }
+  @{ n = "207. 無印2は切り出さない";         title = "バイオハザード2";
+     expectCount = 0 }
+  @{ n = "208. 数字が続く場合は切り出さない"; title = "バイオハザードRE20";
+     expectCount = 0 }
+  @{ n = "209. 英字表記は対象外";            title = "BIOHAZARD RE2";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

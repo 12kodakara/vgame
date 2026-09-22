@@ -663,7 +663,14 @@ elseif ($SelfTest) {
     @{ n = "50b. 既存alias ポケモンZA は既存どおり"; input = "ポケモンZA";             expectType = "alias-exact";      expectId = "Pokémon LEGENDS Z-A" },
     @{ n = "50c. é なし表記は解決しない";     input = "Pokemon Legends: Z-A";          expectType = "not-found";        expectId = $null },
     @{ n = "50d. アルセウス英題は解決しない"; input = "Pokémon Legends: Arceus";       expectType = "not-found";        expectId = $null },
-    @{ n = "50e. Z-Aだけでは解決しない";      input = "Z-A";                           expectType = "not-found";        expectId = $null }
+    @{ n = "50e. Z-Aだけでは解決しない";      input = "Z-A";                           expectType = "not-found";        expectId = $null },
+    # --- 空白・コロンなし表記 バイオハザードRE2。RE3・RE4・無印2・英字表記には効かないこと ---
+    @{ n = "51. 空白・コロンなし表記alias";   input = "バイオハザードRE2";             expectType = "alias-exact";      expectId = "バイオハザード RE:2" },
+    @{ n = "51a. 正式名は既存どおり";         input = "バイオハザード RE:2";           expectType = "exact";            expectId = "バイオハザード RE:2" },
+    @{ n = "51b. RE3は既存どおり自作品へ";    input = "バイオハザードRE3";             expectType = "normalized-exact"; expectId = "バイオハザード RE:3" },
+    @{ n = "51c. 無印2は解決しない";          input = "バイオハザード2";               expectType = "not-found";        expectId = $null },
+    @{ n = "51d. RE2だけでは解決しない";      input = "RE2";                           expectType = "not-found";        expectId = $null },
+    @{ n = "51e. 英字表記は解決しない";       input = "BIOHAZARD RE2";                 expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
