@@ -1,0 +1,122 @@
+# 再生リストの updatedDate / 欠損 thumbnailUrl を1日1回自動更新する。
+# 中身は refresh-playlist-meta.ps1(ローカル手動実行と同じスクリプト)を呼ぶだけ。
+# YOUTUBE_API_KEY(リポジトリ Secret)が未登録の間は、何もせず正常終了する。
+name: playlist metadata refresh
+
+on:
+  schedule:
+    # 19:00 UTC = 翌 04:00 JST (アクセスの少ない時間帯)
+    - cron: "0 19 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+# 同じ workflow が重なって data-playlists.js を書き換えないようにする。
+# 実行中のものは中断せず、後から来たものを待たせる。
+concurrency:
+  group: playlist-metadata-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリを取得
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: APIキーの登録状況を確認
+        id: secret
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          if [ -z "${YOUTUBE_API_KEY}" ]; then
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=YOUTUBE_API_KEY 未登録::Secret が未登録のため更新をスキップしました(データは変更していません)。"
+            {
+              echo "### 更新をスキップしました"
+              echo ""
+              echo "Settings → Secrets and variables → Actions → New repository secret で"
+              echo '`YOUTUBE_API_KEY` を登録すると、次回の実行から更新が行われます。'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 差分取得キャッシュを復元
+        if: steps.secret.outputs.has_key == 'true'
+        uses: actions/cache@v4
+        with:
+          path: playlist-meta-cache.json
+          key: playlist-meta-cache-${{ github.run_id }}
+          restore-keys: playlist-meta-cache-
+
+      - name: 更新前の再生リスト件数を記録
+        if: steps.secret.outputs.has_key == 'true'
+        id: before
+        run: |
+          echo "count=$(grep -c 'playlistId: "' data-playlists.js)" >> "$GITHUB_OUTPUT"
+
+      - name: 再生リスト情報を更新
+        if: steps.secret.outputs.has_key == 'true'
+        shell: pwsh
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: ./refresh-playlist-meta.ps1 -MaxUnits 2000
+
+      - name: 差分を検査
+        if: steps.secret.outputs.has_key == 'true'
+        id: diff
+        run: |
+          if git diff --quiet -- data-playlists.js; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "差分なし。commit しません。" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          after=$(grep -c 'playlistId: "' data-playlists.js)
+          if [ "${after}" != "${{ steps.before.outputs.count }}" ]; then
+            echo "::error::再生リスト件数が ${{ steps.before.outputs.count }} から ${after} に変化しました。commit せず元に戻します。"
+            git checkout -- data-playlists.js
+            exit 1
+          fi
+          unexpected=$(git diff -U0 -- data-playlists.js | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' | grep -vE '^[+-][[:space:]]*(updatedDate|thumbnailUrl): "' || true)
+          if [ -n "${unexpected}" ]; then
+            echo "::error::updatedDate / thumbnailUrl 以外の差分が出たため commit せず元に戻します。"
+            printf '%s\n' "${unexpected}" | head -20
+            git checkout -- data-playlists.js
+            exit 1
+          fi
+          dates=$(git diff -U0 -- data-playlists.js | grep -cE '^\+[[:space:]]*updatedDate: ' || true)
+          thumbs=$(git diff -U0 -- data-playlists.js | grep -cE '^\+[[:space:]]*thumbnailUrl: ' || true)
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "dates=${dates}" >> "$GITHUB_OUTPUT"
+          echo "thumbs=${thumbs}" >> "$GITHUB_OUTPUT"
+          echo "updatedDate ${dates} 行 / thumbnailUrl ${thumbs} 行を更新しました。" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 差分があれば commit して push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data-playlists.js
+          git commit -m "data: refresh playlist metadata" \
+            -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動更新。updatedDate ${{ steps.diff.outputs.dates }} 行 / thumbnailUrl ${{ steps.diff.outputs.thumbs }} 行。変更したのはこの2項目のみ。"
+          git push origin HEAD:main
+
+      - name: GitHub Pages のビルドを要求
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          code=$(curl -sS -o /tmp/pages-build.json -w '%{http_code}' -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds")
+          echo "pages build request: HTTP ${code}"
+          if [ "${code}" != "201" ]; then
+            echo "::warning::Pages のビルド要求が HTTP ${code} を返しました。push は完了しているため、通常の pages-build-deployment が動いていないか確認してください。"
+          fi
