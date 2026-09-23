@@ -718,7 +718,15 @@ elseif ($SelfTest) {
     @{ n = "57b. 合本は合本の登録へ";         input = "クロノ・トリガー＆クロノ・クロス"; expectType = "exact";          expectId = "クロノ・トリガー＆クロノ・クロス" },
     @{ n = "57c. 数字が続く場合は解決しない"; input = "クロノトリガー2";               expectType = "not-found";        expectId = $null },
     @{ n = "57d. 別作品クロノアは解決しない"; input = "クロノア";                      expectType = "not-found";        expectId = $null },
-    @{ n = "57e. 英題は解決しない";           input = "CHRONO TRIGGER";                expectType = "not-found";        expectId = $null }
+    @{ n = "57e. 英題は解決しない";           input = "CHRONO TRIGGER";                expectType = "not-found";        expectId = $null },
+    # --- 末尾ピリオドなし表記 R.E.P.O。短縮形・数字が続く形には効かないこと ---
+    @{ n = "58. ピリオドなし表記alias";      input = "R.E.P.O";                       expectType = "alias-exact";      expectId = "R.E.P.O." },
+    @{ n = "58a. 正式名は既存どおり";         input = "R.E.P.O.";                      expectType = "exact";            expectId = "R.E.P.O." },
+    @{ n = "58b. 小文字表記も同じゲームへ";    input = "r.e.p.o";                       expectType = "normalized-exact"; expectId = "R.E.P.O." },
+    # REPO は alias 追加前から、記号を落とす正規化で同じゲームへ解決している(実装どおり)
+    @{ n = "58c. REPOは正規化で同じゲームへ";  input = "REPO";                          expectType = "normalized-exact"; expectId = "R.E.P.O." },
+    @{ n = "58d. 途中までは解決しない";       input = "R.E.P";                         expectType = "not-found";        expectId = $null },
+    @{ n = "58e. 数字が続く場合は解決しない"; input = "R.E.P.O2";                      expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

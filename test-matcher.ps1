@@ -673,6 +673,25 @@ $cases = @(
      expectCount = 0 }
   @{ n = "262. 英題は対象外";                title = "CHRONO TRIGGER";
      expectCount = 0 }
+
+  # --- 末尾ピリオドなし表記 R.E.P.O。263-264 は実データにある表記をそのまま使っている ---
+  @{ n = "263. ピリオドなし表記alias 単独";  title = "R.E.P.O";
+     expectCount = 1; expectTopGame = "R.E.P.O."; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "264. 括弧付きの実例";              title = "【R.E.P.O】";
+     expectCount = 1; expectTopGame = "R.E.P.O."; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "265. 正式名はaliasに奪われない";   title = "R.E.P.O.";
+     expectCount = 1; expectTopGame = "R.E.P.O."; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "266. 正式名と併記でも降格しない";  title = "R.E.P.O / R.E.P.O.";
+     expectCount = 1; expectTopGame = "R.E.P.O."; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが短縮形・英数字が続く形へ広がらない」ことの固定 ---
+  @{ n = "267. ピリオドなしREPOは対象外";    title = "REPO";
+     expectCount = 0 }
+  @{ n = "268. 数字が続く場合は切り出さない"; title = "R.E.P.O2";
+     expectCount = 0 }
+  @{ n = "269. 英字が続く場合は切り出さない"; title = "R.E.P.OX";
+     expectCount = 0 }
+  @{ n = "270. 似た英単語は対象外";          title = "Repo Man";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
