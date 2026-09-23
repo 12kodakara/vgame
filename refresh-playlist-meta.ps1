@@ -38,6 +38,12 @@
 .PARAMETER PlanOnly
   概要フェーズ(132 unit)だけ実行し、明細フェーズの対象件数と予定 unit を表示します。
   ファイルは一切書き換えません。
+.PARAMETER OnlyMissing
+  updatedDate が未設定、または thumbnailUrl が未設定/no_thumbnail の再生リストだけを
+  対象にします。概要フェーズも対象分しか呼ばないため、数件なら 2〜3 unit で済みます。
+  新しく再生リストを data-playlists.js に追記した直後は、これを実行してください
+  (付け忘れると「最近更新された再生リスト」に、実際の更新日ではなく
+  サイト追加日で並んだ項目が出てしまいます)。
 .PARAMETER ApplyOnly
   API通信をせず、キャッシュの内容だけを data-playlists.js に反映します。
 
@@ -45,6 +51,9 @@
   .\refresh-playlist-meta.ps1 -PlanOnly
 .EXAMPLE
   .\refresh-playlist-meta.ps1
+.EXAMPLE
+  .\refresh-playlist-meta.ps1 -OnlyMissing
+  再生リストを追記した直後に、その分だけ updatedDate / thumbnailUrl を取得する
 #>
 param(
   [string]$ApiKey = $env:YOUTUBE_API_KEY,
@@ -52,6 +61,7 @@ param(
   [string]$CachePath = (Join-Path $PSScriptRoot "playlist-meta-cache.json"),
   [int]$MaxUnits = 2000,
   [switch]$PlanOnly,
+  [switch]$OnlyMissing,
   [switch]$ApplyOnly
 )
 
@@ -93,6 +103,15 @@ $entries = foreach ($m in $objectMatches) {
     ThumbnailUrl = Get-Field $m.Value "thumbnailUrl"
     VideoCount   = if ($vc.Success) { [int]$vc.Groups[1].Value } else { -1 }
   }
+}
+
+# 収録動画がすべて非公開・削除済みなどで、サムネイルをどうやっても取得できない
+# 再生リストがある。毎回取りにいくと無駄なので、一度空振りしたら30日は再試行しない。
+function Test-ThumbRetryDue($c) {
+  if (-not $c) { return $true }
+  $last = $c["thumbTriedAt"]
+  if (-not $last) { return $true }
+  try { return ([datetime]::ParseExact([string]$last, "yyyy-MM-dd", $null) -lt (Get-Date).AddDays(-30)) } catch { return $true }
 }
 
 function Test-NeedsThumb($e) {
@@ -180,8 +199,19 @@ if (-not $ApplyOnly) {
   if (-not $ApiKey) { throw "APIキーがありません。-ApiKey か環境変数 YOUTUBE_API_KEY を設定してください。" }
 
   # ---- 1. 概要フェーズ ----
+  # 既定は全件(132 unit)。-OnlyMissing のときは updatedDate 未設定 / サムネイル欠落の
+  # 再生リストだけに絞る(取り込み直後に数 unit で埋めるための入口)。
   $info = @{}
-  $ids = @($entries | ForEach-Object { $_.PlaylistId } | Select-Object -Unique)
+  if ($OnlyMissing) {
+    $ids = @($entries | Where-Object { (-not $_.UpdatedDate) -or ((Test-NeedsThumb $_) -and (Test-ThumbRetryDue $cache[$_.PlaylistId])) } | ForEach-Object { $_.PlaylistId } | Select-Object -Unique)
+    Write-Output "[OnlyMissing] updatedDate 未設定 / サムネイル欠落の $($ids.Count) 件だけを対象にします。"
+    if ($ids.Count -eq 0) {
+      Write-Output "対象がありません。APIを呼ばずに終了します(data-playlists.js は変更していません)。"
+      exit 0
+    }
+  } else {
+    $ids = @($entries | ForEach-Object { $_.PlaylistId } | Select-Object -Unique)
+  }
   for ($i = 0; $i -lt $ids.Count; $i += 50) {
     $batch = $ids[$i..([Math]::Min($i + 49, $ids.Count - 1))]
     $url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&maxResults=50&id=$($batch -join ',')&key=$ApiKey"
@@ -211,7 +241,7 @@ if (-not $ApplyOnly) {
     $reasons = @()
     if (-not $e.UpdatedDate -and -not $c["date"]) { $reasons += "noDate" }
     if ($inf.itemCount -ne $baseline) { $reasons += "count" }
-    if ((Test-NeedsThumb $e) -and -not $inf.thumb -and -not $c["videoThumb"]) { $reasons += "thumb" }
+    if ((Test-NeedsThumb $e) -and -not $inf.thumb -and -not $c["videoThumb"] -and (Test-ThumbRetryDue $c)) { $reasons += "thumb" }
     if ($reasons.Count -gt 0) {
       $pri = if ($reasons -contains "noDate" -or $reasons -contains "thumb") { 0 } else { 1 }
       [void]$targets.Add([PSCustomObject]@{ PlaylistId = $pid_; ItemCount = $inf.itemCount; Reasons = ($reasons -join ","); Pri = $pri })
@@ -261,6 +291,8 @@ if (-not $ApplyOnly) {
     $c["checkedAt"] = $today
     if ($latest) { $c["date"] = $latest }   # 既に "yyyy-MM-dd"(JST)
     if ($rep) { $c["videoThumb"] = $rep }
+    # サムネイルを埋められなかった再生リストは、30日間は再試行しない(上の Test-ThumbRetryDue)
+    if (-not $rep -and -not $c["playlistThumb"]) { $c["thumbTriedAt"] = $today }
     $done++
     if ($done % 50 -eq 0) { Save-Cache; Write-Output "  $done/$($targets.Count) 件  $units unit" }
   }
