@@ -692,6 +692,25 @@ $cases = @(
      expectCount = 0 }
   @{ n = "270. 似た英単語は対象外";          title = "Repo Man";
      expectCount = 0 }
+
+  # --- 長音・空白なし表記 ウマ娘プリティダービー。271-272 は実データにある表記をそのまま使っている ---
+  @{ n = "271. 絵文字付きの実例";            title = "🥕ウマ娘プリティダービー🥕";
+     expectCount = 1; expectTopGame = "ウマ娘 プリティーダービー"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "272. 空白ありの実例";              title = "ウマ娘 プリティダービー";
+     expectCount = 1; expectTopGame = "ウマ娘 プリティーダービー"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "273. 正式名はaliasに奪われない";   title = "ウマ娘 プリティーダービー";
+     expectCount = 1; expectTopGame = "ウマ娘 プリティーダービー"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "274. 正式名と併記でも降格しない";  title = "ウマ娘プリティダービー / ウマ娘 プリティーダービー";
+     expectCount = 1; expectTopGame = "ウマ娘 プリティーダービー"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが部分語・数字違い・英題へ広がらない」ことの固定 ---
+  @{ n = "275. ウマ娘単独は対象外";          title = "ウマ娘";
+     expectCount = 0 }
+  @{ n = "276. 部分語は切り出さない";        title = "プリティダービー";
+     expectCount = 0 }
+  @{ n = "277. 数字が続く場合は切り出さない"; title = "ウマ娘プリティダービー2";
+     expectCount = 0 }
+  @{ n = "278. 英題は対象外";                title = "Umamusume Pretty Derby";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

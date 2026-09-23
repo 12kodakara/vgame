@@ -726,7 +726,15 @@ elseif ($SelfTest) {
     # REPO は alias 追加前から、記号を落とす正規化で同じゲームへ解決している(実装どおり)
     @{ n = "58c. REPOは正規化で同じゲームへ";  input = "REPO";                          expectType = "normalized-exact"; expectId = "R.E.P.O." },
     @{ n = "58d. 途中までは解決しない";       input = "R.E.P";                         expectType = "not-found";        expectId = $null },
-    @{ n = "58e. 数字が続く場合は解決しない"; input = "R.E.P.O2";                      expectType = "not-found";        expectId = $null }
+    @{ n = "58e. 数字が続く場合は解決しない"; input = "R.E.P.O2";                      expectType = "not-found";        expectId = $null },
+    # --- 長音・空白なし表記 ウマ娘プリティダービー。部分語・数字が続く形には効かないこと ---
+    @{ n = "59. 長音なし表記alias";          input = "ウマ娘プリティダービー";        expectType = "alias-exact";      expectId = "ウマ娘 プリティーダービー" },
+    @{ n = "59a. 正式名は既存どおり";         input = "ウマ娘 プリティーダービー";     expectType = "exact";            expectId = "ウマ娘 プリティーダービー" },
+    @{ n = "59b. 空白ゆれは正規化で同一";     input = "ウマ娘プリティーダービー";      expectType = "normalized-exact"; expectId = "ウマ娘 プリティーダービー" },
+    @{ n = "59c. ウマ娘単独では解決しない";   input = "ウマ娘";                        expectType = "not-found";        expectId = $null },
+    @{ n = "59d. 部分語では解決しない";       input = "プリティダービー";              expectType = "not-found";        expectId = $null },
+    @{ n = "59e. 数字が続く場合は解決しない"; input = "ウマ娘プリティダービー2";       expectType = "not-found";        expectId = $null },
+    @{ n = "59f. 英題は解決しない";           input = "Umamusume Pretty Derby";        expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
