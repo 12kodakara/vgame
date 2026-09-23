@@ -694,7 +694,15 @@ elseif ($SelfTest) {
     @{ n = "54e. Automata単独では解決しない"; input = "Automata";                      expectType = "not-found";        expectId = $null },
     @{ n = "54f. 数字が続く場合は解決しない"; input = "NieRAutomata2";                 expectType = "not-found";        expectId = $null },
     @{ n = "54g. アニメ表記は解決しない";     input = "NieRAutomataVer1.1a";           expectType = "not-found";        expectId = $null },
-    @{ n = "54h. カナ表記は解決しない";       input = "ニーアオートマタ";              expectType = "not-found";        expectId = $null }
+    @{ n = "54h. カナ表記は解決しない";       input = "ニーアオートマタ";              expectType = "not-found";        expectId = $null },
+    # --- 「ら」抜き表記 ほの暮しの庭。部分語・数字が続く形・かな表記には効かないこと ---
+    @{ n = "55. ら抜き表記alias";            input = "ほの暮しの庭";                  expectType = "alias-exact";      expectId = "ほの暮らしの庭" },
+    @{ n = "55a. 正式名は既存どおり";         input = "ほの暮らしの庭";                expectType = "exact";            expectId = "ほの暮らしの庭" },
+    @{ n = "55b. 部分語では解決しない";       input = "暮しの庭";                      expectType = "not-found";        expectId = $null },
+    @{ n = "55c. 前半だけでは解決しない";     input = "ほの暮し";                      expectType = "not-found";        expectId = $null },
+    @{ n = "55d. 数字が続く場合は解決しない"; input = "ほの暮しの庭2";                 expectType = "not-found";        expectId = $null },
+    @{ n = "55e. かな表記は解決しない";       input = "ほのくらしのにわ";              expectType = "not-found";        expectId = $null },
+    @{ n = "55f. 別語は解決しない";           input = "ほのぼの暮しの庭";              expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

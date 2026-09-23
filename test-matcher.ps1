@@ -609,6 +609,27 @@ $cases = @(
      expectCount = 0 }
   @{ n = "235. カナ表記は対象外";            title = "ニーアオートマタ　実況プレイ";
      expectCount = 0 }
+
+  # --- 「ら」抜き表記 ほの暮しの庭。236-238 は実データにある表記をそのまま使っている ---
+  @{ n = "236. ら抜き表記alias 単独";        title = "ほの暮しの庭";
+     expectCount = 1; expectTopGame = "ほの暮らしの庭"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "237. 括弧+実況の実例";             title = "【ほの暮しの庭】実況プレイ";
+     expectCount = 1; expectTopGame = "ほの暮らしの庭"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "238. 絵文字付きの実例";            title = "ほの暮しの庭🌱";
+     expectCount = 1; expectTopGame = "ほの暮らしの庭"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "239. 正式名はaliasに奪われない";   title = "ほの暮らしの庭";
+     expectCount = 1; expectTopGame = "ほの暮らしの庭"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "240. 正式名と併記でも降格しない";  title = "ほの暮しの庭 / ほの暮らしの庭";
+     expectCount = 1; expectTopGame = "ほの暮らしの庭"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが部分語・数字違い・別語へ広がらない」ことの固定 ---
+  @{ n = "241. 部分語は切り出さない";         title = "暮しの庭";
+     expectCount = 0 }
+  @{ n = "242. 数字が続く場合は切り出さない"; title = "ほの暮しの庭2";
+     expectCount = 0 }
+  @{ n = "243. 別語は切り出さない";           title = "ほのぼの暮しの庭";
+     expectCount = 0 }
+  @{ n = "244. かな表記は対象外";            title = "ほのくらしのにわ";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
