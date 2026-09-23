@@ -711,7 +711,14 @@ elseif ($SelfTest) {
     @{ n = "56d. シリーズ登録は自登録へ";     input = "ARKシリーズ";                   expectType = "exact";            expectId = "ARKシリーズ" },
     @{ n = "56e. ARK単独では解決しない";      input = "ARK";                           expectType = "not-found";        expectId = $null },
     @{ n = "56f. 部分語では解決しない";       input = "survival evolved";              expectType = "not-found";        expectId = $null },
-    @{ n = "56g. 数字が続く場合は解決しない"; input = "ARK survival evolved2";         expectType = "not-found";        expectId = $null }
+    @{ n = "56g. 数字が続く場合は解決しない"; input = "ARK survival evolved2";         expectType = "not-found";        expectId = $null },
+    # --- 中黒なし表記 クロノトリガー。合本・別作品・数字が続く形には効かないこと ---
+    @{ n = "57. 中黒なし表記alias";          input = "クロノトリガー";                expectType = "alias-exact";      expectId = "クロノ・トリガー" },
+    @{ n = "57a. 正式名は既存どおり";         input = "クロノ・トリガー";              expectType = "exact";            expectId = "クロノ・トリガー" },
+    @{ n = "57b. 合本は合本の登録へ";         input = "クロノ・トリガー＆クロノ・クロス"; expectType = "exact";          expectId = "クロノ・トリガー＆クロノ・クロス" },
+    @{ n = "57c. 数字が続く場合は解決しない"; input = "クロノトリガー2";               expectType = "not-found";        expectId = $null },
+    @{ n = "57d. 別作品クロノアは解決しない"; input = "クロノア";                      expectType = "not-found";        expectId = $null },
+    @{ n = "57e. 英題は解決しない";           input = "CHRONO TRIGGER";                expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

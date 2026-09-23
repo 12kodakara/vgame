@@ -651,6 +651,28 @@ $cases = @(
      expectCount = 0 }
   @{ n = "253. 部分語は切り出さない";         title = "survival evolved";
      expectCount = 0 }
+
+  # --- 中黒なし表記 クロノトリガー。254-256 は実データにある表記をそのまま使っている ---
+  @{ n = "254. 中黒なし表記alias 単独";      title = "クロノトリガー";
+     expectCount = 1; expectTopGame = "クロノ・トリガー"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "255. 絵文字付きの実例";            title = "クロノトリガー🐸";
+     expectCount = 1; expectTopGame = "クロノ・トリガー"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "256. 括弧+実況の実例";             title = "【クロノトリガー】実況プレイ";
+     expectCount = 1; expectTopGame = "クロノ・トリガー"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  # 正式名は name 判定のまま(このゲームは合本登録の一部でもあるため HIGH には昇格しない既存仕様)
+  @{ n = "257. 正式名はaliasに奪われない";   title = "クロノ・トリガー";
+     expectCount = 1; expectTopGame = "クロノ・トリガー"; expectVia = "name" }
+  @{ n = "258. 正式名と併記でも name のまま"; title = "クロノトリガー / クロノ・トリガー";
+     expectCount = 1; expectTopGame = "クロノ・トリガー"; expectVia = "name" }
+  # --- ここから下は「aliasが別作品・数字違いへ広がらない」ことの固定 ---
+  @{ n = "259. 数字が続く場合は切り出さない"; title = "クロノトリガー2";
+     expectCount = 0 }
+  @{ n = "260. 別作品クロノクロスは対象外";  title = "クロノクロス";
+     expectCount = 0 }
+  @{ n = "261. 別作品クロノアは対象外";      title = "クロノア";
+     expectCount = 0 }
+  @{ n = "262. 英題は対象外";                title = "CHRONO TRIGGER";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
