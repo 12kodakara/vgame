@@ -702,7 +702,16 @@ elseif ($SelfTest) {
     @{ n = "55c. 前半だけでは解決しない";     input = "ほの暮し";                      expectType = "not-found";        expectId = $null },
     @{ n = "55d. 数字が続く場合は解決しない"; input = "ほの暮しの庭2";                 expectType = "not-found";        expectId = $null },
     @{ n = "55e. かな表記は解決しない";       input = "ほのくらしのにわ";              expectType = "not-found";        expectId = $null },
-    @{ n = "55f. 別語は解決しない";           input = "ほのぼの暮しの庭";              expectType = "not-found";        expectId = $null }
+    @{ n = "55f. 別語は解決しない";           input = "ほのぼの暮しの庭";              expectType = "not-found";        expectId = $null },
+    # --- コロンなし表記 ARK survival evolved。Ascended・部分語・数字が続く形には効かないこと ---
+    @{ n = "56. コロンなし表記alias";        input = "ARK survival evolved";          expectType = "alias-exact";      expectId = "ARK: Survival Evolved" },
+    @{ n = "56a. 正式名は既存どおり";         input = "ARK: Survival Evolved";         expectType = "exact";            expectId = "ARK: Survival Evolved" },
+    @{ n = "56b. 大小文字ゆれは正規化で同一"; input = "Ark Survival Evolved";          expectType = "normalized-exact"; expectId = "ARK: Survival Evolved" },
+    @{ n = "56c. 別作品Ascendedは自作品へ";   input = "ARK: Survival Ascended";        expectType = "exact";            expectId = "ARK: Survival Ascended" },
+    @{ n = "56d. シリーズ登録は自登録へ";     input = "ARKシリーズ";                   expectType = "exact";            expectId = "ARKシリーズ" },
+    @{ n = "56e. ARK単独では解決しない";      input = "ARK";                           expectType = "not-found";        expectId = $null },
+    @{ n = "56f. 部分語では解決しない";       input = "survival evolved";              expectType = "not-found";        expectId = $null },
+    @{ n = "56g. 数字が続く場合は解決しない"; input = "ARK survival evolved2";         expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

@@ -559,7 +559,7 @@ const GAMES = [
   { name: "ELDEN RING", kana: "えるでんりんぐ", series: "フロムソフトウェアのゲーム" },
   { name: "JUDGE EYES:死神の遺言", kana: "じゃっじあいずしにがみのゆいごん", aliases: ["ジャッジアイズ:死神の遺言", "ジャッジアイズ", "キムタク", "きむたく", "JUDGE EYES"], series: "" },
   { name: "アンチャーテッド", kana: "あんちゃーてっど", series: "" },
-  { name: "ARK: Survival Evolved", kana: "あーくさばいばるえぼるぶど", series: "" },
+  { name: "ARK: Survival Evolved", kana: "あーくさばいばるえぼるぶど", aliases: ["ARK survival evolved"], series: "" },
   { name: "ドラゴンクエストV 天空の花嫁", kana: "どらごんくえすとふぁいぶてんくうのはなよめ", aliases: ["ドラクエ"], series: "ドラゴンクエストシリーズ" },
 
   { name: "Minecraft", kana: "まいんくらふと", aliases: ["マイクラ", "マインクラフト"], series: "" },

@@ -630,6 +630,27 @@ $cases = @(
      expectCount = 0 }
   @{ n = "244. かな表記は対象外";            title = "ほのくらしのにわ";
      expectCount = 0 }
+
+  # --- コロンなし表記 ARK survival evolved。245-247 は実データにある表記をそのまま使っている ---
+  @{ n = "245. コロンなし表記alias 単独";    title = "ARK survival evolved";
+     expectCount = 1; expectTopGame = "ARK: Survival Evolved"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "246. 大小文字ゆれの実例";          title = "Ark Survival Evolved 【にじさんじ鯖】Crystal Isles";
+     expectCount = 1; expectTopGame = "ARK: Survival Evolved"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "247. 括弧が続く実例";              title = "ARK survival evolved【にじさんじ鯖】The Island";
+     expectCount = 1; expectTopGame = "ARK: Survival Evolved"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "248. 正式名はaliasに奪われない";   title = "ARK: Survival Evolved";
+     expectCount = 1; expectTopGame = "ARK: Survival Evolved"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "249. 正式名と併記でも降格しない";  title = "ARK survival evolved / ARK: Survival Evolved";
+     expectCount = 1; expectTopGame = "ARK: Survival Evolved"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが別作品・部分語・英数字が続く形へ広がらない」ことの固定 ---
+  @{ n = "250. 別作品Ascendedは自作品へ";    title = "ARK: Survival Ascended";
+     expectCount = 1; expectTopGame = "ARK: Survival Ascended"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "ARK: Survival Evolved" }
+  @{ n = "251. 数字が続く場合は切り出さない"; title = "ARK survival evolved2";
+     expectCount = 0 }
+  @{ n = "252. 英単語が続く場合は切り出さない"; title = "ARK survival evolved Aberration";
+     expectCount = 0 }
+  @{ n = "253. 部分語は切り出さない";         title = "survival evolved";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
