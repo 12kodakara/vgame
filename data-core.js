@@ -891,7 +891,7 @@ const GAMES = [
   { name: "New スーパーマリオブラザーズ U デラックス", kana: "にゅーすーぱーまりおぶらざーずゆーでらっくす", series: "マリオシリーズ" },
   { name: "New ポケモンスナップ", kana: "にゅーぽけもんすなっぷ", series: "ポケモンシリーズ" },
   { name: "ポケモンスナップ", kana: "ぽけもんすなっぷ", series: "ポケモンシリーズ" },
-  { name: "NieR:Automata", kana: "にーあおーとまた", series: "" },
+  { name: "NieR:Automata", kana: "にーあおーとまた", aliases: ["NieRAutomata"], series: "" },
   { name: "Nintendo Switch Sports", kana: "にんてんどーすいっちすぽーつ", series: "任天堂のゲーム" },
   { name: "No Man's Sky", kana: "のーまんずすかい", series: "" },
   { name: "Occult", kana: "おかると", series: "" },

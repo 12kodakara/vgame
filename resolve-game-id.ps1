@@ -684,7 +684,17 @@ elseif ($SelfTest) {
     @{ n = "53b. RE2は既存aliasどおり";       input = "バイオハザードRE2";             expectType = "alias-exact";      expectId = "バイオハザード RE:2" },
     @{ n = "53c. 無印3は解決しない";          input = "バイオハザード3";               expectType = "not-found";        expectId = $null },
     @{ n = "53d. RE3だけでは解決しない";      input = "RE3";                           expectType = "not-found";        expectId = $null },
-    @{ n = "53e. 英字表記は解決しない";       input = "BIOHAZARD RE3";                 expectType = "not-found";        expectId = $null }
+    @{ n = "53e. 英字表記は解決しない";       input = "BIOHAZARD RE3";                 expectType = "not-found";        expectId = $null },
+    # --- コロンなし表記 NieRAutomata。Replicant・部分語・数字/英字が続く形には効かないこと ---
+    @{ n = "54. コロンなし表記alias";        input = "NieRAutomata";                  expectType = "alias-exact";      expectId = "NieR:Automata" },
+    @{ n = "54a. 正式名は既存どおり";         input = "NieR:Automata";                 expectType = "exact";            expectId = "NieR:Automata" },
+    @{ n = "54b. 空白表記は正規化で同一";     input = "NieR Automata";                 expectType = "normalized-exact"; expectId = "NieR:Automata" },
+    @{ n = "54c. 別作品Replicantは自作品へ";  input = "NieR Replicant";                expectType = "exact";            expectId = "NieR Replicant" },
+    @{ n = "54d. NieR単独では解決しない";     input = "NieR";                          expectType = "not-found";        expectId = $null },
+    @{ n = "54e. Automata単独では解決しない"; input = "Automata";                      expectType = "not-found";        expectId = $null },
+    @{ n = "54f. 数字が続く場合は解決しない"; input = "NieRAutomata2";                 expectType = "not-found";        expectId = $null },
+    @{ n = "54g. アニメ表記は解決しない";     input = "NieRAutomataVer1.1a";           expectType = "not-found";        expectId = $null },
+    @{ n = "54h. カナ表記は解決しない";       input = "ニーアオートマタ";              expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

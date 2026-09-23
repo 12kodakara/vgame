@@ -588,6 +588,27 @@ $cases = @(
      expectCount = 0 }
   @{ n = "226. 英字表記は対象外";            title = "BIOHAZARD RE3";
      expectCount = 0 }
+
+  # --- コロンなし表記 NieRAutomata。227 は実データにある表記をそのまま使っている ---
+  @{ n = "227. コロンなし表記aliasの実例";   title = "NieRAutomata【完結】";
+     expectCount = 1; expectTopGame = "NieR:Automata"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "228. 小文字表記";                  title = "nierautomata";
+     expectCount = 1; expectTopGame = "NieR:Automata"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "229. 空白表記";                    title = "NieR Automata 実況";
+     expectCount = 1; expectTopGame = "NieR:Automata"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "230. 正式名はaliasに奪われない";   title = "NieR:Automata";
+     expectCount = 1; expectTopGame = "NieR:Automata"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "231. 正式名と併記でも降格しない";  title = "NieRAutomata / NieR:Automata";
+     expectCount = 1; expectTopGame = "NieR:Automata"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが別作品・部分語・数字/英字が続く形へ広がらない」ことの固定 ---
+  @{ n = "232. 別作品Replicantは自作品へ";   title = "NieR Replicant";
+     expectCount = 1; expectTopGame = "NieR Replicant"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "NieR:Automata" }
+  @{ n = "233. 数字が続く場合は切り出さない"; title = "NieRAutomata2";
+     expectCount = 0 }
+  @{ n = "234. 英字が続く場合は切り出さない"; title = "NieRAutomataOnline";
+     expectCount = 0 }
+  @{ n = "235. カナ表記は対象外";            title = "ニーアオートマタ　実況プレイ";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
