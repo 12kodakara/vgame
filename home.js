@@ -1,18 +1,31 @@
 /**
  * トップページ(index.html)専用スクリプト。
- * ファーストビュー下の発見コンテンツ5種を PLAYLISTS / GAMES / STREAMERS から集計して表示する。
+ * ファーストビュー下の発見コンテンツ5種を表示する。
  *   🔥 人気のゲーム / 🔄 最近更新された再生リスト / ⭐ 人気／注目VTuber
  *   🎮 ゲームから探す(五十音行タイル) / 🎥 VTuberから探す(事務所タイル)
- * data-core.js → data-playlists.js → common.js の後に読み込むこと。
+ *
+ * 再生リストを使う集計(件数・人気のゲーム・最近更新・人気VTuber)は
+ * computeHomeSummary() にまとめてある。トップページでは数MBある data-playlists.js を
+ * 読み込まず、generate-home-data.js がこの同じ関数で事前に作った data-home.js
+ * (HOME_SUMMARY)を使って表示する。HOME_SUMMARY が無い・形式が合わない場合だけ、
+ * data-playlists.js を後から読み込んで同じ関数で集計する(表示内容は同じ)。
+ * data-core.js → data-counts.js → data-home.js → common.js の後に読み込むこと。
  */
-(function () {
-  const LIST_LIMIT = 5;
 
-  /** PLAYLISTS を getKey(playlist) の返り値でグルーピングし、popularity合計・件数の多い順に並べる。 */
+const HOME_LIST_LIMIT = 5;
+const HOME_STREAMER_LIMIT = 10;
+const HOME_SUMMARY_VERSION = 1;
+
+/**
+ * 再生リスト一覧からトップページ用の集計を作る(DOMに触れない純粋関数)。
+ * generate-home-data.js(ビルド時)と、HOME_SUMMARY が使えない場合のページ側の両方から呼ぶ。
+ */
+function computeHomeSummary(playlists) {
+  /** playlists を getKey(playlist) の返り値でグルーピングし、popularity合計・件数の多い順に並べる。 */
   function aggregateBy(getKey) {
     const stats = {};
     const order = [];
-    getAllPlaylists().forEach((p) => {
+    playlists.forEach((p) => {
       const key = getKey(p);
       if (!key) return;
       if (!stats[key]) {
@@ -26,6 +39,34 @@
       .map((k) => stats[k])
       .sort((a, b) => b.score - a.score || b.count - a.count);
   }
+
+  // 🔄 最近更新された再生リスト(updatedDate優先、無ければaddedDateが新しい上位)
+  const recentUpdated = playlists.filter((p) => p.updatedDate || p.addedDate)
+    .slice()
+    .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
+    .slice(0, HOME_LIST_LIMIT);
+
+  return {
+    version: HOME_SUMMARY_VERSION,
+    playlistCount: playlists.length,
+    gameCount: new Set(playlists.map((p) => p.game)).size,
+    streamerCount: new Set(playlists.map((p) => p.streamer)).size,
+    topGames: aggregateBy((p) => p.game).slice(0, HOME_LIST_LIMIT).map((x) => ({ key: x.key, count: x.count })),
+    recentUpdated: recentUpdated,
+    topStreamers: aggregateBy((p) => p.streamer).slice(0, HOME_STREAMER_LIMIT).map((x) => ({ key: x.key, count: x.count })),
+  };
+}
+
+/** HOME_SUMMARY がこのページで使える形かどうか(古い形式・生成失敗を検出する)。 */
+function isUsableHomeSummary(summary) {
+  return !!summary && summary.version === HOME_SUMMARY_VERSION
+    && Array.isArray(summary.topGames) && Array.isArray(summary.recentUpdated)
+    && Array.isArray(summary.topStreamers) && typeof summary.playlistCount === "number";
+}
+
+(function () {
+  // generate-home-data.js から読み込まれた場合は集計関数の定義だけを提供し、描画はしない
+  if (typeof window === "undefined" || window.__HOME_SUMMARY_GENERATOR__) return;
 
   /**
    * 「人気のゲーム」用。ゲーム単位の集計(item.streamer等を持たない)なので、
@@ -63,17 +104,51 @@
     });
   }
 
-  // 検索ボックス直下の掲載件数(トップページを「検索できるデータベース」だと
-  // 一目で伝えるための数値。固定値にせず読み込んだデータから毎回集計する)。
-  const heroStats = document.getElementById("hero-stats");
-  const allPlaylists = getAllPlaylists();
-  if (heroStats && allPlaylists.length) {
-    const gameCount = new Set(allPlaylists.map((p) => p.game)).size;
-    const streamerCount = new Set(allPlaylists.map((p) => p.streamer)).size;
-    heroStats.textContent = allPlaylists.length.toLocaleString("ja-JP") + "件の実況再生リストを掲載 ／ "
-      + gameCount.toLocaleString("ja-JP") + "ゲーム ／ "
-      + streamerCount.toLocaleString("ja-JP") + "VTuber掲載";
-    heroStats.hidden = false;
+  /** 再生リストの集計を使う部分(件数・人気のゲーム・最近更新・人気VTuber)を描画する。 */
+  function renderPlaylistSections(summary) {
+    // 検索ボックス直下の掲載件数(トップページを「検索できるデータベース」だと
+    // 一目で伝えるための数値。固定値にせずデータから毎回集計する)。
+    const heroStats = document.getElementById("hero-stats");
+    if (heroStats && summary.playlistCount) {
+      heroStats.textContent = summary.playlistCount.toLocaleString("ja-JP") + "件の実況再生リストを掲載 ／ "
+        + summary.gameCount.toLocaleString("ja-JP") + "ゲーム ／ "
+        + summary.streamerCount.toLocaleString("ja-JP") + "VTuber掲載";
+      heroStats.hidden = false;
+    }
+
+    // 🔥 人気のゲーム(再生リストのpopularity合計が高いゲーム上位)
+    renderDiscoverList("discover-popular-games", summary.topGames, "まだ再生リストが登録されていません。", (body, item) => {
+      const a = document.createElement("a");
+      a.className = "discover-title";
+      a.href = gameUrl(item.key);
+      a.textContent = gameDisplayName(item.key);
+      body.appendChild(a);
+
+      const meta = document.createElement("div");
+      meta.className = "discover-meta";
+      meta.textContent = "再生リスト " + item.count + "件";
+      body.appendChild(meta);
+    });
+
+    // 🔄 最近更新された再生リスト
+    renderPlaylistDiscoverList("discover-recent-updated", summary.recentUpdated, "更新された再生リストはまだありません。");
+
+    // ⭐ 人気／注目VTuber(再生リストのpopularity合計が高い実況者上位、10件)
+    const streamerGrid = document.getElementById("discover-popular-streamers");
+    if (streamerGrid) {
+      streamerGrid.innerHTML = "";
+
+      if (!summary.topStreamers.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "実況者データがまだありません。";
+        streamerGrid.appendChild(empty);
+      } else {
+        summary.topStreamers.forEach((item) => {
+          streamerGrid.appendChild(createStreamerCard(item.key, item.count));
+        });
+      }
+    }
   }
 
   // 🕒 最近見た実況(localStorageのみ。閲覧履歴がない場合はセクション自体を出さない)
@@ -128,44 +203,15 @@
     }
   }
 
-  // 🔥 人気のゲーム(再生リストのpopularity合計が高いゲーム上位)
-  const topGames = aggregateBy((p) => p.game).slice(0, LIST_LIMIT);
-  renderDiscoverList("discover-popular-games", topGames, "まだ再生リストが登録されていません。", (body, item) => {
-    const a = document.createElement("a");
-    a.className = "discover-title";
-    a.href = gameUrl(item.key);
-    a.textContent = gameDisplayName(item.key);
-    body.appendChild(a);
-
-    const meta = document.createElement("div");
-    meta.className = "discover-meta";
-    meta.textContent = "再生リスト " + item.count + "件";
-    body.appendChild(meta);
-  });
-
-  // 🔄 最近更新された再生リスト(updatedDate優先、無ければaddedDateが新しい上位)
-  const recentUpdated = allPlaylists.filter((p) => p.updatedDate || p.addedDate)
-    .slice()
-    .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
-    .slice(0, LIST_LIMIT);
-  renderPlaylistDiscoverList("discover-recent-updated", recentUpdated, "更新された再生リストはまだありません。");
-
-  // ⭐ 人気／注目VTuber(再生リストのpopularity合計が高い実況者上位、10件)
-  const topStreamers = aggregateBy((p) => p.streamer).slice(0, 10);
-  const streamerGrid = document.getElementById("discover-popular-streamers");
-  if (streamerGrid) {
-    streamerGrid.innerHTML = "";
-
-    if (!topStreamers.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty-state";
-      empty.textContent = "実況者データがまだありません。";
-      streamerGrid.appendChild(empty);
-    } else {
-      topStreamers.forEach((item) => {
-        streamerGrid.appendChild(createStreamerCard(item.key, item.count));
-      });
-    }
+  // 件数・人気のゲーム・最近更新・人気VTuber:
+  //   通常は事前集計(data-home.js)を使う。data-playlists.js が既に読み込まれている場合や、
+  //   事前集計が使えない場合は、全再生リストから同じ関数で集計する。
+  if (typeof PLAYLISTS !== "undefined") {
+    renderPlaylistSections(computeHomeSummary(getAllPlaylists()));
+  } else if (typeof HOME_SUMMARY !== "undefined" && isUsableHomeSummary(HOME_SUMMARY)) {
+    renderPlaylistSections(HOME_SUMMARY);
+  } else {
+    loadPlaylistsData().then(() => renderPlaylistSections(computeHomeSummary(getAllPlaylists())));
   }
 
   // 🎮 ゲームから探す(五十音行タイル。games.html と同じ行別件数)

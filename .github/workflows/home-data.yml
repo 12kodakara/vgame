@@ -1,0 +1,84 @@
+# トップページ用の事前集計 data-home.js を、元データの変更に自動で追従させる。
+# data-playlists.js などが人の push で更新された場合に、generate-home-data.js で作り直し、
+# 差分があれば commit して GitHub Pages のビルドを要求する。
+# (1日1回の playlist metadata refresh は自分の中で同じ再生成を行うため、ここでは扱わない。
+#  GITHUB_TOKEN による push は別の workflow を起動しないので、この workflow が自分の commit で
+#  再度起動されることもない)
+name: home data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - data-playlists.js
+      - data-core.js
+      - common.js
+      - home.js
+      - generate-home-data.js
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: home-data
+  cancel-in-progress: false
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリを取得
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: トップページ用の事前集計を再生成
+        run: node generate-home-data.js
+
+      - name: 回帰テスト
+        run: node test-home-data.js
+
+      - name: 差分を検査
+        id: diff
+        run: |
+          if git diff --quiet -- data-home.js; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "data-home.js は最新です。commit しません。" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "data-home.js を再生成しました。" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: 差分があれば commit して push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data-home.js
+          git commit -m "data: regenerate top page summary" \
+            -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動生成。data-playlists.js 等の更新に合わせて data-home.js を作り直した。"
+          for i in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            git pull --rebase origin main
+            node generate-home-data.js
+            if ! git diff --quiet -- data-home.js; then git add data-home.js && git commit --amend --no-edit; fi
+          done
+          echo "::error::push できませんでした。"
+          exit 1
+
+      - name: GitHub Pages のビルドを要求
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          code=$(curl -sS -o /tmp/pages-build.json -w '%{http_code}' -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds")
+          echo "pages build request: HTTP ${code}"
+          if [ "${code}" != "201" ]; then
+            echo "::warning::Pages のビルド要求が HTTP ${code} を返しました。"
+          fi

@@ -49,6 +49,40 @@ function getAllPlaylists() {
   return typeof PLAYLISTS === "undefined" ? [] : PLAYLISTS;
 }
 
+/**
+ * data-playlists.js を最初から読み込まないページ(トップページ。数MBあるため、
+ * 初期表示には事前集計の data-home.js を使う)で、再生リスト全体が必要になった時点に
+ * 1回だけ読み込む。既に読み込み済みなら即座に解決する。
+ * 読み込み後は、空配列を前提に作られていた索引・キャッシュを作り直させる。
+ */
+let _playlistsDataPromise = null;
+function loadPlaylistsData() {
+  if (typeof PLAYLISTS !== "undefined") return Promise.resolve();
+  if (!_playlistsDataPromise) {
+    _playlistsDataPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "data-playlists.js";
+      script.onload = () => {
+        _playlistsByGameIndex = null;
+        _playlistsByStreamerIndex = null;
+        _searchSuggestPlaylistIndexCache = null;
+        resolve();
+      };
+      script.onerror = () => {
+        _playlistsDataPromise = null;
+        reject(new Error("data-playlists.js を読み込めませんでした"));
+      };
+      document.head.appendChild(script);
+    });
+  }
+  return _playlistsDataPromise;
+}
+
+/** このページが「再生リストを必要になった時点で読み込む」設定か(<body data-lazy-playlists>)。 */
+function isLazyPlaylistsPage() {
+  return !!(document.body && document.body.hasAttribute("data-lazy-playlists"));
+}
+
 /** 指定したゲーム名の再生リストだけを返す(該当が無ければ空配列)。 */
 function getPlaylistsByGame(gameName) {
   if (!_playlistsByGameIndex) buildPlaylistIndexes();
@@ -1619,7 +1653,20 @@ function attachSearchSuggest(input) {
     });
   }
 
+  // 再生リストを遅延読み込みするページ(トップページ)では、検索欄を操作した時点で
+  // data-playlists.js を読み込む。読み込みまでの間もゲーム/VTuberの候補は表示し、
+  // 読み込みが済んだら(まだ入力中であれば)再生リストを含めた候補に出し直す。
+  function ensurePlaylistsForSuggest() {
+    if (typeof PLAYLISTS !== "undefined" || !isLazyPlaylistsPage()) return;
+    loadPlaylistsData().then(() => {
+      if (document.activeElement === input && input.value.trim()) {
+        showList(buildSearchSuggestions(input.value, 8));
+      }
+    }).catch(() => { /* 読み込めない場合はゲーム/VTuberの候補のみ(従来の他ページと同じ) */ });
+  }
+
   input.addEventListener("input", () => {
+    ensurePlaylistsForSuggest();
     clearTimeout(debounceTimer);
     const value = input.value;
     debounceTimer = setTimeout(() => {
@@ -1632,6 +1679,7 @@ function attachSearchSuggest(input) {
   });
 
   input.addEventListener("focus", () => {
+    ensurePlaylistsForSuggest();
     if (input.value.trim()) {
       showList(buildSearchSuggestions(input.value, 8));
     } else {
