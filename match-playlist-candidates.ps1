@@ -208,9 +208,21 @@ function Test-BoundaryMatch([string]$haystack, [string]$needle) {
   return $false
 }
 
+# 商標記号・曲がった引用符の前処理(改善⑥で追加)。
+#   NFKC は「™」(U+2122)を英字「TM」、「℠」(U+2120)を「SM」に展開するため、
+#   「UNDERTALE™」が「undertaletm」になり、英字続きとして境界チェックで落ちていた。
+#   商標記号はゲーム名の一部として意味を持たないので NFKC の前に取り除く。
+#   また「Marvel’s」(U+2019)と正式名「Marvel's」(U+0027)は NFKC では揃わないため、
+#   曲がった引用符 ‘ ’ (U+2018 / U+2019) を ASCII の ' に揃える。
+#   どちらも記号の置き換えだけで、英数字・かな・漢字は一切変えない。
+function Remove-TrademarkAndCurlyQuote([string]$s) {
+  if (-not $s) { return $s }
+  return (($s -replace '[\u2122\u2120]', '') -replace '[\u2018\u2019]', "'")
+}
+
 function Normalize-SearchText([string]$s) {
   if (-not $s) { return "" }
-  $n = $s.Normalize([System.Text.NormalizationForm]::FormKC)
+  $n = (Remove-TrademarkAndCurlyQuote $s).Normalize([System.Text.NormalizationForm]::FormKC)
   $n = ConvertTo-Hiragana $n
   # common.js の normalizeSearchText とは異なり、ここでは空白を完全に除去する。
   # YouTube側のタイトル表記(例:「牧場物語ワンダフルライフ」)がサイト内の
@@ -230,7 +242,7 @@ function Normalize-SearchText([string]$s) {
 # stripped 上の位置から collapsed 上の位置を引けるようにインデックス表(map)を持つ。
 function Build-MatchText([string]$s) {
   if (-not $s) { return [PSCustomObject]@{ stripped = ""; collapsed = ""; map = @() } }
-  $n = $s.Normalize([System.Text.NormalizationForm]::FormKC)
+  $n = (Remove-TrademarkAndCurlyQuote $s).Normalize([System.Text.NormalizationForm]::FormKC)
   $n = ConvertTo-Hiragana $n
   $n = $n.ToLowerInvariant().Trim()
   $n = ($n -replace '\s+', ' ')

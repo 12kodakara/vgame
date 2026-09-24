@@ -138,7 +138,10 @@ $script:GameIdSeparators = @(
 
 function Get-GameIdNormalizedText([string]$s) {
   if (-not $s) { return "" }
-  $n = $s.Normalize([System.Text.NormalizationForm]::FormKC)   # 全角英数字・全角記号 -> 半角
+  # 商標記号(™ ℠)は NFKC で英字 TM / SM に展開されてしまうため先に取り除き、
+  # 曲がった引用符(‘ ’)は ASCII の ' に揃える(match-playlist-candidates.ps1 と同じ前処理)。
+  $n = ($s -replace '[\u2122\u2120]', '') -replace '[\u2018\u2019]', "'"
+  $n = $n.Normalize([System.Text.NormalizationForm]::FormKC)   # 全角英数字・全角記号 -> 半角
   $n = ConvertTo-HiraganaText $n                                # カタカナ -> ひらがな
   $n = $n.ToLowerInvariant().Trim()
   $n = ($n -replace '\s+', ' ')                                 # 連続空白を1つに
@@ -953,7 +956,18 @@ elseif ($SelfTest) {
     @{ n = "104a. FF7リメイクは解決しない(HOLD)"; input = "FF7リメイク";                expectType = "not-found";        expectId = $null },
     @{ n = "104b. ドラクエ3リメイクは解決しない(HOLD)"; input = "ドラクエ3リメイク";    expectType = "not-found";        expectId = $null },
     @{ n = "104c. TotK副題単独は解決しない(REJECT)"; input = "ティアーズ オブ ザ キングダム"; expectType = "not-found";   expectId = $null },
-    @{ n = "104d. ティアキンは解決しない(単発のため未採用)"; input = "ティアキン";       expectType = "not-found";        expectId = $null }
+    @{ n = "104d. ティアキンは解決しない(単発のため未採用)"; input = "ティアキン";       expectType = "not-found";        expectId = $null },
+    # --- 改善⑥: 商標記号(™ ℠)の除去と曲がった引用符(‘ ’)の統一。記号だけを扱い英数字・かなは変えない ---
+    @{ n = "105. ™付き正式名";               input = "UNDERTALE™";                     expectType = "normalized-exact"; expectId = "UNDERTALE" },
+    @{ n = "105a. ™が複数あっても同じ";      input = "STAR WARS™ バトルフロント™ II";  expectType = "normalized-exact"; expectId = "STAR WARS バトルフロント II" },
+    @{ n = "105b. 正式名が他作品の一部でも正規化一致"; input = "HITMAN™";             expectType = "normalized-exact"; expectId = "HITMAN" },
+    @{ n = "105c. 曲がった引用符";           input = "Marvel’s Spider-Man";            expectType = "normalized-exact"; expectId = "Marvel's Spider-Man" },
+    @{ n = "105d. ASCII引用符は従来どおり";  input = "Marvel's Spider-Man";            expectType = "exact";            expectId = "Marvel's Spider-Man" },
+    @{ n = "105e. 英字で書いたTMは除去しない"; input = "UNDERTALETM";                 expectType = "not-found";        expectId = $null },
+    @{ n = "105f. 記号だけの入力は解決しない"; input = "™";                           expectType = "not-found";        expectId = $null },
+    @{ n = "105g. 前後に余計な語があれば従来どおり解決しない"; input = "凛LIVE --- UNDERTALE™"; expectType = "not-found";   expectId = $null },
+    @{ n = "105h. 別作品 Sons of the Forest は従来どおり"; input = "Sons of the Forest"; expectType = "exact";           expectId = "Sons of the Forest" },
+    @{ n = "105i. 別作品 The Forest は従来どおり"; input = "The Forest";              expectType = "exact";            expectId = "The Forest" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

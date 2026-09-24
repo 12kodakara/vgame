@@ -976,6 +976,24 @@ $cases = @(
      expectCount = 0 }
   @{ n = "400. ドラクエ3リメイクは対象外(HOLD)"; title = "ドラクエ３リメイク";
      expectNotGame = "ドラゴンクエストIII HD-2D Remake" }
+  # --- 改善⑥: 商標記号(™ ℠)の除去と曲がった引用符(‘ ’)の統一 ---
+  @{ n = "401. ™付きタイトル(実例)";         title = "凛LIVE --- UNDERTALE™";
+     expectCount = 1; expectTopGame = "UNDERTALE"; expectTopConf = "HIGH"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "402. ™が複数あるタイトル(実例)";   title = "STAR WARS™ バトルフロント™ II";
+     expectCount = 1; expectTopGame = "STAR WARS バトルフロント II"; expectTopConf = "HIGH"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "403. 曲がった引用符(実例)";        title = "凛LIVE --- Marvel’s Spider-Man";
+     expectCount = 1; expectTopGame = "Marvel's Spider-Man"; expectTopConf = "HIGH"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "404. ™付き正式名は alias より正式名で一致(実例)"; title = "ACE COMBAT™ 7: SKIES UNKNOWN┊︎エースコンバット7 スカイズ・アンノウン";
+     expectCount = 1; expectTopGame = "ACE COMBAT 7: SKIES UNKNOWN"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "405. 英字で書いたTMは従来どおり英字続き扱い"; title = "UNDERTALETM";
+     expectCount = 0 }
+  @{ n = "406. ™の後に数字が続く場合は従来どおり切り出さない"; title = "UNDERTALE™2";
+     expectCount = 0 }
+  # --- 空白を考慮した先頭側境界の緩和は REJECT(実データで Sons of the Forest が別作品 The Forest に一致するため) ---
+  @{ n = "407. Sons of the Forest は The Forest に寄らない"; title = "Sons of the Forest";
+     expectTopGame = "Sons of the Forest"; expectNotGame = "The Forest" }
+  @{ n = "408. イベント名+ゲーム名(VCR RUST)は現仕様どおり候補なし"; title = "VCR RUST";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
