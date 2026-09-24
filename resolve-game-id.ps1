@@ -978,7 +978,14 @@ elseif ($SelfTest) {
     @{ n = "106f. 全角数字でも2へ";           input = "リトルナイトメア２";             expectType = "normalized-exact"; expectId = "リトルナイトメア2" },
     @{ n = "106g. ペーパーマリオRPG は独立作品"; input = "ペーパーマリオRPG";             expectType = "exact";            expectId = "ペーパーマリオRPG" },
     # --- HOLD(分類C): ポケポケ と Pocket が同一製品で canonical が重複登録。統合は仕様判断のため現状を固定 ---
-    @{ n = "106h. ポケポケ(重複canonicalのためHOLD・現状維持)"; input = "ポケポケ";       expectType = "exact";            expectId = "ポケポケ" }
+    @{ n = "106h. ポケポケ(重複canonicalのためHOLD・現状維持)"; input = "ポケポケ";       expectType = "exact";            expectId = "ポケポケ" },
+    # --- 改善⑧の前提: resolver は長さ制限を持たず、短い正式名も「入力全体の完全一致」だけで解決する(変更なし) ---
+    @{ n = "107. 短い正式名は完全一致で解決"; input = "原神";                         expectType = "exact";            expectId = "原神" },
+    @{ n = "107a. 英字の短い正式名(小文字)";  input = "ib";                           expectType = "normalized-exact"; expectId = "Ib" },
+    @{ n = "107b. 英単語の一部では解決しない"; input = "Ibis";                        expectType = "not-found";        expectId = $null },
+    @{ n = "107c. 前後に語があれば解決しない"; input = "未来人の原神";                expectType = "not-found";        expectId = $null },
+    @{ n = "107d. 共有略称FFは一意確定しない"; input = "FF";                          expectType = "ambiguous";        expectId = $null },
+    @{ n = "107e. 大神は正式名どおり(絶景版へは寄らない)"; input = "大神";            expectType = "exact";            expectId = "大神" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

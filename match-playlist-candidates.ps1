@@ -453,6 +453,52 @@ foreach ($o in $gameObjs) {
   $normNameList.Add($nrm)
 }
 $normNames = $normNameList.ToArray()
+
+# ---- 2文字以下の正式名: タイトル全体一致のときだけ候補にする(改善⑧) ----
+#   突き合わせ対象は「2文字以下は誤検知が多いため対象外」のまま変えない(部分一致は許可しない)。
+#   その代わり、装飾を除いたタイトル全体が 2文字以下の正式名と完全に同じ場合に限り候補にする
+#   (例:「原神」「🍑雀魂🍑」「【完結】🌹Ib🌹」)。次のいずれかに当たる名前は対象にしない。
+#     - 他のゲームの name / alias と正規化後に同じ(共有略称 FF / FE / 龍如 など)
+#     - その名前で始まる別の登録ゲームがある(大神 -> 大神 絶景版、仁王 -> 仁王2 など。
+#       タイトルが短い名前だけでは、どちらの作品か決められない)
+#     - 一般語と区別できない名前($script:ShortNameGeneralWords)
+#   一致しても confidence は MEDIUM までに留め、HIGH(import-ready)にはしない。
+$script:ShortNameGeneralWords = @("自撮")
+$script:CompletionMarkerPattern = '[\u3010\u3016\[\(\uFF08\u3014]\s*(完結|完|完走済み?|済)\s*[\u3011\u3017\]\)\uFF09\u3015]'
+$shortNameOwners = @{}
+foreach ($o in $gameObjs) {
+  $gn = Field $o "name"
+  if (-not $gn) { continue }
+  foreach ($c in (@($gn) + @(FieldArray $o "aliases"))) {
+    if (-not $c -or $c.Length -ge 3) { continue }
+    $k = Normalize-SearchText $c
+    if (-not $shortNameOwners.ContainsKey($k)) { $shortNameOwners[$k] = New-Object 'System.Collections.Generic.HashSet[string]' }
+    [void]$shortNameOwners[$k].Add($gn)
+  }
+}
+$shortExactTargets = @{}
+foreach ($o in $gameObjs) {
+  $gn = Field $o "name"
+  if (-not $gn -or $gn.Length -ge 3) { continue }
+  if ($script:ShortNameGeneralWords -contains $gn) { continue }
+  $k = Normalize-SearchText $gn
+  if (-not $k -or $shortNameOwners[$k].Count -ne 1) { continue }
+  $prefixOfOther = $false
+  foreach ($other in $normNames) { if ($other.Length -gt $k.Length -and $other.StartsWith($k)) { $prefixOfOther = $true; break } }
+  if ($prefixOfOther) { continue }
+  $shortExactTargets[$k] = [PSCustomObject]@{
+    gameName = $gn
+    isUmbrella = ($gn -eq (Field $o "series"))
+    playlistCount = $(if ($gamePlaylistCount.ContainsKey($gn)) { $gamePlaylistCount[$gn] } else { 0 })
+  }
+}
+function Get-ShortExactTitleKey([string]$title) {
+  if (-not $title) { return "" }
+  $t = (Remove-TrademarkAndCurlyQuote $title).Normalize([System.Text.NormalizationForm]::FormKC)
+  $t = $t -replace $script:CompletionMarkerPattern, ''
+  $t = (ConvertTo-Hiragana $t).ToLowerInvariant()
+  return ($t -replace '[^\p{L}\p{N}]', '')
+}
 $nonDiscriminativeGames = @{}
 foreach ($gn in $normNameOf.Keys) {
   $me = $normNameOf[$gn]
@@ -516,6 +562,23 @@ foreach ($entry in $discovered) {
         }
         [void]$rec.evidences.Add($t.matchText)
         $matchedGames[$t.gameName] = $rec
+        $titleMatches.Add($rec)
+      }
+    }
+    if ($titleMatches.Count -eq 0) {
+      $shortKey = Get-ShortExactTitleKey $pl.title
+      # 英字の名前(Ib など)は、元タイトルでも連続した文字列として現れていること(I.B. のような分割は不可)
+      if ($shortKey -and $shortExactTargets.ContainsKey($shortKey) -and $normTitle.Contains($shortKey)) {
+        $st = $shortExactTargets[$shortKey]
+        $rec = [PSCustomObject]@{
+          game = $st.gameName; via = "name"; isUmbrella = $st.isUmbrella
+          currentPlaylistCount = $st.playlistCount
+          exactTitle = $true; cleanBoundary = $true; nonDiscriminative = $false
+          shortNameExactTitle = $true
+          evidences = (New-Object System.Collections.Generic.List[string])
+        }
+        [void]$rec.evidences.Add($shortKey)
+        $matchedGames[$st.gameName] = $rec
         $titleMatches.Add($rec)
       }
     }
@@ -607,6 +670,7 @@ foreach ($entry in $discovered) {
       $confidence =
         if ($lowConf -or $weakBoundary) { "LOW" }
         elseif ($m.nonDiscriminative) { "MEDIUM" }
+        elseif ($m.PSObject.Properties["shortNameExactTitle"]) { "MEDIUM" }
         elseif ($m.via -eq "alias") { "MEDIUM" }
         else { "HIGH" }
       # 原則B: タイトルが版を主張しているのにカタログ側がその版を区別していない場合、
@@ -645,6 +709,7 @@ foreach ($entry in $discovered) {
           if ($m.nonDiscriminative) { $w += "「$($m.game)」はより具体的な登録ゲーム名の一部です(どの作品か特定できないため要確認)" }
           if (-not $officialChannelMatch) { $w += "STREAMERSに現在登録されているVTuber名と確認できません" }
           if ($isNonGame) { $w += "タイトル/説明文に切り抜き・宣伝等を示す語が含まれます" }
+          if ($m.PSObject.Properties["shortNameExactTitle"]) { $w += "2文字以下の正式名とタイトル全体の一致です(自動確定させず要確認)" }
           if ($m.isUmbrella) { $w += "シリーズ集約名への一致です(具体的な個別タイトルではない可能性)" }
           if ($ambiguous) { $w += "複数ゲームに一致しています(要目視確認): " + (($titleMatches | ForEach-Object { $_.game }) -join ", ") }
           if ($isEmpty) { $w += "itemCount=0(空のplaylistの可能性、要人間確認)" }

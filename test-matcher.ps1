@@ -214,8 +214,10 @@ $cases = @(
   # 実データ(リゼ・ヘルエスタ)由来。Genshin単独は拾わない。和名「原神」は2文字のため突き合わせ対象外
   @{ n = "68. Genshin単独は切り出さない";     title = "【原神/Genshin】星と深淵を目指せ";
      expectCount = 0 }
-  @{ n = "69. 和名のみは従来どおり候補0件";   title = "原神";
-     expectCount = 0 }
+  # 改善⑧で仕様変更: 2文字以下の正式名はタイトル全体一致に限り name 経由の MEDIUM で候補にする
+  # (英語alias「Genshin Impact」経由では一致せず、HIGH=import-ready にもならないことを検査する)
+  @{ n = "69. 和名のみはタイトル全体一致の name / MEDIUM(alias経由・HIGHにはしない)"; title = "原神";
+     expectCount = 1; expectTopGame = "原神"; expectTopConf = "MEDIUM"; expectVia = "name"; expectAmbiguous = $false }
   @{ n = "70. 数字が続く場合は切り出さない";  title = "Genshin Impact2";
      expectCount = 0 }
   # 漢字が続く弱い境界はLOWに落とす既存仕様の固定(ここを広げる変更はしない)
@@ -1019,6 +1021,53 @@ $cases = @(
      expectTopGame = "深夜廻"; expectNotGame = "夜廻" }
   @{ n = "420. Euro Truck Simulator 2 は無印に寄らない"; title = "Euro Truck Simulator 2";
      expectCount = 1; expectTopGame = "Euro Truck Simulator 2"; expectTopConf = "HIGH"; expectNotGame = "Euro Truck Simulator" }
+  # --- 改善⑧: 2文字以下の正式名はタイトル全体一致のときだけ候補にする(MEDIUM止まり・部分一致は不可) ---
+  @{ n = "421. 原神(タイトル全体)";            title = "原神";
+     expectCount = 1; expectTopGame = "原神"; expectTopConf = "MEDIUM"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "422. 絵文字で囲んだ雀魂";             title = "🍑雀魂🍑";
+     expectCount = 1; expectTopGame = "雀魂"; expectTopConf = "MEDIUM"; expectVia = "name" }
+  @{ n = "423. 完結マーカー付きIb";             title = "【完結】🌹Ib🌹";
+     expectCount = 1; expectTopGame = "Ib"; expectTopConf = "MEDIUM"; expectVia = "name" }
+  @{ n = "424. 小文字ibと角括弧の完マーカー";   title = "◌ ib [ 完 ]";
+     expectCount = 1; expectTopGame = "Ib"; expectTopConf = "MEDIUM" }
+  @{ n = "425. (完結)付き青鬼";                 title = "青鬼(完結)";
+     expectCount = 1; expectTopGame = "青鬼"; expectTopConf = "MEDIUM" }
+  @{ n = "426. 記号付き鳴潮";                   title = "⟡ 鳴潮";
+     expectCount = 1; expectTopGame = "鳴潮"; expectTopConf = "MEDIUM" }
+  @{ n = "427. 部分一致は不可(原神+語)";        title = "未来人の原神";
+     expectCount = 0 }
+  @{ n = "428. 部分一致は不可(【夜廻】実況)";   title = "【夜廻】実況";
+     expectCount = 0 }
+  @{ n = "429. 部分一致は不可(麻雀/雀魂)";      title = "麻雀/雀魂";
+     expectCount = 0 }
+  @{ n = "430. 英単語の一部には一致しない(Ibis)"; title = "Ibis";
+     expectCount = 0 }
+  @{ n = "431. 英単語の一部には一致しない(Library)"; title = "Library";
+     expectCount = 0 }
+  @{ n = "432. 分割された I.B. は不可";         title = "I.B.";
+     expectCount = 0 }
+  @{ n = "433. 数字が続く場合は不可";           title = "Ib2";
+     expectCount = 0 }
+  @{ n = "434. リメイク等の語が付く場合は不可"; title = "Ibリメイク";
+     expectCount = 0 }
+  @{ n = "435. 同名で始まる別登録作品がある大神は対象外"; title = "大神";
+     expectCount = 0 }
+  @{ n = "436. 同名で始まる続編がある仁王は対象外"; title = "仁王";
+     expectCount = 0 }
+  @{ n = "437. 一般語と区別できない自撮は対象外"; title = "自撮";
+     expectCount = 0 }
+  @{ n = "438. 共有略称FFは対象外";             title = "FF";
+     expectCount = 0 }
+  @{ n = "439. 共有略称 龍如 は対象外";         title = "龍如";
+     expectCount = 0 }
+  @{ n = "440. 完結マーカーだけのタイトルは不可"; title = "【完結】";
+     expectCount = 0 }
+  @{ n = "441. 深夜廻は夜廻に奪われない";       title = "深夜廻";
+     expectCount = 1; expectTopGame = "深夜廻"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "夜廻" }
+  @{ n = "442. 既存の alias 一致(Genshin Impact)は従来どおり"; title = "Genshin Impact";
+     expectCount = 1; expectTopGame = "原神"; expectVia = "alias" }
+  @{ n = "443. 大神 絶景版 は従来どおり HIGH";   title = "大神　絶景版";
+     expectCount = 1; expectTopGame = "大神 絶景版"; expectTopConf = "HIGH"; expectVia = "name" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
