@@ -633,7 +633,7 @@ const GAMES = [
   { name: "Cult of the Lamb", kana: "かるとおぶざらむ", series: "" },
   { name: "DARK SOULS", kana: "だーくそうるず", aliases: ["ダクソ"], series: "フロムソフトウェアのゲーム" },
   { name: "Dave the Diver", kana: "でいぶざだいばー", series: "" },
-  { name: "Detroit: Become Human", kana: "でとろいとびかむひゅーまん", series: "" },
+  { name: "Detroit: Become Human", kana: "でとろいとびかむひゅーまん", aliases: ["Detroit Become Human"], series: "" },
   { name: "DOOM Eternal", kana: "どぅーむいたーなる", series: "" },
   { name: "ELDEN RING NIGHTREIGN", kana: "えるでんりんぐないとれいん", series: "フロムソフトウェアのゲーム" },
   { name: "Escape from Tarkov", kana: "えすけーぷふろむたるこふ", aliases: ["タルコフ"], series: "" },

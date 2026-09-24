@@ -728,6 +728,23 @@ $cases = @(
      expectCount = 0 }
   @{ n = "285. 英語部分語は対象外";          title = "Tarkov";
      expectCount = 0 }
+
+  # --- コロンなし表記 Detroit Become Human。286-287 は実データにある表記をそのまま使っている ---
+  @{ n = "286. コロンなし表記の実例";        title = "Detroit Become Human";
+     expectCount = 1; expectTopGame = "Detroit: Become Human"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "287. 小文字+装飾付きの実例";       title = "【完結】Detroit become human";
+     expectCount = 1; expectTopGame = "Detroit: Become Human"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "288. 正式名はaliasに奪われない";   title = "Detroit: Become Human";
+     expectCount = 1; expectTopGame = "Detroit: Become Human"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "289. 正式名と併記でも降格しない";  title = "Detroit: Become Human / Detroit Become Human";
+     expectCount = 1; expectTopGame = "Detroit: Become Human"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが部分語・数字違い・別表記へ広がらない」ことの固定 ---
+  @{ n = "290. 数字が続く場合は切り出さない"; title = "Detroit Become Human2";
+     expectCount = 0 }
+  @{ n = "291. 部分語は切り出さない";        title = "Detroit";
+     expectCount = 0 }
+  @{ n = "292. カタカナ表記は対象外(HOLD維持)"; title = "デトロイト";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

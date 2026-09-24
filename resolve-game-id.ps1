@@ -743,7 +743,17 @@ elseif ($SelfTest) {
     @{ n = "60d. 部分語では解決しない";       input = "タルコ";                        expectType = "not-found";        expectId = $null },
     @{ n = "60e. 数字が続く場合は解決しない"; input = "タルコフ2";                     expectType = "not-found";        expectId = $null },
     @{ n = "60f. 英語部分語では解決しない";   input = "Tarkov";                        expectType = "not-found";        expectId = $null },
-    @{ n = "60g. 未登録の派生は解決しない";   input = "Escape from Tarkov Arena";      expectType = "not-found";        expectId = $null }
+    @{ n = "60g. 未登録の派生は解決しない";   input = "Escape from Tarkov Arena";      expectType = "not-found";        expectId = $null },
+    # --- コロンなし表記 Detroit Become Human。部分語・数字が続く形・別表記には効かないこと ---
+    @{ n = "61. コロンなし表記alias";        input = "Detroit Become Human";          expectType = "alias-exact";      expectId = "Detroit: Become Human" },
+    @{ n = "61a. 正式名は既存どおり";         input = "Detroit: Become Human";         expectType = "exact";            expectId = "Detroit: Become Human" },
+    @{ n = "61b. 小文字表記も同じゲームへ";    input = "detroit become human";          expectType = "normalized-exact"; expectId = "Detroit: Become Human" },
+    @{ n = "61c. 空白なし表記も同じゲームへ";  input = "DetroitBecomeHuman";            expectType = "normalized-exact"; expectId = "Detroit: Become Human" },
+    @{ n = "61d. 部分語では解決しない";       input = "Detroit";                       expectType = "not-found";        expectId = $null },
+    @{ n = "61e. 後半部分語では解決しない";   input = "Become Human";                  expectType = "not-found";        expectId = $null },
+    @{ n = "61f. 数字が続く場合は解決しない"; input = "Detroit Become Human2";         expectType = "not-found";        expectId = $null },
+    @{ n = "61g. カタカナ表記は解決しない";   input = "デトロイト";                    expectType = "not-found";        expectId = $null },
+    @{ n = "61h. 未登録の派生は解決しない";   input = "Detroit Become Human Remastered"; expectType = "not-found";      expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
