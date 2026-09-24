@@ -6,6 +6,7 @@
  *   3. index.html は data-home.js を読み込み、data-playlists.js を初期読み込みしない
  *   4. トップページ以外のページの読み込み構成は変えていない(data-playlists.js を使うページは従来どおり)
  *   5. home.js / common.js に、遅延読み込みと事前集計の経路が揃っている
+ *   6. トップページの導線・検索・内部リンク・構造化データ・noindex・sitemap・robots を壊していない
  * 失敗が1件でもあれば終了コード1。
  */
 'use strict';
@@ -74,6 +75,28 @@ check('5a. home.js: HOME_SUMMARY が使えない場合は data-playlists.js を�
 check('5b. common.js: loadPlaylistsData / isLazyPlaylistsPage が定義されている', /function loadPlaylistsData\(\)/.test(common) && /function isLazyPlaylistsPage\(\)/.test(common));
 check('5c. common.js: 検索欄の focus / input で遅延読み込みする', (common.match(/ensurePlaylistsForSuggest\(\);/g) || []).length === 2);
 check('5d. calculatePopularity の定義がテストの前提(popularity || videoCount)と同じ', /function calculatePopularity\(item\) \{\s*return \(item && \(item\.popularity \|\| item\.videoCount\)\) \|\| 0;\s*\}/.test(common));
+
+// ---- 6. 導線・検索・内部リンク・SEO(軽量化で壊していないこと) ----
+const hrefs = [...index.matchAll(/href="([^"#]+)"/g)].map((m) => m[1]);
+const localHrefs = hrefs.filter((h) => !/^(https?:|data:|mailto:)/.test(h));
+const missingTargets = localHrefs.map((h) => h.split('?')[0]).filter((h) => !fs.existsSync(path.join(ROOT, h)));
+check('6a. index.html の内部リンク先がすべて存在する', missingTargets.length === 0, missingTargets.join(', '));
+check('6b. ゲーム一覧(games.html)・VTuber一覧(streamers.html)への導線がある', localHrefs.includes('games.html') && localHrefs.includes('streamers.html'));
+check('6c. ゲーム詳細・VTuber詳細・事務所別一覧への導線を home.js が描画する',
+  /a\.href = gameUrl\(item\.key\)/.test(home) && /createStreamerCard\(item\.key, item\.count\)/.test(home) && /"streamers\.html\?agency="/.test(home)
+  && /function gameUrl\(gameName\) \{\s*return "game\.html\?game=" \+ encodeURIComponent\(gameName\);/.test(common)
+  && /function streamerUrl\(streamerName\) \{\s*return "streamer\.html\?streamer=" \+ encodeURIComponent\(streamerName\);/.test(common));
+check('6d. 検索フォーム(サイドバー・トップ)は search.html へ送信する',
+  (index.match(/onsubmit="return wikiSearchSubmit\(this\)"/g) || []).length === 2
+  && /window\.location\.href = "search\.html" \+ \(q \? "\?q=" \+ encodeURIComponent\(q\) : ""\);/.test(common));
+check('6e. 構造化データ(WebSite / SearchAction)を出力する', /injectWebSiteJsonLd\(\);/.test(home));
+check('6f. トップページは noindex ではない', !/<meta name="robots" content="[^"]*noindex/.test(index));
+const sitemap = read('sitemap.xml');
+check('6g. sitemap にトップ・ゲーム一覧・VTuber一覧が載っている',
+  sitemap.includes('<loc>https://vgame-navi.jp/</loc>') && sitemap.includes('<loc>https://vgame-navi.jp/games.html</loc>') && sitemap.includes('<loc>https://vgame-navi.jp/streamers.html</loc>'));
+check('6h. sitemap に data-home.js 等のデータファイルが載っていない', !/<loc>[^<]*\.(js|json|ps1)<\/loc>/.test(sitemap));
+const robots = read('robots.txt');
+check('6i. robots.txt はサイト全体を許可し、sitemap を案内している', /^User-agent: \*$/m.test(robots) && /^Allow: \/$/m.test(robots) && /^Sitemap: https:\/\/vgame-navi\.jp\/sitemap\.xml$/m.test(robots) && !/^Disallow: \/$/m.test(robots));
 
 console.log('');
 console.log('PASS: ' + pass + '  FAIL: ' + fail);
