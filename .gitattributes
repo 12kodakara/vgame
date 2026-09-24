@@ -1,0 +1,8 @@
+# 改行コードをリポジトリ側で統一する(自宅PC・会社PC・GitHub Actions の設定差で差分が出ないように)。
+# テキストはリポジトリ内では LF で保存し、作業フォルダでは各PCの設定(Windows では通常 CRLF)で展開する。
+* text=auto
+
+# 画像は変換しない
+*.png binary
+*.jpg binary
+*.ico binary

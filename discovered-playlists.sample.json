@@ -1,0 +1,44 @@
+[
+  {
+    "streamer": "サンプル実況者",
+    "group": "サンプル事務所",
+    "channelId": "UCsample0000000000000000",
+    "playlists": [
+      {
+        "playlistId": "PLsample000000000000000001",
+        "title": "【龍が如く2】完全新規実況プレイ",
+        "description": "リメイク前オリジナル版を初見プレイします",
+        "itemCount": 10,
+        "publishedAt": "2026-01-01T00:00:00Z"
+      },
+      {
+        "playlistId": "PLCkTosaqp5q1qC1QD-waYCl5CJLVS7N_J",
+        "title": "【逆転裁判4】これは既にdata-playlists.jsに登録済みのIDと同じもの(サンプル)",
+        "description": "重複除外の確認用",
+        "itemCount": 8,
+        "publishedAt": "2026-01-02T00:00:00Z"
+      },
+      {
+        "playlistId": "PLsample000000000000000003",
+        "title": "【ポケットモンスター X・Y】切り抜きまとめ",
+        "description": "面白い場面の切り抜き集です",
+        "itemCount": 3,
+        "publishedAt": "2026-01-03T00:00:00Z"
+      },
+      {
+        "playlistId": "PLsample000000000000000004",
+        "title": "ペルソナシリーズ総まとめ雑談",
+        "description": "シリーズ全体について語る雑談回です",
+        "itemCount": 1,
+        "publishedAt": "2026-01-04T00:00:00Z"
+      },
+      {
+        "playlistId": "PLsample000000000000000005",
+        "title": "今日のご飯を作ります",
+        "description": "料理配信、ゲームとは無関係です",
+        "itemCount": 2,
+        "publishedAt": "2026-01-05T00:00:00Z"
+      }
+    ]
+  }
+]

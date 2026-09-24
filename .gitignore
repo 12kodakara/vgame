@@ -1,0 +1,40 @@
+# ============================================================
+# ぶいゲー: GitHub で管理しないファイル
+# ============================================================
+# GitHub のリポジトリが唯一の正本。自宅PC・会社PCのどちらでも
+# pull -> 作業 -> 検証 -> commit -> push で運用する。
+# 以下は「各PCで作り直せる生成物」または「絶対に共有してはいけない秘密情報」。
+
+# ---- 生成物(各PCで作り直せる) ----
+# build-public.ps1 の出力(公開用フォルダ。GitHub Pages はリポジトリ直下を公開するため不要)
+/public/
+# data-audit.ps1 の監査レポート(人間が確認するためのローカル生成物)
+/reports/
+
+# ---- キャッシュ(YouTube Data API の取得結果。再取得できる・サイズが大きい) ----
+# thumbnails-cache.json / update-dates-cache.json / video-titles-cache.json /
+# playlist-meta-cache.json(GitHub Actions のキャッシュ)など
+*-cache.json
+# discover-playlists.ps1 の出力(公式チャンネルの再生リスト一覧。数MB)。
+# 動作確認用の discovered-playlists.sample.json は管理対象なので除外しない。
+/discovered-playlists.json
+/discovered-*.json
+!/discovered-playlists.sample.json
+
+# ---- 秘密情報(絶対に commit しない) ----
+# YouTube Data API キーはユーザー環境変数 YOUTUBE_API_KEY(ローカル)と
+# リポジトリ Secret(GitHub Actions)にだけ置く。ファイルに書かないこと。
+.env
+.env.*
+*.key
+*.pem
+*secret*
+*credential*
+
+# ---- OS・エディタの一時ファイル ----
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
+*.bak
+~$*
