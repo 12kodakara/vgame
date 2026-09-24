@@ -840,6 +840,40 @@ $cases = @(
      expectCount = 0 }
   @{ n = "334. 別作品デルタルーンは対象外";  title = "デルタルーン";
      expectCount = 0 }
+
+  # --- 改善④で追加した6件。335-350 は実データにある表記をそのまま使っている ---
+  @{ n = "335. 空気読みの実例";              title = "空気読み";
+     expectCount = 1; expectTopGame = "空気読み。"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "336. 正式名はaliasに奪われない";   title = "🍑空気読み。🍑";
+     expectCount = 1; expectTopGame = "空気読み。"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "337. 合本1+2+3は対象外";           title = "空気読み１＋２＋３";
+     expectCount = 0 }
+  @{ n = "338. ヨッシーアイランドの実例";    title = "【完結】ヨッシーアイランド";
+     expectCount = 1; expectTopGame = "スーパーマリオ ヨッシーアイランド"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "339. 正式名と併記でも降格しない";  title = "スーパーマリオ ヨッシーアイランド / ヨッシーアイランド";
+     expectCount = 1; expectTopGame = "スーパーマリオ ヨッシーアイランド"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "340. 別作品クラフトワールドは奪われない"; title = "ヨッシークラフトワールド";
+     expectCount = 1; expectTopGame = "ヨッシークラフトワールド"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "341. 数字が続く場合は切り出さない"; title = "ヨッシーアイランド2";
+     expectCount = 0 }
+  @{ n = "342. ガンエボの実例";              title = "ガンエボ";
+     expectCount = 1; expectTopGame = "GUNDAM EVOLUTION"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "343. 正式名との併記は HIGH / name"; title = "🍑ガンエボ-GUNDAM EVOLUTION-🍑";
+     expectCount = 1; expectTopGame = "GUNDAM EVOLUTION"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "344. 学マスの実例";                title = "🍓学マス！";
+     expectCount = 1; expectTopGame = "学園アイドルマスター"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "345. 正式名と併記でも降格しない";  title = "学園アイドルマスター / 学マス";
+     expectCount = 1; expectTopGame = "学園アイドルマスター"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "346. メタルギアソリッド3の実例";   title = "メタルギアソリッド3🐍";
+     expectCount = 1; expectTopGame = "メタルギアソリッド3 スネークイーター"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "347. 別作品Δ版は奪われない";       title = "METAL GEAR SOLID Δ: SNAKE EATER";
+     expectCount = 1; expectTopGame = "METAL GEAR SOLID Δ: SNAKE EATER"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "348. ディアブロIVの実例";          title = "ディアブロIV";
+     expectCount = 1; expectTopGame = "Diablo IV"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "349. 別作品Diablo IIは奪われない"; title = "Diablo II: Resurrected";
+     expectCount = 1; expectTopGame = "Diablo II: Resurrected"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "350. マリパジャンボリーは対象外(REJECT維持)"; title = "〖マリパジャンボリー〗";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

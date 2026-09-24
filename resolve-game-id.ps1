@@ -822,7 +822,45 @@ elseif ($SelfTest) {
     @{ n = "69c. ひらがな表記も同じゲームへ";  input = "あんだーてーる";                expectType = "canonical-alias";  expectId = "UNDERTALE" },
     @{ n = "69d. 数字が続く場合は解決しない"; input = "アンダーテール2";               expectType = "not-found";        expectId = $null },
     @{ n = "69e. 部分語では解決しない";       input = "アンダー";                      expectType = "not-found";        expectId = $null },
-    @{ n = "69f. 別作品デルタルーンは解決しない"; input = "デルタルーン";              expectType = "not-found";        expectId = $null }
+    @{ n = "69f. 別作品デルタルーンは解決しない"; input = "デルタルーン";              expectType = "not-found";        expectId = $null },
+    # --- 句点なし表記 空気読み。合本「空気読み1+2+3」や続編番号には効かないこと ---
+    @{ n = "70. 句点なし表記alias";          input = "空気読み";                      expectType = "alias-exact";      expectId = "空気読み。" },
+    @{ n = "70a. 正式名は既存どおり";         input = "空気読み。";                    expectType = "exact";            expectId = "空気読み。" },
+    @{ n = "70b. 数字が続く場合は解決しない"; input = "空気読み2";                     expectType = "not-found";        expectId = $null },
+    @{ n = "70c. 全角数字でも解決しない";     input = "空気読み１";                    expectType = "not-found";        expectId = $null },
+    @{ n = "70d. 部分語では解決しない";       input = "空気";                          expectType = "not-found";        expectId = $null },
+    # --- 略称 ヨッシーアイランド。ヨッシー系の別作品には効かないこと ---
+    @{ n = "71. 略称alias ヨッシーアイランド"; input = "ヨッシーアイランド";           expectType = "alias-exact";      expectId = "スーパーマリオ ヨッシーアイランド" },
+    @{ n = "71a. 正式名は既存どおり";         input = "スーパーマリオ ヨッシーアイランド"; expectType = "exact";          expectId = "スーパーマリオ ヨッシーアイランド" },
+    @{ n = "71b. ひらがな表記は正規化で同一";  input = "よっしーあいらんど";            expectType = "canonical-alias";  expectId = "スーパーマリオ ヨッシーアイランド" },
+    @{ n = "71c. 数字が続く場合は解決しない"; input = "ヨッシーアイランド2";           expectType = "not-found";        expectId = $null },
+    @{ n = "71d. 部分語では解決しない";       input = "ヨッシー";                      expectType = "not-found";        expectId = $null },
+    @{ n = "71e. 別作品クラフトワールドは従来どおり"; input = "ヨッシークラフトワールド"; expectType = "exact";          expectId = "ヨッシークラフトワールド" },
+    # --- 略称 ガンエボ。ガンダム系の別作品には効かないこと ---
+    @{ n = "72. 略称alias ガンエボ";         input = "ガンエボ";                      expectType = "alias-exact";      expectId = "GUNDAM EVOLUTION" },
+    @{ n = "72a. 正式名は既存どおり";         input = "GUNDAM EVOLUTION";              expectType = "exact";            expectId = "GUNDAM EVOLUTION" },
+    @{ n = "72b. 数字が続く場合は解決しない"; input = "ガンエボ2";                     expectType = "not-found";        expectId = $null },
+    @{ n = "72c. 別作品バトオペ2は従来どおり"; input = "機動戦士ガンダム バトルオペレーション2"; expectType = "exact";      expectId = "機動戦士ガンダム バトルオペレーション2" },
+    # --- 略称 学マス。アイドルマスター系の別作品には効かないこと ---
+    @{ n = "73. 略称alias 学マス";           input = "学マス";                        expectType = "alias-exact";      expectId = "学園アイドルマスター" },
+    @{ n = "73a. 正式名は既存どおり";         input = "学園アイドルマスター";          expectType = "exact";            expectId = "学園アイドルマスター" },
+    @{ n = "73b. 数字が続く場合は解決しない"; input = "学マス2";                       expectType = "not-found";        expectId = $null },
+    @{ n = "73c. 別作品シャニマスは従来どおり"; input = "アイドルマスター シャイニーカラーズ"; expectType = "exact";       expectId = "アイドルマスター シャイニーカラーズ" },
+    # --- 前方表記 メタルギアソリッド3。MGS2 / 基本作 / Δ版には効かないこと ---
+    @{ n = "74. 前方表記alias MGS3";         input = "メタルギアソリッド3";           expectType = "alias-exact";      expectId = "メタルギアソリッド3 スネークイーター" },
+    @{ n = "74a. 正式名は既存どおり";         input = "メタルギアソリッド3 スネークイーター"; expectType = "exact";        expectId = "メタルギアソリッド3 スネークイーター" },
+    @{ n = "74b. 別作品MGS2は従来どおり";     input = "メタルギアソリッド2";           expectType = "alias-exact";      expectId = "メタルギアソリッド2 サンズ・オブ・リバティ" },
+    @{ n = "74c. 別作品(基本作)は従来どおり"; input = "メタルギアソリッド";            expectType = "exact";            expectId = "メタルギアソリッド" },
+    @{ n = "74d. 別作品Δ版は従来どおり";      input = "METAL GEAR SOLID Δ: SNAKE EATER"; expectType = "exact";          expectId = "METAL GEAR SOLID Δ: SNAKE EATER" },
+    @{ n = "74e. 数字が続く場合は解決しない"; input = "メタルギアソリッド32";          expectType = "not-found";        expectId = $null },
+    # --- カタカナ表記 ディアブロIV。Diablo II には効かないこと ---
+    @{ n = "75. カタカナ表記alias";          input = "ディアブロIV";                  expectType = "alias-exact";      expectId = "Diablo IV" },
+    @{ n = "75a. 正式名は既存どおり";         input = "Diablo IV";                     expectType = "exact";            expectId = "Diablo IV" },
+    @{ n = "75b. 別作品Diablo IIは従来どおり"; input = "Diablo II: Resurrected";       expectType = "exact";            expectId = "Diablo II: Resurrected" },
+    @{ n = "75c. 算用数字表記は解決しない";   input = "ディアブロ4";                   expectType = "not-found";        expectId = $null },
+    @{ n = "75d. 部分語では解決しない";       input = "ディアブロ";                    expectType = "not-found";        expectId = $null },
+    # --- REJECT維持: マリパは「マリパジャンボリー」(別作品)に誤爆するため alias 化しない ---
+    @{ n = "76. マリパは解決しない(REJECT維持)"; input = "マリパ";                     expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
