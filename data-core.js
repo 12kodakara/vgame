@@ -589,6 +589,7 @@ const GAMES = [
   { name: "Tetris 99", kana: "てとりすきゅうじゅうきゅう", series: "任天堂のゲーム" },
   { name: "UNO", kana: "うの", series: "" },
   { name: "VALORANT", kana: "ばろらんと", series: "Riot Gamesのゲーム" },
+  { name: "VRChat", kana: "ぶいあーるちゃっと", series: "" },
   { name: "あつまれ どうぶつの森", kana: "あつまれどうぶつのもり", aliases: ["あつ森", "あつもり"], series: "任天堂のゲーム" },
   { name: "イナズマイレブン 英雄たちのヴィクトリーロード", kana: "いなずまいれぶんえいゆうたちのゔぃくとりーろーど", series: "" },
   { name: "ウマ娘 プリティーダービー", kana: "うまむすめぷりてぃーだーびー", aliases: ["ウマ娘プリティダービー"], series: "" },

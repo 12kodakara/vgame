@@ -765,7 +765,18 @@ elseif ($SelfTest) {
     @{ n = "62g. 別作品64は従来どおり";       input = "マリオカート64";                expectType = "exact";            expectId = "マリオカート64" },
     @{ n = "62h. 数字が続く場合は解決しない"; input = "マリオカート8DX2";              expectType = "not-found";        expectId = $null },
     @{ n = "62i. 英字が続く場合は解決しない"; input = "マリオカート8DXX";              expectType = "not-found";        expectId = $null },
-    @{ n = "62j. 略称マリカは解決しない";     input = "マリカ";                        expectType = "not-found";        expectId = $null }
+    @{ n = "62j. 略称マリカは解決しない";     input = "マリカ";                        expectType = "not-found";        expectId = $null },
+    # --- 新規登録ゲーム VRChat。部分語・数字/英字が続く形・カナ読みには効かないこと ---
+    @{ n = "63. 新規ゲーム正式名";            input = "VRChat";                        expectType = "exact";            expectId = "VRChat" },
+    @{ n = "63a. 小文字表記も同じゲームへ";    input = "vrchat";                        expectType = "normalized-exact"; expectId = "VRChat" },
+    @{ n = "63b. 大文字表記も同じゲームへ";    input = "VRCHAT";                        expectType = "normalized-exact"; expectId = "VRChat" },
+    @{ n = "63c. 全角英字も同じゲームへ";      input = "ＶＲＣｈａｔ";                  expectType = "normalized-exact"; expectId = "VRChat" },
+    @{ n = "63d. 中間空白も同じゲームへ";      input = "VR Chat";                       expectType = "normalized-exact"; expectId = "VRChat" },
+    @{ n = "63e. 数字が続く場合は解決しない"; input = "VRChat2";                       expectType = "not-found";        expectId = $null },
+    @{ n = "63f. 英字が続く場合は解決しない"; input = "VRChatX";                       expectType = "not-found";        expectId = $null },
+    @{ n = "63g. 部分語(VRC)では解決しない";  input = "VRC";                           expectType = "not-found";        expectId = $null },
+    @{ n = "63h. 部分語(Chat)では解決しない"; input = "Chat";                          expectType = "not-found";        expectId = $null },
+    @{ n = "63i. カナ読みでは解決しない";     input = "ブイアールチャット";            expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

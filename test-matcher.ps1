@@ -766,6 +766,23 @@ $cases = @(
      expectCount = 1; expectTopGame = "マリオカート64"; expectTopConf = "HIGH"; expectVia = "name" }
   @{ n = "301. 略称マリカは対象外";          title = "マリカ";
      expectCount = 0 }
+
+  # --- 新規登録ゲーム VRChat。302-303 は実データにある表記をそのまま使っている ---
+  @{ n = "302. 新規ゲームの実例";            title = "VRChat";
+     expectCount = 1; expectTopGame = "VRChat"; expectTopConf = "HIGH"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "303. 大文字表記の実例";            title = "VRCHAT";
+     expectCount = 1; expectTopGame = "VRChat"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "304. 装飾付きでも一致";            title = "【VRChat】";
+     expectCount = 1; expectTopGame = "VRChat"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「新規ゲーム名が部分語・数字違い・カナ読みへ広がらない」ことの固定 ---
+  @{ n = "305. 数字が続く場合は切り出さない"; title = "VRChat 2";
+     expectCount = 0 }
+  @{ n = "306. 部分語(VRC)は切り出さない";   title = "VRC";
+     expectCount = 0 }
+  @{ n = "307. カナ読みは対象外";            title = "ブイアールチャット";
+     expectCount = 0 }
+  @{ n = "308. 既存VALORANTを奪わない";      title = "VALORANT";
+     expectCount = 1; expectTopGame = "VALORANT"; expectTopConf = "HIGH"; expectVia = "name" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
