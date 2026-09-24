@@ -734,7 +734,16 @@ elseif ($SelfTest) {
     @{ n = "59c. ウマ娘単独では解決しない";   input = "ウマ娘";                        expectType = "not-found";        expectId = $null },
     @{ n = "59d. 部分語では解決しない";       input = "プリティダービー";              expectType = "not-found";        expectId = $null },
     @{ n = "59e. 数字が続く場合は解決しない"; input = "ウマ娘プリティダービー2";       expectType = "not-found";        expectId = $null },
-    @{ n = "59f. 英題は解決しない";           input = "Umamusume Pretty Derby";        expectType = "not-found";        expectId = $null }
+    @{ n = "59f. 英題は解決しない";           input = "Umamusume Pretty Derby";        expectType = "not-found";        expectId = $null },
+    # --- カタカナ表記 タルコフ。部分語・数字が続く形・英語部分語には効かないこと ---
+    @{ n = "60. カタカナ表記alias";          input = "タルコフ";                      expectType = "alias-exact";      expectId = "Escape from Tarkov" },
+    @{ n = "60a. 正式名は既存どおり";         input = "Escape from Tarkov";            expectType = "exact";            expectId = "Escape from Tarkov" },
+    @{ n = "60b. 小文字表記も同じゲームへ";    input = "escape from tarkov";            expectType = "normalized-exact"; expectId = "Escape from Tarkov" },
+    @{ n = "60c. ひらがな表記は正規化で同一";  input = "たるこふ";                      expectType = "canonical-alias";  expectId = "Escape from Tarkov" },
+    @{ n = "60d. 部分語では解決しない";       input = "タルコ";                        expectType = "not-found";        expectId = $null },
+    @{ n = "60e. 数字が続く場合は解決しない"; input = "タルコフ2";                     expectType = "not-found";        expectId = $null },
+    @{ n = "60f. 英語部分語では解決しない";   input = "Tarkov";                        expectType = "not-found";        expectId = $null },
+    @{ n = "60g. 未登録の派生は解決しない";   input = "Escape from Tarkov Arena";      expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

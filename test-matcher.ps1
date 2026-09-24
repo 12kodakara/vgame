@@ -711,6 +711,23 @@ $cases = @(
      expectCount = 0 }
   @{ n = "278. 英題は対象外";                title = "Umamusume Pretty Derby";
      expectCount = 0 }
+
+  # --- カタカナ表記 タルコフ。279-280 は実データにある表記をそのまま使っている ---
+  @{ n = "279. カタカナ表記の実例";          title = "タルコフ";
+     expectCount = 1; expectTopGame = "Escape from Tarkov"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "280. ひらがな表記の実例";          title = "たるこふ";
+     expectCount = 1; expectTopGame = "Escape from Tarkov"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "281. 正式名はaliasに奪われない";   title = "Escape from Tarkov";
+     expectCount = 1; expectTopGame = "Escape from Tarkov"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "282. 正式名と併記でも降格しない";  title = "Escape from Tarkov タルコフ";
+     expectCount = 1; expectTopGame = "Escape from Tarkov"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasが部分語・数字違い・英語部分語へ広がらない」ことの固定 ---
+  @{ n = "283. 数字が続く場合は切り出さない"; title = "タルコフ2";
+     expectCount = 0 }
+  @{ n = "284. 部分語は切り出さない";        title = "タルコ";
+     expectCount = 0 }
+  @{ n = "285. 英語部分語は対象外";          title = "Tarkov";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

@@ -636,7 +636,7 @@ const GAMES = [
   { name: "Detroit: Become Human", kana: "でとろいとびかむひゅーまん", series: "" },
   { name: "DOOM Eternal", kana: "どぅーむいたーなる", series: "" },
   { name: "ELDEN RING NIGHTREIGN", kana: "えるでんりんぐないとれいん", series: "フロムソフトウェアのゲーム" },
-  { name: "Escape from Tarkov", kana: "えすけーぷふろむたるこふ", series: "" },
+  { name: "Escape from Tarkov", kana: "えすけーぷふろむたるこふ", aliases: ["タルコフ"], series: "" },
   { name: "Euro Truck Simulator", kana: "ゆーろとらっくしみゅれーたー", series: "" },
   { name: "Fall Guys", kana: "ふぉーるがいず", series: "" },
   { name: "Fatal Frame: Maiden of Black Water", kana: "ふぇいたるふれーむめいでんおぶぶらっくうぉーたー", series: "" },
