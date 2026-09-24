@@ -776,7 +776,32 @@ elseif ($SelfTest) {
     @{ n = "63f. 英字が続く場合は解決しない"; input = "VRChatX";                       expectType = "not-found";        expectId = $null },
     @{ n = "63g. 部分語(VRC)では解決しない";  input = "VRC";                           expectType = "not-found";        expectId = $null },
     @{ n = "63h. 部分語(Chat)では解決しない"; input = "Chat";                          expectType = "not-found";        expectId = $null },
-    @{ n = "63i. カナ読みでは解決しない";     input = "ブイアールチャット";            expectType = "not-found";        expectId = $null }
+    @{ n = "63i. カナ読みでは解決しない";     input = "ブイアールチャット";            expectType = "not-found";        expectId = $null },
+    # --- 新規登録ゲーム Hades。続編 Hades II を奪わず、部分語にも効かないこと ---
+    @{ n = "64. 新規ゲーム Hades";           input = "Hades";                         expectType = "exact";            expectId = "Hades" },
+    @{ n = "64a. 小文字表記も同じゲームへ";    input = "hades";                         expectType = "normalized-exact"; expectId = "Hades" },
+    @{ n = "64b. 続編は奪われない";           input = "Hades II";                      expectType = "exact";            expectId = "Hades II" },
+    @{ n = "64c. 続編(空白なし)も従来どおり"; input = "HadesII";                       expectType = "normalized-exact"; expectId = "Hades II" },
+    @{ n = "64d. 数字が続く場合は解決しない"; input = "Hades2";                        expectType = "not-found";        expectId = $null },
+    @{ n = "64e. 英字が続く場合は解決しない"; input = "HadesX";                        expectType = "not-found";        expectId = $null },
+    @{ n = "64f. 部分語では解決しない";       input = "Hade";                          expectType = "not-found";        expectId = $null },
+    @{ n = "64g. カナ読みでは解決しない";     input = "ハデス";                        expectType = "not-found";        expectId = $null },
+    # --- 新規登録ゲーム Slay the Spire。続編 Slay the Spire 2 を奪わないこと ---
+    @{ n = "65. 新規ゲーム Slay the Spire";  input = "Slay the Spire";                expectType = "exact";            expectId = "Slay the Spire" },
+    @{ n = "65a. 小文字表記も同じゲームへ";    input = "slay the spire";                expectType = "normalized-exact"; expectId = "Slay the Spire" },
+    @{ n = "65b. 空白なしも同じゲームへ";     input = "SlaytheSpire";                  expectType = "normalized-exact"; expectId = "Slay the Spire" },
+    @{ n = "65c. 続編は奪われない";           input = "Slay the Spire 2";              expectType = "exact";            expectId = "Slay the Spire 2" },
+    @{ n = "65d. 数字が続く場合は解決しない"; input = "Slay the Spire3";               expectType = "not-found";        expectId = $null },
+    @{ n = "65e. 部分語では解決しない";       input = "Slay";                          expectType = "not-found";        expectId = $null },
+    @{ n = "65f. 後半部分語でも解決しない";   input = "the Spire";                     expectType = "not-found";        expectId = $null },
+    @{ n = "65g. カナ読みでは解決しない";     input = "スレイザスパイア";              expectType = "not-found";        expectId = $null },
+    # --- 新規登録ゲーム 利用規約に同意したい。部分語・近い別文には効かないこと ---
+    @{ n = "66. 新規ゲーム 利用規約に同意したい"; input = "利用規約に同意したい";      expectType = "exact";            expectId = "利用規約に同意したい" },
+    @{ n = "66a. 全角空白入りも同じゲームへ"; input = "利用規約に　同意したい";        expectType = "normalized-exact"; expectId = "利用規約に同意したい" },
+    @{ n = "66b. 部分語(利用規約)では解決しない"; input = "利用規約";                  expectType = "not-found";        expectId = $null },
+    @{ n = "66c. 部分語(同意したい)では解決しない"; input = "同意したい";              expectType = "not-found";        expectId = $null },
+    @{ n = "66d. 近い別文では解決しない";     input = "利用規約に同意する";            expectType = "not-found";        expectId = $null },
+    @{ n = "66e. 数字が続く場合は解決しない"; input = "利用規約に同意したい2";         expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

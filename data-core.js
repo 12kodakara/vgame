@@ -643,6 +643,7 @@ const GAMES = [
   { name: "Fatal Frame: Maiden of Black Water", kana: "ふぇいたるふれーむめいでんおぶぶらっくうぉーたー", series: "" },
   { name: "Getting Over It", kana: "げってぃんぐおーばーいっと", series: "" },
   { name: "Grand Theft Auto V", kana: "ぐらんどせふとおーとふぁいぶ", aliases: ["GTA"], series: "" },
+  { name: "Hades", kana: "はーです", series: "" },
   { name: "Hades II", kana: "はーですつー", series: "" },
   { name: "Identity V", kana: "あいでんてぃてぃふぁいぶ", series: "" },
   { name: "Inscryption", kana: "いんすくりぷしょん", series: "" },
@@ -668,6 +669,7 @@ const GAMES = [
   { name: "SEKIRO: SHADOWS DIE TWICE", kana: "せきろしゃどうずだいとぅわいす", series: "フロムソフトウェアのゲーム" },
   { name: "Shadowverse", kana: "しゃどうばーす", series: "" },
   { name: "Shadowverse: Worlds Beyond", kana: "しゃどうばーすわーるずびよんど", series: "" },
+  { name: "Slay the Spire", kana: "すれいざすぱいや", series: "" },
   { name: "Slay the Spire 2", kana: "すれいざすぱいやつー", series: "" },
   { name: "Stray", kana: "すとれい", series: "" },
   { name: "Supermarket Simulator", kana: "すーぱーまーけっとしみゅれーたー", series: "" },
@@ -1344,4 +1346,5 @@ const GAMES = [
   { name: "ドラゴンクエストI・II HD-2D Remake", kana: "どらごんくえすとわんつーえいちでぃーつーでぃーりめいく", series: "ドラゴンクエストシリーズ" },
   { name: "ドラゴンクエストIII HD-2D Remake", kana: "どらごんくえすとすりーえいちでぃーつーでぃーりめいく", series: "ドラゴンクエストシリーズ" },
   { name: "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争", kana: "げんそうすいこでんわんつーえいちでぃーりますたーもんのもんしょうせんそうでゅなんとういつせんそう", aliases: ["幻想水滸伝"], series: "" },
+  { name: "利用規約に同意したい", kana: "りようきやくにどういしたい", series: "" },
 ];

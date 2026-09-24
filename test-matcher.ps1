@@ -783,6 +783,35 @@ $cases = @(
      expectCount = 0 }
   @{ n = "308. 既存VALORANTを奪わない";      title = "VALORANT";
      expectCount = 1; expectTopGame = "VALORANT"; expectTopConf = "HIGH"; expectVia = "name" }
+
+  # --- 新規登録ゲーム Hades / Slay the Spire / 利用規約に同意したい ---
+  # Hades と Slay the Spire は続編名の一部になるため識別力チェックで MEDIUM に留まる(仕様どおり)
+  @{ n = "309. Hades の実例";                title = "Hades";
+     expectCount = 1; expectTopGame = "Hades"; expectTopConf = "MEDIUM"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "310. 続編 Hades II は奪われない";  title = "Hades II";
+     expectCount = 1; expectTopGame = "Hades II"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "311. 数字が続く場合は切り出さない"; title = "Hades 2";
+     expectCount = 0 }
+  @{ n = "312. 部分語(Hade)は切り出さない";  title = "Hade";
+     expectCount = 0 }
+  @{ n = "313. Slay the Spire の実例";       title = "Slay the Spire";
+     expectCount = 1; expectTopGame = "Slay the Spire"; expectTopConf = "MEDIUM"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "314. 続編 Slay the Spire 2 は奪われない"; title = "Slay the Spire 2";
+     expectCount = 1; expectTopGame = "Slay the Spire 2"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "315. 数字が続く場合は切り出さない"; title = "Slay the Spire3";
+     expectCount = 0 }
+  @{ n = "316. 部分語(Slay)は切り出さない";  title = "Slay";
+     expectCount = 0 }
+  @{ n = "317. 利用規約に同意したい の実例"; title = "利用規約に同意したい";
+     expectCount = 1; expectTopGame = "利用規約に同意したい"; expectTopConf = "HIGH"; expectVia = "name"; expectAmbiguous = $false }
+  @{ n = "318. 装飾付きでも一致";            title = "【利用規約に同意したい】";
+     expectCount = 1; expectTopGame = "利用規約に同意したい"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "319. 部分語(利用規約)は切り出さない"; title = "利用規約";
+     expectCount = 0 }
+  @{ n = "320. 近い別文は対象外";            title = "利用規約に同意する";
+     expectCount = 0 }
+  @{ n = "321. DELTARUNEは引き続き対象外";   title = "DELTARUNE";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----
