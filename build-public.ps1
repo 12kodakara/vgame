@@ -94,12 +94,15 @@ $excludedForReport = @(
   "*.txt のうち robots.txt 以外(手順メモ等)"
 )
 
-# トップページ用の事前集計(data-home.js)を最新の data-playlists.js から作り直してからコピーする
+# トップページ用の事前集計(data-home.js)と詳細ページ用の分割データ(data/games・data/streamers)を
+# 最新の data-playlists.js から作り直してからコピーする
 if (Get-Command node -ErrorAction SilentlyContinue) {
-  & node (Join-Path $scriptDir "generate-home-data.js")
-  if ($LASTEXITCODE -ne 0) { Write-Error "generate-home-data.js が失敗しました。"; exit 1 }
+  foreach ($gen in @("generate-home-data.js", "generate-detail-data.js")) {
+    & node (Join-Path $scriptDir $gen)
+    if ($LASTEXITCODE -ne 0) { Write-Error "$gen が失敗しました。"; exit 1 }
+  }
 } else {
-  Write-Warning "Node.js が見つからないため data-home.js を再生成できませんでした(既存の data-home.js をそのまま使います)。"
+  Write-Warning "Node.js が見つからないため data-home.js / data/ を再生成できませんでした(既存のファイルをそのまま使います)。"
 }
 
 $allTargets = New-Object System.Collections.Generic.List[string]
@@ -140,6 +143,19 @@ foreach ($f in $optionalFiles) {
     Copy-Item -Path $src -Destination (Join-Path $publicDir $f) -Force
     $copiedCount++
     $copiedOptional += $f
+  }
+}
+
+# 詳細ページ用の分割データ(data/games・data/streamers)。ゲーム詳細・VTuber詳細ページが読み込む。
+$detailDataSrc = Join-Path $scriptDir "data"
+foreach ($kind in @("games", "streamers")) {
+  $src = Join-Path $detailDataSrc $kind
+  if (-not (Test-Path $src)) { Write-Error "詳細ページ用データ data\$kind が見つかりません。node generate-detail-data.js を実行してください。"; exit 1 }
+  $dst = Join-Path $publicDir ("data\" + $kind)
+  New-Item -ItemType Directory -Path $dst -Force | Out-Null
+  Get-ChildItem -Path $src -Filter "*.js" -File | ForEach-Object {
+    Copy-Item -Path $_.FullName -Destination (Join-Path $dst $_.Name) -Force
+    $copiedCount++
   }
 }
 

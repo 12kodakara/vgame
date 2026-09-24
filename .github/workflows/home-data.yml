@@ -1,10 +1,11 @@
-# トップページ用の事前集計 data-home.js を、元データの変更に自動で追従させる。
-# data-playlists.js などが人の push で更新された場合に、generate-home-data.js で作り直し、
-# 差分があれば commit して GitHub Pages のビルドを要求する。
+# トップページ用の事前集計 data-home.js と、詳細ページ用の分割データ data/games・data/streamers を、
+# 元データの変更に自動で追従させる。data-playlists.js などが人の push で更新された場合に
+# generate-home-data.js / generate-detail-data.js で作り直し、差分があれば commit して
+# GitHub Pages のビルドを要求する。
 # (1日1回の playlist metadata refresh は自分の中で同じ再生成を行うため、ここでは扱わない。
 #  GITHUB_TOKEN による push は別の workflow を起動しないので、この workflow が自分の commit で
 #  再度起動されることもない)
-name: home data
+name: home and detail data
 
 on:
   push:
@@ -14,7 +15,9 @@ on:
       - data-core.js
       - common.js
       - home.js
+      - data-standalone.js
       - generate-home-data.js
+      - generate-detail-data.js
   workflow_dispatch:
 
 permissions:
@@ -34,21 +37,25 @@ jobs:
         with:
           ref: main
 
-      - name: トップページ用の事前集計を再生成
-        run: node generate-home-data.js
+      - name: トップページ・詳細ページ用の派生データを再生成
+        run: |
+          node generate-home-data.js
+          node generate-detail-data.js
 
       - name: 回帰テスト
-        run: node test-home-data.js
+        run: |
+          node test-home-data.js
+          node test-detail-data.js
 
       - name: 差分を検査
         id: diff
         run: |
-          if git diff --quiet -- data-home.js; then
+          if git diff --quiet -- data-home.js data && [ -z "$(git ls-files --others --exclude-standard -- data)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "data-home.js は最新です。commit しません。" >> "$GITHUB_STEP_SUMMARY"
+            echo "派生データは最新です。commit しません。" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "data-home.js を再生成しました。" >> "$GITHUB_STEP_SUMMARY"
+            echo "派生データを再生成しました。" >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: 差分があれば commit して push
@@ -56,14 +63,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data-home.js
-          git commit -m "data: regenerate top page summary" \
-            -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動生成。data-playlists.js 等の更新に合わせて data-home.js を作り直した。"
+          git add -A -- data-home.js data
+          git commit -m "data: regenerate top page and detail page data" \
+            -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動生成。data-playlists.js 等の更新に合わせて data-home.js と data/ を作り直した。"
           for i in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
             git pull --rebase origin main
             node generate-home-data.js
-            if ! git diff --quiet -- data-home.js; then git add data-home.js && git commit --amend --no-edit; fi
+            node generate-detail-data.js
+            git add -A -- data-home.js data
+            if ! git diff --cached --quiet; then git commit --amend --no-edit; fi
           done
           echo "::error::push できませんでした。"
           exit 1

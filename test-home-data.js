@@ -4,7 +4,8 @@
  *   1. data-home.js が data-playlists.js から生成した最新の内容と一致する(鮮度)
  *   2. HOME_SUMMARY の件数・並び順が全再生リストから求めた値と整合する
  *   3. index.html は data-home.js を読み込み、data-playlists.js を初期読み込みしない
- *   4. トップページ以外のページの読み込み構成は変えていない(data-playlists.js を使うページは従来どおり)
+ *   4. 一覧系のページは従来どおり data-playlists.js を読み込み、data-lazy-playlists を持つのは
+ *      トップページと詳細ページ(game.html / streamer.html。分割データを使う。test-detail-data.js で検査)だけ
  *   5. home.js / common.js に、遅延読み込みと事前集計の経路が揃っている
  *   6. トップページの導線・検索・内部リンク・構造化データ・noindex・sitemap・robots を壊していない
  * 失敗が1件でもあれば終了コード1。
@@ -63,11 +64,14 @@ check('3c. 読み込み順が data-core → data-counts → data-home → common
 check('3d. index.html の <body> に data-lazy-playlists がある(検索サジェスト用の遅延読み込み)', /<body data-lazy-playlists>/.test(index));
 check('3e. canonical / og:url / description / og:title は従来どおり', /<link rel="canonical" href="https:\/\/vgame-navi\.jp\/">/.test(index) && /<meta property="og:url" content="https:\/\/vgame-navi\.jp\/">/.test(index) && /<meta name="description" content="VTuberのゲーム実況を探す。/.test(index) && /<meta property="og:title"/.test(index));
 
-// ---- 4. 他ページは従来どおり ----
-const needsPlaylists = ['game.html', 'streamer.html', 'playlists.html', 'new.html', 'ranking.html', 'search.html'];
+// ---- 4. 他ページの読み込み構成 ----
+// 詳細ページ(game.html / streamer.html)は分割データ(data/games・data/streamers)で表示する。
+// その検査は test-detail-data.js で行う。ここでは一覧系のページが従来どおりであることを確認する。
+const needsPlaylists = ['playlists.html', 'new.html', 'ranking.html', 'search.html'];
 for (const f of needsPlaylists) check('4. ' + f + ' は従来どおり data-playlists.js を読み込む', read(f).includes('<script src="data-playlists.js"></script>'));
-const lazyElsewhere = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && f !== 'index.html' && read(f).includes('data-lazy-playlists'));
-check('4. data-lazy-playlists を持つのは index.html だけ', lazyElsewhere.length === 0, lazyElsewhere.join(', '));
+for (const f of ['game.html', 'streamer.html']) check('4. ' + f + ' は data-playlists.js を初期読み込みしない(分割データで表示)', !read(f).includes('<script src="data-playlists.js"></script>'));
+const lazyPages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && read(f).includes('data-lazy-playlists')).sort();
+check('4. data-lazy-playlists を持つのは index.html・game.html・streamer.html だけ', JSON.stringify(lazyPages) === JSON.stringify(['game.html', 'index.html', 'streamer.html']), lazyPages.join(', '));
 
 // ---- 5. 経路の存在 ----
 const home = read('home.js'), common = read('common.js');

@@ -83,6 +83,79 @@ function isLazyPlaylistsPage() {
   return !!(document.body && document.body.hasAttribute("data-lazy-playlists"));
 }
 
+/**
+ * ============================================================
+ * 詳細ページ用の分割データ(data/games/NN.js・data/streamers/NN.js)
+ * ============================================================
+ * ゲーム詳細・VTuber詳細ページは data-playlists.js(数MB)を読み込まず、表示する
+ * ゲーム/VTuberが入っている分割ファイル1つだけを読み込む。分割ファイルは
+ * generate-detail-data.js が生成し、名前のハッシュで DETAIL_SHARD_COUNT 個に振り分けている
+ * (detailShardIndex は generate-detail-data.js と同じ計算。値を変えるときは両方そろえること)。
+ * 各エントリ: { playlists: そのゲーム/VTuberの再生リスト, related: [[名前, 件数], ...] }
+ */
+const DETAIL_SHARD_COUNT = 64;
+const DETAIL_DATA_VERSION = 1;
+const _detailShardEntries = {};
+const _detailShardPromises = {};
+
+/** 名前 → 分割ファイル番号(FNV-1a 32bit、UTF-16 コード単位)。 */
+function detailShardIndex(key) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < key.length; i++) {
+    h ^= key.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h % DETAIL_SHARD_COUNT;
+}
+
+/** 分割ファイル側から呼ばれる登録関数。形式(version)が違うものは使わない。 */
+function registerDetailShard(kind, index, version, entries) {
+  _detailShardEntries[kind + ":" + index] = version === DETAIL_DATA_VERSION ? entries : null;
+}
+
+/**
+ * kind("games" / "streamers")の key(ゲーム名 / VTuber名)のエントリを読み込む。
+ * 該当が無ければ null で解決する。分割ファイルが読めない・形式が違う場合は reject する
+ * (呼び出し側は data-playlists.js を読み込む従来の方法に切り替える)。
+ */
+function loadDetailEntry(kind, key) {
+  const index = detailShardIndex(key);
+  const id = kind + ":" + index;
+  if (!_detailShardPromises[id]) {
+    _detailShardPromises[id] = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "data/" + kind + "/" + String(index).padStart(2, "0") + ".js";
+      script.onload = () => {
+        const entries = _detailShardEntries[id];
+        if (entries) resolve(entries);
+        else reject(new Error(script.src + " の形式が想定と異なります"));
+      };
+      script.onerror = () => {
+        delete _detailShardPromises[id];
+        reject(new Error(script.src + " を読み込めませんでした"));
+      };
+      document.head.appendChild(script);
+    });
+  }
+  return _detailShardPromises[id].then((entries) =>
+    (Object.prototype.hasOwnProperty.call(entries, key) ? entries[key] : null));
+}
+
+/**
+ * 詳細ページの起動処理。data-playlists.js が読み込み済みなら従来どおり全件から、
+ * そうでなければ分割データから render(items, related) を呼ぶ。分割データが使えない場合は
+ * data-playlists.js を読み込んで従来どおりに戻す(related は null = ページ側で全件から集計)。
+ */
+function startDetailPage(kind, key, getItemsFromAll, render) {
+  if (typeof PLAYLISTS !== "undefined") {
+    render(getItemsFromAll(key), null);
+    return;
+  }
+  loadDetailEntry(kind, key)
+    .then((entry) => render(entry ? entry.playlists : [], entry ? entry.related : []))
+    .catch(() => loadPlaylistsData().then(() => render(getItemsFromAll(key), null)));
+}
+
 /** 指定したゲーム名の再生リストだけを返す(該当が無ければ空配列)。 */
 function getPlaylistsByGame(gameName) {
   if (!_playlistsByGameIndex) buildPlaylistIndexes();

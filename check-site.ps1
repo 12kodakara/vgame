@@ -382,11 +382,23 @@ if ($adsensePages.Count -gt 0 -and (Test-Path $privacyPath)) {
 # ---- トップページ用の事前集計(data-home.js)の鮮度 ----
 #   トップページは data-playlists.js の代わりに data-home.js で初期表示するため、
 #   data-playlists.js を更新したのに作り直していないと古い「最近更新」等が出る。
+#   node が不一致を標準エラーに出すと、$ErrorActionPreference = "Stop" の下では PowerShell 5.1 が
+#   それをエラーとして扱い、このスクリプト自体が止まってしまう。判定は終了コードで行うため、
+#   ここだけ Continue にして出力を捨てる。
+function Test-GeneratedDataFresh([string]$generator) {
+  $prev = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try { $null = & node $generator --check 2>&1; return ($LASTEXITCODE -eq 0) }
+  finally { $ErrorActionPreference = $prev }
+}
 $homeGen = Join-Path $targetDir "generate-home-data.js"
 if ((Test-Path (Join-Path $targetDir "data-home.js")) -and (Test-Path $homeGen)) {
   if (Get-Command node -ErrorAction SilentlyContinue) {
-    & node $homeGen --check *> $null
-    if ($LASTEXITCODE -ne 0) { Add-CheckError "data-home.js が data-playlists.js と一致しません。node generate-home-data.js を実行してください。" }
+    if (-not (Test-GeneratedDataFresh $homeGen)) { Add-CheckError "data-home.js が data-playlists.js と一致しません。node generate-home-data.js を実行してください。" }
+    $detailGen = Join-Path $targetDir "generate-detail-data.js"
+    if (Test-Path $detailGen) {
+      if (-not (Test-GeneratedDataFresh $detailGen)) { Add-CheckError "詳細ページ用データ(data/games・data/streamers)が data-playlists.js と一致しません。node generate-detail-data.js を実行してください。" }
+    }
   } else {
     Add-CheckWarning "Node.js が無いため data-home.js の鮮度を確認できませんでした。"
   }
