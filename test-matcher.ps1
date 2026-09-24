@@ -812,6 +812,34 @@ $cases = @(
      expectCount = 0 }
   @{ n = "321. DELTARUNEは引き続き対象外";   title = "DELTARUNE";
      expectCount = 0 }
+
+  # --- 略称/カタカナ表記 3件。322-324・327-328・331-332 は実データにある表記をそのまま使っている ---
+  @{ n = "322. エアライダーの実例";          title = "エアライダー";
+     expectCount = 1; expectTopGame = "カービィのエアライダー"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "323. 装飾付きでも一致";            title = "【エアライダー】";
+     expectCount = 1; expectTopGame = "カービィのエアライダー"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "324. 正式名はaliasに奪われない";   title = "カービィのエアライダー";
+     expectCount = 1; expectTopGame = "カービィのエアライダー"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "325. 正式名と併記でも降格しない";  title = "カービィのエアライダー / エアライダー";
+     expectCount = 1; expectTopGame = "カービィのエアライダー"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "326. 別作品エアライドは対象外";    title = "エアライド";
+     expectCount = 0 }
+  @{ n = "327. アソビ大全の実例";            title = "アソビ大全";
+     expectCount = 1; expectTopGame = "世界のアソビ大全51"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "328. 装飾付きでも一致";            title = "【アソビ大全】実況";
+     expectCount = 1; expectTopGame = "世界のアソビ大全51"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "329. 正式名と併記でも降格しない";  title = "世界のアソビ大全51 / アソビ大全";
+     expectCount = 1; expectTopGame = "世界のアソビ大全51"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "330. 数字が続く場合は切り出さない"; title = "アソビ大全51";
+     expectCount = 0 }
+  @{ n = "331. アンダーテールの実例";        title = "アンダーテール";
+     expectCount = 1; expectTopGame = "UNDERTALE"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "332. 正式名との併記は HIGH / name"; title = "🦴アンダーテール：UNDERTALE：完結🦴";
+     expectCount = 1; expectTopGame = "UNDERTALE"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "333. 数字が続く場合は切り出さない"; title = "アンダーテール2";
+     expectCount = 0 }
+  @{ n = "334. 別作品デルタルーンは対象外";  title = "デルタルーン";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

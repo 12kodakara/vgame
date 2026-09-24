@@ -801,7 +801,28 @@ elseif ($SelfTest) {
     @{ n = "66b. 部分語(利用規約)では解決しない"; input = "利用規約";                  expectType = "not-found";        expectId = $null },
     @{ n = "66c. 部分語(同意したい)では解決しない"; input = "同意したい";              expectType = "not-found";        expectId = $null },
     @{ n = "66d. 近い別文では解決しない";     input = "利用規約に同意する";            expectType = "not-found";        expectId = $null },
-    @{ n = "66e. 数字が続く場合は解決しない"; input = "利用規約に同意したい2";         expectType = "not-found";        expectId = $null }
+    @{ n = "66e. 数字が続く場合は解決しない"; input = "利用規約に同意したい2";         expectType = "not-found";        expectId = $null },
+    # --- 略称 エアライダー。別作品エアライド・部分語・数字が続く形には効かないこと ---
+    @{ n = "67. 略称alias エアライダー";      input = "エアライダー";                  expectType = "alias-exact";      expectId = "カービィのエアライダー" },
+    @{ n = "67a. 正式名は既存どおり";         input = "カービィのエアライダー";        expectType = "exact";            expectId = "カービィのエアライダー" },
+    @{ n = "67b. ひらがな表記は正規化で同一";  input = "えあらいだー";                  expectType = "canonical-alias";  expectId = "カービィのエアライダー" },
+    @{ n = "67c. 数字が続く場合は解決しない"; input = "エアライダー2";                 expectType = "not-found";        expectId = $null },
+    @{ n = "67d. 部分語では解決しない";       input = "エアライ";                      expectType = "not-found";        expectId = $null },
+    @{ n = "67e. 別作品エアライドは解決しない"; input = "エアライド";                  expectType = "not-found";        expectId = $null },
+    # --- 略称 アソビ大全。番号付き・部分語には効かないこと ---
+    @{ n = "68. 略称alias アソビ大全";        input = "アソビ大全";                    expectType = "alias-exact";      expectId = "世界のアソビ大全51" },
+    @{ n = "68a. 正式名は既存どおり";         input = "世界のアソビ大全51";            expectType = "exact";            expectId = "世界のアソビ大全51" },
+    @{ n = "68b. 数字が続く場合は解決しない"; input = "アソビ大全51";                  expectType = "not-found";        expectId = $null },
+    @{ n = "68c. 全角数字でも解決しない";     input = "アソビ大全５１";                expectType = "not-found";        expectId = $null },
+    @{ n = "68d. 部分語では解決しない";       input = "アソビ";                        expectType = "not-found";        expectId = $null },
+    # --- カタカナ表記 アンダーテール。別作品DELTARUNEには効かないこと ---
+    @{ n = "69. カタカナ表記alias";          input = "アンダーテール";                expectType = "alias-exact";      expectId = "UNDERTALE" },
+    @{ n = "69a. 正式名は既存どおり";         input = "UNDERTALE";                     expectType = "exact";            expectId = "UNDERTALE" },
+    @{ n = "69b. 小文字表記も同じゲームへ";    input = "undertale";                     expectType = "normalized-exact"; expectId = "UNDERTALE" },
+    @{ n = "69c. ひらがな表記も同じゲームへ";  input = "あんだーてーる";                expectType = "canonical-alias";  expectId = "UNDERTALE" },
+    @{ n = "69d. 数字が続く場合は解決しない"; input = "アンダーテール2";               expectType = "not-found";        expectId = $null },
+    @{ n = "69e. 部分語では解決しない";       input = "アンダー";                      expectType = "not-found";        expectId = $null },
+    @{ n = "69f. 別作品デルタルーンは解決しない"; input = "デルタルーン";              expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
