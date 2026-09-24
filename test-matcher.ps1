@@ -745,6 +745,27 @@ $cases = @(
      expectCount = 0 }
   @{ n = "292. カタカナ表記は対象外(HOLD維持)"; title = "デトロイト";
      expectCount = 0 }
+
+  # --- 略称表記 マリオカート8DX。293-295 は実データにある表記をそのまま使っている ---
+  @{ n = "293. 略称表記の実例";              title = "マリオカート8DX";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "294. 全角数字・全角DXの実例";      title = "マリオカート８ＤＸ";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "295. 装飾付きの実例";              title = "【レーシング】マリオカート8DX";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "296. 正式名はaliasに奪われない";   title = "マリオカート8 デラックス";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "297. 正式名と併記でも降格しない";  title = "マリオカート8 デラックス / マリオカート8DX";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "HIGH"; expectVia = "name" }
+  # --- ここから下は「aliasがシリーズ他作品・部分語・数字違いへ広がらない」ことの固定 ---
+  @{ n = "298. 数字が続く場合は切り出さない"; title = "マリオカート8DX2";
+     expectCount = 0 }
+  @{ n = "299. 部分語(8まで)は切り出さない";  title = "マリオカート8";
+     expectCount = 0 }
+  @{ n = "300. 別作品64は奪われない";        title = "マリオカート64";
+     expectCount = 1; expectTopGame = "マリオカート64"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "301. 略称マリカは対象外";          title = "マリカ";
+     expectCount = 0 }
 )
 
 # ---- 合成入力を作って matcher に通す ----

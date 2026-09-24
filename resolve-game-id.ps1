@@ -753,7 +753,19 @@ elseif ($SelfTest) {
     @{ n = "61e. 後半部分語では解決しない";   input = "Become Human";                  expectType = "not-found";        expectId = $null },
     @{ n = "61f. 数字が続く場合は解決しない"; input = "Detroit Become Human2";         expectType = "not-found";        expectId = $null },
     @{ n = "61g. カタカナ表記は解決しない";   input = "デトロイト";                    expectType = "not-found";        expectId = $null },
-    @{ n = "61h. 未登録の派生は解決しない";   input = "Detroit Become Human Remastered"; expectType = "not-found";      expectId = $null }
+    @{ n = "61h. 未登録の派生は解決しない";   input = "Detroit Become Human Remastered"; expectType = "not-found";      expectId = $null },
+    # --- 略称表記 マリオカート8DX。シリーズ他作品・部分語・数字/英字が続く形には効かないこと ---
+    @{ n = "62. 略称表記alias";              input = "マリオカート8DX";                expectType = "alias-exact";      expectId = "マリオカート8 デラックス" },
+    @{ n = "62a. 正式名は既存どおり";         input = "マリオカート8 デラックス";      expectType = "exact";            expectId = "マリオカート8 デラックス" },
+    @{ n = "62b. 全角数字・全角DXも同一";     input = "マリオカート８ＤＸ";            expectType = "canonical-alias";  expectId = "マリオカート8 デラックス" },
+    @{ n = "62c. 小文字dxも同一";             input = "マリオカート8dx";               expectType = "canonical-alias";  expectId = "マリオカート8 デラックス" },
+    @{ n = "62d. 部分語(8まで)では解決しない"; input = "マリオカート8";                 expectType = "not-found";        expectId = $null },
+    @{ n = "62e. 基本作は従来どおり";         input = "マリオカート";                  expectType = "exact";            expectId = "マリオカート" },
+    @{ n = "62f. 別作品ワールドは従来どおり"; input = "マリオカートワールド";          expectType = "exact";            expectId = "マリオカートワールド" },
+    @{ n = "62g. 別作品64は従来どおり";       input = "マリオカート64";                expectType = "exact";            expectId = "マリオカート64" },
+    @{ n = "62h. 数字が続く場合は解決しない"; input = "マリオカート8DX2";              expectType = "not-found";        expectId = $null },
+    @{ n = "62i. 英字が続く場合は解決しない"; input = "マリオカート8DXX";              expectType = "not-found";        expectId = $null },
+    @{ n = "62j. 略称マリカは解決しない";     input = "マリカ";                        expectType = "not-found";        expectId = $null }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]
