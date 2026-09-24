@@ -967,7 +967,18 @@ elseif ($SelfTest) {
     @{ n = "105f. 記号だけの入力は解決しない"; input = "™";                           expectType = "not-found";        expectId = $null },
     @{ n = "105g. 前後に余計な語があれば従来どおり解決しない"; input = "凛LIVE --- UNDERTALE™"; expectType = "not-found";   expectId = $null },
     @{ n = "105h. 別作品 Sons of the Forest は従来どおり"; input = "Sons of the Forest"; expectType = "exact";           expectId = "Sons of the Forest" },
-    @{ n = "105i. 別作品 The Forest は従来どおり"; input = "The Forest";              expectType = "exact";            expectId = "The Forest" }
+    @{ n = "105i. 別作品 The Forest は従来どおり"; input = "The Forest";              expectType = "exact";            expectId = "The Forest" },
+    # --- 改善⑦: 独立作品は別 canonical のまま区別する(alias による統合はしない) ---
+    @{ n = "106. NIGHTREIGN は独立作品";      input = "ELDEN RING NIGHTREIGN";          expectType = "exact";            expectId = "ELDEN RING NIGHTREIGN" },
+    @{ n = "106a. 本編 ELDEN RING は従来どおり"; input = "ELDEN RING";                   expectType = "exact";            expectId = "ELDEN RING" },
+    @{ n = "106b. Overwatch 2 は独立作品";    input = "Overwatch 2";                    expectType = "exact";            expectId = "Overwatch 2" },
+    @{ n = "106c. Overwatch は従来どおり";    input = "Overwatch";                      expectType = "exact";            expectId = "Overwatch" },
+    @{ n = "106d. ASA は独立作品";            input = "ARK: Survival Ascended";         expectType = "exact";            expectId = "ARK: Survival Ascended" },
+    @{ n = "106e. リトルナイトメア2 は独立作品"; input = "リトルナイトメア2";             expectType = "exact";            expectId = "リトルナイトメア2" },
+    @{ n = "106f. 全角数字でも2へ";           input = "リトルナイトメア２";             expectType = "normalized-exact"; expectId = "リトルナイトメア2" },
+    @{ n = "106g. ペーパーマリオRPG は独立作品"; input = "ペーパーマリオRPG";             expectType = "exact";            expectId = "ペーパーマリオRPG" },
+    # --- HOLD(分類C): ポケポケ と Pocket が同一製品で canonical が重複登録。統合は仕様判断のため現状を固定 ---
+    @{ n = "106h. ポケポケ(重複canonicalのためHOLD・現状維持)"; input = "ポケポケ";       expectType = "exact";            expectId = "ポケポケ" }
   )
   $pass = 0; $fail = 0
   $rows = New-Object System.Collections.Generic.List[object]

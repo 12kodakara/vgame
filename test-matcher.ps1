@@ -994,6 +994,31 @@ $cases = @(
      expectTopGame = "Sons of the Forest"; expectNotGame = "The Forest" }
   @{ n = "408. イベント名+ゲーム名(VCR RUST)は現仕様どおり候補なし"; title = "VCR RUST";
      expectCount = 0 }
+  # --- 改善⑦: 続編・スピンオフ・リマスター等の独立作品を別ゲームとして区別し続けること(登録割り当て修正の前提) ---
+  @{ n = "409. NIGHTREIGN は本編 ELDEN RING に寄らない"; title = "ELDEN RING NIGHTREIGN";
+     expectCount = 1; expectTopGame = "ELDEN RING NIGHTREIGN"; expectTopConf = "HIGH"; expectVia = "name"; expectNotGame = "ELDEN RING" }
+  @{ n = "410. 本編 ELDEN RING は従来どおり"; title = "【完結】ELDEN RING";
+     expectTopGame = "ELDEN RING"; expectNotGame = "ELDEN RING NIGHTREIGN" }
+  @{ n = "411. リトルナイトメア2 は無印に寄らない"; title = "【完】リトルナイトメア２";
+     expectCount = 1; expectTopGame = "リトルナイトメア2"; expectTopConf = "HIGH"; expectNotGame = "リトルナイトメア" }
+  @{ n = "412. ペーパーマリオRPG は スーパーマリオRPG に寄らない"; title = "ペーパーマリオRPG【完結】";
+     expectCount = 1; expectTopGame = "ペーパーマリオRPG"; expectTopConf = "HIGH"; expectNotGame = "スーパーマリオRPG" }
+  @{ n = "413. オリガミキング は ペーパーマリオRPG に寄らない"; title = "【完結】🍄ペーパーマリオ オリガミキング🍄";
+     expectTopGame = "ペーパーマリオ オリガミキング"; expectNotGame = "ペーパーマリオRPG" }
+  @{ n = "414. Overwatch2 は Overwatch に寄らない"; title = "Overwatch2";
+     expectCount = 1; expectTopGame = "Overwatch 2"; expectTopConf = "HIGH"; expectNotGame = "Overwatch" }
+  @{ n = "415. スプラトゥーン２ は 3 に寄らない"; title = "スプラトゥーン２";
+     expectCount = 1; expectTopGame = "スプラトゥーン2"; expectTopConf = "HIGH"; expectNotGame = "スプラトゥーン3" }
+  @{ n = "416. ASA は ARK: Survival Evolved に寄らない"; title = "ARK: Survival Ascended";
+     expectCount = 1; expectTopGame = "ARK: Survival Ascended"; expectTopConf = "HIGH"; expectNotGame = "ARK: Survival Evolved" }
+  @{ n = "417. The Outlast Trials は OUTLAST に寄らない"; title = "The Outlast Trials";
+     expectCount = 1; expectTopGame = "The Outlast Trials"; expectNotGame = "OUTLAST" }
+  @{ n = "418. METAL GEAR SOLID Δ は MGS3 に寄らない"; title = "METAL GEAR SOLID Δ: SNAKE EATER";
+     expectCount = 1; expectTopGame = "METAL GEAR SOLID Δ: SNAKE EATER"; expectTopConf = "HIGH"; expectNotGame = "メタルギアソリッド3 スネークイーター" }
+  @{ n = "419. 深夜廻 は 夜廻 に寄らない"; title = "【深夜廻】実況";
+     expectTopGame = "深夜廻"; expectNotGame = "夜廻" }
+  @{ n = "420. Euro Truck Simulator 2 は無印に寄らない"; title = "Euro Truck Simulator 2";
+     expectCount = 1; expectTopGame = "Euro Truck Simulator 2"; expectTopConf = "HIGH"; expectNotGame = "Euro Truck Simulator" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
