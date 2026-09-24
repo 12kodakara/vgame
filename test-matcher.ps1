@@ -874,6 +874,108 @@ $cases = @(
      expectCount = 1; expectTopGame = "Diablo II: Resurrected"; expectTopConf = "HIGH"; expectVia = "name" }
   @{ n = "350. マリパジャンボリーは対象外(REJECT維持)"; title = "〖マリパジャンボリー〗";
      expectCount = 0 }
+  # --- 改善⑤: 採用alias 30件の実例・境界(正式名優先 / 別作品不変 / 数字続き / 部分語) ---
+  @{ n = "351. ポケモンレジェンズZ-Aの実例"; title = "【完】ポケモンレジェンズZ-A";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "352. ポケモンZ-Aの実例";           title = "ポケモンZ-A";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "353. 正式名との併記は HIGH / name"; title = "Pokémon LEGENDS Z-A / ポケモンレジェンズZ-A";
+     expectCount = 1; expectTopGame = "Pokémon LEGENDS Z-A"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "354. マリカワールドの実例";        title = "〖マリカワールド〗";
+     expectCount = 1; expectTopGame = "マリオカートワールド"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "355. 数字が続く場合は切り出さない"; title = "マリカワールド2";
+     expectCount = 0 }
+  @{ n = "356. 別作品8DXは奪われない";       title = "マリオカート8DX";
+     expectCount = 1; expectTopGame = "マリオカート8 デラックス"; expectTopConf = "MEDIUM"; expectVia = "alias" }
+  @{ n = "357. デレステの実例";              title = "🍑デレステ🍑";
+     expectCount = 1; expectTopGame = "アイドルマスター シンデレラガールズ スターライトステージ"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "358. デュエプレの実例";            title = "【デュエプレ】実況";
+     expectCount = 1; expectTopGame = "デュエル・マスターズ プレイス"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "359. デュエプレと正式名の併記は HIGH"; title = "🐉 デュエプレ / デュエル・マスターズ プレイス";
+     expectCount = 1; expectTopGame = "デュエル・マスターズ プレイス"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "360. ポケモンチャンピオンズの実例"; title = "ポケモンチャンピオンズ だぞ！";
+     expectCount = 1; expectTopGame = "Pokémon Champions"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "361. ブルアカの実例";              title = "ブルアカ🎀";
+     expectCount = 1; expectTopGame = "ブルーアーカイブ"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "362. ピカブイの実例";              title = "【ピカブイ】アンジュVSイーブイ～絶対私の方が可愛い！！～";
+     expectCount = 1; expectTopGame = "Pokémon Let's Go! ピカチュウ・イーブイ"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "363. 第五人格の実例";              title = "【ホラーサバイバル】第五人格";
+     expectCount = 1; expectTopGame = "Identity V"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "364. 第五人格と正式名の併記は HIGH"; title = "IdentityV/第五人格";
+     expectCount = 1; expectTopGame = "Identity V"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "365. バイオハザード8の実例";       title = "バイオハザード8 ヴィレッジ";
+     expectCount = 1; expectTopGame = "バイオハザード ヴィレッジ"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "366. バイオハザード7&8は8へ寄せない"; title = "バイオハザード7＆8";
+     expectNotGame = "バイオハザード ヴィレッジ" }
+  @{ n = "367. パルワールドの実例";          title = "パルワールド🐏";
+     expectCount = 1; expectTopGame = "Palworld"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "368. ブラッドボーンの実例";        title = "ブラッドボーン🩸";
+     expectCount = 1; expectTopGame = "Bloodborne"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "369. ファイナルファンタジー8の実例"; title = "ファイナルファンタジー8🔥";
+     expectCount = 1; expectTopGame = "FINAL FANTASY VIII"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "370. 別ナンバー7は奪われない";     title = "ファイナルファンタジー７🏙";
+     expectNotGame = "FINAL FANTASY VIII" }
+  @{ n = "371. 濡鴉ノ巫女の実例";            title = "零 ～濡鴉ノ巫女～／PROJECT ZERO MAIDEN OF BLACK WATER";
+     expectCount = 1; expectTopGame = "Fatal Frame: Maiden of Black Water"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "372. ポケユナの実例";              title = "ポケユナ";
+     expectCount = 1; expectTopGame = "ポケモンユナイト"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "373. エースコンバット7の実例";     title = "エースコンバット７/先行体験";
+     expectCount = 1; expectTopGame = "ACE COMBAT 7: SKIES UNKNOWN"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "374. 別作品エースコンバット5は奪われない"; title = "エースコンバット5";
+     expectCount = 1; expectTopGame = "エースコンバット5"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "375. ドラゴンクエスト5の実例";     title = "ドラゴンクエスト5⚔";
+     expectCount = 1; expectTopGame = "ドラゴンクエストV 天空の花嫁"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "376. ドラゴンクエスト50は切り出さない"; title = "ドラゴンクエスト50";
+     expectCount = 0 }
+  @{ n = "377. YAKUZA 5 と 龍が如く5 の併記は同一ゲームへ収束"; title = "🐲龍が如く５ / YAKUZA5：完結🐲";
+     expectCount = 1; expectTopGame = "龍が如く5 夢、叶えし者"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "378. ダンガンロンパ2の実例";       title = "スーパーダンガンロンパ２～さよなら絶望学園～";
+     expectCount = 1; expectTopGame = "スーパーダンガンロンパ2 さよなら絶望学園"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "379. 正式名は HIGH / name のまま"; title = "スーパーダンガンロンパ2 さよなら絶望学園";
+     expectCount = 1; expectTopGame = "スーパーダンガンロンパ2 さよなら絶望学園"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "380. 別作品V3はダンガンロンパ2へ寄らない(既存判定を保持)"; title = "ニューダンガンロンパV3";
+     expectTopGame = "ニューダンガンロンパV3"; expectNotGame = "スーパーダンガンロンパ2 さよなら絶望学園" }
+  @{ n = "381. 龍が如く4の実例";             title = "【完結】🐉龍が如く4🐉";
+     expectCount = 1; expectTopGame = "龍が如く4 伝説を継ぐもの"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "382. 龍が如く6の実例";             title = "龍が如く６";
+     expectCount = 1; expectTopGame = "龍が如く6 命の詩。"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "383. 龍が如く7は対象外のまま(REJECT維持)"; title = "龍が如く７";
+     expectCount = 0 }
+  @{ n = "384. サクナヒメの実例";            title = "【完結】サクナヒメ";
+     expectCount = 1; expectTopGame = "天穂のサクナヒメ"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "385. なつもんの実例";              title = "なつもん！";
+     expectCount = 1; expectTopGame = "なつもん！ 20世紀の夏休み"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "386. DARK SOULS 3の実例";          title = "DARK SOULS 3";
+     expectCount = 1; expectTopGame = "DARK SOULS III"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "387. DARK SOULS 2 は3へ寄せない";  title = "DARK SOULS 2";
+     expectNotGame = "DARK SOULS III" }
+  @{ n = "388. The Witcher 3の実例";         title = "❁THE WITCHER 3❁";
+     expectCount = 1; expectTopGame = "The Witcher 3: Wild Hunt"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "389. Golf Itの実例";               title = "GOLF IT";
+     expectCount = 1; expectTopGame = "Golf It!"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "390. リングフィットの実例";        title = "🍑リングフィット🍑";
+     expectCount = 1; expectTopGame = "リングフィットアドベンチャー"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "391. リングフィット正式名は HIGH"; title = "リングフィット アドベンチャー";
+     expectCount = 1; expectTopGame = "リングフィットアドベンチャー"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "392. Silksongの実例";              title = "Hollow Knight Silksong (Hiatus)";
+     expectCount = 1; expectTopGame = "Hollow Knight: Silksong"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "393. 別作品Hollow KnightはSilksongへ寄らない(既存判定を保持)"; title = "Hollow Knight";
+     expectCount = 1; expectTopGame = "Hollow Knight"; expectVia = "name"; expectNotGame = "Hollow Knight: Silksong" }
+  @{ n = "394. スプラ3の実例";               title = "スプラ３　にじさんじイカ祭り2024 軌跡";
+     expectCount = 1; expectTopGame = "スプラトゥーン3"; expectTopConf = "MEDIUM"; expectVia = "alias"; expectAmbiguous = $false }
+  @{ n = "395. スプラトゥーン3正式名は HIGH"; title = "スプラトゥーン3 / スプラ3";
+     expectCount = 1; expectTopGame = "スプラトゥーン3"; expectTopConf = "HIGH"; expectVia = "name" }
+  @{ n = "396. スプラ2は3へ寄せない";         title = "〖スプラ2〗";
+     expectCount = 0 }
+  @{ n = "397. 数字が続く場合は切り出さない"; title = "スプラ30";
+     expectCount = 0 }
+  # --- HOLD/REJECT維持(改善⑤) ---
+  @{ n = "398. TotK副題はaliasにしない(ambiguous増のためREJECT)"; title = "【ゼルダの伝説】ティアーズ オブ ザ キングダム";
+     expectTopGame = "ゼルダの伝説"; expectAmbiguous = $false; expectNotGame = "ゼルダの伝説 ティアーズ オブ ザ キングダム" }
+  @{ n = "399. ラストオブアスは対象外(HOLD)"; title = "ラストオブアス";
+     expectCount = 0 }
+  @{ n = "400. ドラクエ3リメイクは対象外(HOLD)"; title = "ドラクエ３リメイク";
+     expectNotGame = "ドラゴンクエストIII HD-2D Remake" }
 )
 
 # ---- 合成入力を作って matcher に通す ----
