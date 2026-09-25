@@ -173,7 +173,13 @@
       <section class="section-box" id="streamer-games-section" hidden>
         <h2>このVTuberが実況したゲーム</h2>
         <ul class="index-list" id="streamer-games-list"></ul>
-        <button type="button" class="more-toggle" id="streamer-games-more" aria-expanded="false" hidden>もっと見る →</button>
+        <!-- 11件目以降のゲーム。リンクは最初から DOM にあり(折りたたみはブラウザ標準の details/summary)、
+             開かなくても通常の <a href> として辿れる。 -->
+        <details class="more-details" id="streamer-games-more" hidden>
+          <summary><span class="more-details-open">ほか<span id="streamer-games-rest-count"></span>件のゲームを表示</span><span class="more-details-close">閉じる</span></summary>
+          <ul class="index-list" id="streamer-games-rest"></ul>
+          <button type="button" class="more-toggle" id="streamer-games-close">閉じる ↑</button>
+        </details>
       </section>
 
       <section class="section-box" id="streamer-agency-section" hidden>

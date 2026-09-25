@@ -690,6 +690,40 @@ main:has(#grid:empty) #pagination {
   text-decoration: underline;
 }
 
+/* 折りたたみ一覧(<details>)。見出し(summary)は .more-toggle と同じ見た目で、開閉はブラウザ標準の機能 */
+.more-details > summary {
+  display: block;
+  list-style: none;
+  text-align: right;
+  font-size: 0.78rem;
+  margin-top: 4px;
+  padding: 4px 0;
+  color: var(--link);
+  cursor: pointer;
+}
+.more-details > summary::-webkit-details-marker {
+  display: none;
+}
+.more-details > summary:hover {
+  text-decoration: underline;
+}
+.more-details > summary::after {
+  content: " ▼";
+}
+.more-details[open] > summary::after {
+  content: " ▲";
+}
+.more-details .more-details-close,
+.more-details[open] .more-details-open {
+  display: none;
+}
+.more-details[open] .more-details-close {
+  display: inline;
+}
+.more-details > .index-list {
+  margin-top: 4px;
+}
+
 /* ---------- 検索・絞り込みフォーム ---------- */
 .controls {
   display: flex;

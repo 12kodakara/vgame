@@ -162,35 +162,37 @@
     }
 
     // ---------- このVTuberが実況したゲーム一覧 ----------
+    // 実況したゲームは全件をリンクとして描画する。多い VTuber(最大300件超)でもページが長くならないよう、
+    // 最初の10件だけを表示し、残りは <details> の中に入れて折りたたむ(開閉はブラウザ標準の機能で、
+    // 開かなくてもリンクは DOM にあるため、検索エンジンも各ゲームページへ辿れる)。
     const GAMES_SHOWN_INITIALLY = 10;
     const gamesSection = document.getElementById("streamer-games-section");
     const gamesList = document.getElementById("streamer-games-list");
-    const gamesMoreBtn = document.getElementById("streamer-games-more");
+    const gamesMore = document.getElementById("streamer-games-more");
+    const gamesRest = document.getElementById("streamer-games-rest");
     const gameList = gameOrder
       .map((name) => ({ name: name, count: gameCounts[name] }))
       .sort((a, b) => b.count - a.count || gameDisplayName(a.name).localeCompare(gameDisplayName(b.name), "ja"));
     if (gamesSection && gamesList && gameList.length) {
       gamesSection.hidden = false;
+      const addItems = (list, items) => items.forEach(({ name, count }) => {
+        list.appendChild(createCountIndexItem(gameUrl(name), gameDisplayName(name), count));
+      });
+      gamesList.innerHTML = "";
+      addItems(gamesList, gameList.slice(0, GAMES_SHOWN_INITIALLY));
 
-      function renderGameList(expanded) {
-        gamesList.innerHTML = "";
-        const visible = expanded ? gameList : gameList.slice(0, GAMES_SHOWN_INITIALLY);
-        visible.forEach(({ name, count }) => {
-          gamesList.appendChild(createCountIndexItem(gameUrl(name), gameDisplayName(name), count));
-        });
-      }
-
-      let gamesExpanded = false;
-      renderGameList(gamesExpanded);
-
-      if (gamesMoreBtn && gameList.length > GAMES_SHOWN_INITIALLY) {
-        gamesMoreBtn.hidden = false;
-        gamesMoreBtn.textContent = "もっと見る →";
-        gamesMoreBtn.addEventListener("click", () => {
-          gamesExpanded = !gamesExpanded;
-          renderGameList(gamesExpanded);
-          gamesMoreBtn.textContent = gamesExpanded ? "元に戻す ←" : "もっと見る →";
-          gamesMoreBtn.setAttribute("aria-expanded", String(gamesExpanded));
+      const rest = gameList.slice(GAMES_SHOWN_INITIALLY);
+      if (gamesMore && gamesRest && rest.length) {
+        gamesRest.innerHTML = "";
+        addItems(gamesRest, rest);
+        document.getElementById("streamer-games-rest-count").textContent = rest.length;
+        gamesMore.hidden = false;
+        // 長い一覧の末尾からも閉じられるようにする(閉じたら見出し位置へ戻す)
+        document.getElementById("streamer-games-close").addEventListener("click", () => {
+          gamesMore.open = false;
+          const summary = gamesMore.querySelector("summary");
+          summary.focus();
+          if (summary.getBoundingClientRect().top < 0) summary.scrollIntoView({ block: "center" });
         });
       }
     }
