@@ -614,6 +614,34 @@ function createStandaloneCard(item, opts) {
 }
 
 /**
+ * ============================================================
+ * VTuberアイコンの表示サイズに合わせた取得
+ * ============================================================
+ * data-core.js の icon は YouTube チャンネルアイコンの 800〜900px 版(1枚100KB前後)だが、
+ * 画面上の表示は 36〜120px。yt3 の画像URLは末尾の「=s数字」で配信サイズを指定できるため、
+ * 表示サイズの 1x/2x/3x 版を srcset で渡し、端末の画素密度に合う1枚だけを取得させる
+ * (高DPI端末でもぼやけない)。元のURLより大きくはしない。形式が違うURLは元のまま使う。
+ * data-core.js の値そのもの(og:image 等で使う元URL)は変えない。
+ */
+const YT3_ICON_URL = /^(https:\/\/yt3\.(?:ggpht|googleusercontent)\.com\/[^=?#]+)=s(\d+)((?:-[a-z0-9]+)*)$/i;
+
+/** アイコンURLを表示サイズ cssPx(1x基準)向けに返す。{ src, srcset }。yt3 形式でなければ srcset は "" */
+function sizedIconSources(url, cssPx) {
+  const m = YT3_ICON_URL.exec(url || "");
+  if (!m || !(cssPx > 0)) return { src: url, srcset: "" };
+  const original = Number(m[2]);
+  const at = (density) => m[1] + "=s" + Math.min(original, Math.ceil(cssPx * density)) + m[3];
+  return { src: at(2), srcset: at(1) + " 1x, " + at(2) + " 2x, " + at(3) + " 3x" };
+}
+
+/** <img> に表示サイズ向けのアイコンURLを設定する(srcset 非対応環境では src の2x版を使う)。 */
+function setIconImageSource(img, url, cssPx) {
+  const s = sizedIconSources(url, cssPx);
+  if (s.srcset) img.srcset = s.srcset;
+  img.src = s.src;
+}
+
+/**
  * 実況者カード <li class="streamer-card"> を1件作る(アイコン画像・失敗時は
  * 頭文字のプレースホルダー・名前・件数)。streamers.html・game.html(このゲームを
  * 実況しているVTuber)・トップページ(人気VTuber)で同じ見た目のカードが
@@ -637,7 +665,7 @@ function createStreamerCard(name, count) {
   if (s && s.icon) {
     const img = document.createElement("img");
     img.className = "streamer-card-icon";
-    img.src = s.icon;
+    setIconImageSource(img, s.icon, 64); // .streamer-card-icon は 64px 四方
     img.alt = "";
     img.loading = "lazy";
     img.addEventListener("error", () => { img.remove(); showPlaceholder(); }, { once: true });
@@ -966,7 +994,8 @@ function createPlaylistThumbnail(item, options) {
     wrap.innerHTML = "";
     const img = document.createElement("img");
     if (imgClass) img.className = imgClass;
-    img.src = iconUrl;
+    // 正方形のアイコンを 16:9 の枠に object-fit: cover で収めるため、枠の幅に合わせる
+    setIconImageSource(img, iconUrl, width);
     img.width = width;
     img.height = height;
     img.alt = alt;

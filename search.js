@@ -55,7 +55,7 @@
     if (s.icon) {
       const img = document.createElement("img");
       img.className = "search-result-icon";
-      img.src = s.icon;
+      setIconImageSource(img, s.icon, 36); // .search-result-icon は 36px 四方
       img.alt = "";
       img.loading = "lazy";
       img.addEventListener("error", () => { img.remove(); showPlaceholder(); }, { once: true });

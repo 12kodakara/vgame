@@ -40,7 +40,7 @@
     const iconEl = document.getElementById("streamer-icon");
     if (iconEl && roster && roster.icon) {
       iconEl.addEventListener("error", () => { iconEl.hidden = true; }, { once: true });
-      iconEl.src = roster.icon;
+      setIconImageSource(iconEl, roster.icon, 72); // .streamer-icon は 72px 四方(og:image は元URLのまま)
       iconEl.alt = streamer + " のアイコン";
       iconEl.hidden = false;
     }
