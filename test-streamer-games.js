@@ -154,8 +154,9 @@ const css = read('style.css');
 check('4c. CSS: summary はリンク風・開閉で文言と ▼▲ が切り替わる', /\.more-details > summary \{[^}]*list-style: none;/.test(css) && /\.more-details\[open\] \.more-details-open/.test(css) && /\.more-details\[open\] > summary::after \{\s*content: " ▲";/.test(css));
 
 // ---- 5. メタデータ ----
-check('5a. title / description / canonical の生成(setPageMeta 呼び出し)は従来どおり',
-  /setPageMeta\(\s*streamer \+ "のゲーム実況・再生リスト一覧 \| " \+ SITE_NAME,\s*streamer \+ "が実況したゲームの一覧と再生リストをまとめて紹介。" \+ statsSummary,\s*"\/streamer\.html\?streamer=" \+ encodeURIComponent\(streamer\),/.test(js));
+// description は buildStreamerDescription で作る(内容は test-streamer-description.js で検査)
+check('5a. title / canonical の生成(setPageMeta 呼び出し)は従来どおり・description は buildStreamerDescription',
+  /setPageMeta\(\s*streamer \+ "のゲーム実況・再生リスト一覧 \| " \+ SITE_NAME,\s*buildStreamerDescription\(streamer, items, standalone\),\s*"\/streamer\.html\?streamer=" \+ encodeURIComponent\(streamer\),/.test(js));
 check('5b. H1・見出しは従来どおり(元のHTMLに canonical なし)', /<h1 class="page-title" id="page-title">実況者の再生リスト<\/h1>/.test(streamerHtml) && /<h2>このVTuberが実況したゲーム<\/h2>/.test(streamerHtml) && !/<link rel="canonical"/.test(streamerHtml));
 const sample = renderFor('姫森ルーナ');
 check('5c. 描画後の title / canonical(大量ゲームVTuberで確認)',
