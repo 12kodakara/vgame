@@ -23,7 +23,17 @@
   });
   container.appendChild(nav);
 
-  if (!rowGroup) return;
+  // 行が無い・不正な行のページは中身の無い案内だけなので、検索結果には出さない(リンクは辿れる)
+  if (!rowGroup) {
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.setAttribute("name", "robots");
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute("content", "noindex,follow");
+    return;
+  }
 
   const groups = groupGamesByKana().filter((g) => rowGroup.members.indexOf(g.row) !== -1);
   const totalGames = groups.reduce((sum, g) => sum + g.names.length, 0);

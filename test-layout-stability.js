@@ -96,9 +96,13 @@ check('5b. 手動の広告枠(<ins class="adsbygoogle">)を追加していない
 check('5c. 広告関連のセレクタ(adsbygoogle・google-auto-placed・aswift)に CSS を当てていない', !/adsbygoogle|google-auto-placed|aswift/.test(noComments));
 for (const page of ['index.html', 'game.html', 'streamer.html', 'games.html', 'streamers.html', 'ranking.html', 'new.html']) {
   const html = read(page);
-  check('5d. ' + page + ': header・サイドバー・main・footer の構造と canonical が従来どおり',
+  // game.html / streamer.html の canonical は JS が挿入する(元のHTMLには書かない。test-seo-canonical.js で検査)
+  const canonicalOk = page === 'game.html' || page === 'streamer.html'
+    ? !/<link rel="canonical"/.test(html)
+    : /<link rel="canonical" href="https:\/\/vgame-navi\.jp\//.test(html);
+  check('5d. ' + page + ': header・サイドバー・main・footer の構造と canonical が想定どおり',
     /<header class="wiki-banner">/.test(html) && /<aside class="wiki-sidebar" id="wiki-sidebar">/.test(html) && /<main class="wiki-content">/.test(html)
-    && /<footer class="wiki-footer">[\s\S]*privacy\.html[\s\S]*<\/footer>/.test(html) && /<link rel="canonical" href="https:\/\/vgame-navi\.jp\//.test(html));
+    && /<footer class="wiki-footer">[\s\S]*privacy\.html[\s\S]*<\/footer>/.test(html) && canonicalOk);
 }
 
 console.log('');

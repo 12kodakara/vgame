@@ -17,7 +17,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="実況者ごとにVTuberのゲーム実況・再生リストをまとめたページです。実況者一覧から選んでご覧ください。">
 <title>VTuberのゲーム実況・再生リスト一覧 | ぶいゲー</title>
-<link rel="canonical" href="https://vgame-navi.jp/streamers.html">
+<!-- canonical / og:url はここに書かない。このページの正規URLはクエリ(対象)ごとに異なり、JS(setPageMeta)が
+     唯一の canonical として挿入する。元のHTMLに別のURL(一覧ページ等)を書いて JS で書き換えるのは、
+     Google が「元のHTMLと異なるURLへ JS で canonical を変更しない」としている実装にあたるため。 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
@@ -29,7 +31,6 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:title" content="VTuberのゲーム実況・再生リスト一覧 | ぶいゲー">
 <meta property="og:description" content="実況者ごとにVTuberのゲーム実況・再生リストをまとめたページです。実況者一覧から選んでご覧ください。">
-<meta property="og:url" content="https://vgame-navi.jp/streamers.html">
 <meta property="og:image" content="https://vgame-navi.jp/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
