@@ -124,7 +124,8 @@ for (const [page, js, kind] of [['game.html', 'game.js', 'games'], ['streamer.ht
 const common = read('common.js');
 check('6e. common.js: 分割データが使えない場合は data-playlists.js を読み込んで従来どおり描画する',
   /\.catch\(\(\) => loadPlaylistsData\(\)\.then\(\(\) => render\(getItemsFromAll\(key\), null\)\)\);/.test(common));
-for (const page of ['playlists.html', 'new.html', 'ranking.html', 'search.html']) check('6f. ' + page + ' は従来どおり data-playlists.js を読み込む', read(page).includes('<script src="data-playlists.js"></script>'));
+for (const page of ['playlists.html', 'search.html']) check('6f. ' + page + ' は従来どおり data-playlists.js を読み込む', read(page).includes('<script src="data-playlists.js"></script>'));
+for (const page of ['new.html', 'ranking.html']) check('6f. ' + page + ' は data-playlists.js を初期読み込みしない(事前集計で表示)', !read(page).includes('<script src="data-playlists.js"></script>'));
 
 // ---- 7. SEO ----
 const sitemap = read('sitemap.xml');

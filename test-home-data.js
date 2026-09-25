@@ -4,8 +4,8 @@
  *   1. data-home.js が data-playlists.js から生成した最新の内容と一致する(鮮度)
  *   2. HOME_SUMMARY の件数・並び順が全再生リストから求めた値と整合する
  *   3. index.html は data-home.js を読み込み、data-playlists.js を初期読み込みしない
- *   4. 一覧系のページは従来どおり data-playlists.js を読み込み、data-lazy-playlists を持つのは
- *      トップページと詳細ページ(game.html / streamer.html。分割データを使う。test-detail-data.js で検査)だけ
+ *   4. 再生リスト一覧・検索は従来どおり data-playlists.js を読み込み、data-lazy-playlists を持つのは
+ *      トップページ・詳細ページ(test-detail-data.js で検査)・人気ランキング・新着(test-list-data.js で検査)だけ
  *   5. home.js / common.js に、遅延読み込みと事前集計の経路が揃っている
  *   6. トップページの導線・検索・内部リンク・構造化データ・noindex・sitemap・robots を壊していない
  * 失敗が1件でもあれば終了コード1。
@@ -67,11 +67,12 @@ check('3e. canonical / og:url / description / og:title は従来どおり', /<li
 // ---- 4. 他ページの読み込み構成 ----
 // 詳細ページ(game.html / streamer.html)は分割データ(data/games・data/streamers)で表示する。
 // その検査は test-detail-data.js で行う。ここでは一覧系のページが従来どおりであることを確認する。
-const needsPlaylists = ['playlists.html', 'new.html', 'ranking.html', 'search.html'];
+const needsPlaylists = ['playlists.html', 'search.html'];
 for (const f of needsPlaylists) check('4. ' + f + ' は従来どおり data-playlists.js を読み込む', read(f).includes('<script src="data-playlists.js"></script>'));
+for (const f of ['new.html', 'ranking.html']) check('4. ' + f + ' は data-playlists.js を初期読み込みしない(事前集計で表示。test-list-data.js で検査)', !read(f).includes('<script src="data-playlists.js"></script>'));
 for (const f of ['game.html', 'streamer.html']) check('4. ' + f + ' は data-playlists.js を初期読み込みしない(分割データで表示)', !read(f).includes('<script src="data-playlists.js"></script>'));
 const lazyPages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && read(f).includes('data-lazy-playlists')).sort();
-check('4. data-lazy-playlists を持つのは index.html・game.html・streamer.html だけ', JSON.stringify(lazyPages) === JSON.stringify(['game.html', 'index.html', 'streamer.html']), lazyPages.join(', '));
+check('4. data-lazy-playlists を持つのは index.html・game.html・streamer.html・new.html・ranking.html だけ', JSON.stringify(lazyPages) === JSON.stringify(['game.html', 'index.html', 'new.html', 'ranking.html', 'streamer.html']), lazyPages.join(', '));
 
 // ---- 5. 経路の存在 ----
 const home = read('home.js'), common = read('common.js');

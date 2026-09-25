@@ -1,7 +1,7 @@
-# トップページ用の事前集計 data-home.js と、詳細ページ用の分割データ data/games・data/streamers を、
-# 元データの変更に自動で追従させる。data-playlists.js などが人の push で更新された場合に
-# generate-home-data.js / generate-detail-data.js で作り直し、差分があれば commit して
-# GitHub Pages のビルドを要求する。
+# 派生データ(トップページ用 data-home.js・詳細ページ用 data/games・data/streamers・
+# 人気ランキング / 新着用 data-ranking.js・data-new.js)を、元データの変更に自動で追従させる。
+# data-playlists.js などが人の push で更新された場合に generate-*.js で作り直し、
+# 差分があれば commit して GitHub Pages のビルドを要求する。
 # (1日1回の playlist metadata refresh は自分の中で同じ再生成を行うため、ここでは扱わない。
 #  GITHUB_TOKEN による push は別の workflow を起動しないので、この workflow が自分の commit で
 #  再度起動されることもない)
@@ -18,6 +18,9 @@ on:
       - data-standalone.js
       - generate-home-data.js
       - generate-detail-data.js
+      - ranking.js
+      - new.js
+      - generate-list-data.js
   workflow_dispatch:
 
 permissions:
@@ -41,16 +44,18 @@ jobs:
         run: |
           node generate-home-data.js
           node generate-detail-data.js
+          node generate-list-data.js
 
       - name: 回帰テスト
         run: |
           node test-home-data.js
           node test-detail-data.js
+          node test-list-data.js
 
       - name: 差分を検査
         id: diff
         run: |
-          if git diff --quiet -- data-home.js data && [ -z "$(git ls-files --others --exclude-standard -- data)" ]; then
+          if git diff --quiet -- data-home.js data-ranking.js data-new.js data && [ -z "$(git ls-files --others --exclude-standard -- data)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "派生データは最新です。commit しません。" >> "$GITHUB_STEP_SUMMARY"
           else
@@ -63,15 +68,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- data-home.js data
+          git add -A -- data-home.js data-ranking.js data-new.js data
           git commit -m "data: regenerate top page and detail page data" \
-            -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動生成。data-playlists.js 等の更新に合わせて data-home.js と data/ を作り直した。"
+            -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動生成。data-playlists.js 等の更新に合わせて派生データ(data-home.js / data-ranking.js / data-new.js / data/)を作り直した。"
           for i in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
             git pull --rebase origin main
             node generate-home-data.js
             node generate-detail-data.js
-            git add -A -- data-home.js data
+            node generate-list-data.js
+            git add -A -- data-home.js data-ranking.js data-new.js data
             if ! git diff --cached --quiet; then git commit --amend --no-edit; fi
           done
           echo "::error::push できませんでした。"
