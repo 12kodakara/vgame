@@ -32,30 +32,6 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "vspo-tsunanekota-32",
-      "title": "APEX",
-      "streamer": "猫汰つな",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PLAu9d4ZNkEX52vmwihd9CGubDazFNgbKv",
-      "thumbnailUrl": "https://i.ytimg.com/vi/mMYdlv-D2hc/mqdefault.jpg",
-      "videoCount": 264,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-25"
-    },
-    {
-      "id": "holo-059",
-      "title": "Minecraft",
-      "streamer": "不知火フレア",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLBoFNGFmekcNR8kWdLUFPHoagiuUDmdch",
-      "thumbnailUrl": "https://i.ytimg.com/vi/EdrSjHMQOHk/mqdefault.jpg",
-      "videoCount": 263,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-09-24"
-    },
-    {
       "id": "holo-074",
       "title": "マインクラフト🐏",
       "streamer": "角巻わため",
@@ -65,31 +41,55 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/PwINloYDiv4/mqdefault.jpg",
       "videoCount": 279,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-09-24"
+      "updatedDate": "2026-09-26"
     },
     {
-      "id": "holo-085",
-      "title": "Minecraft",
-      "streamer": "尾丸ポルカ",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLWGY2acU-ZeQWRChLa3d3m8nzk3bYaKPP",
-      "thumbnailUrl": "https://i.ytimg.com/vi/u3HTYJmrvo4/mqdefault.jpg",
-      "videoCount": 160,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-09-24"
+      "id": "vspo-lisahanabusa-11",
+      "title": "APEX",
+      "streamer": "英リサ",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLMbPsuw36kCglBhUr2Vx_mh_wv7QWl6j2",
+      "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
+      "videoCount": 351,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-09-26"
     },
     {
-      "id": "niji-131",
-      "title": "ゼルダの伝説シリーズ",
-      "streamer": "倉持めると",
-      "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
-      "genre": "action",
-      "playlistId": "PLhgfNbLWF5CeupKyc8a-l6yY98kMz1krD",
-      "thumbnailUrl": "https://i.ytimg.com/vi/0NT25RpXbAE/mqdefault.jpg",
-      "videoCount": 70,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-09-24"
+      "id": "vspo-beniyakumo-25",
+      "title": "APEX",
+      "streamer": "八雲べに",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLcIUhxw5ceRDRhZNUiz4XWvsLN-ufcs3q",
+      "thumbnailUrl": "https://i.ytimg.com/vi/wbwaiLeTrsY/mqdefault.jpg",
+      "videoCount": 188,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-09-26"
+    },
+    {
+      "id": "niji-fumivirtual-09",
+      "title": "遊戯王マスターデュエル",
+      "streamer": "フミ",
+      "game": "遊戯王マスターデュエル",
+      "genre": "other",
+      "playlistId": "PLWRt-KFHLtpdw-d19RIsq0dKRQqre09nl",
+      "thumbnailUrl": "https://i.ytimg.com/vi/8lBLmn7W7CA/mqdefault.jpg",
+      "videoCount": 159,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-09-26"
+    },
+    {
+      "id": "niji-fuwaminato-22",
+      "title": "APEX",
+      "streamer": "不破湊",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PL2uMwjy4y2Z5e1h9vOaerBvXEQ3hWnvhY",
+      "thumbnailUrl": "https://i.ytimg.com/vi/XF2FkOWJDHE/mqdefault.jpg",
+      "videoCount": 205,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-09-26"
     }
   ],
   "topStreamers": [
