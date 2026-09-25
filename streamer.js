@@ -12,7 +12,22 @@
     const hasAnyPlay =
       items.length > 0 ||
       (typeof STANDALONE_PLAYS !== "undefined" && STANDALONE_PLAYS.some((p) => p.streamer === streamer));
-    if (!streamerByName[streamer] && !hasAnyPlay) {
+    // 見出しのアイコン・所属・YouTubeリンクは、全VTuberが持つ情報のため HTML では最初から表示して
+    // 場所を確保している(JS の描画で見出しが伸び、下の内容が押し下げられるレイアウトシフトを防ぐ)。
+    // 情報が無い場合(存在しないVTuber等)はここで隠す。
+    const roster = streamerByName[streamer];
+    const iconEl = document.getElementById("streamer-icon");
+    const metaEl = document.getElementById("page-meta");
+    const socialLinksEl = document.getElementById("social-links");
+    const youtubeLinkEl = document.getElementById("social-youtube");
+    const xLinkEl = document.getElementById("social-x");
+    if (iconEl) iconEl.hidden = !(roster && roster.icon);
+    if (metaEl) metaEl.hidden = !(roster && roster.group);
+    if (youtubeLinkEl) youtubeLinkEl.hidden = !(roster && roster.youtube);
+    if (xLinkEl) xLinkEl.hidden = !(roster && roster.x);
+    if (socialLinksEl) socialLinksEl.hidden = !(roster && (roster.youtube || roster.x));
+
+    if (!roster && !hasAnyPlay) {
       renderNotFoundPage({
         title: streamer ? "VTuberが見つかりません" : "VTuberが指定されていません",
         message: streamer
@@ -30,36 +45,18 @@
       : "実況者が指定されていません";
     document.getElementById("breadcrumb-current").textContent = streamer || "不明な実況者";
 
-    const roster = streamerByName[streamer];
-    const metaEl = document.getElementById("page-meta");
     if (metaEl && roster && roster.group) {
       metaEl.textContent = "所属: " + roster.group;
-      metaEl.hidden = false;
     }
 
-    const iconEl = document.getElementById("streamer-icon");
     if (iconEl && roster && roster.icon) {
       iconEl.addEventListener("error", () => { iconEl.hidden = true; }, { once: true });
       setIconImageSource(iconEl, roster.icon, 72); // .streamer-icon は 72px 四方(og:image は元URLのまま)
       iconEl.alt = streamer + " のアイコン";
-      iconEl.hidden = false;
     }
 
-    const socialLinksEl = document.getElementById("social-links");
-    const youtubeLinkEl = document.getElementById("social-youtube");
-    const xLinkEl = document.getElementById("social-x");
-    let hasSocialLink = false;
-    if (roster && roster.youtube) {
-      youtubeLinkEl.href = roster.youtube;
-      youtubeLinkEl.hidden = false;
-      hasSocialLink = true;
-    }
-    if (roster && roster.x) {
-      xLinkEl.href = roster.x;
-      xLinkEl.hidden = false;
-      hasSocialLink = true;
-    }
-    if (socialLinksEl && hasSocialLink) socialLinksEl.hidden = false;
+    if (roster && roster.youtube) youtubeLinkEl.href = roster.youtube;
+    if (roster && roster.x) xLinkEl.href = roster.x;
 
     const standalone = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).filter((p) => p.streamer === streamer);
 

@@ -472,6 +472,8 @@ function debounce(fn, delayMs) {
  * opts: title(見出し) / message(説明文) / backHref / backLabel(戻り先リンク) / docTitle(<title>)
  */
 function renderNotFoundPage(opts) {
+  // 一覧の描画待ち用に確保している本文の高さ(style.css の .is-not-found-page)を外す
+  document.body.classList.add("is-not-found-page");
   const content = document.querySelector("main.wiki-content .content-box");
   const titleEl = document.getElementById("page-title");
   if (titleEl) titleEl.textContent = opts.title;

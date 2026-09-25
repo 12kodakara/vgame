@@ -44,6 +44,12 @@
 
 * { box-sizing: border-box; }
 
+/* 縦スクロールバーの幅を常に確保する。一覧・詳細ページは最初の描画時点では中身が短く
+   (スクロールバーなし)、JS が一覧を描画してからスクロールバーが出るため、そのままだと
+   ページ全体の幅が約15px縮んでヘッダー・本文が横にずれ、大きなレイアウトシフトになる。
+   スクロールバーが重ねて表示される環境(スマホ等)では何も変わらない。 */
+html { scrollbar-gutter: stable; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -138,6 +144,21 @@ select:focus-visible,
   display: flex;
   align-items: flex-start;
   gap: 18px;
+}
+
+/* 一覧・詳細ページは JS が一覧(#grid・#category-list)を描画する前に一度描画される。その間だけ本文を
+   画面の高さ以上にしてフッターを画面外に置き、画面内のフッターが一覧に押し下げられるレイアウトシフトを防ぐ。
+   一覧が入れば元の高さに戻るため、描画後に空白は残らない(フッター自体は隠さない)。
+   見つからないゲーム/VTuberのページ(一覧が空のまま)は対象外。 */
+body:not(.is-not-found-page) .wiki-body:has(#grid:empty),
+body:not(.is-not-found-page) .wiki-body:has(#category-list:empty) {
+  min-height: 100vh;
+}
+
+/* 一覧(#grid)が空の間(JS の描画前)はページ送りを出さない。一覧の描画と同時に一覧の下へ現れるため、
+   画面内にあったページ送りが押し下げられるレイアウトシフトにならない。 */
+main:has(#grid:empty) #pagination {
+  display: none;
 }
 
 .wiki-sidebar {
@@ -264,6 +285,11 @@ select:focus-visible,
   margin: 0;
   padding: 4px 0 8px;
   font-size: 0.78rem;
+}
+/* 「人気コンテンツ」は JS が常に5件描画する。描画前も5件分(1件 = 1行 + 上下余白6px + 区切り線1px、
+   先頭は区切り線なし)の高さを確保し、下の「もっと見る」が押し下げられないようにする。 */
+.sidebar-popular-list:empty {
+  min-height: calc(12px + 5 * (0.78rem * 1.7 + 7px) - 1px);
 }
 
 .sidebar-popular-list li {
@@ -416,6 +442,8 @@ select:focus-visible,
   font-size: 0.74rem;
   color: var(--text-dim);
   margin: 8px 0 14px;
+  /* VTuber詳細では JS が「所属: …」を入れる前から表示して場所を確保するため、空でも1行分の高さにする */
+  min-height: calc(0.74rem * 1.7);
 }
 
 .social-links {
@@ -519,6 +547,11 @@ select:focus-visible,
   font-size: 0.78rem;
   color: var(--text-dim);
   margin: 0 0 8px;
+}
+/* 一覧の件数表示(#result-count)は JS が一覧と同時に必ず1行の文字を入れる。空のまま描画される
+   間も1行分の高さを確保し、文字が入ったときに下の表・カードが押し下げられないようにする。 */
+#result-count {
+  min-height: calc(0.78rem * 1.7);
 }
 
 /* ---------- 見出しボックス(トップページ等のセクション) ---------- */
@@ -1368,10 +1401,17 @@ select:focus-visible,
 .hero-search button{padding:14px 24px;font-size:1rem;font-weight:700;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:4px;cursor:pointer}
 .hero-search button:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
 .hero-stats{margin:14px 0 0;font-size:.82rem;color:var(--text-dim)}
+/* 掲載件数(#hero-stats)は JS が文字を入れる前(空の間)だけ場所を確保する。幅480px以下では2行に折り返すため2行分。
+   文字が入れば確保は外れるので、どの画面幅でも描画後に余分な空白は残らない */
+.hero-stats:empty{min-height:calc(.82rem * 1.7)}
+@media (max-width:480px){.hero-stats:empty{min-height:calc(.82rem * 1.7 * 2)}}
 @media (max-width:480px){.hero-search{flex-direction:column}}
 
 /* ---------- トップページ 発見コンテンツ(人気のゲーム/最近追加された実況/最近更新された再生リスト) ---------- */
 .discover-list{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:2px}
+/* トップの「人気のゲーム」は JS が常に5件描画し、1件の高さは画面幅によらず一定(約70px・計356px)。
+   描画前も同じ高さを確保し、下の各セクションが押し下げられないようにする(他の一覧は高さが画面幅で変わるため対象外)。 */
+#discover-popular-games:empty{min-height:356px}
 .discover-item{display:flex;align-items:flex-start;gap:10px;padding:10px 6px;border-bottom:1px solid var(--border)}
 .discover-item:last-child{border-bottom:none}
 .discover-rank{flex:0 0 auto;min-width:1.8em;padding-top:1px;font-weight:700;color:var(--accent-2);text-align:center}

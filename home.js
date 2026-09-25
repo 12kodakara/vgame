@@ -108,12 +108,15 @@ function isUsableHomeSummary(summary) {
   function renderPlaylistSections(summary) {
     // 検索ボックス直下の掲載件数(トップページを「検索できるデータベース」だと
     // 一目で伝えるための数値。固定値にせずデータから毎回集計する)。
+    // 表示位置は HTML で最初から確保している(描画時に下の内容が押し下げられないように)。件数が無いときだけ隠す。
     const heroStats = document.getElementById("hero-stats");
     if (heroStats && summary.playlistCount) {
       heroStats.textContent = summary.playlistCount.toLocaleString("ja-JP") + "件の実況再生リストを掲載 ／ "
         + summary.gameCount.toLocaleString("ja-JP") + "ゲーム ／ "
         + summary.streamerCount.toLocaleString("ja-JP") + "VTuber掲載";
       heroStats.hidden = false;
+    } else if (heroStats) {
+      heroStats.hidden = true;
     }
 
     // 🔥 人気のゲーム(再生リストのpopularity合計が高いゲーム上位)
