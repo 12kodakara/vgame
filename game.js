@@ -1,3 +1,66 @@
+/**
+ * ゲーム詳細ページの meta description(og:description / twitter:description も同じ文)を作る(DOM に触れない純粋関数)。
+ * そのゲームを実況しているVTuberを、登録データから決まる順(このゲームの再生リスト件数が多い順 → 同数なら動画本数の
+ * 合計が多い順 → 最終更新日が新しい順 → 名前の文字コード順)に最大3名まで挙げ、事実(VTuber名・組数・再生リスト件数・
+ * 動画本数・最終更新日)だけで説明する。評価を表す言葉(人気・代表等)は使わない。名前は途中で切らず、長い場合は挙げる数を減らす。
+ * 再生リストが1件も無い(noindex の)ゲームと、GAME_DESC_LEGACY_GAMES のゲームは従来の文面のまま。
+ *   items: そのゲームの再生リスト / standalone: 単発実況
+ */
+const GAME_DESC_MAX_STREAMERS = 3;
+const GAME_DESC_STREAMER_NAMES_MAX_CHARS = 30;
+// 正規ゲーム名の設計(統合・分割)を保留中のゲーム。再生リストとの対応が今後変わりうるため、
+// VTuber名を挙げず従来の文面のままにする(ポケポケ / Pocket、Overwatch / Overwatch 2)。
+const GAME_DESC_LEGACY_GAMES = new Set([
+  "ポケモンカードゲーム Pokémon Trading Card Game Pocket",
+  "ポケポケ",
+  "Overwatch",
+  "Overwatch 2",
+]);
+
+function pickGameDescriptionStreamers(items, standalone) {
+  const stats = new Map();
+  const bump = (streamer, videos, date) => {
+    const s = stats.get(streamer) || { name: streamer, count: 0, videos: 0, latest: "" };
+    s.count += 1;
+    s.videos += videos;
+    if (date && date > s.latest) s.latest = date;
+    stats.set(streamer, s);
+  };
+  items.forEach((p) => bump(p.streamer, p.videoCount || 0, p.updatedDate || p.addedDate || ""));
+  (standalone || []).forEach((p) => bump(p.streamer, standalonePlayCount(p), p.addedDate || ""));
+  return [...stats.values()].sort((a, b) =>
+    b.count - a.count || b.videos - a.videos || (a.latest < b.latest ? 1 : a.latest > b.latest ? -1 : 0) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+}
+
+function buildGameDescription(game, items, standalone) {
+  const streamers = pickGameDescriptionStreamers(items, standalone);
+  const totalVideos = items.reduce((sum, p) => sum + (p.videoCount || 0), 0) +
+    (standalone || []).reduce((sum, p) => sum + standalonePlayCount(p), 0);
+  const lastUpdated = items.reduce((latest, p) => {
+    const d = p.updatedDate || p.addedDate || "";
+    return d && d > latest ? d : latest;
+  }, "");
+  if (!items.length || GAME_DESC_LEGACY_GAMES.has(game)) {
+    return gameDisplayName(game) + "を実況しているVTuberの再生リスト・動画をまとめて紹介。実況VTuber" + streamers.length + "組・再生リスト" + items.length + "件" +
+      (totalVideos ? "・動画" + totalVideos + "本" : "") + (lastUpdated ? "(最終更新: " + formatDate(lastUpdated) + ")" : "") + "。";
+  }
+  const named = [];
+  let chars = 0;
+  for (const s of streamers.slice(0, GAME_DESC_MAX_STREAMERS)) {
+    if (named.length && chars + s.name.length > GAME_DESC_STREAMER_NAMES_MAX_CHARS) break;
+    named.push(s.name);
+    chars += s.name.length;
+  }
+  const who = named.length === streamers.length
+    ? (named.length === 2 ? named[0] + "と" + named[1] : named.join("、"))
+    : named.join("、") + "など" + streamers.length + "組";
+  const details = [];
+  if (totalVideos) details.push("動画" + totalVideos + "本");
+  if (lastUpdated) details.push("最終更新 " + formatDate(lastUpdated));
+  return gameDisplayName(game) + "のVTuber実況をまとめたページです。" + who + "の再生リスト" + items.length + "件" +
+    (details.length ? "(" + details.join("・") + ")" : "") + "を掲載しています。";
+}
+
 (function () {
   const game = getQueryParam("game") || "";
 
@@ -106,14 +169,10 @@
     }
 
     if (game) {
-      const statsSummary =
-        "実況VTuber" + streamerNames.size + "組・再生リスト" + items.length + "件" +
-        (totalVideos ? "・動画" + totalVideos + "本" : "") +
-        (lastUpdated ? "(最終更新: " + formatDate(lastUpdated) + ")" : "") + "。";
       const representativeThumb = items.find((p) => getPlaylistThumbnailUrl(p));
       setPageMeta(
         gameDisplayName(game) + "を実況しているVTuber一覧 | " + SITE_NAME,
-        gameDisplayName(game) + "を実況しているVTuberの再生リスト・動画をまとめて紹介。" + statsSummary,
+        buildGameDescription(game, items, standalone),
         "/game.html?game=" + encodeURIComponent(game),
         representativeThumb ? getPlaylistThumbnailUrl(representativeThumb) : null
       );
