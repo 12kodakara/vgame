@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D3FY26G29X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D3FY26G29X');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7076920165915227"
+     crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-7076920165915227">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="VTuberのジャンル別ゲーム実況をまとめたページです。ジャンルごとに、実況しているVTuberとゲーム・再生リストを探せます。">
+<title>ジャンル別のVTuber実況 | ぶいゲー</title>
+<!-- canonical / og:url はここに書かない。このページの正規URLはクエリ(ジャンル)ごとに異なり、JS(setPageMeta)が
+     唯一の canonical として挿入する(game.html / streamer.html と同じ方式)。 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20width%3D'100'%20height%3D'100'%20rx%3D'22'%20fill%3D'%2314748f'%2F%3E%3Ctext%20x%3D'50'%20y%3D'70'%20font-size%3D'58'%20text-anchor%3D'middle'%3E%F0%9F%8E%AE%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ぶいゲー">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="ジャンル別のVTuber実況 | ぶいゲー">
+<meta property="og:description" content="VTuberのジャンル別ゲーム実況をまとめたページです。ジャンルごとに、実況しているVTuberとゲーム・再生リストを探せます。">
+<meta property="og:image" content="https://vgame-navi.jp/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ジャンル別のVTuber実況 | ぶいゲー">
+<meta name="twitter:description" content="VTuberのジャンル別ゲーム実況をまとめたページです。ジャンルごとに、実況しているVTuberとゲーム・再生リストを探せます。">
+<meta name="twitter:image" content="https://vgame-navi.jp/og-image.png">
+</head>
+<body data-lazy-playlists>
+
+<header class="wiki-banner">
+  <div class="wiki-banner-inner">
+    <p class="wiki-banner-title"><a href="index.html">ぶいゲー｜VTuberゲーム実況・再生リストまとめ</a></p>
+    <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-expanded="false" aria-controls="wiki-sidebar"><span aria-hidden="true">☰</span> メニュー</button>
+  </div>
+</header>
+
+<div class="wiki-body">
+
+  <aside class="wiki-sidebar" id="wiki-sidebar">
+    <div class="menu-box">
+      <h2 class="menu-box-title">探す</h2>
+      <form class="menu-search" onsubmit="return wikiSearchSubmit(this)">
+        <input type="search" name="q" aria-label="ゲーム名・VTuber を検索">
+        <button type="submit">検索</button>
+      </form>
+      <ul class="menu-list">
+        <li><a href="games.html">🎮 ゲームから探す</a></li>
+        <li><a href="streamers.html">🎥 VTuberから探す</a></li>
+        <li><a href="playlists.html">📺 再生リスト</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-box">
+      <h2 class="menu-box-title">見つける</h2>
+      <ul class="menu-list">
+        <li><a href="ranking.html">🏆 人気ランキング</a></li>
+        <li><a href="new.html">🆕 新着／最近更新</a></li>
+        <li><button type="button" class="menu-action" id="sidebar-random-btn">🎲 ランダムで実況を探す</button></li>
+      </ul>
+    </div>
+
+    <div class="menu-box">
+      <h2 class="menu-box-title">人気コンテンツ</h2>
+      <ul class="sidebar-popular-list" id="sidebar-popular-games"></ul>
+      <a class="more-link" href="games.html">もっと見る →</a>
+    </div>
+  </aside>
+
+  <main class="wiki-content">
+    <div class="content-box">
+      <nav class="breadcrumb-wiki"><a href="index.html">トップページ</a> › <span id="breadcrumb-current">ジャンル</span></nav>
+      <h1 class="page-title" id="page-title">ジャンル別のVTuber実況</h1>
+      <p class="page-lead" id="page-lead">ホラーゲームを実況しているVTuberと、その実況再生リストをまとめています。ゲームから探す場合はホラーゲーム一覧、VTuberから探す場合はVTuber一覧からどうぞ。</p>
+
+      <div class="stat-tiles" id="genre-stats">
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-games">-</span>
+          <span class="stat-tile-label">ゲーム数</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-streamers">-</span>
+          <span class="stat-tile-label">実況VTuber数</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-playlists">-</span>
+          <span class="stat-tile-label">再生リスト数</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-tile-value" id="stat-videos">-</span>
+          <span class="stat-tile-label">動画数</span>
+        </div>
+      </div>
+
+      <section class="section-box" id="genre-games-section">
+        <h2>ホラーゲーム一覧(実況VTuberが多い順)</h2>
+        <ul class="index-list" id="genre-games-list"></ul>
+        <!-- 21件目以降のゲーム。リンクは最初から DOM にあり、開かなくても通常の <a href> として辿れる。 -->
+        <details class="more-details" id="genre-games-more" hidden>
+          <summary><span class="more-details-open">ほか<span id="genre-games-rest-count"></span>作品を表示</span><span class="more-details-close">閉じる</span></summary>
+          <ul class="index-list" id="genre-games-rest"></ul>
+        </details>
+      </section>
+
+      <section class="section-box" id="genre-streamers-section" hidden>
+        <h2>ホラーゲームを実況しているVTuber(実況した作品が多い順)</h2>
+        <ul class="streamer-grid" id="genre-streamers-grid"></ul>
+        <details class="more-details" id="genre-streamers-more" hidden>
+          <summary><span class="more-details-open">ほか<span id="genre-streamers-rest-count"></span>組のVTuberを表示</span><span class="more-details-close">閉じる</span></summary>
+          <ul class="streamer-grid" id="genre-streamers-rest"></ul>
+        </details>
+      </section>
+
+      <section class="section-box" id="genre-recent-section" hidden>
+        <h2>最近更新されたホラーゲームの実況再生リスト</h2>
+        <ol class="discover-list" id="genre-recent-list"></ol>
+        <a class="more-link" href="playlists.html?genre=horror">ホラーゲームの再生リストをすべて見る →</a>
+      </section>
+    </div>
+  </main>
+
+</div>
+
+<footer class="wiki-footer">
+  <p>ぶいゲー｜VTuberのゲーム実況・再生リストをゲーム別・実況者別にまとめています。</p>
+  <nav class="footer-nav" aria-label="サイト情報">
+    <a href="about.html">サイトについて</a>
+    <a href="operator.html">運営者情報</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="contact.html">お問い合わせ</a>
+  </nav>
+</footer>
+
+<script src="data-core.js"></script>
+<script src="data-counts.js"></script>
+<script src="data-genres.js"></script>
+<script src="common.js"></script>
+<script src="genre.js"></script>
+</body>
+</html>

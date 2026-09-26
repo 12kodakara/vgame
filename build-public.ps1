@@ -57,7 +57,7 @@ if ((Split-Path $publicDir -Leaf) -ne $expectedLeaf -or -not $publicDir.StartsWi
 $htmlFiles = @(
   "index.html", "games.html", "games-row.html", "game.html",
   "streamers.html", "streamer.html", "playlists.html", "singles.html",
-  "ranking.html", "new.html", "search.html", "404.html",
+  "ranking.html", "new.html", "search.html", "404.html", "genre.html",
   "about.html", "operator.html", "privacy.html", "contact.html"
 )
 
@@ -66,11 +66,11 @@ $cssFiles = @("style.css")
 
 # ブラウザで実行されるJavaScript(データ本体 + 各ページ専用スクリプト + 共通処理)
 $jsFiles = @(
-  "data-core.js", "data-counts.js", "data-home.js", "data-ranking.js", "data-new.js", "data-playlists.js", "data-standalone.js",
+  "data-core.js", "data-counts.js", "data-home.js", "data-ranking.js", "data-new.js", "data-genres.js", "data-playlists.js", "data-standalone.js",
   "data-game-editorial.js",
   "common.js", "home.js", "games.js", "games-row.js", "game.js",
   "streamers.js", "streamer.js", "playlists.js", "singles.js",
-  "ranking.js", "new.js", "search.js"
+  "ranking.js", "new.js", "search.js", "genre.js"
 )
 
 # 検索エンジン向け設定
@@ -97,7 +97,7 @@ $excludedForReport = @(
 # トップページ用の事前集計(data-home.js)と詳細ページ用の分割データ(data/games・data/streamers)を
 # 最新の data-playlists.js から作り直してからコピーする
 if (Get-Command node -ErrorAction SilentlyContinue) {
-  foreach ($gen in @("generate-home-data.js", "generate-detail-data.js", "generate-list-data.js")) {
+  foreach ($gen in @("generate-home-data.js", "generate-detail-data.js", "generate-list-data.js", "generate-genre-data.js")) {
     & node (Join-Path $scriptDir $gen)
     if ($LASTEXITCODE -ne 0) { Write-Error "$gen が失敗しました。"; exit 1 }
   }

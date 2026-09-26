@@ -58,8 +58,8 @@ check('2i. data-home.js の人気のゲームは5件(確保量の前提)', vm.ru
 
 // ---- 3. 一覧の描画前 ----
 check('3a. 一覧(#grid)が空の間はページ送りを出さない', has('main:has(#grid:empty) #pagination', 'display: none'));
-check('3b. 一覧(#grid / #category-list)が空の間だけ本文を画面の高さ以上にする(見つからないページは除く)',
-  has('body:not(.is-not-found-page) .wiki-body:has(#grid:empty),\nbody:not(.is-not-found-page) .wiki-body:has(#category-list:empty)', 'min-height: 100vh'));
+check('3b. 一覧(#grid / #category-list / ジャンル別ページの #genre-games-list)が空の間だけ本文を画面の高さ以上にする(見つからないページは除く)',
+  has('body:not(.is-not-found-page) .wiki-body:has(#grid:empty),\nbody:not(.is-not-found-page) .wiki-body:has(#category-list:empty),\nbody:not(.is-not-found-page) .wiki-body:has(#genre-games-list:empty)', 'min-height: 100vh'));
 check('3c. .wiki-body 自体には無条件の min-height を付けない(描画後に空白を残さない)', !/min-height/.test(rule('.wiki-body') || ''));
 check('3d. フッターを隠すルールが無い', !/\.wiki-footer[^{]*\{[^}]*(display:\s*none|visibility:\s*hidden)/.test(noComments));
 check('3e. 見つからないページでは本文の高さの確保を外す(renderNotFoundPage が body に目印を付ける)', /function renderNotFoundPage\(opts\) \{[\s\S]{0,200}document\.body\.classList\.add\("is-not-found-page"\)/.test(common));

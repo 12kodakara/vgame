@@ -285,6 +285,12 @@ function buildGameDescription(game, items, standalone) {
     }
     const relatedGames = relatedCandidates.slice(0, 6);
 
+    // ---------- ジャンル別ページへの入口(公開中のジャンル=ホラーのみ。再生リストの過半数がホラーのゲーム) ----------
+    const genreLink = document.getElementById("game-genre-link");
+    if (genreLink && items.length && items.filter((p) => p.genre === "horror").length * 2 > items.length) {
+      genreLink.hidden = false;
+    }
+
     const relatedSection = document.getElementById("game-related-section");
     const relatedList = document.getElementById("game-related-list");
     if (relatedSection && relatedList && relatedGames.length) {

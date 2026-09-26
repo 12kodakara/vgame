@@ -151,7 +151,8 @@ select:focus-visible,
    一覧が入れば元の高さに戻るため、描画後に空白は残らない(フッター自体は隠さない)。
    見つからないゲーム/VTuberのページ(一覧が空のまま)は対象外。 */
 body:not(.is-not-found-page) .wiki-body:has(#grid:empty),
-body:not(.is-not-found-page) .wiki-body:has(#category-list:empty) {
+body:not(.is-not-found-page) .wiki-body:has(#category-list:empty),
+body:not(.is-not-found-page) .wiki-body:has(#genre-games-list:empty) {
   min-height: 100vh;
 }
 

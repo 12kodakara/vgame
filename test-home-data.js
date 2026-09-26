@@ -72,7 +72,8 @@ for (const f of needsPlaylists) check('4. ' + f + ' は従来どおり data-play
 for (const f of ['new.html', 'ranking.html']) check('4. ' + f + ' は data-playlists.js を初期読み込みしない(事前集計で表示。test-list-data.js で検査)', !read(f).includes('<script src="data-playlists.js"></script>'));
 for (const f of ['game.html', 'streamer.html']) check('4. ' + f + ' は data-playlists.js を初期読み込みしない(分割データで表示)', !read(f).includes('<script src="data-playlists.js"></script>'));
 const lazyPages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && read(f).includes('data-lazy-playlists')).sort();
-check('4. data-lazy-playlists を持つのは index.html・game.html・streamer.html・new.html・ranking.html だけ', JSON.stringify(lazyPages) === JSON.stringify(['game.html', 'index.html', 'new.html', 'ranking.html', 'streamer.html']), lazyPages.join(', '));
+// genre.html(ジャンル別ページ)も事前集計 data-genres.js で表示し、全件データはサイドバー検索の操作時に読み込む
+check('4. data-lazy-playlists を持つのは index.html・game.html・streamer.html・new.html・ranking.html・genre.html だけ', JSON.stringify(lazyPages) === JSON.stringify(['game.html', 'genre.html', 'index.html', 'new.html', 'ranking.html', 'streamer.html']), lazyPages.join(', '));
 
 // ---- 5. 経路の存在 ----
 const home = read('home.js'), common = read('common.js');

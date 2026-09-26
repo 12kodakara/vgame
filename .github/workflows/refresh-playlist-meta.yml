@@ -105,16 +105,18 @@ jobs:
           node generate-home-data.js
           node generate-detail-data.js
           node generate-list-data.js
+          node generate-genre-data.js
           node test-home-data.js
           node test-detail-data.js
           node test-list-data.js
+          node test-genre-page.js
 
       - name: 差分があれば commit して push
         if: steps.diff.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data-playlists.js data-home.js data-ranking.js data-new.js data
+          git add data-playlists.js data-home.js data-ranking.js data-new.js data-genres.js data
           git commit -m "data: refresh playlist metadata" \
             -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動更新。updatedDate ${{ steps.diff.outputs.dates }} 行 / thumbnailUrl ${{ steps.diff.outputs.thumbs }} 行。変更したのはこの2項目と、それに伴う派生データ(data-home.js / data-ranking.js / data-new.js / data/)のみ。"
           git push origin HEAD:main

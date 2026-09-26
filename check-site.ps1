@@ -403,6 +403,10 @@ if ((Test-Path (Join-Path $targetDir "data-home.js")) -and (Test-Path $homeGen))
     if (Test-Path $listGen) {
       if (-not (Test-GeneratedDataFresh $listGen)) { Add-CheckError "人気ランキング・新着用データ(data-ranking.js / data-new.js)が data-playlists.js と一致しません。node generate-list-data.js を実行してください。" }
     }
+    $genreGen = Join-Path $targetDir "generate-genre-data.js"
+    if (Test-Path $genreGen) {
+      if (-not (Test-GeneratedDataFresh $genreGen)) { Add-CheckError "ジャンル別ページ用データ(data-genres.js)が data-playlists.js と一致しません。node generate-genre-data.js を実行してください。" }
+    }
   } else {
     Add-CheckWarning "Node.js が無いため data-home.js の鮮度を確認できませんでした。"
   }

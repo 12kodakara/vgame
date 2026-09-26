@@ -171,10 +171,15 @@ foreach ($s in $streamers) {
   $url = "$siteUrl/streamer.html?streamer=" + [uri]::EscapeDataString($s)
   [void]$sb.AppendLine("  <url><loc>$(XmlEscape $url)</loc></url>")
 }
+# ジャンル別ページ: genre.js の GENRE_PAGE_IDS と同じ(公開中は horror のみ)。増やすときは両方そろえること。
+$genrePages = @("horror")
+foreach ($g in $genrePages) {
+  [void]$sb.AppendLine("  <url><loc>$siteUrl/genre.html?genre=$g</loc></url>")
+}
 [void]$sb.AppendLine('</urlset>')
 
 [System.IO.File]::WriteAllText($outPath, $sb.ToString(), (New-Object System.Text.UTF8Encoding($false)))
-Write-Output "sitemap.xml を生成しました: $outPath ($(1 + $staticPages.Count + $kanaRows.Count + $games.Count + $streamers.Count) URL)"
+Write-Output "sitemap.xml を生成しました: $outPath ($(1 + $staticPages.Count + $kanaRows.Count + $games.Count + $streamers.Count + $genrePages.Count) URL)"
 
 # robots.txt の Sitemap: 行も同じ $siteUrl に合わせて更新する
 # (robots.txt はブラウザJSが実行されない静的ファイルのため、data-core.js の

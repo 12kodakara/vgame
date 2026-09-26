@@ -21,6 +21,8 @@ on:
       - ranking.js
       - new.js
       - generate-list-data.js
+      - genre.js
+      - generate-genre-data.js
   workflow_dispatch:
 
 permissions:
@@ -45,17 +47,19 @@ jobs:
           node generate-home-data.js
           node generate-detail-data.js
           node generate-list-data.js
+          node generate-genre-data.js
 
       - name: 回帰テスト
         run: |
           node test-home-data.js
           node test-detail-data.js
           node test-list-data.js
+          node test-genre-page.js
 
       - name: 差分を検査
         id: diff
         run: |
-          if git diff --quiet -- data-home.js data-ranking.js data-new.js data && [ -z "$(git ls-files --others --exclude-standard -- data)" ]; then
+          if git diff --quiet -- data-home.js data-ranking.js data-new.js data-genres.js data && [ -z "$(git ls-files --others --exclude-standard -- data)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "派生データは最新です。commit しません。" >> "$GITHUB_STEP_SUMMARY"
           else
@@ -68,7 +72,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- data-home.js data-ranking.js data-new.js data
+          git add -A -- data-home.js data-ranking.js data-new.js data-genres.js data
           git commit -m "data: regenerate top page and detail page data" \
             -m "GitHub Actions (${{ github.workflow }} #${{ github.run_number }}) による自動生成。data-playlists.js 等の更新に合わせて派生データ(data-home.js / data-ranking.js / data-new.js / data/)を作り直した。"
           for i in 1 2 3; do
@@ -77,7 +81,8 @@ jobs:
             node generate-home-data.js
             node generate-detail-data.js
             node generate-list-data.js
-            git add -A -- data-home.js data-ranking.js data-new.js data
+            node generate-genre-data.js
+            git add -A -- data-home.js data-ranking.js data-new.js data-genres.js data
             if ! git diff --cached --quiet; then git commit --amend --no-edit; fi
           done
           echo "::error::push できませんでした。"

@@ -24,7 +24,7 @@ function check(name, ok, detail) {
 }
 console.log('=== canonical / sitemap 整合性 回帰テスト ===');
 
-const DYNAMIC = ['game.html', 'streamer.html', 'games-row.html'];
+const DYNAMIC = ['game.html', 'streamer.html', 'games-row.html', 'genre.html'];
 const EXCLUDED = ['google41e3144bfd576539.html'];
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && !EXCLUDED.includes(f));
 const canonicalTags = (html) => html.match(/<link rel="canonical"[^>]*>/g) || [];
