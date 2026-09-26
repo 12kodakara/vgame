@@ -149,6 +149,8 @@ check('3a. ケースを網羅: 0件 ' + cases.zero + ' / 10件以下 ' + cases.u
 // ---- 4. 展開UI ----
 check('4a. streamer.html: 11件目以降は <details id="streamer-games-more" hidden> の中の #streamer-games-rest(index-list)',
   /<details class="more-details" id="streamer-games-more" hidden>\s*<summary><span class="more-details-open">ほか<span id="streamer-games-rest-count"><\/span>件のゲームを表示<\/span><span class="more-details-close">閉じる<\/span><\/summary>\s*<ul class="index-list" id="streamer-games-rest"><\/ul>\s*<button type="button" class="more-toggle" id="streamer-games-close">閉じる ↑<\/button>\s*<\/details>/.test(streamerHtml));
+check('4a2. 「最近更新された実況」(「すべての再生リスト」の先頭5件と同じ内容)は置かない',
+  !/streamer-recent|最近更新された実況/.test(streamerHtml) && !/streamer-recent|recentUpdated/.test(js));
 check('4b. 旧「もっと見る」ボタン(クリックで一覧を作り直す方式)が残っていない', !/<button[^>]*id="streamer-games-more"/.test(streamerHtml) && !/gamesMoreBtn|renderGameList/.test(js));
 const css = read('style.css');
 check('4c. CSS: summary はリンク風・開閉で文言と ▼▲ が切り替わる', /\.more-details > summary \{[^}]*list-style: none;/.test(css) && /\.more-details\[open\] \.more-details-open/.test(css) && /\.more-details\[open\] > summary::after \{\s*content: " ▲";/.test(css));

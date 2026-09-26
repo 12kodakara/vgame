@@ -156,7 +156,7 @@ function buildStreamerDescription(streamer, items, standalone) {
       initFavoriteButton(document.getElementById("favorite-btn"), "streamer", { key: streamer, label: streamer, url: streamerUrl(streamer) });
     }
 
-    // 補助セクション(人気実況・最近更新)が「すべての再生リスト」と実質同じ内容に
+    // 補助セクション(人気実況)が「すべての再生リスト」と実質同じ内容に
     // なる場合、その補助セクションごと非表示にする。件数の一致ではなく、
     // 一意なplaylist id集合が完全に一致するか(＝メイン一覧に無い項目も、
     // メイン一覧にしか無い項目も無いか)で判定するため、データが増減しても
@@ -175,17 +175,6 @@ function buildStreamerDescription(streamer, items, standalone) {
     if (document.getElementById("streamer-popular-section") && popularItems.length && !isSameItemSet(popularItems, items)) {
       document.getElementById("streamer-popular-section").hidden = false;
       renderPlaylistDiscoverList("streamer-popular-list", popularItems, "", { showStreamer: false });
-    }
-
-    // ---------- 最近更新された実況(このVTuberの再生リストのうち更新日が新しい上位5件) ----------
-    const recentUpdated = items
-      .filter((p) => p.updatedDate || p.addedDate)
-      .slice()
-      .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
-      .slice(0, 5);
-    if (document.getElementById("streamer-recent-section") && recentUpdated.length && !isSameItemSet(recentUpdated, items)) {
-      document.getElementById("streamer-recent-section").hidden = false;
-      renderPlaylistDiscoverList("streamer-recent-list", recentUpdated, "", { showStreamer: false });
     }
 
     // ---------- 同じ事務所・グループのVTuber ----------
