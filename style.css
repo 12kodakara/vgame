@@ -720,7 +720,8 @@ main:has(#grid:empty) #pagination {
 .more-details[open] .more-details-close {
   display: inline;
 }
-.more-details > .index-list {
+.more-details > .index-list,
+.more-details > .streamer-grid {
   margin-top: 4px;
 }
 

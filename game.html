@@ -154,7 +154,13 @@
       <section class="section-box" id="game-streamer-section" hidden>
         <h2>このゲームを実況しているVTuber</h2>
         <ul class="streamer-grid" id="game-streamer-grid"></ul>
-        <button type="button" class="more-toggle" id="game-streamer-more" aria-expanded="false" hidden>もっと見る</button>
+        <!-- 11人目以降のVTuber。リンクは最初から DOM にあり(折りたたみはブラウザ標準の details/summary)、
+             開かなくても通常の <a href> として辿れる。 -->
+        <details class="more-details" id="game-streamer-more" hidden>
+          <summary><span class="more-details-open">ほか<span id="game-streamer-rest-count"></span>組のVTuberを表示</span><span class="more-details-close">閉じる</span></summary>
+          <ul class="streamer-grid" id="game-streamer-rest"></ul>
+          <button type="button" class="more-toggle" id="game-streamer-close">閉じる ↑</button>
+        </details>
       </section>
 
       <section class="section-box" id="game-featured-section" hidden>

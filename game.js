@@ -221,31 +221,34 @@ function buildGameDescription(game, items, standalone) {
       .map((name) => ({ name: name, stat: streamerStats[name] }))
       .sort((a, b) => b.stat.videoCount - a.stat.videoCount || a.name.localeCompare(b.name, "ja"));
 
+    // 実況しているVTuberは全員をリンクとして描画する。多いゲーム(最大200組超)でもページが長くならないよう、
+    // 最初の10組だけを表示し、残りは <details> の中に入れて折りたたむ(開閉はブラウザ標準の機能で、
+    // 開かなくてもリンクは DOM にあるため、検索エンジンも各VTuberページへ辿れる)。
     const STREAMERS_SHOWN_INITIALLY = 10;
     const streamerSection = document.getElementById("game-streamer-section");
     const streamerGrid = document.getElementById("game-streamer-grid");
-    const streamerMoreBtn = document.getElementById("game-streamer-more");
+    const streamerMore = document.getElementById("game-streamer-more");
+    const streamerRest = document.getElementById("game-streamer-rest");
     if (streamerSection && streamerGrid && streamerList.length) {
       streamerSection.hidden = false;
+      const addCards = (list, entries) => entries.forEach(({ name, stat }) => {
+        list.appendChild(createStreamerCard(name, stat.playlistCount));
+      });
+      streamerGrid.innerHTML = "";
+      addCards(streamerGrid, streamerList.slice(0, STREAMERS_SHOWN_INITIALLY));
 
-      function renderStreamerGrid(expanded) {
-        streamerGrid.innerHTML = "";
-        const visible = expanded ? streamerList : streamerList.slice(0, STREAMERS_SHOWN_INITIALLY);
-        visible.forEach(({ name, stat }) => {
-          streamerGrid.appendChild(createStreamerCard(name, stat.playlistCount));
-        });
-      }
-
-      let streamersExpanded = false;
-      renderStreamerGrid(streamersExpanded);
-
-      if (streamerMoreBtn && streamerList.length > STREAMERS_SHOWN_INITIALLY) {
-        streamerMoreBtn.hidden = false;
-        streamerMoreBtn.addEventListener("click", () => {
-          streamersExpanded = !streamersExpanded;
-          renderStreamerGrid(streamersExpanded);
-          streamerMoreBtn.textContent = streamersExpanded ? "閉じる" : "もっと見る";
-          streamerMoreBtn.setAttribute("aria-expanded", String(streamersExpanded));
+      const restStreamers = streamerList.slice(STREAMERS_SHOWN_INITIALLY);
+      if (streamerMore && streamerRest && restStreamers.length) {
+        streamerRest.innerHTML = "";
+        addCards(streamerRest, restStreamers);
+        document.getElementById("game-streamer-rest-count").textContent = restStreamers.length;
+        streamerMore.hidden = false;
+        // 長い一覧の末尾からも閉じられるようにする(閉じたら見出し位置へ戻す)
+        document.getElementById("game-streamer-close").addEventListener("click", () => {
+          streamerMore.open = false;
+          const summary = streamerMore.querySelector("summary");
+          summary.focus();
+          if (summary.getBoundingClientRect().top < 0) summary.scrollIntoView({ block: "center" });
         });
       }
     }
