@@ -1443,16 +1443,16 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
+     "id": "niji-kirame2434-01",
+     "title": "パラノマサイト FILE38 伊勢人魚物語",
+     "streamer": "空星きらめ",
+     "game": "パラノマサイト",
      "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
+     "playlistId": "PLPBENTZ-GE2A",
+     "thumbnailUrl": "https://i.ytimg.com/vi/6RMTojVbj-s/mqdefault.jpg",
+     "videoCount": 5,
      "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-25"
+     "updatedDate": "2026-09-26"
     },
     {
      "id": "vspo-totokogara-21",
@@ -1464,7 +1464,19 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
      "videoCount": 38,
      "addedDate": "2026-09-07",
-     "updatedDate": "2026-09-24"
+     "updatedDate": "2026-09-26"
+    },
+    {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-09-25"
     },
     {
      "id": "gap047",
@@ -1537,18 +1549,6 @@ const GENRE_PAGES = {
      "videoCount": 4,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-19"
-    },
-    {
-     "id": "niji-kirame2434-01",
-     "title": "パラノマサイト FILE38 伊勢人魚物語",
-     "streamer": "空星きらめ",
-     "game": "パラノマサイト",
-     "genre": "horror",
-     "playlistId": "PLPBENTZ-GE2A",
-     "thumbnailUrl": "https://i.ytimg.com/vi/6RMTojVbj-s/mqdefault.jpg",
-     "videoCount": 5,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-18"
     },
     {
      "id": "hd-0613",

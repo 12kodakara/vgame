@@ -510,18 +510,6 @@ const NEW_LIST = {
    "updatedDate": "2020-05-01"
   },
   {
-   "id": "holo-156",
-   "title": "アンチャーテッドシリーズ",
-   "streamer": "猫又おかゆ",
-   "game": "アンチャーテッド",
-   "genre": "action",
-   "playlistId": "PLcBqbL2HXHMg",
-   "thumbnailUrl": "https://i.ytimg.com/vi/HgS9RJNBdTM/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2026-09-20"
-  },
-  {
    "id": "niji-honmahimawar-70",
    "title": "LOST JUDGMENT：裁かれざる記憶",
    "streamer": "本間ひまわり",
@@ -530,6 +518,18 @@ const NEW_LIST = {
    "playlistId": "PLOc2cxNftxN8",
    "thumbnailUrl": "https://i.ytimg.com/vi/Rx7JPsu7Wqc/mqdefault.jpg",
    "videoCount": 1,
+   "addedDate": "2026-09-17",
+   "updatedDate": "2026-09-26"
+  },
+  {
+   "id": "holo-156",
+   "title": "アンチャーテッドシリーズ",
+   "streamer": "猫又おかゆ",
+   "game": "アンチャーテッド",
+   "genre": "action",
+   "playlistId": "PLcBqbL2HXHMg",
+   "thumbnailUrl": "https://i.ytimg.com/vi/HgS9RJNBdTM/mqdefault.jpg",
+   "videoCount": 2,
    "addedDate": "2026-09-17",
    "updatedDate": "2026-09-20"
   },

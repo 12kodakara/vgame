@@ -32,18 +32,6 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "holo-074",
-      "title": "マインクラフト🐏",
-      "streamer": "角巻わため",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLZ34fLWik_iBPCTi4beXGLxeMYKQZRTqd",
-      "thumbnailUrl": "https://i.ytimg.com/vi/PwINloYDiv4/mqdefault.jpg",
-      "videoCount": 279,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-09-26"
-    },
-    {
       "id": "vspo-lisahanabusa-11",
       "title": "APEX",
       "streamer": "英リサ",
@@ -53,31 +41,19 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
       "videoCount": 351,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-26"
+      "updatedDate": "2026-09-27"
     },
     {
-      "id": "vspo-beniyakumo-25",
+      "id": "vspo-kokagetsumug-08",
       "title": "APEX",
-      "streamer": "八雲べに",
+      "streamer": "紡木こかげ",
       "game": "Apex Legends",
       "genre": "fps",
-      "playlistId": "PLcIUhxw5ceRDRhZNUiz4XWvsLN-ufcs3q",
-      "thumbnailUrl": "https://i.ytimg.com/vi/wbwaiLeTrsY/mqdefault.jpg",
-      "videoCount": 188,
+      "playlistId": "PLsYH4NvRwnM04Ad-Oab8o8JQDCcvIqnx1",
+      "thumbnailUrl": "https://i.ytimg.com/vi/BnyBHWPNXJk/mqdefault.jpg",
+      "videoCount": 41,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-26"
-    },
-    {
-      "id": "niji-fumivirtual-09",
-      "title": "遊戯王マスターデュエル",
-      "streamer": "フミ",
-      "game": "遊戯王マスターデュエル",
-      "genre": "other",
-      "playlistId": "PLWRt-KFHLtpdw-d19RIsq0dKRQqre09nl",
-      "thumbnailUrl": "https://i.ytimg.com/vi/8lBLmn7W7CA/mqdefault.jpg",
-      "videoCount": 159,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-26"
+      "updatedDate": "2026-09-27"
     },
     {
       "id": "niji-fuwaminato-22",
@@ -89,7 +65,31 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/XF2FkOWJDHE/mqdefault.jpg",
       "videoCount": 205,
       "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-26"
+      "updatedDate": "2026-09-27"
+    },
+    {
+      "id": "niji-1o46v-42",
+      "title": "【シューティング】Apex Legends",
+      "streamer": "弦月藤士郎",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLt1c9byI2pERmd8ggLPY6LVcBGtEP5a2M",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Z34BRYeky14/mqdefault.jpg",
+      "videoCount": 56,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-09-27"
+    },
+    {
+      "id": "niji-togawanonoha-01",
+      "title": "🐉 デュエプレ / デュエル・マスターズ プレイス",
+      "streamer": "十河ののは",
+      "game": "デュエル・マスターズ プレイス",
+      "genre": "other",
+      "playlistId": "PLeZiTq1Mf8io",
+      "thumbnailUrl": "https://i.ytimg.com/vi/FGK0c4tnjaU/mqdefault.jpg",
+      "videoCount": 8,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-09-27"
     }
   ],
   "topStreamers": [
