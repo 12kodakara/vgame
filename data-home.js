@@ -32,6 +32,18 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "holo-074",
+      "title": "マインクラフト🐏",
+      "streamer": "角巻わため",
+      "game": "Minecraft",
+      "genre": "sandbox",
+      "playlistId": "PLZ34fLWik_iBPCTi4beXGLxeMYKQZRTqd",
+      "thumbnailUrl": "https://i.ytimg.com/vi/PwINloYDiv4/mqdefault.jpg",
+      "videoCount": 279,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-09-28"
+    },
+    {
       "id": "vspo-lisahanabusa-11",
       "title": "APEX",
       "streamer": "英リサ",
@@ -41,7 +53,19 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
       "videoCount": 351,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-27"
+      "updatedDate": "2026-09-28"
+    },
+    {
+      "id": "vspo-kuromuyano-14",
+      "title": "💀OW2💀",
+      "streamer": "夜乃くろむ",
+      "game": "Overwatch",
+      "genre": "fps",
+      "playlistId": "PLoeu5jm0_o0Rmabb_9elL3CQRv8D50Hvq",
+      "thumbnailUrl": "https://i.ytimg.com/vi/0jAHYVbwAtw/mqdefault.jpg",
+      "videoCount": 80,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-09-28"
     },
     {
       "id": "vspo-kokagetsumug-08",
@@ -53,43 +77,19 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/BnyBHWPNXJk/mqdefault.jpg",
       "videoCount": 41,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-27"
+      "updatedDate": "2026-09-28"
     },
     {
-      "id": "niji-fuwaminato-22",
-      "title": "APEX",
-      "streamer": "不破湊",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PL2uMwjy4y2Z5e1h9vOaerBvXEQ3hWnvhY",
-      "thumbnailUrl": "https://i.ytimg.com/vi/XF2FkOWJDHE/mqdefault.jpg",
-      "videoCount": 205,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-27"
-    },
-    {
-      "id": "niji-1o46v-42",
-      "title": "【シューティング】Apex Legends",
-      "streamer": "弦月藤士郎",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PLt1c9byI2pERmd8ggLPY6LVcBGtEP5a2M",
-      "thumbnailUrl": "https://i.ytimg.com/vi/Z34BRYeky14/mqdefault.jpg",
-      "videoCount": 56,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-27"
-    },
-    {
-      "id": "niji-togawanonoha-01",
-      "title": "🐉 デュエプレ / デュエル・マスターズ プレイス",
-      "streamer": "十河ののは",
-      "game": "デュエル・マスターズ プレイス",
+      "id": "niji-suosango-02",
+      "title": "【ストーリー完結】ぽこあポケモンゴねぇ・・・",
+      "streamer": "周央サンゴ",
+      "game": "ぽこ あ ポケモン",
       "genre": "other",
-      "playlistId": "PLeZiTq1Mf8io",
-      "thumbnailUrl": "https://i.ytimg.com/vi/FGK0c4tnjaU/mqdefault.jpg",
-      "videoCount": 8,
+      "playlistId": "PLPn_ydpuhps7jBw-gX8m7foM1NKsMHl8A",
+      "thumbnailUrl": "https://i.ytimg.com/vi/r7-S9Tjj5nU/mqdefault.jpg",
+      "videoCount": 14,
       "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-27"
+      "updatedDate": "2026-09-28"
     }
   ],
   "topStreamers": [

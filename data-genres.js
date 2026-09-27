@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap047",
+     "title": "Dead By Daylight",
+     "streamer": "Finana Ryugu",
+     "game": "Dead by Daylight",
+     "genre": "horror",
+     "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
+     "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
+     "videoCount": 17,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-09-28"
+    },
+    {
      "id": "niji-kirame2434-01",
      "title": "パラノマサイト FILE38 伊勢人魚物語",
      "streamer": "空星きらめ",
@@ -1477,18 +1489,6 @@ const GENRE_PAGES = {
      "videoCount": 3,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-25"
-    },
-    {
-     "id": "gap047",
-     "title": "Dead By Daylight",
-     "streamer": "Finana Ryugu",
-     "game": "Dead by Daylight",
-     "genre": "horror",
-     "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
-     "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
-     "videoCount": 17,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-22"
     },
     {
      "id": "niji-pontonei-01",
