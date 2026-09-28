@@ -694,7 +694,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/NJXScv8V0ls/mqdefault.jpg",
     videoCount: 77,
     addedDate: "2026-09-06",
-    updatedDate: "2026-09-21",
+    updatedDate: "2026-09-28",
   },
   {
     id: "holo-035",
@@ -18534,7 +18534,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/yKyEplfOb2Y/mqdefault.jpg",
     videoCount: 9,
     addedDate: "2026-09-07",
-    updatedDate: "2026-09-19",
+    updatedDate: "2026-09-29",
   },
   {
     id: "hd-1111",
@@ -23503,7 +23503,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/WnOccP557mQ/mqdefault.jpg",
     videoCount: 178,
     addedDate: "2026-09-07",
-    updatedDate: "2026-09-26",
+    updatedDate: "2026-09-28",
   },
   {
     id: "vspo-lisahanabusa-01",
@@ -25063,7 +25063,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/mMYdlv-D2hc/mqdefault.jpg",
     videoCount: 264,
     addedDate: "2026-09-07",
-    updatedDate: "2026-09-27",
+    updatedDate: "2026-09-28",
   },
   {
     id: "vspo-tsunanekota-33",
@@ -33763,7 +33763,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/63tBTokrdaQ/mqdefault.jpg",
     videoCount: 22,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-23",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-zulmihp1nlmo-25",
@@ -39043,7 +39043,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/PDXthcv29dw/mqdefault.jpg",
     videoCount: 4,
     addedDate: "2026-09-08",
-    updatedDate: "2026-05-31",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-lulusuzuhara-10",
@@ -39907,7 +39907,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/veVYH3ELQk8/mqdefault.jpg",
     videoCount: 7,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-23",
+    updatedDate: "2026-09-29",
   },
   {
     id: "niji-levie2434-03",
@@ -45691,7 +45691,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/8lBLmn7W7CA/mqdefault.jpg",
     videoCount: 159,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-27",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-fumivirtual-10",
@@ -46231,7 +46231,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/sgF8hMrhJHg/mqdefault.jpg",
     videoCount: 100,
     addedDate: "2026-09-08",
-    updatedDate: "2026-08-15",
+    updatedDate: "2026-09-29",
   },
   {
     id: "niji-karutayamaga-22",
@@ -46903,7 +46903,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/XF2FkOWJDHE/mqdefault.jpg",
     videoCount: 205,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-27",
+    updatedDate: "2026-09-29",
   },
   {
     id: "niji-fuwaminato-23",
@@ -48715,7 +48715,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/Zbhc8_0EZ2c/mqdefault.jpg",
     videoCount: 32,
     addedDate: "2026-09-08",
-    updatedDate: "2026-07-18",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-1o46v-15",
@@ -49951,7 +49951,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/Wa8At1gzBbs/mqdefault.jpg",
     videoCount: 65,
     addedDate: "2026-09-08",
-    updatedDate: "2026-07-10",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-kirame2434-07",
@@ -56143,7 +56143,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/fi_8JLjdQb8/mqdefault.jpg",
     videoCount: 494,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-21",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-hayun2434-01",
@@ -60511,7 +60511,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/BO86JLPSYz8/mqdefault.jpg",
     videoCount: 142,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-27",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-rou2434-08",
@@ -62515,7 +62515,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
     videoCount: 3,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-25",
+    updatedDate: "2026-09-28",
   },
   {
     id: "niji-7tamanoi-02",
@@ -68431,7 +68431,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/9yIAxUU6FsQ/mqdefault.jpg",
     videoCount: 64,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-23",
+    updatedDate: "2026-09-28",
   },
   {
     id: "nijien-seible-02",

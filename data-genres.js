@@ -1455,6 +1455,18 @@ const GENRE_PAGES = {
      "updatedDate": "2026-09-28"
     },
     {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-09-28"
+    },
+    {
      "id": "niji-kirame2434-01",
      "title": "パラノマサイト FILE38 伊勢人魚物語",
      "streamer": "空星きらめ",
@@ -1477,18 +1489,6 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-09-26"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-25"
     },
     {
      "id": "niji-pontonei-01",
