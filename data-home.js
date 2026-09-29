@@ -32,6 +32,54 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "vspo-emaaizawa-05",
+      "title": "Apex Legends",
+      "streamer": "藍沢エマ",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLHxtjnqjYjiI",
+      "thumbnailUrl": "https://i.ytimg.com/vi/bCnRk6HMoEw/mqdefault.jpg",
+      "videoCount": 187,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-09-30"
+    },
+    {
+      "id": "vspo-kuromuyano-17",
+      "title": "💀VALORANT💀",
+      "streamer": "夜乃くろむ",
+      "game": "VALORANT",
+      "genre": "fps",
+      "playlistId": "PLoeu5jm0_o0ThkoZkuoMRyAN4AZ-FhErt",
+      "thumbnailUrl": "https://i.ytimg.com/vi/WisyFISTjWs/mqdefault.jpg",
+      "videoCount": 113,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-09-30"
+    },
+    {
+      "id": "niji-saotomeberry-01",
+      "title": "🍓ほの暮しの庭",
+      "streamer": "早乙女ベリー",
+      "game": "ほの暮らしの庭",
+      "genre": "sim",
+      "playlistId": "PLD4dyy5_JVGw",
+      "thumbnailUrl": "https://i.ytimg.com/vi/-zQvScbCsUA/mqdefault.jpg",
+      "videoCount": 2,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-09-30"
+    },
+    {
+      "id": "holo-118",
+      "title": "鳴潮 Wuthering Waves",
+      "streamer": "姫森ルーナ",
+      "game": "鳴潮",
+      "genre": "rpg",
+      "playlistId": "PL6gUpTCMieF5tt-S0Yty858pGwr-JUz_0",
+      "thumbnailUrl": "https://i.ytimg.com/vi/lJublvlWNNw/mqdefault.jpg",
+      "videoCount": 26,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-09-29"
+    },
+    {
       "id": "hd-1110",
       "title": "鳴潮（Wuthering Waves/WuWa）",
       "streamer": "尾丸ポルカ",
@@ -42,54 +90,6 @@ const HOME_SUMMARY = {
       "videoCount": 9,
       "addedDate": "2026-09-07",
       "updatedDate": "2026-09-29"
-    },
-    {
-      "id": "niji-levie2434-02",
-      "title": "ほの暮らしの庭",
-      "streamer": "レヴィ・エリファ",
-      "game": "ほの暮らしの庭",
-      "genre": "sim",
-      "playlistId": "PLMG3imoNQ2uo",
-      "thumbnailUrl": "https://i.ytimg.com/vi/veVYH3ELQk8/mqdefault.jpg",
-      "videoCount": 7,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-29"
-    },
-    {
-      "id": "niji-karutayamaga-21",
-      "title": "⋆⸜ Minecraft ⸝⋆",
-      "streamer": "山神カルタ",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLjFz-Ge41_evnGsjOOwDMe4EK-H0dH9wT",
-      "thumbnailUrl": "https://i.ytimg.com/vi/sgF8hMrhJHg/mqdefault.jpg",
-      "videoCount": 100,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-29"
-    },
-    {
-      "id": "niji-fuwaminato-22",
-      "title": "APEX",
-      "streamer": "不破湊",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PL2uMwjy4y2Z5e1h9vOaerBvXEQ3hWnvhY",
-      "thumbnailUrl": "https://i.ytimg.com/vi/XF2FkOWJDHE/mqdefault.jpg",
-      "videoCount": 205,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-09-29"
-    },
-    {
-      "id": "holo-034",
-      "title": "GeoGuessr",
-      "streamer": "AZKi",
-      "game": "GeoGuessr",
-      "genre": "other",
-      "playlistId": "PLpt61bADOMwXCKw30oxhMaI7iWGzJduIg",
-      "thumbnailUrl": "https://i.ytimg.com/vi/NJXScv8V0ls/mqdefault.jpg",
-      "videoCount": 77,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-09-28"
     }
   ],
   "topStreamers": [
