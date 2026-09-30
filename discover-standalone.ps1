@@ -7,9 +7,11 @@
   1) data-core.js の STREAMERS / GAMES、data-playlists.js の PLAYLISTS を読み取る
   2) YouTube Data API v3 で対象チャンネルの最近のアップロードを取得
   3) サイト登録済み再生リスト内の動画IDを照合して除外
-  4) GAMES の name / nameJa / aliases を動画タイトル・説明欄と照合
-  5) チャンネル側にゲーム名を含む専用PLがありそうかも確認
-  6) 候補を streamer × game 単位にまとめて standalone-candidates.json に出力
+  4) STANDALONE_PLAYS(data-standalone.js)に登録済みの動画IDも除外
+  5) GAMES の name / nameJa / aliases を動画タイトル・説明欄と照合し、信頼度 HIGH / MEDIUM / LOW を付ける
+     (判定ロジックと HIGH の条件は standalone-matching.ps1 の説明を参照)
+  6) チャンネル側にゲーム名を含む専用PLがありそうかも確認(あれば HIGH にしない)
+  7) 候補を streamer × game 単位にまとめて standalone-candidates.json に出力
 
   ※ data-core.js / data-playlists.js は自動更新しません。候補は必ず管理画面で人が確認してください。
 
@@ -47,6 +49,11 @@ $playlistsPath = Join-Path $scriptDir "data-playlists.js"
 $outPath = Join-Path $scriptDir $OutFile
 # STREAMERS/GAMES は data-core.js、PLAYLISTS は data-playlists.js にあるため両方読み込んで結合する
 $full = ([IO.File]::ReadAllText($corePath, [Text.Encoding]::UTF8)) + "`n" + ([IO.File]::ReadAllText($playlistsPath, [Text.Encoding]::UTF8))
+# 候補判定ロジック(信頼度 HIGH / MEDIUM / LOW)
+. (Join-Path $scriptDir "standalone-matching.ps1")
+# STANDALONE_PLAYS に登録済みの動画は候補から外す(同じ単発実況を再提案しない)
+$standalonePath = Join-Path $scriptDir "data-standalone.js"
+$standaloneVideoIds = Get-StandaloneRegisteredVideoIds $(if (Test-Path $standalonePath) { [IO.File]::ReadAllText($standalonePath, [Text.Encoding]::UTF8) } else { "" })
 
 function Get-ArrayInner([string]$name) {
   $marker = "const $name = ["
@@ -111,6 +118,7 @@ $streamers = foreach ($obj in Get-Objects (Get-ArrayInner "STREAMERS")) {
   $name=Field $obj "name"; if (-not $name) { continue }
   [pscustomobject]@{ name=$name; group=(Field $obj "group"); youtube=(Field $obj "youtube") }
 }
+$allStreamerNames = @($streamers | ForEach-Object { $_.name })   # 絞り込む前の全VTuber名(VTuber名の中のゲーム名一致を無視するため)
 if ($Streamer) { $streamers=@($streamers | Where-Object name -eq $Streamer) }
 if ($Group) { $streamers=@($streamers | Where-Object group -eq $Group) }
 $streamers=@($streamers | Where-Object { $_.youtube })
@@ -128,7 +136,7 @@ $registered = foreach ($obj in Get-Objects (Get-ArrayInner "PLAYLISTS")) {
   [pscustomobject]@{ streamer=(Field $obj "streamer"); game=(Field $obj "game"); playlistId=$playlistIdValue; genre=(Field $obj "genre") }
 }
 
-$nonGameWords = @('雑談','歌枠','歌ってみた','cover','music','original song','shorts','切り抜き','誕生日','周年','記念配信','お知らせ','告知','朝活','晩酌','asmr')
+$gameIndex = New-StandaloneGameIndex $games $allStreamerNames
 $allGroups=@()
 $si=0
 foreach ($s in $streamers) {
@@ -189,37 +197,22 @@ foreach ($s in $streamers) {
   } while ($token -and $uploads.Count -lt $MaxVideos)
 
   $candidates=@()
+  # GetNewClosure() の中からは dot-source した関数が見えないため、関数を変数に取ってから呼ぶ
+  $findDedicated = ${function:Get-StandaloneDedicatedPlaylists}
+  $dedicatedFor = { param($gameName) & $findDedicated $games $gameName $channelPlaylists }.GetNewClosure()
+  $hasGamePlaylist = { param($gameName) @($myRegistered | Where-Object game -eq $gameName).Count -gt 0 }.GetNewClosure()
   foreach ($v in $uploads) {
-    if ($knownVideoIds.Contains($v.videoId)) { continue }
-    $text=Norm ($v.title + ' ' + $v.description)
-    $titleNorm=Norm $v.title
-    $likelyNonGame=$false
-    foreach ($w in $nonGameWords) { if ($titleNorm.Contains((Norm $w))) { $likelyNonGame=$true; break } }
-
-    $best=$null; $bestLen=0; $matchedAlias=''
-    foreach ($g in $games) {
-      foreach ($a in $g.aliases) {
-        $na=Norm $a
-        if ($na.Length -lt 3) { continue }
-        if ($text.Contains($na) -and $na.Length -gt $bestLen) { $best=$g; $bestLen=$na.Length; $matchedAlias=$a }
-      }
-    }
-    if (-not $best) { continue } # 今回は既知ゲームに絞る。未登録ゲームは管理画面で別途追加可能。
-
-    $dedicated=@()
-    foreach ($cp in $channelPlaylists) {
-      $pt=Norm $cp.title
-      foreach ($a in $best.aliases) {
-        $na=Norm $a
-        if ($na.Length -ge 3 -and $pt.Contains($na)) { $dedicated += $cp; break }
-      }
-    }
-    $siteHasGamePlaylist = @($myRegistered | Where-Object game -eq $best.name).Count -gt 0
+    if ($knownVideoIds.Contains($v.videoId)) { continue }        # サイト登録済み再生リストの動画
+    if ($standaloneVideoIds.Contains($v.videoId)) { continue }  # STANDALONE_PLAYS 登録済みの動画
+    $m = Get-StandaloneMatch $gameIndex $v.title $v.description @{ siteHasGamePlaylist = $hasGamePlaylist; dedicatedPlaylists = $dedicatedFor }
+    if (-not $m) { continue } # 既知ゲームに絞る。未登録ゲームは管理画面で別途追加可能。
     $candidates += [pscustomobject]@{
-      streamer=$s.name; game=$best.name; videoId=$v.videoId; title=$v.title; url=("https://www.youtube.com/watch?v="+$v.videoId)
-      publishedDate=$v.publishedAt; thumbnail=$v.thumbnail; matchedAlias=$matchedAlias
-      likelyNonGame=$likelyNonGame; siteHasGamePlaylist=$siteHasGamePlaylist
-      dedicatedPlaylistLikely=($dedicated.Count -gt 0); dedicatedPlaylists=@($dedicated | Select-Object id,title,count)
+      streamer=$s.name; game=$m.game; videoId=$v.videoId; title=$v.title; url=("https://www.youtube.com/watch?v="+$v.videoId)
+      publishedDate=$v.publishedAt; thumbnail=$v.thumbnail; matchedAlias=$m.matchedAlias
+      confidence=$m.confidence; matchType=$m.matchType; reasons=@($m.reasons); otherGames=@($m.otherGames)
+      likelyNonGame=(@($m.reasons | Where-Object { $_ -like '非ゲーム語*' }).Count -gt 0)
+      siteHasGamePlaylist=(& $hasGamePlaylist $m.game)
+      dedicatedPlaylistLikely=($m.dedicatedPlaylists.Count -gt 0); dedicatedPlaylists=@($m.dedicatedPlaylists | Select-Object id,title,count)
     }
   }
 
@@ -233,6 +226,8 @@ foreach ($s in $streamers) {
       streamer=$s.name; game=$grp.Name; genre=$genre
       suggestedFormat=$(if ($items.Count -eq 1) {'single'} else {'multi'})
       videoCount=$items.Count
+      # グループの信頼度は、含まれる動画のうち最も低いもの(1本でも曖昧なら HIGH にしない)
+      confidence=$(if (@($items | Where-Object confidence -eq 'LOW').Count) {'LOW'} elseif (@($items | Where-Object confidence -eq 'MEDIUM').Count) {'MEDIUM'} else {'HIGH'})
       warning=$(if (@($items | Where-Object dedicatedPlaylistLikely).Count -gt 0) {'チャンネル側に専用再生リスト候補あり'} elseif (@($items | Where-Object siteHasGamePlaylist).Count -gt 0) {'サイト登録済み専用PLと同ゲーム（動画ID未収録）'} else {''})
       videos=$items
     }
@@ -247,5 +242,5 @@ $result=[pscustomobject]@{
   candidates=@($allGroups | Sort-Object streamer,game)
 }
 $result | ConvertTo-Json -Depth 9 | Set-Content -Path $outPath -Encoding UTF8
-Write-Output "完了: $outPath  候補グループ数=$($allGroups.Count)"
+Write-Output ("完了: $outPath  候補グループ数=$($allGroups.Count)(HIGH " + @($allGroups | Where-Object confidence -eq 'HIGH').Count + " / MEDIUM " + @($allGroups | Where-Object confidence -eq 'MEDIUM').Count + " / LOW " + @($allGroups | Where-Object confidence -eq 'LOW').Count + ")")
 Write-Output "次に admin-standalone.html を開き、このJSONを読み込んで確認してください。"
