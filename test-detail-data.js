@@ -133,7 +133,9 @@ const xmlDecode = (t) => t.replace(/&apos;/g, "'").replace(/&quot;/g, '"').repla
 const gamesInSitemap = [...sitemap.matchAll(/<loc>https:\/\/vgame-navi\.jp\/game\.html\?game=([^<]+)<\/loc>/g)].map((m) => decodeURIComponent(xmlDecode(m[1])));
 check('7a. sitemap のゲーム詳細URLはすべて分割データにエントリがある(空ページを載せていない)', gamesInSitemap.length > 0 && gamesInSitemap.every((g) => all.games[g] && all.games[g].playlists.length), gamesInSitemap.filter((g) => !all.games[g]).slice(0, 5).join(', '));
 const streamersInSitemap = [...sitemap.matchAll(/<loc>https:\/\/vgame-navi\.jp\/streamer\.html\?streamer=([^<]+)<\/loc>/g)].map((m) => decodeURIComponent(xmlDecode(m[1])));
-check('7b. sitemap のVTuber詳細URLはすべて分割データにエントリがある', streamersInSitemap.length > 0 && streamersInSitemap.every((s) => all.streamers[s] && all.streamers[s].playlists.length), streamersInSitemap.filter((s) => !(all.streamers[s] && all.streamers[s].playlists.length)).slice(0, 5).join(', '));
+// 単発実況(STANDALONE_PLAYS)だけがあるVTuberも streamer.js では noindex にならず、generate-sitemap.ps1 も sitemap に載せる
+const streamerHasData = (s) => all.streamers[s] && (all.streamers[s].playlists.length > 0 || STANDALONE.some((p) => p.streamer === s));
+check('7b. sitemap のVTuber詳細URLはすべて分割データにエントリがある(再生リストか単発実況がある)', streamersInSitemap.length > 0 && streamersInSitemap.every(streamerHasData), streamersInSitemap.filter((s) => !streamerHasData(s)).slice(0, 5).join(', '));
 check('7c. sitemap に data/ のファイルが載っていない', !/<loc>[^<]*\/data\//.test(sitemap));
 const robots = read('robots.txt');
 check('7d. robots.txt は data/ を拒否していない(検索エンジンが詳細ページを描画できる)', !/^Disallow: \/(data)?\/?$/m.test(robots) && /^Allow: \/$/m.test(robots));
