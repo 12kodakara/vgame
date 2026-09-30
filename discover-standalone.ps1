@@ -123,8 +123,9 @@ $games = foreach ($obj in Get-Objects (Get-ArrayInner "GAMES")) {
 }
 
 $registered = foreach ($obj in Get-Objects (Get-ArrayInner "PLAYLISTS")) {
-  $pid=Field $obj "playlistId"; if (-not $pid) { continue }
-  [pscustomobject]@{ streamer=(Field $obj "streamer"); game=(Field $obj "game"); playlistId=$pid; genre=(Field $obj "genre") }
+  # $pid は PowerShell の読み取り専用自動変数($PID)と衝突して停止するため別名にする
+  $playlistIdValue=Field $obj "playlistId"; if (-not $playlistIdValue) { continue }
+  [pscustomobject]@{ streamer=(Field $obj "streamer"); game=(Field $obj "game"); playlistId=$playlistIdValue; genre=(Field $obj "genre") }
 }
 
 $nonGameWords = @('雑談','歌枠','歌ってみた','cover','music','original song','shorts','切り抜き','誕生日','周年','記念配信','お知らせ','告知','朝活','晩酌','asmr')

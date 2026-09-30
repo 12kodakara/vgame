@@ -21,8 +21,9 @@
      - STREAMERS内のVTuber名重複(同上の理由)
      - GAMES/STREAMERSのname空欄
      - STANDALONE_PLAYS(data-standalone.js)がGAMES/STREAMERS/GENRESに
-       存在しない値を参照している(validate-data.ps1はPLAYLISTSのみ検証対象で
-       STANDALONE_PLAYSは対象外のため)
+       存在しない値を参照している(validate-data.ps1 も同じ参照チェックに加えて
+       schema・video ID・再生リストとの重複を検証している。ここでは件数集計と
+       あわせて参照だけを確認する)
      - GAME_EDITORIAL(data-game-editorial.js)がGAMESに存在しないゲーム名を
        キーにしている(孤立データ、警告扱い)
 
