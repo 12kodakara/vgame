@@ -145,7 +145,9 @@ Check "10b. discover はクロージャ内で関数参照経由で専用PL判定
 $standaloneText = [IO.File]::ReadAllText((Join-Path $scriptDir "data-standalone.js"), [Text.Encoding]::UTF8)
 $ids = Get-StandaloneRegisteredVideoIds $standaloneText
 Check "11. STANDALONE_PLAYS の登録済み動画(宙科そぴあ × 夜勤事件 Ac-DypNuXyc)を除外対象にする" ($ids.Contains("Ac-DypNuXyc")) ("取得: " + ($ids -join ","))
-Check "11. コメント内の例(watch?v=...)は除外対象に含めない" ($ids.Count -eq 1) ("件数: " + $ids.Count)
+# 件数は登録のたびに変わるので、コメントを除いた本文の watch?v= の数と一致するかで確認する
+$liveUrls = @(($standaloneText -split "`n") | Where-Object { $_ -notmatch '^\s*//' } | ForEach-Object { [regex]::Matches($_, 'watch\?v=([A-Za-z0-9_-]{11})') } | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique)
+Check "11. コメント内の例(watch?v=...)は除外対象に含めない" ($ids.Count -eq $liveUrls.Count -and $ids.Count -ge 1 -and -not $ids.Contains("...")) ("件数: " + $ids.Count + " / 本文のURL: " + $liveUrls.Count)
 $discover = [IO.File]::ReadAllText((Join-Path $scriptDir "discover-standalone.ps1"), [Text.Encoding]::UTF8)
 Check "11. discover は再生リスト登録済み・STANDALONE_PLAYS 登録済みの動画を判定前に外す" (($discover -match 'if \(\$knownVideoIds\.Contains\(\$v\.videoId\)\) \{ continue \}') -and ($discover -match 'if \(\$standaloneVideoIds\.Contains\(\$v\.videoId\)\) \{ continue \}')) ""
 Check "11. discover は Get-StandaloneMatch で判定し、旧来の最長一致ロジックを持たない" (($discover -match 'Get-StandaloneMatch \$gameIndex') -and -not ($discover -match '\$bestLen')) ""
