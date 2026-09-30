@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap753",
+     "title": "SILENT HILL",
+     "streamer": "白雪巴",
+     "game": "SILENT HILL f",
+     "genre": "horror",
+     "playlistId": "PLX-dBVwQ53SUUBKX7RbHJBHNVquXIVegY",
+     "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
+     "videoCount": 14,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-09-30"
+    },
+    {
      "id": "gap047",
      "title": "Dead By Daylight",
      "streamer": "Finana Ryugu",
@@ -1549,18 +1561,6 @@ const GENRE_PAGES = {
      "videoCount": 4,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-19"
-    },
-    {
-     "id": "hd-0613",
-     "title": "バイオハザード6🐏",
-     "streamer": "角巻わため",
-     "game": "バイオハザード6",
-     "genre": "horror",
-     "playlistId": "PLfPP-p3bNRP4",
-     "thumbnailUrl": "https://i.ytimg.com/vi/fdqaPJFMO3E/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-09-15"
     }
    ]
   }

@@ -519,7 +519,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/Rx7JPsu7Wqc/mqdefault.jpg",
    "videoCount": 1,
    "addedDate": "2026-09-17",
-   "updatedDate": "2026-09-26"
+   "updatedDate": "2026-09-30"
   },
   {
    "id": "holo-156",
