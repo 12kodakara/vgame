@@ -35,4 +35,17 @@ const STANDALONE_PLAYS = [
   //   note: "専用再生リストなし",
   //   addedDate: "2026-09-09"
   // }
+  {
+    id: "single-001",
+    title: "【夜勤事件】幽霊なんて、科学の力でワンパンです！",
+    streamer: "宙科そぴあ",
+    game: "夜勤事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【夜勤事件】幽霊なんて、科学の力でワンパンです！【宙科そぴあ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=Ac-DypNuXyc", publishedDate: "2026-09-27" }
+    ],
+    note: "専用再生リストなし(本人の汎用「ゲーム」再生リストに収録)",
+    addedDate: "2026-09-30"
+  }
 ];
