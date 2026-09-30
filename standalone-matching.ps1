@@ -261,3 +261,78 @@ function Get-StandaloneRegisteredVideoIds([string]$standaloneJsText) {
   foreach ($m in [regex]::Matches($body.Substring($start), '(?:watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})')) { [void]$ids.Add($m.Groups[1].Value) }
   return , $ids
 }
+
+# ============================================================
+# 単発実況 → 再生リスト移行の判定(audit-standalone-migration.ps1 から使う。データは変更しない)
+# ============================================================
+# STANDALONE_PLAYS の1件について、後日できたゲーム専用再生リストへ移行すべきかを判定する。
+#   STRONG : サイト登録済み再生リストに 同じVTuber × 同じgame があり、単発実況の動画がその再生リスト内にもある
+#   MEDIUM : 同じVTuber × 同じgame の登録済み再生リストはあるが、動画が再生リスト内に無い / 確認していない
+#   WEAK   : VTuber × game を確定できないが関連の可能性がある
+#            (同じVTuberの別gameの再生リストのタイトルにゲーム名がある、同じVTuberの別gameの再生リストに動画がある、
+#             チャンネル側にサイト未登録のゲーム名入り再生リストがある)
+#   NONE   : 該当なし(正常)
+# VTuber・game は名前の完全一致で比べる(PLAYLISTS / STANDALONE_PLAYS はどちらも GAMES の正式名で game を持つ)。
+# 別VTuberの同じgame、同じVTuberの別gameは、タイトルにゲーム名が無い限り候補にしない。
+# どの判定でも自動削除・自動移行はしない(人が確認して、再生リスト追加と単発実況削除を同じ commit で行う)。
+function Get-StandaloneVideoIdsOf($play) {
+  $ids = @()
+  foreach ($v in @($play.videos)) {
+    if ($v -and $v.url) { $m = [regex]::Match([string]$v.url, '(?:watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})'); if ($m.Success) { $ids += $m.Groups[1].Value } }
+  }
+  return , @($ids | Select-Object -Unique)
+}
+
+#   $play            : STANDALONE_PLAYS の1件(id / streamer / game / videos[].url)
+#   $sitePlaylists   : PLAYLISTS(id / title / streamer / game / playlistId)
+#   $games           : GAMES(name / aliases。aliases は name 等を含む照合用の名前一覧)
+#   $playlistVideos  : playlistId → 動画IDの配列 のハッシュ。未取得の再生リストはキーが無い(=確認できない)
+#   $channelPlaylists: チャンネル側の再生リスト(id / title / count)。省略可(省略時はチャンネル側を見ない)
+function Get-StandaloneMigrationStatus($play, $sitePlaylists, $games, $playlistVideos = @{}, $channelPlaylists = $null) {
+  $videoIds = Get-StandaloneVideoIdsOf $play
+  $contains = {
+    param($plId)
+    if (-not $playlistVideos -or -not $playlistVideos.ContainsKey($plId)) { return $null }
+    return (@($videoIds | Where-Object { @($playlistVideos[$plId]) -contains $_ }).Count -gt 0)
+  }
+  $mine = @($sitePlaylists | Where-Object { $_.streamer -eq $play.streamer })
+  $exact = @($mine | Where-Object { $_.game -eq $play.game })
+  $found = @()
+  $reasons = @()
+  if ($exact.Count) {
+    foreach ($pl in $exact) { $found += [pscustomobject]@{ source = 'site'; id = $pl.id; title = $pl.title; game = $pl.game; playlistId = $pl.playlistId; videoInPlaylist = (& $contains $pl.playlistId) } }
+    if (@($found | Where-Object { $_.videoInPlaylist -eq $true }).Count) {
+      $level = 'STRONG'; $reasons += '同じVTuber × 同じgame の登録済み再生リストに、単発実況の動画も入っている'
+    } else {
+      $level = 'MEDIUM'
+      $reasons += '同じVTuber × 同じgame の登録済み再生リストがある'
+      if (@($found | Where-Object { $_.videoInPlaylist -eq $false }).Count) { $reasons += '単発実況の動画は再生リスト内に無い(移行すると動画がサイトから見えなくなる可能性)' }
+      if (@($found | Where-Object { $null -eq $_.videoInPlaylist }).Count) { $reasons += '再生リスト内の動画は確認していない' }
+    }
+  } else {
+    # 同じVTuberの別gameの再生リスト: タイトルにゲーム名がある / 単発実況の動画が入っている
+    $titled = @(Get-StandaloneDedicatedPlaylists $games $play.game @($mine | ForEach-Object { [pscustomobject]@{ id = $_.id; title = $_.title; game = $_.game; playlistId = $_.playlistId } }))
+    foreach ($pl in $mine) {
+      $byTitle = @($titled | Where-Object { $_.id -eq $pl.id }).Count -gt 0
+      $inPl = & $contains $pl.playlistId
+      if ($byTitle -or $inPl -eq $true) {
+        $found += [pscustomobject]@{ source = 'site'; id = $pl.id; title = $pl.title; game = $pl.game; playlistId = $pl.playlistId; videoInPlaylist = $inPl }
+        if ($byTitle) { $reasons += "登録済み再生リスト「$($pl.title)」のタイトルにゲーム名があるが、登録上の game は「$($pl.game)」" }
+        if ($inPl -eq $true) { $reasons += "単発実況の動画が、別 game(「$($pl.game)」)で登録された再生リスト「$($pl.title)」に入っている" }
+      }
+    }
+    # チャンネル側でサイト未登録の、ゲーム名入り再生リスト
+    if ($null -ne $channelPlaylists) {
+      $registeredIds = @($sitePlaylists | ForEach-Object { $_.playlistId })
+      $unregistered = @($channelPlaylists | Where-Object { $registeredIds -notcontains $_.id })
+      foreach ($cp in @(Get-StandaloneDedicatedPlaylists $games $play.game $unregistered)) {
+        $inPl = & $contains $cp.id
+        $found += [pscustomobject]@{ source = 'channel'; id = $null; title = $cp.title; game = $null; playlistId = $cp.id; videoInPlaylist = $inPl }
+        $reasons += "チャンネル側に、サイト未登録のゲーム名入り再生リスト「$($cp.title)」がある(先に再生リストとして登録するか確認)"
+      }
+    }
+    $level = $(if ($found.Count) { 'WEAK' } else { 'NONE' })
+    if (-not $found.Count) { $reasons += '対応するゲーム専用再生リストなし' }
+  }
+  return [pscustomobject]@{ id = $play.id; streamer = $play.streamer; game = $play.game; videoIds = @($videoIds); level = $level; playlists = @($found); reasons = @($reasons) }
+}
