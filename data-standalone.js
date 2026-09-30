@@ -112,5 +112,96 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-09-30"
+  },
+  {
+    id: "single-007",
+    title: "【ときめきメモリアル】完全初見。僕の青春高校生活...ひとり攻略まで！",
+    streamer: "轟はじめ",
+    game: "ときめきメモリアル",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【ときめきメモリアル】完全初見。僕の青春高校生活...ひとり攻略まで！【轟はじめ/ReGLOSS】※ネタバレ＆告白シーンあります", url: "https://www.youtube.com/watch?v=aPYS9WQdqVs", publishedDate: "2026-06-28" }
+    ],
+    note: "専用再生リストなし(本人の汎用「ゲーム」再生リストに収録)",
+    addedDate: "2026-10-01"
+  },
+  {
+    id: "single-008",
+    title: "【夜勤清掃】深夜にお掃除ホラゲ",
+    streamer: "轟はじめ",
+    game: "夜勤清掃",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【夜勤清掃】深夜にお掃除ホラゲ【轟はじめ/ReGLOSS】", url: "https://www.youtube.com/watch?v=cAVJ8gjGjCQ", publishedDate: "2026-04-05" }
+    ],
+    note: "専用再生リストなし(本人の汎用「ゲーム」再生リストに収録)",
+    addedDate: "2026-10-01"
+  },
+  {
+    id: "single-009",
+    title: "【 夜勤清掃 】ホラーゲームをがんばります",
+    streamer: "猫又おかゆ",
+    game: "夜勤清掃",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 夜勤清掃 】ホラーゲームをがんばります【 猫又おかゆ/ホロライブ 】", url: "https://www.youtube.com/watch?v=hQmMVdWhSg0", publishedDate: "2026-03-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-01"
+  },
+  {
+    id: "single-010",
+    title: "【夜勤清掃】ホラゲやる。",
+    streamer: "戌神ころね",
+    game: "夜勤清掃",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【夜勤清掃】ホラゲやる。", url: "https://www.youtube.com/watch?v=8dDVN2hz3ko", publishedDate: "2026-05-21" }
+    ],
+    note: "専用再生リストなし(本人のホラゲー再生リストに収録)",
+    addedDate: "2026-10-01"
+  },
+  {
+    id: "single-011",
+    title: "【 みつめ 】怖がりな二人で異変を探せ！？",
+    streamer: "綺々羅々ヴィヴィ",
+    game: "みつめ",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 みつめ 】怖がりな二人で異変を探せ！？【#綺々羅々ヴィヴィ #hololiveDEV_IS #FLOWGLOW #水宮枢 】", url: "https://www.youtube.com/watch?v=Bv73ukncvVs", publishedDate: "2026-09-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-01"
+  },
+  {
+    id: "single-012",
+    title: "【 鬼子母 Hariti  】怖がりの今年一怖い最恐ホラゲー！",
+    streamer: "綺々羅々ヴィヴィ",
+    game: "鬼子母 Hariti",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 鬼子母 Hariti  】怖がりの今年一怖い最恐ホラゲー！【#綺々羅々ヴィヴィ #hololiveDEV_IS #FLOWGLOW  】", url: "https://www.youtube.com/watch?v=50PEQJ1GfH8", publishedDate: "2026-09-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-01"
+  },
+  {
+    id: "single-013",
+    title: "【心霊物件】大丈夫なので大丈夫です",
+    streamer: "月ノ美兎",
+    game: "心霊物件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【心霊物件】大丈夫なので大丈夫です", url: "https://www.youtube.com/watch?v=EOTlRCWHfuw", publishedDate: "2025-03-23" }
+    ],
+    note: "専用再生リストなし(本人の「単発ゲーム実況」再生リストに収録)",
+    addedDate: "2026-10-01"
   }
 ];
