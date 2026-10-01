@@ -32,6 +32,30 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "niji-shizurin23-41",
+      "title": "凛LIVE --- FF14 (配信全て)",
+      "streamer": "静凛",
+      "game": "FINAL FANTASY XIV",
+      "genre": "rpg",
+      "playlistId": "PL0EE7SG9o_r9jWx7TQJ7rhRW7HFa-KH4G",
+      "thumbnailUrl": "https://i.ytimg.com/vi/zpkuuTzBNmo/mqdefault.jpg",
+      "videoCount": 210,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-02"
+    },
+    {
+      "id": "niji-kadoumikaru-04",
+      "title": "◌ ELDEN RING [ 完 ] DLC進行中",
+      "streamer": "蝸堂みかる",
+      "game": "ELDEN RING",
+      "genre": "action",
+      "playlistId": "PLxvCx6mYGtiy9NqJANX9gemTE_HagCBZW",
+      "thumbnailUrl": "https://i.ytimg.com/vi/rGbNWMT5erI/mqdefault.jpg",
+      "videoCount": 31,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-02"
+    },
+    {
       "id": "holo-059",
       "title": "Minecraft",
       "streamer": "不知火フレア",
@@ -56,40 +80,16 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-01"
     },
     {
-      "id": "nijien-claudeclawmark-01",
-      "title": "VALORANT",
-      "streamer": "Claude Clawmark",
-      "game": "VALORANT",
-      "genre": "fps",
-      "playlistId": "PLOxePWfR38JtTOugTzx_TKqCFxVg6D6xV",
-      "thumbnailUrl": "https://i.ytimg.com/vi/LuoJL7TlXWs/mqdefault_live.jpg",
-      "videoCount": 117,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-01"
-    },
-    {
-      "id": "hd-0343",
-      "title": "パワフルプロ野球栄冠ナイン",
-      "streamer": "大神ミオ",
+      "id": "holo-112",
+      "title": "パワフルプロ野球(パワプロ)⚾",
+      "streamer": "博衣こより",
       "game": "パワフルプロ野球",
       "genre": "sports",
-      "playlistId": "PLJj4JcqfhUJA",
-      "thumbnailUrl": "https://i.ytimg.com/vi/xZrCBS8kkYw/mqdefault.jpg",
-      "videoCount": 9,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-30"
-    },
-    {
-      "id": "hd-1349",
-      "title": "ホロ甲２０２６",
-      "streamer": "響咲リオナ",
-      "game": "パワフルプロ野球2026",
-      "genre": "sports",
-      "playlistId": "PLflyyIdASiiw",
-      "thumbnailUrl": "https://i.ytimg.com/vi/uMDxDVVayKw/mqdefault.jpg",
-      "videoCount": 2,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-09-30"
+      "playlistId": "PLCxKJRIVDrYGMveePbTjCpa2PiWpAtsrO",
+      "thumbnailUrl": "https://i.ytimg.com/vi/NoUYzb2Ve4Q/mqdefault.jpg",
+      "videoCount": 97,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-10-01"
     }
   ],
   "topStreamers": [

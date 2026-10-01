@@ -1452,7 +1452,19 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
      "videoCount": 14,
      "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-30"
+     "updatedDate": "2026-10-01"
+    },
+    {
+     "id": "niji-kitamicoolgu-01",
+     "title": "パラノマサイト FILE38 伊勢人魚物語",
+     "streamer": "北見遊征",
+     "game": "パラノマサイト",
+     "genre": "horror",
+     "playlistId": "PLQGuvrqdUwkg",
+     "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
+     "videoCount": 1,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-01"
     },
     {
      "id": "gap047",
@@ -1537,18 +1549,6 @@ const GENRE_PAGES = {
      "videoCount": 2,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-20"
-    },
-    {
-     "id": "niji-kitamicoolgu-01",
-     "title": "パラノマサイト FILE38 伊勢人魚物語",
-     "streamer": "北見遊征",
-     "game": "パラノマサイト",
-     "genre": "horror",
-     "playlistId": "PLQGuvrqdUwkg",
-     "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
-     "videoCount": 1,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-19"
     },
     {
      "id": "niji-nesssakaki-01",
