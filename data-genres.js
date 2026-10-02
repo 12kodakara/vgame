@@ -1443,6 +1443,30 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap313",
+     "title": "REPO",
+     "streamer": "Yu Q. Wilson",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL_Sl55XUqx73GYiq7wxgJT4zpzNHBTGAB",
+     "thumbnailUrl": "https://i.ytimg.com/vi/oukF6_oMQtA/mqdefault.jpg",
+     "videoCount": 12,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-02"
+    },
+    {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-02"
+    },
+    {
      "id": "gap753",
      "title": "SILENT HILL",
      "streamer": "白雪巴",
@@ -1475,18 +1499,6 @@ const GENRE_PAGES = {
      "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
      "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
      "videoCount": 17,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-28"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-28"
     },
@@ -1549,18 +1561,6 @@ const GENRE_PAGES = {
      "videoCount": 2,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-20"
-    },
-    {
-     "id": "niji-nesssakaki-01",
-     "title": "【2026年ホラゲ】SILENT HILL 2",
-     "streamer": "榊ネス",
-     "game": "SILENT HILL 2",
-     "genre": "horror",
-     "playlistId": "PLJgDA-3USeTc",
-     "thumbnailUrl": "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-19"
     }
    ]
   }

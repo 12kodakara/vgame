@@ -32,54 +32,6 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "niji-shizurin23-41",
-      "title": "凛LIVE --- FF14 (配信全て)",
-      "streamer": "静凛",
-      "game": "FINAL FANTASY XIV",
-      "genre": "rpg",
-      "playlistId": "PL0EE7SG9o_r9jWx7TQJ7rhRW7HFa-KH4G",
-      "thumbnailUrl": "https://i.ytimg.com/vi/zpkuuTzBNmo/mqdefault.jpg",
-      "videoCount": 210,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-02"
-    },
-    {
-      "id": "niji-kadoumikaru-04",
-      "title": "◌ ELDEN RING [ 完 ] DLC進行中",
-      "streamer": "蝸堂みかる",
-      "game": "ELDEN RING",
-      "genre": "action",
-      "playlistId": "PLxvCx6mYGtiy9NqJANX9gemTE_HagCBZW",
-      "thumbnailUrl": "https://i.ytimg.com/vi/rGbNWMT5erI/mqdefault.jpg",
-      "videoCount": 31,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-02"
-    },
-    {
-      "id": "holo-059",
-      "title": "Minecraft",
-      "streamer": "不知火フレア",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLBoFNGFmekcNR8kWdLUFPHoagiuUDmdch",
-      "thumbnailUrl": "https://i.ytimg.com/vi/EdrSjHMQOHk/mqdefault.jpg",
-      "videoCount": 263,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-01"
-    },
-    {
-      "id": "holo-074",
-      "title": "マインクラフト🐏",
-      "streamer": "角巻わため",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLZ34fLWik_iBPCTi4beXGLxeMYKQZRTqd",
-      "thumbnailUrl": "https://i.ytimg.com/vi/PwINloYDiv4/mqdefault.jpg",
-      "videoCount": 279,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-01"
-    },
-    {
       "id": "holo-112",
       "title": "パワフルプロ野球(パワプロ)⚾",
       "streamer": "博衣こより",
@@ -89,7 +41,55 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/NoUYzb2Ve4Q/mqdefault.jpg",
       "videoCount": 97,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-01"
+      "updatedDate": "2026-10-03"
+    },
+    {
+      "id": "hd-1217",
+      "title": "⚾ホロライブ甲子園⚾",
+      "streamer": "博衣こより",
+      "game": "パワフルプロ野球",
+      "genre": "sports",
+      "playlistId": "PLCxKJRIVDrYFgNRKTab7YnLo404DhdL_S",
+      "thumbnailUrl": "https://i.ytimg.com/vi/1XUSYVz_Cow/mqdefault.jpg",
+      "videoCount": 45,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-03"
+    },
+    {
+      "id": "vspo-lisahanabusa-11",
+      "title": "APEX",
+      "streamer": "英リサ",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLMbPsuw36kCglBhUr2Vx_mh_wv7QWl6j2",
+      "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
+      "videoCount": 351,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-03"
+    },
+    {
+      "id": "niji-levie2434-01",
+      "title": "大逆転裁判",
+      "streamer": "レヴィ・エリファ",
+      "game": "大逆転裁判",
+      "genre": "puzzle",
+      "playlistId": "PLcifxQIhOnLk",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Ol8TLci-4ks/mqdefault.jpg",
+      "videoCount": 8,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-03"
+    },
+    {
+      "id": "nijien-claudeclawmark-01",
+      "title": "VALORANT",
+      "streamer": "Claude Clawmark",
+      "game": "VALORANT",
+      "genre": "fps",
+      "playlistId": "PLOxePWfR38JtTOugTzx_TKqCFxVg6D6xV",
+      "thumbnailUrl": "https://i.ytimg.com/vi/LuoJL7TlXWs/mqdefault_live.jpg",
+      "videoCount": 117,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-03"
     }
   ],
   "topStreamers": [
