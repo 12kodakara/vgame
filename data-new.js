@@ -402,6 +402,18 @@ const NEW_LIST = {
    "updatedDate": "2019-02-08"
   },
   {
+   "id": "gap781",
+   "title": "⋆⸜ 空の軌跡 the 1st ⸝⋆",
+   "streamer": "山神カルタ",
+   "game": "空の軌跡",
+   "genre": "rpg",
+   "playlistId": "PLGEeokBkTJrU",
+   "thumbnailUrl": "https://i.ytimg.com/vi/OqoFsJxvjI4/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-09-18",
+   "updatedDate": "2026-10-03"
+  },
+  {
    "id": "gap779",
    "title": "トルネコの大冒険 不思議のダンジョン ちょっとステキなリマスター: Dragon Quest Heroes: Torneko's Mystery Dungeon -Classic HD-",
    "streamer": "葉山舞鈴",
@@ -424,18 +436,6 @@ const NEW_LIST = {
    "videoCount": 1,
    "addedDate": "2026-09-18",
    "updatedDate": "2026-09-13"
-  },
-  {
-   "id": "gap781",
-   "title": "⋆⸜ 空の軌跡 the 1st ⸝⋆",
-   "streamer": "山神カルタ",
-   "game": "空の軌跡",
-   "genre": "rpg",
-   "playlistId": "PLGEeokBkTJrU",
-   "thumbnailUrl": "https://i.ytimg.com/vi/OqoFsJxvjI4/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-09-18",
-   "updatedDate": "2026-09-02"
   },
   {
    "id": "gap780",
@@ -519,7 +519,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/Rx7JPsu7Wqc/mqdefault.jpg",
    "videoCount": 1,
    "addedDate": "2026-09-17",
-   "updatedDate": "2026-09-30"
+   "updatedDate": "2026-10-03"
   },
   {
    "id": "holo-156",

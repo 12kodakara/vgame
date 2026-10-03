@@ -1443,6 +1443,42 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-blackshibach-06",
+     "title": "黒夢町",
+     "streamer": "黒井しば",
+     "game": "黒夢町",
+     "genre": "horror",
+     "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
+     "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
+     "videoCount": 30,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-03"
+    },
+    {
+     "id": "niji-kakeruyumeoi-22",
+     "title": "黒夢町【にじさんじ/黒井しば/夢追翔/町田ちま/コラボ】",
+     "streamer": "夢追翔",
+     "game": "黒夢町",
+     "genre": "horror",
+     "playlistId": "PL-_4ze9jVHOEB-fbIH5BNHOdoMq9cnYd_",
+     "thumbnailUrl": "https://i.ytimg.com/vi/iJQNhvJ36YU/mqdefault.jpg",
+     "videoCount": 88,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-03"
+    },
+    {
+     "id": "niji-kirame2434-01",
+     "title": "パラノマサイト FILE38 伊勢人魚物語",
+     "streamer": "空星きらめ",
+     "game": "パラノマサイト",
+     "genre": "horror",
+     "playlistId": "PLPBENTZ-GE2A",
+     "thumbnailUrl": "https://i.ytimg.com/vi/6RMTojVbj-s/mqdefault.jpg",
+     "videoCount": 5,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-03"
+    },
+    {
      "id": "gap313",
      "title": "REPO",
      "streamer": "Yu Q. Wilson",
@@ -1503,18 +1539,6 @@ const GENRE_PAGES = {
      "updatedDate": "2026-09-28"
     },
     {
-     "id": "niji-kirame2434-01",
-     "title": "パラノマサイト FILE38 伊勢人魚物語",
-     "streamer": "空星きらめ",
-     "game": "パラノマサイト",
-     "genre": "horror",
-     "playlistId": "PLPBENTZ-GE2A",
-     "thumbnailUrl": "https://i.ytimg.com/vi/6RMTojVbj-s/mqdefault.jpg",
-     "videoCount": 5,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-26"
-    },
-    {
      "id": "vspo-totokogara-21",
      "title": "DBD",
      "streamer": "小雀とと",
@@ -1537,30 +1561,6 @@ const GENRE_PAGES = {
      "videoCount": 6,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-09-22"
-    },
-    {
-     "id": "hd-0127",
-     "title": "R.E.P.O.",
-     "streamer": "白上フブキ",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PL7LdRPp7xCkOXRU8NyFuB9WXdAZ9pVizi",
-     "thumbnailUrl": "https://i.ytimg.com/vi/5pQ10AsYS38/mqdefault.jpg",
-     "videoCount": 51,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-09-20"
-    },
-    {
-     "id": "niji-kntfr2434-01",
-     "title": "BIOHAZARD RE:2",
-     "streamer": "風楽奏斗",
-     "game": "バイオハザード RE:2",
-     "genre": "horror",
-     "playlistId": "PLPIgjNr5-a8s",
-     "thumbnailUrl": "https://i.ytimg.com/vi/9PRmCeZc7dI/mqdefault.jpg",
-     "videoCount": 2,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-20"
     }
    ]
   }
