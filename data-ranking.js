@@ -54,7 +54,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/fi_8JLjdQb8/mqdefault.jpg",
    "videoCount": 494,
    "addedDate": "2026-09-08",
-   "updatedDate": "2026-10-01",
+   "updatedDate": "2026-10-04",
    "_rank": 4
   },
   {
@@ -249,7 +249,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
    "videoCount": 279,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 19
   },
   {
@@ -275,7 +275,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/mMYdlv-D2hc/mqdefault.jpg",
    "videoCount": 264,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 21
   },
   {
@@ -301,7 +301,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/Z-fvQmwnsK0/mqdefault.jpg",
    "videoCount": 251,
    "addedDate": "2026-09-08",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 23
   },
   {
@@ -431,7 +431,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/XF2FkOWJDHE/mqdefault.jpg",
    "videoCount": 205,
    "addedDate": "2026-09-08",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 33
   },
   {
@@ -509,7 +509,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/wbwaiLeTrsY/mqdefault.jpg",
    "videoCount": 188,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 39
   },
   {
@@ -587,7 +587,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/_IBTOKVI030/mqdefault.jpg",
    "videoCount": 180,
    "addedDate": "2026-09-08",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 45
   },
   {
@@ -600,7 +600,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/WnOccP557mQ/mqdefault.jpg",
    "videoCount": 178,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-10-03",
+   "updatedDate": "2026-10-04",
    "_rank": 46
   },
   {

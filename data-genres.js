@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-04"
+    },
+    {
      "id": "niji-blackshibach-06",
      "title": "黒夢町",
      "streamer": "黒井しば",
@@ -1487,18 +1499,6 @@ const GENRE_PAGES = {
      "playlistId": "PL_Sl55XUqx73GYiq7wxgJT4zpzNHBTGAB",
      "thumbnailUrl": "https://i.ytimg.com/vi/oukF6_oMQtA/mqdefault.jpg",
      "videoCount": 12,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-02"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-02"
     },
