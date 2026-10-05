@@ -7,13 +7,18 @@
  * メーカー分類や誤った設定が混ざっているため。例: 「不思議のダンジョンシリーズ」は
  * トルネコ・シレンの再生リストだが series が「ポケモンシリーズ」になっている)。
  *
+ * キー(例: pokemon)が series ID で、URL は series.html?series=<ID>。公開後は変えない(URL・canonical が変わるため)。
  *   name    : 表示名(H1・title に使う)
+ *   publish : true のときだけ index 対象(公開条件も満たす必要あり。series.js の meetsSeriesPageThreshold)。PoC 中は false
  *   hubGame : シリーズ全般の再生リストをまとめた既存のゲームページ(複数作品をまとめた再生リスト用)
- *   games   : シリーズの作品(GAMES の name)。実況が0件の作品は表示しない
+ *   games   : シリーズの作品。GAMES の name(サイト内でゲームを指すID。ゲーム詳細の URL もこれ)を列挙する。
+ *             1つのゲームは1つのシリーズにだけ入れる。実況が0件の作品はページに表示しない
+ * 整合性(GAMES に存在する・重複なし・複数シリーズに入っていない)は validate-data.ps1 が検査する。
  */
 const SERIES_PAGES = {
   pokemon: {
     name: "ポケモンシリーズ",
+    publish: false,
     hubGame: "ポケモンシリーズ",
     games: [
       "ポケットモンスター 赤・緑",

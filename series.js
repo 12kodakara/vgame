@@ -4,12 +4,17 @@
  * 集計は computeSeriesPage() にまとめてある(DOM に触れない純粋関数)。PoC では数MBある data-playlists.js を
  * 必要になった時点で読み込んで集計する(公開する場合は genre と同じく事前集計データに切り替える)。
  *
- * 役割分担: シリーズ → 各ゲーム詳細 → 実況。各作品の詳しい実況はゲーム詳細へ送り、YouTube への直接リンクは
- * 「最近更新された実況」の10件だけにする。
+ * ページ固有の価値は「同じシリーズの複数作品を横断して実況を探せること」。主導線はシリーズ → 各ゲーム詳細で、
+ * 実況そのもの(再生リスト・単発実況)は少数だけ見せ、詳しくはゲーム詳細・単発実況一覧へ送る。
  */
-const SERIES_RECENT_LIMIT = 10;
-const SERIES_GAMES_SHOWN = 10;
-const SERIES_STREAMERS_SHOWN = 12;
+const SERIES_RECENT_LIMIT = 5;
+const SERIES_STREAMERS_LIMIT = 24;
+const SERIES_STANDALONE_LIMIT = 3;
+// 公開条件(どれか1つでも欠けると noindex)。根拠は _seo/monetization-growth-audit.md(改善 #1)
+const SERIES_MIN_TITLES = 3;          // 実況のある作品数
+const SERIES_MIN_CROSS_STREAMERS = 10; // 2作品以上を実況したVTuber(シリーズを横断して探す意味がある)
+const SERIES_MIN_STREAMERS = 20;      // 実況VTuber数 …または
+const SERIES_MIN_CONTENT = 40;        // 再生リスト+単発実況の件数(どちらかを満たせばよい)
 
 const cmpSeriesName = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 
@@ -52,6 +57,7 @@ function computeSeriesPage(playlists, standalonePlays, def) {
     stats: {
       games: gameList.length,
       streamers: streamerList.length,
+      crossStreamers: streamerList.filter((s) => s[1] >= 2).length,
       playlists: items.length,
       videos: items.reduce((sum, p) => sum + (p.videoCount || 0), 0),
       standalone: standalone.length,
@@ -64,11 +70,24 @@ function computeSeriesPage(playlists, standalonePlays, def) {
   };
 }
 
-/** meta description(事実のみ。作品名は実況VTuberが多い順の先頭3作品)。 */
+/** 公開条件を満たすか(作品数・横断VTuber数は必須。量は VTuber数か実況件数のどちらか)。 */
+function meetsSeriesPageThreshold(page) {
+  const s = page.stats;
+  return s.games >= SERIES_MIN_TITLES && s.crossStreamers >= SERIES_MIN_CROSS_STREAMERS &&
+    (s.streamers >= SERIES_MIN_STREAMERS || s.playlists + s.standalone >= SERIES_MIN_CONTENT);
+}
+
+/** meta description(事実のみ。ゲーム名・VTuber名は並べない)。 */
 function buildSeriesDescription(def, page) {
-  const top = page.games.slice(0, 3).map((g) => gameDisplayName(g[0])).join("、");
-  return def.name + "のVTuber実況を作品別にまとめたページです。" + top + "など" + page.stats.games +
-    "作品を実況したVTuber" + page.stats.streamers + "組の再生リスト" + page.stats.playlists + "件を掲載しています。";
+  return def.name + page.stats.games + "作品のVTuberによるゲーム実況を、作品別にまとめたページです。実況VTuber" +
+    page.stats.streamers + "組・再生リスト" + page.stats.playlists + "件を掲載しています。";
+}
+
+/** 冒頭の概要(既存データから作る2文)。 */
+function buildSeriesSummary(def, page) {
+  const s = page.stats;
+  return def.name + "の" + s.games + "作品を、" + s.streamers + "組のVTuberが実況しています(うち" + s.crossStreamers +
+    "組は複数の作品を実況)。再生リスト" + formatNumberJa(s.playlists) + "件・単発実況" + s.standalone + "件・動画" + formatNumberJa(s.videos) + "本を作品ごとに探せます。";
 }
 
 (function () {
@@ -87,39 +106,29 @@ function buildSeriesDescription(def, page) {
     return;
   }
 
-  function fillMore(detailsId, countId, listId, rest, add) {
-    if (!rest.length) return;
-    const list = document.getElementById(listId);
-    list.innerHTML = "";
-    add(list, rest);
-    document.getElementById(countId).textContent = rest.length;
-    document.getElementById(detailsId).hidden = false;
-  }
-
   function render(page) {
     document.getElementById("page-title").textContent = def.name + "のVTuber実況";
     document.getElementById("breadcrumb-current").textContent = def.name;
     document.querySelectorAll("[data-series-name]").forEach((el) => { el.textContent = def.name; });
+    document.getElementById("page-lead").textContent = buildSeriesSummary(def, page);
 
     document.getElementById("stat-games").textContent = formatNumberJa(page.stats.games) + "作品";
     document.getElementById("stat-streamers").textContent = formatNumberJa(page.stats.streamers) + "組";
     document.getElementById("stat-playlists").textContent = formatNumberJa(page.stats.playlists) + "件";
-    document.getElementById("stat-videos").textContent = page.stats.videos ? formatNumberJa(page.stats.videos) + "本" : "-";
+    document.getElementById("stat-standalone").textContent = formatNumberJa(page.stats.standalone) + "件";
 
-    // 作品一覧: 各ゲーム詳細へのリンク。件数は「この作品を実況しているVTuberの組数・再生リスト数」
-    const addGames = (list, entries) => entries.forEach(([name, streamerCount, playlistCount, standaloneCount]) => {
+    // 作品一覧(主導線): 全作品を各ゲーム詳細へのリンクとして並べる。件数は実況VTuber数・再生リスト数・単発実況数
+    const gamesList = document.getElementById("series-games-list");
+    gamesList.innerHTML = "";
+    page.games.forEach(([name, streamerCount, playlistCount, standaloneCount]) => {
       const li = createCountIndexItem(gameUrl(name), gameDisplayName(name), streamerCount);
       li.querySelector(".count").textContent = "(" + streamerCount + "組・再生リスト" + playlistCount + "件" +
         (standaloneCount ? "・単発" + standaloneCount + "件" : "") + ")";
-      list.appendChild(li);
+      gamesList.appendChild(li);
     });
-    const gamesList = document.getElementById("series-games-list");
-    gamesList.innerHTML = "";
-    if (page.games.length) addGames(gamesList, page.games.slice(0, SERIES_GAMES_SHOWN));
-    else gamesList.innerHTML = '<li class="empty-state">まだ実況が登録されていません。</li>';
-    fillMore("series-games-more", "series-games-rest-count", "series-games-rest", page.games.slice(SERIES_GAMES_SHOWN), addGames);
+    if (!page.games.length) gamesList.innerHTML = '<li class="empty-state">まだ実況が登録されていません。</li>';
 
-    // 複数作品をまとめた再生リストは既存のゲームページ(hubGame)へ
+    // 複数の作品をまとめた再生リストは既存のゲームページ(hubGame)へ
     if (page.hub) {
       const hubLink = document.getElementById("series-hub-link");
       hubLink.href = gameUrl(def.hubGame);
@@ -128,27 +137,44 @@ function buildSeriesDescription(def, page) {
       document.getElementById("series-hub-note").hidden = false;
     }
 
-    // VTuber一覧: 件数はシリーズ内の再生リスト数(カードの共通表示)。並びは実況した作品数の多い順
-    const addStreamers = (list, entries) => entries.forEach(([name, , playlistCount]) => list.appendChild(createStreamerCard(name, playlistCount)));
+    // VTuber: 実況した作品数の多い順に上位だけ(ページが VTuber 一覧で埋まらないよう上限あり)。件数表示も作品数
+    const shown = page.streamers.slice(0, SERIES_STREAMERS_LIMIT);
     const streamerGrid = document.getElementById("series-streamers-grid");
     streamerGrid.innerHTML = "";
-    addStreamers(streamerGrid, page.streamers.slice(0, SERIES_STREAMERS_SHOWN));
-    fillMore("series-streamers-more", "series-streamers-rest-count", "series-streamers-rest", page.streamers.slice(SERIES_STREAMERS_SHOWN), addStreamers);
+    shown.forEach(([name, titleCount, playlistCount]) => {
+      const card = createStreamerCard(name, playlistCount);
+      card.querySelector(".count").textContent = "(" + titleCount + "作品)";
+      streamerGrid.appendChild(card);
+    });
+    const restCount = page.streamers.length - shown.length;
+    document.getElementById("series-streamers-rest").textContent = restCount > 0 ? "ほか" + restCount + "組のVTuberは、各作品のページで確認できます。" : "";
     document.getElementById("series-streamers-section").hidden = !page.streamers.length;
 
-    // 実況を見る: 最近更新された再生リスト(既存の一覧表示)と、単発実況(既存のカード)
+    // 実況を見る: 最近更新された再生リストを少数だけ(既存の一覧表示)。単発実況は既存のカードで上限まで
     renderPlaylistDiscoverList("series-recent-list", page.recent, "まだ実況が登録されていません。", {});
     document.getElementById("series-recent-section").hidden = false;
     if (page.standalone.length) {
       const grid = document.getElementById("series-standalone-grid");
       grid.innerHTML = "";
-      page.standalone.forEach((x) => grid.appendChild(createStandaloneCard(x, { showGame: true })));
+      page.standalone.slice(0, SERIES_STANDALONE_LIMIT).forEach((x) => grid.appendChild(createStandaloneCard(x, { showGame: true })));
       document.getElementById("series-standalone-block").hidden = false;
+    }
+
+    // index は「公開扱い(publish: true)」かつ公開条件を満たすときだけ。それ以外は noindex を付ける
+    // (PoC 中は元HTMLにも noindex を書いてある。公開時はそれを外し、ここでの判定だけにする)
+    if (!(def.publish === true && meetsSeriesPageThreshold(page))) {
+      let robotsMeta = document.querySelector('meta[name="robots"]');
+      if (!robotsMeta) {
+        robotsMeta = document.createElement("meta");
+        robotsMeta.setAttribute("name", "robots");
+        document.head.appendChild(robotsMeta);
+      }
+      robotsMeta.setAttribute("content", "noindex,follow");
     }
 
     const representative = page.recent.find((p) => getPlaylistThumbnailUrl(p));
     setPageMeta(
-      def.name + "の実況VTuber・作品別一覧 | " + SITE_NAME,
+      def.name + "のVTuber実況・作品別一覧 | " + SITE_NAME,
       buildSeriesDescription(def, page),
       "/series.html?series=" + encodeURIComponent(seriesId),
       representative ? getPlaylistThumbnailUrl(representative) : null

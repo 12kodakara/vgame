@@ -31,6 +31,9 @@
         ※ PLAYLISTS は再生リスト内の動画IDを保持していないため、
           「同じ video ID が登録済み再生リストに含まれるか」はここでは判定できない。
           それは discover-standalone.ps1 が候補を作る時点で YouTube API を使って除外する。
+    エラー(data-series.js の SERIES_PAGES。ゲームシリーズページの作品定義):
+      - 作品・hubGame が GAMES に存在しない
+      - 同じシリーズに同じ作品が2回ある / 1つの作品が複数のシリーズに入っている
     警告(無くても表示は壊れないが、後で埋めた方が良いもの):
       - thumbnailUrl 未設定
       - updatedDate 未設定
@@ -441,6 +444,31 @@ foreach ($obj in $standaloneObjs) {
   }
 }
 
+# ---- SERIES_PAGES(data-series.js。ゲームシリーズページの作品定義)の検証 ----
+# 作品は GAMES の name を明示的に列挙する方式のため、名前の変更・削除で定義が壊れていないかを確認する
+$seriesPath = Join-Path $scriptDir "data-series.js"
+$seriesCount = 0
+if (Test-Path $seriesPath) {
+  $seriesText = Remove-JsComments ([System.IO.File]::ReadAllText($seriesPath, [System.Text.Encoding]::UTF8))
+  $seriesOwner = @{}
+  foreach ($m in [regex]::Matches($seriesText, '(?s)([A-Za-z0-9_-]+)\s*:\s*\{([^{}]*?games\s*:\s*\[([^\]]*)\][^{}]*)\}')) {
+    $seriesCount++
+    $sid = $m.Groups[1].Value
+    $hub = Field $m.Groups[2].Value "hubGame"
+    if ($hub -and -not $gameSet.ContainsKey($hub)) {
+      Add-Issue $errors "シリーズ:未登録ゲーム" $errorDetails "[series:$sid] hubGame が GAMES にありません: $hub"
+    }
+    $seen = @{}
+    foreach ($g in [regex]::Matches($m.Groups[3].Value, '"((?:\\.|[^"])*)"') | ForEach-Object { $_.Groups[1].Value }) {
+      if (-not $gameSet.ContainsKey($g)) { Add-Issue $errors "シリーズ:未登録ゲーム" $errorDetails "[series:$sid] GAMES にありません: $g" }
+      if ($seen.ContainsKey($g)) { Add-Issue $errors "シリーズ:作品重複" $errorDetails "[series:$sid] 同じ作品が2回あります: $g" }
+      $seen[$g] = $true
+      if ($seriesOwner.ContainsKey($g) -and $seriesOwner[$g] -ne $sid) { Add-Issue $errors "シリーズ:複数シリーズ所属" $errorDetails "$g が series:$($seriesOwner[$g]) と series:$sid の両方にあります" }
+      $seriesOwner[$g] = $sid
+    }
+  }
+}
+
 # ---- 出力 ----
 Write-Output "=== データチェック結果 ==="
 Write-Output ""
@@ -448,6 +476,7 @@ Write-Output "再生リスト: $($playlistObjs.Count)"
 Write-Output "ゲーム: $($gameObjs.Count)"
 Write-Output "VTuber: $($streamerObjs.Count)"
 Write-Output "単発実況: $($standaloneObjs.Count)"
+Write-Output "シリーズページ定義: $seriesCount"
 Write-Output ""
 
 Write-Output "警告"

@@ -74,7 +74,8 @@
     <div class="content-box">
       <nav class="breadcrumb-wiki"><a href="index.html">トップページ</a> › <a href="games.html">ゲーム一覧</a> › <span id="breadcrumb-current">シリーズ</span></nav>
       <h1 class="page-title" id="page-title">ゲームシリーズのVTuber実況</h1>
-      <p class="page-lead" id="page-lead"><span data-series-name></span>の作品ごとに、実況しているVTuberと再生リストをまとめています。作品ごとの詳しい実況は各ゲームのページへどうぞ。</p>
+      <!-- 概要は JS が既存データから作る2文に置き換える(描画前も同じくらいの長さにしてレイアウトシフトを防ぐ) -->
+      <p class="page-lead" id="page-lead">シリーズの作品ごとに、実況しているVTuberと再生リスト・単発実況をまとめています。作品ごとの詳しい実況は、各ゲームのページからご覧いただけます。</p>
 
       <div class="stat-tiles" id="series-stats">
         <div class="stat-tile">
@@ -90,29 +91,23 @@
           <span class="stat-tile-label">再生リスト数</span>
         </div>
         <div class="stat-tile">
-          <span class="stat-tile-value" id="stat-videos">-</span>
-          <span class="stat-tile-label">動画数</span>
+          <span class="stat-tile-value" id="stat-standalone">-</span>
+          <span class="stat-tile-label">単発実況数</span>
         </div>
       </div>
 
       <section class="section-box" id="series-games-section">
         <h2><span data-series-name></span>の作品(実況VTuberが多い順)</h2>
+        <!-- ページの主導線(シリーズ → ゲーム詳細)なので、実況のある全作品をそのまま並べる -->
         <ul class="index-list" id="series-games-list"></ul>
-        <!-- 11作品目以降。リンクは最初から DOM にあり、開かなくても通常の <a href> として辿れる。 -->
-        <details class="more-details" id="series-games-more" hidden>
-          <summary><span class="more-details-open">ほか<span id="series-games-rest-count"></span>作品を表示</span><span class="more-details-close">閉じる</span></summary>
-          <ul class="index-list" id="series-games-rest"></ul>
-        </details>
         <p class="page-lead" id="series-hub-note" hidden>複数の作品をまとめた再生リストは <a id="series-hub-link"></a><span id="series-hub-count"></span> にあります。</p>
       </section>
 
       <section class="section-box" id="series-streamers-section" hidden>
         <h2><span data-series-name></span>を実況しているVTuber(実況した作品が多い順)</h2>
+        <!-- 上位だけ(上限は series.js)。残りは各作品のページで確認する -->
         <ul class="streamer-grid" id="series-streamers-grid"></ul>
-        <details class="more-details" id="series-streamers-more" hidden>
-          <summary><span class="more-details-open">ほか<span id="series-streamers-rest-count"></span>組のVTuberを表示</span><span class="more-details-close">閉じる</span></summary>
-          <ul class="streamer-grid" id="series-streamers-rest"></ul>
-        </details>
+        <p class="page-lead" id="series-streamers-rest"></p>
       </section>
 
       <section class="section-box" id="series-recent-section" hidden>
@@ -121,6 +116,7 @@
         <div id="series-standalone-block" hidden>
           <h3>単発・専用再生リストなし実況</h3>
           <div class="play-cards" id="series-standalone-grid"></div>
+          <a class="more-link" href="singles.html">単発実況の一覧へ →</a>
         </div>
         <p class="page-lead">作品ごとのすべての実況は、上の作品一覧から各ゲームのページでご覧ください。</p>
       </section>
