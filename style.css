@@ -152,7 +152,8 @@ select:focus-visible,
    見つからないゲーム/VTuberのページ(一覧が空のまま)は対象外。 */
 body:not(.is-not-found-page) .wiki-body:has(#grid:empty),
 body:not(.is-not-found-page) .wiki-body:has(#category-list:empty),
-body:not(.is-not-found-page) .wiki-body:has(#genre-games-list:empty) {
+body:not(.is-not-found-page) .wiki-body:has(#genre-games-list:empty),
+body:not(.is-not-found-page) .wiki-body:has(#series-games-list:empty) {
   min-height: 100vh;
 }
 
