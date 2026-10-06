@@ -288,3 +288,38 @@ LOW の5本:
   - 対象のゲームページ5件は、もともと index で sitemap にも載っている
   - singles.html は index・sitemap 掲載のまま(表示は 1件 → 6件)
 - 残りの HIGH 候補は20件。自動では登録しない
+
+## 単発実況データ拡張 #2(2026-10-06、会社PC)
+
+- 方法:
+  - 会社PCには APIキー・Node.js が無い。YouTube の公開ページから API と同じ形の模擬レスポンスを作り、`discover-standalone.ps1`(standalone-matching.ps1 の判定)を ApiGet だけ差し替えて実行した
+  - 対象: アソビ★まわり隊! 4名の全アップロード(60本)
+- 中断: ほかに12人(Kobo Kanaeru・AZKi・ロボ子さん・にじさんじ8人・銀城サイネ)を取得中に、YouTube から会社ネットワークに「通常と異なるトラフィック」の確認画面が出たため、取得を止めた
+  - 2つの取得を同時に走らせて、リクエスト速度が上がったことが原因と見ている
+  - この12人の結果は保存前に失われた。会社ネットワークからの大量取得は今後行わない
+- 結果: HIGH 4 / MEDIUM 6 / LOW 0
+- 登録したもの(3件、single-014〜016)。いずれも次を確認済み:
+  - カテゴリ Gaming のライブ配信
+  - 説明欄でゲームを確認
+  - 全アップロード中でそのゲームは1本だけ
+  - 本人のサイト登録PL・チャンネルPLにそのゲーム名なし
+  - video ID は既存データに無い
+
+| VTuber | ゲーム | video ID | 根拠 |
+|---|---|---|---|
+| 熱千めら | 8番出口 | KNZDbpsAnB8 | 【8番出口】完全一致。説明欄に Steam 2653790 |
+| 熱千めら | GeoGuessr | z_ZP9E7qJc4 | 【GeoGuessr】完全一致。説明欄に GeoGuessr の許諾表記。PoC #2 で「まだ判断できない」として保留したが、デビュー後12日・17本中で1本のまま |
+| 宙科そぴあ | Melatonin | pLCDnmdf9RU | 【Melatonin】完全一致。説明欄に Half Asleep の許諾表記 |
+
+- 見送り:
+  - HIGH: 百灯キョーコ × 壺おじ(ai5tJOVZwUU)。GAMES の「壺おじ」と「Getting Over It」の重複が未解決
+  - MEDIUM: 百灯キョーコの PEAK #1・鬼武者 Way of the Sword #1/#2・都市伝説解体センター #1(連番)、閉店事件(【】の外で一致)。鈴鳴つづりの VALORANT #1/#2(連番・継続型)
+  - GAMES 未登録のため対象外: Buckshot Roulette・WHAT THE GOLF?・Trees Hate You
+- SEO:
+  - 対象のゲームページ3件・VTuberページ2件は、もともと index で sitemap 掲載済み
+  - sitemap は 1220件のまま(generate-sitemap.ps1 で再生成して差分なし)
+  - singles.html は index・sitemap 掲載のまま(表示 13件 → 16件)
+- 未実施(Node.js が必要。自宅PCで行う):
+  - 派生データ(data/games・data/streamers)の再生成: `node generate-detail-data.js` ほか
+  - Node.js の回帰テスト
+  - 移行 audit

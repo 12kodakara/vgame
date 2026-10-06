@@ -203,5 +203,44 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(本人の「単発ゲーム実況」再生リストに収録)",
     addedDate: "2026-10-01"
+  },
+  {
+    id: "single-014",
+    title: "【8番出口】怖いの苦手なのじゃ…",
+    streamer: "熱千めら",
+    game: "8番出口",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【8番出口】怖いの苦手なのじゃ…【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=KNZDbpsAnB8", publishedDate: "2026-10-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-06"
+  },
+  {
+    id: "single-015",
+    title: "【GeoGuessr】なぜか場所特定が得意なのじゃ…",
+    streamer: "熱千めら",
+    game: "GeoGuessr",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【GeoGuessr】なぜか場所特定が得意なのじゃ…【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=z_ZP9E7qJc4", publishedDate: "2026-09-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-06"
+  },
+  {
+    id: "single-016",
+    title: "【Melatonin】チルなリズムゲーで まったり過ごそっ！",
+    streamer: "宙科そぴあ",
+    game: "Melatonin",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Melatonin】チルなリズムゲーで まったり過ごそっ！【宙科そぴあ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=pLCDnmdf9RU", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-06"
   }
 ];
