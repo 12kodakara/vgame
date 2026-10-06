@@ -28,6 +28,8 @@
 <meta name="twitter:title" content="ゲームシリーズのVTuber実況 | ぶいゲー">
 <meta name="twitter:description" content="VTuberのゲーム実況をシリーズ別にまとめたページです。シリーズの作品ごとに、実況しているVTuberと再生リストを探せます。">
 <meta name="twitter:image" content="https://vgame-navi.jp/og-image.png">
+<!-- シリーズ定義(数KB)は見出しを最初の描画前に入れるため head で読み込む -->
+<script src="data-series.js"></script>
 </head>
 <body>
 
@@ -74,6 +76,16 @@
     <div class="content-box">
       <nav class="breadcrumb-wiki"><a href="index.html">トップページ</a> › <a href="games.html">ゲーム一覧</a> › <span id="breadcrumb-current">シリーズ</span></nav>
       <h1 class="page-title" id="page-title">ゲームシリーズのVTuber実況</h1>
+      <script>
+        // シリーズ名を最初の描画前に入れる。名前が長いと見出しが2行になり、後から入れると下の内容が押し下げられるため
+        (function () {
+          var id = new URLSearchParams(location.search).get("series") || "";
+          var def = typeof SERIES_PAGES !== "undefined" && Object.prototype.hasOwnProperty.call(SERIES_PAGES, id) ? SERIES_PAGES[id] : null;
+          if (!def) return;
+          document.getElementById("page-title").textContent = def.name + "のVTuber実況";
+          document.getElementById("breadcrumb-current").textContent = def.name;
+        })();
+      </script>
       <!-- 概要は JS が既存データから作る2文に置き換える(描画前も同じくらいの長さにしてレイアウトシフトを防ぐ) -->
       <p class="page-lead" id="page-lead">シリーズの作品ごとに、実況しているVTuberと再生リスト・単発実況をまとめています。作品ごとの詳しい実況は、各ゲームのページからご覧いただけます。</p>
 
@@ -138,7 +150,6 @@
 <script src="data-core.js"></script>
 <script src="data-counts.js"></script>
 <script src="data-standalone.js"></script>
-<script src="data-series.js"></script>
 <script src="common.js"></script>
 <script src="series.js"></script>
 </body>

@@ -106,10 +106,13 @@ function buildSeriesSummary(def, page) {
     return;
   }
 
+  // シリーズ名は data-series.js だけで決まるので、再生リストの読み込みを待たずに入れる
+  // (名前が長いと見出しが2行になり、描画後に入れると下の内容が押し下げられるため)
+  document.getElementById("page-title").textContent = def.name + "のVTuber実況";
+  document.getElementById("breadcrumb-current").textContent = def.name;
+  document.querySelectorAll("[data-series-name]").forEach((el) => { el.textContent = def.name; });
+
   function render(page) {
-    document.getElementById("page-title").textContent = def.name + "のVTuber実況";
-    document.getElementById("breadcrumb-current").textContent = def.name;
-    document.querySelectorAll("[data-series-name]").forEach((el) => { el.textContent = def.name; });
     document.getElementById("page-lead").textContent = buildSeriesSummary(def, page);
 
     document.getElementById("stat-games").textContent = formatNumberJa(page.stats.games) + "作品";
