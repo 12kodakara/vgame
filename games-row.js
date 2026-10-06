@@ -74,7 +74,7 @@
     const ul = document.createElement("ul");
     ul.className = "index-list";
     group.names.forEach((name) => {
-      const count = PLAYLIST_COUNTS_BY_GAME[name] || 0;
+      const count = listingCountOfGame(name);
       ul.appendChild(createCountIndexItem(gameUrl(name), gameDisplayName(name), count));
     });
     section.appendChild(ul);

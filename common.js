@@ -338,6 +338,19 @@ function standalonePlayCount(item) {
   return item.videoCount || ((item.videos || []).length);
 }
 
+/**
+ * 一覧ページ(ゲーム一覧・50音行・VTuber一覧)の件数バッジに出す件数 = 再生リスト件数 + 単発実況件数(data-counts.js)。
+ * 単発実況だけのゲーム・VTuberが「0件」と表示されないようにする。人気順などの集計は従来どおり再生リスト件数だけを使う。
+ */
+function listingCountOfGame(name) {
+  return ((typeof PLAYLIST_COUNTS_BY_GAME !== "undefined" && PLAYLIST_COUNTS_BY_GAME[name]) || 0) +
+    ((typeof STANDALONE_COUNTS_BY_GAME !== "undefined" && STANDALONE_COUNTS_BY_GAME[name]) || 0);
+}
+function listingCountOfStreamer(name) {
+  return ((typeof PLAYLIST_COUNTS_BY_STREAMER !== "undefined" && PLAYLIST_COUNTS_BY_STREAMER[name]) || 0) +
+    ((typeof STANDALONE_COUNTS_BY_STREAMER !== "undefined" && STANDALONE_COUNTS_BY_STREAMER[name]) || 0);
+}
+
 function standalonePrimaryUrl(item) {
   if (item.format === "mixed-playlist" && item.mixedPlaylistUrl) return item.mixedPlaylistUrl;
   const first = (item.videos || [])[0];

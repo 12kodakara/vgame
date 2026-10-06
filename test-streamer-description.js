@@ -38,14 +38,17 @@ const GAMES = vm.runInContext('GAMES', ctx), STREAMERS = vm.runInContext('STREAM
 const STANDALONE = vm.runInContext('typeof STANDALONE_PLAYS !== "undefined" ? STANDALONE_PLAYS : []', ctx);
 const names = new Set(GAMES.map((g) => g.name));
 const aliases = new Set(GAMES.flatMap((g) => [...(g.aliases || []), ...(g.nameJa ? [g.nameJa] : [])]).filter((a) => !names.has(a)));
-const withPlays = new Set(PLAYLISTS.map((p) => p.game));
+// 実況のあるゲーム = 再生リストか単発実況があるゲーム(game.js の noindex 条件と同じ)
+const withPlays = new Set(PLAYLISTS.map((p) => p.game).concat(STANDALONE.map((p) => p.game)));
+const saOf = (name) => STANDALONE.filter((p) => p.streamer === name);
 const build = (name) => ctx.buildStreamerDescription(name, PLAYLISTS.filter((p) => p.streamer === name), STANDALONE.filter((p) => p.streamer === name));
 const pick = (name) => ctx.pickStreamerDescriptionGames(PLAYLISTS.filter((p) => p.streamer === name), STANDALONE.filter((p) => p.streamer === name)).map((g) => g.name);
 
 // ---- 1. 全件生成 ----
 const rows = STREAMERS.map((s) => {
   const items = PLAYLISTS.filter((p) => p.streamer === s.name);
-  return { name: s.name, items, games: new Set(items.map((p) => p.game)), d: build(s.name) };
+  const sa = saOf(s.name);
+  return { name: s.name, items, sa, games: new Set(items.map((p) => p.game).concat(sa.map((p) => p.game))), d: build(s.name) };
 });
 check('1a. 全VTuber(' + rows.length + ')で生成でき、VTuber名で始まる', rows.every((r) => typeof r.d === 'string' && r.d.startsWith(r.name) && !/undefined|null|NaN/.test(r.d)));
 check('1b. 完全一致の重複が無い', new Set(rows.map((r) => r.d)).size === rows.length);
@@ -55,12 +58,15 @@ check('1c. 実況ゲームのある全VTuber(' + withGames.length + ')でゲー�
 // ---- 2. 選定ルール ----
 const again = load();
 check('2a. 別の実行環境で作り直しても全件同じ(決定的)', rows.every((r) => again.buildStreamerDescription(r.name, r.items, STANDALONE.filter((p) => p.streamer === r.name)) === r.d));
-const expectedOrder = (items) => {
+// 単発実況も1件として数える(本数は動画数、日付は addedDate)
+const expectedOrder = (items, sa) => {
   const m = new Map();
-  for (const p of items) { const s = m.get(p.game) || { name: p.game, c: 0, v: 0, d: '' }; s.c++; s.v += p.videoCount || 0; const dt = p.updatedDate || p.addedDate || ''; if (dt > s.d) s.d = dt; m.set(p.game, s); }
+  const add = (name, v, dt) => { const s = m.get(name) || { name, c: 0, v: 0, d: '' }; s.c++; s.v += v; if (dt > s.d) s.d = dt; m.set(name, s); };
+  for (const p of items) add(p.game, p.videoCount || 0, p.updatedDate || p.addedDate || '');
+  for (const p of sa || []) add(p.game, ctx.standalonePlayCount(p), p.addedDate || '');
   return [...m.values()].sort((a, b) => b.c - a.c || b.v - a.v || (a.d < b.d ? 1 : a.d > b.d ? -1 : 0) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)).map((s) => s.name);
 };
-check('2b. 並び順 = 再生リスト件数 → 動画本数 → 最終更新日 → 名前(文字コード順)(全件を独立に計算して照合)', withGames.every((r) => JSON.stringify(pick(r.name)) === JSON.stringify(expectedOrder(r.items))));
+check('2b. 並び順 = 件数(再生リスト+単発実況) → 動画本数 → 最終更新日 → 名前(文字コード順)(全件を独立に計算して照合)', withGames.every((r) => JSON.stringify(pick(r.name)) === JSON.stringify(expectedOrder(r.items, r.sa))));
 const tie = [
   { game: 'B', videoCount: 5, updatedDate: '2026-01-01' }, { game: 'A', videoCount: 5, updatedDate: '2026-01-01' },
   { game: 'C', videoCount: 5, updatedDate: '2026-02-01' }, { game: 'D', videoCount: 9, updatedDate: '2025-01-01' }, { game: 'E', videoCount: 1 }, { game: 'E', videoCount: 1 },
@@ -75,14 +81,14 @@ for (const r of withGames) {
   for (const g of shown) {
     if (!names.has(g)) problems.push(r.name + ': 正規名でない ' + g);
     if (aliases.has(g)) problems.push(r.name + ': 別名 ' + g);
-    if (!withPlays.has(g)) problems.push(r.name + ': 再生リストの無いゲーム ' + g);
+    if (!withPlays.has(g)) problems.push(r.name + ': 再生リストも単発実況も無いゲーム ' + g);
   }
   if (new Set(shown).size !== shown.length) problems.push(r.name + ': 重複');
   // 挙げたゲームは選定順の先頭から連続(途中を飛ばしたり切ったりしない)
   const expected = pick(r.name).slice(0, shown.length);
   if (JSON.stringify(expected) !== JSON.stringify(shown)) problems.push(r.name + ': 選定順と不一致 ' + JSON.stringify(shown));
 }
-check('3a. ゲーム名は正規名のみ・別名なし・再生リストのあるゲームのみ・重複なし・選定順の先頭から', problems.length === 0, problems.slice(0, 5).join('\n         '));
+check('3a. ゲーム名は正規名のみ・別名なし・再生リストか単発実況のあるゲームのみ・重複なし・選定順の先頭から', problems.length === 0, problems.slice(0, 5).join('\n         '));
 const ctxSrc = read('streamer.js');
 check('3b. 挙げるのは最大3件・ゲーム名の合計40字まで(長い名前は切らずに数を減らす)', /const STREAMER_DESC_MAX_GAMES = 3;/.test(ctxSrc) && /const STREAMER_DESC_GAME_NAMES_MAX_CHARS = 40;/.test(ctxSrc));
 const longName = 'あ'.repeat(30), longName2 = 'い'.repeat(25);
@@ -93,13 +99,16 @@ check('3c. 長いゲーム名: 名前を切らず、入りきらない分は挙�
 // ---- 4. 事実との一致 ----
 const factProblems = [];
 for (const r of withGames) {
-  const v = r.items.reduce((s, p) => s + (p.videoCount || 0), 0);
-  if (!r.d.includes('再生リスト' + r.items.length + '件')) factProblems.push(r.name + ': 件数');
+  const v = r.items.reduce((s, p) => s + (p.videoCount || 0), 0) + r.sa.reduce((s, p) => s + ctx.standalonePlayCount(p), 0);
+  // 件数は実在するものだけ: 再生リストのみ / 再生リスト・単発実況 / 単発実況のみ
+  const contents = 'の' + [r.items.length ? '再生リスト' + r.items.length + '件' : '', r.sa.length ? '単発実況' + r.sa.length + '件' : ''].filter(Boolean).join('・');
+  if (!r.d.includes(contents)) factProblems.push(r.name + ': 件数');
+  if (!r.items.length && r.d.includes('再生リスト')) factProblems.push(r.name + ': 再生リストが無いのに再生リストと書いている');
   if (v && !r.d.includes('(動画' + v + '本)')) factProblems.push(r.name + ': 本数');
   const shown = pick(r.name).slice(0, 3).filter((g) => r.d.includes(g)).length;
   if (shown < r.games.size && !r.d.includes('など' + r.games.size + '種類のゲーム')) factProblems.push(r.name + ': 種類数');
 }
-check('4a. 再生リスト件数・動画本数・種類数が元データと一致', factProblems.length === 0, factProblems.slice(0, 5).join(', '));
+check('4a. 再生リスト・単発実況の件数・動画本数・種類数が元データと一致', factProblems.length === 0, factProblems.slice(0, 5).join(', '));
 check('4b. 評価を表す言葉(人気・おすすめ・注目・得意・代表・メイン)を含まない', rows.every((r) => !/人気|おすすめ|注目|得意|代表|メイン/.test(r.d.replace(r.name, ''))));
 
 // ---- 5. ケース ----
@@ -116,6 +125,10 @@ check('5e. 動画本数が不明なら本数を書かない', d0v === '本数な
 const special = rows.filter((r) => /['"&<>]/.test(r.d));
 check('5f. 特殊文字(\' 等)を含む名前・ゲーム名もそのまま生成(' + special.length + '件。setAttribute で設定するため HTML として解釈されない)',
   special.length > 0 && special.every((r) => r.d.startsWith(r.name)) && /upsertMeta\('meta\[name="description"\]', \{ name: "description", content: description \}\)/.test(read('common.js')));
+const dMix = ctx.buildStreamerDescription('両方', [{ game: 'A', videoCount: 2 }], [{ game: 'B', videos: [{ url: 'u' }] }]);
+check('5h. 再生リスト+単発実況: 両方の件数を書く', dMix === '両方のゲーム実況をまとめたページです。AとBの再生リスト1件・単発実況1件(動画3本)を掲載しています。', dMix);
+const dSingle = ctx.buildStreamerDescription('単発', [], [{ game: 'B', videos: [{ url: 'u' }] }]);
+check('5i. 単発実況のみ: 「再生リスト」と書かない', dSingle === '単発のゲーム実況をまとめたページです。Bの単発実況1件(動画1本)を掲載しています。', dSingle);
 const zero = rows.filter((r) => !r.games.size);
 check('5g. 実況ゲーム0件(' + zero.length + '人・noindex)は従来の文面', zero.every((r) => r.d === r.name + 'が実況したゲームの一覧と再生リストをまとめて紹介。実況したゲーム0種類・再生リスト0件を掲載。'));
 

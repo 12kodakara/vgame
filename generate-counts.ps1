@@ -91,6 +91,27 @@ foreach ($obj in Get-Objects (Get-ArrayInner "PLAYLISTS" $full)) {
   }
 }
 
+# 単発実況(data-standalone.js の STANDALONE_PLAYS)の件数。一覧ページの件数バッジで再生リスト件数と合わせて表示する
+# (単発実況だけのVTuber・ゲームが「0件」と表示されないように)。行頭の // コメント(登録例)は数えない。
+$standaloneGameCounts = [ordered]@{}
+$standaloneStreamerCounts = [ordered]@{}
+$standalonePath = Join-Path $scriptDir "data-standalone.js"
+if (Test-Path $standalonePath) {
+  $standaloneText = [System.IO.File]::ReadAllText($standalonePath, [System.Text.Encoding]::UTF8) -replace '(?m)^\s*//.*$', ''
+  foreach ($obj in Get-Objects (Get-ArrayInner "STANDALONE_PLAYS" $standaloneText)) {
+    $game = Field $obj "game"
+    $streamer = Field $obj "streamer"
+    if ($game) {
+      if (-not $standaloneGameCounts.Contains($game)) { $standaloneGameCounts[$game] = 0 }
+      $standaloneGameCounts[$game] = $standaloneGameCounts[$game] + 1
+    }
+    if ($streamer) {
+      if (-not $standaloneStreamerCounts.Contains($streamer)) { $standaloneStreamerCounts[$streamer] = 0 }
+      $standaloneStreamerCounts[$streamer] = $standaloneStreamerCounts[$streamer] + 1
+    }
+  }
+}
+
 function Write-CountsObject([System.Text.StringBuilder]$sb, [string]$varName, [System.Collections.Specialized.OrderedDictionary]$counts) {
   [void]$sb.Append("const $varName = {")
   $first = $true
@@ -114,6 +135,8 @@ $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine(' */')
 Write-CountsObject $sb "PLAYLIST_COUNTS_BY_GAME" $gameCounts
 Write-CountsObject $sb "PLAYLIST_COUNTS_BY_STREAMER" $streamerCounts
+Write-CountsObject $sb "STANDALONE_COUNTS_BY_GAME" $standaloneGameCounts
+Write-CountsObject $sb "STANDALONE_COUNTS_BY_STREAMER" $standaloneStreamerCounts
 
 [System.IO.File]::WriteAllText($outPath, $sb.ToString(), (New-Object System.Text.UTF8Encoding($false)))
-Write-Output "data-counts.js を生成しました: $outPath (ゲーム $($gameCounts.Count) 件 / 実況者 $($streamerCounts.Count) 件)"
+Write-Output "data-counts.js を生成しました: $outPath (ゲーム $($gameCounts.Count) 件 / 実況者 $($streamerCounts.Count) 件 / 単発実況 ゲーム $($standaloneGameCounts.Count) 件・実況者 $($standaloneStreamerCounts.Count) 件)"

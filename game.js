@@ -3,7 +3,8 @@
  * そのゲームを実況しているVTuberを、登録データから決まる順(このゲームの再生リスト件数が多い順 → 同数なら動画本数の
  * 合計が多い順 → 最終更新日が新しい順 → 名前の文字コード順)に最大3名まで挙げ、事実(VTuber名・組数・再生リスト件数・
  * 動画本数・最終更新日)だけで説明する。評価を表す言葉(人気・代表等)は使わない。名前は途中で切らず、長い場合は挙げる数を減らす。
- * 再生リストが1件も無い(noindex の)ゲームと、GAME_DESC_LEGACY_GAMES のゲームは従来の文面のまま。
+ * 件数は実在するものだけ書く(再生リストのみ / 再生リストと単発実況 / 単発実況のみ)。単発実況のVTuberも挙げる対象に含む。
+ * 再生リストも単発実況も無い(noindex の)ゲームと、GAME_DESC_LEGACY_GAMES のゲームは従来の文面のまま。
  *   items: そのゲームの再生リスト / standalone: 単発実況
  */
 const GAME_DESC_MAX_STREAMERS = 3;
@@ -40,7 +41,8 @@ function buildGameDescription(game, items, standalone) {
     const d = p.updatedDate || p.addedDate || "";
     return d && d > latest ? d : latest;
   }, "");
-  if (!items.length || GAME_DESC_LEGACY_GAMES.has(game)) {
+  const standaloneCount = (standalone || []).length;
+  if ((!items.length && !standaloneCount) || GAME_DESC_LEGACY_GAMES.has(game)) {
     return gameDisplayName(game) + "を実況しているVTuberの再生リスト・動画をまとめて紹介。実況VTuber" + streamers.length + "組・再生リスト" + items.length + "件" +
       (totalVideos ? "・動画" + totalVideos + "本" : "") + (lastUpdated ? "(最終更新: " + formatDate(lastUpdated) + ")" : "") + "。";
   }
@@ -57,7 +59,11 @@ function buildGameDescription(game, items, standalone) {
   const details = [];
   if (totalVideos) details.push("動画" + totalVideos + "本");
   if (lastUpdated) details.push("最終更新 " + formatDate(lastUpdated));
-  return gameDisplayName(game) + "のVTuber実況をまとめたページです。" + who + "の再生リスト" + items.length + "件" +
+  // 件数は実在するものだけ書く: 再生リストのみ / 再生リスト・単発実況 / 単発実況のみ
+  const contents = [];
+  if (items.length) contents.push("再生リスト" + items.length + "件");
+  if (standaloneCount) contents.push("単発実況" + standaloneCount + "件");
+  return gameDisplayName(game) + "のVTuber実況をまとめたページです。" + who + "の" + contents.join("・") +
     (details.length ? "(" + details.join("・") + ")" : "") + "を掲載しています。";
 }
 
@@ -110,6 +116,8 @@ function buildGameDescription(game, items, standalone) {
     }
 
     const standalone = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).filter((p) => p.game === game);
+    // 単発実況だけのゲームは、空の「再生リストを探す」を先頭に出さない(単発実況の欄が本題になる)
+    if (items.length === 0 && standalone.length) document.getElementById("grid").closest("section").hidden = true;
 
     // 再生リスト・単発実況が1件も無いゲームは、実質的に中身が無い空のページに
     // なるため、検索結果には出さない(noindex)が、他ページからのリンクは辿れる

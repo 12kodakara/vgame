@@ -62,7 +62,7 @@
       const ul = document.createElement("ul");
       ul.className = "streamer-grid";
       byUnit[unit].forEach((s) => {
-        const count = PLAYLIST_COUNTS_BY_STREAMER[s.name] || 0;
+        const count = listingCountOfStreamer(s.name);
         ul.appendChild(createStreamerCard(s.name, count));
       });
       section.appendChild(ul);

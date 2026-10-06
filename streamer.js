@@ -3,6 +3,7 @@
  * そのVTuberが実況したゲームを、登録データから決まる順(再生リストの件数が多い順 → 同数なら動画本数の合計が多い順
  * → 最終更新日が新しい順 → ゲーム名の文字コード順)に最大3件まで挙げ、事実(ゲーム名・種類数・再生リスト件数・
  * 動画本数)だけで説明する。評価を表す言葉(人気・おすすめ等)は使わない。ゲーム名は途中で切らず、長い場合は挙げる数を減らす。
+ * 件数は実在するものだけ書く(再生リストのみ / 再生リストと単発実況 / 単発実況のみ)。単発実況のゲームも挙げる対象に含む。
  * 実況したゲームが1件も無い(noindex の)VTuberは従来の文面のまま。
  *   items: そのVTuberの再生リスト / standalone: 単発実況
  */
@@ -43,7 +44,11 @@ function buildStreamerDescription(streamer, items, standalone) {
   const gamesText = named.length === games.length
     ? (named.length === 2 ? named[0] + "と" + named[1] : named.join("、"))
     : named.join("、") + "など" + games.length + "種類のゲーム";
-  return streamer + "のゲーム実況をまとめたページです。" + gamesText + "の再生リスト" + items.length + "件" +
+  // 件数は実在するものだけ書く: 再生リストのみ / 再生リスト・単発実況 / 単発実況のみ
+  const contents = [];
+  if (items.length) contents.push("再生リスト" + items.length + "件");
+  if ((standalone || []).length) contents.push("単発実況" + standalone.length + "件");
+  return streamer + "のゲーム実況をまとめたページです。" + gamesText + "の" + contents.join("・") +
     (totalVideos ? "(動画" + totalVideos + "本)" : "") + "を掲載しています。";
 }
 
@@ -89,8 +94,9 @@ function buildStreamerDescription(streamer, items, standalone) {
       return;
     }
 
+    // 再生リストが無く単発実況だけのVTuberは「の再生リスト」と書かない
     document.getElementById("page-title").textContent = streamer
-      ? streamer + " の再生リスト"
+      ? streamer + (items.length === 0 && hasAnyPlay ? " のゲーム実況" : " の再生リスト")
       : "実況者が指定されていません";
     document.getElementById("breadcrumb-current").textContent = streamer || "不明な実況者";
 
@@ -108,6 +114,8 @@ function buildStreamerDescription(streamer, items, standalone) {
     if (roster && roster.x) xLinkEl.href = roster.x;
 
     const standalone = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).filter((p) => p.streamer === streamer);
+    // 単発実況だけのVTuberは、空の「すべての再生リスト」を先頭に出さない(単発実況の欄が本題になる)
+    if (items.length === 0 && standalone.length) document.getElementById("grid").closest("section").hidden = true;
 
     // 再生リスト・単発実況が1件も無いVTuberは、ページの本題である再生リストが
     // 空のままになるため、検索結果には出さない(noindex)が、他ページからの

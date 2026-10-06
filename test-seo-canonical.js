@@ -48,9 +48,10 @@ check('2. その他の公開HTML(' + others.length + '件)は元のHTMLに canon
 
 // ---- 3. JS の canonical と sitemap の一致 ----
 const ctx = {}; vm.createContext(ctx);
-for (const f of ['data-core.js', 'data-playlists.js']) vm.runInContext(read(f), ctx, { filename: f });
+for (const f of ['data-core.js', 'data-playlists.js', 'data-standalone.js']) vm.runInContext(read(f), ctx, { filename: f });
 const SITE_URL = vm.runInContext('SITE_URL', ctx);
 const GAMES = vm.runInContext('GAMES', ctx), STREAMERS = vm.runInContext('STREAMERS', ctx), PLAYLISTS = vm.runInContext('PLAYLISTS', ctx);
+const STANDALONE = vm.runInContext('typeof STANDALONE_PLAYS !== "undefined" ? STANDALONE_PLAYS : []', ctx);
 const xmlDecode = (s) => s.replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const locs = [...read('sitemap.xml').matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => xmlDecode(m[1]));
 const locSet = new Set(locs.map((u) => new URL(u).href));
@@ -77,9 +78,12 @@ check('4c. 再生リスト0件のゲーム/VTuberは noindex,follow', /items\.le
 
 // ---- 5. sitemap ----
 check('5a. sitemap に重複URLが無い', locSet.size === locs.length, locs.length - locSet.size + ' 件重複');
-const noPlayGames = GAMES.filter((g) => !gamesWithPlays.has(g.name)).map((g) => canon('/game.html?game=' + encodeURIComponent(g.name)));
-const noPlayStreamers = STREAMERS.filter((s) => !streamersWithPlays.has(s.name)).map((s) => canon('/streamer.html?streamer=' + encodeURIComponent(s.name)));
-check('5b. 再生リスト0件(noindex)のゲーム/VTuberを sitemap に載せていない', [...noPlayGames, ...noPlayStreamers].every((u) => !locSet.has(u)));
+// noindex になるのは再生リストも単発実況も無いページ(game.js / streamer.js・generate-sitemap.ps1 と同じ条件)
+const gamesWithAnyPlay = new Set([...gamesWithPlays, ...STANDALONE.map((p) => p.game)]);
+const streamersWithAnyPlay = new Set([...streamersWithPlays, ...STANDALONE.map((p) => p.streamer)]);
+const noPlayGames = GAMES.filter((g) => !gamesWithAnyPlay.has(g.name)).map((g) => canon('/game.html?game=' + encodeURIComponent(g.name)));
+const noPlayStreamers = STREAMERS.filter((s) => !streamersWithAnyPlay.has(s.name)).map((s) => canon('/streamer.html?streamer=' + encodeURIComponent(s.name)));
+check('5b. 再生リストも単発実況も0件(noindex)のゲーム/VTuberを sitemap に載せていない', [...noPlayGames, ...noPlayStreamers].every((u) => !locSet.has(u)));
 const known = new Set([...GAMES.map((g) => canon('/game.html?game=' + encodeURIComponent(g.name))), ...STREAMERS.map((s) => canon('/streamer.html?streamer=' + encodeURIComponent(s.name)))]);
 const unknown = [...locSet].filter((u) => /\/(game|streamer)\.html\?/.test(u) && !known.has(u));
 check('5c. sitemap に存在しないゲーム/VTuberのURLが無い', unknown.length === 0, unknown.slice(0, 3).join(', '));

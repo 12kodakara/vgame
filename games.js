@@ -8,7 +8,7 @@
 
   // ---------- ゲーム名検索(927件のGAMESカタログ全体が対象) ----------
   // data-playlists.js(約2.4MB)は読み込まず、games.htmlに既に読み込まれている
-  // data-core.js(GAMES)・data-counts.js(PLAYLIST_COUNTS_BY_GAME)だけで完結させる。
+  // data-core.js(GAMES)・data-counts.js(再生リスト・単発実況の件数)だけで完結させる。
   // スコアリングは search.js / common.js の検索サジェストと同じ考え方
   // (完全一致 > 前方一致 > 部分一致)を再利用し、ロジックを重複実装しない。
   const input = document.getElementById("game-search-input");
@@ -19,7 +19,7 @@
   const clearBtn = document.getElementById("game-search-clear");
 
   function countOf(name) {
-    return PLAYLIST_COUNTS_BY_GAME[name] || 0;
+    return listingCountOfGame(name);
   }
 
   function scoreGame(g, q) {
