@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!-- LOCAL PoC(未公開): ゲームシリーズページ。index させない・sitemap に載せない・サイト内からリンクしない。
-     ローカル確認でアクセス解析・広告に記録しないよう、GA4 / AdSense のタグは入れていない(公開判断時に他ページと揃える)。 -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D3FY26G29X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D3FY26G29X');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7076920165915227"
+     crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-7076920165915227">
+<!-- ゲームシリーズページ。公開するかどうかは data-series.js の publish で決まる(判定は series-publish.js)。
+     未公開のシリーズは series.js が noindex を付ける。GA4 / AdSense のタグは他ページと同じもの。 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="VTuberのゲーム実況をシリーズ別にまとめたページです。シリーズの作品ごとに、実況しているVTuberと再生リストを探せます。">
