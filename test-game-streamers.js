@@ -154,13 +154,22 @@ check('4b. 旧「もっと見る」ボタン(クリックで一覧を作り直�
 check('4c. CSS: 折りたたみ内の streamer-grid にも余白', /\.more-details > \.index-list,\s*\.more-details > \.streamer-grid \{/.test(read('style.css')));
 
 // ---- 5. メタデータ ----
-check('5a. title / description / canonical の生成(setPageMeta 呼び出し)は従来どおり',
-  /setPageMeta\(\s*gameDisplayName\(game\) \+ "を実況しているVTuber一覧 \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),/.test(js));
+check('5a. title / description / canonical の生成(setPageMeta 呼び出し)は従来どおり(GAME_PAGE_ROLES のゲームだけ title を差し替え)',
+  /setPageMeta\(\s*\(role \? role\.title : gameDisplayName\(game\) \+ "を実況しているVTuber一覧"\) \+ " \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),/.test(js));
 check('5b. 見出しは従来どおり(元のHTMLに canonical なし)', /<h2>このゲームを実況しているVTuber<\/h2>/.test(gameHtml) && !/<link rel="canonical"/.test(gameHtml));
 const sample = renderFor('Minecraft');
 check('5c. 描画後の title / canonical(最大件数のゲームで確認)',
   sample.doc.title === 'Minecraftを実況しているVTuber一覧 | ぶいゲー'
   && sample.doc.head.children.some((e) => e.tagName === 'LINK' && e.getAttribute('rel') === 'canonical' && e.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=Minecraft'), sample.doc.title);
+// 役割を明記したページ(GAME_PAGE_ROLES): title・H1・冒頭文だけが変わり、URL・canonical はゲーム名のまま
+const rolePage = renderFor('ポケモンシリーズ');
+const roleCanonical = rolePage.doc.head.children.find((e) => e.tagName === 'LINK' && e.getAttribute('rel') === 'canonical');
+check('5d. 旧「ポケモンシリーズ」: title・H1・冒頭文は役割(複数作品まとめ)を示し、canonical は従来の URL のまま',
+  rolePage.doc.title === '複数のポケモン作品をまたぐVTuber実況・企画の再生リスト | ぶいゲー'
+  && rolePage.doc.getElementById('page-title').textContent === 'ポケモン(複数作品まとめ)'
+  && /^複数のポケモン作品をまたいで実況した再生リスト/.test(rolePage.doc.getElementById('page-lead').textContent)
+  && roleCanonical && roleCanonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent('ポケモンシリーズ'),
+  rolePage.doc.title + ' / ' + rolePage.doc.getElementById('page-title').textContent + ' / ' + (roleCanonical && roleCanonical.getAttribute('href')));
 
 console.log('');
 console.log('PASS: ' + pass + '  FAIL: ' + fail);

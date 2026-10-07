@@ -53,7 +53,11 @@ const legacyText = (g) => {
 
 // ---- 1. 全件生成 ----
 const rows = GAMES.map((g) => { const items = itemsOf(g.name); const sa = saOf(g.name); return { name: g.name, items, sa, streamers: new Set(items.map((p) => p.streamer).concat(sa.map((p) => p.streamer))), d: build(g.name) }; });
-check('1a. 全ゲーム(' + rows.length + ')で生成でき、ゲーム名で始まる', rows.every((r) => typeof r.d === 'string' && r.d.startsWith(r.name) && !/undefined|null|NaN/.test(r.d)));
+// GAME_PAGE_ROLES(役割を明記するページ)は description の書き出しが subject になる。それ以外はゲーム名で始まる
+const ROLES = vm.runInContext('GAME_PAGE_ROLES', ctx);
+const roleOf = (g) => (Object.prototype.hasOwnProperty.call(ROLES, g) ? ROLES[g] : null);
+check('1a. 全ゲーム(' + rows.length + ')で生成でき、ゲーム名(役割を明記するページは subject)で始まる',
+  rows.every((r) => typeof r.d === 'string' && r.d.startsWith(roleOf(r.name) ? roleOf(r.name).subject : r.name) && !/undefined|null|NaN/.test(r.d)));
 check('1b. 完全一致の重複が無い', new Set(rows.map((r) => r.d)).size === rows.length);
 const target = rows.filter((r) => (r.items.length || r.sa.length) && !LEGACY.includes(r.name));
 check('1c. 変更対象(再生リストか単発実況あり・保留ゲーム以外 ' + target.length + ' 件)はすべて VTuber 名を1名以上含む', target.every((r) => pick(r.name).some((s) => r.d.includes(s))));
@@ -140,8 +144,18 @@ check('6b. 正規名の設計を保留中のゲーム(' + LEGACY.join(' / ') + '
 
 // ---- 7. game.js での使い方 ----
 const js = read('game.js');
-check('7a. description は buildGameDescription、title / canonical / og:image の引数は従来どおり',
-  /setPageMeta\(\s*gameDisplayName\(game\) \+ "を実況しているVTuber一覧 \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),\s*representativeThumb \? getPlaylistThumbnailUrl\(representativeThumb\) : null\s*\);/.test(js));
+check('7a. description は buildGameDescription、title / canonical / og:image の引数は従来どおり(GAME_PAGE_ROLES のゲームだけ title を差し替え)',
+  /setPageMeta\(\s*\(role \? role\.title : gameDisplayName\(game\) \+ "を実況しているVTuber一覧"\) \+ " \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),\s*representativeThumb \? getPlaylistThumbnailUrl\(representativeThumb\) : null\s*\);/.test(js));
+// ---- 8. 役割を明記するページ(GAME_PAGE_ROLES) ----
+const roleKeys = Object.keys(ROLES);
+check('8a. GAME_PAGE_ROLES のキーはすべて GAMES にあるゲーム', roleKeys.length > 0 && roleKeys.every((g) => GAMES.some((x) => x.name === g)), roleKeys.join(','));
+check('8b. 役割の文面(heading / title / lead / subject)はすべてあり、件数などの数字を直書きしない',
+  roleKeys.every((g) => ['heading', 'title', 'lead', 'subject'].every((k) => typeof ROLES[g][k] === 'string' && ROLES[g][k] && !/[0-9０-９]/.test(ROLES[g][k]))));
+check('8c. 役割を明記するページの description も件数・VTuber名は自動生成(元データと一致)',
+  roleKeys.every((g) => { const it = itemsOf(g); const d = build(g); return d.startsWith(ROLES[g].subject + 'をまとめたページです。') && d.includes('再生リスト' + it.length + '件') && pick(g).some((s) => d.includes(s)); }));
+check('8d. 役割の文面に元のゲーム名(例: ポケモンシリーズ)を使わない(同名のシリーズページと検索意図を分けるため)',
+  roleKeys.every((g) => ['heading', 'title', 'subject'].every((k) => !ROLES[g][k].includes(g))));
+
 check('7b. og:description / twitter:description は setPageMeta で meta description と同じ文', /upsertMeta\('meta\[property="og:description"\]', \{ property: "og:description", content: description \}\)/.test(read('common.js')) && /upsertMeta\('meta\[name="twitter:description"\]', \{ name: "twitter:description", content: description \}\)/.test(read('common.js')));
 
 console.log('');

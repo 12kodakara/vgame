@@ -17,6 +17,19 @@ const GAME_DESC_LEGACY_GAMES = new Set([
   "Overwatch",
   "Overwatch 2",
 ]);
+// ゲーム名だけではページの役割が伝わらないゲーム(複数作品をまとめた再生リストの受け皿など)の見出し・title・冒頭文と、
+// description の書き出し。ここに無いゲームは従来どおり。件数・VTuber名は他のゲームと同じく自動で入る(数値は書かない)。
+// URL・canonical・robots・お気に入り等に使う名前はゲーム名のまま変えない。
+//   heading: H1・パンくず / title: <title>(" | サイト名" は自動) / lead: 冒頭の説明 / subject: description の「◯◯をまとめたページです」の◯◯
+const GAME_PAGE_ROLES = {
+  "ポケモンシリーズ": {
+    heading: "ポケモン(複数作品まとめ)",
+    title: "複数のポケモン作品をまたぐVTuber実況・企画の再生リスト",
+    lead: "複数のポケモン作品をまたいで実況した再生リストや、シリーズを通した企画(通しプレイ・縛りなど)をまとめています。作品ごとの実況は、各作品のページから探せます。",
+    subject: "複数のポケモン作品をまたぐVTuber実況・企画",
+  },
+};
+const gamePageRoleOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_PAGE_ROLES, game) ? GAME_PAGE_ROLES[game] : null);
 
 function pickGameDescriptionStreamers(items, standalone) {
   const stats = new Map();
@@ -63,7 +76,8 @@ function buildGameDescription(game, items, standalone) {
   const contents = [];
   if (items.length) contents.push("再生リスト" + items.length + "件");
   if (standaloneCount) contents.push("単発実況" + standaloneCount + "件");
-  return gameDisplayName(game) + "のVTuber実況をまとめたページです。" + who + "の" + contents.join("・") +
+  const role = gamePageRoleOf(game);
+  return (role ? role.subject : gameDisplayName(game) + "のVTuber実況") + "をまとめたページです。" + who + "の" + contents.join("・") +
     (details.length ? "(" + details.join("・") + ")" : "") + "を掲載しています。";
 }
 
@@ -94,13 +108,14 @@ function buildGameDescription(game, items, standalone) {
       return;
     }
 
+    const role = gamePageRoleOf(game);
     document.getElementById("page-title").textContent = game
-      ? gameDisplayName(game)
+      ? (role ? role.heading : gameDisplayName(game))
       : "ゲームが指定されていません";
-    document.getElementById("breadcrumb-current").textContent = game ? gameDisplayName(game) : "不明なゲーム";
+    document.getElementById("breadcrumb-current").textContent = game ? (role ? role.heading : gameDisplayName(game)) : "不明なゲーム";
     const pageLeadEl = document.getElementById("page-lead");
     if (pageLeadEl && game) {
-      pageLeadEl.textContent = "VTuberによる" + gameDisplayName(game) + "実況・再生リストをまとめています。";
+      pageLeadEl.textContent = role ? role.lead : "VTuberによる" + gameDisplayName(game) + "実況・再生リストをまとめています。";
     }
 
     if (game) {
@@ -179,7 +194,7 @@ function buildGameDescription(game, items, standalone) {
     if (game) {
       const representativeThumb = items.find((p) => getPlaylistThumbnailUrl(p));
       setPageMeta(
-        gameDisplayName(game) + "を実況しているVTuber一覧 | " + SITE_NAME,
+        (role ? role.title : gameDisplayName(game) + "を実況しているVTuber一覧") + " | " + SITE_NAME,
         buildGameDescription(game, items, standalone),
         "/game.html?game=" + encodeURIComponent(game),
         representativeThumb ? getPlaylistThumbnailUrl(representativeThumb) : null
