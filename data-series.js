@@ -23,7 +23,7 @@
 const SERIES_PAGES = {
   pokemon: {
     name: "ポケモンシリーズ",
-    publish: false,
+    publish: true,
     hubGame: "ポケモンシリーズ",
     games: [
       "ポケットモンスター 赤・緑",
