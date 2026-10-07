@@ -105,6 +105,27 @@ if (Get-Command node -ErrorAction SilentlyContinue) {
   Write-Warning "Node.js が見つからないため派生データ(data-home.js / data-ranking.js / data-new.js / data/)を再生成できませんでした(既存のファイルをそのまま使います)。"
 }
 
+# ゲームシリーズページ(series.html)は、公開するシリーズが1件以上あるときだけ含める
+# (publish: true かつ公開条件を満たすもの。判定は series-publish.js。sitemap と同じ)
+$seriesPublisher = Join-Path $scriptDir "series-publish.js"
+$seriesDefPath = Join-Path $scriptDir "data-series.js"
+$publishedSeries = @()
+if ((Test-Path $seriesDefPath) -and (Test-Path $seriesPublisher)) {
+  if (Get-Command node -ErrorAction SilentlyContinue) {
+    $prevPref = $ErrorActionPreference; $ErrorActionPreference = "Continue"
+    try { $seriesRaw = & node $seriesPublisher --root $scriptDir --json 2>$null; $seriesCode = $LASTEXITCODE } finally { $ErrorActionPreference = $prevPref }
+    if ($seriesCode -ne 0 -or -not $seriesRaw) { Write-Error "series-publish.js が失敗しました。処理を中断しました。"; exit 1 }
+    $publishedSeries = @((($seriesRaw -join "") | ConvertFrom-Json).published | ForEach-Object { $_ })
+  } elseif ([System.IO.File]::ReadAllText($seriesDefPath, [System.Text.Encoding]::UTF8) -match '(?m)^\s*publish\s*:\s*true') {  # 行頭のプロパティだけ(説明コメントは除く)
+    Write-Error "publish: true のシリーズがありますが、Node.js が無いため公開判定ができません。処理を中断しました。"; exit 1
+  }
+}
+if ($publishedSeries.Count -gt 0) {
+  $htmlFiles += "series.html"
+  $jsFiles += @("data-series.js", "series.js")
+  Write-Output ("ゲームシリーズページを含めます(公開シリーズ: " + ($publishedSeries -join ", ") + ")")
+}
+
 $allTargets = New-Object System.Collections.Generic.List[string]
 foreach ($f in $htmlFiles) { [void]$allTargets.Add($f) }
 foreach ($f in $cssFiles) { [void]$allTargets.Add($f) }

@@ -412,6 +412,28 @@ if ((Test-Path (Join-Path $targetDir "data-home.js")) -and (Test-Path $homeGen))
   }
 }
 
+# ---- ゲームシリーズページの公開状態と series.html の noindex の整合 ----
+#   series.html は全シリーズ共通のHTMLで、元HTMLの noindex は「公開シリーズが無い間」の保険。
+#   公開シリーズ(publish: true かつ公開条件を満たす。判定は series-publish.js)ができたら外し、
+#   未公開のシリーズは series.js が noindex を付ける。どちらかの手順が漏れていたらエラーにする。
+$seriesHtmlPath = Join-Path $targetDir "series.html"
+$seriesPublisher = Join-Path $targetDir "series-publish.js"
+if ((Test-Path $seriesHtmlPath) -and (Test-Path $seriesPublisher) -and (Get-Command node -ErrorAction SilentlyContinue)) {
+  $prevPref = $ErrorActionPreference; $ErrorActionPreference = "Continue"
+  try { $seriesRaw = & node $seriesPublisher --root $targetDir --json 2>$null; $seriesCode = $LASTEXITCODE } finally { $ErrorActionPreference = $prevPref }
+  if ($seriesCode -ne 0 -or -not $seriesRaw) {
+    Add-CheckError "series-publish.js でシリーズページの公開判定ができませんでした。"
+  } else {
+    $publishedSeries = @((($seriesRaw -join "") | ConvertFrom-Json).published | ForEach-Object { $_ })
+    $staticNoindex = [System.IO.File]::ReadAllText($seriesHtmlPath, [System.Text.Encoding]::UTF8) -match '<meta name="robots" content="noindex'
+    if ($publishedSeries.Count -gt 0 -and $staticNoindex) {
+      Add-CheckError ("公開するシリーズ(" + ($publishedSeries -join ", ") + ")があるのに、series.html に noindex が直接書かれています(公開時は外してください)。")
+    } elseif ($publishedSeries.Count -eq 0 -and -not $staticNoindex) {
+      Add-CheckError "公開するシリーズが無いのに、series.html に noindex がありません(未公開の間は元HTMLに noindex を残してください)。"
+    }
+  }
+}
+
 # ---- 結果表示 ----
 Write-Output "ERROR:"
 if ($errorList.Count -gt 0) {

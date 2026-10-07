@@ -176,10 +176,27 @@ $genrePages = @("horror")
 foreach ($g in $genrePages) {
   [void]$sb.AppendLine("  <url><loc>$siteUrl/genre.html?genre=$g</loc></url>")
 }
+# ゲームシリーズページ: publish: true かつ公開条件を満たすシリーズだけ(判定は series-publish.js。ページ側の index 判定と同じ)
+$seriesUrls = @()
+$seriesDefPath = Join-Path $scriptDir "data-series.js"
+$seriesPublisher = Join-Path $scriptDir "series-publish.js"
+if ((Test-Path $seriesDefPath) -and (Test-Path $seriesPublisher)) {
+  if (Get-Command node -ErrorAction SilentlyContinue) {
+    $prevPref = $ErrorActionPreference; $ErrorActionPreference = "Continue"
+    try { $seriesRaw = & node $seriesPublisher --root $scriptDir --json 2>$null; $seriesCode = $LASTEXITCODE } finally { $ErrorActionPreference = $prevPref }
+    if ($seriesCode -ne 0 -or -not $seriesRaw) { Write-Error "series-publish.js が失敗しました。sitemap は更新していません。"; exit 1 }
+    $seriesUrls = @((($seriesRaw -join "") | ConvertFrom-Json).urls | ForEach-Object { $_ })
+  } elseif ([System.IO.File]::ReadAllText($seriesDefPath, [System.Text.Encoding]::UTF8) -match '(?m)^\s*publish\s*:\s*true') {  # 行頭のプロパティだけ(説明コメントは除く)
+    Write-Error "publish: true のシリーズがありますが、Node.js が無いため公開判定ができません。sitemap は更新していません。"; exit 1
+  }
+}
+foreach ($u in $seriesUrls) {
+  [void]$sb.AppendLine("  <url><loc>$(XmlEscape ($siteUrl + $u))</loc></url>")
+}
 [void]$sb.AppendLine('</urlset>')
 
 [System.IO.File]::WriteAllText($outPath, $sb.ToString(), (New-Object System.Text.UTF8Encoding($false)))
-Write-Output "sitemap.xml を生成しました: $outPath ($(1 + $staticPages.Count + $kanaRows.Count + $games.Count + $streamers.Count + $genrePages.Count) URL)"
+Write-Output "sitemap.xml を生成しました: $outPath ($(1 + $staticPages.Count + $kanaRows.Count + $games.Count + $streamers.Count + $genrePages.Count + $seriesUrls.Count) URL。うちシリーズ $($seriesUrls.Count))"
 
 # robots.txt の Sitemap: 行も同じ $siteUrl に合わせて更新する
 # (robots.txt はブラウザJSが実行されない静的ファイルのため、data-core.js の

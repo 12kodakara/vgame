@@ -124,8 +124,12 @@ check('6b3. 作品数タイルは関連作品があるときだけ「本編＋�
   /id="stat-games-label">作品数<\/span>/.test(html) && /def\.relatedGames && def\.relatedGames\.length\) \{[\s\S]{0,200}?getElementById\("stat-games-label"\)[\s\S]{0,300}?"\(＋関連: " \+ def\.relatedLabel \+ "\)"/.test(html));
 check('6c. 全シリーズが publish: false', ids.every((id) => SERIES[id].publish === false));
 check('6d. sitemap に series.html が無い', !/series\.html/.test(read('sitemap.xml')));
-// data-series.js は定義(コメントに URL の形式を書いているだけ)なので対象外
-const linkers = fs.readdirSync(ROOT).filter((f) => /\.(html|js)$/.test(f) && !/^(series\.(html|js)|data-series\.js|test-.*\.js)$/.test(f))
+// 対象はページ(HTML)と、ページが <script src> で読み込むスクリプトだけ(series-publish.js のような
+// ビルド用の node スクリプトはページに読み込まれない)。data-series.js は定義(コメントに URL の形式を書いているだけ)なので対象外
+const htmlFiles = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+const pageScripts = new Set(htmlFiles.flatMap((f) => [...read(f).matchAll(/<script[^>]*\ssrc="([^"?#]+)"/g)].map((m) => m[1])));
+const linkers = htmlFiles.concat([...pageScripts].filter((f) => fs.existsSync(path.join(ROOT, f))))
+  .filter((f) => !/^(series\.(html|js)|data-series\.js)$/.test(f))
   .filter((f) => /series\.html/.test(read(f)));
 check('6e. サイト内のほかのページ・スクリプトから series.html へリンクしていない', !linkers.length, linkers.join(','));
 
