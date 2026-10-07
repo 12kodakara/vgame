@@ -92,7 +92,7 @@
       <div class="stat-tiles" id="series-stats">
         <div class="stat-tile">
           <span class="stat-tile-value" id="stat-games">-</span>
-          <span class="stat-tile-label">作品数</span>
+          <span class="stat-tile-label" id="stat-games-label">作品数</span>
         </div>
         <div class="stat-tile">
           <span class="stat-tile-value" id="stat-streamers">-</span>
@@ -107,23 +107,45 @@
           <span class="stat-tile-label">単発実況数</span>
         </div>
       </div>
+      <script>
+        // 関連作品(別シリーズ)があるシリーズは、作品数が「本編+関連」であることをラベルで示す(数値は series.js)。
+        // ラベルが折り返して高さが変わっても下の内容が押し下げられないよう、最初の描画前に入れる
+        (function () {
+          var id = new URLSearchParams(location.search).get("series") || "";
+          var def = typeof SERIES_PAGES !== "undefined" && Object.prototype.hasOwnProperty.call(SERIES_PAGES, id) ? SERIES_PAGES[id] : null;
+          if (def && def.relatedGames && def.relatedGames.length) {
+            // 関連シリーズ名が語の途中で折り返さないよう、「作品数」の後で改行する
+            var label = document.getElementById("stat-games-label");
+            label.textContent = "作品数";
+            label.appendChild(document.createElement("br"));
+            label.appendChild(document.createTextNode("(＋関連: " + def.relatedLabel + ")"));
+          }
+        })();
+      </script>
 
       <section class="section-box" id="series-games-section">
         <h2><span data-series-name></span>の作品(実況VTuberが多い順)</h2>
         <!-- ページの主導線(シリーズ → ゲーム詳細)なので、実況のある全作品をそのまま並べる -->
         <ul class="index-list" id="series-games-list"></ul>
         <p class="page-lead" id="series-hub-note" hidden>複数の作品をまとめた再生リストは <a id="series-hub-link"></a><span id="series-hub-count"></span> にあります。</p>
+        <!-- 関連作品(別シリーズ。data-series.js の relatedGames があるときだけ表示)。本編の作品とは見出しを分ける -->
+        <div id="series-related-block" hidden>
+          <h3 id="series-related-title">関連作品</h3>
+          <p class="page-lead" id="series-related-note"></p>
+          <ul class="index-list" id="series-related-list"></ul>
+        </div>
       </section>
 
       <section class="section-box" id="series-streamers-section" hidden>
-        <h2><span data-series-name></span>を実況しているVTuber(実況した作品が多い順)</h2>
+        <!-- data-series-related: 関連作品があるときだけ「・<関連シリーズ名>」が入る(件数・一覧に関連作品を含むため) -->
+        <h2><span data-series-name></span><span data-series-related></span>を実況しているVTuber(実況した作品が多い順)</h2>
         <!-- 上位だけ(上限は series.js)。残りは各作品のページで確認する -->
         <ul class="streamer-grid" id="series-streamers-grid"></ul>
         <p class="page-lead" id="series-streamers-rest"></p>
       </section>
 
       <section class="section-box" id="series-recent-section" hidden>
-        <h2>実況を見る: 最近更新された<span data-series-name></span>の実況再生リスト</h2>
+        <h2>実況を見る: 最近更新された<span data-series-name></span><span data-series-related></span>の実況再生リスト</h2>
         <ol class="discover-list" id="series-recent-list"></ol>
         <div id="series-standalone-block" hidden>
           <h3>単発・専用再生リストなし実況</h3>

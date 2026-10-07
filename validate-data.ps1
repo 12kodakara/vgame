@@ -33,7 +33,8 @@
           それは discover-standalone.ps1 が候補を作る時点で YouTube API を使って除外する。
     エラー(data-series.js の SERIES_PAGES。ゲームシリーズページの作品定義):
       - 作品・hubGame が GAMES に存在しない
-      - 同じシリーズに同じ作品が2回ある / 1つの作品が複数のシリーズに入っている
+      - 同じシリーズに同じ作品が2回ある / 1つの作品が複数のシリーズに入っている(関連作品 relatedGames も含む)
+      - relatedGames があるのに relatedLabel が無い
     警告(無くても表示は壊れないが、後で埋めた方が良いもの):
       - thumbnailUrl 未設定
       - updatedDate 未設定
@@ -458,8 +459,17 @@ if (Test-Path $seriesPath) {
     if ($hub -and -not $gameSet.ContainsKey($hub)) {
       Add-Issue $errors "シリーズ:未登録ゲーム" $errorDetails "[series:$sid] hubGame が GAMES にありません: $hub"
     }
+    # 関連作品(relatedGames。別シリーズの作品を「関連作品」として載せる)も本編と同じ検査をする
+    $seriesGames = @([regex]::Matches($m.Groups[3].Value, '"((?:\\.|[^"])*)"') | ForEach-Object { $_.Groups[1].Value })
+    $rm = [regex]::Match($m.Groups[2].Value, 'relatedGames\s*:\s*\[([^\]]*)\]')
+    if ($rm.Success) {
+      $seriesGames += @([regex]::Matches($rm.Groups[1].Value, '"((?:\\.|[^"])*)"') | ForEach-Object { $_.Groups[1].Value })
+      if (-not (Field $m.Groups[2].Value "relatedLabel")) {
+        Add-Issue $errors "シリーズ:関連作品の名前なし" $errorDetails "[series:$sid] relatedGames があるのに relatedLabel(関連シリーズ名)がありません"
+      }
+    }
     $seen = @{}
-    foreach ($g in [regex]::Matches($m.Groups[3].Value, '"((?:\\.|[^"])*)"') | ForEach-Object { $_.Groups[1].Value }) {
+    foreach ($g in $seriesGames) {
       if (-not $gameSet.ContainsKey($g)) { Add-Issue $errors "シリーズ:未登録ゲーム" $errorDetails "[series:$sid] GAMES にありません: $g" }
       if ($seen.ContainsKey($g)) { Add-Issue $errors "シリーズ:作品重複" $errorDetails "[series:$sid] 同じ作品が2回あります: $g" }
       $seen[$g] = $true
