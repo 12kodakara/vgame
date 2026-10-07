@@ -74,7 +74,8 @@ function makeDocument(html) {
 }
 const gameHtml = read('game.html');
 // details 内の summary / 閉じるボタン(id を持たない summary は details の子として用意する)
-function renderFor(name) {
+// seriesPages を渡すと、data-series.js の代わりにその定義(テスト用 fixture)を使う。本番ファイルは書き換えない
+function renderFor(name, seriesPages) {
   const doc = makeDocument(gameHtml);
   const details = doc.getElementById('game-streamer-more');
   const summary = new El('summary', doc); details.appendChild(summary);
@@ -87,7 +88,9 @@ function renderFor(name) {
   };
   ctx.window = ctx; ctx.window.addEventListener = () => {};
   vm.createContext(ctx);
-  for (const f of ['data-core.js', 'data-counts.js', 'data-playlists.js', 'common.js']) vm.runInContext(read(f), ctx, { filename: f });
+  // game.html と同じく data-series.js を読む。fixture のときは読まずに同名のグローバルとして置く(const は上書きできないため)
+  if (seriesPages) ctx.SERIES_PAGES = seriesPages;
+  for (const f of ['data-core.js', 'data-counts.js', 'data-playlists.js'].concat(seriesPages ? [] : ['data-series.js'], ['common.js'])) vm.runInContext(read(f), ctx, { filename: f });
   // 分割データの読み込み(非同期)を省き、全件データから同じ関数で渡す
   vm.runInContext('startDetailPage = function (kind, key, getItems, render) { render(getItems(key), null); };', ctx);
   vm.runInContext('Math.random = () => 0.42;', ctx); // 関連ゲームのシャッフルを固定(このテストの対象外)
@@ -170,6 +173,52 @@ check('5d. 旧「ポケモンシリーズ」: title・H1・冒頭文は役割(�
   && /^複数のポケモン作品をまたいで実況した再生リスト/.test(rolePage.doc.getElementById('page-lead').textContent)
   && roleCanonical && roleCanonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent('ポケモンシリーズ'),
   rolePage.doc.title + ' / ' + rolePage.doc.getElementById('page-title').textContent + ' / ' + (roleCanonical && roleCanonical.getAttribute('href')));
+
+// ---- 6. 公開中のゲームシリーズページへの導線(data-series.js の publish: true だけ) ----
+const seriesCtx = {}; vm.createContext(seriesCtx); vm.runInContext(read('data-series.js'), seriesCtx);
+const SERIES = JSON.parse(JSON.stringify(vm.runInContext('SERIES_PAGES', seriesCtx)));
+const withPublish = (ids) => { const s = JSON.parse(JSON.stringify(SERIES)); ids.forEach((id) => { s[id].publish = true; }); return s; };
+const seriesLinkOf = (r) => r.doc.getElementById('page-meta').all().find((e) => e.tagName === 'A' && /series\.html/.test(e.href)) || null;
+const metaText = (r) => r.doc.getElementById('page-meta').textContent;
+const SV = 'ポケットモンスター スカーレット・バイオレット', HUB = SERIES.pokemon.hubGame, DUNGEON = '不思議のダンジョンシリーズ', JUDGE = (SERIES.ryugagotoku.relatedGames || [])[0], KIRBY = SERIES.kirby.games.find((g) => PLAYLISTS.some((p) => p.game === g));
+
+// A. 実データ(3シリーズとも publish: false): どこにも出ない。シリーズ表示は従来どおり文字だけ
+check('6a. 実データ: 3シリーズとも publish: false', Object.values(SERIES).every((d) => d.publish === false));
+const realPages = [SV, HUB, JUDGE, KIRBY, 'Minecraft'].map((g) => [g, renderFor(g)]);
+check('6b. 実データ: 作品・hubGame・関連作品・未公開シリーズ・無関係のゲームのどれにもシリーズページへのリンクが出ない',
+  realPages.every(([, r]) => !seriesLinkOf(r)), realPages.filter(([, r]) => seriesLinkOf(r)).map(([g]) => g).join(','));
+check('6c. 実データ: 作品ページのシリーズ表示は従来どおり「シリーズ: ポケモンシリーズ」(文字だけ)', metaText(realPages[0][1]) === 'シリーズ: ポケモンシリーズ', metaText(realPages[0][1]));
+
+// B. fixture(pokemon だけ publish: true)
+const pk = withPublish(['pokemon']);
+const svPage = renderFor(SV, pk), hubPage = renderFor(HUB, pk);
+const svLink = seriesLinkOf(svPage), hubLink = seriesLinkOf(hubPage);
+check('6d. 公開(pokemon): 作品ページに「シリーズ: ポケモンシリーズの作品別一覧」のリンク(series.html?series=pokemon)',
+  !!svLink && svLink.href === 'series.html?series=pokemon' && metaText(svPage) === 'シリーズ: ポケモンシリーズの作品別一覧', svLink && svLink.href + ' / ' + metaText(svPage));
+check('6e. 公開(pokemon): hubGame(旧ページ)に「作品別に探す: ポケモンシリーズのVTuber実況(作品別一覧)」のリンク',
+  !!hubLink && hubLink.href === 'series.html?series=pokemon' && metaText(hubPage) === '作品別に探す: ポケモンシリーズのVTuber実況(作品別一覧)', hubLink && metaText(hubPage));
+check('6f. 公開(pokemon): 旧ページの title・H1 は変わらない(導線はシリーズ表示の行だけ)',
+  hubPage.doc.title === renderFor(HUB).doc.title && hubPage.doc.getElementById('page-title').textContent === 'ポケモン(複数作品まとめ)');
+// C. 関係ないゲーム / GAMES の series 欄だけがポケモンのゲーム / 未公開のシリーズ
+const dungeon = renderFor(DUNGEON, pk), mc = renderFor('Minecraft', pk), kirbyPage = renderFor(KIRBY, pk);
+check('6g. 公開(pokemon): 無関係のゲーム・GAMES の series 欄だけがポケモンの「' + DUNGEON + '」・未公開シリーズの作品にはリンクが出ない',
+  !seriesLinkOf(dungeon) && !seriesLinkOf(mc) && !seriesLinkOf(kirbyPage) && metaText(dungeon) === 'シリーズ: ポケモンシリーズ');
+// D. 関連作品(relatedGames)は所属として扱わない
+const ryu = withPublish(['ryugagotoku']);
+const judgePage = renderFor(JUDGE, ryu), kiwamiPage = renderFor(SERIES.ryugagotoku.games.find((g) => g === '龍が如く極'), ryu);
+check('6h. 公開(ryugagotoku): 本編(龍が如く極)には series=ryugagotoku のリンク、関連作品(' + JUDGE + ')には出ない',
+  !!seriesLinkOf(kiwamiPage) && seriesLinkOf(kiwamiPage).href === 'series.html?series=ryugagotoku' && !seriesLinkOf(judgePage));
+// 公開判定(series-publish.js)の内部リンク対象と、ゲーム詳細の判定が一致する
+const { getSeriesPublication } = require('./series-publish.js');
+const os = require('os');
+const fx = path.join(os.tmpdir(), 'vgame-series-links-' + process.pid + '.js');
+fs.writeFileSync(fx, 'const SERIES_PAGES = ' + JSON.stringify(pk) + ';');
+const pub = getSeriesPublication(ROOT, fx); fs.unlinkSync(fx);
+// game.js の描画処理(IIFE)より前(定数と関数の定義だけ)を読み込む
+const gctx = {}; vm.createContext(gctx); vm.runInContext(read('game.js').slice(0, read('game.js').indexOf('(function () {')), gctx);
+const linked = GAMES.map((g) => g.name).filter((g) => gctx.publishedSeriesLinkOf(g, pk));
+check('6i. ゲーム詳細の判定(publishedSeriesLinkOf)が series-publish.js の内部リンク対象と一致(' + linked.length + '件)',
+  JSON.stringify(linked.slice().sort()) === JSON.stringify(Object.keys(pub.gameLinks).sort()) && linked.every((g) => pub.gameLinks[g] === 'pokemon'));
 
 console.log('');
 console.log('PASS: ' + pass + '  FAIL: ' + fail);

@@ -67,6 +67,7 @@ $cssFiles = @("style.css")
 # ブラウザで実行されるJavaScript(データ本体 + 各ページ専用スクリプト + 共通処理)
 $jsFiles = @(
   "data-core.js", "data-counts.js", "data-home.js", "data-ranking.js", "data-new.js", "data-genres.js", "data-playlists.js", "data-standalone.js",
+  "data-series.js",  # ゲーム詳細が公開中のシリーズへの導線に使う(数KB。シリーズページ本体は公開シリーズがあるときだけ下で追加)
   "data-game-editorial.js",
   "common.js", "home.js", "games.js", "games-row.js", "game.js",
   "streamers.js", "streamer.js", "playlists.js", "singles.js",
@@ -122,7 +123,7 @@ if ((Test-Path $seriesDefPath) -and (Test-Path $seriesPublisher)) {
 }
 if ($publishedSeries.Count -gt 0) {
   $htmlFiles += "series.html"
-  $jsFiles += @("data-series.js", "series.js")
+  $jsFiles += @("series.js")
   Write-Output ("ゲームシリーズページを含めます(公開シリーズ: " + ($publishedSeries -join ", ") + ")")
 }
 

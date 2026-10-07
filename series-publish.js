@@ -45,8 +45,9 @@ function getSeriesPublication(root, seriesFile) {
   const published = [], skipped = [];
   for (const id of Object.keys(series)) {
     const def = series[id];
-    if (def.publish !== true) { skipped.push({ id, reason: 'publish が true でない' }); continue; }
-    if (!ctx.meetsSeriesPageThreshold(ctx.computeSeriesPage(playlists, standalone, def))) { skipped.push({ id, reason: '公開条件を満たさない' }); continue; }
+    // code: not-published(publish が true でない)/ below-threshold(publish: true なのに公開条件を満たさない。check-site がエラーにする)
+    if (def.publish !== true) { skipped.push({ id, code: 'not-published', reason: 'publish が true でない' }); continue; }
+    if (!ctx.meetsSeriesPageThreshold(ctx.computeSeriesPage(playlists, standalone, def))) { skipped.push({ id, code: 'below-threshold', reason: '公開条件を満たさない' }); continue; }
     published.push(id);
   }
   const gameLinks = {};

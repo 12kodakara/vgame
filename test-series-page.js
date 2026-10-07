@@ -128,10 +128,14 @@ check('6d. sitemap に series.html が無い', !/series\.html/.test(read('sitema
 // ビルド用の node スクリプトはページに読み込まれない)。data-series.js は定義(コメントに URL の形式を書いているだけ)なので対象外
 const htmlFiles = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 const pageScripts = new Set(htmlFiles.flatMap((f) => [...read(f).matchAll(/<script[^>]*\ssrc="([^"?#]+)"/g)].map((m) => m[1])));
+// game.js は公開中(publish: true)のシリーズへだけ導線を出す(publishedSeriesLinkOf → seriesPageHref)。
+// その経路以外で series.html を書いていないことをここで確かめ、実際の表示は test-game-streamers.js(6a〜6i)で確かめる
 const linkers = htmlFiles.concat([...pageScripts].filter((f) => fs.existsSync(path.join(ROOT, f))))
   .filter((f) => !/^(series\.(html|js)|data-series\.js)$/.test(f))
-  .filter((f) => /series\.html/.test(read(f)));
-check('6e. サイト内のほかのページ・スクリプトから series.html へリンクしていない', !linkers.length, linkers.join(','));
+  .filter((f) => /series\.html/.test(f === 'game.js' ? read(f).replace('const seriesPageHref = (id) => "series.html?series=" + encodeURIComponent(id);', '') : read(f)));
+check('6e. サイト内のほかのページ・スクリプトから series.html へリンクしていない(game.js は公開シリーズ用の1か所だけ)', !linkers.length, linkers.join(','));
+check('6e2. game.js の series.html は seriesPageHref の1か所だけで、publishedSeriesLinkOf(publish: true のみ)の結果にだけ使う',
+  (read('game.js').match(/series\.html/g) || []).length === 1 && /const seriesLink = publishedSeriesLinkOf\(game, [^\n]*\);\s*if \(metaEl && seriesLink\) \{[\s\S]{0,200}?a\.href = seriesPageHref\(seriesLink\.id\);/.test(read('game.js')));
 
 console.log('\nPASS: ' + pass + '  FAIL: ' + fail);
 process.exit(fail ? 1 : 0);

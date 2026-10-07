@@ -79,8 +79,11 @@ try {
     // 未公開(実データのまま)
     const before = fs.readFileSync(path.join(site, 'sitemap.xml'), 'utf8');
     check('3a. 未公開: generate-sitemap は成功し、sitemap は変わらない(シリーズなし)', run('generate-sitemap.ps1') === 0 && fs.readFileSync(path.join(site, 'sitemap.xml'), 'utf8') === before && sitemapSeries().length === 0);
-    check('3b. 未公開: build-public の公開ファイルに series.html・series.js・data-series.js が入らない',
-      run('build-public.ps1') === 0 && ['series.html', 'series.js', 'data-series.js'].every((f) => !fs.existsSync(path.join(site, 'public', f))));
+    // data-series.js はゲーム詳細が公開シリーズへの導線に使うため常に含める(シリーズページ本体は含めない)
+    check('3b. 未公開: build-public の公開ファイルに series.html・series.js が入らない(data-series.js はゲーム詳細用に入る)',
+      run('build-public.ps1') === 0 && ['series.html', 'series.js'].every((f) => !fs.existsSync(path.join(site, 'public', f))) && fs.existsSync(path.join(site, 'public', 'data-series.js')));
+    check('3b2. 未公開: build-public 後の公開物(HTML・JS)に、series.html へのリンクを書いたページが無い',
+      fs.readdirSync(path.join(site, 'public')).filter((f) => /\.html$/.test(f)).every((f) => !/href="[^"]*series\.html/.test(fs.readFileSync(path.join(site, 'public', f), 'utf8'))));
     check('3c. 未公開: check-site は成功(series.html の noindex あり)', run('check-site.ps1') === 0);
 
     // fixture で kirby を公開(元HTMLの noindex は外す = 公開時の手順)
@@ -96,6 +99,12 @@ try {
     fs.writeFileSync(path.join(site, 'data-series.js'), seriesSrc);
     fs.writeFileSync(htmlPath, html.replace(/<meta name="robots" content="noindex,follow">\r?\n/, ''));
     check('3h. 未公開なのに series.html の noindex が無い: check-site はエラー', run('check-site.ps1') === 1);
+    // publish: true なのに公開条件を満たさないシリーズ(ゲーム詳細が noindex のページへ導線を出してしまう)はエラー
+    fs.writeFileSync(htmlPath, html);
+    fs.writeFileSync(path.join(site, 'data-series.js'), seriesSrc.replace(/\n};\s*$/, '\n  thintest: { name: "テスト用シリーズ", publish: true, hubGame: "", games: ["ポケモンスナップ"] },\n};\n'));
+    check('3i. publish: true なのに公開条件を満たさないシリーズがある: check-site はエラー', run('check-site.ps1') === 1);
+    fs.writeFileSync(path.join(site, 'data-series.js'), seriesSrc);
+    check('3j. 元に戻すと check-site は成功', run('check-site.ps1') === 0);
   }
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });

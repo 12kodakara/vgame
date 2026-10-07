@@ -31,6 +31,24 @@ const GAME_PAGE_ROLES = {
 };
 const gamePageRoleOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_PAGE_ROLES, game) ? GAME_PAGE_ROLES[game] : null);
 
+/**
+ * このゲームから案内する公開中のゲームシリーズページ(data-series.js の SERIES_PAGES)。無ければ null。
+ *   member: シリーズ本編の作品(games)/ hub: 複数作品をまとめた再生リストの受け皿(hubGame)
+ * publish が true のシリーズだけを見る(true のシリーズが公開条件を満たすことは check-site が保証する)。
+ * relatedGames(別シリーズの関連作品)は所属として扱わない。GAMES の series 欄は使わない(誤った設定が混ざるため)。
+ */
+function publishedSeriesLinkOf(game, seriesPages) {
+  if (!game || !seriesPages) return null;
+  for (const id of Object.keys(seriesPages)) {
+    const def = seriesPages[id];
+    if (!def || def.publish !== true) continue;
+    if ((def.games || []).indexOf(game) >= 0) return { id: id, name: def.name, kind: "member" };
+    if (def.hubGame && def.hubGame === game) return { id: id, name: def.name, kind: "hub" };
+  }
+  return null;
+}
+const seriesPageHref = (id) => "series.html?series=" + encodeURIComponent(id);
+
 function pickGameDescriptionStreamers(items, standalone) {
   const stats = new Map();
   const bump = (streamer, videos, date) => {
@@ -125,7 +143,15 @@ function buildGameDescription(game, items, standalone) {
 
     const catalog = gameCatalogOf(game);
     const metaEl = document.getElementById("page-meta");
-    if (metaEl && catalog && catalog.series) {
+    // 公開中のシリーズページがあれば、同じ行(シリーズ表示)をそのページへのリンクにする(新しい行は増やさない)
+    const seriesLink = publishedSeriesLinkOf(game, typeof SERIES_PAGES === "undefined" ? null : SERIES_PAGES);
+    if (metaEl && seriesLink) {
+      const a = document.createElement("a");
+      a.href = seriesPageHref(seriesLink.id);
+      a.textContent = seriesLink.kind === "hub" ? seriesLink.name + "のVTuber実況(作品別一覧)" : seriesLink.name + "の作品別一覧";
+      metaEl.replaceChildren(seriesLink.kind === "hub" ? "作品別に探す: " : "シリーズ: ", a);
+      metaEl.hidden = false;
+    } else if (metaEl && catalog && catalog.series) {
       metaEl.textContent = "シリーズ: " + catalog.series;
       metaEl.hidden = false;
     }

@@ -424,7 +424,14 @@ if ((Test-Path $seriesHtmlPath) -and (Test-Path $seriesPublisher) -and (Get-Comm
   if ($seriesCode -ne 0 -or -not $seriesRaw) {
     Add-CheckError "series-publish.js でシリーズページの公開判定ができませんでした。"
   } else {
-    $publishedSeries = @((($seriesRaw -join "") | ConvertFrom-Json).published | ForEach-Object { $_ })
+    $seriesResult = ($seriesRaw -join "") | ConvertFrom-Json
+    $publishedSeries = @($seriesResult.published | ForEach-Object { $_ })
+    # ゲーム詳細は publish: true だけを見てシリーズへの導線を出すため、true なのに公開条件を満たさないシリーズはエラー
+    # (そのままだと noindex のシリーズページへ内部リンクを張ってしまう)
+    $belowThreshold = @($seriesResult.skipped | ForEach-Object { $_ } | Where-Object { $_.code -eq "below-threshold" } | ForEach-Object { $_.id })
+    if ($belowThreshold.Count -gt 0) {
+      Add-CheckError ("publish: true なのに公開条件を満たさないシリーズがあります(" + ($belowThreshold -join ", ") + ")。publish を false に戻すか、作品・データを確認してください。")
+    }
     $staticNoindex = [System.IO.File]::ReadAllText($seriesHtmlPath, [System.Text.Encoding]::UTF8) -match '<meta name="robots" content="noindex'
     if ($publishedSeries.Count -gt 0 -and $staticNoindex) {
       Add-CheckError ("公開するシリーズ(" + ($publishedSeries -join ", ") + ")があるのに、series.html に noindex が直接書かれています(公開時は外してください)。")
