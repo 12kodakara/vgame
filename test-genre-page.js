@@ -93,7 +93,8 @@ check('6f. レイアウトシフト対策: 説明文は元のHTMLに記載・VTu
 check('7a. ゲーム詳細の入口は hidden で置き、再生リストの過半数がホラーのときだけ表示',
   /<p id="game-genre-link" hidden><a class="more-link" href="genre\.html\?genre=horror">/.test(read('game.html')) && /items\.filter\(\(p\) => p\.genre === "horror"\)\.length \* 2 > items\.length/.test(read('game.js')));
 const pageFiles = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && f !== 'genre.html');
-const linking = pageFiles.filter((f) => /genre\.html/.test(read(f)));
+// リンク = href 属性(HTMLコメント内の説明文に「genre.html」と書いてあるだけのものはリンクではない)
+const linking = pageFiles.filter((f) => /href\s*=\s*["'][^"']*genre\.html/.test(read(f).replace(/<!--[\s\S]*?-->/g, '')));
 check('7b. genre.html へのリンクを持つHTMLは game.html だけ(サイト全体への一括追加なし)', JSON.stringify(linking) === '["game.html"]', linking.join(', '));
 
 console.log('');
