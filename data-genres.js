@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap753",
+     "title": "SILENT HILL",
+     "streamer": "白雪巴",
+     "game": "SILENT HILL f",
+     "genre": "horror",
+     "playlistId": "PLX-dBVwQ53SUUBKX7RbHJBHNVquXIVegY",
+     "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
+     "videoCount": 14,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-06"
+    },
+    {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "珠乃井ナナ",
@@ -1501,18 +1513,6 @@ const GENRE_PAGES = {
      "videoCount": 12,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-02"
-    },
-    {
-     "id": "gap753",
-     "title": "SILENT HILL",
-     "streamer": "白雪巴",
-     "game": "SILENT HILL f",
-     "genre": "horror",
-     "playlistId": "PLX-dBVwQ53SUUBKX7RbHJBHNVquXIVegY",
-     "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
-     "videoCount": 14,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-01"
     },
     {
      "id": "niji-kitamicoolgu-01",
