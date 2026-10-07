@@ -112,7 +112,10 @@ if (ryu) {
 
 // ---- 6. PoC のまま ----
 const html = read('series.html');
-check('6a. series.html は noindex,follow で、canonical を元HTMLに書かない', /<meta name="robots" content="noindex,follow">/.test(html) && !/rel="canonical"/.test(html));
+// 公開状態は data-series.js の publish から決まる(判定は series-publish.js)。期待値はそこから計算して照合する
+const publication = require('./series-publish.js').getSeriesPublication(ROOT);
+check('6a. series.html は元HTMLに canonical を書かず、noindex は公開シリーズが無いときだけ書く(' + (publication.published.length ? '公開あり → なし' : '公開なし → あり') + ')',
+  /<meta name="robots" content="noindex,follow">/.test(html) === (publication.published.length === 0) && !/rel="canonical"/.test(html));
 check('6b. 関連作品の表示枠は最初は隠れている(関連作品の無いシリーズでは出ない)', /<div id="series-related-block" hidden>/.test(html));
 check('6b2. 関連作品を含む見出し(VTuber・最近の再生リスト)に関連シリーズ名を入れる枠があり、どちらも最初は隠れたセクションの中',
   (html.match(/<span data-series-related><\/span>/g) || []).length === 2 &&
@@ -122,8 +125,12 @@ const sjs = read('series.js');
 check('6b3. 作品数タイルは関連作品があるときだけ「本編＋関連」(14作品のように合算しない)・ラベルは描画前に入れる',
   /formatNumberJa\(page\.stats\.games\) \+\s*\(page\.stats\.relatedGames \? "＋" \+ formatNumberJa\(page\.stats\.relatedGames\) : ""\) \+ "作品"/.test(sjs) &&
   /id="stat-games-label">作品数<\/span>/.test(html) && /def\.relatedGames && def\.relatedGames\.length\) \{[\s\S]{0,200}?getElementById\("stat-games-label"\)[\s\S]{0,300}?"\(＋関連: " \+ def\.relatedLabel \+ "\)"/.test(html));
-check('6c. 全シリーズが publish: false', ids.every((id) => SERIES[id].publish === false));
-check('6d. sitemap に series.html が無い', !/series\.html/.test(read('sitemap.xml')));
+check('6c. publish: true のシリーズはすべて公開条件を満たして公開対象になり、それ以外は公開しない(publish は true / false のどちらか)',
+  ids.every((id) => typeof SERIES[id].publish === 'boolean') &&
+  JSON.stringify(publication.published) === JSON.stringify(ids.filter((id) => SERIES[id].publish === true)), JSON.stringify(publication.published));
+const sitemapSeries = [...read('sitemap.xml').matchAll(/<loc>([^<]*series\.html[^<]*)<\/loc>/g)].map((m) => m[1]).sort();
+check('6d. sitemap のシリーズURLは公開シリーズだけ(' + publication.urls.length + '件。未公開シリーズは載らない)',
+  JSON.stringify(sitemapSeries) === JSON.stringify(publication.urls.map((u) => 'https://vgame-navi.jp' + u).sort()), JSON.stringify(sitemapSeries));
 // 対象はページ(HTML)と、ページが <script src> で読み込むスクリプトだけ(series-publish.js のような
 // ビルド用の node スクリプトはページに読み込まれない)。data-series.js は定義(コメントに URL の形式を書いているだけ)なので対象外
 const htmlFiles = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));

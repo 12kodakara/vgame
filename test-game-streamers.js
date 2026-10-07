@@ -177,17 +177,32 @@ check('5d. 旧「ポケモンシリーズ」: title・H1・冒頭文は役割(�
 // ---- 6. 公開中のゲームシリーズページへの導線(data-series.js の publish: true だけ) ----
 const seriesCtx = {}; vm.createContext(seriesCtx); vm.runInContext(read('data-series.js'), seriesCtx);
 const SERIES = JSON.parse(JSON.stringify(vm.runInContext('SERIES_PAGES', seriesCtx)));
-const withPublish = (ids) => { const s = JSON.parse(JSON.stringify(SERIES)); ids.forEach((id) => { s[id].publish = true; }); return s; };
+// fixture の土台は「すべて未公開」(実データの公開状態に左右されない)。そこから指定したシリーズだけ publish: true にする
+const BASE = JSON.parse(JSON.stringify(SERIES)); Object.values(BASE).forEach((d) => { d.publish = false; });
+const withPublish = (ids) => { const s = JSON.parse(JSON.stringify(BASE)); ids.forEach((id) => { s[id].publish = true; }); return s; };
 const seriesLinkOf = (r) => r.doc.getElementById('page-meta').all().find((e) => e.tagName === 'A' && /series\.html/.test(e.href)) || null;
 const metaText = (r) => r.doc.getElementById('page-meta').textContent;
 const SV = 'ポケットモンスター スカーレット・バイオレット', HUB = SERIES.pokemon.hubGame, DUNGEON = '不思議のダンジョンシリーズ', JUDGE = (SERIES.ryugagotoku.relatedGames || [])[0], KIRBY = SERIES.kirby.games.find((g) => PLAYLISTS.some((p) => p.game === g));
+// game.js の描画処理(IIFE)より前(定数と関数の定義だけ)を読み込み、期待値の計算に使う
+const gctx = {}; vm.createContext(gctx); vm.runInContext(read('game.js').slice(0, read('game.js').indexOf('(function () {')), gctx);
+/** そのゲームのシリーズ表示の期待値(公開シリーズならリンク、そうでなければ GAMES の series 欄の文字だけ) */
+const expectedMeta = (g, defs) => {
+  const link = gctx.publishedSeriesLinkOf(g, defs);
+  if (link) return { href: 'series.html?series=' + encodeURIComponent(link.id), text: (link.kind === 'hub' ? '作品別に探す: ' + link.name + 'のVTuber実況(作品別一覧)' : 'シリーズ: ' + link.name + 'の作品別一覧') };
+  const cat = GAMES.find((x) => x.name === g);
+  return { href: null, text: cat && cat.series ? 'シリーズ: ' + cat.series : '' };
+};
+const metaMatches = (r, exp) => { const a = seriesLinkOf(r); return (exp.href ? !!a && a.href === exp.href : !a) && metaText(r) === exp.text; };
 
-// A. 実データ(3シリーズとも publish: false): どこにも出ない。シリーズ表示は従来どおり文字だけ
-check('6a. 実データ: 3シリーズとも publish: false', Object.values(SERIES).every((d) => d.publish === false));
-const realPages = [SV, HUB, JUDGE, KIRBY, 'Minecraft'].map((g) => [g, renderFor(g)]);
-check('6b. 実データ: 作品・hubGame・関連作品・未公開シリーズ・無関係のゲームのどれにもシリーズページへのリンクが出ない',
-  realPages.every(([, r]) => !seriesLinkOf(r)), realPages.filter(([, r]) => seriesLinkOf(r)).map(([g]) => g).join(','));
-check('6c. 実データ: 作品ページのシリーズ表示は従来どおり「シリーズ: ポケモンシリーズ」(文字だけ)', metaText(realPages[0][1]) === 'シリーズ: ポケモンシリーズ', metaText(realPages[0][1]));
+// A. 実データ: data-series.js の publish の値どおり(公開シリーズの作品・hubGame だけにリンク。今は3シリーズとも未公開なので0件)
+const realPublished = Object.keys(SERIES).filter((id) => SERIES[id].publish === true);
+check('6a. 実データ: publish は true / false のどちらか(公開中: ' + (realPublished.join(', ') || 'なし') + ')', Object.values(SERIES).every((d) => typeof d.publish === 'boolean'));
+const realPages = [SV, HUB, JUDGE, KIRBY, DUNGEON, 'Minecraft'].map((g) => [g, renderFor(g)]);
+check('6b. 実データ: 作品・hubGame・関連作品・未公開シリーズ・無関係のゲームのシリーズ表示とリンクが、publish の値どおり',
+  realPages.every(([g, r]) => metaMatches(r, expectedMeta(g, SERIES))), realPages.filter(([g, r]) => !metaMatches(r, expectedMeta(g, SERIES))).map(([g, r]) => g + '=' + metaText(r)).join(' / '));
+check('6c. 実データ: 公開シリーズ以外へのリンクは出ない(関連作品・GAMES の series 欄だけがポケモンのゲーム・無関係のゲームは常に文字だけ)',
+  [JUDGE, DUNGEON, 'Minecraft'].every((g) => !seriesLinkOf(realPages.find(([x]) => x === g)[1])) &&
+  realPages.every(([, r]) => !seriesLinkOf(r) || realPublished.some((id) => seriesLinkOf(r).href === 'series.html?series=' + encodeURIComponent(id))));
 
 // B. fixture(pokemon だけ publish: true)
 const pk = withPublish(['pokemon']);
@@ -214,8 +229,6 @@ const os = require('os');
 const fx = path.join(os.tmpdir(), 'vgame-series-links-' + process.pid + '.js');
 fs.writeFileSync(fx, 'const SERIES_PAGES = ' + JSON.stringify(pk) + ';');
 const pub = getSeriesPublication(ROOT, fx); fs.unlinkSync(fx);
-// game.js の描画処理(IIFE)より前(定数と関数の定義だけ)を読み込む
-const gctx = {}; vm.createContext(gctx); vm.runInContext(read('game.js').slice(0, read('game.js').indexOf('(function () {')), gctx);
 const linked = GAMES.map((g) => g.name).filter((g) => gctx.publishedSeriesLinkOf(g, pk));
 check('6i. ゲーム詳細の判定(publishedSeriesLinkOf)が series-publish.js の内部リンク対象と一致(' + linked.length + '件)',
   JSON.stringify(linked.slice().sort()) === JSON.stringify(Object.keys(pub.gameLinks).sort()) && linked.every((g) => pub.gameLinks[g] === 'pokemon'));
