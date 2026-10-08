@@ -35,6 +35,11 @@
       - 作品・hubGame が GAMES に存在しない
       - 同じシリーズに同じ作品が2回ある / 1つの作品が複数のシリーズに入っている(関連作品 relatedGames も含む)
       - relatedGames があるのに relatedLabel が無い
+    エラー(data-core.js の GAME_EVENTS / PLAYLIST_EVENTS。VTuberのゲーム企画):
+      - 企画の id・名前が無い / 企画の id が重複
+      - PLAYLIST_EVENTS の再生リスト・企画が存在しない / 同じ再生リストが2回ある
+      - game(使用ゲーム)が GAMES に無い、またはその再生リストの game と違う
+      - year(開催年)が4桁の年でない
     警告(無くても表示は壊れないが、後で埋めた方が良いもの):
       - thumbnailUrl 未設定
       - updatedDate 未設定
@@ -479,6 +484,39 @@ if (Test-Path $seriesPath) {
   }
 }
 
+# ---- GAME_EVENTS / PLAYLIST_EVENTS(data-core.js。VTuberのゲーム企画)の検証 ----
+# 企画の再生リストは id で明示的に列挙する方式のため、再生リストの削除・ゲーム変更で定義が壊れていないかを確認する
+$playlistEventCount = 0
+$coreNoComments = Remove-JsComments $coreText
+if ($coreNoComments.Contains("const PLAYLIST_EVENTS = [")) {
+  $eventSet = @{}
+  if ($coreNoComments.Contains("const GAME_EVENTS = [")) {
+    foreach ($o in Get-Objects (Get-ArrayInner "GAME_EVENTS" $coreNoComments)) {
+      $eid = Field $o "id"; $ename = Field $o "name"
+      if (-not $eid -or -not $ename) { Add-Issue $errors "企画:id・名前なし" $errorDetails "GAME_EVENTS に id または name の無い企画があります: $o"; continue }
+      if ($eventSet.ContainsKey($eid)) { Add-Issue $errors "企画:id重複" $errorDetails "GAME_EVENTS の id が重複しています: $eid" }
+      $eventSet[$eid] = $true
+    }
+  }
+  $playlistGame = @{}
+  foreach ($o in $playlistObjs) { $plId = Field $o "id"; if ($plId) { $playlistGame[$plId] = Field $o "game" } }
+  $seenEventPlaylists = @{}
+  foreach ($o in Get-Objects (Get-ArrayInner "PLAYLIST_EVENTS" $coreNoComments)) {
+    $playlistEventCount++
+    $plId = Field $o "playlist"; $eid = Field $o "event"; $eg = Field $o "game"
+    if (-not $playlistGame.ContainsKey($plId)) { Add-Issue $errors "企画:未登録の再生リスト" $errorDetails "PLAYLIST_EVENTS の再生リストが PLAYLISTS にありません: $plId"; continue }
+    if ($seenEventPlaylists.ContainsKey($plId)) { Add-Issue $errors "企画:再生リスト重複" $errorDetails "PLAYLIST_EVENTS に同じ再生リストが2回あります: $plId" }
+    $seenEventPlaylists[$plId] = $true
+    if (-not $eventSet.ContainsKey($eid)) { Add-Issue $errors "企画:未登録の企画" $errorDetails "[$plId] GAME_EVENTS にない企画です: $eid" }
+    if (-not $gameSet.ContainsKey($eg)) { Add-Issue $errors "企画:未登録ゲーム" $errorDetails "[$plId] 使用ゲームが GAMES にありません: $eg" }
+    elseif ($eg -ne $playlistGame[$plId]) { Add-Issue $errors "企画:使用ゲーム不一致" $errorDetails "[$plId] 使用ゲーム $eg が再生リストのゲーム $($playlistGame[$plId]) と違います" }
+    if (HasKey $o "year") {
+      $y = FieldNumber $o "year"
+      if ($null -eq $y -or $y -lt 2000 -or $y -gt 2100 -or $y -ne [math]::Floor($y)) { Add-Issue $errors "企画:開催年が不正" $errorDetails "[$plId] year が4桁の年ではありません" }
+    }
+  }
+}
+
 # ---- 出力 ----
 Write-Output "=== データチェック結果 ==="
 Write-Output ""
@@ -487,6 +525,7 @@ Write-Output "ゲーム: $($gameObjs.Count)"
 Write-Output "VTuber: $($streamerObjs.Count)"
 Write-Output "単発実況: $($standaloneObjs.Count)"
 Write-Output "シリーズページ定義: $seriesCount"
+Write-Output "企画の再生リスト: $playlistEventCount"
 Write-Output ""
 
 Write-Output "警告"

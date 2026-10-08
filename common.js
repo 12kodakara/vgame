@@ -1041,6 +1041,35 @@ function createPlaylistThumbnail(item, options) {
 }
 
 /**
+ * 再生リストの企画(data-core.js の PLAYLIST_EVENTS)。企画の再生リストでなければ null。
+ * 再生リストの id だけで引く(再生リスト名などの文字列からは判定しない)。
+ * 戻り値: { name: 企画名, game: 使用ゲーム(GAMES の name), year: 開催年 or null }
+ */
+let playlistEventIndex = null;
+function playlistEventOf(item) {
+  if (!item || typeof PLAYLIST_EVENTS === "undefined" || typeof GAME_EVENTS === "undefined") return null;
+  if (!playlistEventIndex) {
+    const names = new Map(GAME_EVENTS.map((e) => [e.id, e.name]));
+    playlistEventIndex = new Map();
+    PLAYLIST_EVENTS.forEach((e) => {
+      if (names.has(e.event)) playlistEventIndex.set(e.playlist, { name: names.get(e.event), game: e.game, year: e.year || null });
+    });
+  }
+  // 再生リストの game が後から変わって定義と食い違った場合は、誤った使用ゲームを出さないよう表示しない
+  // (食い違いは validate-data.ps1 がエラーにする)
+  const ev = playlistEventIndex.get(item.id);
+  return ev && ev.game === item.game ? ev : null;
+}
+
+/** 「企画: ◯◯2025」のラベル(文字だけ。企画のページは無いのでリンクにはしない)。 */
+function createPlaylistEventLabel(ev) {
+  const span = document.createElement("span");
+  span.className = "event-label";
+  span.textContent = "企画: " + ev.name + (ev.year ? String(ev.year) : "");
+  return span;
+}
+
+/**
  * 再生リストの簡易一覧(順位+サムネイル+タイトル+メタ情報)を container
  * (<ol>/<ul> の id)へ描画する。トップページの「最近追加された実況」、
  * ゲーム/VTuber詳細ページの「人気実況」「最近更新された実況」など、
@@ -1103,6 +1132,12 @@ function renderPlaylistDiscoverList(containerId, items, emptyMessage, opts) {
 
     const meta = document.createElement("div");
     meta.className = "discover-meta";
+    // 企画の再生リストは「企画: ◯◯ ／ 使用ゲーム: ゲーム名」(ゲーム名を出さない一覧では文字だけ)
+    const ev = playlistEventOf(item);
+    if (ev) {
+      meta.appendChild(createPlaylistEventLabel(ev));
+      meta.appendChild(document.createTextNode(" ／ 使用ゲーム: " + (showGame ? "" : gameDisplayName(ev.game) + " ／ ")));
+    }
     if (showGame) {
       const gameLink = document.createElement("a");
       gameLink.className = "game-link";
@@ -1230,6 +1265,15 @@ function createRow(item, opts) {
     note.className = "note-cell";
     note.textContent = item.note;
     titleTextWrap.appendChild(note);
+  }
+  // 企画の再生リストは「企画: ◯◯ 使用ゲーム: ゲーム名」を補足する(ゲーム列のリンクはそのまま)
+  const ev = playlistEventOf(item);
+  if (ev) {
+    const evCell = document.createElement("div");
+    evCell.className = "event-cell";
+    evCell.appendChild(createPlaylistEventLabel(ev));
+    evCell.appendChild(document.createTextNode(" 使用ゲーム: " + gameDisplayName(ev.game)));
+    titleTextWrap.appendChild(evCell);
   }
   titleRow.appendChild(titleTextWrap);
 

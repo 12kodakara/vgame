@@ -1353,3 +1353,52 @@ const GAMES = [
   { name: "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争", kana: "げんそうすいこでんわんつーえいちでぃーりますたーもんのもんしょうせんそうでゅなんとういつせんそう", aliases: ["幻想水滸伝"], series: "" },
   { name: "利用規約に同意したい", kana: "りようきやくにどういしたい", series: "" },
 ];
+
+/**
+ * VTuberのゲーム企画(例: ホロライブ甲子園)。企画はゲームではないため GAMES には入れず、
+ * 再生リストの game(使用ゲーム)はそのままにして、再生リスト一覧で「企画: ◯◯」を補足表示するだけに使う。
+ *   GAME_EVENTS    : 企画の定義。id は PLAYLIST_EVENTS から参照する(表示には name を使う)
+ *   PLAYLIST_EVENTS: 企画の再生リスト。人が動画タイトルで確認した再生リストだけを id で列挙する
+ *                    (再生リスト名・動画タイトルの文字列からの自動判定はしない)。
+ *     playlist: PLAYLISTS の id / event: GAME_EVENTS の id
+ *     game    : 使用ゲーム(GAMES の name。その再生リストの game と同じであること。年ごとに違ってよい)
+ *     year    : 開催年(省略可。再生リスト名で開催年が確認できるものだけ書く)
+ * 整合性(再生リスト・企画・ゲームが存在する・game が一致する・重複なし)は validate-data.ps1 が検査する。
+ */
+const GAME_EVENTS = [
+  { id: "hololive-koshien", name: "ホロライブ甲子園" },
+  { id: "nijisanji-koshien", name: "にじさんじ甲子園" },
+];
+
+const PLAYLIST_EVENTS = [
+  // ホロライブ甲子園
+  { playlist: "hd-0358", event: "hololive-koshien", game: "パワフルプロ野球", year: 2025 },
+  { playlist: "hd-1217", event: "hololive-koshien", game: "パワフルプロ野球" },
+  { playlist: "hd-1312", event: "hololive-koshien", game: "パワフルプロ野球" },
+  // にじさんじ甲子園
+  { playlist: "niji-higuchikaede-26", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2020 },
+  { playlist: "niji-lizehelesta-40", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2020 },
+  { playlist: "niji-higuchikaede-18", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2021 },
+  { playlist: "niji-sakusasaki-31", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2022 },
+  { playlist: "niji-lizehelesta-31", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2022 },
+  { playlist: "niji-nuisociere-28", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2022 },
+  { playlist: "niji-hkagami2434-36", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2022 },
+  { playlist: "niji-honmonoibrah-07", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2022 },
+  { playlist: "niji-higuchikaede-09", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2023 },
+  { playlist: "niji-lizehelesta-23", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2023 },
+  { playlist: "niji-leosvincent-17", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2023 },
+  { playlist: "niji-1garashirika-30", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2023 },
+  { playlist: "niji-zulmihp1nlmo-12", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2024 },
+  { playlist: "niji-exalbio-17", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2024 },
+  { playlist: "niji-hisuikitakoj-12", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2024 },
+  { playlist: "niji-1garashirika-13", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2024 },
+  { playlist: "niji-higuchikaede-06", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2025 },
+  { playlist: "niji-exalbio-16", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2025 },
+  { playlist: "niji-leosvincent-10", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2025 },
+  { playlist: "niji-vampkuzu-13", event: "nijisanji-koshien", game: "パワフルプロ野球", year: 2025 },
+  { playlist: "niji-kanae2434-09", event: "nijisanji-koshien", game: "パワフルプロ野球" },
+  { playlist: "niji-sakusasaki-42", event: "nijisanji-koshien", game: "パワフルプロ野球" },
+  { playlist: "niji-vampkuzu-53", event: "nijisanji-koshien", game: "パワフルプロ野球" },
+  { playlist: "niji-angekatrina-15", event: "nijisanji-koshien", game: "パワフルプロ野球" },
+  { playlist: "niji-hkagami2434-51", event: "nijisanji-koshien", game: "パワフルプロ野球" },
+];

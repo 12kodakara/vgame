@@ -448,6 +448,16 @@ function buildGameDescription(game, items, standalone) {
       h3.textContent = item.title;
       body.appendChild(h3);
 
+      // 企画の再生リストは「企画: ◯◯ 使用ゲーム: ゲーム名」を補足する(判定は common.js の playlistEventOf)
+      const ev = playlistEventOf(item);
+      if (ev) {
+        const evLine = document.createElement("p");
+        evLine.className = "playlist-card-event";
+        evLine.appendChild(createPlaylistEventLabel(ev));
+        evLine.appendChild(document.createTextNode(" 使用ゲーム: " + gameDisplayName(ev.game)));
+        body.appendChild(evLine);
+      }
+
       const streamerLink = document.createElement("a");
       streamerLink.className = "playlist-card-streamer";
       streamerLink.href = streamerUrl(item.streamer);
