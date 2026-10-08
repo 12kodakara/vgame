@@ -56,7 +56,7 @@ const SERIES_PAGES = {
   },
   kirby: {
     name: "星のカービィシリーズ",
-    publish: false,
+    publish: true,
     hubGame: "星のカービィシリーズ",
     games: [
       "星のカービィ",
