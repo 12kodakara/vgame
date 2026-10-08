@@ -155,6 +155,14 @@ check('8c. 役割を明記するページの description も件数・VTuber名�
   roleKeys.every((g) => { const it = itemsOf(g); const d = build(g); return d.startsWith(ROLES[g].subject + 'をまとめたページです。') && d.includes('再生リスト' + it.length + '件') && pick(g).some((s) => d.includes(s)); }));
 check('8d. 役割の文面に元のゲーム名(例: ポケモンシリーズ)を使わない(同名のシリーズページと検索意図を分けるため)',
   roleKeys.every((g) => ['heading', 'title', 'subject'].every((k) => !ROLES[g][k].includes(g))));
+check('8e. 役割を明記するページは旧ポケモン・旧カービィの2件だけ(他のゲームの title・description は変えない)',
+  JSON.stringify(roleKeys.slice().sort()) === JSON.stringify(['ポケモンシリーズ', '星のカービィシリーズ'].sort()), roleKeys.join(','));
+const KIRBY_HUB = '星のカービィシリーズ', kirbyHubItems = itemsOf(KIRBY_HUB);
+check('8f. 旧「星のカービィシリーズ」: description は役割(複数作品にわたる実況)で始まり、件数・VTuber名は元データから(再生リスト' + kirbyHubItems.length + '件)',
+  kirbyHubItems.length > 0 && build(KIRBY_HUB).startsWith('複数のカービィ作品にわたるVTuber実況をまとめたページです。')
+  && build(KIRBY_HUB).includes('再生リスト' + kirbyHubItems.length + '件') && pick(KIRBY_HUB).some((s) => build(KIRBY_HUB).includes(s)), build(KIRBY_HUB));
+check('8g. 旧カービィの文面はポケモンの流用ではなく、掲載していない「企画」を書かない',
+  ['heading', 'title', 'lead', 'subject'].every((k) => ROLES[KIRBY_HUB][k] !== ROLES['ポケモンシリーズ'][k] && !/ポケモン|企画/.test(ROLES[KIRBY_HUB][k])));
 
 check('7b. og:description / twitter:description は setPageMeta で meta description と同じ文', /upsertMeta\('meta\[property="og:description"\]', \{ property: "og:description", content: description \}\)/.test(read('common.js')) && /upsertMeta\('meta\[name="twitter:description"\]', \{ name: "twitter:description", content: description \}\)/.test(read('common.js')));
 

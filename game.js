@@ -28,6 +28,12 @@ const GAME_PAGE_ROLES = {
     lead: "複数のポケモン作品をまたいで実況した再生リストや、シリーズを通した企画(通しプレイ・縛りなど)をまとめています。作品ごとの実況は、各作品のページから探せます。",
     subject: "複数のポケモン作品をまたぐVTuber実況・企画",
   },
+  "星のカービィシリーズ": {
+    heading: "カービィ(複数作品まとめ)",
+    title: "複数のカービィ作品にわたるVTuber実況の再生リスト",
+    lead: "複数のカービィ作品をひとつにまとめた、VTuberの実況再生リストを掲載しています。作品ごとの実況は、各作品のページから探せます。",
+    subject: "複数のカービィ作品にわたるVTuber実況",
+  },
 };
 const gamePageRoleOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_PAGE_ROLES, game) ? GAME_PAGE_ROLES[game] : null);
 

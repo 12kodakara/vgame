@@ -173,6 +173,16 @@ check('5d. 旧「ポケモンシリーズ」: title・H1・冒頭文は役割(�
   && /^複数のポケモン作品をまたいで実況した再生リスト/.test(rolePage.doc.getElementById('page-lead').textContent)
   && roleCanonical && roleCanonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent('ポケモンシリーズ'),
   rolePage.doc.title + ' / ' + rolePage.doc.getElementById('page-title').textContent + ' / ' + (roleCanonical && roleCanonical.getAttribute('href')));
+const kirbyHub = renderFor('星のカービィシリーズ');
+const kirbyHubCanonical = kirbyHub.doc.head.children.find((e) => e.tagName === 'LINK' && e.getAttribute('rel') === 'canonical');
+const kirbyHubRobots = kirbyHub.doc.head.children.find((e) => e.tagName === 'META' && e.getAttribute('name') === 'robots');
+check('5e. 旧「星のカービィシリーズ」: title・H1・パンくず・冒頭文は役割(複数作品まとめ)を示し、canonical は従来の URL のまま・noindex なし',
+  kirbyHub.doc.title === '複数のカービィ作品にわたるVTuber実況の再生リスト | ぶいゲー'
+  && kirbyHub.doc.getElementById('page-title').textContent === 'カービィ(複数作品まとめ)'
+  && kirbyHub.doc.getElementById('breadcrumb-current').textContent === 'カービィ(複数作品まとめ)'
+  && /^複数のカービィ作品をひとつにまとめた、VTuberの実況再生リスト/.test(kirbyHub.doc.getElementById('page-lead').textContent)
+  && kirbyHubCanonical && kirbyHubCanonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent('星のカービィシリーズ') && !kirbyHubRobots,
+  kirbyHub.doc.title + ' / ' + kirbyHub.doc.getElementById('page-title').textContent + ' / ' + (kirbyHubCanonical && kirbyHubCanonical.getAttribute('href')));
 
 // ---- 6. 公開中のゲームシリーズページへの導線(data-series.js の publish: true だけ) ----
 const seriesCtx = {}; vm.createContext(seriesCtx); vm.runInContext(read('data-series.js'), seriesCtx);
@@ -223,6 +233,12 @@ const ryu = withPublish(['ryugagotoku']);
 const judgePage = renderFor(JUDGE, ryu), kiwamiPage = renderFor(SERIES.ryugagotoku.games.find((g) => g === '龍が如く極'), ryu);
 check('6h. 公開(ryugagotoku): 本編(龍が如く極)には series=ryugagotoku のリンク、関連作品(' + JUDGE + ')には出ない',
   !!seriesLinkOf(kiwamiPage) && seriesLinkOf(kiwamiPage).href === 'series.html?series=ryugagotoku' && !seriesLinkOf(judgePage));
+// E. kirby だけ公開: 旧ページ(hubGame)は役割の title・H1 のまま、シリーズ表示の行だけがシリーズページへのリンクになる
+const kb = withPublish(['kirby']);
+const kirbyHubPub = renderFor(SERIES.kirby.hubGame, kb), kirbyHubLink = seriesLinkOf(kirbyHubPub);
+check('6j. 公開(kirby): 旧ページに「作品別に探す: 星のカービィシリーズのVTuber実況(作品別一覧)」のリンク、title・H1 は役割のまま',
+  !!kirbyHubLink && kirbyHubLink.href === 'series.html?series=kirby' && metaText(kirbyHubPub) === '作品別に探す: 星のカービィシリーズのVTuber実況(作品別一覧)'
+  && kirbyHubPub.doc.title === kirbyHub.doc.title && kirbyHubPub.doc.getElementById('page-title').textContent === 'カービィ(複数作品まとめ)', kirbyHubLink && metaText(kirbyHubPub));
 // 公開判定(series-publish.js)の内部リンク対象と、ゲーム詳細の判定が一致する
 const { getSeriesPublication } = require('./series-publish.js');
 const os = require('os');
