@@ -1,0 +1,5 @@
+# ぶいゲー Search Console レポート(tools/search-console/gsc_report.py)用。サイトのビルドには使わない。
+# python -m pip install -r tools/search-console/requirements.txt
+google-api-python-client>=2.100,<3
+google-auth>=2.23,<3
+google-auth-oauthlib>=1.1,<2

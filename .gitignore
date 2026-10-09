@@ -30,6 +30,13 @@
 *.pem
 *secret*
 *credential*
+# Search Console の OAuth クライアント情報・トークンは %LOCALAPPDATA%\vgame-seo にだけ置く(念のためリポジトリ内でも除外)
+oauth-client*.json
+token.json
+
+# ---- Python(tools/search-console)の一時ファイル ----
+__pycache__/
+*.py[cod]
 
 # ---- OS・エディタの一時ファイル ----
 Thumbs.db
