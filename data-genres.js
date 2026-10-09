@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap047",
+     "title": "Dead By Daylight",
+     "streamer": "Finana Ryugu",
+     "game": "Dead by Daylight",
+     "genre": "horror",
+     "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
+     "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
+     "videoCount": 17,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-09"
+    },
+    {
      "id": "gap753",
      "title": "SILENT HILL",
      "streamer": "白雪巴",
@@ -1452,7 +1464,7 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
      "videoCount": 14,
      "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-06"
+     "updatedDate": "2026-10-09"
     },
     {
      "id": "niji-7tamanoi-01",
@@ -1464,7 +1476,7 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
      "videoCount": 3,
      "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-04"
+     "updatedDate": "2026-10-09"
     },
     {
      "id": "niji-blackshibach-06",
@@ -1525,18 +1537,6 @@ const GENRE_PAGES = {
      "videoCount": 1,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-01"
-    },
-    {
-     "id": "gap047",
-     "title": "Dead By Daylight",
-     "streamer": "Finana Ryugu",
-     "game": "Dead by Daylight",
-     "genre": "horror",
-     "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
-     "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
-     "videoCount": 17,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-28"
     },
     {
      "id": "vspo-totokogara-21",
