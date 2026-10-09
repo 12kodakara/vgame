@@ -132,6 +132,37 @@ Check 'x1. 動画IDは watch?v= / youtu.be / live の形式から取り出す(�
   ((Get-FollowupVideoId 'https://www.youtube.com/watch?v=Ac-DypNuXyc') -eq 'Ac-DypNuXyc' -and (Get-FollowupVideoId 'https://youtu.be/Ac-DypNuXyc') -eq 'Ac-DypNuXyc' -and (Get-FollowupVideoId 'https://www.youtube.com/live/Ac-DypNuXyc') -eq 'Ac-DypNuXyc' -and $null -eq (Get-FollowupVideoId 'https://www.youtube.com/playlist?list=PLx') -and $null -eq (Get-FollowupVideoId 'https://video.invalid/watch?v=Ac-DypNuXyc'))
 Check 'x2. キーを伏せる(値そのもの・URL の key= のどちらも)' ((Protect-FollowupSecret "a $secret b&key=OTHER123 c" $secret) -eq 'a *** b&key=*** c')
 
+# ---- 要確認の印(共演・他事務所・企画の疑い) ----
+$collabStreamers = @(
+  [pscustomobject]@{ name = '月ノ美兎'; group = 'にじさんじ 1期生' }, [pscustomobject]@{ name = '壱百満天原サロメ'; group = 'にじさんじ 2022年' },
+  [pscustomobject]@{ name = 'アンジュ・カトリーナ'; group = 'にじさんじ 2018年' }, [pscustomobject]@{ name = '水宮枢'; group = 'ホロライブ FLOW GLOW' },
+  [pscustomobject]@{ name = '綺々羅々ヴィヴィ'; group = 'ホロライブ FLOW GLOW' }, [pscustomobject]@{ name = 'える'; group = 'にじさんじ 2018年' },
+  [pscustomobject]@{ name = 'ジョー・力一'; group = 'にじさんじ 2019年' }, [pscustomobject]@{ name = 'Ver Vermillion'; group = 'にじさんじ EN' },
+  [pscustomobject]@{ name = 'Gigi Murin'; group = 'ホロライブ EN' }, [pscustomobject]@{ name = '共演相手'; group = 'にじさんじ 2026年' }
+)
+$ci = New-FollowupCollabIndex $collabStreamers
+$fc = { param($text, $self) @(Find-FollowupCollab @($text) $ci $self) }
+Check 'c1. 共演: 名前の一部(【サロメ楓アンジュ美兎】)・フルネーム(#水宮枢)・英字の名前(with Gigi)を本人以外のVTuberとして検出' `
+  ((& $fc '【めっちゃカメレオン】初見の大人気かくれんぼゲーム【サロメ楓アンジュ美兎】' '月ノ美兎').Count -eq 2 -and (& $fc '【 みつめ 】怖がりな二人で異変を探せ！？【#綺々羅々ヴィヴィ #水宮枢 】' '綺々羅々ヴィヴィ').Count -eq 1 -and (& $fc 'A way out with Gigi!' 'Ver Vermillion').Count -eq 1) `
+  ((& $fc '【サロメ楓アンジュ美兎】' '月ノ美兎') -join ',')
+Check 'c2. 本人の名前・本人の事務所のタグだけなら共演にしない' ((& $fc '【夜勤事件】怖い【#綺々羅々ヴィヴィ / ホロライブ / FLOWGLOW】' '綺々羅々ヴィヴィ').Count -eq 0)
+Check 'c3. 本人以外の事務所名(にじさんじのVTuberのタイトルに「ホロライブ」「hololive」)を検出' `
+  ((& $fc '【APEX】ホロライブの皆さんと' '月ノ美兎') -contains '本人以外の事務所「ホロライブ」' -and (& $fc 'collab with #hololive' '月ノ美兎') -contains '本人以外の事務所「ホロライブ」')
+Check 'c4. 誤検出しない: 2文字のかなの名前(える ≠ エルデンリング)・かなの部分一致(ジョー ≠ ジョーカー)・英字3文字(Ver ≠ ver.1.22)' `
+  ((& $fc 'エルデンリング' '月ノ美兎').Count -eq 0 -and (& $fc 'ドラゴンクエストジョーカー' '月ノ美兎').Count -eq 0 -and (& $fc 'NieR Replicant ver.1.22474487139' '月ノ美兎').Count -eq 0)
+Check 'c5. 企画名・企画を疑わせる語も要確認の印にする(どこで見つかったかを付ける)' `
+  (@(Get-FollowupReviewFlags '単発実況' @('【パワプロ】ホロライブ甲子園 練習') $ci @('ホロライブ甲子園') '月ノ美兎') -contains '単発実況: 企画名「ホロライブ甲子園」')
+# STRONG の候補でも、要確認の印があれば MEDIUM(人の確認待ち)。印が無ければ STRONG のまま(既存の判定と整合)
+$ctxC = [pscustomobject]@{ games = $ctx.games; index = $ctx.index; sitePlaylists = $ctx.sitePlaylists; eventPlaylistIds = $ctx.eventPlaylistIds; eventNames = $ctx.eventNames
+  standaloneVideoIds = $ctx.standaloneVideoIds; collected = $ctx.collected; collabIndex = $ci }
+$p1c = & $play 'p1' 'VA' '夜勤事件' (& $vid '1'); $p1c.videos[0].title = '【夜勤事件】共演相手さんと遊ぶ'
+$rc = Get-StandaloneFollowup $p1c $ctxC
+$rn = Get-StandaloneFollowup $plays[0] $ctxC
+Check 'c6. 共演の疑いがある単発実況は STRONG にせず MEDIUM。判定根拠(reviewFlags・[要確認])を残す' `
+  ($rc.rank -eq 'MEDIUM' -and @($rc.reviewFlags | Where-Object { $_ -match '共演相手' }).Count -eq 1 -and (& $has $rc '^\[要確認/MEDIUM\]') -and $rc.action -match '^要確認' -and @($rc.playlistCandidates | Where-Object { $_.playlistId -eq 'PLA1' }).Count -eq 1) `
+  ($rc | ConvertTo-Json -Depth 4)
+Check 'c7. 要確認の印が無ければ従来どおり STRONG(印でランクを上げることはない)' ($rn.rank -eq 'STRONG' -and @($rn.reviewFlags).Count -eq 0)
+
 # ---- 実行スクリプト(本番データを読み込む。データは変更しない) ----
 $runner = Join-Path $scriptDir "report-standalone-followups.ps1"
 $dataFiles = @('data-standalone.js', 'data-playlists.js', 'data-core.js', 'data-home.js', 'data-series.js', 'sitemap.xml', 'robots.txt')
@@ -147,6 +178,20 @@ try {
     ($j.mode -match 'APIキー未設定' -and $j.apiUnits -eq 0 -and $j.total -eq 16 -and @($j.results | Where-Object { $_.rank -ne 'UNKNOWN' }).Count -eq 0 -and (Test-Path (Join-Path $tmp 'nokey\standalone-followups.md')))
   $jraw = Get-Content (Join-Path $tmp 'nokey\standalone-followups.json') -Raw -Encoding UTF8
   Check '7b. 取得できなかった対象が0件のとき、JSON の failures は空の配列 [](件数を誤って数えない)' ($jraw -match '"failures":\s*\[\s*\]')
+  # 上書き防止: 7. のレポートがある出力先には書かない(MaxUnits 0 なので、万一進んでも通信はしない)。キャッシュは触らない
+  $owDir = Join-Path $tmp 'nokey'; $owJson = Join-Path $owDir 'standalone-followups.json'
+  $owCache = Join-Path $tmp 'ow-cache.json'; [IO.File]::WriteAllText($owCache, '{"version":1,"entries":{}}', (New-Object System.Text.UTF8Encoding($false)))
+  $h1 = (Get-FileHash $owJson).Hash; $t1 = (Get-Item $owJson).LastWriteTimeUtc; $hc = (Get-FileHash $owCache).Hash
+  $prevPref = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+  try { $owOut = & powershell -NoProfile -ExecutionPolicy Bypass -File $runner -OutDir $owDir -CacheFile $owCache -ApiKey $secret -MaxUnits 0 2>&1 | Out-String; $owCode = $LASTEXITCODE } finally { $ErrorActionPreference = $prevPref }
+  Check 'o1. 出力先に前回のレポートがあると、上書きせずに止まる(別の -OutDir か -Overwrite を案内)' ($owCode -ne 0 -and (Get-FileHash $owJson).Hash -eq $h1 -and $owOut -match 'OutDir' -and $owOut -match 'Overwrite') $owOut
+  Check 'o2. 止まったときもキャッシュは削除・変更しない。エラー文に APIキーを出さない' ((Test-Path $owCache) -and (Get-FileHash $owCache).Hash -eq $hc -and -not $owOut.Contains($secret))
+  Start-Sleep -Milliseconds 1100
+  $null = & $runner -OutDir $owDir -CacheFile $owCache -ApiKey '' -Overwrite 6>&1 2>&1
+  Check 'o3. -Overwrite を付けたときだけ上書きする' ((Get-Item $owJson).LastWriteTimeUtc -gt $t1)
+  $prevPref = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+  try { $null = & powershell -NoProfile -ExecutionPolicy Bypass -File $runner -OutDir $owDir -Offline 2>&1; $owCode2 = $LASTEXITCODE } finally { $ErrorActionPreference = $prevPref }
+  Check 'o4. -Offline でも既存のレポートは上書きしない' ($owCode2 -ne 0)
   # 利用上限: 偽のキーで MaxUnits 0 → 通信せずに全件「取得していない」、キーはレポートに出ない
   $null = & $runner -OutDir (Join-Path $tmp 'budget') -CacheFile (Join-Path $tmp 'budget-cache.json') -ApiKey $secret -MaxUnits 0 6>&1 2>&1
   $jt = Get-Content (Join-Path $tmp 'budget\standalone-followups.json') -Raw -Encoding UTF8

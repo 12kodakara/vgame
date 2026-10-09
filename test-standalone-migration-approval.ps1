@@ -37,6 +37,7 @@ function New-FixtureRoot([string]$name) {
     "  { name: `"VB`", youtube: `"https://www.youtube.com/channel/$(& $ch 'b')`" },"
     "  { name: `"VC`", youtube: `"https://www.youtube.com/channel/$(& $ch 'c')`" },"
     "  { name: `"VE`", youtube: `"https://www.youtube.com/channel/$(& $ch 'e')`" },"
+    "  { name: `"共演相手`", group: `"にじさんじ 2026年`", youtube: `"https://www.youtube.com/channel/$(& $ch 'k')`" },"
     '];'
     'const GAMES = [ { name: "夜勤事件" }, { name: "8番出口" }, { name: "パワフルプロ野球" }, { name: "Unpacking" }, { name: "Stray" } ];'
     'const GAME_EVENTS = [ { id: "hololive-koshien", name: "ホロライブ甲子園" } ];'
@@ -96,6 +97,7 @@ function New-FixtureRoot([string]$name) {
   $lines += & $sa 's7' 'VA' 'Unpacking' @((& $v '8'))                        # 移行先が登録済みの再生リスト(new-playlist として二重登録しない)
   $lines += & $sa 's8' 'VC' '8番出口' @((& $v '9'))                          # 移行先が存在しない
   $lines += & $sa 's9' 'VA' 'Stray' @((& $v 'a'))                            # 所有チャンネルが違う
+  $lines += & $sa 's10' 'VE' 'Unpacking' @((& $v 'b')) '共演相手さんと遊ぶ'     # 共演(本人以外のVTuber名)
   $lines += @('];')
   Write-Fixture $d 'data-standalone.js' $lines
   return $d
@@ -111,6 +113,7 @@ $liveData = @{
   'PLB6xxxxxxxxxxx' = @{ title = '夜勤事件'; channelId = (& $ch 'b'); videos = @((& $v '7'), (& $v '1')) }
   'PLREGB1xxxxxxxx' = @{ title = '8番出口'; channelId = (& $ch 'b'); videos = @((& $v '8')) }
   'PLA9xxxxxxxxxxx' = @{ title = 'Stray'; channelId = (& $ch 'z'); videos = @((& $v 'a')) }
+  'PLE10xxxxxxxxxx' = @{ title = 'Unpacking'; channelId = (& $ch 'e'); videos = @((& $v 'b')) }
 }
 $secret = 'SECRET_KEY_SHOULD_NOT_APPEAR_987'
 $httpGet = {
@@ -144,6 +147,7 @@ $report = [pscustomobject]@{ generatedAt = '2026-10-09T11:00:00'; mode = 'API'; 
     (& $res 's7' 'VA' 'Unpacking' 'STRONG' @((& $pc 'PLREGB1xxxxxxxx' '8番出口' (& $ch 'b'))))
     (& $res 's8' 'VC' '8番出口' 'STRONG' @((& $pc 'PLC8xxxxxxxxxxx' '8番出口' (& $ch 'c'))))
     (& $res 's9' 'VA' 'Stray' 'STRONG' @((& $pc 'PLA9xxxxxxxxxxx' 'Stray' (& $ch 'a'))))
+    (& $res 's10' 'VE' 'Unpacking' 'MEDIUM' @((& $pc 'PLE10xxxxxxxxxx' 'Unpacking' (& $ch 'e'))))
     (& $res 's2' 'VA' '8番出口' 'WEAK' @((& $pc 'PLA2zzzzzzzzzzz' '8番出口 別の実況' (& $ch 'a') $false)))   # 既存の動画が入っていない = 候補にしない
   ) }
 
@@ -160,7 +164,7 @@ $client = & $newClient
 $h0 = & $hashOf $R1
 
 # ---- 候補の作成・表示項目 ----
-Check '0a. 候補はレポートの移行先ごとに作られ、既存の動画が入っていない再生リスト(別の実況)は候補にしない' (@($state.candidates).Count -eq 9 -and -not @($state.candidates | Where-Object { $_.playlistId -eq 'PLA2zzzzzzzzzzz' }).Count) (@($state.candidates | ForEach-Object { $_.key }) -join ', ')
+Check '0a. 候補はレポートの移行先ごとに作られ、既存の動画が入っていない再生リスト(別の実況)は候補にしない' (@($state.candidates).Count -eq 10 -and -not @($state.candidates | Where-Object { $_.playlistId -eq 'PLA2zzzzzzzzzzz' }).Count) (@($state.candidates | ForEach-Object { $_.key }) -join ', ')
 Check '0b. 新しい候補はすべて pending' (@($state.candidates | Where-Object { $_.status -ne 'pending' }).Count -eq 0)
 $c1 = & $candOf $state 's1'
 Check '0c. 候補に VTuber・ゲーム・現在の単発実況・移行先・再生リストID・動画数・重複・可否が入る' ($c1.streamer -eq 'VA' -and $c1.game -eq '夜勤事件' -and $c1.standalone.format -eq 'single' -and @($c1.standalone.videoIds)[0] -eq (& $v '1') -and $c1.playlistId -eq 'PLA1xxxxxxxxxxx' -and $c1.newPlaylistId -eq 'sa-s1' -and $null -ne $c1.target.count -and @($c1.duplicates).Count -ge 2 -and $c1.eligible -eq $true)
@@ -250,6 +254,23 @@ Check '7c. 移行先の所有チャンネルが違えば止める' (-not $chk.el
 $r = Invoke-MigrationApply ([pscustomobject]@{ key = 'k'; status = 'approved'; approvedFingerprint = 'a'; fingerprint = 'a' }) $after3 (& $applyOpts $R1 $null)
 Check '7d. 移行先を API で確認していなければ適用しない' (-not $r.applied -and $r.message -match 'API') $r.message
 
+# ---- 共演(コラボ)・別VTuber・別チャンネルの誤判定防止 ----
+$c10 = & $candOf $state 's10'
+Check 'cl1. 単発実況の動画に本人以外のVTuber名(共演の疑い)がある候補は適用不可(要確認)・承認できない' (-not $c10.eligible -and (@($c10.blockers) -join ' ') -match '共演・他事務所の疑い' -and (@($c10.blockers) -join ' ') -match '共演相手') (@($c10.blockers) -join ' / ')
+$err = $null; try { [void](Set-MigrationDecision $state $c10.key 'approve' $now '') } catch { $err = $_.Exception.Message }
+Check 'cl2. 共演の疑いがある候補は承認できず pending のまま' ($err -match '承認できない' -and $c10.status -eq 'pending') $err
+$chk = Test-MigrationCandidate $c10 $site (Get-MigrationLiveTarget $client 'PLE10xxxxxxxxxx')
+Check 'cl3. 移行先の中身が正しくても、共演の疑いは適用時の再検証でも止める(文字列だけで移行を確定しない)' (-not $chk.eligible -and (@($chk.blockers) -join ' ') -match '共演') (@($chk.blockers) -join ' / ')
+$clone = { param($o) ($o | ConvertTo-Json -Depth 8 | ConvertFrom-Json) }
+$c1other = & $clone (& $candOf (& $stateOf (New-FixtureRoot 'r1c')).state 's1')
+$siteC = Read-MigrationSiteData (Join-Path $tmpRoot 'r1c')
+$c1other.target | Add-Member -NotePropertyName channel -NotePropertyValue 'VB' -Force
+$chk = Test-MigrationCandidate $c1other $siteC $null
+Check 'cl4. 別のVTuberのチャンネルの再生リストは移行先にしない' (-not $chk.eligible -and (@($chk.blockers) -join ' ') -match '別のVTuber') (@($chk.blockers) -join ' / ')
+$c1ch = & $clone (& $candOf (& $stateOf (New-FixtureRoot 'r1d')).state 's1'); $c1ch.target.channelId = (& $ch 'b')
+$chk = Test-MigrationCandidate $c1ch (Read-MigrationSiteData (Join-Path $tmpRoot 'r1d')) $null
+Check 'cl5. 移行先のチャンネルIDが本人のチャンネル(STREAMERS の youtube)と違えば移行先にしない' (-not $chk.eligible -and (@($chk.blockers) -join ' ') -match 'チャンネル') (@($chk.blockers) -join ' / ')
+
 # ---- 9. 途中エラーで元に戻す ----
 $R2 = New-FixtureRoot 'r2'
 $y = & $stateOf $R2; $ca = & $candOf $y.state 's1'
@@ -298,6 +319,19 @@ $err = $null; try { [void](Remove-MigrationStandaloneText (Read-MigrationText (J
 Check '11b. コメント内の登録例(// id: "single-001")は書き換え対象にしない' ($err -match '0 件') $err
 Check '11c. JS 文字列のエスケープ(" \ 改行)' ((ConvertTo-MigrationJsString "a`"b\c`nd") -eq '"a\"b\\c\u000ad"')
 
+# ---- 適用前の確認(Test-MigrationPlan。API なし・データを変えない)----
+$R4 = New-FixtureRoot 'r4'
+$z = & $stateOf $R4; $cz = & $candOf $z.state 's1'
+[void](Set-MigrationDecision $z.state $cz.key 'approve' $now '')
+$h4 = & $hashOf $R4
+$planTmp = Join-Path $tmpRoot 'plan-tmp'; New-Item -ItemType Directory -Path $planTmp | Out-Null
+$plan = Test-MigrationPlan $cz $z.site $R4 $planTmp $now
+Check 'k1. 承認済みで問題の無い候補は OK。変わるファイル(再生リスト1件追加・単発実況1件削除)を表示する' ($plan.ok -and @($plan.changes | Where-Object { $_ -match 'data-playlists.js: 末尾に1件追加 id=sa-s1' }).Count -eq 1 -and @($plan.changes | Where-Object { $_ -match 'data-standalone.js: 1件削除 id=s1' }).Count -eq 1) (@($plan.problems) + @($plan.changes) -join ' / ')
+Check 'k2. 確認ではデータを変えず、一時ファイルも残さない' ((& $sameHash $h4 (& $hashOf $R4)) -and @(Get-ChildItem -LiteralPath $planTmp).Count -eq 0 -and -not (Test-Path (Join-Path $R4 'reports')))
+$cz6 = & $candOf $z.state 's7'
+$plan6 = Test-MigrationPlan $cz6 $z.site $R4 $planTmp $now
+Check 'k3. 未承認・登録済みの再生リストIDなどの問題は NG として理由を出す' (-not $plan6.ok -and (@($plan6.problems) -join ' ') -match 'pending' -and (@($plan6.problems) -join ' ') -match '登録済み') (@($plan6.problems) -join ' / ')
+
 # ---- CLI(migrate-standalone.ps1)を一時フォルダのコピーで通しで動かす(API なし)----
 $R3 = New-FixtureRoot 'r3'
 foreach ($f in 'standalone-matching.ps1', 'standalone-followups.ps1', 'standalone-migration-approval.ps1', 'migrate-standalone.ps1') { Copy-Item -LiteralPath (Join-Path $scriptDir $f) -Destination $R3 }
@@ -307,10 +341,20 @@ $cli = Join-Path $R3 'migrate-standalone.ps1'
 $h3 = & $hashOf $R3
 # 子プロセスには APIキーを渡さない(環境変数を空にして実行し、終わったら戻す)
 $runCli = { param([string[]]$a) $saved = $env:YOUTUBE_API_KEY; $env:YOUTUBE_API_KEY = $null; $ErrorActionPreference = 'Continue'; try { $o = & powershell -NoProfile -ExecutionPolicy Bypass -File $cli @a 2>&1 | Out-String; return @{ out = $o; code = $LASTEXITCODE } } finally { $env:YOUTUBE_API_KEY = $saved } }
+$k0 = & $runCli @('-Action', 'check')
+Check '12-0. CLI check: 状態ファイルが無い(承認済み0件)なら「適用対象なし」で正常終了' ($k0.code -eq 0 -and $k0.out -match '適用対象なし' -and (& $sameHash $h3 (& $hashOf $R3))) $k0.out
 $o1 = & $runCli @('-Action', 'init')
 $stFile = Join-Path $R3 'reports\standalone-migration\approvals.json'
 Check '12a. CLI init: 候補を状態ファイルに取り込み、一覧(candidates.md)を書く。データは不変' ($o1.code -eq 0 -and (Test-Path $stFile) -and (Test-Path (Join-Path $R3 'reports\standalone-migration\candidates.md')) -and (& $sameHash $h3 (& $hashOf $R3))) $o1.out
+$k1 = & $runCli @('-Action', 'check')
+Check '12-1. CLI check: 候補はあるが承認済み0件なら「適用対象なし」で正常終了' ($k1.code -eq 0 -and $k1.out -match '適用対象なし') $k1.out
 $o2 = & $runCli @('-Action', 'approve', '-Id', 's1', '-Note', 'cli')
+$stHash = (Get-FileHash -LiteralPath $stFile).Hash; $logLines = @(Get-Content -LiteralPath (Join-Path $R3 'reports\standalone-migration\log.jsonl')).Count
+$k2 = & $runCli @('-Action', 'check')
+Check '12-2. CLI check: 承認済みの候補を API なしで確認し、変わるファイルを表示する(データ・状態ファイル・ログは変えない。API 0)' `
+  ($k2.code -eq 0 -and $k2.out -match '\[OK\] s1\|new-playlist' -and $k2.out -match '変更されるファイル: data-playlists.js' -and $k2.out -match 'API ユニット 0' -and (& $sameHash $h3 (& $hashOf $R3)) -and (Get-FileHash -LiteralPath $stFile).Hash -eq $stHash -and @(Get-Content -LiteralPath (Join-Path $R3 'reports\standalone-migration\log.jsonl')).Count -eq $logLines) $k2.out
+$k3 = & $runCli @('-Action', 'check', '-Id', 's4')
+Check '12-3. CLI check -Id: 指定した候補(未承認・企画)は NG と理由を出し、終了コード 1' ($k3.code -eq 1 -and $k3.out -match '\[NG\] s4' -and $k3.out -match 'pending' -and $k3.out -match '企画') $k3.out
 $o3 = & $runCli @('-Action', 'apply')
 Check '12b. CLI approve → apply(API なし): 承認は記録されるが、移行先を再確認できないため適用しない' ($o2.code -eq 0 -and $o2.out -match 'approved' -and $o3.out -match 'API なし' -and (& $sameHash $h3 (& $hashOf $R3))) ($o2.out + $o3.out)
 $o4 = & $runCli @('-Action', 'apply', '-Apply')

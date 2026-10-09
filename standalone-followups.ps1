@@ -28,6 +28,10 @@
   ■ 企画(data-core.js の GAME_EVENTS / PLAYLIST_EVENTS)
     PLAYLIST_EVENTS に登録された再生リスト、名前に企画名(GAME_EVENTS の name)を含む再生リスト・動画は、
     通常の実況へ移行しないよう WEAK までにする(企画名は確認済みのデータから取る。推測で企画と決めることはしない)。
+
+  ■ 要確認の印(reviewFlags。Get-FollowupReviewFlags)
+    単発実況の動画・候補の再生リスト・候補の動画の名前に、本人以外のVTuber名・本人以外の事務所名・企画名・企画を疑わせる語があるもの。
+    共演(コラボ)や企画の可能性があるため、STRONG にはせず MEDIUM にして人の確認を待つ(文字列だけで移行を確定しない)。
 #>
 
 # 動画URL → 動画ID(watch?v= / youtu.be / live。validate-data.ps1 の Get-YouTubeVideoId と同じ形式)
@@ -236,6 +240,105 @@ function Test-FollowupEventName([string]$text, $eventNames) {
 }
 
 # ============================================================
+# 人の確認が必要な候補(共演・他事務所・企画の疑い)。文字列だけで移行を確定しないための「要確認」の印。
+#   - 本人以外のVTuber名: STREAMERS の名前(全体)と名前の部分(「・」・空白・文字種の切れ目で分けた3文字以上)
+#       例: 壱百満天原サロメ → サロメ / アンジュ・カトリーナ → アンジュ・カトリーナ。英字の名前は単語単位、
+#       かなだけの語は前後がかなでないときだけ一致にする(ジョー ≠ ジョーカー)。名前全体は3文字以上(漢字を含むなら2文字以上)
+#   - 本人以外の事務所: STREAMERS の group の先頭(ホロライブ / にじさんじ / ぶいすぽ)と英字表記
+#   - 企画名(GAME_EVENTS)と、企画を疑わせる語($script:FollowupReviewKeywords)
+#   当てはまってもランクを上げることはない(STRONG は MEDIUM にして人の確認を待つ)
+# ============================================================
+$script:FollowupReviewKeywords = @('甲子園', '大会', '杯', 'リーグ', '選手権', 'トーナメント', 'コラボ', '企画', '対抗', '交流戦', 'カップ', 'cup', 'フェス', '祭', 'vs', '運動会', 'チーム戦')
+$script:FollowupAgencyAliases = @{ 'ホロライブ' = @('hololive'); 'にじさんじ' = @('nijisanji'); 'ぶいすぽ' = @('vspo') }
+
+# 企画名・企画を疑わせる語(照合は standalone-matching.ps1 と同じ正規化)。見つかったものを「企画名「…」」「語「…」」で返す
+function Find-FollowupEventWords([string[]]$texts, $eventNames) {
+  $found = New-Object System.Collections.Generic.List[string]
+  foreach ($t in @($texts | Where-Object { $_ })) {
+    $n = Test-FollowupEventName $t $eventNames
+    if ($n -and -not $found.Contains("企画名「$n」")) { $found.Add("企画名「$n」") }
+    $norm = (Get-StandaloneNorm $t) -replace ' ', ''
+    foreach ($k in $script:FollowupReviewKeywords) {
+      $kn = (Get-StandaloneNorm $k) -replace ' ', ''
+      if ($kn -and $norm.Contains($kn) -and -not $found.Contains("語「$k」")) { $found.Add("語「$k」") }
+    }
+  }
+  return $found.ToArray()   # 呼び出し側で @() に包む(0件は空配列)
+}
+
+# 名前を照合用の語に分ける(全体 + 3文字以上の部分)。返り値は正規化済み・空白なしの語
+function Get-FollowupNameTokens([string]$name) {
+  $tokens = New-Object System.Collections.Generic.List[string]
+  $add = { param($s) $n = (Get-StandaloneNorm $s) -replace ' ', ''; if ($n -and -not $tokens.Contains($n)) { $tokens.Add($n) } }
+  $whole = (Get-StandaloneNorm $name) -replace ' ', ''
+  # 名前全体は3文字以上。2文字は漢字を含むときだけ(「える」が「エルデンリング」に当たるような誤検出を防ぐ)
+  if ($whole.Length -ge 3 -or ($whole.Length -eq 2 -and $whole -match '[一-鿿々]')) { & $add $name }
+  $kind = { param([char]$c) $i = [int]$c
+    if (($i -ge 0x4E00 -and $i -le 0x9FFF) -or $i -eq 0x3005) { 'kanji' } elseif ($i -ge 0x30A1 -and $i -le 0x30FC -and $i -ne 0x30FB) { 'kata' } elseif ($i -ge 0x3041 -and $i -le 0x309F) { 'hira' }
+    elseif ([char]::IsLetterOrDigit($c) -or $c -eq "'") { 'latin' } else { 'sep' } }
+  $cur = New-Object System.Text.StringBuilder; $curKind = $null
+  foreach ($c in ($name + ' ').ToCharArray()) {
+    $k = & $kind $c
+    if ($k -ne $curKind) {
+      # 部分は3文字以上(英字は4文字以上。「Ver」が「ver.1.2」に当たるような誤検出を防ぐ)
+      if ($curKind -and $curKind -ne 'sep' -and $cur.Length -ge $(if ($curKind -eq 'latin') { 4 } else { 3 })) { & $add $cur.ToString() }
+      [void]$cur.Clear(); $curKind = $k
+    }
+    if ($k -ne 'sep') { [void]$cur.Append($c) }
+  }
+  return $tokens.ToArray()
+}
+
+# STREAMERS(name, group)から照合用の索引を作る
+function New-FollowupCollabIndex($streamers) {
+  $idx = @{ tokens = New-Object System.Collections.Generic.List[object]; tokensOf = @{}; agencyOf = @{}; agencies = New-Object System.Collections.Generic.List[string] }
+  foreach ($s in @($streamers)) {
+    if (-not $s -or -not $s.name) { continue }
+    $toks = @(Get-FollowupNameTokens ([string]$s.name))
+    $idx.tokensOf[[string]$s.name] = $toks
+    # kana: かなだけの語は前後がかなでないときだけ一致にする(「ジョー」が「ジョーカー」に当たるような誤検出を防ぐ)
+    foreach ($t in $toks) { $idx.tokens.Add([pscustomobject]@{ token = $t; owner = [string]$s.name; ascii = ($t -match '^[\x00-\x7f]+$'); kana = ($t -match '^[ぁ-ゟー・]+$') }) }
+    $g = [string]$s.group
+    if ($g) { $a = ($g.Trim() -split '\s+')[0]; $idx.agencyOf[[string]$s.name] = $a; if (-not $idx.agencies.Contains($a)) { $idx.agencies.Add($a) } }
+  }
+  return $idx
+}
+
+# 本人($self)以外のVTuber名・事務所名を探す。見つかったものの説明を返す
+function Find-FollowupCollab([string[]]$texts, $index, [string]$self) {
+  $found = New-Object System.Collections.Generic.List[string]
+  if (-not $index) { return $found.ToArray() }
+  $selfTokens = @(); if ($index.tokensOf.ContainsKey($self)) { $selfTokens = @($index.tokensOf[$self]) }
+  $selfAgency = $index.agencyOf[$self]
+  foreach ($t in @($texts | Where-Object { $_ })) {
+    $norm = (Get-StandaloneNorm $t) -replace ' ', ''
+    $spaced = Get-StandaloneNorm $t
+    foreach ($e in $index.tokens) {
+      if ($e.owner -eq $self -or $selfTokens -contains $e.token) { continue }
+      $hit = $(if ($e.ascii) { [regex]::IsMatch($spaced, '(?<![a-z0-9])' + [regex]::Escape($e.token) + '(?![a-z0-9])') }
+        elseif ($e.kana) { [regex]::IsMatch($norm, '(?<![ぁ-ゟァ-ー])' + [regex]::Escape($e.token) + '(?![ぁ-ゟァ-ー])') }
+        else { $norm.Contains($e.token) })
+      if ($hit) { $msg = "本人以外のVTuber「$($e.owner)」"; if (-not $found.Contains($msg)) { $found.Add($msg) } }
+    }
+    foreach ($a in $index.agencies) {
+      if ($a -eq $selfAgency) { continue }
+      $keys = @($a) + @($script:FollowupAgencyAliases[$a] | Where-Object { $_ })
+      foreach ($k in $keys) {
+        $kn = (Get-StandaloneNorm $k) -replace ' ', ''
+        if ($kn -and $norm.Contains($kn)) { $msg = "本人以外の事務所「$a」"; if (-not $found.Contains($msg)) { $found.Add($msg) }; break }
+      }
+    }
+  }
+  return $found.ToArray()
+}
+
+# 要確認の印(共演・他事務所・企画)。$where はどの文字列か(例: 単発実況の動画)
+function Get-FollowupReviewFlags([string]$where, [string[]]$texts, $collabIndex, $eventNames, [string]$self) {
+  $items = @(Find-FollowupCollab $texts $collabIndex $self) + @(Find-FollowupEventWords $texts $eventNames)
+  return @($items | ForEach-Object { "$($where): $_" })
+}
+
+# ============================================================
 # 取得(YouTube API)。$api は次の種類に答えるスクリプトブロック(本番は API、テストは固定データ)
 #   & $api 'channelIdForHandle' '@handle' → チャンネルID / $null
 #   & $api 'uploads' @{ channelId; max }   → @( @{ videoId; title; description; publishedAt } ... )(新しい順)
@@ -366,9 +469,20 @@ function Get-StandaloneFollowup($play, $ctx) {
     }
   }
 
+  # ---- 要確認の印(共演・他事務所・企画の疑い)。単発実況の動画と、候補の再生リスト・動画の名前を調べる ----
+  $collabIndex = $(if ($ctx.PSObject.Properties['collabIndex']) { $ctx.collabIndex } else { $null })
+  $reviewFlags = New-Object System.Collections.Generic.List[string]
+  $addFlags = { param($where, $texts) foreach ($f in @(Get-FollowupReviewFlags $where $texts $collabIndex $ctx.eventNames $play.streamer)) { if (-not $reviewFlags.Contains($f)) { $reviewFlags.Add($f) } } }
+  $playTitle = $(if ($play.PSObject.Properties['title']) { [string]$play.title } else { '' })
+  & $addFlags '単発実況' (@($playTitle) + @(@($play.videos) | ForEach-Object { [string]$_.title }))
+  foreach ($cp in $playlistCands) { & $addFlags "再生リスト「$($cp.title)」" @([string]$cp.title) }
+  foreach ($nv in $newVideos) { & $addFlags "動画「$($nv.title)」" @([string]$nv.title) }
+
   $rank = $null
   foreach ($r in $script:FollowupRankOrder) { if (@($evidence | Where-Object { $_.rank -eq $r }).Count) { $rank = $r; break } }
   if (-not $rank) { $rank = $(if ($unverified.Count) { 'UNKNOWN' } else { 'NONE' }) }
+  # 要確認の印があれば STRONG にしない(文字列だけで移行を確定しない。人が確認するまで MEDIUM)
+  if ($reviewFlags.Count -and $rank -eq 'STRONG') { $rank = 'MEDIUM'; & $add '要確認' 'MEDIUM' '共演・他事務所・企画の疑いがあるため STRONG にしない(人が確認する)' }
   $action = switch ($rank) {
     'STRONG' { '移行候補(確認待ち)。人が再生リストの内容を確認し、再生リスト追加と単発実況の整理を同じ commit で行う' }
     'MEDIUM' { '確認待ち。既存の動画IDが再生リストに入っているか・同じ実況かを確認する' }
@@ -376,8 +490,9 @@ function Get-StandaloneFollowup($play, $ctx) {
     'UNKNOWN' { 'API で再確認する(未確認の項目があるため「候補なし」とは判定しない)' }
     default { '対応不要' }
   }
+  if ($reviewFlags.Count -and @('STRONG', 'MEDIUM') -contains $rank) { $action = '要確認(共演・他事務所・企画の疑い)。' + $action }
   return [pscustomobject]@{ id = $play.id; streamer = $play.streamer; game = $play.game; format = $play.format; videoIds = @($videoIds)
-    rank = $rank; action = $action; reasons = @($evidence | ForEach-Object { "[$($_.kind)/$($_.rank)] $($_.reason)" }); unverified = @($unverified | Select-Object -Unique)
+    rank = $rank; action = $action; reasons = @($evidence | ForEach-Object { "[$($_.kind)/$($_.rank)] $($_.reason)" }); reviewFlags = $reviewFlags.ToArray(); unverified = @($unverified | Select-Object -Unique)
     newVideoCandidates = $newVideos.ToArray(); playlistCandidates = $playlistCands.ToArray(); duplicateCandidates = $dupCands.ToArray(); sharedWith = @() }   # List は ToArray で配列にする(@(List) をハッシュ表の中に書くと PowerShell 5.1 でエラーになる)
 }
 

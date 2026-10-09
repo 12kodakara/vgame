@@ -30,8 +30,8 @@
 
 $script:MigrationStateVersion = 1
 $script:MigrationStatuses = @('pending', 'approved', 'rejected', 'applied', 'error')
-# 企画の疑いがある語(登録済みの企画名に加えて調べる)。当てはまる候補は自動で適用せず「要確認」にする(人が判断してデータを直接直す)
-$script:MigrationEventKeywords = @('甲子園', '大会', '杯', 'リーグ', '選手権', 'トーナメント', 'コラボ', '企画', '対抗', '交流戦', 'カップ', 'cup', 'フェス', '祭', 'vs', '運動会', 'チーム戦')
+# 企画の疑いがある語・共演(本人以外のVTuber名・事務所名)の判定は standalone-followups.ps1 の
+# Find-FollowupEventWords / Find-FollowupCollab(レポートと同じ判定)。当てはまる候補は自動で適用せず「要確認」にする
 
 # ---------------------------------------------------------------
 # データの読み込み(node の vm で data-*.js を実行して取り出す。非ASCIIは \uXXXX にして受け取る)
@@ -46,7 +46,7 @@ const playlists = pick("PLAYLISTS");
 const events = pick("GAME_EVENTS").map((e) => ({ id: e.id, name: e.name }));
 const evName = {}; events.forEach((e) => { evName[e.id] = e.name; });
 const out = {
-  streamers: pick("STREAMERS").map((s) => ({ name: s.name, youtube: s.youtube || "" })),
+  streamers: pick("STREAMERS").map((s) => ({ name: s.name, youtube: s.youtube || "", group: s.group || "" })),
   games: pick("GAMES").map((g) => ({ name: g.name, aliases: [g.name].concat(g.nameJa ? [g.nameJa] : [], g.aliases || []) })),
   playlists: playlists.map((p) => ({ id: p.id, title: p.title, streamer: p.streamer, game: p.game, playlistId: p.playlistId })),
   standalone: pick("STANDALONE_PLAYS").map((p) => ({ id: p.id, title: p.title || "", streamer: p.streamer, game: p.game, genre: p.genre, format: p.format,
@@ -72,7 +72,9 @@ function Read-MigrationSiteData([string]$root) {
     playlistEvents = @($d.playlistEvents | ForEach-Object { $_ })
     eventByPlaylistId = @{}   # YouTube の playlistId → 企画名
     eventGames = @{}          # 企画に使われるゲーム名
+    collabIndex = $null       # 本人以外のVTuber名・事務所名の索引(Find-FollowupCollab)
   }
+  $site.collabIndex = New-FollowupCollabIndex $site.streamers
   foreach ($e in $site.playlistEvents) {
     $p = @($site.playlists | Where-Object { $_.id -eq $e.playlist })[0]
     if ($p) { $site.eventByPlaylistId[[string]$p.playlistId] = [string]$e.event }
@@ -95,20 +97,8 @@ function Get-MigrationFingerprint([string]$standaloneSource, [string]$type, [str
   } finally { $sha.Dispose() }
 }
 
-# 企画名・企画の疑いがある語を探す(照合は standalone-matching.ps1 と同じ正規化)。見つかった語を返す
-function Find-MigrationEventWords([string[]]$texts, $eventNames) {
-  $found = New-Object System.Collections.Generic.List[string]
-  foreach ($t in @($texts | Where-Object { $_ })) {
-    $n = Test-FollowupEventName $t $eventNames
-    if ($n -and -not $found.Contains("企画名「$n」")) { $found.Add("企画名「$n」") }
-    $norm = (Get-StandaloneNorm $t) -replace ' ', ''
-    foreach ($k in $script:MigrationEventKeywords) {
-      $kn = (Get-StandaloneNorm $k) -replace ' ', ''
-      if ($kn -and $norm.Contains($kn) -and -not $found.Contains("語「$k」")) { $found.Add("語「$k」") }
-    }
-  }
-  return $found.ToArray()   # 呼び出し側で @() に包む(0件は空配列)
-}
+# 企画名・企画の疑いがある語を探す(standalone-followups.ps1 の Find-FollowupEventWords と同じ判定)
+function Find-MigrationEventWords([string[]]$texts, $eventNames) { return @(Find-FollowupEventWords $texts $eventNames) }
 
 # ---------------------------------------------------------------
 # 候補の作成(report-standalone-followups.ps1 のレポート JSON から)
@@ -119,16 +109,17 @@ function New-MigrationCandidates($report, $site) {
     $play = @($site.standalone | Where-Object { $_.id -eq $r.id })[0]
     $targets = @()
     # in = $false(既存の動画が入っていない = 別の実況)は移行先にしない。$true / 未確認($null)は候補にして可否を判定する
-    foreach ($p in @($r.playlistCandidates)) { if ($p -and $p.videoInPlaylist -ne $false) { $targets += [pscustomobject]@{ type = 'new-playlist'; playlistId = [string]$p.playlistId; title = [string]$p.title; count = $p.count; channelId = [string]$p.channelId; registeredId = $null; videoInPlaylist = $p.videoInPlaylist; event = $p.event } } }
-    foreach ($d in @($r.duplicateCandidates)) { if ($d -and $d.sameGame -eq $true -and $d.videoInPlaylist -ne $false) { $targets += [pscustomobject]@{ type = 'existing-playlist'; playlistId = [string]$d.playlistId; title = [string]$d.title; count = $null; channelId = $null; registeredId = [string]$d.id; videoInPlaylist = $d.videoInPlaylist; event = $d.event } } }
+    foreach ($p in @($r.playlistCandidates)) { if ($p -and $p.videoInPlaylist -ne $false) { $targets += [pscustomobject]@{ type = 'new-playlist'; playlistId = [string]$p.playlistId; title = [string]$p.title; count = $p.count; channel = [string]$p.channel; channelId = [string]$p.channelId; registeredId = $null; videoInPlaylist = $p.videoInPlaylist; event = $p.event } } }
+    foreach ($d in @($r.duplicateCandidates)) { if ($d -and $d.sameGame -eq $true -and $d.videoInPlaylist -ne $false) { $targets += [pscustomobject]@{ type = 'existing-playlist'; playlistId = [string]$d.playlistId; title = [string]$d.title; count = $null; channel = ''; channelId = $null; registeredId = [string]$d.id; videoInPlaylist = $d.videoInPlaylist; event = $d.event } } }
     foreach ($t in $targets) {
       $source = $(if ($play) { [string]$play.source } else { '' })
       $cands.Add([pscustomobject]@{
           key = "$($r.id)|$($t.type)|$($t.playlistId)"; standaloneId = [string]$r.id; type = $t.type; playlistId = $t.playlistId
           streamer = [string]$r.streamer; game = [string]$r.game; rank = [string]$r.rank
           standalone = $(if ($play) { [pscustomobject]@{ title = $play.title; format = $play.format; genre = $play.genre; videoIds = @(Get-MigrationVideoIds $play); videoTitles = @($play.videos | ForEach-Object { $_.title }); mixedPlaylistUrl = $play.mixedPlaylistUrl } } else { $null })
-          target = [pscustomobject]@{ title = $t.title; count = $t.count; channelId = $t.channelId; registeredId = $t.registeredId; videoInPlaylist = $t.videoInPlaylist; event = $t.event }
+          target = [pscustomobject]@{ title = $t.title; count = $t.count; channel = $t.channel; channelId = $t.channelId; registeredId = $t.registeredId; videoInPlaylist = $t.videoInPlaylist; event = $t.event }
           sharedWith = @($r.sharedWith | ForEach-Object { [string]$_.candidate + ' → ' + (@($_.with) -join ',') })
+          reportFlags = @($r.reviewFlags | Where-Object { $_ })   # レポートでの要確認の印(参考表示。可否は Test-MigrationCandidate で判定し直す)
           targetsForSameStandalone = $targets.Count
           fingerprint = $(if ($play) { Get-MigrationFingerprint $source $t.type $t.playlistId } else { '' })
           newPlaylistId = $(if ($t.type -eq 'new-playlist') { 'sa-' + [string]$r.id } else { $null })
@@ -184,6 +175,19 @@ function Test-MigrationCandidate($cand, $site, $live = $null) {
   $words = @(Find-MigrationEventWords (@($cand.target.title, $liveTitle, $play.title) + @($play.videos | ForEach-Object { $_.title })) $site.eventNames)
   if ($words.Count) { $blockers.Add("企画の疑い(要確認): $($words -join '・') を含む") }
   if ($site.eventGames.ContainsKey($play.game)) { $blockers.Add("「$($play.game)」は企画(PLAYLIST_EVENTS)に使われるゲーム。企画かどうか要確認") }
+
+  # ---- 共演(コラボ)・別VTuber・別チャンネル ----
+  $collabIndex = $(if ($site.PSObject.Properties['collabIndex']) { $site.collabIndex } else { $null })
+  $collab = @(Find-FollowupCollab (@($play.title) + @($play.videos | ForEach-Object { $_.title })) $collabIndex $play.streamer | ForEach-Object { "単発実況: $_" }) +
+    @(Find-FollowupCollab @($cand.target.title, $liveTitle) $collabIndex $play.streamer | ForEach-Object { "移行先「$($cand.target.title)」: $_" })
+  if ($collab.Count) { $blockers.Add("共演・他事務所の疑い(要確認。文字列だけで移行を確定しない): $($collab -join ' / ')") }
+  if ($cand.type -eq 'new-playlist') {
+    if ($cand.target.PSObject.Properties['channel'] -and $cand.target.channel -and $cand.target.channel -ne $play.streamer) { $blockers.Add("移行先は別のVTuber($($cand.target.channel))のチャンネルの再生リスト") }
+    $st = @($site.streamers | Where-Object { $_.name -eq $play.streamer })[0]
+    $m = [regex]::Match([string]$(if ($st) { $st.youtube } else { '' }), '/channel/(UC[A-Za-z0-9_-]{22})')
+    if ($m.Success -and $cand.target.channelId -and $cand.target.channelId -ne $m.Groups[1].Value) { $blockers.Add("移行先の再生リストのチャンネル($($cand.target.channelId))が、$($play.streamer) のチャンネル($($m.Groups[1].Value))と違う") }
+    if (-not $cand.target.channelId) { $blockers.Add('移行先の再生リストの所有チャンネルが分からない(要確認)') }
+  }
 
   # ---- 移行先の中身(現在の状態。無ければレポート時点) ----
   if ($null -eq $live) {
@@ -414,6 +418,68 @@ function Write-MigrationText([string]$path, [string]$text) {
 }
 
 # ---------------------------------------------------------------
+# 書き換え後のデータを一時フォルダ($staging)に作り、node で「単発実況1件削除・再生リスト1件追加(new-playlist のとき)だけ」か確かめる。
+# 元のデータファイルは変えない。$title / $videoCount は新しい再生リストに書く値(適用時は API で取り直した値)
+#   返り値: ok / message / errors / plPath / saPath / plHash / saHash / newPl / newSa / entry / expFile / verify
+# ---------------------------------------------------------------
+function New-MigrationStagedChange($cand, $site, [string]$root, [string]$staging, [string]$title, [int]$videoCount, [datetime]$now) {
+  $r = [ordered]@{ ok = $false; message = ''; errors = @(); plPath = (Join-Path $root 'data-playlists.js'); saPath = (Join-Path $root 'data-standalone.js'); plHash = $null; saHash = $null; newPl = $null; newSa = $null; entry = $null; expFile = $null; verify = $null }
+  foreach ($f in $r.plPath, $r.saPath) { if (-not (Test-Path -LiteralPath $f)) { $r.message = "データファイルが無い: $f"; $r.errors = @($r.message); return [pscustomobject]$r } }
+  $plText = Read-MigrationText $r.plPath; $saText = Read-MigrationText $r.saPath
+  $r.plHash = Get-MigrationFileHash $r.plPath; $r.saHash = Get-MigrationFileHash $r.saPath
+  $nl = $(if ($plText.Contains("`r`n")) { "`r`n" } else { "`n" })
+  $play = @($site.standalone | Where-Object { $_.id -eq $cand.standaloneId })[0]
+  if (-not $play) { $r.message = "単発実況 $($cand.standaloneId) が現在のデータに無い"; $r.errors = @($r.message); return [pscustomobject]$r }
+  if ($cand.type -eq 'new-playlist') {
+    $r.entry = [ordered]@{ id = $cand.newPlaylistId; title = $title; streamer = [string]$play.streamer; game = [string]$play.game; genre = [string]$play.genre
+      playlistId = [string]$cand.playlistId; videoCount = $videoCount; addedDate = $now.ToString('yyyy-MM-dd') }
+  }
+  try {
+    $r.newSa = Remove-MigrationStandaloneText $saText $cand.standaloneId
+    $r.newPl = $(if ($r.entry) { Add-MigrationPlaylistText $plText $r.entry $nl } else { $plText })
+  } catch { $r.message = "書き換えるテキストを作れない: $($_.Exception.Message)"; $r.errors = @($r.message); return [pscustomobject]$r }
+  New-Item -ItemType Directory -Path $staging -Force | Out-Null
+  [IO.File]::WriteAllText((Join-Path $staging 'data-playlists.js'), $r.newPl, (New-Object System.Text.UTF8Encoding($false)))
+  [IO.File]::WriteAllText((Join-Path $staging 'data-standalone.js'), $r.newSa, (New-Object System.Text.UTF8Encoding($false)))
+  $r.expFile = Join-Path $staging 'expected.json'
+  [IO.File]::WriteAllText($r.expFile, ([ordered]@{ removeStandaloneId = $cand.standaloneId; addPlaylist = $r.entry } | ConvertTo-Json -Depth 5), (New-Object System.Text.UTF8Encoding($false)))
+  $r.verify = Test-MigrationDataChange $root $staging $r.expFile
+  if (-not $r.verify.ok) { $r.message = '書き換え後のデータが想定と違うため中止(元のファイルは変えていない)'; $r.errors = @($r.verify.errors); return [pscustomobject]$r }
+  $r.ok = $true
+  return [pscustomobject]$r
+}
+
+# ---------------------------------------------------------------
+# 適用前の確認(-Action check)。API を使わず、状態ファイル・データを変えない。一時ファイルは $tempRoot の下に作り、終わったら片付ける
+#   確認すること: 状態(approved か)・承認時の内容との一致・データとの整合(Test-MigrationCandidate。移行先の中身はレポート時点)・
+#   書き換えのシミュレーション(node で全件比較)・実行すると変わるファイル
+#   返り値: ok / status / problems / warnings / changes(変わるファイルと内容)
+# ---------------------------------------------------------------
+function Test-MigrationPlan($cand, $site, [string]$root, [string]$tempRoot, [datetime]$now) {
+  $problems = New-Object System.Collections.Generic.List[string]
+  $warnings = New-Object System.Collections.Generic.List[string]
+  $changes = New-Object System.Collections.Generic.List[string]
+  if ($cand.status -ne 'approved') { $problems.Add("status が $($cand.status)(適用の対象は approved だけ)") }
+  elseif (-not $cand.approvedFingerprint -or $cand.approvedFingerprint -ne $cand.fingerprint) { $problems.Add('承認時の内容と候補の内容が一致しない(再承認が必要)') }
+  $chk = Test-MigrationCandidate $cand $site $null
+  foreach ($b in @($chk.blockers)) { $problems.Add($b) }
+  foreach ($w in @($chk.warnings)) { $warnings.Add($w) }
+  $title = [string]$cand.target.title
+  $count = $(if ($null -ne $cand.target.count) { [int]$cand.target.count } else { @($cand.standalone.videoIds).Count })
+  $staging = Join-Path $tempRoot ('check-' + [guid]::NewGuid().ToString('N').Substring(0, 8))
+  try {
+    $chg = New-MigrationStagedChange $cand $site $root $staging $title $count $now
+    if (-not $chg.ok) { foreach ($e in @($chg.errors)) { $problems.Add("書き換えのシミュレーション: $e") } }
+    else {
+      if ($chg.entry) { $changes.Add("data-playlists.js: 末尾に1件追加 id=$($chg.entry.id) playlistId=$($cand.playlistId)「$title」(名前・動画数は仮。適用時は API で取り直した値)") }
+      else { $changes.Add("data-playlists.js: 変更なし(登録済みの $($cand.target.registeredId) に整理)") }
+      $changes.Add("data-standalone.js: 1件削除 id=$($cand.standaloneId)(単発実況 $($chg.verify.counts.standalone[0])→$($chg.verify.counts.standalone[1]) 件 / 再生リスト $($chg.verify.counts.playlists[0])→$($chg.verify.counts.playlists[1]) 件)")
+    }
+  } finally { if ($staging -and (Test-Path -LiteralPath $staging)) { Get-ChildItem -LiteralPath $staging -File | ForEach-Object { $_.Delete() }; [IO.Directory]::Delete($staging) } }
+  return [pscustomobject]@{ key = $cand.key; ok = ($problems.Count -eq 0); status = $cand.status; problems = $problems.ToArray(); warnings = $warnings.ToArray(); changes = $changes.ToArray() }
+}
+
+# ---------------------------------------------------------------
 # 適用(1件)。$opts: root(データのフォルダ)/ workDir(バックアップ・一時ファイル。reports\ の下)/ now / dryRun / live(移行先の現在の状態)
 #   / failAfterFirstWrite(テスト用: 1つ目のファイルを書いた直後に失敗させる)
 #   返り値: ok / applied / message / blockers / backupDir / newPlaylist
@@ -427,32 +493,13 @@ function Invoke-MigrationApply($cand, $site, $opts) {
   $res.warnings = @($check.warnings)
   if (-not $check.eligible) { $res.message = '再検証で適用できない理由が見つかった'; $res.blockers = @($check.blockers); return [pscustomobject]$res }
 
-  $plPath = Join-Path $opts.root 'data-playlists.js'; $saPath = Join-Path $opts.root 'data-standalone.js'
-  $plText = Read-MigrationText $plPath; $saText = Read-MigrationText $saPath
-  $plHash = Get-MigrationFileHash $plPath; $saHash = Get-MigrationFileHash $saPath
-  $nl = $(if ($plText.Contains("`r`n")) { "`r`n" } else { "`n" })
-  $play = @($site.standalone | Where-Object { $_.id -eq $cand.standaloneId })[0]
-  $entry = $null
-  if ($cand.type -eq 'new-playlist') {
-    $entry = [ordered]@{ id = $cand.newPlaylistId; title = [string]$opts.live.title; streamer = [string]$play.streamer; game = [string]$play.game; genre = [string]$play.genre
-      playlistId = [string]$cand.playlistId; videoCount = [int]@($opts.live.videoIds).Count; addedDate = $opts.now.ToString('yyyy-MM-dd') }
-    $res.newPlaylist = [pscustomobject]$entry
-  }
-  try {
-    $newSa = Remove-MigrationStandaloneText $saText $cand.standaloneId
-    $newPl = $(if ($entry) { Add-MigrationPlaylistText $plText $entry $nl } else { $plText })
-  } catch { $res.message = "書き換えるテキストを作れない: $($_.Exception.Message)"; $res.blockers = @($res.message); return [pscustomobject]$res }
-
   # 一時フォルダで新しいデータを作り、変更が想定どおり(1件削除・1件追加だけ)か確かめる
   $stamp = $opts.now.ToString('yyyyMMdd-HHmmss') + '-' + $cand.standaloneId
-  $staging = Join-Path $opts.workDir ("staging\" + $stamp)
-  New-Item -ItemType Directory -Path $staging -Force | Out-Null
-  [IO.File]::WriteAllText((Join-Path $staging 'data-playlists.js'), $newPl, (New-Object System.Text.UTF8Encoding($false)))
-  [IO.File]::WriteAllText((Join-Path $staging 'data-standalone.js'), $newSa, (New-Object System.Text.UTF8Encoding($false)))
-  $expFile = Join-Path $staging 'expected.json'
-  [IO.File]::WriteAllText($expFile, ([ordered]@{ removeStandaloneId = $cand.standaloneId; addPlaylist = $entry } | ConvertTo-Json -Depth 5), (New-Object System.Text.UTF8Encoding($false)))
-  $v = Test-MigrationDataChange $opts.root $staging $expFile
-  if (-not $v.ok) { $res.message = '書き換え後のデータが想定と違うため中止(元のファイルは変えていない)'; $res.blockers = @($v.errors); return [pscustomobject]$res }
+  $chg = New-MigrationStagedChange $cand $site $opts.root (Join-Path $opts.workDir ("staging\" + $stamp)) ([string]$opts.live.title) ([int]@($opts.live.videoIds).Count) $opts.now
+  if ($chg.entry) { $res.newPlaylist = [pscustomobject]$chg.entry }
+  if (-not $chg.ok) { $res.message = $chg.message; $res.blockers = @($chg.errors); return [pscustomobject]$res }
+  $plPath = $chg.plPath; $saPath = $chg.saPath; $plHash = $chg.plHash; $saHash = $chg.saHash
+  $newPl = $chg.newPl; $newSa = $chg.newSa; $entry = $chg.entry; $expFile = $chg.expFile; $v = $chg.verify
   if ($opts.dryRun) { $res.ok = $true; $res.message = "dry-run: 適用できる(単発実況 $($v.counts.standalone[0])→$($v.counts.standalone[1]) 件 / 再生リスト $($v.counts.playlists[0])→$($v.counts.playlists[1]) 件)。データは変更していない"; return [pscustomobject]$res }
 
   # 本番の書き換え: バックアップ → 置き換え → 検証。失敗したらバックアップから戻す

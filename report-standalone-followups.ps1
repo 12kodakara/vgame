@@ -10,6 +10,10 @@
   データ・生成物は一切変更しない。STRONG でも自動移行はしない(人が確認して、再生リスト追加と単発実況の整理を同じ commit で行う)。
 
   出力: <OutDir>\standalone-followups.json と standalone-followups.md(既定の OutDir は reports\。git 管理外・公開対象外)。
+  出力先に前回のレポートがあるときは、API を使う前に止まる(上書きしない)。別の -OutDir を指定するか、上書きしてよいときだけ -Overwrite。
+
+  要確認の印(reviewFlags): 動画・再生リストの名前に本人以外のVTuber名・事務所名・企画名・企画を疑わせる語があるもの。
+    共演・企画の可能性があるため STRONG にはしない(MEDIUM にして人が確認する。判定は standalone-followups.ps1)。
 
   YouTube API(読み取りのみ。キーは表示・保存しない):
     VTuberごとに channels(ハンドルのみ)・channels(contentDetails)・playlists(50件ごと)・playlistItems(最近の動画、50件ごと)、
@@ -38,6 +42,8 @@
   キャッシュを読まず・書かない。
 .PARAMETER RefreshCache
   キャッシュを読まずに全部取り直し、結果でキャッシュを作り直す。
+.PARAMETER Overwrite
+  出力先にあるレポート(standalone-followups.json / .md)を上書きしてよいときだけ指定する。キャッシュには関係しない。
 
 .EXAMPLE
   .\report-standalone-followups.ps1
@@ -52,7 +58,8 @@ param(
   [string]$ApiKey = $env:YOUTUBE_API_KEY,
   [string]$CacheFile = "reports\cache\standalone-followups-cache.json",
   [switch]$NoCache,
-  [switch]$RefreshCache
+  [switch]$RefreshCache,
+  [switch]$Overwrite
 )
 $ErrorActionPreference = "Stop"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -75,6 +82,14 @@ if (-not $NoCache) {
   if (($cInRepo -and -not $cUnderReports) -or [IO.Path]::GetExtension($cacheFull) -ne '.json') { Write-Error "-CacheFile はリポジトリ内なら reports\ の下の .json にしてください: $CacheFile"; exit 1 }
 }
 
+# ---- 前回のレポートを誤って上書きしない(API を使う前に確かめる。キャッシュは触らない) ----
+$existingReports = @('standalone-followups.json', 'standalone-followups.md' | Where-Object { Test-Path -LiteralPath (Join-Path $outFull $_) })
+if ($existingReports.Count -and -not $Overwrite) {
+  Write-Error ("出力先に前回のレポートがあるため中止しました(上書きしていません。API も使っていません): $(Join-Path $outFull ($existingReports -join ', '))。" +
+    "別の出力先を -OutDir で指定してください(例: -OutDir reports\followups-$((Get-Date).ToString('yyyyMMdd-HHmm')))。上書きしてよいときだけ -Overwrite を付けてください")
+  exit 1
+}
+
 $useApi = (-not $Offline) -and [bool]$ApiKey
 $mode = $(if ($useApi) { "API" } elseif ($Offline) { "オフライン(-Offline)" } else { "オフライン(APIキー未設定)" })
 
@@ -89,10 +104,10 @@ const playlists = pick("PLAYLISTS");
 const evNames = {}; pick("GAME_EVENTS").forEach((e) => { evNames[e.id] = e.name; });
 const evByPlaylist = {}; pick("PLAYLIST_EVENTS").forEach((e) => { const p = playlists.find((x) => x.id === e.playlist); if (p && evNames[e.event]) evByPlaylist[p.playlistId] = evNames[e.event]; });
 const out = {
-  streamers: pick("STREAMERS").map((s) => ({ name: s.name, youtube: s.youtube || "" })),
+  streamers: pick("STREAMERS").map((s) => ({ name: s.name, youtube: s.youtube || "", group: s.group || "" })),
   games: pick("GAMES").map((g) => ({ name: g.name, aliases: [g.name].concat(g.nameJa ? [g.nameJa] : [], g.aliases || []) })),
   playlists: playlists.map((p) => ({ id: p.id, title: p.title, streamer: p.streamer, game: p.game, playlistId: p.playlistId })),
-  standalone: pick("STANDALONE_PLAYS").map((p) => ({ id: p.id, streamer: p.streamer, game: p.game, format: p.format, videos: (p.videos || []).map((v) => ({ url: v.url, title: v.title || "", publishedDate: v.publishedDate || "" })) })),
+  standalone: pick("STANDALONE_PLAYS").map((p) => ({ id: p.id, title: p.title || "", streamer: p.streamer, game: p.game, format: p.format, videos: (p.videos || []).map((v) => ({ url: v.url, title: v.title || "", publishedDate: v.publishedDate || "" })) })),
   eventNames: Object.values(evNames), eventByPlaylist: evByPlaylist,
 };
 const esc = (c) => String.fromCharCode(92) + "u" + c.charCodeAt(0).toString(16).padStart(4, "0");
@@ -104,7 +119,7 @@ $data = ($raw -join "") | ConvertFrom-Json
 $streamers = @($data.streamers | ForEach-Object { $_ })
 $games = @($data.games | ForEach-Object { [pscustomobject]@{ name = $_.name; aliases = @($_.aliases | ForEach-Object { $_ }) } })
 $sitePlaylists = @($data.playlists | ForEach-Object { $_ })
-$plays = @($data.standalone | ForEach-Object { [pscustomobject]@{ id = $_.id; streamer = $_.streamer; game = $_.game; format = $_.format; videos = @($_.videos | ForEach-Object { $_ }) } })
+$plays = @($data.standalone | ForEach-Object { [pscustomobject]@{ id = $_.id; title = $_.title; streamer = $_.streamer; game = $_.game; format = $_.format; videos = @($_.videos | ForEach-Object { $_ }) } })
 $eventPlaylistIds = @{}; foreach ($p in $data.eventByPlaylist.PSObject.Properties) { $eventPlaylistIds[$p.Name] = $p.Value }
 $eventNames = @($data.eventNames | ForEach-Object { $_ })
 $standaloneVideoIds = New-Object System.Collections.Generic.HashSet[string]
@@ -133,7 +148,7 @@ if ($useApi) {
 
 $index = New-StandaloneGameIndex $games @($streamers | ForEach-Object { $_.name })
 $ctx = [pscustomobject]@{ games = $games; index = $index; sitePlaylists = $sitePlaylists; eventPlaylistIds = $eventPlaylistIds; eventNames = $eventNames
-  standaloneVideoIds = $standaloneVideoIds; collected = $collected }
+  standaloneVideoIds = $standaloneVideoIds; collected = $collected; collabIndex = (New-FollowupCollabIndex $streamers) }
 $results = Get-StandaloneFollowupReport $plays $ctx
 
 # ---- 出力 ----
@@ -165,11 +180,11 @@ foreach ($w in @($cacheWarnings) + @($notices)) { [void]$md.AppendLine("- 注意
 [void]$md.AppendLine("- 取得できなかった対象: $($failures.Count) 件")
 [void]$md.AppendLine("- **データは変更していない。STRONG でも自動移行はしない**(人が確認して、再生リスト追加と単発実況の整理を同じ commit で行う)")
 [void]$md.AppendLine("")
-[void]$md.AppendLine("| ID | VTuber | ゲーム | 現在の動画ID | 新規動画候補 | 専用再生リスト候補 | 重複候補 | ランク | 推奨アクション |")
-[void]$md.AppendLine("|---|---|---|---|---|---|---|---|---|")
+[void]$md.AppendLine("| ID | VTuber | ゲーム | 現在の動画ID | 新規動画候補 | 専用再生リスト候補 | 重複候補 | 要確認 | ランク | 推奨アクション |")
+[void]$md.AppendLine("|---|---|---|---|---|---|---|---|---|---|")
 $cell = { param($s) ([string]$s).Replace('|', '｜').Replace("`n", ' ') }
 foreach ($r in $results) {
-  [void]$md.AppendLine("| $($r.id) | $(& $cell $r.streamer) | $(& $cell $r.game) | $($r.videoIds -join ', ') | $(@($r.newVideoCandidates).Count) | $(@($r.playlistCandidates).Count) | $(@($r.duplicateCandidates).Count) | **$($r.rank)** | $(& $cell $r.action) |")
+  [void]$md.AppendLine("| $($r.id) | $(& $cell $r.streamer) | $(& $cell $r.game) | $($r.videoIds -join ', ') | $(@($r.newVideoCandidates).Count) | $(@($r.playlistCandidates).Count) | $(@($r.duplicateCandidates).Count) | $(@($r.reviewFlags).Count) | **$($r.rank)** | $(& $cell $r.action) |")
 }
 foreach ($r in $results) {
   [void]$md.AppendLine("")
@@ -179,6 +194,7 @@ foreach ($r in $results) {
   foreach ($v in $r.newVideoCandidates) { [void]$md.AppendLine("- 新規動画候補: $($v.videoId)「$(& $cell $v.title)」 公開 $($v.publishedAt) / 一致 $($v.matchType)・$($v.confidence)") }
   foreach ($p in $r.playlistCandidates) { [void]$md.AppendLine("- 専用再生リスト候補: $($p.playlistId)「$(& $cell $p.title)」 所有 $(& $cell $p.channel) / $($p.count) 本 / 既存の動画: $(if ($p.videoInPlaylist -eq $true) { 'あり' } elseif ($p.videoInPlaylist -eq $false) { 'なし' } else { '未確認' })$(if ($p.event) { " / 企画名: $($p.event)" })") }
   foreach ($d in $r.duplicateCandidates) { [void]$md.AppendLine("- 重複候補(登録済み): $($d.id)「$(& $cell $d.title)」 game=$(& $cell $d.game) / 既存の動画: $(if ($d.videoInPlaylist -eq $true) { 'あり' } elseif ($d.videoInPlaylist -eq $false) { 'なし' } else { '未確認' })$(if ($d.event) { " / 企画: $($d.event)" })") }
+  foreach ($f in @($r.reviewFlags)) { [void]$md.AppendLine("- 要確認(共演・他事務所・企画の疑い): $(& $cell $f)") }
   foreach ($u in $r.unverified) { [void]$md.AppendLine("- 未確認: $(& $cell $u)") }
 }
 if ($failures.Count) {
@@ -199,6 +215,6 @@ Write-Output "確認方法: $mode / API ユニット: $($client.units)(上限 $M
 Write-Output "キャッシュ: $(if ($cacheInfo.file) { "再利用 $($cacheInfo.hit) / 動画数一致で再利用 $($cacheInfo.reusedByCount) / 差分取得 $($cacheInfo.incremental) / 取得 $($cacheInfo.miss) / 期限切れ $($cacheInfo.expired)" } else { '使っていない' })"
 foreach ($w in @($cacheWarnings) + @($notices)) { Write-Warning $w }
 Write-Output ("全 {0} 件 / STRONG {1} / MEDIUM {2} / WEAK {3} / UNKNOWN {4} / NONE {5} / 取得できなかった対象 {6}" -f $results.Count, $counts['STRONG'], $counts['MEDIUM'], $counts['WEAK'], $counts['UNKNOWN'], $counts['NONE'], $failures.Count)
-foreach ($r in $results) { Write-Output ("  [{0}] {1} {2} × {3}" -f $r.rank, $r.id, $r.streamer, $r.game) }
+foreach ($r in $results) { Write-Output ("  [{0}] {1} {2} × {3}{4}" -f $r.rank, $r.id, $r.streamer, $r.game, $(if (@($r.reviewFlags).Count) { " / 要確認: " + (@($r.reviewFlags) -join " / ") } else { "" })) }
 Write-Output "レポート: $(Join-Path $outFull 'standalone-followups.md') / .json"
 exit 0

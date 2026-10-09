@@ -11,7 +11,9 @@
     3. -Action list    : 候補・状態・適用できるか(理由)を表示する(reports\standalone-migration\candidates.md にも書く)
     4. -Action approve -Id <候補>  : 承認する(状態ファイルだけを変える)。適用できない候補は承認できない
        -Action reject  -Id <候補>  : 却下する / -Action reset -Id <候補>: pending に戻す
-    5. -Action apply   : approved の候補を再検証して、適用できるかを表示する(dry-run。データは変えない)
+    5. -Action check   : 適用前の確認(API を使わない。データ・状態ファイルを変えない)。approved の候補(-Id を付ければ状態を問わず指定の候補)の
+                         データとの整合・重複・書き換えのシミュレーションと、実行すると変わるファイルを表示する。対象が0件なら「適用対象なし」で正常終了
+       -Action apply   : approved の候補を再検証して、適用できるかを表示する(dry-run。データは変えない)
        -Action apply -Apply : 再検証に通った approved の候補だけを適用する(1件ずつ。失敗したらそこで止めて元に戻す)
 
   状態(状態ファイルの status): pending(未確認)/ approved(承認済み)/ rejected(却下)/ applied(適用済み)/ error(適用時のエラー)
@@ -38,7 +40,7 @@
   .\migrate-standalone.ps1 -Action apply -Apply    # 適用
 #>
 param(
-  [ValidateSet('init', 'list', 'approve', 'reject', 'reset', 'apply')]
+  [ValidateSet('init', 'list', 'approve', 'reject', 'reset', 'check', 'apply')]
   [string]$Action = 'list',
   [string[]]$Id = @(),
   [string]$Note = '',
@@ -134,6 +136,47 @@ switch ($Action) {
       Write-Output "$($c.key): $($c.status)(状態ファイルだけを変更。データは変更していません)"
     }
     Write-MigrationState $state $stateFile $now
+  }
+  'check' {
+    Write-Output '=== 適用前の確認(check。API を使わない・データと状態ファイルを変更しない) ==='
+    $missing = @('data-core.js', 'data-playlists.js', 'data-standalone.js' | Where-Object { -not (Test-Path -LiteralPath (Join-Path $scriptDir $_)) })
+    if ($missing.Count) { Write-Output "NG: データファイルが無い: $($missing -join ', ')"; exit 1 }
+    if (-not (Test-Path -LiteralPath $stateFile)) { Write-Output "状態ファイルがありません($stateFile)。適用対象なし"; exit 0 }
+    $state = Read-MigrationState $stateFile
+    $targets = @($state.candidates | Where-Object { $_.status -eq 'approved' })
+    if ($Id.Count) { $targets = @($Id | ForEach-Object { Find-Candidate $state $_ }) }
+    Write-Output ("候補 {0} 件 / 承認済み {1} 件 / 確認する候補 {2} 件" -f @($state.candidates).Count, @($state.candidates | Where-Object { $_.status -eq 'approved' }).Count, $targets.Count)
+    if (-not $targets.Count) { Write-Output '適用対象なし(承認済みの候補がありません)。何も変更していません'; exit 0 }
+    $site = Read-MigrationSiteData $scriptDir
+    Write-Output "データの読み込み: OK(単発実況 $(@($site.standalone).Count) 件 / 再生リスト $(@($site.playlists).Count) 件)"
+    $ng = 0
+    # git が無い・リポジトリ外でも確認は続ける(標準エラーを例外にしない)
+    $dirty = @(); $gitOk = $false; $prevEap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+    try { $dirty = @(& git -C $scriptDir status --porcelain -- data-playlists.js data-standalone.js 2>$null); $gitOk = ($LASTEXITCODE -eq 0) } catch { $gitOk = $false } finally { $ErrorActionPreference = $prevEap }
+    if (-not $gitOk) { Write-Output '注意: git の状態を確認できない(-Apply は git で未コミットの変更が無いことを確かめてから書き換える)' }
+    elseif ($dirty.Count) { Write-Output "注意: data-playlists.js / data-standalone.js に未コミットの変更がある(このままでは -Apply は実行されない): $($dirty -join ', ')" }
+    # 確認する候補どうしの重複(同じ単発実況・同じ移行先を2回適用しない)
+    foreach ($g in @($targets | Group-Object standaloneId | Where-Object { $_.Count -gt 1 })) { Write-Output "NG: 同じ単発実況 $($g.Name) の候補が複数ある: $(@($g.Group | ForEach-Object { $_.key }) -join ' / ')"; $ng++ }
+    foreach ($g in @($targets | Group-Object playlistId | Where-Object { $_.Count -gt 1 })) { Write-Output "NG: 同じ移行先 $($g.Name) の候補が複数ある: $(@($g.Group | ForEach-Object { $_.key }) -join ' / ')"; $ng++ }
+    $tempRoot = [IO.Path]::GetTempPath()
+    foreach ($c in $targets) {
+      $plan = Test-MigrationPlan $c $site $scriptDir $tempRoot $now
+      Write-Output ''
+      Write-Output "- [$(if ($plan.ok) { 'OK' } else { 'NG' })] $($c.key)($($c.streamer) × $($c.game) / status: $($c.status))"
+      foreach ($x in @($plan.problems)) { Write-Output "    問題: $x" }
+      foreach ($x in @($plan.warnings)) { Write-Output "    注意: $x" }
+      foreach ($x in @($c.reportFlags)) { Write-Output "    レポートの要確認: $x" }
+      foreach ($x in @($plan.changes)) { Write-Output "    変更されるファイル: $x" }
+      if (-not $plan.ok) { $ng++ }
+    }
+    Write-Output ''
+    Write-Output '適用(-Action apply -Apply)で変わるもの:'
+    Write-Output '  - data-playlists.js(new-playlist のとき1件追加)/ data-standalone.js(1件削除)'
+    Write-Output '  - reports\standalone-migration\ の approvals.json・log.jsonl・backups\(git 管理外)'
+    Write-Output '  - 適用後に作り直す派生データ: data-counts.js / data-home.js / data-ranking.js / data-new.js / data-genres.js / data\(詳細ページ用)'
+    Write-Output '  - 変わらないもの: data-core.js・data-series.js・sitemap.xml・robots.txt・HTML(ゲーム・VTuberの URL と index は変わらない)'
+    Write-Output "確認の結果: $(if ($ng) { "NG $ng 件(このままでは適用しない)" } else { 'すべて OK(適用時は YouTube API で移行先を確認し直す)' })。データ・状態ファイルは変更していません(API ユニット 0)"
+    if ($ng) { exit 1 } else { exit 0 }
   }
   'apply' {
     $state = Read-MigrationState $stateFile
