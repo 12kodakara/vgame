@@ -165,6 +165,9 @@ function Test-MigrationCandidate($cand, $site, $live = $null) {
   foreach ($o in @($site.standalone | Where-Object { $_.id -ne $play.id })) { foreach ($v in @(Get-MigrationVideoIds $o)) { $otherStandalone[$v] = $o.id } }
   $dupVideos = @($videoIds | Where-Object { $otherStandalone.ContainsKey($_) })
   if ($dupVideos.Count) { $blockers.Add("単発実況の動画が他の単発実況にも登録されている: $(@($dupVideos | ForEach-Object { $_ + '→' + $otherStandalone[$_] }) -join ', ')") }
+  # 同じVTuber × ゲームの単発実況が他にもあると、1件だけ移行しても残りが再生リストと一緒に表示される(validate-data のエラーにもなる)
+  $sameSGStandalone = @($site.standalone | Where-Object { $_.id -ne $play.id -and $_.streamer -eq $play.streamer -and $_.game -eq $play.game } | ForEach-Object { $_.id })
+  if ($sameSGStandalone.Count) { $blockers.Add("同じ $($play.streamer) × $($play.game) の単発実況が他にもある($($sameSGStandalone -join ', '))。1件だけ移行すると残りが再生リストと重複して表示されるため、まとめて整理する(要確認)") }
   if (@($cand.sharedWith).Count) { $blockers.Add("同じ候補が他の単発実況にも出ている(どちらの実況か要確認): $(@($cand.sharedWith) -join ' / ')") }
   if ([int]$cand.targetsForSameStandalone -gt 1) { $blockers.Add("この単発実況の移行先候補が $($cand.targetsForSameStandalone) つある(どれか1つに決められない)") }
 
@@ -399,6 +402,10 @@ try {
   if (JSON.stringify(sa1) !== JSON.stringify(sa0.filter((p) => p.id !== exp.removeStandaloneId))) fail("STANDALONE_PLAYS: other entries changed or the entry was not removed");
   const want = exp.addPlaylist ? pl0.concat([exp.addPlaylist]) : pl0;
   if (JSON.stringify(pl1) !== JSON.stringify(want)) fail("PLAYLISTS: differs from expected (" + pl0.length + " -> " + pl1.length + ")");
+  // after: the same streamer x game must not remain in STANDALONE_PLAYS (no double listing), and the playlist must exist exactly once
+  if (exp.streamer && sa1.some((p) => p.streamer === exp.streamer && p.game === exp.game)) fail("STANDALONE_PLAYS: the same streamer x game is still listed (would be shown with the playlist)");
+  if (exp.addPlaylist && pl1.filter((p) => p.playlistId === exp.addPlaylist.playlistId).length !== 1) fail("PLAYLISTS: the target playlistId is not exactly one");
+  if (!exp.addPlaylist && exp.registeredId && pl1.filter((p) => p.id === exp.registeredId && p.streamer === exp.streamer && p.game === exp.game).length !== 1) fail("PLAYLISTS: the registered target playlist is missing");
   out.counts = { standalone: [sa0.length, sa1.length], playlists: [pl0.length, pl1.length] };
 } catch (e) { fail("exception: " + e.message); }
 process.stdout.write(JSON.stringify(out));
@@ -442,7 +449,8 @@ function New-MigrationStagedChange($cand, $site, [string]$root, [string]$staging
   [IO.File]::WriteAllText((Join-Path $staging 'data-playlists.js'), $r.newPl, (New-Object System.Text.UTF8Encoding($false)))
   [IO.File]::WriteAllText((Join-Path $staging 'data-standalone.js'), $r.newSa, (New-Object System.Text.UTF8Encoding($false)))
   $r.expFile = Join-Path $staging 'expected.json'
-  [IO.File]::WriteAllText($r.expFile, ([ordered]@{ removeStandaloneId = $cand.standaloneId; addPlaylist = $r.entry } | ConvertTo-Json -Depth 5), (New-Object System.Text.UTF8Encoding($false)))
+  [IO.File]::WriteAllText($r.expFile, ([ordered]@{ removeStandaloneId = $cand.standaloneId; addPlaylist = $r.entry; streamer = [string]$play.streamer; game = [string]$play.game
+        registeredId = $(if ($cand.type -eq 'existing-playlist') { [string]$cand.target.registeredId } else { $null }) } | ConvertTo-Json -Depth 5), (New-Object System.Text.UTF8Encoding($false)))
   $r.verify = Test-MigrationDataChange $root $staging $r.expFile
   if (-not $r.verify.ok) { $r.message = '書き換え後のデータが想定と違うため中止(元のファイルは変えていない)'; $r.errors = @($r.verify.errors); return [pscustomobject]$r }
   $r.ok = $true
@@ -482,10 +490,10 @@ function Test-MigrationPlan($cand, $site, [string]$root, [string]$tempRoot, [dat
 # ---------------------------------------------------------------
 # 適用(1件)。$opts: root(データのフォルダ)/ workDir(バックアップ・一時ファイル。reports\ の下)/ now / dryRun / live(移行先の現在の状態)
 #   / failAfterFirstWrite(テスト用: 1つ目のファイルを書いた直後に失敗させる)
-#   返り値: ok / applied / message / blockers / backupDir / newPlaylist
+#   返り値: ok / applied / message / blockers / backupDir / newPlaylist / record(適用したときの移行前後の記録)
 # ---------------------------------------------------------------
 function Invoke-MigrationApply($cand, $site, $opts) {
-  $res = [ordered]@{ key = $cand.key; ok = $false; applied = $false; dryRun = [bool]$opts.dryRun; message = ''; blockers = @(); warnings = @(); backupDir = $null; newPlaylist = $null }
+  $res = [ordered]@{ key = $cand.key; ok = $false; applied = $false; dryRun = [bool]$opts.dryRun; message = ''; blockers = @(); warnings = @(); backupDir = $null; newPlaylist = $null; record = $null }
   if ($cand.status -ne 'approved') { $res.message = "status が $($cand.status)(approved 以外は適用しない)"; $res.blockers = @($res.message); return [pscustomobject]$res }
   if (-not $cand.approvedFingerprint -or $cand.approvedFingerprint -ne $cand.fingerprint) { $res.message = '承認時の内容と候補の内容が一致しない(再承認が必要)'; $res.blockers = @($res.message); return [pscustomobject]$res }
   if ($null -eq $opts.live) { $res.message = '移行先の現在の状態を確認していない(YouTube API が必要)'; $res.blockers = @($res.message); return [pscustomobject]$res }
@@ -528,5 +536,14 @@ function Invoke-MigrationApply($cand, $site, $opts) {
   }
   $res.ok = $true; $res.applied = $true
   $res.message = "適用した(単発実況 $($cand.standaloneId) を削除$(if ($entry) { '・再生リスト ' + $entry.id + ' を追加' } else { '。登録済みの再生リスト ' + $cand.target.registeredId + ' に整理' }))"
+  # 移行の記録(移行前の単発実況の内容・移行先・件数・ファイルのハッシュ)。状態ファイルとログに残し、移行前後を追えるようにする
+  $play = @($site.standalone | Where-Object { $_.id -eq $cand.standaloneId })[0]
+  $res.record = [pscustomobject]([ordered]@{
+      key = $cand.key; type = $cand.type; appliedAt = $opts.now.ToString('s')
+      before = [pscustomobject]@{ standalone = $(if ($play) { $play.source | ConvertFrom-Json } else { $null }) }
+      after = [pscustomobject]@{ playlistId = $cand.playlistId; addedPlaylist = $(if ($entry) { [pscustomobject]$entry } else { $null }); registeredPlaylist = $(if ($entry) { $null } else { $cand.target.registeredId }) }
+      counts = [pscustomobject]@{ standalone = @($v2.counts.standalone); playlists = @($v2.counts.playlists) }
+      sha256 = [pscustomobject]@{ before = [pscustomobject]@{ playlists = $plHash; standalone = $saHash }; after = [pscustomobject]@{ playlists = (Get-MigrationFileHash $plPath); standalone = (Get-MigrationFileHash $saPath) } }
+      backupDir = $backup })
   return [pscustomobject]$res
 }

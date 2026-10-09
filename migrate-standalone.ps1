@@ -104,6 +104,10 @@ function Write-CandidateList($state) {
     foreach ($b in @($c.blockers)) { $lines += "  - 理由: $b" }
     foreach ($w in @($c.warnings)) { $lines += "  - 注意: $w" }
     if ($c.error) { $lines += "  - エラー: $($c.error)" }
+    if ($c.PSObject.Properties['appliedRecord'] -and $c.appliedRecord) {
+      $rec = $c.appliedRecord; $sa0 = $rec.before.standalone
+      $lines += "  - 移行記録($($rec.appliedAt)): 移行前 単発実況 $($sa0.id)「$($sa0.title)」(動画 $(@($sa0.videos).Count) 本)→ 移行後 $(if ($rec.after.addedPlaylist) { '再生リスト ' + $rec.after.addedPlaylist.id + '(' + $rec.after.playlistId + ')を追加' } else { '登録済みの再生リスト ' + $rec.after.registeredPlaylist + ' に整理' }) / 単発実況 $(@($rec.counts.standalone) -join '→') 件・再生リスト $(@($rec.counts.playlists) -join '→') 件 / バックアップ $($rec.backupDir)"
+    }
     foreach ($l in $lines) { Write-Output $l; [void]$md.AppendLine($l) }
     Write-Output ''; [void]$md.AppendLine('')
   }
@@ -209,10 +213,11 @@ switch ($Action) {
       Write-Output "- $($c.key): $($res.message)"
       foreach ($b in @($res.blockers)) { Write-Output "    理由: $b" }
       foreach ($w in @($res.warnings)) { Write-Output "    注意: $w" }
-      Write-MigrationLog $logFile $now $(if ($Apply) { 'apply' } else { 'apply-dry-run' }) ([ordered]@{ key = $c.key; ok = $res.ok; applied = $res.applied; message = $res.message; blockers = @($res.blockers); backupDir = $res.backupDir; newPlaylist = $res.newPlaylist })
+      Write-MigrationLog $logFile $now $(if ($Apply) { 'apply' } else { 'apply-dry-run' }) ([ordered]@{ key = $c.key; ok = $res.ok; applied = $res.applied; message = $res.message; blockers = @($res.blockers); backupDir = $res.backupDir; newPlaylist = $res.newPlaylist; record = $res.record })
       if ($Apply) {
         if ($res.applied) {
           Set-MigrationProp $c 'status' 'applied'; Set-MigrationProp $c 'appliedAt' $now.ToString('s'); Set-MigrationProp $c 'backupDir' $res.backupDir; Set-MigrationProp $c 'error' $null
+          Set-MigrationProp $c 'appliedRecord' $res.record   # 移行前の単発実況の内容と移行先(移行前後を追うため)
           Add-MigrationHistory $c $now 'applied' $res.message
           Write-MigrationState $state $stateFile $now
         } else {

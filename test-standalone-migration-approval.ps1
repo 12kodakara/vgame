@@ -312,6 +312,63 @@ Check '10a. 実況のあるゲーム・VTuber(ゲーム詳細・VTuber詳細の 
 Check '10b. 既存の再生リストの id(内部ID)は変えず、新しい再生リストは末尾に追加' ((@($seoAfterObj.ids)[0..(@($seoBeforeObj.ids).Count - 1)] -join '|') -eq (@($seoBeforeObj.ids) -join '|') -and @($seoAfterObj.ids)[-1] -eq 'sa-s1')
 Check '10c. ゲーム・VTuberの URL を決める GAMES / STREAMERS(data-core.js)は変えない' ((& $hashOf $R1)['data-core.js'] -eq (& $hashOf $R0)['data-core.js'])
 
+# ---- 移行後の一覧の整合性(単発実況一覧・ゲーム・VTuber のページは data-standalone.js / data-playlists.js をそのまま読む)----
+$listJs = @'
+const fs = require("fs"), path = require("path"), vm = require("vm");
+const root = process.argv[process.argv.length - 1], ctx = {}; vm.createContext(ctx);
+for (const f of ["data-playlists.js", "data-standalone.js"]) vm.runInContext(fs.readFileSync(path.join(root, f), "utf8"), ctx);
+const P = vm.runInContext("PLAYLISTS", ctx), S = vm.runInContext("STANDALONE_PLAYS", ctx);
+const pairs = {}; S.forEach((p) => { const k = p.streamer + "\t" + p.game; pairs[k] = (pairs[k] || 0) + 1; });
+const both = S.filter((p) => P.some((x) => x.streamer === p.streamer && x.game === p.game)).map((p) => p.id);
+process.stdout.write(JSON.stringify({ singles: S.map((p) => p.id), playlists: P.map((p) => p.id), shownTwice: both }).replace(/[^ -~]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0")));
+'@
+$listOf = { param($root) (($listJs | & node - $root) -join '') | ConvertFrom-Json }
+$R5 = New-FixtureRoot 'r5'
+$l0 = & $listOf $R5
+$w = & $stateOf $R5; $cw = & $candOf $w.state 's1'
+[void](Set-MigrationDecision $w.state $cw.key 'approve' $now '')
+$rw = Invoke-MigrationApply $cw $w.site (& $applyOpts $R5 (Get-MigrationLiveTarget $client 'PLA1xxxxxxxxxxx'))
+$l1 = & $listOf $R5
+Check 'L1. 正常に移行した単発実況(s1)は単発実況一覧から消え、同じ VTuber × ゲームは再生リスト(sa-s1)で表示される' ($rw.applied -and ($l0.singles -contains 's1') -and -not ($l1.singles -contains 's1') -and ($l1.playlists -contains 'sa-s1')) (($l1.singles) -join ',')
+Check 'L2. 他の単発実況は1件も消えず、順番も変わらない(他の実況データに影響しない)' ((@($l0.singles | Where-Object { $_ -ne 's1' }) -join ',') -eq ($l1.singles -join ','))
+Check 'L3. 移行後に同じ VTuber × ゲームが単発実況と再生リストの両方に出ない(移行した組み合わせ)' (-not ($l1.shownTwice -contains 's1'))
+$rec = $rw.record
+Check 'L4. 移行記録: 移行前の単発実況の内容・移行先・件数・前後のハッシュ・バックアップを残す' `
+  ($rec -and $rec.before.standalone.id -eq 's1' -and $rec.before.standalone.streamer -eq 'VA' -and @($rec.before.standalone.videos).Count -eq 1 -and $rec.after.addedPlaylist.id -eq 'sa-s1' -and $rec.after.playlistId -eq 'PLA1xxxxxxxxxxx' -and
+   @($rec.counts.standalone)[0] - @($rec.counts.standalone)[1] -eq 1 -and @($rec.counts.playlists)[1] - @($rec.counts.playlists)[0] -eq 1 -and $rec.sha256.after.standalone -eq (Get-FileHash (Join-Path $R5 'data-standalone.js') -Algorithm SHA256).Hash -and $rec.sha256.before.standalone -ne $rec.sha256.after.standalone -and (Test-Path $rec.backupDir)) `
+  ($rec | ConvertTo-Json -Depth 6)
+# 再実行: 状態を approved に戻しても二重除外・二重登録しない。候補を作り直しても s1 は適用できない
+Set-MigrationProp $cw 'status' 'approved'
+$rw2 = Invoke-MigrationApply $cw (Read-MigrationSiteData $R5) (& $applyOpts $R5 (Get-MigrationLiveTarget $client 'PLA1xxxxxxxxxxx'))
+$l2 = & $listOf $R5
+Check 'L5. 再実行しても二重除外・二重登録しない(一覧は1回目の移行後と同じ)' (-not $rw2.applied -and ($l2.singles -join ',') -eq ($l1.singles -join ',') -and @($l2.playlists | Where-Object { $_ -eq 'sa-s1' }).Count -eq 1)
+Set-MigrationProp $cw 'status' 'applied'; Set-MigrationProp $cw 'appliedRecord' $rec
+$w2site = Read-MigrationSiteData $R5
+$w2 = Merge-MigrationCandidates $w.state (New-MigrationCandidates $report $w2site) $w2site $now 'after-apply'
+Check 'L6. 移行後に候補を作り直しても、適用済みはそのまま(記録も残る)' ((& $candOf $w2 's1').status -eq 'applied' -and (& $candOf $w2 's1').appliedRecord.before.standalone.id -eq 's1')
+# 移行の失敗・未承認では一覧から消さない
+$R6 = New-FixtureRoot 'r6'
+$u = & $stateOf $R6; $cu = & $candOf $u.state 's1'
+$lu0 = & $listOf $R6
+$ru = Invoke-MigrationApply $cu $u.site (& $applyOpts $R6 (Get-MigrationLiveTarget $client 'PLA1xxxxxxxxxxx'))
+Check 'L7. 未承認(pending)の候補は一覧から消さない' (-not $ru.applied -and ((& $listOf $R6).singles -join ',') -eq ($lu0.singles -join ','))
+[void](Set-MigrationDecision $u.state $cu.key 'approve' $now '')
+$ru = Invoke-MigrationApply $cu $u.site (& $applyOpts $R6 (Get-MigrationLiveTarget $client 'PLA1xxxxxxxxxxx') $false $true)
+$lu1 = & $listOf $R6
+Check 'L8. 再生リストへの登録が失敗したら一覧から消さない(単発実況も再生リストも元のまま)' (-not $ru.applied -and ($lu1.singles -join ',') -eq ($lu0.singles -join ',') -and -not ($lu1.playlists -contains 'sa-s1') -and $null -eq $ru.record)
+# 同じ VTuber × ゲームの単発実況が2件ある: 1件だけ移行すると残りが重複表示になるので止める
+$R7 = New-FixtureRoot 'r7'
+$sa7 = Join-Path $R7 'data-standalone.js'
+$t7 = Read-MigrationText $sa7
+$dupBlock = "  {`r`n    id: `"s11`",`r`n    title: `"t2`",`r`n    streamer: `"VA`",`r`n    game: `"夜勤事件`",`r`n    genre: `"horror`",`r`n    format: `"single`",`r`n    videos: [`r`n      { title: `"【夜勤事件】2回目`", url: `"https://www.youtube.com/watch?v=$(& $v 'c')`", publishedDate: `"2026-09-02`" },`r`n    ],`r`n    addedDate: `"2026-09-30`"`r`n  },`r`n];"
+[IO.File]::WriteAllText($sa7, $t7.Replace("];`r`n", $dupBlock + "`r`n"), $utf8)
+$q = & $stateOf $R7; $cq = & $candOf $q.state 's1'
+Check 'L9. 同じ VTuber × ゲームの単発実況が他にもあれば適用不可(1件だけ移行すると残りが再生リストと重複表示になる)' (-not $cq.eligible -and (@($cq.blockers) -join ' ') -match 's11') (@($cq.blockers) -join ' / ')
+$chg7 = New-MigrationStagedChange $cq $q.site $R7 (Join-Path $tmpRoot 'stage7') '夜勤事件' 2 $now
+Check 'L10. 書き換え後の検証でも、同じ VTuber × ゲームが単発実況に残る変更は通さない(判定をすり抜けても止める)' (-not $chg7.ok -and (@($chg7.errors) -join ' ') -match 'still listed') (@($chg7.errors) -join ' / ')
+Check 'L11. 移行前後で、実況のあるゲーム・VTuber(ゲーム・VTuber のページの index / sitemap の対象)は同じ' `
+  ((((($seoJs | & node - $R5) -join '') | ConvertFrom-Json).games -join '|') -eq (((($seoJs | & node - (New-FixtureRoot 'r5b')) -join '') | ConvertFrom-Json).games -join '|'))
+
 # ---- テキスト書き換えの安全性 ----
 $err = $null; try { [void](Remove-MigrationStandaloneText 'const STANDALONE_PLAYS = [{ id: "a" }];' 'a') } catch { $err = $_.Exception.Message }
 Check '11a. 想定外の形(1行に複数項目など)は書き換えずにエラー' ($null -ne $err) $err
@@ -363,6 +420,13 @@ $o5 = & $runCli @('-Action', 'list', '-WorkDir', 'data')
 Check '12d. CLI: 書き込み先が reports\ の外ならエラー' ($o5.code -ne 0 -and $o5.out -match 'reports') $o5.out
 $o6 = & $runCli @('-Action', 'approve', '-Id', 's4')
 Check '12e. CLI: 適用不可の候補は承認できない(状態は pending のまま)' ($o6.code -ne 0 -and ((([IO.File]::ReadAllText($stFile, [Text.Encoding]::UTF8) | ConvertFrom-Json).candidates | Where-Object { $_.standaloneId -eq 's4' }).status -eq 'pending')) $o6.out
+# 移行記録の表示(適用は API が必要なので、状態ファイルに適用済みの記録を置いて list を確かめる)
+$stj = [IO.File]::ReadAllText($stFile, [Text.Encoding]::UTF8) | ConvertFrom-Json
+$s1c = @($stj.candidates | Where-Object { $_.standaloneId -eq 's1' })[0]
+$s1c.status = 'applied'; $s1c | Add-Member -NotePropertyName appliedRecord -NotePropertyValue $rec -Force
+[IO.File]::WriteAllText($stFile, ($stj | ConvertTo-Json -Depth 12), $utf8)
+$k4 = & $runCli @('-Action', 'list')
+Check '12-4. CLI list: 適用済みの候補に移行記録(移行前の単発実況 → 移行後の再生リスト・件数・バックアップ)を表示する' ($k4.code -eq 0 -and $k4.out -match '移行記録' -and $k4.out -match '移行前 単発実況 s1' -and $k4.out -match '再生リスト sa-s1') $k4.out
 $log = Join-Path $R3 'reports\standalone-migration\log.jsonl'
 Check '12f. 操作はログ(log.jsonl)に残り、APIキーを含まない' ((Test-Path $log) -and @(Get-Content -LiteralPath $log).Count -ge 3 -and -not ([IO.File]::ReadAllText($log)).Contains($secret))
 
