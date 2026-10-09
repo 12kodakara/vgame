@@ -374,6 +374,9 @@ $err = $null; try { [void](Remove-MigrationStandaloneText 'const STANDALONE_PLAY
 Check '11a. 想定外の形(1行に複数項目など)は書き換えずにエラー' ($null -ne $err) $err
 $err = $null; try { [void](Remove-MigrationStandaloneText (Read-MigrationText (Join-Path $R0 'data-standalone.js')) 'single-001') } catch { $err = $_.Exception.Message }
 Check '11b. コメント内の登録例(// id: "single-001")は書き換え対象にしない' ($err -match '0 件') $err
+$ad = { param($v) Get-MigrationAddedDate ([pscustomobject]@{ addedDate = $v }) $now }
+Check '11d. 新しい再生リストの追加日は単発実況の追加日を引き継ぐ(無い・形式が違う・未来の日付なら移行した日)' `
+  ((& $ad '2026-09-30') -eq '2026-09-30' -and (& $ad '') -eq '2026-10-09' -and (& $ad '2026/09/30') -eq '2026-10-09' -and (& $ad '2027-01-01') -eq '2026-10-09' -and (Get-MigrationAddedDate $null $now) -eq '2026-10-09')
 Check '11c. JS 文字列のエスケープ(" \ 改行)' ((ConvertTo-MigrationJsString "a`"b\c`nd") -eq '"a\"b\\c\u000ad"')
 
 # ---- 適用前の確認(Test-MigrationPlan。API なし・データを変えない)----

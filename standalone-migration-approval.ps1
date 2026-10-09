@@ -26,6 +26,8 @@
   URL・SEO: 単発実況には個別のページ(URL)が無い(singles.html・ゲーム詳細・VTuber詳細の中に表示するだけ)。
   移行後もそのVTuber・ゲームには再生リストが残るため、ゲーム詳細・VTuber詳細の URL・index・sitemap は変わらない。
   新しい再生リストの id は "sa-<単発実況のid>"(URL には使われない内部ID)。既存の id・slug は作り直さない。
+  新しい再生リストの addedDate は単発実況の addedDate を引き継ぐ(新着・「NEW」は addedDate で決まるため、移行した日を新着日にしない)。
+  1件以上を正常に適用したときだけ、派生データ(件数バッジ・トップ・新着・ランキング・ジャンル・詳細ページ用)を既存の生成コマンドで作り直す。
 #>
 
 $script:MigrationStateVersion = 1
@@ -49,7 +51,7 @@ const out = {
   streamers: pick("STREAMERS").map((s) => ({ name: s.name, youtube: s.youtube || "", group: s.group || "" })),
   games: pick("GAMES").map((g) => ({ name: g.name, aliases: [g.name].concat(g.nameJa ? [g.nameJa] : [], g.aliases || []) })),
   playlists: playlists.map((p) => ({ id: p.id, title: p.title, streamer: p.streamer, game: p.game, playlistId: p.playlistId })),
-  standalone: pick("STANDALONE_PLAYS").map((p) => ({ id: p.id, title: p.title || "", streamer: p.streamer, game: p.game, genre: p.genre, format: p.format,
+  standalone: pick("STANDALONE_PLAYS").map((p) => ({ id: p.id, title: p.title || "", streamer: p.streamer, game: p.game, genre: p.genre, format: p.format, addedDate: p.addedDate || "",
     mixedPlaylistUrl: p.mixedPlaylistUrl || "", videos: (p.videos || []).map((v) => ({ url: v.url, title: v.title || "", publishedDate: v.publishedDate || "" })),
     source: JSON.stringify(p) })),
   eventNames: events.map((e) => e.name),
@@ -424,6 +426,48 @@ function Write-MigrationText([string]$path, [string]$text) {
   Move-Item -LiteralPath $tmp -Destination $path -Force
 }
 
+# 新しい再生リストの addedDate(サイトに追加した日)。新着ページの並び順と「NEW」(追加から14日以内)はこの日付で決まる。
+# 中身は単発実況としてすでに載っていた実況なので、移行した日ではなく、単発実況の addedDate(最初に載せた日)を引き継ぐ。
+# 単発実況に addedDate が無い・形式が違うときだけ移行した日にする。動画が増えたことは updatedDate(update-dates.ps1・日次の自動更新)が表す
+function Get-MigrationAddedDate($play, [datetime]$now) {
+  $d = $(if ($play -and $play.PSObject.Properties['addedDate']) { [string]$play.addedDate } else { '' })
+  $parsed = [datetime]::MinValue
+  if ($d -match '^\d{4}-\d{2}-\d{2}$' -and [datetime]::TryParseExact($d, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$parsed) -and $parsed -le $now) { return $d }
+  return $now.ToString('yyyy-MM-dd')
+}
+
+# ---------------------------------------------------------------
+# 派生データの作り直し(移行を適用した後だけ呼ぶ)。既存の生成コマンドをそのまま使う:
+#   generate-counts.ps1(件数バッジ data-counts.js)/ generate-home-data.js(トップ data-home.js)/ generate-detail-data.js(data\)/
+#   generate-list-data.js(新着 data-new.js・ランキング data-ranking.js)/ generate-genre-data.js(data-genres.js)
+#   作り直した後に node の各 --check で最新かを確かめる。どれも「内容が同じなら書き換えない」ので、再実行しても変わらない
+#   返り値: ok / steps(name・ok・output)/ changed(内容が変わったファイル)
+# ---------------------------------------------------------------
+$script:MigrationDerivedFiles = @('data-counts.js', 'data-home.js', 'data-new.js', 'data-ranking.js', 'data-genres.js')
+function Get-MigrationDerivedHashes([string]$root) {
+  $h = @{}
+  foreach ($f in $script:MigrationDerivedFiles) { $p = Join-Path $root $f; if (Test-Path -LiteralPath $p) { $h[$f] = Get-MigrationFileHash $p } }
+  $dataDir = Join-Path $root 'data'
+  if (Test-Path -LiteralPath $dataDir) { foreach ($x in Get-ChildItem -LiteralPath $dataDir -Recurse -File) { $h['data\' + $x.FullName.Substring($dataDir.Length + 1)] = Get-MigrationFileHash $x.FullName } }
+  return $h
+}
+function Invoke-MigrationDerivedUpdate([string]$root) {
+  $steps = New-Object System.Collections.Generic.List[object]
+  $before = Get-MigrationDerivedHashes $root
+  $run = {
+    param($name, [scriptblock]$cmd)
+    $prev = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+    try { $out = (& $cmd 2>&1 | Out-String).Trim(); $code = $LASTEXITCODE } catch { $out = $_.Exception.Message; $code = 1 } finally { $ErrorActionPreference = $prev }
+    $steps.Add([pscustomobject]@{ name = $name; ok = ($code -eq 0); output = $out })
+  }
+  & $run 'generate-counts.ps1' { & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'generate-counts.ps1') }
+  foreach ($g in 'generate-home-data.js', 'generate-detail-data.js', 'generate-list-data.js', 'generate-genre-data.js') { & $run $g ([scriptblock]::Create("& node '$((Join-Path $root $g).Replace("'", "''"))'")) }
+  foreach ($g in 'generate-home-data.js', 'generate-detail-data.js', 'generate-list-data.js', 'generate-genre-data.js') { & $run "$g --check" ([scriptblock]::Create("& node '$((Join-Path $root $g).Replace("'", "''"))' --check")) }
+  $after = Get-MigrationDerivedHashes $root
+  $changed = @(@($before.Keys) + @($after.Keys) | Select-Object -Unique | Where-Object { $before[$_] -ne $after[$_] } | Sort-Object)
+  return [pscustomobject]@{ ok = (@($steps | Where-Object { -not $_.ok }).Count -eq 0); steps = $steps.ToArray(); changed = $changed }
+}
+
 # ---------------------------------------------------------------
 # 書き換え後のデータを一時フォルダ($staging)に作り、node で「単発実況1件削除・再生リスト1件追加(new-playlist のとき)だけ」か確かめる。
 # 元のデータファイルは変えない。$title / $videoCount は新しい再生リストに書く値(適用時は API で取り直した値)
@@ -439,7 +483,7 @@ function New-MigrationStagedChange($cand, $site, [string]$root, [string]$staging
   if (-not $play) { $r.message = "単発実況 $($cand.standaloneId) が現在のデータに無い"; $r.errors = @($r.message); return [pscustomobject]$r }
   if ($cand.type -eq 'new-playlist') {
     $r.entry = [ordered]@{ id = $cand.newPlaylistId; title = $title; streamer = [string]$play.streamer; game = [string]$play.game; genre = [string]$play.genre
-      playlistId = [string]$cand.playlistId; videoCount = $videoCount; addedDate = $now.ToString('yyyy-MM-dd') }
+      playlistId = [string]$cand.playlistId; videoCount = $videoCount; addedDate = (Get-MigrationAddedDate $play $now) }
   }
   try {
     $r.newSa = Remove-MigrationStandaloneText $saText $cand.standaloneId
@@ -541,9 +585,64 @@ function Invoke-MigrationApply($cand, $site, $opts) {
   $res.record = [pscustomobject]([ordered]@{
       key = $cand.key; type = $cand.type; appliedAt = $opts.now.ToString('s')
       before = [pscustomobject]@{ standalone = $(if ($play) { $play.source | ConvertFrom-Json } else { $null }) }
-      after = [pscustomobject]@{ playlistId = $cand.playlistId; addedPlaylist = $(if ($entry) { [pscustomobject]$entry } else { $null }); registeredPlaylist = $(if ($entry) { $null } else { $cand.target.registeredId }) }
+      after = [pscustomobject]@{ playlistId = $cand.playlistId; addedPlaylist = $(if ($entry) { [pscustomobject]$entry } else { $null }); registeredPlaylist = $(if ($entry) { $null } else { $cand.target.registeredId })
+        addedDateFrom = $(if (-not $entry) { $null } elseif ($play -and $entry.addedDate -eq [string]$play.addedDate) { 'standalone' } else { 'migration' }) }
       counts = [pscustomobject]@{ standalone = @($v2.counts.standalone); playlists = @($v2.counts.playlists) }
       sha256 = [pscustomobject]@{ before = [pscustomobject]@{ playlists = $plHash; standalone = $saHash }; after = [pscustomobject]@{ playlists = (Get-MigrationFileHash $plPath); standalone = (Get-MigrationFileHash $saPath) } }
       backupDir = $backup })
   return [pscustomobject]$res
+}
+
+# ---------------------------------------------------------------
+# 承認済みの候補の適用(dry-run を含む)を1件ずつ行う(migrate-standalone.ps1 -Action apply の中身)。
+#   $opts: root / workDir / now / apply(true のときだけ書き換える。false は dry-run)/ getLive(移行先の現在の状態を返す
+#          スクリプトブロック。$null なら移行先を確認しない = 適用しない)/ stateFile / logFile / failAfterFirstWrite(テスト用)
+#   - 1件ごとにデータを読み直して再検証する。適用できなかった候補が出たら error にしてそこで止める
+#   - この実行で1件以上を正常に適用したときだけ、派生データを作り直す(dry-run・未承認・失敗だけなら作り直さない)
+#   返り値: lines(表示する行)/ results / appliedNow(この実行で適用した件数)/ derived(Invoke-MigrationDerivedUpdate の結果。作り直していなければ $null)
+# ---------------------------------------------------------------
+function Invoke-MigrationApplyRun($state, $targets, $opts) {
+  $lines = New-Object System.Collections.Generic.List[string]
+  $results = New-Object System.Collections.Generic.List[object]
+  $appliedNow = 0
+  foreach ($c in @($targets)) {
+    $site = Read-MigrationSiteData $opts.root   # 1件ごとに読み直す(前の適用の結果を反映する)
+    $live = $(if ($opts.getLive) { & $opts.getLive $c.playlistId } else { $null })
+    if (-not $live) {
+      $chk = Test-MigrationCandidate $c $site $null
+      $lines.Add("- $($c.key): API なしのため移行先は再確認していない。データだけの確認: $(if ($chk.eligible) { '問題なし' } else { @($chk.blockers) -join ' / ' })")
+      Write-MigrationLog $opts.logFile $opts.now 'apply-check-offline' ([ordered]@{ key = $c.key; eligible = $chk.eligible; blockers = @($chk.blockers) })
+      continue
+    }
+    $res = Invoke-MigrationApply $c $site @{ root = $opts.root; workDir = $opts.workDir; now = $opts.now; dryRun = (-not $opts.apply); live = $live; failAfterFirstWrite = $opts.failAfterFirstWrite }
+    $results.Add($res)
+    $lines.Add("- $($c.key): $($res.message)")
+    foreach ($b in @($res.blockers)) { $lines.Add("    理由: $b") }
+    foreach ($w in @($res.warnings)) { $lines.Add("    注意: $w") }
+    Write-MigrationLog $opts.logFile $opts.now $(if ($opts.apply) { 'apply' } else { 'apply-dry-run' }) ([ordered]@{ key = $c.key; ok = $res.ok; applied = $res.applied; message = $res.message; blockers = @($res.blockers); backupDir = $res.backupDir; newPlaylist = $res.newPlaylist; record = $res.record })
+    if ($opts.apply) {
+      if ($res.applied) {
+        $appliedNow++
+        Set-MigrationProp $c 'status' 'applied'; Set-MigrationProp $c 'appliedAt' $opts.now.ToString('s'); Set-MigrationProp $c 'backupDir' $res.backupDir; Set-MigrationProp $c 'error' $null
+        Set-MigrationProp $c 'appliedRecord' $res.record   # 移行前の単発実況の内容と移行先(移行前後を追うため)
+        Add-MigrationHistory $c $opts.now 'applied' $res.message
+        if ($opts.stateFile) { Write-MigrationState $state $opts.stateFile $opts.now }
+      } else {
+        Set-MigrationProp $c 'status' 'error'; Set-MigrationProp $c 'error' ($res.message + ': ' + (@($res.blockers) -join ' / '))
+        Add-MigrationHistory $c $opts.now 'error' $c.error
+        if ($opts.stateFile) { Write-MigrationState $state $opts.stateFile $opts.now }
+        $lines.Add('適用できない候補があったため、ここで止めました(以降の候補は処理していません)')
+        break
+      }
+    }
+  }
+  $derived = $null
+  if ($opts.apply -and $appliedNow -gt 0) {
+    $lines.Add('派生データを作り直しました(generate-counts.ps1 / generate-home-data.js / generate-detail-data.js / generate-list-data.js / generate-genre-data.js と各 --check):')
+    $derived = Invoke-MigrationDerivedUpdate $opts.root
+    foreach ($st in $derived.steps) { $lines.Add("  [$(if ($st.ok) { 'OK' } else { 'NG' })] $($st.name)$(if (-not $st.ok) { ': ' + $st.output })") }
+    $lines.Add("  内容が変わった派生データ: $(if (@($derived.changed).Count) { @($derived.changed) -join ', ' } else { 'なし' })")
+    Write-MigrationLog $opts.logFile $opts.now 'regenerate-derived' ([ordered]@{ ok = $derived.ok; changed = @($derived.changed); failed = @($derived.steps | Where-Object { -not $_.ok } | ForEach-Object { $_.name }) })
+  }
+  return [pscustomobject]@{ lines = $lines.ToArray(); results = $results.ToArray(); appliedNow = $appliedNow; derived = $derived }
 }

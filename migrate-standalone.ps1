@@ -23,8 +23,10 @@
     YouTube APIキーがある(移行先の再生リストの中身・所有チャンネルを適用直前に取り直す)/
     data-playlists.js・data-standalone.js に未コミットの変更が無い(適用結果を git diff で確認・取り消せるように)
 
-  適用後にすること(このスクリプトは行わない):
-    node generate-home-data.js / generate-detail-data.js / generate-list-data.js / generate-genre-data.js、generate-counts.ps1、
+  適用後: 1件以上を正常に適用したときだけ、派生データを既存の生成コマンドで作り直す
+    (generate-counts.ps1・node generate-home-data.js / generate-detail-data.js / generate-list-data.js / generate-genre-data.js と各 --check)。
+    新しい再生リストの addedDate(新着・NEW の基準)は単発実況の addedDate を引き継ぐ(移行した日を新着日にしない)。
+  その後にすること(このスクリプトは行わない):
     fetch-thumbnails.ps1・update-dates.ps1(新しい再生リストのサムネイル・更新日)、validate-data.ps1・check-site.ps1 → git diff を確認して commit
   取り消し: git checkout -- data-playlists.js data-standalone.js(commit 前)、または reports\standalone-migration\backups\<日時-ID>\ から戻す
 
@@ -177,7 +179,8 @@ switch ($Action) {
     Write-Output '適用(-Action apply -Apply)で変わるもの:'
     Write-Output '  - data-playlists.js(new-playlist のとき1件追加)/ data-standalone.js(1件削除)'
     Write-Output '  - reports\standalone-migration\ の approvals.json・log.jsonl・backups\(git 管理外)'
-    Write-Output '  - 適用後に作り直す派生データ: data-counts.js / data-home.js / data-ranking.js / data-new.js / data-genres.js / data\(詳細ページ用)'
+    Write-Output '  - 適用後に自動で作り直す派生データ: data-counts.js / data-home.js / data-ranking.js / data-new.js / data-genres.js / data\(詳細ページ用)'
+    Write-Output '  - 新しい再生リストの追加日(新着・NEW の基準)は、移行した日ではなく単発実況の追加日を引き継ぐ'
     Write-Output '  - 変わらないもの: data-core.js・data-series.js・sitemap.xml・robots.txt・HTML(ゲーム・VTuberの URL と index は変わらない)'
     Write-Output "確認の結果: $(if ($ng) { "NG $ng 件(このままでは適用しない)" } else { 'すべて OK(適用時は YouTube API で移行先を確認し直す)' })。データ・状態ファイルは変更していません(API ユニット 0)"
     if ($ng) { exit 1 } else { exit 0 }
@@ -190,9 +193,10 @@ switch ($Action) {
     $useApi = (-not $Offline) -and [bool]$ApiKey
     if ($Apply) {
       if (-not $useApi) { Write-Error '-Apply には YouTube APIキー(移行先の再確認)が必要です。何も変更していません'; exit 1 }
-      $dirty = @(& git -C $scriptDir status --porcelain -- data-playlists.js data-standalone.js)
+      # 適用で書き換えるファイル(データ・作り直す派生データ)に未コミットの変更があれば止める(適用結果を git diff で確認・取り消せるように)
+      $dirty = @(& git -C $scriptDir status --porcelain -- data-playlists.js data-standalone.js data-counts.js data-home.js data-new.js data-ranking.js data-genres.js data)
       if ($LASTEXITCODE -ne 0) { Write-Error 'git の状態を確認できません。何も変更していません'; exit 1 }
-      if ($dirty.Count) { Write-Error "data-playlists.js / data-standalone.js に未コミットの変更があります。先に確認してください。何も変更していません: $($dirty -join ', ')"; exit 1 }
+      if ($dirty.Count) { Write-Error "データ・派生データに未コミットの変更があります。先に確認してください。何も変更していません: $($dirty -join ', ')"; exit 1 }
     }
     $client = $null
     if ($useApi) {
@@ -200,39 +204,15 @@ switch ($Action) {
       $client = New-FollowupApiClient $httpGet $MaxUnits $null $now $ApiKey
     }
     Write-Output "=== 移行の$(if ($Apply) { '適用' } else { '確認(dry-run。データは変更しない)' }) / 対象 $($targets.Count) 件 / 確認方法: $(if ($useApi) { 'YouTube API' } else { 'API なし(移行先の再確認はしない)' }) ==="
-    foreach ($c in $targets) {
-      $site = Read-MigrationSiteData $scriptDir   # 1件ごとに読み直す(前の適用の結果を反映する)
-      $live = $(if ($client) { Get-MigrationLiveTarget $client $c.playlistId } else { $null })
-      if (-not $live) {
-        $chk = Test-MigrationCandidate $c $site $null
-        Write-Output "- $($c.key): API なしのため移行先は再確認していない。データだけの確認: $(if ($chk.eligible) { '問題なし' } else { @($chk.blockers) -join ' / ' })"
-        Write-MigrationLog $logFile $now 'apply-check-offline' ([ordered]@{ key = $c.key; eligible = $chk.eligible; blockers = @($chk.blockers) })
-        continue
-      }
-      $res = Invoke-MigrationApply $c $site @{ root = $scriptDir; workDir = $workFull; now = $now; dryRun = (-not $Apply); live = $live }
-      Write-Output "- $($c.key): $($res.message)"
-      foreach ($b in @($res.blockers)) { Write-Output "    理由: $b" }
-      foreach ($w in @($res.warnings)) { Write-Output "    注意: $w" }
-      Write-MigrationLog $logFile $now $(if ($Apply) { 'apply' } else { 'apply-dry-run' }) ([ordered]@{ key = $c.key; ok = $res.ok; applied = $res.applied; message = $res.message; blockers = @($res.blockers); backupDir = $res.backupDir; newPlaylist = $res.newPlaylist; record = $res.record })
-      if ($Apply) {
-        if ($res.applied) {
-          Set-MigrationProp $c 'status' 'applied'; Set-MigrationProp $c 'appliedAt' $now.ToString('s'); Set-MigrationProp $c 'backupDir' $res.backupDir; Set-MigrationProp $c 'error' $null
-          Set-MigrationProp $c 'appliedRecord' $res.record   # 移行前の単発実況の内容と移行先(移行前後を追うため)
-          Add-MigrationHistory $c $now 'applied' $res.message
-          Write-MigrationState $state $stateFile $now
-        } else {
-          Set-MigrationProp $c 'status' 'error'; Set-MigrationProp $c 'error' ($res.message + ': ' + (@($res.blockers) -join ' / '))
-          Add-MigrationHistory $c $now 'error' $c.error
-          Write-MigrationState $state $stateFile $now
-          Write-Output '適用できない候補があったため、ここで止めました(以降の候補は処理していません)'
-          break
-        }
-      }
-    }
+    # 適用の手順(1件ずつ再検証 → 適用 → 状態を保存。1件以上を正常に適用したときだけ派生データを作り直す)は
+    # standalone-migration-approval.ps1 の Invoke-MigrationApplyRun。移行先の現在の状態は API で取る(API なしなら取らない)
+    $getLive = $(if ($client) { { param($plId) Get-MigrationLiveTarget $script:MigrationCliClient $plId } } else { $null })
+    $script:MigrationCliClient = $client
+    $run = Invoke-MigrationApplyRun $state $targets @{ root = $scriptDir; workDir = $workFull; now = $now; apply = [bool]$Apply; getLive = $getLive; stateFile = $stateFile; logFile = $logFile }
+    foreach ($l in $run.lines) { Write-Output $l }
     if ($client) { Write-Output "API ユニット: $($client.units)(上限 $MaxUnits)" }
-    if ($Apply -and @($state.candidates | Where-Object { $_.status -eq 'applied' -and $_.appliedAt -eq $now.ToString('s') }).Count) {
-      Write-Output '次に: 派生データの再生成(node generate-*.js・generate-counts.ps1)・fetch-thumbnails.ps1・update-dates.ps1・validate-data.ps1・check-site.ps1 → git diff を確認して commit'
-    }
+    if ($run.derived -and -not $run.derived.ok) { Write-Warning '派生データの作り直しに失敗した項目があります(移行したデータはそのまま)。上の NG のコマンドを手で実行し、check-site.ps1 で確認してください' }
+    if ($run.appliedNow) { Write-Output '次に: fetch-thumbnails.ps1・update-dates.ps1(新しい再生リストのサムネイル・更新日)→ validate-data.ps1・check-site.ps1 → git diff を確認して commit' }
   }
 }
 exit 0
