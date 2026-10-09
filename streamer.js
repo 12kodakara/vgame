@@ -52,8 +52,38 @@ function buildStreamerDescription(streamer, items, standalone) {
     (totalVideos ? "(動画" + totalVideos + "本)" : "") + "を掲載しています。";
 }
 
+// 個別に文言を決めるVTuberページ(Search Console の実測で「VTuber名 ゲーム」の検索に表示されているページの改善)。
+// ここに無いVTuberは従来どおり(title・description・H1 はテンプレートで作る)。URL・canonical・robots は変えない。
+// 件数は書かない(データの追加で変わるため。件数は統計の表示・一覧がデータから出す)。
+//   title: <title>(サイト名まで含める) / description: meta description / heading: H1 / lead: H1 直下の説明文
+//   agency: lead に書いた所属。STREAMERS の所属(agencyOf)と違えば lead を出さない(古い所属を表示しないため)
+const STREAMER_PAGE_ROLES = {
+  "鏑木ろこ": {
+    title: "鏑木ろこが実況したゲーム一覧｜再生リスト｜" + SITE_NAME,
+    description: "鏑木ろこが実況したゲームを一覧で紹介。ゲームごとの実況動画や再生リストをまとめています。気になる作品を選んで、鏑木ろこのゲーム実況を探せます。",
+    heading: "鏑木ろこが実況したゲーム・再生リスト",
+    lead: "にじさんじ所属VTuber・鏑木ろこが実況したゲームを一覧で紹介しています。ゲームごとに実況動画や再生リストをまとめているので、気になる作品を選んで視聴できます。",
+    agency: "にじさんじ",
+  },
+};
+const streamerPageRoleOf = (streamer) => (Object.prototype.hasOwnProperty.call(STREAMER_PAGE_ROLES, streamer) ? STREAMER_PAGE_ROLES[streamer] : null);
+
+// H1 と H1 直下の説明文を入れる。データの読み込みを待たずに入れて、描画後に下の内容が押し下げられないようにする
+function applyStreamerPageRole(streamer, role) {
+  if (!role) return;
+  const titleEl = document.getElementById("page-title");
+  if (titleEl) titleEl.textContent = role.heading;
+  const leadEl = document.getElementById("streamer-lead");
+  if (leadEl && role.lead && (!role.agency || agencyOf(streamer) === role.agency)) {
+    leadEl.textContent = role.lead;
+    leadEl.hidden = false;
+  }
+}
+
 (function () {
   const streamer = getQueryParam("streamer") || "";
+  const pageRole = streamerPageRoleOf(streamer);
+  applyStreamerPageRole(streamer, pageRole);
 
   // このVTuberの再生リスト(items)と「同じゲームを実況しているVTuber」の候補(related)を受け取って描画する。
   //   通常は分割データ(data/streamers/NN.js)から受け取る。related は [[VTuber名, 共通ゲーム数], ...]。
@@ -95,7 +125,8 @@ function buildStreamerDescription(streamer, items, standalone) {
     }
 
     // 再生リストが無く単発実況だけのVTuberは「の再生リスト」と書かない
-    document.getElementById("page-title").textContent = streamer
+    // STREAMER_PAGE_ROLES のVTuberは役割の見出し(applyStreamerPageRole で入れ済み)
+    document.getElementById("page-title").textContent = pageRole ? pageRole.heading : streamer
       ? streamer + (items.length === 0 && hasAnyPlay ? " のゲーム実況" : " の再生リスト")
       : "実況者が指定されていません";
     document.getElementById("breadcrumb-current").textContent = streamer || "不明な実況者";
@@ -154,9 +185,10 @@ function buildStreamerDescription(streamer, items, standalone) {
 
     if (streamer) {
       const representativeThumb = items.find((p) => getPlaylistThumbnailUrl(p));
+      // STREAMER_PAGE_ROLES のVTuberだけ title・description を差し替える(canonical・og:image は従来どおり)
       setPageMeta(
-        streamer + "のゲーム実況・再生リスト一覧 | " + SITE_NAME,
-        buildStreamerDescription(streamer, items, standalone),
+        pageRole ? pageRole.title : streamer + "のゲーム実況・再生リスト一覧 | " + SITE_NAME,
+        pageRole ? pageRole.description : buildStreamerDescription(streamer, items, standalone),
         "/streamer.html?streamer=" + encodeURIComponent(streamer),
         representativeThumb ? getPlaylistThumbnailUrl(representativeThumb) : (roster && roster.icon) || null
       );
