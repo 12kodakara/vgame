@@ -1,0 +1,158 @@
+# Search Console の検索実績(直近7日・28日・90日と前期間)を毎週取得し、age で暗号化して Artifacts に保存する(読み取り専用)。
+# - 認証: Workload Identity 連携(google-github-actions/auth)。JSON の秘密鍵は使わない
+# - 暗号化: Actions Variables の GSC_AGE_RECIPIENT(age の公開鍵)で暗号化する。復号用の秘密鍵は自宅PCだけにあり、GitHub には置かない
+# - Artifacts に置くのは暗号化済みのファイル(.age)だけ。保存期間は30日。平文のレポートはジョブの中で削除する
+# - 取得結果はリポジトリ・公開サイトに保存しない(commit・push しない)。ログには件数だけを出す(検索語句・URL・数値は出さない)
+# - 既存のワークフロー(home-data / refresh-playlist-meta)とは独立。サイトのファイルは変更しない
+# 復号の手順: tools/search-console/ENCRYPTION.md
+#
+# 定期実行(schedule)と画面からの手動実行は、デフォルトブランチ(main)にあるこのファイルで動く。
+# そのとき取得ツールは TOOLS_REF のブランチから取り出す(main にツールを置かなくても動くように)。
+# develop ブランチでは、このファイルかツールを push したときに動作確認として実行される。
+name: search console weekly report
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"   # 毎週月曜 00:00 UTC(日本時間 9:00 ごろ。GitHub の混雑で遅れることがある)
+  workflow_dispatch:
+    inputs:
+      tools_ref:
+        description: "取得ツールを取り出すブランチ(空なら TOOLS_REF)"
+        required: false
+        default: ""
+  # 動作確認用(develop ブランチで、このファイルかツールが変わったときだけ)。確認後に残すかは別途判断する
+  push:
+    branches: [develop/monetization-growth]
+    paths:
+      - .github/workflows/search-console-weekly.yml
+      - tools/search-console/**
+
+permissions:
+  contents: read     # ツールの取り出しだけ
+  id-token: write    # Workload Identity 連携(GitHub の OIDC トークン)
+
+concurrency:
+  group: search-console-weekly
+  cancel-in-progress: false
+
+env:
+  TOOLS_REF: develop/monetization-growth
+  SITE: sc-domain:vgame-navi.jp
+
+jobs:
+  report:
+    # フォーク先では動かさない(Workload Identity 側もリポジトリ 12kodakara/vgame に限定している)
+    if: github.repository == '12kodakara/vgame'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 暗号化用の公開鍵を確認(無い・形が違うときは取得もしない)
+        env:
+          GSC_AGE_RECIPIENT: ${{ vars.GSC_AGE_RECIPIENT }}
+        run: |
+          if ! printf '%s' "$GSC_AGE_RECIPIENT" | grep -Eq '^age1[02-9ac-hj-np-z]{58}$'; then
+            echo "Actions Variables の GSC_AGE_RECIPIENT に age の公開鍵(age1...)を登録してください。平文を保存しないよう、ここで止めます"
+            exit 1
+          fi
+
+      - name: 取得ツールを取り出す
+        uses: actions/checkout@v4
+        with:
+          # push(動作確認)はそのコミット、定期実行・手動実行は TOOLS_REF(手動実行で指定があればそのブランチ)
+          ref: ${{ github.event_name == 'push' && github.sha || inputs.tools_ref || env.TOOLS_REF }}
+          persist-credentials: false   # git の認証情報を残さない(このワークフローは commit・push しない)
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/search-console/requirements.txt
+
+      - name: 依存ライブラリ・age
+        run: |
+          python -m pip install --disable-pip-version-check -q -r tools/search-console/requirements.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age > /dev/null
+          age --version
+
+      - name: モックテスト(API・認証を使わない)
+        run: python -B tools/search-console/test_gsc_report.py
+
+      - name: Google Cloud 認証(Workload Identity 連携)
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/478334341544/locations/global/workloadIdentityPools/vgame-github-actions/providers/github-actions
+          service_account: vgame-search-console-reader@vgame-search-console.iam.gserviceaccount.com
+          # 認証ファイル(短期の外部アカウント設定。秘密鍵ではない)はジョブの終わりに削除される
+          create_credentials_file: true
+          cleanup_credentials: true
+
+      - name: Search Console から取得(平文は $RUNNER_TEMP の中だけ)
+        env:
+          VGAME_SEO_DIR: ${{ runner.temp }}/vgame-seo
+        run: python -B tools/search-console/gsc_report.py --auth-mode adc --site "$SITE" --out-dir "$RUNNER_TEMP/gsc-report"
+
+      - name: 結果の要約(件数だけ。検索語句・URL・数値は表示しない)
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ["RUNNER_TEMP"]) / "gsc-report" / "summary.json"
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+              if not p.exists():
+                  f.write("Search Console レポート: 作成されませんでした(ログを確認)\n")
+              else:
+                  s = json.loads(p.read_text(encoding="utf-8"))
+                  f.write(f"Search Console レポート: API リクエスト {s['apiRequests']} 回 / 取得エラー {len(s['errors'])} 件 / 全件取得 {'はい' if s['complete'] else 'いいえ'}\n")
+          PY
+
+      - name: 認証ファイルがレポートに入っていないことを確認
+        id: credcheck
+        if: always()
+        run: |
+          test -d "$RUNNER_TEMP/gsc-report" || { echo "レポートがありません"; exit 1; }
+          if grep -rlE '"type"[[:space:]]*:[[:space:]]*"(external_account|service_account|authorized_user)"|"(refresh_token|access_token|private_key)"[[:space:]]*:' "$RUNNER_TEMP/gsc-report" > /dev/null; then
+            echo "レポートに認証情報らしきファイルがあるため暗号化・アップロードしない"; exit 1
+          fi
+
+      - name: age で暗号化(公開鍵だけを使う)
+        id: encrypt
+        # 取得が一部失敗しても取れた分は暗号化して残す。ただし認証ファイルの確認に通ったときだけ
+        if: always() && steps.credcheck.outcome == 'success'
+        env:
+          GSC_AGE_RECIPIENT: ${{ vars.GSC_AGE_RECIPIENT }}
+        run: |
+          set -eu
+          mkdir -p "$RUNNER_TEMP/gsc-upload"
+          name="search-console-report-$(date -u +%Y%m%d)-run${GITHUB_RUN_NUMBER}.tar.gz.age"
+          tar -C "$RUNNER_TEMP" -czf "$RUNNER_TEMP/gsc-report.tar.gz" gsc-report
+          age -r "$GSC_AGE_RECIPIENT" -o "$RUNNER_TEMP/gsc-upload/$name" "$RUNNER_TEMP/gsc-report.tar.gz"
+          echo "暗号化しました: $name"
+
+      - name: 平文のレポートを削除
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/gsc-report" "$RUNNER_TEMP/gsc-report.tar.gz" "$RUNNER_TEMP/vgame-seo"
+
+      - name: アップロードするのが暗号化済みファイルだけか確認
+        id: verify
+        if: always() && steps.encrypt.outcome == 'success'
+        run: |
+          set -eu
+          dir="$RUNNER_TEMP/gsc-upload"
+          others=$(find "$dir" -type f ! -name '*.tar.gz.age' | wc -l)
+          files=$(find "$dir" -type f -name '*.tar.gz.age' | wc -l)
+          [ "$others" -eq 0 ] && [ "$files" -eq 1 ] || { echo "暗号化済みファイル以外があるか、数が違うためアップロードしない"; exit 1; }
+          for f in "$dir"/*.tar.gz.age; do
+            head -c 21 "$f" | grep -q '^age-encryption.org/v1' || { echo "age の暗号文ではないためアップロードしない"; exit 1; }
+          done
+
+      - name: Artifacts に保存(暗号化済みファイルだけ・30日)
+        if: always() && steps.verify.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-console-report-${{ github.run_number }}
+          path: ${{ runner.temp }}/gsc-upload
+          retention-days: 30
+          if-no-files-found: error

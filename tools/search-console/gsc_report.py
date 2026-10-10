@@ -5,6 +5,8 @@
   python tools\\search-console\\gsc_report.py --auth                  … 初回だけ。ブラウザで Google アカウントを認証してトークンを保存
   python tools\\search-console\\gsc_report.py                         … 直近7日・28日・90日(と前期間)を取得してレポートを作る
   python tools\\search-console\\gsc_report.py --mock fixtures.json    … 固定データで動作確認(API・認証を使わない)
+  python tools/search-console/gsc_report.py --auth-mode adc --out-dir <フォルダ>
+                                                                 … GitHub Actions(Workload Identity 連携)。.github/workflows/search-console-weekly.yml から実行
 
 保存先: %LOCALAPPDATA%\\vgame-seo\\reports\\<作成日時>\\(リポジトリの外。サイトのデータ・ビルドには影響しない)
   <期間>_pages.csv / _queries.csv / _page_queries.csv / _daily.csv / _compare_pages.csv / _compare_queries.csv / _ranking.csv、
@@ -29,7 +31,9 @@ REPO_ROOT = HERE.parent.parent
 
 def parse_args(argv=None):
     ap = argparse.ArgumentParser(description="ぶいゲー Search Console 検索実績レポート(読み取り専用)")
-    ap.add_argument("--auth", action="store_true", help="ブラウザで Google アカウントを認証してトークンを保存する(初回・トークン失効時)")
+    ap.add_argument("--auth", action="store_true", help="ブラウザで Google アカウントを認証してトークンを保存する(初回・トークン失効時。--auth-mode oauth のときだけ)")
+    ap.add_argument("--auth-mode", choices=["oauth", "adc"], default="oauth",
+                    help="oauth = ローカルのデスクトップアプリ用 OAuth(既定)/ adc = GitHub Actions の Workload Identity 連携(google-github-actions/auth の後に実行)")
     ap.add_argument("--site", default=lib.DEFAULT_SITE, help=f"Search Console のプロパティ(既定: {lib.DEFAULT_SITE})")
     ap.add_argument("--periods", default=",".join(str(p) for p in lib.DEFAULT_PERIODS), help="期間の日数(カンマ区切り。既定: 7,28,90)")
     ap.add_argument("--end", help="最終日(YYYY-MM-DD・日本時間)。省略時は今日から --lag-days を引いた日")
@@ -64,6 +68,13 @@ def main(argv=None, out=print, now: dt.datetime | None = None) -> int:
             lib.ensure_outside_repo(p[k], REPO_ROOT)
         if a.mock:
             query_fn = mock_query_fn(Path(a.mock))
+        elif a.auth_mode == "adc":
+            # GitHub Actions: OAuth クライアント情報・トークンは使わない(Workload Identity 連携の短期の認証情報だけ)
+            import gsc_auth as auth
+            if a.auth:
+                raise ValueError("--auth はローカルの OAuth 認証用です(--auth-mode adc では使えません)")
+            creds = auth.load_adc_credentials()
+            query_fn = auth.build_query_fn(creds, a.site)
         else:
             import gsc_auth as auth
             secrets = auth.secrets_in_files(p["client"], p["token"])

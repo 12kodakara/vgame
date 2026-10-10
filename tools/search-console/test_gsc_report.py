@@ -9,6 +9,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -269,6 +270,142 @@ class TestNoDataChange(unittest.TestCase):
                     os.environ["VGAME_SEO_DIR"] = old
         after = {f: hashlib.sha256((REPO / f).read_bytes()).hexdigest() for f in self.FILES}
         self.assertEqual(before, after)
+
+
+class TestAdc(unittest.TestCase):
+    """GitHub Actions(Workload Identity 連携)用の --auth-mode adc。認証・通信は置き換える。"""
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.seo = Path(self.tmp.name) / "vgame-seo"
+        self.seo.mkdir()
+        self.old = os.environ.get("VGAME_SEO_DIR")
+        os.environ["VGAME_SEO_DIR"] = str(self.seo)
+        import gsc_auth
+        self.auth = gsc_auth
+        self.orig = (gsc_auth.load_adc_credentials, gsc_auth.build_query_fn)
+
+    def tearDown(self):
+        self.auth.load_adc_credentials, self.auth.build_query_fn = self.orig
+        if self.old is None:
+            os.environ.pop("VGAME_SEO_DIR", None)
+        else:
+            os.environ["VGAME_SEO_DIR"] = self.old
+        self.tmp.cleanup()
+
+    def run_main(self, argv):
+        lines = []
+        code = gsc_report.main(argv, out=lines.append, now=dt.datetime(2026, 10, 12, 0, 5, tzinfo=dt.timezone.utc))
+        return code, "\n".join(lines)
+
+    def test_adc_success_without_oauth_files(self):
+        seen = {}
+        self.auth.load_adc_credentials = lambda: "CREDS"
+        self.auth.build_query_fn = lambda creds, site: (seen.update(creds=creds, site=site), fake_api({(("page",), "*"): [r(["https://vgame-navi.jp/"], 1, 10, 3.0)]}))[1]
+        out_dir = Path(self.tmp.name) / "report"
+        code, text = self.run_main(["--auth-mode", "adc", "--out-dir", str(out_dir)])
+        self.assertEqual(code, 0, text)
+        self.assertEqual(seen, {"creds": "CREDS", "site": "sc-domain:vgame-navi.jp"})
+        self.assertTrue((out_dir / "summary.json").exists())
+        self.assertEqual(sorted(p.name for p in self.seo.iterdir()), [])                 # OAuth クライアント情報・トークンは使わず作らない
+        self.assertIn("2026-10-09", text)                                                # 月曜 9:05(日本時間)実行 → 最終日は3日前
+
+    def test_adc_missing_credentials(self):
+        class DefaultCredentialsError(Exception):
+            pass
+
+        def boom(scopes=None):
+            raise DefaultCredentialsError(f"File {FAKE_ACCESS} was not found")
+        with self.assertRaises(self.auth.AuthError) as cm:
+            self.auth.load_adc_credentials(default_fn=boom)
+        msg = str(cm.exception)
+        self.assertIn("Workload Identity", msg)
+        self.assertNotIn(FAKE_ACCESS, msg)                                               # 例外の中身(パス・値)は出さない
+        got = {}
+        self.assertEqual(self.auth.load_adc_credentials(default_fn=lambda scopes=None: (got.setdefault("scopes", scopes), ("CREDS", "proj"))[1]), "CREDS")
+        self.assertEqual(got["scopes"], lib.SCOPES)                                      # 読み取り専用スコープだけを要求
+        self.auth.load_adc_credentials = lambda: (_ for _ in ()).throw(self.auth.AuthError("Workload Identity 連携の認証情報が見つかりません"))
+        code, text = self.run_main(["--auth-mode", "adc", "--out-dir", str(Path(self.tmp.name) / "x")])
+        self.assertEqual(code, 2)
+        self.assertIn("Workload Identity", text)
+
+    def test_adc_rejects_browser_auth(self):
+        self.auth.load_adc_credentials = lambda: self.fail("呼ばれてはいけない")
+        code, text = self.run_main(["--auth-mode", "adc", "--auth"])
+        self.assertEqual(code, 2)
+        self.assertIn("--auth はローカルの OAuth 認証用", text)
+
+
+class TestWorkflow(unittest.TestCase):
+    """.github/workflows/search-console-weekly.yml の安全条件(静的な確認)。"""
+    PATH = REPO / ".github" / "workflows" / "search-console-weekly.yml"
+
+    def setUp(self):
+        self.y = self.PATH.read_text(encoding="utf-8")
+
+    def test_permissions_minimal(self):
+        block = re.search(r"^permissions:\n((?:  .*\n)+)", self.y, re.M).group(1)
+        keys = sorted(re.findall(r"^  ([a-z-]+):\s*(\S+)", block, re.M))
+        self.assertEqual(keys, [("contents", "read"), ("id-token", "write")])
+        self.assertNotRegex(self.y, r"(?m)^[ \t]+permissions:")                        # ジョブ単位で権限を足していない
+
+    def test_auth_wif_only(self):
+        self.assertIn("uses: google-github-actions/auth@v", self.y)
+        self.assertIn("workload_identity_provider: projects/478334341544/locations/global/workloadIdentityPools/vgame-github-actions/providers/github-actions", self.y)
+        self.assertIn("service_account: vgame-search-console-reader@vgame-search-console.iam.gserviceaccount.com", self.y)
+        self.assertNotIn("credentials_json", self.y)                                     # JSON の秘密鍵は使わない
+        self.assertNotRegex(self.y, r"\$\{\{\s*secrets\.")                              # Secrets も使わない
+        self.assertIn("persist-credentials: false", self.y)
+
+    def test_schedule_and_artifacts(self):
+        self.assertIn('cron: "0 0 * * 1"', self.y)                                       # 月曜 00:00 UTC = 日本時間 9:00
+        self.assertIn("workflow_dispatch:", self.y)
+        self.assertIn("retention-days: 30", self.y)
+        self.assertIn("--auth-mode adc", self.y)
+        self.assertIn("if: github.repository == '12kodakara/vgame'", self.y)            # フォーク先では動かさない
+        self.assertNotRegex(self.y, r"git (commit|push)|gh-pages|actions/deploy-pages")  # リポジトリ・公開サイトに保存しない
+
+    def test_age_encryption(self):
+        steps = re.split(r"(?m)^      - name: ", self.y)[1:]
+        names = [s.split("\n", 1)[0] for s in steps]
+        step = lambda key: next(s for s in steps if s.startswith(key))
+        # アップロードするのは暗号化済みのフォルダだけ(平文のレポートのフォルダは指定しない)
+        uploads = [s for s in steps if "actions/upload-artifact@" in s]
+        self.assertEqual(len(uploads), 1)
+        self.assertIn("path: ${{ runner.temp }}/gsc-upload", uploads[0])
+        self.assertNotIn("gsc-report", uploads[0].replace("search-console-report-", ""))
+        self.assertIn("if: always() && steps.verify.outcome == 'success'", uploads[0])
+        # 公開鍵は Actions Variables から読む。秘密鍵(-i / identity)は使わない
+        self.assertIn("${{ vars.GSC_AGE_RECIPIENT }}", self.y)
+        self.assertRegex(step("age で暗号化"), r'age -r "\$GSC_AGE_RECIPIENT" -o ')
+        self.assertNotRegex(self.y, r"age (-d|--decrypt)|age-keygen|AGE-SECRET-KEY| -i ")
+        # 公開鍵の確認は取得より前、暗号化は認証ファイルの確認のあと、確認はアップロードの前
+        order = lambda key: next(i for i, n in enumerate(names) if n.startswith(key))
+        self.assertLess(order("暗号化用の公開鍵を確認"), order("Search Console から取得"))
+        self.assertLess(order("認証ファイルがレポートに入っていない"), order("age で暗号化"))
+        self.assertLess(order("age で暗号化"), order("平文のレポートを削除"))
+        self.assertLess(order("平文のレポートを削除"), order("Artifacts に保存"))
+        self.assertIn("if: always() && steps.credcheck.outcome == 'success'", step("age で暗号化"))
+        self.assertIn("if: always()", step("平文のレポートを削除"))
+        self.assertIn("age-encryption.org/v1", step("アップロードするのが暗号化済みファイルだけか確認"))
+        self.assertIn("! -name '*.tar.gz.age'", step("アップロードするのが暗号化済みファイルだけか確認"))
+        # ログに出すのは件数だけ(要約で検索語句・URL・数値を書かない)
+        summary = step("結果の要約")
+        self.assertNotRegex(summary, r"query|page|clicks|impressions|rankingTop")
+        self.assertNotRegex(self.y, r"(?m)^\s*(cat|type) .*gsc-report|set -x")
+
+    def test_recipient_format_check(self):
+        # 公開鍵の形の確認(bech32 の文字だけ・age1 + 58文字)は、登録済みの形を通し、壊れた値は通さない
+        pat = re.search(r"grep -Eq '(\^age1[^']+)'", self.y).group(1)
+        ok = "age1" + "qpzry9x8gf2tvdw0s3jn54khce6mua7lqpzry9x8gf2tvdw0s3jn54khce"
+        self.assertEqual(len(ok), 62)
+        self.assertRegex(ok, pat)
+        for bad in ("", "age1short", ok.upper(), "AGE-SECRET-KEY-1" + "Q" * 58, ok[:-1] + "b"):
+            self.assertNotRegex(bad, pat)
+
+    def test_other_workflows_unchanged(self):
+        for f in ("home-data.yml", "refresh-playlist-meta.yml"):
+            rc = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", f".github/workflows/{f}"], cwd=REPO).returncode
+            self.assertEqual(rc, 0, f)
 
 
 if __name__ == "__main__":

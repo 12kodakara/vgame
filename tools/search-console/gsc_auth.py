@@ -101,6 +101,25 @@ def load_credentials(client_path: Path, token_path: Path, allow_browser: bool = 
     return creds
 
 
+def load_adc_credentials(default_fn=None):
+    """GitHub Actions 用: Workload Identity 連携(google-github-actions/auth が作る認証情報)を読み込む。
+    JSON の秘密鍵は使わない。認証情報の中身は表示しない。default_fn はテスト用(省略時は google.auth.default)。"""
+    if default_fn is None:
+        try:
+            import google.auth
+        except ImportError:
+            raise AuthError(INSTALL_HINT) from None
+        default_fn = google.auth.default
+    try:
+        creds, _project = default_fn(scopes=SCOPES)
+    except Exception as e:  # noqa: BLE001 - DefaultCredentialsError など(メッセージに秘密の値は出さない)
+        raise AuthError("Workload Identity 連携の認証情報が見つかりません。GitHub Actions では google-github-actions/auth の後に実行してください"
+                        f"(ローカルでは --auth-mode oauth を使います): {type(e).__name__}") from None
+    if creds is None:
+        raise AuthError("Workload Identity 連携の認証情報を読み込めませんでした")
+    return creds
+
+
 def build_query_fn(creds, site: str):
     """searchanalytics.query を呼ぶ関数(gsc_lib.fetch_dataset に渡す)。"""
     try:
