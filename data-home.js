@@ -32,6 +32,54 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "hd-1374",
+      "title": "DARK SOULS III",
+      "streamer": "輪堂千速",
+      "game": "DARK SOULS III",
+      "genre": "action",
+      "playlistId": "PL9IwBaX5V6z4v6Z6-U9KkyHGUCzm3G4wx",
+      "thumbnailUrl": "https://i.ytimg.com/vi/CCa_53gwgVU/mqdefault.jpg",
+      "videoCount": 8,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-11"
+    },
+    {
+      "id": "vspo-kuromuyano-16",
+      "title": "💀APEX💀",
+      "streamer": "夜乃くろむ",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLoeu5jm0_o0RTUN1adc_uiviVebTWLcVT",
+      "thumbnailUrl": "https://i.ytimg.com/vi/x2cxLKz9cA0/mqdefault.jpg",
+      "videoCount": 55,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-11"
+    },
+    {
+      "id": "niji-kitamicoolgu-01",
+      "title": "パラノマサイト FILE38 伊勢人魚物語",
+      "streamer": "北見遊征",
+      "game": "パラノマサイト",
+      "genre": "horror",
+      "playlistId": "PLQGuvrqdUwkg",
+      "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
+      "videoCount": 1,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-11"
+    },
+    {
+      "id": "niji-404",
+      "title": "Lobotomy Corporation",
+      "streamer": "ましろ爻",
+      "game": "Lobotomy Corporation",
+      "genre": "sim",
+      "playlistId": "PLi3tGGFl-0rWGTno2VRcW9Adr6VdhgeLG",
+      "thumbnailUrl": "https://i.ytimg.com/vi/A3swesi691c/mqdefault.jpg",
+      "videoCount": 19,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-10-10"
+    },
+    {
       "id": "niji-467",
       "title": "mabinogi",
       "streamer": "樋口楓",
@@ -42,54 +90,6 @@ const HOME_SUMMARY = {
       "videoCount": 35,
       "addedDate": "2026-09-06",
       "updatedDate": "2026-10-10"
-    },
-    {
-      "id": "vspo-emaaizawa-18",
-      "title": "原神",
-      "streamer": "藍沢エマ",
-      "game": "原神",
-      "genre": "rpg",
-      "playlistId": "PLyqh3naVl78HWsHn5XHc6qfZfmQFs7hOv",
-      "thumbnailUrl": "https://i.ytimg.com/vi/OnIXJOyO2-k/mqdefault_live.jpg",
-      "videoCount": 151,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-10"
-    },
-    {
-      "id": "hd-1182",
-      "title": "空の軌跡⚙",
-      "streamer": "博衣こより",
-      "game": "空の軌跡",
-      "genre": "rpg",
-      "playlistId": "PLUq_YSSJRw4M",
-      "thumbnailUrl": "https://i.ytimg.com/vi/mfSoM1ldI6E/mqdefault.jpg",
-      "videoCount": 5,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-09"
-    },
-    {
-      "id": "hd-1231",
-      "title": "不思議のダンジョン～トルネコの大冒険1&2・風来のシレン1&6～🗺",
-      "streamer": "博衣こより",
-      "game": "不思議のダンジョンシリーズ",
-      "genre": "rpg",
-      "playlistId": "PLCxKJRIVDrYHpQMbZ81GKITP_5r0LKUhY",
-      "thumbnailUrl": "https://i.ytimg.com/vi/zm5lPxX1dSM/mqdefault.jpg",
-      "videoCount": 27,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-09"
-    },
-    {
-      "id": "vspo-hinanotachib-33",
-      "title": "LOL",
-      "streamer": "橘ひなの",
-      "game": "League of Legends",
-      "genre": "other",
-      "playlistId": "PLzzYMrfmt7TAyxtEDuCeBSGKVoCQ55wG_",
-      "thumbnailUrl": "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
-      "videoCount": 64,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-09"
     }
   ],
   "topStreamers": [

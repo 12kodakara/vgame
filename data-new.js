@@ -423,7 +423,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/OqoFsJxvjI4/mqdefault.jpg",
    "videoCount": 7,
    "addedDate": "2026-09-18",
-   "updatedDate": "2026-10-03"
+   "updatedDate": "2026-10-10"
   },
   {
    "id": "gap779",
