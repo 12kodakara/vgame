@@ -36,6 +36,17 @@ const GAME_PAGE_ROLES = {
   },
 };
 const gamePageRoleOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_PAGE_ROLES, game) ? GAME_PAGE_ROLES[game] : null);
+// 検索で略称が使われているゲーム(Search Console の実際の検索語句で確認できたものだけ)の title と、
+// description の書き出し。正式名称は残して略称を添える。件数・VTuber名は他のゲームと同じく自動で入る。
+// H1・パンくず・冒頭文・URL・canonical・お気に入り等はゲーム名のまま変えない。
+//   title: <title>("｜サイト名" は自動) / subject: description の「◯◯をまとめたページです」の◯◯
+const GAME_ABBREVIATION_META = {
+  "ストリートファイター6": {
+    title: "ストリートファイター6（スト6）のVTuber実況一覧",
+    subject: "ストリートファイター6（スト6）のVTuber実況",
+  },
+};
+const gameAbbreviationMetaOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_ABBREVIATION_META, game) ? GAME_ABBREVIATION_META[game] : null);
 
 /**
  * このゲームから案内する公開中のゲームシリーズページ(data-series.js の SERIES_PAGES)。無ければ null。
@@ -101,7 +112,8 @@ function buildGameDescription(game, items, standalone) {
   if (items.length) contents.push("再生リスト" + items.length + "件");
   if (standaloneCount) contents.push("単発実況" + standaloneCount + "件");
   const role = gamePageRoleOf(game);
-  return (role ? role.subject : gameDisplayName(game) + "のVTuber実況") + "をまとめたページです。" + who + "の" + contents.join("・") +
+  const abbr = gameAbbreviationMetaOf(game);
+  return (role ? role.subject : abbr ? abbr.subject : gameDisplayName(game) + "のVTuber実況") + "をまとめたページです。" + who + "の" + contents.join("・") +
     (details.length ? "(" + details.join("・") + ")" : "") + "を掲載しています。";
 }
 
@@ -225,8 +237,9 @@ function buildGameDescription(game, items, standalone) {
 
     if (game) {
       const representativeThumb = items.find((p) => getPlaylistThumbnailUrl(p));
+      const abbr = gameAbbreviationMetaOf(game);
       setPageMeta(
-        (role ? role.title : gameDisplayName(game) + "を実況しているVTuber一覧") + " | " + SITE_NAME,
+        abbr ? abbr.title + "｜" + SITE_NAME : (role ? role.title : gameDisplayName(game) + "を実況しているVTuber一覧") + " | " + SITE_NAME,
         buildGameDescription(game, items, standalone),
         "/game.html?game=" + encodeURIComponent(game),
         representativeThumb ? getPlaylistThumbnailUrl(representativeThumb) : null

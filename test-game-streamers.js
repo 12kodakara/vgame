@@ -110,9 +110,11 @@ const sitemap = new Set([...read('sitemap.xml').matchAll(/<loc>([^<]*)<\/loc>/g)
 // ---- 1〜3. 全ゲームで描画して検査 ----
 const problems = []; let totalLinks = 0; const cases = { zero: 0, upTo10: 0, over10: 0, over100: 0 };
 let listenerRenders = 0;
+const renderedTitles = new Map();
 for (const g of GAMES) {
   let r;
   try { r = renderFor(g.name); } catch (e) { problems.push(g.name + ': 描画エラー ' + e.message); continue; }
+  renderedTitles.set(g.name, r.doc.title);
   const exp = played[g.name] || new Set();
   const sec = r.doc.getElementById('game-streamer-section');
   const first = r.doc.getElementById('game-streamer-grid').querySelectorAll('a');
@@ -157,8 +159,8 @@ check('4b. 旧「もっと見る」ボタン(クリックで一覧を作り直�
 check('4c. CSS: 折りたたみ内の streamer-grid にも余白', /\.more-details > \.index-list,\s*\.more-details > \.streamer-grid \{/.test(read('style.css')));
 
 // ---- 5. メタデータ ----
-check('5a. title / description / canonical の生成(setPageMeta 呼び出し)は従来どおり(GAME_PAGE_ROLES のゲームだけ title を差し替え)',
-  /setPageMeta\(\s*\(role \? role\.title : gameDisplayName\(game\) \+ "を実況しているVTuber一覧"\) \+ " \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),/.test(js));
+check('5a. title / description / canonical の生成(setPageMeta 呼び出し)は従来どおり(GAME_PAGE_ROLES・GAME_ABBREVIATION_META のゲームだけ title を差し替え)',
+  /setPageMeta\(\s*abbr \? abbr\.title \+ "｜" \+ SITE_NAME : \(role \? role\.title : gameDisplayName\(game\) \+ "を実況しているVTuber一覧"\) \+ " \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),/.test(js));
 check('5b. 見出しは従来どおり(元のHTMLに canonical なし)', /<h2>このゲームを実況しているVTuber<\/h2>/.test(gameHtml) && !/<link rel="canonical"/.test(gameHtml));
 const sample = renderFor('Minecraft');
 check('5c. 描画後の title / canonical(最大件数のゲームで確認)',
@@ -183,6 +185,23 @@ check('5e. 旧「星のカービィシリーズ」: title・H1・パンくず・
   && /^複数のカービィ作品をひとつにまとめた、VTuberの実況再生リスト/.test(kirbyHub.doc.getElementById('page-lead').textContent)
   && kirbyHubCanonical && kirbyHubCanonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent('星のカービィシリーズ') && !kirbyHubRobots,
   kirbyHub.doc.title + ' / ' + kirbyHub.doc.getElementById('page-title').textContent + ' / ' + (kirbyHubCanonical && kirbyHubCanonical.getAttribute('href')));
+// 略称を添えるページ(GAME_ABBREVIATION_META): title と description の書き出しだけが変わり、H1・パンくず・冒頭文・canonical はゲーム名のまま
+const SF6 = 'ストリートファイター6';
+const sf6Page = renderFor(SF6);
+const sf6Head = (tag, attr, val) => sf6Page.doc.head.children.find((e) => e.tagName === tag && e.getAttribute(attr) === val);
+const sf6Desc = sf6Head('META', 'name', 'description'), sf6Canonical = sf6Head('LINK', 'rel', 'canonical');
+check('5f. スト6: title は正式名称と略称(ストリートファイター6（スト6）のVTuber実況一覧｜ぶいゲー)、description も略称を含む。H1・パンくず・冒頭文・canonical は従来どおり',
+  sf6Page.doc.title === 'ストリートファイター6（スト6）のVTuber実況一覧｜ぶいゲー'
+  && sf6Desc && sf6Desc.getAttribute('content').startsWith('ストリートファイター6（スト6）のVTuber実況をまとめたページです。')
+  && sf6Page.doc.getElementById('page-title').textContent === SF6 && sf6Page.doc.getElementById('breadcrumb-current').textContent === SF6
+  && sf6Page.doc.getElementById('page-lead').textContent === 'VTuberによる' + SF6 + '実況・再生リストをまとめています。'
+  && sf6Canonical && sf6Canonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent(SF6),
+  sf6Page.doc.title + ' / ' + (sf6Desc && sf6Desc.getAttribute('content')) + ' / ' + sf6Page.doc.getElementById('page-title').textContent);
+// 全ゲームの描画結果で確認: title が変わるのは役割を明記するページ(GAME_PAGE_ROLES)とスト6だけ
+const titleExceptions = new Set(['ポケモンシリーズ', '星のカービィシリーズ', SF6]);
+const titleChanged = [...renderedTitles].filter(([g, t]) => !titleExceptions.has(g) && t !== g + 'を実況しているVTuber一覧 | ぶいゲー').map(([g, t]) => g + ' → ' + t);
+check('5g. 他のゲーム(' + (renderedTitles.size - titleExceptions.size) + ')の title は従来どおり「◯◯を実況しているVTuber一覧 | ぶいゲー」',
+  renderedTitles.size === GAMES.length && titleChanged.length === 0, titleChanged.slice(0, 5).join('\n         '));
 
 // ---- 6. 公開中のゲームシリーズページへの導線(data-series.js の publish: true だけ) ----
 const seriesCtx = {}; vm.createContext(seriesCtx); vm.runInContext(read('data-series.js'), seriesCtx);

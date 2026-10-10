@@ -144,8 +144,8 @@ check('6b. 正規名の設計を保留中のゲーム(' + LEGACY.join(' / ') + '
 
 // ---- 7. game.js での使い方 ----
 const js = read('game.js');
-check('7a. description は buildGameDescription、title / canonical / og:image の引数は従来どおり(GAME_PAGE_ROLES のゲームだけ title を差し替え)',
-  /setPageMeta\(\s*\(role \? role\.title : gameDisplayName\(game\) \+ "を実況しているVTuber一覧"\) \+ " \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),\s*representativeThumb \? getPlaylistThumbnailUrl\(representativeThumb\) : null\s*\);/.test(js));
+check('7a. description は buildGameDescription、title / canonical / og:image の引数は従来どおり(GAME_PAGE_ROLES・GAME_ABBREVIATION_META のゲームだけ title を差し替え)',
+  /setPageMeta\(\s*abbr \? abbr\.title \+ "｜" \+ SITE_NAME : \(role \? role\.title : gameDisplayName\(game\) \+ "を実況しているVTuber一覧"\) \+ " \| " \+ SITE_NAME,\s*buildGameDescription\(game, items, standalone\),\s*"\/game\.html\?game=" \+ encodeURIComponent\(game\),\s*representativeThumb \? getPlaylistThumbnailUrl\(representativeThumb\) : null\s*\);/.test(js));
 // ---- 8. 役割を明記するページ(GAME_PAGE_ROLES) ----
 const roleKeys = Object.keys(ROLES);
 check('8a. GAME_PAGE_ROLES のキーはすべて GAMES にあるゲーム', roleKeys.length > 0 && roleKeys.every((g) => GAMES.some((x) => x.name === g)), roleKeys.join(','));
@@ -163,6 +163,24 @@ check('8f. 旧「星のカービィシリーズ」: description は役割(複数
   && build(KIRBY_HUB).includes('再生リスト' + kirbyHubItems.length + '件') && pick(KIRBY_HUB).some((s) => build(KIRBY_HUB).includes(s)), build(KIRBY_HUB));
 check('8g. 旧カービィの文面はポケモンの流用ではなく、掲載していない「企画」を書かない',
   ['heading', 'title', 'lead', 'subject'].every((k) => ROLES[KIRBY_HUB][k] !== ROLES['ポケモンシリーズ'][k] && !/ポケモン|企画/.test(ROLES[KIRBY_HUB][k])));
+
+// ---- 9. 略称を添えるページ(GAME_ABBREVIATION_META) ----
+const ABBR = vm.runInContext('GAME_ABBREVIATION_META', ctx);
+const SF6 = 'ストリートファイター6', sf6Items = itemsOf(SF6), sf6 = build(SF6);
+check('9a. 略称を添えるページはストリートファイター6の1件だけ(GAME_PAGE_ROLES とは重ならない)',
+  JSON.stringify(Object.keys(ABBR)) === JSON.stringify([SF6]) && !roleOf(SF6), Object.keys(ABBR).join(','));
+check('9b. スト6: description は正式名称と略称で始まり、件数・VTuber名・動画本数は元データから(再生リスト' + sf6Items.length + '件)',
+  sf6Items.length > 0 && sf6.startsWith('ストリートファイター6（スト6）のVTuber実況をまとめたページです。') && sf6.split('（スト6）').length === 2
+  && sf6.includes('再生リスト' + sf6Items.length + '件') && sf6.includes('動画' + sf6Items.reduce((a, p) => a + (p.videoCount || 0), 0) + '本')
+  && pick(SF6).some((s) => sf6.includes(s)) && !/undefined|null|NaN/.test(sf6), sf6);
+// 表から外したときの文面と比べ、変わるのはスト6の書き出しだけ(他のゲームの description はすべて従来どおり)
+const withAbbr = rows.map((r) => r.d);
+const savedSf6 = ABBR[SF6]; delete ABBR[SF6];
+const withoutAbbr = GAMES.map((g) => build(g.name));
+ABBR[SF6] = savedSf6;
+const changed = GAMES.map((g, i) => (withAbbr[i] !== withoutAbbr[i] ? g.name : null)).filter(Boolean);
+check('9c. 略称の表で変わる description はスト6だけで、変わるのは書き出しの略称の部分だけ',
+  JSON.stringify(changed) === JSON.stringify([SF6]) && withoutAbbr[GAMES.findIndex((g) => g.name === SF6)] === sf6.replace('（スト6）', ''), changed.join(','));
 
 check('7b. og:description / twitter:description は setPageMeta で meta description と同じ文', /upsertMeta\('meta\[property="og:description"\]', \{ property: "og:description", content: description \}\)/.test(read('common.js')) && /upsertMeta\('meta\[name="twitter:description"\]', \{ name: "twitter:description", content: description \}\)/.test(read('common.js')));
 
