@@ -133,8 +133,8 @@ const zero = rows.filter((r) => !r.games.size);
 check('5g. 実況ゲーム0件(' + zero.length + '人・noindex)は従来の文面', zero.every((r) => r.d === r.name + 'が実況したゲームの一覧と再生リストをまとめて紹介。実況したゲーム0種類・再生リスト0件を掲載。'));
 
 // ---- 6. streamer.js での使い方 ----
-check('6a. description は buildStreamerDescription、title / canonical / og:image の引数は従来どおり',
-  /setPageMeta\(\s*streamer \+ "のゲーム実況・再生リスト一覧 \| " \+ SITE_NAME,\s*buildStreamerDescription\(streamer, items, standalone\),\s*"\/streamer\.html\?streamer=" \+ encodeURIComponent\(streamer\),\s*representativeThumb \? getPlaylistThumbnailUrl\(representativeThumb\) : \(roster && roster\.icon\) \|\| null\s*\);/.test(ctxSrc));
+check('6a. description は buildStreamerDescription、title / canonical / og:image の引数は従来どおり(STREAMER_PAGE_ROLES のVTuberだけ title・description を差し替え)',
+  /setPageMeta\(\s*pageRole \? pageRole\.title : streamer \+ "のゲーム実況・再生リスト一覧 \| " \+ SITE_NAME,\s*pageRole \? pageRole\.description : buildStreamerDescription\(streamer, items, standalone\),\s*"\/streamer\.html\?streamer=" \+ encodeURIComponent\(streamer\),\s*representativeThumb \? getPlaylistThumbnailUrl\(representativeThumb\) : \(roster && roster\.icon\) \|\| null\s*\);/.test(ctxSrc));
 check('6b. og:description / twitter:description は setPageMeta で meta description と同じ文', /upsertMeta\('meta\[property="og:description"\]', \{ property: "og:description", content: description \}\)/.test(read('common.js')) && /upsertMeta\('meta\[name="twitter:description"\]', \{ name: "twitter:description", content: description \}\)/.test(read('common.js')));
 
 console.log('');

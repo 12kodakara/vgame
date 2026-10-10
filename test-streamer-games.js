@@ -157,13 +157,58 @@ check('4c. CSS: summary はリンク風・開閉で文言と ▼▲ が切り替
 
 // ---- 5. メタデータ ----
 // description は buildStreamerDescription で作る(内容は test-streamer-description.js で検査)
-check('5a. title / canonical の生成(setPageMeta 呼び出し)は従来どおり・description は buildStreamerDescription',
-  /setPageMeta\(\s*streamer \+ "のゲーム実況・再生リスト一覧 \| " \+ SITE_NAME,\s*buildStreamerDescription\(streamer, items, standalone\),\s*"\/streamer\.html\?streamer=" \+ encodeURIComponent\(streamer\),/.test(js));
+check('5a. title / canonical の生成(setPageMeta 呼び出し)は従来どおり・description は buildStreamerDescription(STREAMER_PAGE_ROLES のVTuberだけ title・description を差し替え)',
+  /setPageMeta\(\s*pageRole \? pageRole\.title : streamer \+ "のゲーム実況・再生リスト一覧 \| " \+ SITE_NAME,\s*pageRole \? pageRole\.description : buildStreamerDescription\(streamer, items, standalone\),\s*"\/streamer\.html\?streamer=" \+ encodeURIComponent\(streamer\),/.test(js));
 check('5b. H1・見出しは従来どおり(元のHTMLに canonical なし)', /<h1 class="page-title" id="page-title">実況者の再生リスト<\/h1>/.test(streamerHtml) && /<h2>このVTuberが実況したゲーム<\/h2>/.test(streamerHtml) && !/<link rel="canonical"/.test(streamerHtml));
 const sample = renderFor('姫森ルーナ');
 check('5c. 描画後の title / canonical(大量ゲームVTuberで確認)',
   sample.doc.title === '姫森ルーナのゲーム実況・再生リスト一覧 | ぶいゲー'
   && sample.doc.head.children.some((e) => e.tagName === 'LINK' && e.getAttribute('rel') === 'canonical' && e.getAttribute('href') === 'https://vgame-navi.jp/streamer.html?streamer=' + encodeURIComponent('姫森ルーナ')), sample.doc.title);
+
+// ---- 6. 個別の文言(STREAMER_PAGE_ROLES。Search Console の実測に基づく改善) ----
+const metaOf = (doc, attr, key) => { const m = doc.head.children.find((e) => e.tagName === 'META' && e.getAttribute(attr) === key); return m ? m.getAttribute('content') : null; };
+const canonicalOf = (doc) => { const l = doc.head.children.find((e) => e.tagName === 'LINK' && e.getAttribute('rel') === 'canonical'); return l ? l.getAttribute('href') : null; };
+const ROKO = '鏑木ろこ';
+const roko = renderFor(ROKO);
+const rokoTitle = '鏑木ろこが実況したゲーム一覧｜再生リスト｜ぶいゲー';
+const rokoDesc = '鏑木ろこが実況したゲームを一覧で紹介。ゲームごとの実況動画や再生リストをまとめています。気になる作品を選んで、鏑木ろこのゲーム実況を探せます。';
+const rokoLead = 'にじさんじ所属VTuber・鏑木ろこが実況したゲームを一覧で紹介しています。ゲームごとに実況動画や再生リストをまとめているので、気になる作品を選んで視聴できます。';
+check('6a. 鏑木ろこ: title・meta description・og/twitter が指定の文言', roko.doc.title === rokoTitle && metaOf(roko.doc, 'name', 'description') === rokoDesc
+  && metaOf(roko.doc, 'property', 'og:title') === rokoTitle && metaOf(roko.doc, 'property', 'og:description') === rokoDesc && metaOf(roko.doc, 'name', 'twitter:title') === rokoTitle,
+  roko.doc.title + ' / ' + metaOf(roko.doc, 'name', 'description'));
+const lead = roko.doc.getElementById('streamer-lead');
+check('6b. 鏑木ろこ: H1 と、H1 直下の説明文(表示は1回だけ)', roko.doc.getElementById('page-title').textContent === '鏑木ろこが実況したゲーム・再生リスト'
+  && lead && !lead.hidden && lead.textContent === rokoLead && (streamerHtml.match(/id="streamer-lead"/g) || []).length === 1
+  && /<\/h1>[\s\S]*?<\/div>\s*<!--[^>]*-->\s*<p class="page-lead" id="streamer-lead" hidden><\/p>\s*<p class="page-meta" id="page-meta">/.test(streamerHtml), lead && lead.textContent);
+const rokoRoster = STREAMERS.find((s) => s.name === ROKO);
+check('6c. 鏑木ろこ: 説明文の所属はデータ(STREAMERS)と一致し、説明文・description に件数を書かない',
+  rokoRoster && /^にじさんじ/.test(rokoRoster.group) && roko.ctx.agencyOf(ROKO) === 'にじさんじ' && !/\d/.test(rokoLead + rokoDesc + rokoTitle));
+check('6d. 鏑木ろこ: canonical は従来の URL・noindex なし', canonicalOf(roko.doc) === 'https://vgame-navi.jp/streamer.html?streamer=' + encodeURIComponent(ROKO) && metaOf(roko.doc, 'name', 'robots') === null);
+// 実況したゲームの一覧: すべて実在するゲームページへのリンクで、件数・ゲーム名がデータと一致
+const rokoLinks = [...roko.doc.getElementById('streamer-games-list').querySelectorAll('a'), ...roko.doc.getElementById('streamer-games-rest').querySelectorAll('a')].map((a) => a.getAttribute('href'));
+const rokoGames = played[ROKO] || new Set();
+check('6e. 鏑木ろこ: 実況したゲーム ' + rokoGames.size + ' 件がすべて実在するゲームページへのリンク(重複なし)・統計の表示もデータと一致',
+  rokoLinks.length === rokoGames.size && new Set(rokoLinks).size === rokoLinks.length
+  && rokoLinks.every((h) => { const g = decodeURIComponent(h.replace(/^game\.html\?game=/, '')); return h.startsWith('game.html?game=') && gameNames.has(g) && rokoGames.has(g); })
+  && roko.doc.getElementById('stat-games').textContent === rokoGames.size + '種類' && roko.doc.getElementById('stat-playlists').textContent === PLAYLISTS.filter((p) => p.streamer === ROKO).length + '件', rokoLinks.length + ' / ' + rokoGames.size);
+// ほかのVTuberは従来どおり(title・description・H1・説明文なし)
+const otherProblems = [];
+for (const s of STREAMERS) {
+  if (s.name === ROKO) continue;
+  const rr = renderFor(s.name);
+  const items = PLAYLISTS.filter((p) => p.streamer === s.name);
+  const expectTitle = s.name + 'のゲーム実況・再生リスト一覧 | ぶいゲー';
+  const expectDesc = rr.ctx.buildStreamerDescription(s.name, items, (rr.ctx.STANDALONE_PLAYS || []).filter((p) => p.streamer === s.name));
+  const h1 = rr.doc.getElementById('page-title').textContent;
+  const l = rr.doc.getElementById('streamer-lead');
+  if (rr.doc.title !== expectTitle) otherProblems.push(s.name + ': title ' + rr.doc.title);
+  if (metaOf(rr.doc, 'name', 'description') !== expectDesc) otherProblems.push(s.name + ': description');
+  if (!/ の(再生リスト|ゲーム実況)$/.test(h1)) otherProblems.push(s.name + ': H1 ' + h1);
+  if (!l || !l.hidden || l.textContent) otherProblems.push(s.name + ': 説明文が出ている');
+}
+check('6f. 鏑木ろこ以外の ' + (STREAMERS.length - 1) + ' 人は title・description・H1 が従来どおりで、説明文は出ない', otherProblems.length === 0, otherProblems.slice(0, 5).join(' / '));
+const rolesSrc = (js.match(/const STREAMER_PAGE_ROLES = \{[\s\S]*?\n\};/) || [''])[0];
+check('6g. 個別の文言は鏑木ろこ1件だけ(他のVTuberへの一括適用なし)', (rolesSrc.match(/^\s{2}"[^"]+": \{/gm) || []).length === 1 && rolesSrc.includes('"鏑木ろこ": {'));
 
 console.log('');
 console.log('PASS: ' + pass + '  FAIL: ' + fail);
