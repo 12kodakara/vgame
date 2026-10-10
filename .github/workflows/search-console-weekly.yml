@@ -6,9 +6,10 @@
 # - 既存のワークフロー(home-data / refresh-playlist-meta)とは独立。サイトのファイルは変更しない
 # 復号の手順: tools/search-console/ENCRYPTION.md
 #
-# 定期実行(schedule)と画面からの手動実行は、デフォルトブランチ(main)にあるこのファイルで動く。
-# そのとき取得ツールは TOOLS_REF のブランチから取り出す(main にツールを置かなくても動くように)。
-# develop ブランチでは、このファイルかツールを push したときに動作確認として実行される。
+# 定期実行(schedule)と画面からの手動実行は、デフォルトブランチ(main)にあるこのファイルで動き、
+# 取得ツール(tools/search-console/)も main から取り出す(TOOLS_REF)。
+# 開発ブランチへの push では実行しない。開発中のツールを試すときは、手動実行の tools_ref にブランチ名を指定する
+#   例: gh workflow run search-console-weekly.yml -f tools_ref=develop/monetization-growth
 name: search console weekly report
 
 on:
@@ -17,15 +18,9 @@ on:
   workflow_dispatch:
     inputs:
       tools_ref:
-        description: "取得ツールを取り出すブランチ(空なら TOOLS_REF)"
+        description: "取得ツールを取り出すブランチ(空なら TOOLS_REF = main)"
         required: false
         default: ""
-  # 動作確認用(develop ブランチで、このファイルかツールが変わったときだけ)。確認後に残すかは別途判断する
-  push:
-    branches: [develop/monetization-growth]
-    paths:
-      - .github/workflows/search-console-weekly.yml
-      - tools/search-console/**
 
 permissions:
   contents: read     # ツールの取り出しだけ
@@ -36,7 +31,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  TOOLS_REF: develop/monetization-growth
+  TOOLS_REF: main
   SITE: sc-domain:vgame-navi.jp
 
 jobs:
@@ -58,8 +53,8 @@ jobs:
       - name: 取得ツールを取り出す
         uses: actions/checkout@v4
         with:
-          # push(動作確認)はそのコミット、定期実行・手動実行は TOOLS_REF(手動実行で指定があればそのブランチ)
-          ref: ${{ github.event_name == 'push' && github.sha || inputs.tools_ref || env.TOOLS_REF }}
+          # 定期実行は TOOLS_REF(main)。手動実行で tools_ref の指定があればそのブランチ
+          ref: ${{ inputs.tools_ref || env.TOOLS_REF }}
           persist-credentials: false   # git の認証情報を残さない(このワークフローは commit・push しない)
 
       - name: Python
