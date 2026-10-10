@@ -5,9 +5,9 @@
  */
 const HOME_SUMMARY = {
   "version": 1,
-  "playlistCount": 6562,
+  "playlistCount": 6563,
   "gameCount": 924,
-  "streamerCount": 272,
+  "streamerCount": 273,
   "topGames": [
     {
       "key": "Minecraft",

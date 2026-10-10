@@ -78795,6 +78795,18 @@ const PLAYLISTS = [
     addedDate: "2026-09-19",
     updatedDate: "2025-09-04",
   },
+  {
+    id: "holo-157",
+    title: "鬼武者 Way of the Sword",
+    streamer: "百灯キョーコ",
+    game: "鬼武者 Way of the Sword",
+    genre: "action",
+    playlistId: "PLWHs_m-7iN0k",
+    thumbnailUrl: "https://i.ytimg.com/vi/thX2A1-Ktyk/mqdefault.jpg",
+    videoCount: 3,
+    addedDate: "2026-10-11",
+    updatedDate: "2026-10-09",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました

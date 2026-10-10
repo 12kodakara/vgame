@@ -6,6 +6,18 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
+   "id": "holo-157",
+   "title": "鬼武者 Way of the Sword",
+   "streamer": "百灯キョーコ",
+   "game": "鬼武者 Way of the Sword",
+   "genre": "action",
+   "playlistId": "PLWHs_m-7iN0k",
+   "thumbnailUrl": "https://i.ytimg.com/vi/thX2A1-Ktyk/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-09"
+  },
+  {
    "id": "gap797",
    "title": "✧桃太郎電鉄 │ 天宮こころ",
    "streamer": "天宮こころ",
@@ -592,18 +604,6 @@ const NEW_LIST = {
    "videoCount": 6,
    "addedDate": "2026-09-17",
    "updatedDate": "2023-11-23"
-  },
-  {
-   "id": "niji-honmahimawar-71",
-   "title": "【完】魔界村ーGhosts 'n Goblinsー",
-   "streamer": "本間ひまわり",
-   "game": "魔界村",
-   "genre": "action",
-   "playlistId": "PLnxwXk_UQhopqqtyL93UL0Q1AGJwMG37z",
-   "thumbnailUrl": "https://i.ytimg.com/vi/hHqge-bwxpg/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2023-08-09"
   }
  ]
 };
