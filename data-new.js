@@ -318,6 +318,18 @@ const NEW_LIST = {
    "updatedDate": "2026-09-23"
   },
   {
+   "id": "gap869",
+   "title": "🏯Pokémon LEGENDS アルセウス",
+   "streamer": "橘ひなの",
+   "game": "Pokémon LEGENDS アルセウス",
+   "genre": "rpg",
+   "playlistId": "PLeQcWaKwA1Xk",
+   "thumbnailUrl": "https://i.ytimg.com/vi/h2iTI2EtRl0/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-23"
+  },
+  {
    "id": "gap860",
    "title": "壺おじ（Getting Over It with Bennett Foddy）",
    "streamer": "白砂あやね",
@@ -546,6 +558,30 @@ const NEW_LIST = {
    "updatedDate": "2025-12-02"
   },
   {
+   "id": "gap873",
+   "title": "Reine - Dinkum",
+   "streamer": "Pavolia Reine",
+   "game": "Dinkum",
+   "genre": "sim",
+   "playlistId": "PLrALGrrF-6IVwtkXfUFK-qlyOZjSFfnpX",
+   "thumbnailUrl": "https://i.ytimg.com/vi/U8Dgptd5Cnw/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2025-05-20"
+  },
+  {
+   "id": "gap872",
+   "title": "みんなで空気読み。",
+   "streamer": "ヤン ナリ",
+   "game": "空気読み。",
+   "genre": "other",
+   "playlistId": "PLYNuWqt7P-4viZHuZpjRGxkc6xw6ZsZqE",
+   "thumbnailUrl": "https://i.ytimg.com/vi/jCdgjS6TWu8/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2024-12-25"
+  },
+  {
    "id": "gap863",
    "title": "パタちの空気読み。",
    "streamer": "レイン・パターソン",
@@ -568,42 +604,6 @@ const NEW_LIST = {
    "videoCount": 12,
    "addedDate": "2026-10-11",
    "updatedDate": "2024-12-05"
-  },
-  {
-   "id": "gap857",
-   "title": "【 #しゃるる杯 】【 #にじンモTV3時間スペシャル #leagueoflegends 】",
-   "streamer": "葛葉",
-   "game": "League of Legends",
-   "genre": "other",
-   "playlistId": "PLwCa-x--ILnaOkgMYXIg40OnPUDzXTDqc",
-   "thumbnailUrl": "https://i.ytimg.com/vi/w-Y-WA5Ze-Y/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2024-12-02"
-  },
-  {
-   "id": "gap821",
-   "title": "Dark Souls III",
-   "streamer": "Mori Calliope",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLB8Nt5W7hnKBkR_EiRYUYFEQDdFU6VmCb",
-   "thumbnailUrl": "https://i.ytimg.com/vi/9wgEU7No7Og/mqdefault.jpg",
-   "videoCount": 10,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2024-10-24"
-  },
-  {
-   "id": "gap844",
-   "title": "【完】逆転裁判４（逆転裁判456 王泥喜セレクション）",
-   "streamer": "レヴィ・エリファ",
-   "game": "逆転裁判456 王泥喜セレクション",
-   "genre": "puzzle",
-   "playlistId": "PLOzLuGbMLuwwcP90KeDhiTC41wUrmTHzt",
-   "thumbnailUrl": "https://i.ytimg.com/vi/DDxLbfTBi8M/mqdefault.jpg",
-   "videoCount": 14,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2024-05-24"
   }
  ]
 };
