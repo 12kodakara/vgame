@@ -5,7 +5,7 @@
  */
 const HOME_SUMMARY = {
   "version": 1,
-  "playlistCount": 6588,
+  "playlistCount": 6602,
   "gameCount": 924,
   "streamerCount": 274,
   "topGames": [
@@ -19,7 +19,7 @@ const HOME_SUMMARY = {
     },
     {
       "key": "VALORANT",
-      "count": 89
+      "count": 92
     },
     {
       "key": "Grand Theft Auto V",
@@ -80,16 +80,16 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-11"
     },
     {
-      "id": "niji-404",
-      "title": "Lobotomy Corporation",
-      "streamer": "ましろ爻",
-      "game": "Lobotomy Corporation",
-      "genre": "sim",
-      "playlistId": "PLi3tGGFl-0rWGTno2VRcW9Adr6VdhgeLG",
-      "thumbnailUrl": "https://i.ytimg.com/vi/A3swesi691c/mqdefault.jpg",
-      "videoCount": 19,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-10"
+      "id": "gap839",
+      "title": "都市伝説解体センター",
+      "streamer": "花畑チャイカ",
+      "game": "都市伝説解体センター",
+      "genre": "other",
+      "playlistId": "PLKJm9rfXim2M",
+      "thumbnailUrl": "https://i.ytimg.com/vi/xpbwReIWM8Y/mqdefault_live.jpg",
+      "videoCount": 2,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-10-11"
     }
   ],
   "topStreamers": [

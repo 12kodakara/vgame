@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 118,
     "streamers": 167,
-    "playlists": 639,
-    "videos": 4068
+    "playlists": 640,
+    "videos": 4076
    },
    "games": [
     [
@@ -194,6 +194,11 @@ const GENRE_PAGES = {
      5
     ],
     [
+     "キミガシネ",
+     5,
+     5
+    ],
+    [
      "ファミレスを享受せよ",
      5,
      5
@@ -210,11 +215,6 @@ const GENRE_PAGES = {
     ],
     [
      "Identity V",
-     4,
-     4
-    ],
-    [
-     "キミガシネ",
      4,
      4
     ],
@@ -821,6 +821,11 @@ const GENRE_PAGES = {
      4
     ],
     [
+     "Pavolia Reine",
+     4,
+     4
+    ],
+    [
      "える",
      4,
      4
@@ -902,11 +907,6 @@ const GENRE_PAGES = {
     ],
     [
      "Anya Melfissa",
-     3,
-     3
-    ],
-    [
-     "Pavolia Reine",
      3,
      3
     ],
