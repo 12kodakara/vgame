@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 118,
     "streamers": 167,
-    "playlists": 640,
-    "videos": 4076
+    "playlists": 643,
+    "videos": 4085
    },
    "games": [
     [
@@ -84,6 +84,11 @@ const GENRE_PAGES = {
      15
     ],
     [
+     "Ib",
+     13,
+     13
+    ],
+    [
      "R.E.P.O.",
      13,
      13
@@ -112,11 +117,6 @@ const GENRE_PAGES = {
      "Layers of Fear",
      10,
      11
-    ],
-    [
-     "Ib",
-     10,
-     10
     ],
     [
      "Inscryption",
@@ -756,6 +756,11 @@ const GENRE_PAGES = {
      6
     ],
     [
+     "葉加瀬冬雪",
+     6,
+     6
+    ],
+    [
      "風楽奏斗",
      6,
      6
@@ -797,11 +802,6 @@ const GENRE_PAGES = {
     ],
     [
      "弦月藤士郎",
-     5,
-     5
-    ],
-    [
-     "葉加瀬冬雪",
      5,
      5
     ],
@@ -942,6 +942,11 @@ const GENRE_PAGES = {
     ],
     [
      "周央サンゴ",
+     3,
+     3
+    ],
+    [
+     "梢桃音",
      3,
      3
     ],
@@ -1091,11 +1096,6 @@ const GENRE_PAGES = {
      2
     ],
     [
-     "梢桃音",
-     2,
-     2
-    ],
-    [
      "橘ひなの",
      2,
      2
@@ -1122,6 +1122,11 @@ const GENRE_PAGES = {
     ],
     [
      "紫宮るな",
+     2,
+     2
+    ],
+    [
+     "蝸堂みかる",
      2,
      2
     ],
@@ -1387,11 +1392,6 @@ const GENRE_PAGES = {
     ],
     [
      "蝶屋はなび",
-     1,
-     1
-    ],
-    [
-     "蝸堂みかる",
      1,
      1
     ],

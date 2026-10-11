@@ -126,6 +126,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-10"
   },
   {
+   "id": "gap890",
+   "title": "マリオカート",
+   "streamer": "山田龍一郎",
+   "game": "マリオカートワールド",
+   "genre": "racing",
+   "playlistId": "PLP2UDomz-mf0",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UKyM46hh8q4/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-10"
+  },
+  {
    "id": "holo-157",
    "title": "鬼武者 Way of the Sword",
    "streamer": "百灯キョーコ",
@@ -194,6 +206,30 @@ const NEW_LIST = {
    "playlistId": "PLeZBPEzxWu-Y",
    "thumbnailUrl": "https://i.ytimg.com/vi/xgH_228jFBY/mqdefault.jpg",
    "videoCount": 2,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap881",
+   "title": "ほの暮しの庭",
+   "streamer": "ときのそら",
+   "game": "ほの暮らしの庭",
+   "genre": "sim",
+   "playlistId": "PLXXssyDH2O5c",
+   "thumbnailUrl": "https://i.ytimg.com/vi/IEU7buO7fvI/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap883",
+   "title": "逆転裁判２",
+   "streamer": "ベルモンド・バンデラス",
+   "game": "逆転裁判2",
+   "genre": "puzzle",
+   "playlistId": "PLZc4J7Wir_uE",
+   "thumbnailUrl": "https://i.ytimg.com/vi/vijKt1qMXkI/mqdefault.jpg",
+   "videoCount": 4,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-07"
   },
@@ -306,6 +342,18 @@ const NEW_LIST = {
    "updatedDate": "2026-09-24"
   },
   {
+   "id": "gap875",
+   "title": "ほの暮しの庭",
+   "streamer": "リュ ハリ",
+   "game": "ほの暮らしの庭",
+   "genre": "sim",
+   "playlistId": "PLCsPMexcC7EY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/WGj1yuO_Nr0/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-24"
+  },
+  {
    "id": "gap864",
    "title": "🎮️：星のカービィ64【完結】",
    "streamer": "千凛あゆむ",
@@ -362,6 +410,18 @@ const NEW_LIST = {
    "playlistId": "PLVWcNa-_tPRo",
    "thumbnailUrl": "https://i.ytimg.com/vi/e6-o18OnDb0/mqdefault.jpg",
    "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-20"
+  },
+  {
+   "id": "gap874",
+   "title": "逆転裁判",
+   "streamer": "司賀りこ",
+   "game": "逆転裁判",
+   "genre": "puzzle",
+   "playlistId": "PLWX1Q1ccKYGA",
+   "thumbnailUrl": "https://i.ytimg.com/vi/1i3gij1aMrw/mqdefault.jpg",
+   "videoCount": 10,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-09-20"
   },
@@ -544,66 +604,6 @@ const NEW_LIST = {
    "videoCount": 14,
    "addedDate": "2026-10-11",
    "updatedDate": "2025-12-05"
-  },
-  {
-   "id": "gap859",
-   "title": "【完結】🐍METAL GEAR SOLID Δ: SNAKE EATER🐍",
-   "streamer": "ニュイ・ソシエール",
-   "game": "METAL GEAR SOLID Δ: SNAKE EATER",
-   "genre": "action",
-   "playlistId": "PLCkTosaqp5q1iDkLNmubVE1u2l-LIyF_d",
-   "thumbnailUrl": "https://i.ytimg.com/vi/xGeUJ7RIQ9I/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2025-12-02"
-  },
-  {
-   "id": "gap873",
-   "title": "Reine - Dinkum",
-   "streamer": "Pavolia Reine",
-   "game": "Dinkum",
-   "genre": "sim",
-   "playlistId": "PLrALGrrF-6IVwtkXfUFK-qlyOZjSFfnpX",
-   "thumbnailUrl": "https://i.ytimg.com/vi/U8Dgptd5Cnw/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2025-05-20"
-  },
-  {
-   "id": "gap872",
-   "title": "みんなで空気読み。",
-   "streamer": "ヤン ナリ",
-   "game": "空気読み。",
-   "genre": "other",
-   "playlistId": "PLYNuWqt7P-4viZHuZpjRGxkc6xw6ZsZqE",
-   "thumbnailUrl": "https://i.ytimg.com/vi/jCdgjS6TWu8/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2024-12-25"
-  },
-  {
-   "id": "gap863",
-   "title": "パタちの空気読み。",
-   "streamer": "レイン・パターソン",
-   "game": "空気読み。",
-   "genre": "other",
-   "playlistId": "PLnf0TderQXzK-Dg6tN33ONx7fAH3qxCBp",
-   "thumbnailUrl": "https://i.ytimg.com/vi/YKzd16mDmGw/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2024-12-09"
-  },
-  {
-   "id": "nijien-finanaryugu-06",
-   "title": "Yakuza 5 Remastered",
-   "streamer": "Finana Ryugu",
-   "game": "龍が如く5 夢、叶えし者",
-   "genre": "action",
-   "playlistId": "PL5XBGPMUTVBR_tWJlkG7u1anJ_aEC9-4_",
-   "thumbnailUrl": "https://i.ytimg.com/vi/KeipwsOCeZQ/mqdefault.jpg",
-   "videoCount": 12,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2024-12-05"
   }
  ]
 };
