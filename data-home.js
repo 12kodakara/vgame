@@ -5,8 +5,8 @@
  */
 const HOME_SUMMARY = {
   "version": 1,
-  "playlistCount": 6563,
-  "gameCount": 924,
+  "playlistCount": 6568,
+  "gameCount": 925,
   "streamerCount": 273,
   "topGames": [
     {
@@ -111,7 +111,7 @@ const HOME_SUMMARY = {
     },
     {
       "key": "博衣こより",
-      "count": 125
+      "count": 126
     },
     {
       "key": "静凛",

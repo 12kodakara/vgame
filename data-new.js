@@ -18,6 +18,66 @@ const NEW_LIST = {
    "updatedDate": "2026-10-09"
   },
   {
+   "id": "holo-161",
+   "title": "鬼武者 Way of the Sword",
+   "streamer": "姫森ルーナ",
+   "game": "鬼武者 Way of the Sword",
+   "genre": "action",
+   "playlistId": "PLZyYcmzc6O48",
+   "thumbnailUrl": "https://i.ytimg.com/vi/u5ooaNZjIUE/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-16"
+  },
+  {
+   "id": "holo-160",
+   "title": "⚠利用規約に同意したい⚠",
+   "streamer": "博衣こより",
+   "game": "利用規約に同意したい",
+   "genre": "action",
+   "playlistId": "PLCxKJRIVDrYHd-vIE7yKa-RDw7S8rt9XE",
+   "thumbnailUrl": "https://i.ytimg.com/vi/opZIRbMpWDE/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-03-04"
+  },
+  {
+   "id": "holo-158",
+   "title": "利用規約に同意したい",
+   "streamer": "AZKi",
+   "game": "利用規約に同意したい",
+   "genre": "action",
+   "playlistId": "PLpt61bADOMwXWRO-D2FHfcdz5UMqTOeP3",
+   "thumbnailUrl": "https://i.ytimg.com/vi/cf5dDfXao68/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-01-09"
+  },
+  {
+   "id": "holo-159",
+   "title": "利用規約に同意したい",
+   "streamer": "姫森ルーナ",
+   "game": "利用規約に同意したい",
+   "genre": "action",
+   "playlistId": "PL6gUpTCMieF4_t4zxYKUh31cD6noNDz2A",
+   "thumbnailUrl": "https://i.ytimg.com/vi/KmQCCw5bKd4/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-01-01"
+  },
+  {
+   "id": "nijien-finanaryugu-06",
+   "title": "Yakuza 5 Remastered",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く5 夢、叶えし者",
+   "genre": "action",
+   "playlistId": "PL5XBGPMUTVBR_tWJlkG7u1anJ_aEC9-4_",
+   "thumbnailUrl": "https://i.ytimg.com/vi/KeipwsOCeZQ/mqdefault.jpg",
+   "videoCount": 12,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2024-12-05"
+  },
+  {
    "id": "gap797",
    "title": "✧桃太郎電鉄 │ 天宮こころ",
    "streamer": "天宮こころ",
@@ -544,66 +604,6 @@ const NEW_LIST = {
    "videoCount": 2,
    "addedDate": "2026-09-17",
    "updatedDate": "2026-09-20"
-  },
-  {
-   "id": "niji-usamiritopow-40",
-   "title": "マリオテニスフィーバー だぞ！",
-   "streamer": "宇佐美リト",
-   "game": "マリオテニス",
-   "genre": "sports",
-   "playlistId": "PLudw-v3eSCjDCOmSPdSuY6mv3C_Eo9Qqz",
-   "thumbnailUrl": "https://i.ytimg.com/vi/zE1Ui4UOiYU/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2026-02-23"
-  },
-  {
-   "id": "niji-usamiritopow-41",
-   "title": "PEAK だぞ！",
-   "streamer": "宇佐美リト",
-   "game": "PEAK",
-   "genre": "action",
-   "playlistId": "PLudw-v3eSCjDg6qEiH6Jes_gE1XNCkLIf",
-   "thumbnailUrl": "https://i.ytimg.com/vi/ucKl6NOtmpM/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2025-08-07"
-  },
-  {
-   "id": "niji-usamiritopow-44",
-   "title": "スマブラだぞ！",
-   "streamer": "宇佐美リト",
-   "game": "大乱闘スマッシュブラザーズ SPECIAL",
-   "genre": "action",
-   "playlistId": "PLudw-v3eSCjAtk2cGgP9M9HzaiwQwKNa4",
-   "thumbnailUrl": "https://i.ytimg.com/vi/BpX9Mp5DWYc/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2024-06-02"
-  },
-  {
-   "id": "niji-usamiritopow-42",
-   "title": "DQM3人生縛りだぞ！",
-   "streamer": "宇佐美リト",
-   "game": "DQM3",
-   "genre": "rpg",
-   "playlistId": "PLudw-v3eSCjDLVXoaicXavCmnDC8m89_9",
-   "thumbnailUrl": "https://i.ytimg.com/vi/zv-0RWrsyfg/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2024-02-27"
-  },
-  {
-   "id": "niji-belmondb2434-60",
-   "title": "桃太郎電鉄 〜昭和 平成 令和も定番!〜",
-   "streamer": "ベルモンド・バンデラス",
-   "game": "桃太郎電鉄",
-   "genre": "other",
-   "playlistId": "PLwpJFw_gqGL_mSjvhr2UCT8qpEU5YoFET",
-   "thumbnailUrl": "https://i.ytimg.com/vi/I_fyGjonOVI/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2023-11-23"
   }
  ]
 };
