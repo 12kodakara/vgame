@@ -202,6 +202,21 @@ const titleExceptions = new Set(['ポケモンシリーズ', '星のカービィ
 const titleChanged = [...renderedTitles].filter(([g, t]) => !titleExceptions.has(g) && t !== g + 'を実況しているVTuber一覧 | ぶいゲー').map(([g, t]) => g + ' → ' + t);
 check('5g. 他のゲーム(' + (renderedTitles.size - titleExceptions.size) + ')の title は従来どおり「◯◯を実況しているVTuber一覧 | ぶいゲー」',
   renderedTitles.size === GAMES.length && titleChanged.length === 0, titleChanged.slice(0, 5).join('\n         '));
+// まとめ版(GAME_COLLECTION_LINKS)と収録作品: 関連ゲーム欄の先頭で互いへ案内し、自動で選ぶ関連ゲーム(最大6件)はその後ろに残る
+const relatedNames = (r) => [...r.doc.getElementById('game-related-list').querySelectorAll('a')].map((a) => decodeURIComponent(a.getAttribute('href').slice('game.html?game='.length)));
+const COLLECTIONS = { '逆転裁判123 成歩堂セレクション': ['逆転裁判', '逆転裁判2', '逆転裁判3'], '逆転裁判456 王泥喜セレクション': ['逆転裁判4', '逆転裁判5', '逆転裁判6'] };
+const collectionProblems = [];
+for (const [col, members] of Object.entries(COLLECTIONS)) {
+  const names = relatedNames(renderFor(col));
+  if (JSON.stringify(names.slice(0, members.length)) !== JSON.stringify(members) || names.length <= members.length || names.length > members.length + 6 || new Set(names).size !== names.length) collectionProblems.push(col + ': ' + names.join(','));
+  for (const m of members) {
+    const mn = relatedNames(renderFor(m));
+    if (mn[0] !== col || mn.length < 2 || mn.length > 7 || new Set(mn).size !== mn.length) collectionProblems.push(m + ': ' + mn.join(','));
+  }
+}
+const plainRelated = relatedNames(renderFor('Minecraft'));
+check('5h. 逆転裁判123・456 とその収録作品は関連ゲーム欄の先頭で互いへリンクし、自動の関連ゲームも残る(ほかのゲームは従来どおり最大6件)',
+  collectionProblems.length === 0 && plainRelated.length === 6, collectionProblems.concat(plainRelated.join(',')).slice(0, 5).join('\n         '));
 
 // ---- 6. 公開中のゲームシリーズページへの導線(data-series.js の publish: true だけ) ----
 const seriesCtx = {}; vm.createContext(seriesCtx); vm.runInContext(read('data-series.js'), seriesCtx);

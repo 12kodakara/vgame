@@ -47,6 +47,16 @@ const GAME_ABBREVIATION_META = {
   },
 };
 const gameAbbreviationMetaOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_ABBREVIATION_META, game) ? GAME_ABBREVIATION_META[game] : null);
+// 複数作品をまとめた収録版(キー)と、その収録作品。どちらも独立したゲームのまま、関連ゲーム欄の先頭で互いへ案内する
+// (まとめ版 → 収録作品すべて / 収録作品 → まとめ版)。自動で選ぶ関連ゲームはこれまでどおり後ろに並べる。
+const GAME_COLLECTION_LINKS = {
+  "逆転裁判123 成歩堂セレクション": ["逆転裁判", "逆転裁判2", "逆転裁判3"],
+  "逆転裁判456 王泥喜セレクション": ["逆転裁判4", "逆転裁判5", "逆転裁判6"],
+};
+function collectionLinksOf(game) {
+  if (Object.prototype.hasOwnProperty.call(GAME_COLLECTION_LINKS, game)) return GAME_COLLECTION_LINKS[game].slice();
+  return Object.keys(GAME_COLLECTION_LINKS).filter((c) => GAME_COLLECTION_LINKS[c].indexOf(game) >= 0);
+}
 
 /**
  * このゲームから案内する公開中のゲームシリーズページ(data-series.js の SERIES_PAGES)。無ければ null。
@@ -351,7 +361,12 @@ function buildGameDescription(game, items, standalone) {
       const j = Math.floor(Math.random() * (i + 1));
       [relatedCandidates[i], relatedCandidates[j]] = [relatedCandidates[j], relatedCandidates[i]];
     }
-    const relatedGames = relatedCandidates.slice(0, 6);
+    // まとめ版と収録作品(GAME_COLLECTION_LINKS)は先頭に必ず出す。件数はそのゲームの掲載件数(実況が無いものは出さない)
+    const collectionLinks = collectionLinksOf(game)
+      .map((name) => ({ name: name, count: listingCountOfGame(name) }))
+      .filter((x) => x.count > 0);
+    const relatedGames = collectionLinks.concat(
+      relatedCandidates.filter((x) => !collectionLinks.some((c) => c.name === x.name)).slice(0, 6));
 
     // ---------- ジャンル別ページへの入口(公開中のジャンル=ホラーのみ。再生リストの過半数がホラーのゲーム) ----------
     const genreLink = document.getElementById("game-genre-link");
