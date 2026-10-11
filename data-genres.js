@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-kitamicoolgu-01",
+     "title": "パラノマサイト FILE38 伊勢人魚物語",
+     "streamer": "北見遊征",
+     "game": "パラノマサイト",
+     "genre": "horror",
+     "playlistId": "PLQGuvrqdUwkg",
+     "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
+     "videoCount": 1,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-11"
+    },
+    {
      "id": "gap047",
      "title": "Dead By Daylight",
      "streamer": "Finana Ryugu",
@@ -1525,18 +1537,6 @@ const GENRE_PAGES = {
      "videoCount": 12,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-02"
-    },
-    {
-     "id": "niji-kitamicoolgu-01",
-     "title": "パラノマサイト FILE38 伊勢人魚物語",
-     "streamer": "北見遊征",
-     "game": "パラノマサイト",
-     "genre": "horror",
-     "playlistId": "PLQGuvrqdUwkg",
-     "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
-     "videoCount": 1,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-01"
     },
     {
      "id": "vspo-totokogara-21",
