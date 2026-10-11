@@ -42,6 +42,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-11"
   },
   {
+   "id": "gap855",
+   "title": "🎮：JUDGE EYES：死神の遺言",
+   "streamer": "千凛あゆむ",
+   "game": "JUDGE EYES:死神の遺言",
+   "genre": "action",
+   "playlistId": "PLeOd5nqABP4A",
+   "thumbnailUrl": "https://i.ytimg.com/vi/dya2hsZzpI0/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-11"
+  },
+  {
    "id": "gap822",
    "title": "ほの暮らしの庭",
    "streamer": "小清水透",
@@ -90,6 +102,30 @@ const NEW_LIST = {
    "updatedDate": "2026-10-10"
   },
   {
+   "id": "gap853",
+   "title": "SEKIRO: SHADOWS DIE TWICE | 隻狼",
+   "streamer": "Enna Alouette",
+   "game": "SEKIRO: SHADOWS DIE TWICE",
+   "genre": "action",
+   "playlistId": "PLQsjcUP6MOzo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/_qoGK5xJWhY/mqdefault_live.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-10"
+  },
+  {
+   "id": "gap856",
+   "title": "🎮：Apex Legends",
+   "streamer": "千凛あゆむ",
+   "game": "Apex Legends",
+   "genre": "fps",
+   "playlistId": "PLXoAjfcu4T-s",
+   "thumbnailUrl": "https://i.ytimg.com/vi/idl2KWn2mHQ/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-10"
+  },
+  {
    "id": "holo-157",
    "title": "鬼武者 Way of the Sword",
    "streamer": "百灯キョーコ",
@@ -134,6 +170,30 @@ const NEW_LIST = {
    "playlistId": "PLGY3YhPwh07A",
    "thumbnailUrl": "https://i.ytimg.com/vi/S6ND3psj9yQ/mqdefault.jpg",
    "videoCount": 22,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap858",
+   "title": "【完】ACE COMBAT ZERO: THE BELKAN WAR ( 移植版 )┊︎エースコンバット・ゼロ ザ・ベルカン・ウォー",
+   "streamer": "葉山舞鈴",
+   "game": "エースコンバット・ゼロ",
+   "genre": "sim",
+   "playlistId": "PLUredZ8021rg",
+   "thumbnailUrl": "https://i.ytimg.com/vi/SXu7Bj667cY/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap868",
+   "title": "🫧 スーパードンキーコング2￤進行中 🐬",
+   "streamer": "小々波いるか",
+   "game": "スーパードンキーコング2",
+   "genre": "action",
+   "playlistId": "PLeZBPEzxWu-Y",
+   "thumbnailUrl": "https://i.ytimg.com/vi/xgH_228jFBY/mqdefault.jpg",
+   "videoCount": 2,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-07"
   },
@@ -234,6 +294,42 @@ const NEW_LIST = {
    "updatedDate": "2026-09-24"
   },
   {
+   "id": "gap852",
+   "title": "🎮都市伝説解体センター【完】",
+   "streamer": "猫屋敷美紅",
+   "game": "都市伝説解体センター",
+   "genre": "other",
+   "playlistId": "PLSsZyh4dge7A",
+   "thumbnailUrl": "https://i.ytimg.com/vi/23XzVHp6mA4/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-24"
+  },
+  {
+   "id": "gap864",
+   "title": "🎮️：星のカービィ64【完結】",
+   "streamer": "千凛あゆむ",
+   "game": "星のカービィ64",
+   "genre": "action",
+   "playlistId": "PLTqrqE3FFZnQ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3QO1F1yhfoI/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-23"
+  },
+  {
+   "id": "gap860",
+   "title": "壺おじ（Getting Over It with Bennett Foddy）",
+   "streamer": "白砂あやね",
+   "game": "Getting Over It",
+   "genre": "action",
+   "playlistId": "PLJt_SrnNtUHk",
+   "thumbnailUrl": "https://i.ytimg.com/vi/XP_guMPhcpk/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-22"
+  },
+  {
    "id": "gap841",
    "title": "｢スイカゲーム｣です🍉",
    "streamer": "篠宮ゆの",
@@ -244,6 +340,30 @@ const NEW_LIST = {
    "videoCount": 23,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-09-21"
+  },
+  {
+   "id": "gap865",
+   "title": "🎮️：PRAGMATA【完結】",
+   "streamer": "千凛あゆむ",
+   "game": "PRAGMATA",
+   "genre": "action",
+   "playlistId": "PLVWcNa-_tPRo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/e6-o18OnDb0/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-20"
+  },
+  {
+   "id": "gap867",
+   "title": "【Valorant】",
+   "streamer": "ミン スゥーハ",
+   "game": "VALORANT",
+   "genre": "fps",
+   "playlistId": "PLLjp0aJ1oMfo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/DfiIwZr4xQc/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-17"
   },
   {
    "id": "holo-161",
@@ -294,6 +414,30 @@ const NEW_LIST = {
    "updatedDate": "2026-09-08"
   },
   {
+   "id": "gap862",
+   "title": "ACE COMBAT™ 7: SKIES UNKNOWN┊︎エースコンバット7 スカイズ・アンノウン",
+   "streamer": "葉山舞鈴",
+   "game": "ACE COMBAT 7: SKIES UNKNOWN",
+   "genre": "sim",
+   "playlistId": "PLI1OwicOH13g",
+   "thumbnailUrl": "https://i.ytimg.com/vi/VoOJZqRF568/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-07-03"
+  },
+  {
+   "id": "gap861",
+   "title": "🫧利用規約に同意したい🐬",
+   "streamer": "小々波いるか",
+   "game": "利用規約に同意したい",
+   "genre": "action",
+   "playlistId": "PL3lPKudGn_A1z9B4InT8B4AP4I0NLKkZ4",
+   "thumbnailUrl": "https://i.ytimg.com/vi/rw4Jk43admQ/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-04-27"
+  },
+  {
    "id": "gap831",
    "title": "利用規約に同意したい",
    "streamer": "水面まどか",
@@ -304,6 +448,18 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-03-21"
+  },
+  {
+   "id": "gap854",
+   "title": "ピクミン2：異星で借金返済生活",
+   "streamer": "五木左京",
+   "game": "ピクミン2",
+   "genre": "action",
+   "playlistId": "PLFXgzhDFNw7hvzQsC2-i1lyrQbTsn1SMg",
+   "thumbnailUrl": "https://i.ytimg.com/vi/WRHotWZHao4/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-03-07"
   },
   {
    "id": "holo-160",
@@ -378,6 +534,30 @@ const NEW_LIST = {
    "updatedDate": "2025-12-05"
   },
   {
+   "id": "gap859",
+   "title": "【完結】🐍METAL GEAR SOLID Δ: SNAKE EATER🐍",
+   "streamer": "ニュイ・ソシエール",
+   "game": "METAL GEAR SOLID Δ: SNAKE EATER",
+   "genre": "action",
+   "playlistId": "PLCkTosaqp5q1iDkLNmubVE1u2l-LIyF_d",
+   "thumbnailUrl": "https://i.ytimg.com/vi/xGeUJ7RIQ9I/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2025-12-02"
+  },
+  {
+   "id": "gap863",
+   "title": "パタちの空気読み。",
+   "streamer": "レイン・パターソン",
+   "game": "空気読み。",
+   "genre": "other",
+   "playlistId": "PLnf0TderQXzK-Dg6tN33ONx7fAH3qxCBp",
+   "thumbnailUrl": "https://i.ytimg.com/vi/YKzd16mDmGw/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2024-12-09"
+  },
+  {
    "id": "nijien-finanaryugu-06",
    "title": "Yakuza 5 Remastered",
    "streamer": "Finana Ryugu",
@@ -388,6 +568,18 @@ const NEW_LIST = {
    "videoCount": 12,
    "addedDate": "2026-10-11",
    "updatedDate": "2024-12-05"
+  },
+  {
+   "id": "gap857",
+   "title": "【 #しゃるる杯 】【 #にじンモTV3時間スペシャル #leagueoflegends 】",
+   "streamer": "葛葉",
+   "game": "League of Legends",
+   "genre": "other",
+   "playlistId": "PLwCa-x--ILnaOkgMYXIg40OnPUDzXTDqc",
+   "thumbnailUrl": "https://i.ytimg.com/vi/w-Y-WA5Ze-Y/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2024-12-02"
   },
   {
    "id": "gap821",
@@ -412,198 +604,6 @@ const NEW_LIST = {
    "videoCount": 14,
    "addedDate": "2026-10-11",
    "updatedDate": "2024-05-24"
-  },
-  {
-   "id": "gap849",
-   "title": "スト鯖 RUST",
-   "streamer": "魔界ノりりむ",
-   "game": "Rust",
-   "genre": "sandbox",
-   "playlistId": "PLHUYzNY9-oi3jUQvUqYbGvqzIdmE06KkS",
-   "thumbnailUrl": "https://i.ytimg.com/vi/yBTPxde6UJQ/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2023-06-21"
-  },
-  {
-   "id": "gap832",
-   "title": "DARK SOULS Ⅲ",
-   "streamer": "星導ショウ",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLF_4z1Mpj_JydBgPy6MkTcK34cLh2OsQI",
-   "thumbnailUrl": "https://i.ytimg.com/vi/to3zYwzRDq4/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2023-05-16"
-  },
-  {
-   "id": "holo-162",
-   "title": "龍が如く維新🐉【完結】",
-   "streamer": "博衣こより",
-   "game": "龍が如く維新！極",
-   "genre": "action",
-   "playlistId": "PLCxKJRIVDrYF8c-CgfLdEAXKmm7tS9XCY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/ByqL4V38QS4/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2023-02-27"
-  },
-  {
-   "id": "gap848",
-   "title": "Reine - Your Turn To Die キミガシネ",
-   "streamer": "Pavolia Reine",
-   "game": "キミガシネ",
-   "genre": "horror",
-   "playlistId": "PLrALGrrF-6IWaCWhyFQy7P8UH8EGWt2xq",
-   "thumbnailUrl": "https://i.ytimg.com/vi/OLXWcn-cwBE/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2023-01-16"
-  },
-  {
-   "id": "gap827",
-   "title": "Dark Souls III",
-   "streamer": "Elira Pendora",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLcGP7PjybiCPiZHdKuss_Hb6JbLcTNQXq",
-   "thumbnailUrl": "https://i.ytimg.com/vi/EVWAJ1em80w/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2022-01-27"
-  },
-  {
-   "id": "gap846",
-   "title": "\"壺おじとの夜\"シリーズ",
-   "streamer": "森中花咲",
-   "game": "Getting Over It",
-   "genre": "action",
-   "playlistId": "PLPdRnC_qtK6DZF3B8Q7xRihemoqYTFt1p",
-   "thumbnailUrl": "https://i.ytimg.com/vi/Y0AXYlyEnM8/mqdefault.jpg",
-   "videoCount": 12,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2019-05-30"
-  },
-  {
-   "id": "gap797",
-   "title": "✧桃太郎電鉄 │ 天宮こころ",
-   "streamer": "天宮こころ",
-   "game": "桃太郎電鉄",
-   "genre": "other",
-   "playlistId": "PLf_iCnxqBv4j6VasTg02T9Ch4k7WmMXVH",
-   "thumbnailUrl": "https://i.ytimg.com/vi/yqpsIVhQeqQ/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2026-05-05"
-  },
-  {
-   "id": "gap786",
-   "title": "〖マリオテニス フィーバー〗",
-   "streamer": "笹木咲",
-   "game": "マリオテニス",
-   "genre": "sports",
-   "playlistId": "PLed6q99qvCSdMtV7ReiVvTd8xyGVvH32G",
-   "thumbnailUrl": "https://i.ytimg.com/vi/xq0NPzK-Lvk/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2026-02-24"
-  },
-  {
-   "id": "gap812",
-   "title": "METAL GEAR SOLID Δ: SNAKE EATER",
-   "streamer": "Freodore",
-   "game": "METAL GEAR SOLID Δ: SNAKE EATER",
-   "genre": "action",
-   "playlistId": "PLiYIbLbIkhBg8qOrQlDHLfkF3daKpwq7u",
-   "thumbnailUrl": "https://i.ytimg.com/vi/gb42khqzlOw/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-09-25"
-  },
-  {
-   "id": "gap818",
-   "title": "【MGS】【メタルギア ソリッド デルタ: スネークイーター】",
-   "streamer": "葛葉",
-   "game": "METAL GEAR SOLID Δ: SNAKE EATER",
-   "genre": "action",
-   "playlistId": "PLwCa-x--ILnZRaOJjnLazr7j46KuKR2Vf",
-   "thumbnailUrl": "https://i.ytimg.com/vi/ORA9bhScu3c/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-09-04"
-  },
-  {
-   "id": "gap811",
-   "title": "MGSΔ",
-   "streamer": "ベルモンド・バンデラス",
-   "game": "METAL GEAR SOLID Δ: SNAKE EATER",
-   "genre": "action",
-   "playlistId": "PLwpJFw_gqGL9nVt87KRrTzwIxGasZnKBn",
-   "thumbnailUrl": "https://i.ytimg.com/vi/FWE5H79Bj_4/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-09-03"
-  },
-  {
-   "id": "gap787",
-   "title": "凛LIVE --- R.E.P.O.",
-   "streamer": "静凛",
-   "game": "R.E.P.O.",
-   "genre": "horror",
-   "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
-   "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
-   "videoCount": 13,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-08-16"
-  },
-  {
-   "id": "gap810",
-   "title": "キャラバンハート　ドラクエモンスターズ",
-   "streamer": "ベルモンド・バンデラス",
-   "game": "ドラゴンクエストモンスターズ キャラバンハート",
-   "genre": "rpg",
-   "playlistId": "PLwpJFw_gqGL_zi-V_V9j4ADWJpSeHO__k",
-   "thumbnailUrl": "https://i.ytimg.com/vi/ablvtsfUrEg/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-06-26"
-  },
-  {
-   "id": "gap808",
-   "title": "モンハン：ワイルズ",
-   "streamer": "小清水透",
-   "game": "モンスターハンターワイルズ",
-   "genre": "action",
-   "playlistId": "PL9mzRTKsqnF5X_KplVlOcgVHNHZXGDXMu",
-   "thumbnailUrl": "https://i.ytimg.com/vi/wRiN0_SiayU/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-05-29"
-  },
-  {
-   "id": "gap788",
-   "title": "凛 --- ゲーム発展国++",
-   "streamer": "静凛",
-   "game": "ゲーム発展国++",
-   "genre": "sim",
-   "playlistId": "PL0EE7SG9o_r_oaicpFI8RppxGcVUq0WVR",
-   "thumbnailUrl": "https://i.ytimg.com/vi/XVTMEaHgeng/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-05-22"
-  },
-  {
-   "id": "gap805",
-   "title": "ドラクエモンスターズRETRO",
-   "streamer": "ベルモンド・バンデラス",
-   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
-   "genre": "rpg",
-   "playlistId": "PLwpJFw_gqGL8QyqVffaD6aAKgcJC1Gmi9",
-   "thumbnailUrl": "https://i.ytimg.com/vi/Td4syy47Cv4/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-09-19",
-   "updatedDate": "2025-05-10"
   }
  ]
 };
