@@ -258,6 +258,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-05"
   },
   {
+   "id": "gap901",
+   "title": "🎮️：FINAL FANTASY X【完結】",
+   "streamer": "千凛あゆむ",
+   "game": "FINAL FANTASY X",
+   "genre": "rpg",
+   "playlistId": "PLSfQgctsOqkw",
+   "thumbnailUrl": "https://i.ytimg.com/vi/sSbuMpasRRc/mqdefault.jpg",
+   "videoCount": 11,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-03"
+  },
+  {
    "id": "gap824",
    "title": "UNDERTALE",
    "streamer": "魔界ノりりむ",
@@ -438,6 +450,30 @@ const NEW_LIST = {
    "updatedDate": "2026-09-17"
   },
   {
+   "id": "gap891",
+   "title": "【GTA】",
+   "streamer": "ミン スゥーハ",
+   "game": "Grand Theft Auto V",
+   "genre": "action",
+   "playlistId": "PLd9kTX5S5fhs",
+   "thumbnailUrl": "https://i.ytimg.com/vi/THQmrMwByno/mqdefault.jpg",
+   "videoCount": 36,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-17"
+  },
+  {
+   "id": "gap892",
+   "title": "【Minecraft】",
+   "streamer": "ミン スゥーハ",
+   "game": "Minecraft",
+   "genre": "sandbox",
+   "playlistId": "PLCjGGKI4KsRA",
+   "thumbnailUrl": "https://i.ytimg.com/vi/T0PAt-QGUrg/mqdefault.jpg",
+   "videoCount": 24,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-17"
+  },
+  {
    "id": "holo-161",
    "title": "鬼武者 Way of the Sword",
    "streamer": "姫森ルーナ",
@@ -486,6 +522,30 @@ const NEW_LIST = {
    "updatedDate": "2026-09-08"
   },
   {
+   "id": "gap895",
+   "title": "にじメンマイクラ",
+   "streamer": "男虎",
+   "game": "Minecraft",
+   "genre": "sandbox",
+   "playlistId": "PLQTPAoJ7u_58",
+   "thumbnailUrl": "https://i.ytimg.com/vi/coYTLSLUWGE/mqdefault.jpg",
+   "videoCount": 13,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-08"
+  },
+  {
+   "id": "gap893",
+   "title": "ゼルダ：ブレワイ",
+   "streamer": "小清水透",
+   "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
+   "genre": "action",
+   "playlistId": "PL9mzRTKsqnF493b3nAFqJ08YF6alYBUKi",
+   "thumbnailUrl": "https://i.ytimg.com/vi/e6qRyWaLjFQ/mqdefault.jpg",
+   "videoCount": 14,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-07-13"
+  },
+  {
    "id": "gap862",
    "title": "ACE COMBAT™ 7: SKIES UNKNOWN┊︎エースコンバット7 スカイズ・アンノウン",
    "streamer": "葉山舞鈴",
@@ -496,6 +556,18 @@ const NEW_LIST = {
    "videoCount": 3,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-07-03"
+  },
+  {
+   "id": "gap896",
+   "title": "プロセカ / Hatsune Miku: Colorful Stage",
+   "streamer": "Zeal Ginjoka",
+   "game": "プロジェクトセカイ",
+   "genre": "other",
+   "playlistId": "PL1e1TLuiga-wIxPuu8gTg1PjB7uNaZjU-",
+   "thumbnailUrl": "https://i.ytimg.com/vi/TbcnULLTSNg/mqdefault.jpg",
+   "videoCount": 13,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-04-30"
   },
   {
    "id": "gap861",
@@ -510,6 +582,18 @@ const NEW_LIST = {
    "updatedDate": "2026-04-27"
   },
   {
+   "id": "gap898",
+   "title": "ポケモンZAナナもね並走＆バトル🩵🩷",
+   "streamer": "梢桃音",
+   "game": "Pokémon LEGENDS Z-A",
+   "genre": "rpg",
+   "playlistId": "PLnZB0mC8umaCeKzrfeN20QrrCPDM9-hsu",
+   "thumbnailUrl": "https://i.ytimg.com/vi/TKwpGFJY3m0/mqdefault.jpg",
+   "videoCount": 12,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-03-22"
+  },
+  {
    "id": "gap831",
    "title": "利用規約に同意したい",
    "streamer": "水面まどか",
@@ -520,90 +604,6 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-03-21"
-  },
-  {
-   "id": "gap854",
-   "title": "ピクミン2：異星で借金返済生活",
-   "streamer": "五木左京",
-   "game": "ピクミン2",
-   "genre": "action",
-   "playlistId": "PLFXgzhDFNw7hvzQsC2-i1lyrQbTsn1SMg",
-   "thumbnailUrl": "https://i.ytimg.com/vi/WRHotWZHao4/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-03-07"
-  },
-  {
-   "id": "holo-160",
-   "title": "⚠利用規約に同意したい⚠",
-   "streamer": "博衣こより",
-   "game": "利用規約に同意したい",
-   "genre": "action",
-   "playlistId": "PLCxKJRIVDrYHd-vIE7yKa-RDw7S8rt9XE",
-   "thumbnailUrl": "https://i.ytimg.com/vi/opZIRbMpWDE/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-03-04"
-  },
-  {
-   "id": "gap842",
-   "title": "VALORANT (V25 Act 1-6)",
-   "streamer": "美暮ナリン",
-   "game": "VALORANT",
-   "genre": "fps",
-   "playlistId": "PL7wfa5CT3svGwKz65ANn8iKpdTf3GDFP8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/Aec9j039RH8/mqdefault.jpg",
-   "videoCount": 19,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-01-25"
-  },
-  {
-   "id": "gap837",
-   "title": "利用規約に同意したい",
-   "streamer": "五木左京",
-   "game": "利用規約に同意したい",
-   "genre": "action",
-   "playlistId": "PLFXgzhDFNw7i1-Tv7V1UklYnAQbt608rd",
-   "thumbnailUrl": "https://i.ytimg.com/vi/tLe-v_-aY9k/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-01-21"
-  },
-  {
-   "id": "holo-158",
-   "title": "利用規約に同意したい",
-   "streamer": "AZKi",
-   "game": "利用規約に同意したい",
-   "genre": "action",
-   "playlistId": "PLpt61bADOMwXWRO-D2FHfcdz5UMqTOeP3",
-   "thumbnailUrl": "https://i.ytimg.com/vi/cf5dDfXao68/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-01-09"
-  },
-  {
-   "id": "holo-159",
-   "title": "利用規約に同意したい",
-   "streamer": "姫森ルーナ",
-   "game": "利用規約に同意したい",
-   "genre": "action",
-   "playlistId": "PL6gUpTCMieF4_t4zxYKUh31cD6noNDz2A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/KmQCCw5bKd4/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-01-01"
-  },
-  {
-   "id": "gap845",
-   "title": "空の軌跡 the 1st-完結-",
-   "streamer": "先斗寧",
-   "game": "空の軌跡",
-   "genre": "rpg",
-   "playlistId": "PLbEBigSEgkHxsRz0R59A65LSjYo2njei3",
-   "thumbnailUrl": "https://i.ytimg.com/vi/0Szv-ygBG3A/mqdefault.jpg",
-   "videoCount": 14,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2025-12-05"
   }
  ]
 };
