@@ -78,6 +78,18 @@ const NEW_LIST = {
    "updatedDate": "2024-12-05"
   },
   {
+   "id": "holo-162",
+   "title": "龍が如く維新🐉【完結】",
+   "streamer": "博衣こより",
+   "game": "龍が如く維新！極",
+   "genre": "action",
+   "playlistId": "PLCxKJRIVDrYF8c-CgfLdEAXKmm7tS9XCY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/ByqL4V38QS4/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2023-02-27"
+  },
+  {
    "id": "gap797",
    "title": "✧桃太郎電鉄 │ 天宮こころ",
    "streamer": "天宮こころ",
@@ -592,18 +604,6 @@ const NEW_LIST = {
    "videoCount": 1,
    "addedDate": "2026-09-17",
    "updatedDate": "2026-10-04"
-  },
-  {
-   "id": "holo-156",
-   "title": "アンチャーテッドシリーズ",
-   "streamer": "猫又おかゆ",
-   "game": "アンチャーテッド",
-   "genre": "action",
-   "playlistId": "PLcBqbL2HXHMg",
-   "thumbnailUrl": "https://i.ytimg.com/vi/HgS9RJNBdTM/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-09-17",
-   "updatedDate": "2026-09-20"
   }
  ]
 };

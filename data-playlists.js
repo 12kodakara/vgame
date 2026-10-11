@@ -78867,6 +78867,18 @@ const PLAYLISTS = [
     addedDate: "2026-10-11",
     updatedDate: "2024-12-05",
   },
+  {
+    id: "holo-162",
+    title: "龍が如く維新🐉【完結】",
+    streamer: "博衣こより",
+    game: "龍が如く維新！極",
+    genre: "action",
+    playlistId: "PLCxKJRIVDrYF8c-CgfLdEAXKmm7tS9XCY",
+    thumbnailUrl: "https://i.ytimg.com/vi/ByqL4V38QS4/mqdefault.jpg",
+    videoCount: 4,
+    addedDate: "2026-10-11",
+    updatedDate: "2023-02-27",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました
