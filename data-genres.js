@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 118,
     "streamers": 167,
-    "playlists": 638,
-    "videos": 4066
+    "playlists": 639,
+    "videos": 4068
    },
    "games": [
     [
@@ -174,6 +174,11 @@ const GENRE_PAGES = {
      6
     ],
     [
+     "バイオハザード6",
+     6,
+     6
+    ],
+    [
      "殺戮の天使",
      6,
      6
@@ -185,11 +190,6 @@ const GENRE_PAGES = {
     ],
     [
      "つぐのひ",
-     5,
-     5
-    ],
-    [
-     "バイオハザード6",
      5,
      5
     ],
@@ -661,12 +661,12 @@ const GENRE_PAGES = {
      9
     ],
     [
-     "甲斐田晴",
-     8,
-     8
+     "鷹嶺ルイ",
+     9,
+     9
     ],
     [
-     "鷹嶺ルイ",
+     "甲斐田晴",
      8,
      8
     ],
@@ -1491,6 +1491,18 @@ const GENRE_PAGES = {
      "updatedDate": "2026-10-09"
     },
     {
+     "id": "gap834",
+     "title": "バイオハザード6",
+     "streamer": "鷹嶺ルイ",
+     "game": "バイオハザード6",
+     "genre": "horror",
+     "playlistId": "PLXPW6-4naNnE",
+     "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
+     "videoCount": 2,
+     "addedDate": "2026-10-11",
+     "updatedDate": "2026-10-06"
+    },
+    {
      "id": "niji-blackshibach-06",
      "title": "黒夢町",
      "streamer": "黒井しば",
@@ -1549,18 +1561,6 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-09-26"
-    },
-    {
-     "id": "niji-pontonei-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "先斗寧",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLLvGv6lqJKww",
-     "thumbnailUrl": "https://i.ytimg.com/vi/9Tv6XFCPivs/mqdefault.jpg",
-     "videoCount": 6,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-09-22"
     }
    ]
   }

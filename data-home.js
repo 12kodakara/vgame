@@ -5,9 +5,9 @@
  */
 const HOME_SUMMARY = {
   "version": 1,
-  "playlistCount": 6569,
+  "playlistCount": 6588,
   "gameCount": 925,
-  "streamerCount": 273,
+  "streamerCount": 274,
   "topGames": [
     {
       "key": "Minecraft",
@@ -68,6 +68,18 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-11"
     },
     {
+      "id": "gap835",
+      "title": "LOST JUDGMENT：裁かれざる記憶",
+      "streamer": "水宮枢",
+      "game": "LOST JUDGMENT:裁かれざる記憶",
+      "genre": "action",
+      "playlistId": "PLLOWP7UoerRc",
+      "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
+      "videoCount": 3,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-10-11"
+    },
+    {
       "id": "niji-404",
       "title": "Lobotomy Corporation",
       "streamer": "ましろ爻",
@@ -76,18 +88,6 @@ const HOME_SUMMARY = {
       "playlistId": "PLi3tGGFl-0rWGTno2VRcW9Adr6VdhgeLG",
       "thumbnailUrl": "https://i.ytimg.com/vi/A3swesi691c/mqdefault.jpg",
       "videoCount": 19,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-10"
-    },
-    {
-      "id": "niji-467",
-      "title": "mabinogi",
-      "streamer": "樋口楓",
-      "game": "マビノギ",
-      "genre": "rpg",
-      "playlistId": "PLXVn5n2jQV_BNC3BYLh5rVQ9XxGgCfbED",
-      "thumbnailUrl": "https://i.ytimg.com/vi/9taJ-tQJcyE/mqdefault.jpg",
-      "videoCount": 35,
       "addedDate": "2026-09-06",
       "updatedDate": "2026-10-10"
     }
