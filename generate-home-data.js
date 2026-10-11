@@ -42,14 +42,22 @@ function computeSummary() {
     localStorage: storage,
   };
   vm.createContext(ctx);
-  for (const f of ['data-core.js', 'data-playlists.js', 'common.js', 'home.js']) {
+  for (const f of ['data-core.js', 'data-playlists.js', 'data-standalone.js', 'common.js', 'home.js']) {
     vm.runInContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), ctx, { filename: f });
   }
   const playlists = vm.runInContext('getAllPlaylists()', ctx);
   if (!playlists.length) throw new Error('PLAYLISTS が空です。data-playlists.js を確認してください。');
-  const summary = vm.runInContext('computeHomeSummary(getAllPlaylists())', ctx);
+  const summary = vm.runInContext('computeHomeSummary(getAllPlaylists(), typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS)', ctx);
   // vm 内のオブジェクトを通常の JSON に落とす(プロトタイプを持ち込まない)
   return JSON.parse(JSON.stringify(summary));
+}
+
+/** JSON.stringify(summary, null, 2) と同じ形。ただし streamerPicks(おすすめVTuberの候補)は1組1行にして軽くする。 */
+function stringifySummary(summary) {
+  const marker = '"__STREAMER_PICKS__"';
+  const text = JSON.stringify(Object.assign({}, summary, { streamerPicks: '__STREAMER_PICKS__' }), null, 2);
+  const rows = summary.streamerPicks.map((row) => '    ' + JSON.stringify(row)).join(',\n');
+  return text.replace(marker, () => '[\n' + rows + '\n  ]');
 }
 
 function render(summary) {
@@ -59,7 +67,7 @@ function render(summary) {
     ' * generate-home-data.js が data-playlists.js から home.js の computeHomeSummary() で生成する。',
     ' * トップページは数MBある data-playlists.js の代わりにこれを読み込んで初期表示する。',
     ' */',
-    'const HOME_SUMMARY = ' + JSON.stringify(summary, null, 2) + ';',
+    'const HOME_SUMMARY = ' + stringifySummary(summary) + ';',
     '',
   ].join('\n');
 }

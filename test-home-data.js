@@ -37,7 +37,7 @@ for (const f of ['data-core.js', 'data-playlists.js', 'data-home.js']) vm.runInC
 const playlists = vm.runInContext('PLAYLISTS', ctx);
 const s = JSON.parse(JSON.stringify(vm.runInContext('HOME_SUMMARY', ctx)));
 const popularity = (p) => (p && (p.popularity || p.videoCount)) || 0;   // common.js calculatePopularity と同じ定義であることは 5. で確認
-check('2a. version = 1', s.version === 1);
+check('2a. version = 2', s.version === 2);
 check('2b. 掲載件数が PLAYLISTS の件数と一致', s.playlistCount === playlists.length, s.playlistCount + ' / ' + playlists.length);
 check('2c. ゲーム数が PLAYLISTS のゲーム種類数と一致', s.gameCount === new Set(playlists.map((p) => p.game)).size);
 check('2d. VTuber数が PLAYLISTS の実況者種類数と一致', s.streamerCount === new Set(playlists.map((p) => p.streamer)).size);
@@ -47,7 +47,7 @@ const sortedDesc = (arr, m) => arr.every((x, i) => i === 0 || m.get(arr[i - 1].k
 check('2e. 人気のゲームは5件・人気スコア降順・件数が実データと一致', s.topGames.length === 5 && sortedDesc(s.topGames, gameScore) && s.topGames.every((x) => gameScore.get(x.key).count === x.count));
 const maxGame = Math.max(...[...gameScore.values()].map((v) => v.score));
 check('2f. 人気のゲーム1位が全ゲーム中の最高スコア', gameScore.get(s.topGames[0].key).score === maxGame);
-check('2g. 人気VTuberは10件・人気スコア降順・件数が実データと一致', s.topStreamers.length === 10 && sortedDesc(s.topStreamers, streamerScore) && s.topStreamers.every((x) => streamerScore.get(x.key).count === x.count));
+// 2g(人気VTuber上位10件)は 7. へ移した(「今週のおすすめVTuber」の週替わり選出に置き換えた)
 const dateOf = (p) => new Date(p.updatedDate || p.addedDate).getTime();
 const newest = Math.max(...playlists.filter((p) => p.updatedDate || p.addedDate).map(dateOf));
 check('2h. 最近更新は5件・日付降順・先頭が全体の最新日付', s.recentUpdated.length === 5 && s.recentUpdated.every((p, i) => i === 0 || dateOf(s.recentUpdated[i - 1]) >= dateOf(p)) && dateOf(s.recentUpdated[0]) === newest);
@@ -77,7 +77,7 @@ check('4. data-lazy-playlists を持つのは index.html・game.html・streamer.
 
 // ---- 5. 経路の存在 ----
 const home = read('home.js'), common = read('common.js');
-check('5a. home.js: HOME_SUMMARY が使えない場合は data-playlists.js を読み込んで同じ関数で集計する', /loadPlaylistsData\(\)\.then\(\(\) => renderPlaylistSections\(computeHomeSummary\(getAllPlaylists\(\)\)\)\)/.test(home));
+check('5a. home.js: HOME_SUMMARY が使えない場合は data-playlists.js を読み込んで同じ関数で集計する', /loadPlaylistsData\(\)\.then\(\(\) => renderPlaylistSections\(computeHomeSummary\(getAllPlaylists\(\), typeof STANDALONE_PLAYS === "undefined" \? \[\] : STANDALONE_PLAYS\)\)\)/.test(home));
 check('5b. common.js: loadPlaylistsData / isLazyPlaylistsPage が定義されている', /function loadPlaylistsData\(\)/.test(common) && /function isLazyPlaylistsPage\(\)/.test(common));
 check('5c. common.js: 検索欄の focus / input で遅延読み込みする', (common.match(/ensurePlaylistsForSuggest\(\);/g) || []).length === 2);
 check('5d. calculatePopularity の定義がテストの前提(popularity || videoCount)と同じ', /function calculatePopularity\(item\) \{\s*return \(item && \(item\.popularity \|\| item\.videoCount\)\) \|\| 0;\s*\}/.test(common));
@@ -89,7 +89,7 @@ const missingTargets = localHrefs.map((h) => h.split('?')[0]).filter((h) => !fs.
 check('6a. index.html の内部リンク先がすべて存在する', missingTargets.length === 0, missingTargets.join(', '));
 check('6b. ゲーム一覧(games.html)・VTuber一覧(streamers.html)への導線がある', localHrefs.includes('games.html') && localHrefs.includes('streamers.html'));
 check('6c. ゲーム詳細・VTuber詳細・事務所別一覧への導線を home.js が描画する',
-  /a\.href = gameUrl\(item\.key\)/.test(home) && /createStreamerCard\(item\.key, item\.count\)/.test(home) && /"streamers\.html\?agency="/.test(home)
+  /a\.href = gameUrl\(item\.key\)/.test(home) && /createStreamerCard\(c\[0\], c\[1\]\)/.test(home) && /"streamers\.html\?agency="/.test(home)
   && /function gameUrl\(gameName\) \{\s*return "game\.html\?game=" \+ encodeURIComponent\(gameName\);/.test(common)
   && /function streamerUrl\(streamerName\) \{\s*return "streamer\.html\?streamer=" \+ encodeURIComponent\(streamerName\);/.test(common));
 check('6d. 検索フォーム(サイドバー・トップ)は search.html へ送信する',
@@ -103,6 +103,47 @@ check('6g. sitemap にトップ・ゲーム一覧・VTuber一覧が載ってい�
 check('6h. sitemap に data-home.js 等のデータファイルが載っていない', !/<loc>[^<]*\.(js|json|ps1)<\/loc>/.test(sitemap));
 const robots = read('robots.txt');
 check('6i. robots.txt はサイト全体を許可し、sitemap を案内している', /^User-agent: \*$/m.test(robots) && /^Allow: \/$/m.test(robots) && /^Sitemap: https:\/\/vgame-navi\.jp\/sitemap\.xml$/m.test(robots) && !/^Disallow: \/$/m.test(robots));
+
+// ---- 7. ⭐ 今週のおすすめVTuber(週替わり・同じ週なら同じ結果) ----
+const wctx = { window: { __HOME_SUMMARY_GENERATOR__: true } }; vm.createContext(wctx);
+for (const f of ['data-core.js', 'home.js']) vm.runInContext(read(f), wctx, { filename: f });
+const W = (name) => vm.runInContext(name, wctx);
+const STREAMER_LIST = W('STREAMERS'), EPOCH = W('WEEKLY_PICK_EPOCH'), WEEK = W('WEEKLY_PICK_WEEK_MS');
+const groupOf = (n) => (STREAMER_LIST.find((x) => x.name === n) || {}).group || '';
+const picksAt = (cands, ms, gf) => JSON.parse(JSON.stringify(W('weeklyStreamerPicks')(cands, ms, gf || groupOf)));
+const names = (p) => p.map((c) => c[0]);
+const sctx = {}; vm.createContext(sctx); vm.runInContext(read('data-standalone.js'), sctx);
+const standalone = vm.runInContext('typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS', sctx);
+const cand = s.streamerPicks;
+const expect = {};
+playlists.concat(standalone).forEach((p) => {
+  const b = expect[p.streamer] || (expect[p.streamer] = { n: 0, g: new Set(), f: '' });
+  b.n++; b.g.add(p.game); if (p.addedDate && (!b.f || p.addedDate < b.f)) b.f = p.addedDate;
+});
+check('7a. 候補は再生リストか単発実況が1件以上ある全VTuber(' + cand.length + '組)で、件数・作品数・初回掲載日が実データと一致',
+  cand.length === Object.keys(expect).length && cand.every(([n, c, g, f]) => expect[n] && expect[n].n === c && expect[n].g.size === g && expect[n].f === f));
+const w0a = picksAt(cand, EPOCH + 60 * 1000), w0b = picksAt(cand, EPOCH + WEEK - 60 * 1000), w1 = picksAt(cand, EPOCH + WEEK + 60 * 1000);
+const groupOk = (p) => Object.values(p.reduce((m, c) => { const g = groupOf(c[0]); m[g] = (m[g] || 0) + 1; return m; }, {})).every((n) => n <= 2);
+check('7b. 同じ週なら月曜04:00直後と翌週直前で結果が同じ・10組・重複なし・同じグループは2組まで',
+  JSON.stringify(w0a) === JSON.stringify(w0b) && w0a.length === 10 && new Set(names(w0a)).size === 10 && groupOk(w0a) && groupOk(w1), names(w0a).join(','));
+check('7c. 翌週は10組すべて入れ替わる(前週の選出者を除外)', w1.length === 10 && names(w1).every((n) => !names(w0a).includes(n)), names(w1).join(','));
+const jst = (ms) => new Date(ms + 9 * 3600 * 1000).toISOString().slice(0, 10);
+const isFresh0 = (c) => !!c[3] && c[3] >= jst(EPOCH - 30 * 86400000) && c[3] <= jst(EPOCH);
+const freshPool = cand.filter(isFresh0);
+const freshPicked = w0a.filter(isFresh0).length, discPicked = w0a.filter((c) => !isFresh0(c) && c[2] <= 3).length;
+check('7d. 第0週: 新規登録枠は' + Math.min(2, freshPool.length) + '組(候補' + freshPool.length + '組)・発掘枠(作品1〜3)は4組以上',
+  freshPicked >= Math.min(2, freshPool.length) && discPicked >= 4, 'fresh ' + freshPicked + ' / discovery ' + discPicked);
+const flat = [].concat(...[0, 1, 2, 3].map((k) => picksAt(cand, EPOCH + k * WEEK + 60 * 1000).filter((c) => !isFresh0(c)).map((c) => c[0])));
+check('7e. 長く選ばれていない人を優先: 第0〜3週で新規登録枠以外に同じVTuberが2回出ない', new Set(flat).size === flat.length, flat.length + ' / ' + new Set(flat).size);
+check('7f. 第0週より前の日時は第0週として扱う', JSON.stringify(picksAt(cand, EPOCH - 3 * WEEK)) === JSON.stringify(w0a));
+// 候補不足: 5組なら5組だけ。12組(6グループ×2組)なら翌週は前週に外れた2組 + 前週の選出者で10組まで補う
+const fake = (k) => ['テスト' + String(k).padStart(2, '0'), 1, 5, '2026-01-01'];
+const fakeGroup = (n) => 'G' + Math.floor(Number(n.slice(3)) / 2);
+const five = [0, 1, 2, 3, 4].map(fake), twelve = [...Array(12).keys()].map(fake);
+const f12a = picksAt(twelve, EPOCH + 60 * 1000, fakeGroup), f12b = picksAt(twelve, EPOCH + WEEK + 60 * 1000, fakeGroup);
+check('7g. 候補不足: 5組なら5組を重複なく表示し、12組なら翌週も10組(前週に外れた2組を必ず含む)',
+  picksAt(five, EPOCH + 60 * 1000, fakeGroup).length === 5 && f12a.length === 10 && f12b.length === 10 && new Set(names(f12b)).size === 10 &&
+  names(twelve).filter((n) => !names(f12a).includes(n)).every((n) => names(f12b).includes(n)));
 
 console.log('');
 console.log('PASS: ' + pass + '  FAIL: ' + fail);

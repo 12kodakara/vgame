@@ -1,10 +1,10 @@
 /**
  * トップページ(index.html)専用スクリプト。
  * ファーストビュー下の発見コンテンツ5種を表示する。
- *   🔥 人気のゲーム / 🔄 最近更新された再生リスト / ⭐ 人気／注目VTuber
+ *   🔥 人気のゲーム / 🔄 最近更新された再生リスト / ⭐ 今週のおすすめVTuber
  *   🎮 ゲームから探す(五十音行タイル) / 🎥 VTuberから探す(事務所タイル)
  *
- * 再生リストを使う集計(件数・人気のゲーム・最近更新・人気VTuber)は
+ * 再生リストを使う集計(件数・人気のゲーム・最近更新・おすすめVTuberの候補)は
  * computeHomeSummary() にまとめてある。トップページでは数MBある data-playlists.js を
  * 読み込まず、generate-home-data.js がこの同じ関数で事前に作った data-home.js
  * (HOME_SUMMARY)を使って表示する。HOME_SUMMARY が無い・形式が合わない場合だけ、
@@ -14,13 +14,90 @@
 
 const HOME_LIST_LIMIT = 5;
 const HOME_STREAMER_LIMIT = 10;
-const HOME_SUMMARY_VERSION = 1;
+const HOME_SUMMARY_VERSION = 2;
+
+// ⭐ 今週のおすすめVTuber: 毎週月曜 04:00(日本時間)に入れ替える週替わりの紹介。閲覧数・配信頻度・登録本数では選ばない。
+//   新規登録枠(初回掲載から30日以内)2組 → 発掘枠(掲載作品1〜3)4組 → 一般枠4組の順に埋め、足りない枠は一般枠で補う。
+//   同じグループは2組まで。前週の選出者は外し(10組に足りない場合だけ戻す)、長く選ばれていない人から選ぶ。
+//   選出履歴は保存せず、第0週から同じ計算をやり直して求める(同じ週・同じデータなら結果は必ず同じ)。
+const WEEKLY_PICK_SLOTS = { fresh: 2, discovery: 4 };
+const WEEKLY_PICK_GROUP_MAX = 2;
+const WEEKLY_PICK_FRESH_DAYS = 30;
+const WEEKLY_PICK_DISCOVERY_MAX_GAMES = 3;
+const WEEKLY_PICK_EPOCH = Date.UTC(2026, 9, 11, 19, 0, 0); // 第0週の開始 = 2026-10-12(月)04:00 JST
+const WEEKLY_PICK_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** 週の番号(第0週より前は第0週として扱う)。 */
+function weeklyPickWeekIndex(nowMs) {
+  return Math.max(0, Math.floor((nowMs - WEEKLY_PICK_EPOCH) / WEEKLY_PICK_WEEK_MS));
+}
+
+/** 文字列の32bitハッシュ(FNV-1a)。同じ週の並びを毎回同じにするために使う。 */
+function weeklyPickHash(text) {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h;
+}
+
+/**
+ * 1週分の選出(DOMに触れない純粋関数)。
+ *   candidates: [VTuber名, 掲載件数, 掲載作品数, 初回掲載日(YYYY-MM-DD)] / week: 週の番号
+ *   lastPicked: 名前 → 最後に選ばれた週 / prevPicked: 前週の選出者(Set) / groupOf: 名前 → グループ
+ */
+function pickWeeklyStreamers(candidates, week, lastPicked, prevPicked, groupOf) {
+  const startMs = WEEKLY_PICK_EPOCH + week * WEEKLY_PICK_WEEK_MS;
+  const jstDate = (ms) => new Date(ms + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const startDate = jstDate(startMs);
+  const freshFrom = jstDate(startMs - WEEKLY_PICK_FRESH_DAYS * 24 * 60 * 60 * 1000);
+  const last = (name) => (Object.prototype.hasOwnProperty.call(lastPicked, name) ? lastPicked[name] : -1);
+  const order = candidates
+    .filter((c) => !c[3] || c[3] <= startDate) // その週の開始時点で掲載済みのVTuberだけ
+    .slice()
+    .sort((a, b) => last(a[0]) - last(b[0]) ||
+      weeklyPickHash(week + "|" + a[0]) - weeklyPickHash(week + "|" + b[0]) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  const isFresh = (c) => !!c[3] && c[3] >= freshFrom;
+  const picked = [];
+  const groupCount = {};
+  const fill = (test, n, allowPrev) => {
+    for (const c of order) {
+      if (n <= 0) break;
+      const g = groupOf(c[0]);
+      if (!test(c) || picked.indexOf(c) >= 0 || (groupCount[g] || 0) >= WEEKLY_PICK_GROUP_MAX) continue;
+      if (!allowPrev && prevPicked.has(c[0])) continue;
+      picked.push(c);
+      groupCount[g] = (groupCount[g] || 0) + 1;
+      n--;
+    }
+  };
+  fill(isFresh, WEEKLY_PICK_SLOTS.fresh, false);
+  fill((c) => !isFresh(c) && c[2] <= WEEKLY_PICK_DISCOVERY_MAX_GAMES, WEEKLY_PICK_SLOTS.discovery, false);
+  fill(() => true, HOME_STREAMER_LIMIT - picked.length, false); // 一般枠と、足りない枠の補充
+  fill(() => true, HOME_STREAMER_LIMIT - picked.length, true);  // それでも足りないときだけ前週の選出者も対象
+  return picked;
+}
+
+/** nowMs の週の「今週のおすすめVTuber」。第0週から順に計算して、前週の選出者と最後に選ばれた週を求める。 */
+function weeklyStreamerPicks(candidates, nowMs, groupOf) {
+  const target = weeklyPickWeekIndex(nowMs);
+  const lastPicked = {};
+  let prev = new Set();
+  let picks = [];
+  for (let w = 0; w <= target; w++) {
+    picks = pickWeeklyStreamers(candidates, w, lastPicked, prev, groupOf);
+    picks.forEach((c) => { lastPicked[c[0]] = w; });
+    prev = new Set(picks.map((c) => c[0]));
+  }
+  return picks;
+}
 
 /**
  * 再生リスト一覧からトップページ用の集計を作る(DOMに触れない純粋関数)。
  * generate-home-data.js(ビルド時)と、HOME_SUMMARY が使えない場合のページ側の両方から呼ぶ。
  */
-function computeHomeSummary(playlists) {
+function computeHomeSummary(playlists, standalonePlays) {
   /** playlists を getKey(playlist) の返り値でグルーピングし、popularity合計・件数の多い順に並べる。 */
   function aggregateBy(getKey) {
     const stats = {};
@@ -40,6 +117,20 @@ function computeHomeSummary(playlists) {
       .sort((a, b) => b.score - a.score || b.count - a.count);
   }
 
+  // ⭐ 今週のおすすめVTuber の候補: 再生リストか単発実況が1件以上あるVTuber全員(名前順)。
+  //   [名前, 掲載件数(再生リスト+単発実況), 掲載作品数, 初回掲載日]。選出は表示時に週ごとに行う(weeklyStreamerPicks)。
+  function streamerPickCandidates() {
+    const byStreamer = {};
+    playlists.concat(standalonePlays || []).forEach((p) => {
+      if (!p.streamer) return;
+      const b = byStreamer[p.streamer] || (byStreamer[p.streamer] = { count: 0, games: new Set(), first: "" });
+      b.count += 1;
+      b.games.add(p.game);
+      if (p.addedDate && (!b.first || p.addedDate < b.first)) b.first = p.addedDate;
+    });
+    return Object.keys(byStreamer).sort().map((k) => [k, byStreamer[k].count, byStreamer[k].games.size, byStreamer[k].first]);
+  }
+
   // 🔄 最近更新された再生リスト(updatedDate優先、無ければaddedDateが新しい上位)
   const recentUpdated = playlists.filter((p) => p.updatedDate || p.addedDate)
     .slice()
@@ -53,7 +144,7 @@ function computeHomeSummary(playlists) {
     streamerCount: new Set(playlists.map((p) => p.streamer)).size,
     topGames: aggregateBy((p) => p.game).slice(0, HOME_LIST_LIMIT).map((x) => ({ key: x.key, count: x.count })),
     recentUpdated: recentUpdated,
-    topStreamers: aggregateBy((p) => p.streamer).slice(0, HOME_STREAMER_LIMIT).map((x) => ({ key: x.key, count: x.count })),
+    streamerPicks: streamerPickCandidates(),
   };
 }
 
@@ -61,7 +152,7 @@ function computeHomeSummary(playlists) {
 function isUsableHomeSummary(summary) {
   return !!summary && summary.version === HOME_SUMMARY_VERSION
     && Array.isArray(summary.topGames) && Array.isArray(summary.recentUpdated)
-    && Array.isArray(summary.topStreamers) && typeof summary.playlistCount === "number";
+    && Array.isArray(summary.streamerPicks) && typeof summary.playlistCount === "number";
 }
 
 (function () {
@@ -136,19 +227,20 @@ function isUsableHomeSummary(summary) {
     // 🔄 最近更新された再生リスト
     renderPlaylistDiscoverList("discover-recent-updated", summary.recentUpdated, "更新された再生リストはまだありません。");
 
-    // ⭐ 人気／注目VTuber(再生リストのpopularity合計が高い実況者上位、10件)
+    // ⭐ 今週のおすすめVTuber(週替わり10組。選び方は weeklyStreamerPicks)
     const streamerGrid = document.getElementById("discover-popular-streamers");
     if (streamerGrid) {
       streamerGrid.innerHTML = "";
+      const picks = weeklyStreamerPicks(summary.streamerPicks, Date.now(), (name) => (streamerByName[name] || {}).group || "");
 
-      if (!summary.topStreamers.length) {
+      if (!picks.length) {
         const empty = document.createElement("div");
         empty.className = "empty-state";
         empty.textContent = "実況者データがまだありません。";
         streamerGrid.appendChild(empty);
       } else {
-        summary.topStreamers.forEach((item) => {
-          streamerGrid.appendChild(createStreamerCard(item.key, item.count));
+        picks.forEach((c) => {
+          streamerGrid.appendChild(createStreamerCard(c[0], c[1]));
         });
       }
     }
@@ -210,11 +302,11 @@ function isUsableHomeSummary(summary) {
   //   通常は事前集計(data-home.js)を使う。data-playlists.js が既に読み込まれている場合や、
   //   事前集計が使えない場合は、全再生リストから同じ関数で集計する。
   if (typeof PLAYLISTS !== "undefined") {
-    renderPlaylistSections(computeHomeSummary(getAllPlaylists()));
+    renderPlaylistSections(computeHomeSummary(getAllPlaylists(), typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS));
   } else if (typeof HOME_SUMMARY !== "undefined" && isUsableHomeSummary(HOME_SUMMARY)) {
     renderPlaylistSections(HOME_SUMMARY);
   } else {
-    loadPlaylistsData().then(() => renderPlaylistSections(computeHomeSummary(getAllPlaylists())));
+    loadPlaylistsData().then(() => renderPlaylistSections(computeHomeSummary(getAllPlaylists(), typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS)));
   }
 
   // 🎮 ゲームから探す(五十音行タイル。games.html と同じ行別件数)
