@@ -246,6 +246,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-06"
   },
   {
+   "id": "gap912",
+   "title": "【 #むちゃ☆えふっ！ 】【 #CRカップApex 】",
+   "streamer": "葛葉",
+   "game": "Apex Legends",
+   "genre": "fps",
+   "playlistId": "PLXpfZQST9nlY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/uJCNFbSaJxE/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-06"
+  },
+  {
    "id": "gap830",
    "title": "スプラトゥーン３",
    "streamer": "山田龍一郎",
@@ -438,6 +450,18 @@ const NEW_LIST = {
    "updatedDate": "2026-09-20"
   },
   {
+   "id": "gap918",
+   "title": "｢にじメンマイクラ｣です",
+   "streamer": "篠宮ゆの",
+   "game": "Minecraft",
+   "genre": "sandbox",
+   "playlistId": "PLCEpt-EToOAU",
+   "thumbnailUrl": "https://i.ytimg.com/vi/mDxXGvhBJ4Q/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-20"
+  },
+  {
    "id": "gap867",
    "title": "【Valorant】",
    "streamer": "ミン スゥーハ",
@@ -580,30 +604,6 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-04-27"
-  },
-  {
-   "id": "gap898",
-   "title": "ポケモンZAナナもね並走＆バトル🩵🩷",
-   "streamer": "梢桃音",
-   "game": "Pokémon LEGENDS Z-A",
-   "genre": "rpg",
-   "playlistId": "PLnZB0mC8umaCeKzrfeN20QrrCPDM9-hsu",
-   "thumbnailUrl": "https://i.ytimg.com/vi/TKwpGFJY3m0/mqdefault.jpg",
-   "videoCount": 12,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-03-22"
-  },
-  {
-   "id": "gap831",
-   "title": "利用規約に同意したい",
-   "streamer": "水面まどか",
-   "game": "利用規約に同意したい",
-   "genre": "action",
-   "playlistId": "PLUaVNIANz6zbW39zPB71HfeL0hplIi-hj",
-   "thumbnailUrl": "https://i.ytimg.com/vi/2S3HlYVUlF4/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-03-21"
   }
  ]
 };

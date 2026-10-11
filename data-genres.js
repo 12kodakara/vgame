@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 118,
     "streamers": 167,
-    "playlists": 643,
-    "videos": 4085
+    "playlists": 644,
+    "videos": 4088
    },
    "games": [
     [
@@ -209,6 +209,11 @@ const GENRE_PAGES = {
      5
     ],
     [
+     "Fatal Frame: Maiden of Black Water",
+     4,
+     4
+    ],
+    [
      "I'm on Observation Duty",
      4,
      4
@@ -225,11 +230,6 @@ const GENRE_PAGES = {
     ],
     [
      "Doom or Zenith",
-     3,
-     3
-    ],
-    [
-     "Fatal Frame: Maiden of Black Water",
      3,
      3
     ],
@@ -691,6 +691,11 @@ const GENRE_PAGES = {
      7
     ],
     [
+     "夜見れな",
+     7,
+     7
+    ],
+    [
      "宇佐美リト",
      7,
      7
@@ -742,11 +747,6 @@ const GENRE_PAGES = {
     ],
     [
      "不破湊",
-     6,
-     6
-    ],
-    [
-     "夜見れな",
      6,
      6
     ],
