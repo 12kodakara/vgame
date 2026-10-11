@@ -342,6 +342,18 @@ const NEW_LIST = {
    "updatedDate": "2026-09-26"
   },
   {
+   "id": "gap929",
+   "title": "Detroit Become Human(完結)",
+   "streamer": "藍沢エマ",
+   "game": "Detroit: Become Human",
+   "genre": "other",
+   "playlistId": "PLN-CYibGr_E8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/i6QMI7hhXFQ/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-09-26"
+  },
+  {
    "id": "gap825",
    "title": "PRAGMATA",
    "streamer": "リュ ハリ",
@@ -592,18 +604,6 @@ const NEW_LIST = {
    "videoCount": 13,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-04-30"
-  },
-  {
-   "id": "gap861",
-   "title": "🫧利用規約に同意したい🐬",
-   "streamer": "小々波いるか",
-   "game": "利用規約に同意したい",
-   "genre": "action",
-   "playlistId": "PL3lPKudGn_A1z9B4InT8B4AP4I0NLKkZ4",
-   "thumbnailUrl": "https://i.ytimg.com/vi/rw4Jk43admQ/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-04-27"
   }
  ]
 };
