@@ -66,6 +66,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-10"
   },
   {
+   "id": "gap957",
+   "title": "🎮【ドラゴンクエスト シリーズ】",
+   "streamer": "Rei7",
+   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
+   "genre": "rpg",
+   "playlistId": "PLKTfrB9_BK5U",
+   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-10"
+  },
+  {
    "id": "gap937",
    "title": "【完結】バイオハザードレクイエムRE9",
    "streamer": "水宮枢",
@@ -74,6 +86,18 @@ const NEW_LIST = {
    "playlistId": "PLPexR0RmUqWs",
    "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
    "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap958",
+   "title": "🎮：星のカービィ ディスカバリー",
+   "streamer": "千凛あゆむ",
+   "game": "星のカービィ ディスカバリー",
+   "genre": "action",
+   "playlistId": "PLDHb-kzpx5VU",
+   "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
+   "videoCount": 1,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-07"
   },
@@ -112,6 +136,18 @@ const NEW_LIST = {
    "videoCount": 7,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-09-24"
+  },
+  {
+   "id": "gap955",
+   "title": "【龍が如く 極】",
+   "streamer": "御子神琴音",
+   "game": "龍が如く極",
+   "genre": "action",
+   "playlistId": "PLB24mJYJEi58",
+   "thumbnailUrl": "https://i.ytimg.com/vi/TMH5tQHSrpI/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-09-22"
   },
   {
    "id": "gap933",
@@ -184,6 +220,30 @@ const NEW_LIST = {
    "videoCount": 6,
    "addedDate": "2026-10-12",
    "updatedDate": "2024-09-20"
+  },
+  {
+   "id": "gap954",
+   "title": "ダンロンV3",
+   "streamer": "卯月コウ",
+   "game": "ニューダンガンロンパV3",
+   "genre": "other",
+   "playlistId": "PLNaCJoxxu9qW7xlGAq9b8a-668SesPaZi",
+   "thumbnailUrl": "https://i.ytimg.com/vi/lpzIKP4y4K0/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-09-01"
+  },
+  {
+   "id": "gap956",
+   "title": "星のカービィ夢の泉の物語 クリア耐久⭐️⸝⸝꙳【完】",
+   "streamer": "梢桃音",
+   "game": "星のカービィ 夢の泉の物語",
+   "genre": "action",
+   "playlistId": "PLnZB0mC8umaCYndiRj0TMGMfISxDR7xdZ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/I98FMV6lWHQ/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-08-18"
   },
   {
    "id": "gap938",
@@ -544,66 +604,6 @@ const NEW_LIST = {
    "videoCount": 5,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-06"
-  },
-  {
-   "id": "gap830",
-   "title": "スプラトゥーン３",
-   "streamer": "山田龍一郎",
-   "game": "スプラトゥーン3",
-   "genre": "fps",
-   "playlistId": "PLN2R0dTBhiTg",
-   "thumbnailUrl": "https://i.ytimg.com/vi/7RogSphg1bE/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-05"
-  },
-  {
-   "id": "gap901",
-   "title": "🎮️：FINAL FANTASY X【完結】",
-   "streamer": "千凛あゆむ",
-   "game": "FINAL FANTASY X",
-   "genre": "rpg",
-   "playlistId": "PLSfQgctsOqkw",
-   "thumbnailUrl": "https://i.ytimg.com/vi/sSbuMpasRRc/mqdefault.jpg",
-   "videoCount": 11,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-03"
-  },
-  {
-   "id": "gap824",
-   "title": "UNDERTALE",
-   "streamer": "魔界ノりりむ",
-   "game": "UNDERTALE",
-   "genre": "rpg",
-   "playlistId": "PLFC6ayCg5nU8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/TU9l-dT-Orw/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-01"
-  },
-  {
-   "id": "gap826",
-   "title": "UNDERTALE",
-   "streamer": "Raora Panthera",
-   "game": "UNDERTALE",
-   "genre": "rpg",
-   "playlistId": "PLVDEv75YFMa0",
-   "thumbnailUrl": "https://i.ytimg.com/vi/-x5I9D9wXqQ/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-01"
-  },
-  {
-   "id": "gap820",
-   "title": "ほの暮らしの庭",
-   "streamer": "塚原大地",
-   "game": "ほの暮らしの庭",
-   "genre": "sim",
-   "playlistId": "PLTk8IdRWqe3k",
-   "thumbnailUrl": "https://i.ytimg.com/vi/_p-EozJwo4Q/mqdefault.jpg",
-   "videoCount": 10,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-26"
   }
  ]
 };
