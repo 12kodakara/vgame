@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 120,
     "streamers": 168,
-    "playlists": 647,
-    "videos": 4104
+    "playlists": 650,
+    "videos": 4117
    },
    "games": [
     [
@@ -44,6 +44,11 @@ const GENRE_PAGES = {
      21
     ],
     [
+     "バイオハザード RE:4",
+     19,
+     19
+    ],
+    [
      "Dead by Daylight",
      18,
      19
@@ -52,11 +57,6 @@ const GENRE_PAGES = {
      "SILENT HILL 2",
      18,
      19
-    ],
-    [
-     "バイオハザード RE:4",
-     18,
-     18
     ],
     [
      "OUTLAST",
@@ -89,17 +89,17 @@ const GENRE_PAGES = {
      13
     ],
     [
-     "バイオハザード RE:3",
-     12,
-     12
-    ],
-    [
      "バイオハザード レクイエム",
-     12,
-     12
+     13,
+     13
     ],
     [
      "パラノマサイト FILE23 本所七不思議",
+     13,
+     13
+    ],
+    [
+     "バイオハザード RE:3",
      12,
      12
     ],
@@ -676,6 +676,11 @@ const GENRE_PAGES = {
      9
     ],
     [
+     "Finana Ryugu",
+     8,
+     8
+    ],
+    [
      "夢追翔",
      8,
      8
@@ -694,11 +699,6 @@ const GENRE_PAGES = {
      "AZKi",
      7,
      8
-    ],
-    [
-     "Finana Ryugu",
-     7,
-     7
     ],
     [
      "ベルモンド・バンデラス",
@@ -832,6 +832,11 @@ const GENRE_PAGES = {
     ],
     [
      "Pavolia Reine",
+     4,
+     4
+    ],
+    [
+     "Shiori Novella",
      4,
      4
     ],
@@ -1027,11 +1032,6 @@ const GENRE_PAGES = {
     ],
     [
      "Luca Kaneshiro",
-     2,
-     2
-    ],
-    [
-     "Shiori Novella",
      2,
      2
     ],
@@ -1482,6 +1482,42 @@ const GENRE_PAGES = {
      "updatedDate": ""
     },
     {
+     "id": "gap991",
+     "title": "Resident Evil Requiem (Complete)",
+     "streamer": "Shiori Novella",
+     "game": "バイオハザード レクイエム",
+     "genre": "horror",
+     "playlistId": "PLQNcTNavhAOi6pq9tM-WzH-qYNRY-DKxG",
+     "thumbnailUrl": "https://i.ytimg.com/vi/E7sBKou_yMA/mqdefault.jpg",
+     "videoCount": 5,
+     "addedDate": "2026-10-12",
+     "updatedDate": ""
+    },
+    {
+     "id": "gap993",
+     "title": "PARANORMASIGHT: The Seven Mysteries of Honjo",
+     "streamer": "Finana Ryugu",
+     "game": "パラノマサイト FILE23 本所七不思議",
+     "genre": "horror",
+     "playlistId": "PLI9r3bQ58ijw",
+     "thumbnailUrl": "https://i.ytimg.com/vi/2I-X99g_Ppw/mqdefault.jpg",
+     "videoCount": 4,
+     "addedDate": "2026-10-12",
+     "updatedDate": ""
+    },
+    {
+     "id": "gap995",
+     "title": "Resident Evil 4 Remake (Complete)",
+     "streamer": "Shiori Novella",
+     "game": "バイオハザード RE:4",
+     "genre": "horror",
+     "playlistId": "PLQNcTNavhAOjTe1qJLHDWjxq9M1lonVX1",
+     "thumbnailUrl": "https://i.ytimg.com/vi/fCz_WkvWqos/mqdefault.jpg",
+     "videoCount": 4,
+     "addedDate": "2026-10-12",
+     "updatedDate": ""
+    },
+    {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "珠乃井ナナ",
@@ -1540,42 +1576,6 @@ const GENRE_PAGES = {
      "videoCount": 14,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-09"
-    },
-    {
-     "id": "gap937",
-     "title": "【完結】バイオハザードレクイエムRE9",
-     "streamer": "水宮枢",
-     "game": "バイオハザード レクイエム",
-     "genre": "horror",
-     "playlistId": "PLPexR0RmUqWs",
-     "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
-     "videoCount": 9,
-     "addedDate": "2026-10-12",
-     "updatedDate": "2026-10-07"
-    },
-    {
-     "id": "gap834",
-     "title": "バイオハザード6",
-     "streamer": "鷹嶺ルイ",
-     "game": "バイオハザード6",
-     "genre": "horror",
-     "playlistId": "PLXPW6-4naNnE",
-     "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
-     "videoCount": 2,
-     "addedDate": "2026-10-11",
-     "updatedDate": "2026-10-06"
-    },
-    {
-     "id": "niji-blackshibach-06",
-     "title": "黒夢町",
-     "streamer": "黒井しば",
-     "game": "黒夢町",
-     "genre": "horror",
-     "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
-     "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
-     "videoCount": 30,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-03"
     }
    ]
   }

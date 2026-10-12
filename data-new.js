@@ -558,52 +558,52 @@ const NEW_LIST = {
    "updatedDate": ""
   },
   {
-   "id": "gap835",
-   "title": "LOST JUDGMENT：裁かれざる記憶",
-   "streamer": "水宮枢",
-   "game": "LOST JUDGMENT:裁かれざる記憶",
-   "genre": "action",
-   "playlistId": "PLLOWP7UoerRc",
-   "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-11"
-  },
-  {
-   "id": "gap839",
-   "title": "都市伝説解体センター",
-   "streamer": "花畑チャイカ",
-   "game": "都市伝説解体センター",
-   "genre": "other",
-   "playlistId": "PLKJm9rfXim2M",
-   "thumbnailUrl": "https://i.ytimg.com/vi/xpbwReIWM8Y/mqdefault_live.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-11"
-  },
-  {
-   "id": "gap851",
-   "title": "☾*･ ドラゴンボールZ カカロット ･*☽",
-   "streamer": "倉持めると",
-   "game": "ドラゴンボールZ カカロット",
+   "id": "gap976",
+   "title": "Honkai: Star Rail",
+   "streamer": "Finana Ryugu",
+   "game": "崩壊：スターレイル",
    "genre": "rpg",
-   "playlistId": "PLXGxzM3INazM",
-   "thumbnailUrl": "https://i.ytimg.com/vi/8Mo-2HuM3HY/mqdefault_live.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-11"
+   "playlistId": "PL5XBGPMUTVBTLTYqiAWL1fBAhPF-_Troz",
+   "thumbnailUrl": "https://i.ytimg.com/vi/iUzmCo04xs0/mqdefault.jpg",
+   "videoCount": 47,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
   },
   {
-   "id": "gap855",
-   "title": "🎮：JUDGE EYES：死神の遺言",
-   "streamer": "千凛あゆむ",
-   "game": "JUDGE EYES:死神の遺言",
+   "id": "gap977",
+   "title": "Yakuza 0",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く0 誓いの場所",
    "genre": "action",
-   "playlistId": "PLeOd5nqABP4A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/dya2hsZzpI0/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-11"
+   "playlistId": "PL5XBGPMUTVBS_9WmHFI-k-HjDopKs-tHP",
+   "thumbnailUrl": "https://i.ytimg.com/vi/D0XLPxODAHg/mqdefault.jpg",
+   "videoCount": 14,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
+   "id": "gap978",
+   "title": "Yakuza: Like a Dragon",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く7 光と闇の行方",
+   "genre": "rpg",
+   "playlistId": "PL5XBGPMUTVBRanpH1NZzc9VQD-AJeiPcV",
+   "thumbnailUrl": "https://i.ytimg.com/vi/aKhmWax6acY/mqdefault.jpg",
+   "videoCount": 14,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
+   "id": "gap979",
+   "title": "Story of Seasons Grand Bazaar",
+   "streamer": "Maria Marionette",
+   "game": "牧場物語 Let's！風のグランドバザール",
+   "genre": "sim",
+   "playlistId": "PLiDMOHx-TAJOx19iea2rlQBZAjtWUbN17",
+   "thumbnailUrl": "https://i.ytimg.com/vi/frt_VCCA--0/mqdefault.jpg",
+   "videoCount": 12,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
   }
  ]
 };
