@@ -296,7 +296,7 @@ function Resolve-GameId($candidateGameName, $index) {
   $levels = @(
     @{ map = $index.exact;      key = $candidateGameName;                                    type = "exact";            conf = "high" },
     @{ map = $index.aliasExact; key = $candidateGameName;                                    type = "alias-exact";      conf = "high"; aliasOwnership = $true },
-    @{ map = $index.normalized; key = (Get-GameIdNormalizedText $candidateGameName);         type = "normalized-exact"; conf = "high" },
+    @{ map = $index.normalized; key = (Get-GameIdNormalizedText $candidateGameName);         type = "normalized-exact"; conf = "high"; crossAlias = $true },
     @{ map = $index.normAlias;  key = (Get-GameIdNormalizedText $candidateGameName);         type = "canonical-alias";  conf = "medium"; aliasOwnership = $true }
   )
 
@@ -305,6 +305,15 @@ function Resolve-GameId($candidateGameName, $index) {
     if (-not $key) { continue }
     if (-not $lv.map.ContainsKey($key)) { continue }
     $hits = @($lv.map[$key])
+    # 正規化後の正式名が、別のgameの正規化aliasとも一致する場合は一意確定しない
+    #   (例: 「ドラゴンクエストIII 」は「ドラゴンクエストI・II」の正規化名と、
+    #   「ドラゴンクエストIII そして伝説へ…」の alias「ドラゴンクエストIII」の両方に一致する)。
+    #   同じgameの正式名とaliasが一致するだけなら集合は1件のままで、従来どおり解決する。
+    if ($lv.crossAlias -and $index.normAlias.ContainsKey($key)) {
+      $union = New-Object 'System.Collections.Generic.HashSet[string]'([StringComparer]::Ordinal)
+      foreach ($h in @($hits) + @($index.normAlias[$key])) { [void]$union.Add($h) }
+      $hits = @($union)
+    }
     if ($hits.Count -eq 1) {
       # 共有alias(複数gameが所有する略称)だけを根拠に一意確定しない。
       #   生aliasキーの上では単独所有に見えても、表記ゆれを正規化すると同じaliasを
@@ -426,7 +435,7 @@ elseif ($SelfTest) {
     @{ n = "4. canonical alias(表記差)"; input = "サイレントヒル2";              expectType = "canonical-alias";  expectId = "SILENT HILL 2" },
     @{ n = "5. 存在しないゲーム";       input = "存在しないゲームZZZ";           expectType = "not-found";        expectId = $null },
     @{ n = "6. 複数候補衝突(alias)";    input = "ドラクエ";                      expectType = "ambiguous";        expectId = $null },
-    @{ n = "6b. 正規化衝突(中黒除去)";  input = "ドラゴンクエストIII";           expectType = "exact";            expectId = "ドラゴンクエストIII" },
+    @{ n = "6b. 正規化衝突(中黒除去)";  input = "ドラゴンクエストIII";           expectType = "alias-exact";      expectId = "ドラゴンクエストIII そして伝説へ…" },
     @{ n = "6c. 正規化衝突(潰れた形)";  input = "ドラゴンクエストIII ";          expectType = "ambiguous";        expectId = $null },
     @{ n = "7. シリーズ名のみ";         input = "ドラゴンクエストシリーズ";      expectType = "exact";            expectId = "ドラゴンクエストシリーズ" },
     @{ n = "8. 部分一致(自動確定しない)"; input = "ドラクエV";                   expectType = "not-found";        expectId = $null },
