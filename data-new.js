@@ -30,6 +30,42 @@ const NEW_LIST = {
    "updatedDate": "2026-10-11"
   },
   {
+   "id": "gap937",
+   "title": "【完結】バイオハザードレクイエムRE9",
+   "streamer": "水宮枢",
+   "game": "バイオハザード レクイエム",
+   "genre": "horror",
+   "playlistId": "PLPexR0RmUqWs",
+   "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap945",
+   "title": "マイクラ肝試し",
+   "streamer": "五木左京",
+   "game": "Minecraft",
+   "genre": "sandbox",
+   "playlistId": "PLAlFxtRremF8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/1ND8c1rMwyI/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-04"
+  },
+  {
+   "id": "gap941",
+   "title": "ソニックアドベンチャーDX",
+   "streamer": "リュ ハリ",
+   "game": "ソニックアドベンチャー",
+   "genre": "action",
+   "playlistId": "PLf349lt9n2mk",
+   "thumbnailUrl": "https://i.ytimg.com/vi/rZ49nmJJT9Q/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-09-24"
+  },
+  {
    "id": "gap933",
    "title": "⋆⸜ ドラゴンクエストⅪ 過ぎ去りし時を求めて S ⸝⋆",
    "streamer": "山神カルタ",
@@ -54,6 +90,18 @@ const NEW_LIST = {
    "updatedDate": "2026-02-16"
   },
   {
+   "id": "gap946",
+   "title": "完結｜我こそは真のマネージャー！ピクミン無印",
+   "streamer": "五木左京",
+   "game": "ピクミン",
+   "genre": "puzzle",
+   "playlistId": "PLFXgzhDFNw7hycN3sEQnBH5CoE9tH64d2",
+   "thumbnailUrl": "https://i.ytimg.com/vi/7vFmrfnyFUc/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-10-19"
+  },
+  {
    "id": "gap935",
    "title": "幻想水滸伝Ⅰ&Ⅱリマスター",
    "streamer": "早瀬走",
@@ -64,6 +112,54 @@ const NEW_LIST = {
    "videoCount": 15,
    "addedDate": "2026-10-12",
    "updatedDate": "2025-04-22"
+  },
+  {
+   "id": "gap942",
+   "title": "星のカービィSDX‎⭐️⸝⸝꙳【完】※格闘王いつかリトライするよ✊🏻´‐",
+   "streamer": "梢桃音",
+   "game": "星のカービィ スーパーデラックス",
+   "genre": "action",
+   "playlistId": "PLnZB0mC8umaAN2xgR8zJqmpK3BZS2ZEF2",
+   "thumbnailUrl": "https://i.ytimg.com/vi/GNrnsAZTNZQ/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-09-20"
+  },
+  {
+   "id": "gap938",
+   "title": "DQM3並走（QED）",
+   "streamer": "卯月コウ",
+   "game": "DQM3",
+   "genre": "rpg",
+   "playlistId": "PLNaCJoxxu9qUwCBBTJZjtizZ-Ki9WVxrE",
+   "thumbnailUrl": "https://i.ytimg.com/vi/jdMnjRFHYkM/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-03-26"
+  },
+  {
+   "id": "gap939",
+   "title": "DQM3人生縛り",
+   "streamer": "レオス・ヴィンセント",
+   "game": "DQM3",
+   "genre": "rpg",
+   "playlistId": "PLSDyBBpsLuL54FO0JQCkllCCqV7Z-r4z_",
+   "thumbnailUrl": "https://i.ytimg.com/vi/AGxOJLRct64/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-02-11"
+  },
+  {
+   "id": "gap940",
+   "title": "【完結】アーマードコア6 / ARMORED CORE VI",
+   "streamer": "神田笑一",
+   "game": "ARMORED CORE VI FIRES OF RUBICON",
+   "genre": "action",
+   "playlistId": "PLg-aHyLCD1P0ePutGMpz4EnxrTJqK_FMp",
+   "thumbnailUrl": "https://i.ytimg.com/vi/VjK7sAD6Qac/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2023-10-24"
   },
   {
    "id": "gap936",
@@ -88,6 +184,30 @@ const NEW_LIST = {
    "videoCount": 25,
    "addedDate": "2026-10-12",
    "updatedDate": "2023-04-08"
+  },
+  {
+   "id": "gap944",
+   "title": "完〘星のカービィSDX!〙",
+   "streamer": "西園チグサ",
+   "game": "星のカービィ スーパーデラックス",
+   "genre": "action",
+   "playlistId": "PLYqQxMpsjrWujh_BKHSR7UoGGqnkytHpS",
+   "thumbnailUrl": "https://i.ytimg.com/vi/6d6gE-6uHDE/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2020-09-16"
+  },
+  {
+   "id": "gap943",
+   "title": "凛LIVE --- ときめきメモリアルGS",
+   "streamer": "静凛",
+   "game": "ときめきメモリアル Girl's Side",
+   "genre": "other",
+   "playlistId": "PL0EE7SG9o_r-9xaLPInZ6-2detvmXZLcE",
+   "thumbnailUrl": "https://i.ytimg.com/vi/nZZ9YsJCSvo/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2019-02-19"
   },
   {
    "id": "gap835",
@@ -484,126 +604,6 @@ const NEW_LIST = {
    "videoCount": 3,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-09-23"
-  },
-  {
-   "id": "gap869",
-   "title": "🏯Pokémon LEGENDS アルセウス",
-   "streamer": "橘ひなの",
-   "game": "Pokémon LEGENDS アルセウス",
-   "genre": "rpg",
-   "playlistId": "PLeQcWaKwA1Xk",
-   "thumbnailUrl": "https://i.ytimg.com/vi/h2iTI2EtRl0/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-23"
-  },
-  {
-   "id": "gap860",
-   "title": "壺おじ（Getting Over It with Bennett Foddy）",
-   "streamer": "白砂あやね",
-   "game": "Getting Over It",
-   "genre": "action",
-   "playlistId": "PLJt_SrnNtUHk",
-   "thumbnailUrl": "https://i.ytimg.com/vi/XP_guMPhcpk/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-22"
-  },
-  {
-   "id": "gap841",
-   "title": "｢スイカゲーム｣です🍉",
-   "streamer": "篠宮ゆの",
-   "game": "スイカゲーム",
-   "genre": "puzzle",
-   "playlistId": "PLaC2-cpcpagw",
-   "thumbnailUrl": "https://i.ytimg.com/vi/FW4dDHVsE68/mqdefault.jpg",
-   "videoCount": 23,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-21"
-  },
-  {
-   "id": "gap865",
-   "title": "🎮️：PRAGMATA【完結】",
-   "streamer": "千凛あゆむ",
-   "game": "PRAGMATA",
-   "genre": "action",
-   "playlistId": "PLVWcNa-_tPRo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/e6-o18OnDb0/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-20"
-  },
-  {
-   "id": "gap874",
-   "title": "逆転裁判",
-   "streamer": "司賀りこ",
-   "game": "逆転裁判",
-   "genre": "puzzle",
-   "playlistId": "PLWX1Q1ccKYGA",
-   "thumbnailUrl": "https://i.ytimg.com/vi/1i3gij1aMrw/mqdefault.jpg",
-   "videoCount": 10,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-20"
-  },
-  {
-   "id": "gap918",
-   "title": "｢にじメンマイクラ｣です",
-   "streamer": "篠宮ゆの",
-   "game": "Minecraft",
-   "genre": "sandbox",
-   "playlistId": "PLCEpt-EToOAU",
-   "thumbnailUrl": "https://i.ytimg.com/vi/mDxXGvhBJ4Q/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-20"
-  },
-  {
-   "id": "gap867",
-   "title": "【Valorant】",
-   "streamer": "ミン スゥーハ",
-   "game": "VALORANT",
-   "genre": "fps",
-   "playlistId": "PLLjp0aJ1oMfo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/DfiIwZr4xQc/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-17"
-  },
-  {
-   "id": "gap891",
-   "title": "【GTA】",
-   "streamer": "ミン スゥーハ",
-   "game": "Grand Theft Auto V",
-   "genre": "action",
-   "playlistId": "PLd9kTX5S5fhs",
-   "thumbnailUrl": "https://i.ytimg.com/vi/THQmrMwByno/mqdefault.jpg",
-   "videoCount": 36,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-17"
-  },
-  {
-   "id": "gap892",
-   "title": "【Minecraft】",
-   "streamer": "ミン スゥーハ",
-   "game": "Minecraft",
-   "genre": "sandbox",
-   "playlistId": "PLCjGGKI4KsRA",
-   "thumbnailUrl": "https://i.ytimg.com/vi/T0PAt-QGUrg/mqdefault.jpg",
-   "videoCount": 24,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-17"
-  },
-  {
-   "id": "holo-161",
-   "title": "鬼武者 Way of the Sword",
-   "streamer": "姫森ルーナ",
-   "game": "鬼武者 Way of the Sword",
-   "genre": "action",
-   "playlistId": "PLZyYcmzc6O48",
-   "thumbnailUrl": "https://i.ytimg.com/vi/u5ooaNZjIUE/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-16"
   }
  ]
 };

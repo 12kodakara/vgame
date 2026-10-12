@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 118,
     "streamers": 167,
-    "playlists": 644,
-    "videos": 4088
+    "playlists": 645,
+    "videos": 4097
    },
    "games": [
     [
@@ -99,14 +99,14 @@ const GENRE_PAGES = {
      12
     ],
     [
-     "Phasmophobia",
-     11,
+     "バイオハザード レクイエム",
+     12,
      12
     ],
     [
-     "バイオハザード レクイエム",
+     "Phasmophobia",
      11,
-     11
+     12
     ],
     [
      "魔法少女ノ魔女裁判",
@@ -951,6 +951,11 @@ const GENRE_PAGES = {
      3
     ],
     [
+     "水宮枢",
+     3,
+     3
+    ],
+    [
      "珠乃井ナナ",
      3,
      3
@@ -1097,11 +1102,6 @@ const GENRE_PAGES = {
     ],
     [
      "橘ひなの",
-     2,
-     2
-    ],
-    [
-     "水宮枢",
      2,
      2
     ],
@@ -1503,6 +1503,18 @@ const GENRE_PAGES = {
      "updatedDate": "2026-10-09"
     },
     {
+     "id": "gap937",
+     "title": "【完結】バイオハザードレクイエムRE9",
+     "streamer": "水宮枢",
+     "game": "バイオハザード レクイエム",
+     "genre": "horror",
+     "playlistId": "PLPexR0RmUqWs",
+     "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
+     "videoCount": 9,
+     "addedDate": "2026-10-12",
+     "updatedDate": "2026-10-07"
+    },
+    {
      "id": "gap834",
      "title": "バイオハザード6",
      "streamer": "鷹嶺ルイ",
@@ -1549,18 +1561,6 @@ const GENRE_PAGES = {
      "videoCount": 5,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-03"
-    },
-    {
-     "id": "gap313",
-     "title": "REPO",
-     "streamer": "Yu Q. Wilson",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PL_Sl55XUqx73GYiq7wxgJT4zpzNHBTGAB",
-     "thumbnailUrl": "https://i.ytimg.com/vi/oukF6_oMQtA/mqdefault.jpg",
-     "videoCount": 12,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-02"
     }
    ]
   }
