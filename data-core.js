@@ -758,6 +758,7 @@ const GAMES = [
   { name: "大神", kana: "おおかみ", series: "" },
   { name: "天穂のサクナヒメ", kana: "てんすいのさくなひめ", aliases: ["サクナヒメ"], series: "" },
   { name: "刀剣乱舞", kana: "とうけんらんぶ", series: "" },
+  { name: "刀剣乱舞無双", kana: "とうけんらんぶむそう", series: "" },
   { name: "風来のシレン6 とぐろ島探検録", kana: "ふうらいのしれんろくとぐろじまたんけんろく", series: "" },
   { name: "放課後オリエンス", kana: "ほうかごおりえんす", series: "" },
   { name: "魔法少女ノ魔女裁判", kana: "まほうしょうじょのまじょさいばん", series: "" },

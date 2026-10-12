@@ -486,6 +486,42 @@ const NEW_LIST = {
    "updatedDate": ""
   },
   {
+   "id": "gap970",
+   "title": "【完結】刀剣乱舞無双",
+   "streamer": "神田笑一",
+   "game": "刀剣乱舞無双",
+   "genre": "action",
+   "playlistId": "PLg-aHyLCD1P1d0-3BlMUmQGMfceHwMa5A",
+   "thumbnailUrl": "https://i.ytimg.com/vi/tcAfP511TDA/mqdefault.jpg",
+   "videoCount": 11,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
+   "id": "gap971",
+   "title": "刀剣乱舞無双",
+   "streamer": "健屋花那",
+   "game": "刀剣乱舞無双",
+   "genre": "action",
+   "playlistId": "PL0SNK9gKZgKuNlHJYdFzmwfgBztQtEL2k",
+   "thumbnailUrl": "https://i.ytimg.com/vi/OjDc0Sh2-SI/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
+   "id": "gap972",
+   "title": "⋆⸜ 刀剣乱舞無双 ⸝⋆",
+   "streamer": "山神カルタ",
+   "game": "刀剣乱舞無双",
+   "genre": "action",
+   "playlistId": "PLjFz-Ge41_evMjej6Wc2UQL-DoPl01uSh",
+   "thumbnailUrl": "https://i.ytimg.com/vi/1ArC6cUtmjQ/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
    "id": "gap835",
    "title": "LOST JUDGMENT：裁かれざる記憶",
    "streamer": "水宮枢",
@@ -566,42 +602,6 @@ const NEW_LIST = {
    "playlistId": "PLJAsZU_dDDqU",
    "thumbnailUrl": "https://i.ytimg.com/vi/xvClxzUb_Jk/mqdefault_live.jpg",
    "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap850",
-   "title": "🌟BLEACH Rebirth of Souls",
-   "streamer": "星川サラ",
-   "game": "BLEACH Rebirth of Souls",
-   "genre": "action",
-   "playlistId": "PLDF4Agjxd4ys",
-   "thumbnailUrl": "https://i.ytimg.com/vi/dphPeGsnLp8/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap853",
-   "title": "SEKIRO: SHADOWS DIE TWICE | 隻狼",
-   "streamer": "Enna Alouette",
-   "game": "SEKIRO: SHADOWS DIE TWICE",
-   "genre": "action",
-   "playlistId": "PLQsjcUP6MOzo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/_qoGK5xJWhY/mqdefault_live.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap856",
-   "title": "🎮：Apex Legends",
-   "streamer": "千凛あゆむ",
-   "game": "Apex Legends",
-   "genre": "fps",
-   "playlistId": "PLXoAjfcu4T-s",
-   "thumbnailUrl": "https://i.ytimg.com/vi/idl2KWn2mHQ/mqdefault.jpg",
-   "videoCount": 5,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-10"
   }
