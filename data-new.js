@@ -30,6 +30,42 @@ const NEW_LIST = {
    "updatedDate": "2026-10-11"
   },
   {
+   "id": "gap950",
+   "title": "〖ドラクエV〗",
+   "streamer": "笹木咲",
+   "game": "ドラゴンクエストV 天空の花嫁",
+   "genre": "rpg",
+   "playlistId": "PLQAok99122gM",
+   "thumbnailUrl": "https://i.ytimg.com/vi/1c7pYubbW7M/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-11"
+  },
+  {
+   "id": "gap949",
+   "title": "【終】ゼルダの伝説 スカイウォードソード",
+   "streamer": "アルス・アルマル",
+   "game": "ゼルダの伝説 スカイウォードソード HD",
+   "genre": "action",
+   "playlistId": "PLKbi8ondLwgo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/f1f-jdOpBRY/mqdefault.jpg",
+   "videoCount": 10,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-10"
+  },
+  {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-10"
+  },
+  {
    "id": "gap937",
    "title": "【完結】バイオハザードレクイエムRE9",
    "streamer": "水宮枢",
@@ -54,6 +90,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-04"
   },
   {
+   "id": "gap952",
+   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
+   "streamer": "鷹嶺ルイ",
+   "game": "ドラゴンクエストビルダーズ",
+   "genre": "sandbox",
+   "playlistId": "PLQsl2ovb1Y-Y",
+   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-02"
+  },
+  {
    "id": "gap941",
    "title": "ソニックアドベンチャーDX",
    "streamer": "リュ ハリ",
@@ -76,6 +124,18 @@ const NEW_LIST = {
    "videoCount": 20,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-06-20"
+  },
+  {
+   "id": "gap948",
+   "title": "〖スマブラ〗",
+   "streamer": "笹木咲",
+   "game": "大乱闘スマッシュブラザーズ SPECIAL",
+   "genre": "action",
+   "playlistId": "PLed6q99qvCScQB93SgmXXp4cOspicZpkL",
+   "thumbnailUrl": "https://i.ytimg.com/vi/9lKILnGdCOE/mqdefault.jpg",
+   "videoCount": 21,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-04-26"
   },
   {
    "id": "gap934",
@@ -162,6 +222,18 @@ const NEW_LIST = {
    "updatedDate": "2023-10-24"
   },
   {
+   "id": "gap953",
+   "title": "【#いつか】【ゼルダの伝説BOW】【ブレワイ】",
+   "streamer": "葛葉",
+   "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
+   "genre": "action",
+   "playlistId": "PLwCa-x--ILnbBaOwBczxhhJ_MdUAncgdq",
+   "thumbnailUrl": "https://i.ytimg.com/vi/Je3EhjdNVBE/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2023-08-21"
+  },
+  {
    "id": "gap936",
    "title": "ゼルダの伝説TotK",
    "streamer": "レオス・ヴィンセント",
@@ -196,6 +268,18 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-12",
    "updatedDate": "2020-09-16"
+  },
+  {
+   "id": "gap947",
+   "title": "【音ゲー】太鼓の達人Nintendo Switchば～じょん!",
+   "streamer": "弦月藤士郎",
+   "game": "太鼓の達人",
+   "genre": "other",
+   "playlistId": "PLt1c9byI2pESgi1y426-p_LjW7BpyEyoQ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/lLYUEESHvR8/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2020-07-25"
   },
   {
    "id": "gap943",
@@ -520,90 +604,6 @@ const NEW_LIST = {
    "videoCount": 10,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-09-26"
-  },
-  {
-   "id": "gap828",
-   "title": "⚽キャプテン翼２ WORLD FIGHTERS⚽",
-   "streamer": "さくらみこ",
-   "game": "キャプテン翼2 WORLD FIGHTERS",
-   "genre": "sports",
-   "playlistId": "PLSfEZjXTxiaQ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/4bdwabptqqI/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-26"
-  },
-  {
-   "id": "gap840",
-   "title": "VALORANT",
-   "streamer": "皇れお",
-   "game": "VALORANT",
-   "genre": "fps",
-   "playlistId": "PLWsKpX9cV78k",
-   "thumbnailUrl": "https://i.ytimg.com/vi/vEpESDY-_2s/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-26"
-  },
-  {
-   "id": "gap929",
-   "title": "Detroit Become Human(完結)",
-   "streamer": "藍沢エマ",
-   "game": "Detroit: Become Human",
-   "genre": "other",
-   "playlistId": "PLN-CYibGr_E8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/i6QMI7hhXFQ/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-26"
-  },
-  {
-   "id": "gap825",
-   "title": "PRAGMATA",
-   "streamer": "リュ ハリ",
-   "game": "PRAGMATA",
-   "genre": "action",
-   "playlistId": "PLQr3Ej2r50-A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/XltWLDWBjTw/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-24"
-  },
-  {
-   "id": "gap852",
-   "title": "🎮都市伝説解体センター【完】",
-   "streamer": "猫屋敷美紅",
-   "game": "都市伝説解体センター",
-   "genre": "other",
-   "playlistId": "PLSsZyh4dge7A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/23XzVHp6mA4/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-24"
-  },
-  {
-   "id": "gap875",
-   "title": "ほの暮しの庭",
-   "streamer": "リュ ハリ",
-   "game": "ほの暮らしの庭",
-   "genre": "sim",
-   "playlistId": "PLCsPMexcC7EY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/WGj1yuO_Nr0/mqdefault.jpg",
-   "videoCount": 9,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-24"
-  },
-  {
-   "id": "gap864",
-   "title": "🎮️：星のカービィ64【完結】",
-   "streamer": "千凛あゆむ",
-   "game": "星のカービィ64",
-   "genre": "action",
-   "playlistId": "PLTqrqE3FFZnQ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3QO1F1yhfoI/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-23"
   }
  ]
 };
