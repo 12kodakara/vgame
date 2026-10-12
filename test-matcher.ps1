@@ -1007,8 +1007,13 @@ $cases = @(
      expectCount = 1; expectTopGame = "ペーパーマリオRPG"; expectTopConf = "HIGH"; expectNotGame = "スーパーマリオRPG" }
   @{ n = "413. オリガミキング は ペーパーマリオRPG に寄らない"; title = "【完結】🍄ペーパーマリオ オリガミキング🍄";
      expectTopGame = "ペーパーマリオ オリガミキング"; expectNotGame = "ペーパーマリオRPG" }
-  @{ n = "414. Overwatch2 は Overwatch に寄らない"; title = "Overwatch2";
-     expectCount = 1; expectTopGame = "Overwatch 2"; expectTopConf = "HIGH"; expectNotGame = "Overwatch" }
+  # Overwatch 2 は Overwatch に統合済み(alias)。続編表記は統合先1件だけに寄り、別名に無い OW では一致しない
+  @{ n = "414. Overwatch2 は統合先 Overwatch 1件に寄る"; title = "Overwatch2";
+     expectCount = 1; expectTopGame = "Overwatch"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "414b. Overwatch 2(空白あり)も統合先1件"; title = "Overwatch 2";
+     expectCount = 1; expectTopGame = "Overwatch"; expectTopConf = "MEDIUM"; expectAmbiguous = $false }
+  @{ n = "414c. 別名に無い OW は候補なし"; title = "OW";
+     expectCount = 0 }
   @{ n = "415. スプラトゥーン２ は 3 に寄らない"; title = "スプラトゥーン２";
      expectCount = 1; expectTopGame = "スプラトゥーン2"; expectTopConf = "HIGH"; expectNotGame = "スプラトゥーン3" }
   @{ n = "416. ASA は ARK: Survival Evolved に寄らない"; title = "ARK: Survival Ascended";

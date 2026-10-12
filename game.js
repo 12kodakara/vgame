@@ -10,12 +10,12 @@
 const GAME_DESC_MAX_STREAMERS = 3;
 const GAME_DESC_STREAMER_NAMES_MAX_CHARS = 30;
 // 正規ゲーム名の設計(統合・分割)を保留中のゲーム。再生リストとの対応が今後変わりうるため、
-// VTuber名を挙げず従来の文面のままにする(ポケポケ / Pocket、Overwatch / Overwatch 2)。
+// VTuber名を挙げず従来の文面のままにする(ポケポケ / Pocket、Overwatch)。
+// Overwatch 2 は Overwatch に統合済み(alias)。
 const GAME_DESC_LEGACY_GAMES = new Set([
   "ポケモンカードゲーム Pokémon Trading Card Game Pocket",
   "ポケポケ",
   "Overwatch",
-  "Overwatch 2",
 ]);
 // ゲーム名だけではページの役割が伝わらないゲーム(複数作品をまとめた再生リストの受け皿など)の見出し・title・冒頭文と、
 // description の書き出し。ここに無いゲームは従来どおり。件数・VTuber名は他のゲームと同じく自動で入る(数値は書かない)。

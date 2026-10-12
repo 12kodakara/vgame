@@ -6,7 +6,7 @@
  *   3. VTuber は実際にそのゲームの再生リストがある正規 VTuber のみ・重複なし・途中で切らない
  *   4. 件数・本数・組数が元データと一致し、評価を表す言葉を含まない
  *   5. VTuber 1人 / 2人 / 3人 / 多数 / 長い名前 / 特殊文字の各ケース
- *   6. 再生リスト0件(noindex)と正規名の設計を保留中のゲーム(ポケポケ / Pocket、Overwatch / 2)は従来の文面
+ *   6. 再生リスト0件(noindex)と正規名の設計を保留中のゲーム(ポケポケ / Pocket、Overwatch)は従来の文面
  *   7. game.js は description にこの関数を使い、title / canonical / og:image の生成は従来どおり
  * 失敗が1件でもあれば終了コード1。
  */
@@ -41,7 +41,7 @@ const streamerNames = new Set(STREAMERS.map((s) => s.name));
 // index 対象のVTuber = 再生リストか単発実況があるVTuber(streamer.js の noindex 条件と同じ)
 const streamersWithPlays = new Set(PLAYLISTS.map((p) => p.streamer).concat(STANDALONE.map((p) => p.streamer)));
 const saOf = (g) => STANDALONE.filter((p) => p.game === g);
-const LEGACY = ['ポケモンカードゲーム Pokémon Trading Card Game Pocket', 'ポケポケ', 'Overwatch', 'Overwatch 2'];
+const LEGACY = ['ポケモンカードゲーム Pokémon Trading Card Game Pocket', 'ポケポケ', 'Overwatch'];
 const itemsOf = (g) => PLAYLISTS.filter((p) => p.game === g);
 const build = (g) => ctx.buildGameDescription(g, itemsOf(g), STANDALONE.filter((p) => p.game === g));
 const pick = (g) => ctx.pickGameDescriptionStreamers(itemsOf(g), STANDALONE.filter((p) => p.game === g)).map((s) => s.name);
