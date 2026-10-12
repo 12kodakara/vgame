@@ -198,13 +198,13 @@ check('5f. スト6: title は正式名称と略称(ストリートファイタ�
   && sf6Canonical && sf6Canonical.getAttribute('href') === 'https://vgame-navi.jp/game.html?game=' + encodeURIComponent(SF6),
   sf6Page.doc.title + ' / ' + (sf6Desc && sf6Desc.getAttribute('content')) + ' / ' + sf6Page.doc.getElementById('page-title').textContent);
 // 全ゲームの描画結果で確認: title が変わるのは役割を明記するページ(GAME_PAGE_ROLES)とスト6だけ
-const titleExceptions = new Set(['ポケモンシリーズ', '星のカービィシリーズ', SF6]);
+const titleExceptions = new Set(['ポケモンシリーズ', '星のカービィシリーズ', 'パラノマサイト', SF6]);
 const titleChanged = [...renderedTitles].filter(([g, t]) => !titleExceptions.has(g) && t !== g + 'を実況しているVTuber一覧 | ぶいゲー').map(([g, t]) => g + ' → ' + t);
 check('5g. 他のゲーム(' + (renderedTitles.size - titleExceptions.size) + ')の title は従来どおり「◯◯を実況しているVTuber一覧 | ぶいゲー」',
   renderedTitles.size === GAMES.length && titleChanged.length === 0, titleChanged.slice(0, 5).join('\n         '));
 // まとめ版(GAME_COLLECTION_LINKS)と収録作品: 関連ゲーム欄の先頭で互いへ案内し、自動で選ぶ関連ゲーム(最大6件)はその後ろに残る
 const relatedNames = (r) => [...r.doc.getElementById('game-related-list').querySelectorAll('a')].map((a) => decodeURIComponent(a.getAttribute('href').slice('game.html?game='.length)));
-const COLLECTIONS = { '逆転裁判123 成歩堂セレクション': ['逆転裁判', '逆転裁判2', '逆転裁判3'], '逆転裁判456 王泥喜セレクション': ['逆転裁判4', '逆転裁判5', '逆転裁判6'] };
+const COLLECTIONS = { '逆転裁判123 成歩堂セレクション': ['逆転裁判', '逆転裁判2', '逆転裁判3'], '逆転裁判456 王泥喜セレクション': ['逆転裁判4', '逆転裁判5', '逆転裁判6'], 'パラノマサイト': ['パラノマサイト FILE23 本所七不思議', 'パラノマサイト FILE38 伊勢人魚物語'] };
 const collectionProblems = [];
 for (const [col, members] of Object.entries(COLLECTIONS)) {
   const names = relatedNames(renderFor(col));
@@ -215,7 +215,7 @@ for (const [col, members] of Object.entries(COLLECTIONS)) {
   }
 }
 const plainRelated = relatedNames(renderFor('Minecraft'));
-check('5h. 逆転裁判123・456 とその収録作品は関連ゲーム欄の先頭で互いへリンクし、自動の関連ゲームも残る(ほかのゲームは従来どおり最大6件)',
+check('5h. 逆転裁判123・456 とその収録作品、パラノマサイト(シリーズ総合)と各作品は関連ゲーム欄の先頭で互いへリンクし、自動の関連ゲームも残る(ほかのゲームは従来どおり最大6件)',
   collectionProblems.length === 0 && plainRelated.length === 6, collectionProblems.concat(plainRelated.join(',')).slice(0, 5).join('\n         '));
 
 // ---- 6. 公開中のゲームシリーズページへの導線(data-series.js の publish: true だけ) ----

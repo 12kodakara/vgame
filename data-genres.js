@@ -7,7 +7,7 @@ const GENRE_PAGES = {
  "genres": {
   "horror": {
    "stats": {
-    "games": 118,
+    "games": 119,
     "streamers": 167,
     "playlists": 645,
     "videos": 4097
@@ -59,11 +59,6 @@ const GENRE_PAGES = {
      18
     ],
     [
-     "パラノマサイト",
-     17,
-     25
-    ],
-    [
      "OUTLAST",
      16,
      16
@@ -104,6 +99,11 @@ const GENRE_PAGES = {
      12
     ],
     [
+     "パラノマサイト FILE23 本所七不思議",
+     12,
+     12
+    ],
+    [
      "Phasmophobia",
      11,
      12
@@ -125,6 +125,11 @@ const GENRE_PAGES = {
     ],
     [
      "バイオハザード HDリマスター",
+     9,
+     9
+    ],
+    [
+     "パラノマサイト FILE38 伊勢人魚物語",
      9,
      9
     ],
@@ -195,6 +200,11 @@ const GENRE_PAGES = {
     ],
     [
      "キミガシネ",
+     5,
+     5
+    ],
+    [
+     "パラノマサイト",
      5,
      5
     ],
@@ -489,11 +499,6 @@ const GENRE_PAGES = {
      1
     ],
     [
-     "パラノマサイト FILE23 本所七不思議",
-     1,
-     1
-    ],
-    [
      "不審者情報",
      1,
      1
@@ -666,6 +671,11 @@ const GENRE_PAGES = {
      9
     ],
     [
+     "夢追翔",
+     8,
+     8
+    ],
+    [
      "甲斐田晴",
      8,
      8
@@ -681,12 +691,12 @@ const GENRE_PAGES = {
      8
     ],
     [
-     "夢追翔",
+     "Finana Ryugu",
      7,
-     8
+     7
     ],
     [
-     "Finana Ryugu",
+     "ベルモンド・バンデラス",
      7,
      7
     ],
@@ -721,11 +731,6 @@ const GENRE_PAGES = {
      7
     ],
     [
-     "ベルモンド・バンデラス",
-     6,
-     7
-    ],
-    [
      "大空スバル",
      6,
      7
@@ -756,6 +761,11 @@ const GENRE_PAGES = {
      6
     ],
     [
+     "空星きらめ",
+     6,
+     6
+    ],
+    [
      "葉加瀬冬雪",
      6,
      6
@@ -767,11 +777,6 @@ const GENRE_PAGES = {
     ],
     [
      "兎田ぺこら",
-     5,
-     6
-    ],
-    [
-     "空星きらめ",
      5,
      6
     ],
@@ -806,12 +811,12 @@ const GENRE_PAGES = {
      5
     ],
     [
-     "リゼ・ヘルエスタ",
-     4,
+     "魔界ノりりむ",
+     5,
      5
     ],
     [
-     "魔界ノりりむ",
+     "リゼ・ヘルエスタ",
      4,
      5
     ],
@@ -861,7 +866,17 @@ const GENRE_PAGES = {
      4
     ],
     [
+     "北見遊征",
+     4,
+     4
+    ],
+    [
      "小森めと",
+     4,
+     4
+    ],
+    [
+     "尾丸ポルカ",
      4,
      4
     ],
@@ -886,16 +901,6 @@ const GENRE_PAGES = {
      4
     ],
     [
-     "北見遊征",
-     3,
-     4
-    ],
-    [
-     "尾丸ポルカ",
-     3,
-     4
-    ],
-    [
      "桃鈴ねね",
      3,
      4
@@ -907,6 +912,11 @@ const GENRE_PAGES = {
     ],
     [
      "Anya Melfissa",
+     3,
+     3
+    ],
+    [
+     "エクス・アルビオ",
      3,
      3
     ],
@@ -932,6 +942,11 @@ const GENRE_PAGES = {
     ],
     [
      "北小路ヒスイ",
+     3,
+     3
+    ],
+    [
+     "卯月コウ",
      3,
      3
     ],
@@ -971,17 +986,7 @@ const GENRE_PAGES = {
      3
     ],
     [
-     "エクス・アルビオ",
-     2,
-     3
-    ],
-    [
      "リュ ハリ",
-     2,
-     3
-    ],
-    [
-     "卯月コウ",
      2,
      3
     ],
@@ -1458,7 +1463,7 @@ const GENRE_PAGES = {
      "id": "niji-kitamicoolgu-01",
      "title": "パラノマサイト FILE38 伊勢人魚物語",
      "streamer": "北見遊征",
-     "game": "パラノマサイト",
+     "game": "パラノマサイト FILE38 伊勢人魚物語",
      "genre": "horror",
      "playlistId": "PLQGuvrqdUwkg",
      "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
@@ -1554,7 +1559,7 @@ const GENRE_PAGES = {
      "id": "niji-kirame2434-01",
      "title": "パラノマサイト FILE38 伊勢人魚物語",
      "streamer": "空星きらめ",
-     "game": "パラノマサイト",
+     "game": "パラノマサイト FILE38 伊勢人魚物語",
      "genre": "horror",
      "playlistId": "PLPBENTZ-GE2A",
      "thumbnailUrl": "https://i.ytimg.com/vi/6RMTojVbj-s/mqdefault.jpg",

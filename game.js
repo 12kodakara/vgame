@@ -34,6 +34,12 @@ const GAME_PAGE_ROLES = {
     lead: "複数のカービィ作品をひとつにまとめた、VTuberの実況再生リストを掲載しています。作品ごとの実況は、各作品のページから探せます。",
     subject: "複数のカービィ作品にわたるVTuber実況",
   },
+  "パラノマサイト": {
+    heading: "パラノマサイト(シリーズ総合)",
+    title: "パラノマサイトを実況しているVTuber一覧｜シリーズ総合",
+    lead: "パラノマサイトシリーズのVTuber実況のうち、作品を区別していない再生リストを掲載しています。本所七不思議・伊勢人魚物語の実況は、関連ゲーム欄の各作品のページから探せます。",
+    subject: "パラノマサイトシリーズのVTuber実況",
+  },
 };
 const gamePageRoleOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_PAGE_ROLES, game) ? GAME_PAGE_ROLES[game] : null);
 // 検索で略称が使われているゲーム(Search Console の実際の検索語句で確認できたものだけ)の title と、
@@ -49,9 +55,11 @@ const GAME_ABBREVIATION_META = {
 const gameAbbreviationMetaOf = (game) => (Object.prototype.hasOwnProperty.call(GAME_ABBREVIATION_META, game) ? GAME_ABBREVIATION_META[game] : null);
 // 複数作品をまとめた収録版(キー)と、その収録作品。どちらも独立したゲームのまま、関連ゲーム欄の先頭で互いへ案内する
 // (まとめ版 → 収録作品すべて / 収録作品 → まとめ版)。自動で選ぶ関連ゲームはこれまでどおり後ろに並べる。
+// シリーズ総合ページ(キー)と各作品も同じ仕組みで互いへ案内する(総合ページ → 各作品 / 各作品 → 総合ページ)。
 const GAME_COLLECTION_LINKS = {
   "逆転裁判123 成歩堂セレクション": ["逆転裁判", "逆転裁判2", "逆転裁判3"],
   "逆転裁判456 王泥喜セレクション": ["逆転裁判4", "逆転裁判5", "逆転裁判6"],
+  "パラノマサイト": ["パラノマサイト FILE23 本所七不思議", "パラノマサイト FILE38 伊勢人魚物語"],
 };
 function collectionLinksOf(game) {
   if (Object.prototype.hasOwnProperty.call(GAME_COLLECTION_LINKS, game)) return GAME_COLLECTION_LINKS[game].slice();

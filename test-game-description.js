@@ -153,16 +153,25 @@ check('8b. 役割の文面(heading / title / lead / subject)はすべてあり�
   roleKeys.every((g) => ['heading', 'title', 'lead', 'subject'].every((k) => typeof ROLES[g][k] === 'string' && ROLES[g][k] && !/[0-9０-９]/.test(ROLES[g][k]))));
 check('8c. 役割を明記するページの description も件数・VTuber名は自動生成(元データと一致)',
   roleKeys.every((g) => { const it = itemsOf(g); const d = build(g); return d.startsWith(ROLES[g].subject + 'をまとめたページです。') && d.includes('再生リスト' + it.length + '件') && pick(g).some((s) => d.includes(s)); }));
+// 「◯◯シリーズ」という名前の受け皿は同名のシリーズページと検索意図が重なるため、元のゲーム名を文面に使わない。
+// 作品名そのものが受け皿のシリーズ総合ページ(パラノマサイト)は 8h で別に確認する
+const seriesNamedRoleKeys = roleKeys.filter((g) => /シリーズ$/.test(g));
 check('8d. 役割の文面に元のゲーム名(例: ポケモンシリーズ)を使わない(同名のシリーズページと検索意図を分けるため)',
-  roleKeys.every((g) => ['heading', 'title', 'subject'].every((k) => !ROLES[g][k].includes(g))));
-check('8e. 役割を明記するページは旧ポケモン・旧カービィの2件だけ(他のゲームの title・description は変えない)',
-  JSON.stringify(roleKeys.slice().sort()) === JSON.stringify(['ポケモンシリーズ', '星のカービィシリーズ'].sort()), roleKeys.join(','));
+  seriesNamedRoleKeys.length === 2 && seriesNamedRoleKeys.every((g) => ['heading', 'title', 'subject'].every((k) => !ROLES[g][k].includes(g))), seriesNamedRoleKeys.join(','));
+check('8e. 役割を明記するページは旧ポケモン・旧カービィ・パラノマサイト(シリーズ総合)の3件だけ(他のゲームの title・description は変えない)',
+  JSON.stringify(roleKeys.slice().sort()) === JSON.stringify(['ポケモンシリーズ', '星のカービィシリーズ', 'パラノマサイト'].sort()), roleKeys.join(','));
 const KIRBY_HUB = '星のカービィシリーズ', kirbyHubItems = itemsOf(KIRBY_HUB);
 check('8f. 旧「星のカービィシリーズ」: description は役割(複数作品にわたる実況)で始まり、件数・VTuber名は元データから(再生リスト' + kirbyHubItems.length + '件)',
   kirbyHubItems.length > 0 && build(KIRBY_HUB).startsWith('複数のカービィ作品にわたるVTuber実況をまとめたページです。')
   && build(KIRBY_HUB).includes('再生リスト' + kirbyHubItems.length + '件') && pick(KIRBY_HUB).some((s) => build(KIRBY_HUB).includes(s)), build(KIRBY_HUB));
 check('8g. 旧カービィの文面はポケモンの流用ではなく、掲載していない「企画」を書かない',
   ['heading', 'title', 'lead', 'subject'].every((k) => ROLES[KIRBY_HUB][k] !== ROLES['ポケモンシリーズ'][k] && !/ポケモン|企画/.test(ROLES[KIRBY_HUB][k])));
+const PARA_HUB = 'パラノマサイト', paraHubItems = itemsOf(PARA_HUB);
+check('8h. 「パラノマサイト」はシリーズ総合ページ: 文面はシリーズ総合であることを示し(作品名FILE23/FILE38は使わない)、description の件数・VTuber名は元データから(再生リスト' + paraHubItems.length + '件)',
+  paraHubItems.length > 0 && ['heading', 'title', 'subject'].every((k) => ROLES[PARA_HUB][k].includes('パラノマサイト') && !/本所|伊勢|FILE/.test(ROLES[PARA_HUB][k]))
+  && /シリーズ総合/.test(ROLES[PARA_HUB].heading) && /シリーズ総合/.test(ROLES[PARA_HUB].title)
+  && build(PARA_HUB).startsWith('パラノマサイトシリーズのVTuber実況をまとめたページです。') && build(PARA_HUB).includes('再生リスト' + paraHubItems.length + '件'),
+  build(PARA_HUB));
 
 // ---- 9. 略称を添えるページ(GAME_ABBREVIATION_META) ----
 const ABBR = vm.runInContext('GAME_ABBREVIATION_META', ctx);
