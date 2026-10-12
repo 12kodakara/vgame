@@ -32,6 +32,42 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "vspo-kuromuyano-17",
+      "title": "💀VALORANT💀",
+      "streamer": "夜乃くろむ",
+      "game": "VALORANT",
+      "genre": "fps",
+      "playlistId": "PLoeu5jm0_o0ThkoZkuoMRyAN4AZ-FhErt",
+      "thumbnailUrl": "https://i.ytimg.com/vi/WisyFISTjWs/mqdefault.jpg",
+      "videoCount": 113,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-12"
+    },
+    {
+      "id": "niji-7tamanoi-01",
+      "title": "魔法少女ノ魔女裁判",
+      "streamer": "珠乃井ナナ",
+      "game": "魔法少女ノ魔女裁判",
+      "genre": "horror",
+      "playlistId": "PLXLVC2tRini0",
+      "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+      "videoCount": 3,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-12"
+    },
+    {
+      "id": "hd-1286",
+      "title": "ARK⛰",
+      "streamer": "博衣こより",
+      "game": "ARK: Survival Evolved",
+      "genre": "sandbox",
+      "playlistId": "PLCxKJRIVDrYEWrBUV-63DfvFiyzyr5lty",
+      "thumbnailUrl": "https://i.ytimg.com/vi/rmPDazAuwhc/mqdefault.jpg",
+      "videoCount": 29,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-11"
+    },
+    {
       "id": "hd-1374",
       "title": "DARK SOULS III",
       "streamer": "輪堂千速",
@@ -44,51 +80,15 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-11"
     },
     {
-      "id": "vspo-kuromuyano-16",
-      "title": "💀APEX💀",
-      "streamer": "夜乃くろむ",
-      "game": "Apex Legends",
+      "id": "vspo-mimitosaki-04",
+      "title": "VALORANT",
+      "streamer": "兎咲ミミ",
+      "game": "VALORANT",
       "genre": "fps",
-      "playlistId": "PLoeu5jm0_o0RTUN1adc_uiviVebTWLcVT",
-      "thumbnailUrl": "https://i.ytimg.com/vi/x2cxLKz9cA0/mqdefault.jpg",
-      "videoCount": 55,
+      "playlistId": "PLrZeo6egs0S4A7TRW_2tnb3P_1HIUPneB",
+      "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
+      "videoCount": 279,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-11"
-    },
-    {
-      "id": "niji-kitamicoolgu-01",
-      "title": "パラノマサイト FILE38 伊勢人魚物語",
-      "streamer": "北見遊征",
-      "game": "パラノマサイト",
-      "genre": "horror",
-      "playlistId": "PLQGuvrqdUwkg",
-      "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
-      "videoCount": 1,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-11"
-    },
-    {
-      "id": "gap835",
-      "title": "LOST JUDGMENT：裁かれざる記憶",
-      "streamer": "水宮枢",
-      "game": "LOST JUDGMENT:裁かれざる記憶",
-      "genre": "action",
-      "playlistId": "PLLOWP7UoerRc",
-      "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
-      "videoCount": 3,
-      "addedDate": "2026-10-11",
-      "updatedDate": "2026-10-11"
-    },
-    {
-      "id": "gap839",
-      "title": "都市伝説解体センター",
-      "streamer": "花畑チャイカ",
-      "game": "都市伝説解体センター",
-      "genre": "other",
-      "playlistId": "PLKJm9rfXim2M",
-      "thumbnailUrl": "https://i.ytimg.com/vi/xpbwReIWM8Y/mqdefault_live.jpg",
-      "videoCount": 2,
-      "addedDate": "2026-10-11",
       "updatedDate": "2026-10-11"
     }
   ],

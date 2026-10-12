@@ -1443,6 +1443,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-12"
+    },
+    {
      "id": "niji-kitamicoolgu-01",
      "title": "パラノマサイト FILE38 伊勢人魚物語",
      "streamer": "北見遊征",
@@ -1451,6 +1463,18 @@ const GENRE_PAGES = {
      "playlistId": "PLQGuvrqdUwkg",
      "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
      "videoCount": 1,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-11"
+    },
+    {
+     "id": "niji-nesssakaki-01",
+     "title": "【2026年ホラゲ】SILENT HILL 2",
+     "streamer": "榊ネス",
+     "game": "SILENT HILL 2",
+     "genre": "horror",
+     "playlistId": "PLJgDA-3USeTc",
+     "thumbnailUrl": "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
+     "videoCount": 4,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-11"
     },
@@ -1475,18 +1499,6 @@ const GENRE_PAGES = {
      "playlistId": "PLX-dBVwQ53SUUBKX7RbHJBHNVquXIVegY",
      "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
      "videoCount": 14,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-09"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-09"
     },
@@ -1549,18 +1561,6 @@ const GENRE_PAGES = {
      "videoCount": 12,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-02"
-    },
-    {
-     "id": "vspo-totokogara-21",
-     "title": "DBD",
-     "streamer": "小雀とと",
-     "game": "Dead by Daylight",
-     "genre": "horror",
-     "playlistId": "PLuXZStCIRGE32i_dmwvRlmUQ2eDfVG8t4",
-     "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
-     "videoCount": 38,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-09-26"
     }
    ]
   }
