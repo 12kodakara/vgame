@@ -80679,6 +80679,18 @@ const PLAYLISTS = [
     addedDate: "2026-10-12",
     updatedDate: "",
   },
+  {
+    id: "gap969",
+    title: "🫧 ピクミン￤完結 🐬",
+    streamer: "小々波いるか",
+    game: "ピクミンシリーズ",
+    genre: "action",
+    playlistId: "PL3lPKudGn_A0Rzqacn6MUw5dfsjnkRHva",
+    thumbnailUrl: "https://i.ytimg.com/vi/LOn8kjIMaD4/mqdefault.jpg",
+    videoCount: 2,
+    addedDate: "2026-10-12",
+    updatedDate: "",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました

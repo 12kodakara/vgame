@@ -474,6 +474,18 @@ const NEW_LIST = {
    "updatedDate": ""
   },
   {
+   "id": "gap969",
+   "title": "🫧 ピクミン￤完結 🐬",
+   "streamer": "小々波いるか",
+   "game": "ピクミンシリーズ",
+   "genre": "action",
+   "playlistId": "PL3lPKudGn_A0Rzqacn6MUw5dfsjnkRHva",
+   "thumbnailUrl": "https://i.ytimg.com/vi/LOn8kjIMaD4/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
    "id": "gap835",
    "title": "LOST JUDGMENT：裁かれざる記憶",
    "streamer": "水宮枢",
@@ -590,18 +602,6 @@ const NEW_LIST = {
    "playlistId": "PLXoAjfcu4T-s",
    "thumbnailUrl": "https://i.ytimg.com/vi/idl2KWn2mHQ/mqdefault.jpg",
    "videoCount": 5,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap890",
-   "title": "マリオカート",
-   "streamer": "山田龍一郎",
-   "game": "マリオカートワールド",
-   "genre": "racing",
-   "playlistId": "PLP2UDomz-mf0",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UKyM46hh8q4/mqdefault.jpg",
-   "videoCount": 1,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-10"
   }
