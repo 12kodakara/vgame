@@ -6,6 +6,90 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
+   "id": "gap930",
+   "title": "Hollow Knight: Silksong",
+   "streamer": "白上フブキ",
+   "game": "Hollow Knight: Silksong",
+   "genre": "action",
+   "playlistId": "PLZfy98ejRo_I",
+   "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-11"
+  },
+  {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-11"
+  },
+  {
+   "id": "gap933",
+   "title": "⋆⸜ ドラゴンクエストⅪ 過ぎ去りし時を求めて S ⸝⋆",
+   "streamer": "山神カルタ",
+   "game": "ドラゴンクエストXI S 過ぎ去りし時を求めて",
+   "genre": "rpg",
+   "playlistId": "PLjFz-Ge41_etKx1bvvEHGV-jjVCtB4Ay5",
+   "thumbnailUrl": "https://i.ytimg.com/vi/Re4uXr6fDww/mqdefault.jpg",
+   "videoCount": 20,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-06-20"
+  },
+  {
+   "id": "gap934",
+   "title": "ドラクエⅠ&Ⅱ リメイク",
+   "streamer": "ベルモンド・バンデラス",
+   "game": "ドラゴンクエストI・II HD-2D Remake",
+   "genre": "rpg",
+   "playlistId": "PLwpJFw_gqGL_ZMoj6TJFJkHBKS1s643Pc",
+   "thumbnailUrl": "https://i.ytimg.com/vi/Vq4AG1ZsqoQ/mqdefault.jpg",
+   "videoCount": 18,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-02-16"
+  },
+  {
+   "id": "gap935",
+   "title": "幻想水滸伝Ⅰ&Ⅱリマスター",
+   "streamer": "早瀬走",
+   "game": "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争",
+   "genre": "rpg",
+   "playlistId": "PL0C9v2DYzi43sjPQV641RF9debi5oShXe",
+   "thumbnailUrl": "https://i.ytimg.com/vi/isxbxkn4-lc/mqdefault.jpg",
+   "videoCount": 15,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-04-22"
+  },
+  {
+   "id": "gap936",
+   "title": "ゼルダの伝説TotK",
+   "streamer": "レオス・ヴィンセント",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLSDyBBpsLuL7jyTHgkhXnXyPZENfRf0Fv",
+   "thumbnailUrl": "https://i.ytimg.com/vi/mQMlkxHx7So/mqdefault.jpg",
+   "videoCount": 10,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2023-06-11"
+  },
+  {
+   "id": "gap932",
+   "title": "⋆⸜ ゼルダの伝説BOTW ⸝⋆",
+   "streamer": "山神カルタ",
+   "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
+   "genre": "action",
+   "playlistId": "PLjFz-Ge41_esQ9KpUE-Wa4gDXZx-6l2my",
+   "thumbnailUrl": "https://i.ytimg.com/vi/ANufL7WP-3A/mqdefault.jpg",
+   "videoCount": 25,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2023-04-08"
+  },
+  {
    "id": "gap835",
    "title": "LOST JUDGMENT：裁かれざる記憶",
    "streamer": "水宮枢",
@@ -520,90 +604,6 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-09-16"
-  },
-  {
-   "id": "gap836",
-   "title": "スーパーマリオサンシャイン",
-   "streamer": "伊波ライ",
-   "game": "スーパーマリオサンシャイン",
-   "genre": "action",
-   "playlistId": "PLBhoaFbiWvaU",
-   "thumbnailUrl": "https://i.ytimg.com/vi/-SUwvfeArp4/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-14"
-  },
-  {
-   "id": "gap843",
-   "title": "VALORANT (V26 Act 1-6)",
-   "streamer": "美暮ナリン",
-   "game": "VALORANT",
-   "genre": "fps",
-   "playlistId": "PL7wfa5CT3svFKqzICIKKb7mDlRtgtJNAj",
-   "thumbnailUrl": "https://i.ytimg.com/vi/_7MHCF8Qz8k/mqdefault.jpg",
-   "videoCount": 17,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-09"
-  },
-  {
-   "id": "gap838",
-   "title": "リズム天国ミラクルスターズ",
-   "streamer": "男虎",
-   "game": "リズム天国 ミラクルスターズ",
-   "genre": "other",
-   "playlistId": "PLZJWU69vB3IE",
-   "thumbnailUrl": "https://i.ytimg.com/vi/8PUJ1VKcygk/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-08"
-  },
-  {
-   "id": "gap895",
-   "title": "にじメンマイクラ",
-   "streamer": "男虎",
-   "game": "Minecraft",
-   "genre": "sandbox",
-   "playlistId": "PLQTPAoJ7u_58",
-   "thumbnailUrl": "https://i.ytimg.com/vi/coYTLSLUWGE/mqdefault.jpg",
-   "videoCount": 13,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-09-08"
-  },
-  {
-   "id": "gap893",
-   "title": "ゼルダ：ブレワイ",
-   "streamer": "小清水透",
-   "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
-   "genre": "action",
-   "playlistId": "PL9mzRTKsqnF493b3nAFqJ08YF6alYBUKi",
-   "thumbnailUrl": "https://i.ytimg.com/vi/e6qRyWaLjFQ/mqdefault.jpg",
-   "videoCount": 14,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-07-13"
-  },
-  {
-   "id": "gap862",
-   "title": "ACE COMBAT™ 7: SKIES UNKNOWN┊︎エースコンバット7 スカイズ・アンノウン",
-   "streamer": "葉山舞鈴",
-   "game": "ACE COMBAT 7: SKIES UNKNOWN",
-   "genre": "sim",
-   "playlistId": "PLI1OwicOH13g",
-   "thumbnailUrl": "https://i.ytimg.com/vi/VoOJZqRF568/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-07-03"
-  },
-  {
-   "id": "gap896",
-   "title": "プロセカ / Hatsune Miku: Colorful Stage",
-   "streamer": "Zeal Ginjoka",
-   "game": "プロジェクトセカイ",
-   "genre": "other",
-   "playlistId": "PL1e1TLuiga-wIxPuu8gTg1PjB7uNaZjU-",
-   "thumbnailUrl": "https://i.ytimg.com/vi/TbcnULLTSNg/mqdefault.jpg",
-   "videoCount": 13,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-04-30"
   }
  ]
 };
