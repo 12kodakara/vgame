@@ -46,6 +46,11 @@
   サイト追加日で並んだ項目が出てしまいます)。
 .PARAMETER ApplyOnly
   API通信をせず、キャッシュの内容だけを data-playlists.js に反映します。
+.PARAMETER ThumbOnly
+  thumbnailUrl が未設定/no_thumbnail の再生リストだけを対象に、概要フェーズで取れる
+  再生リスト固有サムネイルだけを反映します。明細フェーズ(動画数・updatedDate の判定)は行わず、
+  updatedDate・videoCount とキャッシュの itemCount / date は変更しません(50件ごとに 1 unit)。
+  固有サムネイルが無い再生リストは空のまま残します(代表動画サムネイルは日次更新で補います)。
 
 .EXAMPLE
   .\refresh-playlist-meta.ps1 -PlanOnly
@@ -62,7 +67,8 @@ param(
   [int]$MaxUnits = 2000,
   [switch]$PlanOnly,
   [switch]$OnlyMissing,
-  [switch]$ApplyOnly
+  [switch]$ApplyOnly,
+  [switch]$ThumbOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -202,7 +208,14 @@ if (-not $ApplyOnly) {
   # 既定は全件(132 unit)。-OnlyMissing のときは updatedDate 未設定 / サムネイル欠落の
   # 再生リストだけに絞る(取り込み直後に数 unit で埋めるための入口)。
   $info = @{}
-  if ($OnlyMissing) {
+  if ($ThumbOnly) {
+    $ids = @($entries | Where-Object { Test-NeedsThumb $_ } | ForEach-Object { $_.PlaylistId } | Select-Object -Unique)
+    Write-Output "[ThumbOnly] サムネイル欠落の $($ids.Count) 件だけを対象にします(明細フェーズなし・updatedDate は変更しません)。"
+    if ($ids.Count -eq 0) {
+      Write-Output "対象がありません。APIを呼ばずに終了します(data-playlists.js は変更していません)。"
+      exit 0
+    }
+  } elseif ($OnlyMissing) {
     $ids = @($entries | Where-Object { (-not $_.UpdatedDate) -or ((Test-NeedsThumb $_) -and (Test-ThumbRetryDue $cache[$_.PlaylistId])) } | ForEach-Object { $_.PlaylistId } | Select-Object -Unique)
     Write-Output "[OnlyMissing] updatedDate 未設定 / サムネイル欠落の $($ids.Count) 件だけを対象にします。"
     if ($ids.Count -eq 0) {
@@ -237,6 +250,8 @@ if (-not $ApplyOnly) {
     $c = $cache[$pid_]
     if (-not $c) { $c = @{}; $cache[$pid_] = $c }
     if ($inf.thumb) { $c["playlistThumb"] = $inf.thumb }
+    # ThumbOnly: 明細フェーズの対象にせず、itemCount も記録しない(日次更新の動画数変化の検知を妨げないため)
+    if ($ThumbOnly) { continue }
     $baseline = if ($null -ne $c["itemCount"]) { [int]$c["itemCount"] } else { $e.VideoCount }
     $reasons = @()
     if (-not $e.UpdatedDate -and -not $c["date"]) { $reasons += "noDate" }
@@ -310,7 +325,7 @@ foreach ($m in $objectMatches) {
   $pid_ = Get-Field $block "playlistId"
   $c = $cache[$pid_]
   if ($c) {
-    if ($c["date"]) {
+    if ($c["date"] -and -not $ThumbOnly) {
       $um = [regex]::Match($block, 'updatedDate:\s*"([^"]*)"')
       if ($um.Success) {
         $g = $um.Groups[1]
