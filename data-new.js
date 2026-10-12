@@ -522,6 +522,42 @@ const NEW_LIST = {
    "updatedDate": ""
   },
   {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
+   "id": "gap975",
+   "title": "幻想水滸伝STAR LEAP",
+   "streamer": "早瀬走",
+   "game": "幻想水滸伝 STAR LEAP",
+   "genre": "rpg",
+   "playlistId": "PLCrlZGEXhOdQ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/h2him5nCZlY/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": ""
+  },
+  {
    "id": "gap835",
    "title": "LOST JUDGMENT：裁かれざる記憶",
    "streamer": "水宮枢",
@@ -568,42 +604,6 @@ const NEW_LIST = {
    "videoCount": 6,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-11"
-  },
-  {
-   "id": "gap822",
-   "title": "ほの暮らしの庭",
-   "streamer": "小清水透",
-   "game": "ほの暮らしの庭",
-   "genre": "sim",
-   "playlistId": "PLSugGstcSork",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fWoiSIKKGSI/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap829",
-   "title": "妖怪ウォッチ",
-   "streamer": "フレン・E・ルスタリオ",
-   "game": "妖怪ウォッチ",
-   "genre": "rpg",
-   "playlistId": "PLH94BVve89bk",
-   "thumbnailUrl": "https://i.ytimg.com/vi/GzfXCrWSH6U/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap833",
-   "title": "A Dance of FIRE and ICE",
-   "streamer": "山田龍一郎",
-   "game": "A Dance of Fire and Ice",
-   "genre": "other",
-   "playlistId": "PLJAsZU_dDDqU",
-   "thumbnailUrl": "https://i.ytimg.com/vi/xvClxzUb_Jk/mqdefault_live.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-10"
   }
  ]
 };

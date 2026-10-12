@@ -752,6 +752,7 @@ const GAMES = [
   { name: "逆転裁判123 成歩堂セレクション", kana: "ぎゃくてんさいばんいちにーさんなるほどうせれくしょん", aliases: ["ぎゃくさい"], series: "逆転裁判シリーズ", order: 1 },
   { name: "近畿地方のある場所について", kana: "きんきちほうのあるばしょについて", series: "" },
   { name: "空の軌跡", kana: "そらのきせき", series: "" },
+  { name: "空の軌跡 the 2nd", kana: "そらのきせきざせかんど", series: "" },
   { name: "原神", kana: "げんしん", aliases: ["Genshin Impact"], series: "" },
   { name: "初音ミク -Project DIVA- X HD", kana: "はつねみくぷろじぇくとでぃーばえっくすえいちでぃー", series: "" },
   { name: "雀魂", kana: "じゃんたま", series: "" },
@@ -1356,6 +1357,7 @@ const GAMES = [
   { name: "ドラゴンクエストI・II HD-2D Remake", kana: "どらごんくえすとわんつーえいちでぃーつーでぃーりめいく", series: "ドラゴンクエストシリーズ" },
   { name: "ドラゴンクエストIII HD-2D Remake", kana: "どらごんくえすとすりーえいちでぃーつーでぃーりめいく", series: "ドラゴンクエストシリーズ" },
   { name: "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争", kana: "げんそうすいこでんわんつーえいちでぃーりますたーもんのもんしょうせんそうでゅなんとういつせんそう", aliases: ["幻想水滸伝"], series: "" },
+  { name: "幻想水滸伝 STAR LEAP", kana: "げんそうすいこでんすたーりーぷ", series: "" },
   { name: "利用規約に同意したい", kana: "りようきやくにどういしたい", series: "" },
 ];
 
