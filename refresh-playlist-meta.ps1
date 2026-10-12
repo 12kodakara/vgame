@@ -331,8 +331,9 @@ foreach ($m in $objectMatches) {
       $newThumb = if ($c["playlistThumb"]) { $c["playlistThumb"] } else { $c["videoThumb"] }
       if ($newThumb) {
         if (-not $c["playlistThumb"]) { $stat.thumbFromVideo++ }
-        if ($cur) {
-          $tm = [regex]::Match($block, 'thumbnailUrl:\s*"([^"]*)"')
+        # 値が空("")でも行がある場合は置換する(行の有無で判定しないと thumbnailUrl 行が重複する)
+        $tm = [regex]::Match($block, 'thumbnailUrl:\s*"([^"]*)"')
+        if ($tm.Success) {
           $g = $tm.Groups[1]
           $block = $block.Substring(0, $g.Index) + $newThumb + $block.Substring($g.Index + $g.Length)
           $stat.thumbReplaced++

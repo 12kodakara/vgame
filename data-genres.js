@@ -7,10 +7,10 @@ const GENRE_PAGES = {
  "genres": {
   "horror": {
    "stats": {
-    "games": 119,
-    "streamers": 167,
-    "playlists": 645,
-    "videos": 4097
+    "games": 120,
+    "streamers": 168,
+    "playlists": 647,
+    "videos": 4104
    },
    "games": [
     [
@@ -119,17 +119,17 @@ const GENRE_PAGES = {
      11
     ],
     [
+     "パラノマサイト FILE38 伊勢人魚物語",
+     10,
+     10
+    ],
+    [
      "Inscryption",
      9,
      9
     ],
     [
      "バイオハザード HDリマスター",
-     9,
-     9
-    ],
-    [
-     "パラノマサイト FILE38 伊勢人魚物語",
      9,
      9
     ],
@@ -375,6 +375,11 @@ const GENRE_PAGES = {
     ],
     [
      "Emily Wants To Play",
+     1,
+     1
+    ],
+    [
+     "Five Nights at Freddy's: Into the Pit",
      1,
      1
     ],
@@ -916,6 +921,11 @@ const GENRE_PAGES = {
      3
     ],
     [
+     "Zeal Ginjoka",
+     3,
+     3
+    ],
+    [
      "エクス・アルビオ",
      3,
      3
@@ -1032,11 +1042,6 @@ const GENRE_PAGES = {
     ],
     [
      "Yu Q. Wilson",
-     2,
-     2
-    ],
-    [
-     "Zeal Ginjoka",
      2,
      2
     ],
@@ -1406,6 +1411,11 @@ const GENRE_PAGES = {
      1
     ],
     [
+     "轟京子",
+     1,
+     1
+    ],
+    [
      "銀城サイネ",
      1,
      1
@@ -1447,6 +1457,30 @@ const GENRE_PAGES = {
     ]
    ],
    "recent": [
+    {
+     "id": "gap960",
+     "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
+     "streamer": "Zeal Ginjoka",
+     "game": "Five Nights at Freddy's: Into the Pit",
+     "genre": "horror",
+     "playlistId": "PLEExhBo5MuYk",
+     "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-10-12",
+     "updatedDate": ""
+    },
+    {
+     "id": "gap961",
+     "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+     "streamer": "轟京子",
+     "game": "パラノマサイト FILE38 伊勢人魚物語",
+     "genre": "horror",
+     "playlistId": "PLFKv7E5Tpkvw",
+     "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
+     "videoCount": 4,
+     "addedDate": "2026-10-12",
+     "updatedDate": ""
+    },
     {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
@@ -1540,30 +1574,6 @@ const GENRE_PAGES = {
      "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
      "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
      "videoCount": 30,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-03"
-    },
-    {
-     "id": "niji-kakeruyumeoi-22",
-     "title": "黒夢町【にじさんじ/黒井しば/夢追翔/町田ちま/コラボ】",
-     "streamer": "夢追翔",
-     "game": "黒夢町",
-     "genre": "horror",
-     "playlistId": "PL-_4ze9jVHOEB-fbIH5BNHOdoMq9cnYd_",
-     "thumbnailUrl": "https://i.ytimg.com/vi/iJQNhvJ36YU/mqdefault.jpg",
-     "videoCount": 88,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-03"
-    },
-    {
-     "id": "niji-kirame2434-01",
-     "title": "パラノマサイト FILE38 伊勢人魚物語",
-     "streamer": "空星きらめ",
-     "game": "パラノマサイト FILE38 伊勢人魚物語",
-     "genre": "horror",
-     "playlistId": "PLPBENTZ-GE2A",
-     "thumbnailUrl": "https://i.ytimg.com/vi/6RMTojVbj-s/mqdefault.jpg",
-     "videoCount": 5,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-03"
     }
