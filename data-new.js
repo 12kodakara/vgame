@@ -6,6 +6,54 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
+   "id": "gap958",
+   "title": "🎮：星のカービィ ディスカバリー",
+   "streamer": "千凛あゆむ",
+   "game": "星のカービィ ディスカバリー",
+   "genre": "action",
+   "playlistId": "PLDHb-kzpx5VU",
+   "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-14"
+  },
+  {
+   "id": "gap957",
+   "title": "🎮【ドラゴンクエスト シリーズ】",
+   "streamer": "Rei7",
+   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
+   "genre": "rpg",
+   "playlistId": "PLKTfrB9_BK5U",
+   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-13"
+  },
+  {
+   "id": "gap961",
+   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+   "streamer": "轟京子",
+   "game": "パラノマサイト FILE38 伊勢人魚物語",
+   "genre": "horror",
+   "playlistId": "PLFKv7E5Tpkvw",
+   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-13"
+  },
+  {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-13"
+  },
+  {
    "id": "gap931",
    "title": "死んだら即終了DARK SOULS Ⅲ",
    "streamer": "鷹宮リオン",
@@ -38,18 +86,6 @@ const NEW_LIST = {
    "playlistId": "PLQAok99122gM",
    "thumbnailUrl": "https://i.ytimg.com/vi/1c7pYubbW7M/mqdefault.jpg",
    "videoCount": 9,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-11"
-  },
-  {
-   "id": "gap973",
-   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
-   "streamer": "ニュイ・ソシエール",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLEVj9tREVQck",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
-   "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-11"
   },
@@ -90,16 +126,16 @@ const NEW_LIST = {
    "updatedDate": "2026-10-10"
   },
   {
-   "id": "gap957",
-   "title": "🎮【ドラゴンクエスト シリーズ】",
-   "streamer": "Rei7",
-   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
-   "genre": "rpg",
-   "playlistId": "PLKTfrB9_BK5U",
-   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
-   "videoCount": 2,
+   "id": "gap987",
+   "title": "Urban Myth Dissolution Center",
+   "streamer": "Finana Ryugu",
+   "game": "都市伝説解体センター",
+   "genre": "other",
+   "playlistId": "PLSQtE0RL4K1k",
+   "thumbnailUrl": "https://i.ytimg.com/vi/uU8nkruxGaw/mqdefault.jpg",
+   "videoCount": 6,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-10"
+   "updatedDate": "2026-10-08"
   },
   {
    "id": "gap937",
@@ -114,18 +150,6 @@ const NEW_LIST = {
    "updatedDate": "2026-10-07"
   },
   {
-   "id": "gap958",
-   "title": "🎮：星のカービィ ディスカバリー",
-   "streamer": "千凛あゆむ",
-   "game": "星のカービィ ディスカバリー",
-   "genre": "action",
-   "playlistId": "PLDHb-kzpx5VU",
-   "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-07"
-  },
-  {
    "id": "gap960",
    "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
    "streamer": "Zeal Ginjoka",
@@ -134,18 +158,6 @@ const NEW_LIST = {
    "playlistId": "PLEExhBo5MuYk",
    "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
    "videoCount": 3,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-07"
-  },
-  {
-   "id": "gap961",
-   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
-   "streamer": "轟京子",
-   "game": "パラノマサイト FILE38 伊勢人魚物語",
-   "genre": "horror",
-   "playlistId": "PLFKv7E5Tpkvw",
-   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
-   "videoCount": 4,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-07"
   },
@@ -222,6 +234,30 @@ const NEW_LIST = {
    "updatedDate": "2026-08-26"
   },
   {
+   "id": "gap993",
+   "title": "PARANORMASIGHT: The Seven Mysteries of Honjo",
+   "streamer": "Finana Ryugu",
+   "game": "パラノマサイト FILE23 本所七不思議",
+   "genre": "horror",
+   "playlistId": "PLI9r3bQ58ijw",
+   "thumbnailUrl": "https://i.ytimg.com/vi/2I-X99g_Ppw/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-07-20"
+  },
+  {
+   "id": "gap994",
+   "title": "Street Fighter 6",
+   "streamer": "Shiori Novella",
+   "game": "ストリートファイター6",
+   "genre": "action",
+   "playlistId": "PLOOYYH5jkl_8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/SmHxA5XyhGQ/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-07-17"
+  },
+  {
    "id": "gap963",
    "title": "【超魔界村】実況プレイ",
    "streamer": "鈴原るる",
@@ -270,6 +306,42 @@ const NEW_LIST = {
    "updatedDate": "2026-04-26"
   },
   {
+   "id": "gap979",
+   "title": "Story of Seasons Grand Bazaar",
+   "streamer": "Maria Marionette",
+   "game": "牧場物語 Let's！風のグランドバザール",
+   "genre": "sim",
+   "playlistId": "PLiDMOHx-TAJOx19iea2rlQBZAjtWUbN17",
+   "thumbnailUrl": "https://i.ytimg.com/vi/frt_VCCA--0/mqdefault.jpg",
+   "videoCount": 12,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-03-27"
+  },
+  {
+   "id": "gap991",
+   "title": "Resident Evil Requiem (Complete)",
+   "streamer": "Shiori Novella",
+   "game": "バイオハザード レクイエム",
+   "genre": "horror",
+   "playlistId": "PLQNcTNavhAOi6pq9tM-WzH-qYNRY-DKxG",
+   "thumbnailUrl": "https://i.ytimg.com/vi/E7sBKou_yMA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-03-24"
+  },
+  {
+   "id": "gap982",
+   "title": "GNOSIA",
+   "streamer": "Finana Ryugu",
+   "game": "グノーシア",
+   "genre": "other",
+   "playlistId": "PL5XBGPMUTVBRtizYJSH8xLG1K4Mm1M1-_",
+   "thumbnailUrl": "https://i.ytimg.com/vi/FfNot2nUYmQ/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-02-19"
+  },
+  {
    "id": "gap934",
    "title": "ドラクエⅠ&Ⅱ リメイク",
    "streamer": "ベルモンド・バンデラス",
@@ -282,6 +354,42 @@ const NEW_LIST = {
    "updatedDate": "2026-02-16"
   },
   {
+   "id": "gap988",
+   "title": "Dark Souls 2: Scholars of the First Sin (Complete)",
+   "streamer": "Shiori Novella",
+   "game": "DARK SOULS II",
+   "genre": "action",
+   "playlistId": "PLQNcTNavhAOg-CWUxt-5IY1eAba8kcTl-",
+   "thumbnailUrl": "https://i.ytimg.com/vi/dUfij4FeCNU/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-02-03"
+  },
+  {
+   "id": "gap976",
+   "title": "Honkai: Star Rail",
+   "streamer": "Finana Ryugu",
+   "game": "崩壊：スターレイル",
+   "genre": "rpg",
+   "playlistId": "PL5XBGPMUTVBTLTYqiAWL1fBAhPF-_Troz",
+   "thumbnailUrl": "https://i.ytimg.com/vi/iUzmCo04xs0/mqdefault.jpg",
+   "videoCount": 47,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-01-08"
+  },
+  {
+   "id": "gap986",
+   "title": "Urban Myth Dissolution Center (Complete)",
+   "streamer": "Shiori Novella",
+   "game": "都市伝説解体センター",
+   "genre": "other",
+   "playlistId": "PLQNcTNavhAOgEV08TsSYiDW3POTwSMDzk",
+   "thumbnailUrl": "https://i.ytimg.com/vi/2qnbQdeMd-o/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-11-07"
+  },
+  {
    "id": "gap946",
    "title": "完結｜我こそは真のマネージャー！ピクミン無印",
    "streamer": "五木左京",
@@ -292,6 +400,30 @@ const NEW_LIST = {
    "videoCount": 3,
    "addedDate": "2026-10-12",
    "updatedDate": "2025-10-19"
+  },
+  {
+   "id": "gap981",
+   "title": "13 Sentinels: Aegis Rim",
+   "streamer": "Finana Ryugu",
+   "game": "十三機兵防衛圏",
+   "genre": "other",
+   "playlistId": "PL5XBGPMUTVBSbDhY4sS4-34-7IX0Q7gbH",
+   "thumbnailUrl": "https://i.ytimg.com/vi/ybakhmaAbLU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-06-23"
+  },
+  {
+   "id": "gap983",
+   "title": "Like a Dragon Gaiden: The Man Who Erased His Name",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く7外伝 名を消した男",
+   "genre": "rpg",
+   "playlistId": "PL5XBGPMUTVBRfcarVXlZUYjmGfLfS60Ab",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bTfE8iTDApU/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-05-15"
   },
   {
    "id": "gap965",
@@ -316,6 +448,42 @@ const NEW_LIST = {
    "videoCount": 15,
    "addedDate": "2026-10-12",
    "updatedDate": "2025-04-22"
+  },
+  {
+   "id": "gap978",
+   "title": "Yakuza: Like a Dragon",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く7 光と闇の行方",
+   "genre": "rpg",
+   "playlistId": "PL5XBGPMUTVBRanpH1NZzc9VQD-AJeiPcV",
+   "thumbnailUrl": "https://i.ytimg.com/vi/aKhmWax6acY/mqdefault.jpg",
+   "videoCount": 14,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-04-18"
+  },
+  {
+   "id": "gap989",
+   "title": "ホロキュア",
+   "streamer": "姫森ルーナ",
+   "game": "HoloCure",
+   "genre": "action",
+   "playlistId": "PL6gUpTCMieF5I5_upqddmh133mYq9mHWW",
+   "thumbnailUrl": "https://i.ytimg.com/vi/eXBcOtXcztU/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-12-20"
+  },
+  {
+   "id": "gap995",
+   "title": "Resident Evil 4 Remake (Complete)",
+   "streamer": "Shiori Novella",
+   "game": "バイオハザード RE:4",
+   "genre": "horror",
+   "playlistId": "PLQNcTNavhAOjTe1qJLHDWjxq9M1lonVX1",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCz_WkvWqos/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-10-12"
   },
   {
    "id": "gap942",
@@ -378,6 +546,18 @@ const NEW_LIST = {
    "updatedDate": "2024-03-09"
   },
   {
+   "id": "gap985",
+   "title": "Yakuza 4 Remastered",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く4 伝説を継ぐもの",
+   "genre": "action",
+   "playlistId": "PL5XBGPMUTVBT2hQo03PgqwcwilVyjgviS",
+   "thumbnailUrl": "https://i.ytimg.com/vi/Kf0uyxaABpk/mqdefault.jpg",
+   "videoCount": 6,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-02-19"
+  },
+  {
    "id": "gap939",
    "title": "DQM3人生縛り",
    "streamer": "レオス・ヴィンセント",
@@ -388,6 +568,18 @@ const NEW_LIST = {
    "videoCount": 9,
    "addedDate": "2026-10-12",
    "updatedDate": "2024-02-11"
+  },
+  {
+   "id": "gap990",
+   "title": "Yakuza 3 Remastered",
+   "streamer": "Finana Ryugu",
+   "game": "龍が如く3",
+   "genre": "action",
+   "playlistId": "PL5XBGPMUTVBTfbB05419Ok7Xb4emFeO0g",
+   "thumbnailUrl": "https://i.ytimg.com/vi/VUVBCjqQ1js/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-01-04"
   },
   {
    "id": "gap940",
@@ -412,198 +604,6 @@ const NEW_LIST = {
    "videoCount": 7,
    "addedDate": "2026-10-12",
    "updatedDate": "2023-08-21"
-  },
-  {
-   "id": "gap959",
-   "title": "League of Legends: Wild Rift",
-   "streamer": "Kobo Kanaeru",
-   "game": "League of Legends: Wild Rift",
-   "genre": "other",
-   "playlistId": "PLwtTNsTyL23TmBrbbrr82ml115aUkDaw2",
-   "thumbnailUrl": "https://i.ytimg.com/vi/x1k0wLx9xdI/mqdefault.jpg",
-   "videoCount": 9,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2023-07-10"
-  },
-  {
-   "id": "gap936",
-   "title": "ゼルダの伝説TotK",
-   "streamer": "レオス・ヴィンセント",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLSDyBBpsLuL7jyTHgkhXnXyPZENfRf0Fv",
-   "thumbnailUrl": "https://i.ytimg.com/vi/mQMlkxHx7So/mqdefault.jpg",
-   "videoCount": 10,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2023-06-11"
-  },
-  {
-   "id": "gap932",
-   "title": "⋆⸜ ゼルダの伝説BOTW ⸝⋆",
-   "streamer": "山神カルタ",
-   "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
-   "genre": "action",
-   "playlistId": "PLjFz-Ge41_esQ9KpUE-Wa4gDXZx-6l2my",
-   "thumbnailUrl": "https://i.ytimg.com/vi/ANufL7WP-3A/mqdefault.jpg",
-   "videoCount": 25,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2023-04-08"
-  },
-  {
-   "id": "gap971",
-   "title": "刀剣乱舞無双",
-   "streamer": "健屋花那",
-   "game": "刀剣乱舞無双",
-   "genre": "action",
-   "playlistId": "PL0SNK9gKZgKuNlHJYdFzmwfgBztQtEL2k",
-   "thumbnailUrl": "https://i.ytimg.com/vi/OjDc0Sh2-SI/mqdefault.jpg",
-   "videoCount": 9,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2022-11-29"
-  },
-  {
-   "id": "gap970",
-   "title": "【完結】刀剣乱舞無双",
-   "streamer": "神田笑一",
-   "game": "刀剣乱舞無双",
-   "genre": "action",
-   "playlistId": "PLg-aHyLCD1P1d0-3BlMUmQGMfceHwMa5A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/tcAfP511TDA/mqdefault.jpg",
-   "videoCount": 11,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2022-07-24"
-  },
-  {
-   "id": "gap972",
-   "title": "⋆⸜ 刀剣乱舞無双 ⸝⋆",
-   "streamer": "山神カルタ",
-   "game": "刀剣乱舞無双",
-   "genre": "action",
-   "playlistId": "PLjFz-Ge41_evMjej6Wc2UQL-DoPl01uSh",
-   "thumbnailUrl": "https://i.ytimg.com/vi/1ArC6cUtmjQ/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2022-07-14"
-  },
-  {
-   "id": "gap968",
-   "title": "〖スマブラX 亜空の使者〗",
-   "streamer": "笹木咲",
-   "game": "大乱闘スマッシュブラザーズX",
-   "genre": "action",
-   "playlistId": "PLed6q99qvCScTcCS8-Ue_aNRZ3aXIM0xW",
-   "thumbnailUrl": "https://i.ytimg.com/vi/TgSZKWG-iQY/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2022-03-02"
-  },
-  {
-   "id": "gap944",
-   "title": "完〘星のカービィSDX!〙",
-   "streamer": "西園チグサ",
-   "game": "星のカービィ スーパーデラックス",
-   "genre": "action",
-   "playlistId": "PLYqQxMpsjrWujh_BKHSR7UoGGqnkytHpS",
-   "thumbnailUrl": "https://i.ytimg.com/vi/6d6gE-6uHDE/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2020-09-16"
-  },
-  {
-   "id": "gap947",
-   "title": "【音ゲー】太鼓の達人Nintendo Switchば～じょん!",
-   "streamer": "弦月藤士郎",
-   "game": "太鼓の達人",
-   "genre": "other",
-   "playlistId": "PLt1c9byI2pESgi1y426-p_LjW7BpyEyoQ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/lLYUEESHvR8/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2020-07-25"
-  },
-  {
-   "id": "gap967",
-   "title": "✧【完結】ポケダン 空の探検隊 │ 天宮こころ",
-   "streamer": "天宮こころ",
-   "game": "ポケモン不思議のダンジョン 空の探検隊",
-   "genre": "rpg",
-   "playlistId": "PLf_iCnxqBv4hF91mzc5A5alPiqy9y46dN",
-   "thumbnailUrl": "https://i.ytimg.com/vi/-GoFehqAuZ8/mqdefault.jpg",
-   "videoCount": 17,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2020-03-04"
-  },
-  {
-   "id": "gap966",
-   "title": "【超魔界村(2週目)】実況プレイ",
-   "streamer": "鈴原るる",
-   "game": "超魔界村",
-   "genre": "action",
-   "playlistId": "PLWvfTqENT0rxMqWYlyLS2d4xmeqT6MqAS",
-   "thumbnailUrl": "https://i.ytimg.com/vi/1fEUFCBGbx8/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2019-11-10"
-  },
-  {
-   "id": "gap943",
-   "title": "凛LIVE --- ときめきメモリアルGS",
-   "streamer": "静凛",
-   "game": "ときめきメモリアル Girl's Side",
-   "genre": "other",
-   "playlistId": "PL0EE7SG9o_r-9xaLPInZ6-2detvmXZLcE",
-   "thumbnailUrl": "https://i.ytimg.com/vi/nZZ9YsJCSvo/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2019-02-19"
-  },
-  {
-   "id": "gap976",
-   "title": "Honkai: Star Rail",
-   "streamer": "Finana Ryugu",
-   "game": "崩壊：スターレイル",
-   "genre": "rpg",
-   "playlistId": "PL5XBGPMUTVBTLTYqiAWL1fBAhPF-_Troz",
-   "thumbnailUrl": "https://i.ytimg.com/vi/iUzmCo04xs0/mqdefault.jpg",
-   "videoCount": 47,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap977",
-   "title": "Yakuza 0",
-   "streamer": "Finana Ryugu",
-   "game": "龍が如く0 誓いの場所",
-   "genre": "action",
-   "playlistId": "PL5XBGPMUTVBS_9WmHFI-k-HjDopKs-tHP",
-   "thumbnailUrl": "https://i.ytimg.com/vi/D0XLPxODAHg/mqdefault.jpg",
-   "videoCount": 14,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap978",
-   "title": "Yakuza: Like a Dragon",
-   "streamer": "Finana Ryugu",
-   "game": "龍が如く7 光と闇の行方",
-   "genre": "rpg",
-   "playlistId": "PL5XBGPMUTVBRanpH1NZzc9VQD-AJeiPcV",
-   "thumbnailUrl": "https://i.ytimg.com/vi/aKhmWax6acY/mqdefault.jpg",
-   "videoCount": 14,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap979",
-   "title": "Story of Seasons Grand Bazaar",
-   "streamer": "Maria Marionette",
-   "game": "牧場物語 Let's！風のグランドバザール",
-   "genre": "sim",
-   "playlistId": "PLiDMOHx-TAJOx19iea2rlQBZAjtWUbN17",
-   "thumbnailUrl": "https://i.ytimg.com/vi/frt_VCCA--0/mqdefault.jpg",
-   "videoCount": 12,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
   }
  ]
 };
