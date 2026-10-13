@@ -1470,40 +1470,16 @@ const GENRE_PAGES = {
      "updatedDate": ""
     },
     {
-     "id": "gap991",
-     "title": "Resident Evil Requiem (Complete)",
-     "streamer": "Shiori Novella",
-     "game": "バイオハザード レクイエム",
+     "id": "gap961",
+     "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+     "streamer": "轟京子",
+     "game": "パラノマサイト FILE38 伊勢人魚物語",
      "genre": "horror",
-     "playlistId": "PLQNcTNavhAOi6pq9tM-WzH-qYNRY-DKxG",
-     "thumbnailUrl": "https://i.ytimg.com/vi/E7sBKou_yMA/mqdefault.jpg",
-     "videoCount": 5,
-     "addedDate": "2026-10-12",
-     "updatedDate": ""
-    },
-    {
-     "id": "gap993",
-     "title": "PARANORMASIGHT: The Seven Mysteries of Honjo",
-     "streamer": "Finana Ryugu",
-     "game": "パラノマサイト FILE23 本所七不思議",
-     "genre": "horror",
-     "playlistId": "PLI9r3bQ58ijw",
-     "thumbnailUrl": "https://i.ytimg.com/vi/2I-X99g_Ppw/mqdefault.jpg",
+     "playlistId": "PLFKv7E5Tpkvw",
+     "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
      "videoCount": 4,
      "addedDate": "2026-10-12",
-     "updatedDate": ""
-    },
-    {
-     "id": "gap995",
-     "title": "Resident Evil 4 Remake (Complete)",
-     "streamer": "Shiori Novella",
-     "game": "バイオハザード RE:4",
-     "genre": "horror",
-     "playlistId": "PLQNcTNavhAOjTe1qJLHDWjxq9M1lonVX1",
-     "thumbnailUrl": "https://i.ytimg.com/vi/fCz_WkvWqos/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-10-12",
-     "updatedDate": ""
+     "updatedDate": "2026-10-13"
     },
     {
      "id": "niji-7tamanoi-01",
@@ -1515,7 +1491,7 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
      "videoCount": 3,
      "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-12"
+     "updatedDate": "2026-10-13"
     },
     {
      "id": "niji-kitamicoolgu-01",
@@ -1576,6 +1552,30 @@ const GENRE_PAGES = {
      "videoCount": 9,
      "addedDate": "2026-10-12",
      "updatedDate": "2026-10-07"
+    },
+    {
+     "id": "gap960",
+     "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
+     "streamer": "Zeal Ginjoka",
+     "game": "Five Nights at Freddy's: Into the Pit",
+     "genre": "horror",
+     "playlistId": "PLEExhBo5MuYk",
+     "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-10-12",
+     "updatedDate": "2026-10-07"
+    },
+    {
+     "id": "gap834",
+     "title": "バイオハザード6",
+     "streamer": "鷹嶺ルイ",
+     "game": "バイオハザード6",
+     "genre": "horror",
+     "playlistId": "PLXPW6-4naNnE",
+     "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
+     "videoCount": 2,
+     "addedDate": "2026-10-11",
+     "updatedDate": "2026-10-06"
     }
    ]
   }
