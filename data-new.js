@@ -6,6 +6,18 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-12"
+  },
+  {
    "id": "gap930",
    "title": "Hollow Knight: Silksong",
    "streamer": "白上フブキ",
@@ -18,18 +30,6 @@ const NEW_LIST = {
    "updatedDate": "2026-10-11"
   },
   {
-   "id": "gap931",
-   "title": "死んだら即終了DARK SOULS Ⅲ",
-   "streamer": "鷹宮リオン",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLChDzynvDgpo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
-   "videoCount": 38,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-11"
-  },
-  {
    "id": "gap950",
    "title": "〖ドラクエV〗",
    "streamer": "笹木咲",
@@ -38,6 +38,30 @@ const NEW_LIST = {
    "playlistId": "PLQAok99122gM",
    "thumbnailUrl": "https://i.ytimg.com/vi/1c7pYubbW7M/mqdefault.jpg",
    "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-11"
+  },
+  {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-11"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-11"
   },
@@ -102,6 +126,30 @@ const NEW_LIST = {
    "updatedDate": "2026-10-07"
   },
   {
+   "id": "gap960",
+   "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
+   "streamer": "Zeal Ginjoka",
+   "game": "Five Nights at Freddy's: Into the Pit",
+   "genre": "horror",
+   "playlistId": "PLEExhBo5MuYk",
+   "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-07"
+  },
+  {
+   "id": "gap961",
+   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+   "streamer": "轟京子",
+   "game": "パラノマサイト FILE38 伊勢人魚物語",
+   "genre": "horror",
+   "playlistId": "PLFKv7E5Tpkvw",
+   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-07"
+  },
+  {
    "id": "gap945",
    "title": "マイクラ肝試し",
    "streamer": "五木左京",
@@ -150,6 +198,42 @@ const NEW_LIST = {
    "updatedDate": "2026-09-22"
   },
   {
+   "id": "gap962",
+   "title": "｢ときめきメモリアル Girl’s Side 3rd Story ｣です",
+   "streamer": "篠宮ゆの",
+   "game": "ときめきメモリアル Girl's Side 3rd Story",
+   "genre": "other",
+   "playlistId": "PLdjWDDJiFHjQ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/hFXQT482IeM/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-09-20"
+  },
+  {
+   "id": "gap975",
+   "title": "幻想水滸伝STAR LEAP",
+   "streamer": "早瀬走",
+   "game": "幻想水滸伝 STAR LEAP",
+   "genre": "rpg",
+   "playlistId": "PLCrlZGEXhOdQ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/h2him5nCZlY/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-08-26"
+  },
+  {
+   "id": "gap963",
+   "title": "【超魔界村】実況プレイ",
+   "streamer": "鈴原るる",
+   "game": "超魔界村",
+   "genre": "action",
+   "playlistId": "PLWvfTqENT0rw0IbNJBbR3ffZ8GJ8qdOQg",
+   "thumbnailUrl": "https://i.ytimg.com/vi/7-eaZ7WkKVM/mqdefault.jpg",
+   "videoCount": 10,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-07-07"
+  },
+  {
    "id": "gap933",
    "title": "⋆⸜ ドラゴンクエストⅪ 過ぎ去りし時を求めて S ⸝⋆",
    "streamer": "山神カルタ",
@@ -160,6 +244,18 @@ const NEW_LIST = {
    "videoCount": 20,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-06-20"
+  },
+  {
+   "id": "gap969",
+   "title": "🫧 ピクミン￤完結 🐬",
+   "streamer": "小々波いるか",
+   "game": "ピクミンシリーズ",
+   "genre": "action",
+   "playlistId": "PL3lPKudGn_A0Rzqacn6MUw5dfsjnkRHva",
+   "thumbnailUrl": "https://i.ytimg.com/vi/LOn8kjIMaD4/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-05-14"
   },
   {
    "id": "gap948",
@@ -196,6 +292,18 @@ const NEW_LIST = {
    "videoCount": 3,
    "addedDate": "2026-10-12",
    "updatedDate": "2025-10-19"
+  },
+  {
+   "id": "gap965",
+   "title": "超魔界村🧟‍♀️ ¦ 2025GWチャレンジ【1週目クリア】",
+   "streamer": "梢桃音",
+   "game": "超魔界村",
+   "genre": "action",
+   "playlistId": "PLnZB0mC8umaDX0k1v730SPyyRwRv3edbJ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/01W-2BtWTq0/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2025-05-05"
   },
   {
    "id": "gap935",
@@ -258,6 +366,18 @@ const NEW_LIST = {
    "updatedDate": "2024-03-26"
   },
   {
+   "id": "gap964",
+   "title": "イナズマイレブンGOストライカーズ2013",
+   "streamer": "フミ",
+   "game": "イナズマイレブンGO ストライカーズ 2013",
+   "genre": "sports",
+   "playlistId": "PLWRt-KFHLtpdQ71qi5gC0i2aq58BiooA2",
+   "thumbnailUrl": "https://i.ytimg.com/vi/9DwmI4B3HOk/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2024-03-09"
+  },
+  {
    "id": "gap939",
    "title": "DQM3人生縛り",
    "streamer": "レオス・ヴィンセント",
@@ -294,6 +414,18 @@ const NEW_LIST = {
    "updatedDate": "2023-08-21"
   },
   {
+   "id": "gap959",
+   "title": "League of Legends: Wild Rift",
+   "streamer": "Kobo Kanaeru",
+   "game": "League of Legends: Wild Rift",
+   "genre": "other",
+   "playlistId": "PLwtTNsTyL23TmBrbbrr82ml115aUkDaw2",
+   "thumbnailUrl": "https://i.ytimg.com/vi/x1k0wLx9xdI/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2023-07-10"
+  },
+  {
    "id": "gap936",
    "title": "ゼルダの伝説TotK",
    "streamer": "レオス・ヴィンセント",
@@ -316,6 +448,54 @@ const NEW_LIST = {
    "videoCount": 25,
    "addedDate": "2026-10-12",
    "updatedDate": "2023-04-08"
+  },
+  {
+   "id": "gap971",
+   "title": "刀剣乱舞無双",
+   "streamer": "健屋花那",
+   "game": "刀剣乱舞無双",
+   "genre": "action",
+   "playlistId": "PL0SNK9gKZgKuNlHJYdFzmwfgBztQtEL2k",
+   "thumbnailUrl": "https://i.ytimg.com/vi/OjDc0Sh2-SI/mqdefault.jpg",
+   "videoCount": 9,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2022-11-29"
+  },
+  {
+   "id": "gap970",
+   "title": "【完結】刀剣乱舞無双",
+   "streamer": "神田笑一",
+   "game": "刀剣乱舞無双",
+   "genre": "action",
+   "playlistId": "PLg-aHyLCD1P1d0-3BlMUmQGMfceHwMa5A",
+   "thumbnailUrl": "https://i.ytimg.com/vi/tcAfP511TDA/mqdefault.jpg",
+   "videoCount": 11,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2022-07-24"
+  },
+  {
+   "id": "gap972",
+   "title": "⋆⸜ 刀剣乱舞無双 ⸝⋆",
+   "streamer": "山神カルタ",
+   "game": "刀剣乱舞無双",
+   "genre": "action",
+   "playlistId": "PLjFz-Ge41_evMjej6Wc2UQL-DoPl01uSh",
+   "thumbnailUrl": "https://i.ytimg.com/vi/1ArC6cUtmjQ/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2022-07-14"
+  },
+  {
+   "id": "gap968",
+   "title": "〖スマブラX 亜空の使者〗",
+   "streamer": "笹木咲",
+   "game": "大乱闘スマッシュブラザーズX",
+   "genre": "action",
+   "playlistId": "PLed6q99qvCScTcCS8-Ue_aNRZ3aXIM0xW",
+   "thumbnailUrl": "https://i.ytimg.com/vi/TgSZKWG-iQY/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2022-03-02"
   },
   {
    "id": "gap944",
@@ -342,6 +522,30 @@ const NEW_LIST = {
    "updatedDate": "2020-07-25"
   },
   {
+   "id": "gap967",
+   "title": "✧【完結】ポケダン 空の探検隊 │ 天宮こころ",
+   "streamer": "天宮こころ",
+   "game": "ポケモン不思議のダンジョン 空の探検隊",
+   "genre": "rpg",
+   "playlistId": "PLf_iCnxqBv4hF91mzc5A5alPiqy9y46dN",
+   "thumbnailUrl": "https://i.ytimg.com/vi/-GoFehqAuZ8/mqdefault.jpg",
+   "videoCount": 17,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2020-03-04"
+  },
+  {
+   "id": "gap966",
+   "title": "【超魔界村(2週目)】実況プレイ",
+   "streamer": "鈴原るる",
+   "game": "超魔界村",
+   "genre": "action",
+   "playlistId": "PLWvfTqENT0rxMqWYlyLS2d4xmeqT6MqAS",
+   "thumbnailUrl": "https://i.ytimg.com/vi/1fEUFCBGbx8/mqdefault.jpg",
+   "videoCount": 3,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2019-11-10"
+  },
+  {
    "id": "gap943",
    "title": "凛LIVE --- ときめきメモリアルGS",
    "streamer": "静凛",
@@ -354,208 +558,16 @@ const NEW_LIST = {
    "updatedDate": "2019-02-19"
   },
   {
-   "id": "gap959",
-   "title": "League of Legends: Wild Rift",
-   "streamer": "Kobo Kanaeru",
-   "game": "League of Legends: Wild Rift",
-   "genre": "other",
-   "playlistId": "PLwtTNsTyL23TmBrbbrr82ml115aUkDaw2",
-   "thumbnailUrl": "https://i.ytimg.com/vi/x1k0wLx9xdI/mqdefault.jpg",
-   "videoCount": 9,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap960",
-   "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
-   "streamer": "Zeal Ginjoka",
-   "game": "Five Nights at Freddy's: Into the Pit",
-   "genre": "horror",
-   "playlistId": "PLEExhBo5MuYk",
-   "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap961",
-   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
-   "streamer": "轟京子",
-   "game": "パラノマサイト FILE38 伊勢人魚物語",
-   "genre": "horror",
-   "playlistId": "PLFKv7E5Tpkvw",
-   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap962",
-   "title": "｢ときめきメモリアル Girl’s Side 3rd Story ｣です",
-   "streamer": "篠宮ゆの",
-   "game": "ときめきメモリアル Girl's Side 3rd Story",
-   "genre": "other",
-   "playlistId": "PLdjWDDJiFHjQ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/hFXQT482IeM/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap963",
-   "title": "【超魔界村】実況プレイ",
-   "streamer": "鈴原るる",
-   "game": "超魔界村",
-   "genre": "action",
-   "playlistId": "PLWvfTqENT0rw0IbNJBbR3ffZ8GJ8qdOQg",
-   "thumbnailUrl": "https://i.ytimg.com/vi/7-eaZ7WkKVM/mqdefault.jpg",
-   "videoCount": 10,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap964",
-   "title": "イナズマイレブンGOストライカーズ2013",
-   "streamer": "フミ",
-   "game": "イナズマイレブンGO ストライカーズ 2013",
-   "genre": "sports",
-   "playlistId": "PLWRt-KFHLtpdQ71qi5gC0i2aq58BiooA2",
-   "thumbnailUrl": "https://i.ytimg.com/vi/9DwmI4B3HOk/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap965",
-   "title": "超魔界村🧟‍♀️ ¦ 2025GWチャレンジ【1週目クリア】",
-   "streamer": "梢桃音",
-   "game": "超魔界村",
-   "genre": "action",
-   "playlistId": "PLnZB0mC8umaDX0k1v730SPyyRwRv3edbJ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/01W-2BtWTq0/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap966",
-   "title": "【超魔界村(2週目)】実況プレイ",
-   "streamer": "鈴原るる",
-   "game": "超魔界村",
-   "genre": "action",
-   "playlistId": "PLWvfTqENT0rxMqWYlyLS2d4xmeqT6MqAS",
-   "thumbnailUrl": "https://i.ytimg.com/vi/1fEUFCBGbx8/mqdefault.jpg",
-   "videoCount": 3,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap967",
-   "title": "✧【完結】ポケダン 空の探検隊 │ 天宮こころ",
-   "streamer": "天宮こころ",
-   "game": "ポケモン不思議のダンジョン 空の探検隊",
-   "genre": "rpg",
-   "playlistId": "PLf_iCnxqBv4hF91mzc5A5alPiqy9y46dN",
-   "thumbnailUrl": "https://i.ytimg.com/vi/-GoFehqAuZ8/mqdefault.jpg",
-   "videoCount": 17,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap968",
-   "title": "〖スマブラX 亜空の使者〗",
-   "streamer": "笹木咲",
-   "game": "大乱闘スマッシュブラザーズX",
-   "genre": "action",
-   "playlistId": "PLed6q99qvCScTcCS8-Ue_aNRZ3aXIM0xW",
-   "thumbnailUrl": "https://i.ytimg.com/vi/TgSZKWG-iQY/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap969",
-   "title": "🫧 ピクミン￤完結 🐬",
-   "streamer": "小々波いるか",
-   "game": "ピクミンシリーズ",
-   "genre": "action",
-   "playlistId": "PL3lPKudGn_A0Rzqacn6MUw5dfsjnkRHva",
-   "thumbnailUrl": "https://i.ytimg.com/vi/LOn8kjIMaD4/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap970",
-   "title": "【完結】刀剣乱舞無双",
-   "streamer": "神田笑一",
-   "game": "刀剣乱舞無双",
-   "genre": "action",
-   "playlistId": "PLg-aHyLCD1P1d0-3BlMUmQGMfceHwMa5A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/tcAfP511TDA/mqdefault.jpg",
-   "videoCount": 11,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap971",
-   "title": "刀剣乱舞無双",
-   "streamer": "健屋花那",
-   "game": "刀剣乱舞無双",
-   "genre": "action",
-   "playlistId": "PL0SNK9gKZgKuNlHJYdFzmwfgBztQtEL2k",
-   "thumbnailUrl": "https://i.ytimg.com/vi/OjDc0Sh2-SI/mqdefault.jpg",
-   "videoCount": 9,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap972",
-   "title": "⋆⸜ 刀剣乱舞無双 ⸝⋆",
-   "streamer": "山神カルタ",
-   "game": "刀剣乱舞無双",
-   "genre": "action",
-   "playlistId": "PLjFz-Ge41_evMjej6Wc2UQL-DoPl01uSh",
-   "thumbnailUrl": "https://i.ytimg.com/vi/1ArC6cUtmjQ/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap973",
-   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
-   "streamer": "ニュイ・ソシエール",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLEVj9tREVQck",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "id": "gap822",
+   "title": "ほの暮らしの庭",
+   "streamer": "小清水透",
+   "game": "ほの暮らしの庭",
+   "genre": "sim",
+   "playlistId": "PLSugGstcSork",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fWoiSIKKGSI/mqdefault.jpg",
    "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap975",
-   "title": "幻想水滸伝STAR LEAP",
-   "streamer": "早瀬走",
-   "game": "幻想水滸伝 STAR LEAP",
-   "genre": "rpg",
-   "playlistId": "PLCrlZGEXhOdQ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/h2him5nCZlY/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-12",
-   "updatedDate": ""
+   "addedDate": "2026-10-11",
+   "updatedDate": "2026-10-12"
   },
   {
    "id": "gap835",
@@ -590,18 +602,6 @@ const NEW_LIST = {
    "playlistId": "PLXGxzM3INazM",
    "thumbnailUrl": "https://i.ytimg.com/vi/8Mo-2HuM3HY/mqdefault_live.jpg",
    "videoCount": 8,
-   "addedDate": "2026-10-11",
-   "updatedDate": "2026-10-11"
-  },
-  {
-   "id": "gap855",
-   "title": "🎮：JUDGE EYES：死神の遺言",
-   "streamer": "千凛あゆむ",
-   "game": "JUDGE EYES:死神の遺言",
-   "genre": "action",
-   "playlistId": "PLeOd5nqABP4A",
-   "thumbnailUrl": "https://i.ytimg.com/vi/dya2hsZzpI0/mqdefault.jpg",
-   "videoCount": 6,
    "addedDate": "2026-10-11",
    "updatedDate": "2026-10-11"
   }

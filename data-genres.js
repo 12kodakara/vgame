@@ -1458,30 +1458,6 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
-     "id": "gap960",
-     "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
-     "streamer": "Zeal Ginjoka",
-     "game": "Five Nights at Freddy's: Into the Pit",
-     "genre": "horror",
-     "playlistId": "PLEExhBo5MuYk",
-     "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
-     "videoCount": 3,
-     "addedDate": "2026-10-12",
-     "updatedDate": ""
-    },
-    {
-     "id": "gap961",
-     "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
-     "streamer": "轟京子",
-     "game": "パラノマサイト FILE38 伊勢人魚物語",
-     "genre": "horror",
-     "playlistId": "PLFKv7E5Tpkvw",
-     "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-10-12",
-     "updatedDate": ""
-    },
-    {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "珠乃井ナナ",
@@ -1550,6 +1526,30 @@ const GENRE_PAGES = {
      "playlistId": "PLPexR0RmUqWs",
      "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
      "videoCount": 9,
+     "addedDate": "2026-10-12",
+     "updatedDate": "2026-10-07"
+    },
+    {
+     "id": "gap960",
+     "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
+     "streamer": "Zeal Ginjoka",
+     "game": "Five Nights at Freddy's: Into the Pit",
+     "genre": "horror",
+     "playlistId": "PLEExhBo5MuYk",
+     "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-10-12",
+     "updatedDate": "2026-10-07"
+    },
+    {
+     "id": "gap961",
+     "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+     "streamer": "轟京子",
+     "game": "パラノマサイト FILE38 伊勢人魚物語",
+     "genre": "horror",
+     "playlistId": "PLFKv7E5Tpkvw",
+     "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
+     "videoCount": 4,
      "addedDate": "2026-10-12",
      "updatedDate": "2026-10-07"
     },
