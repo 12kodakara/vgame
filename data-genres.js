@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 120,
     "streamers": 168,
-    "playlists": 650,
-    "videos": 4117
+    "playlists": 651,
+    "videos": 4119
    },
    "games": [
     [
@@ -24,14 +24,14 @@ const GENRE_PAGES = {
      29
     ],
     [
-     "バイオハザード RE:2",
-     28,
+     "バイオハザード ヴィレッジ",
+     29,
      29
     ],
     [
-     "バイオハザード ヴィレッジ",
+     "バイオハザード RE:2",
      28,
-     28
+     29
     ],
     [
      "バイオハザードシリーズ",
@@ -656,6 +656,11 @@ const GENRE_PAGES = {
      10
     ],
     [
+     "Finana Ryugu",
+     9,
+     9
+    ],
+    [
      "不知火フレア",
      9,
      9
@@ -674,11 +679,6 @@ const GENRE_PAGES = {
      "鷹嶺ルイ",
      9,
      9
-    ],
-    [
-     "Finana Ryugu",
-     8,
-     8
     ],
     [
      "夢追翔",
@@ -1458,6 +1458,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap1004",
+     "title": "Resident Evil: VILLAGE",
+     "streamer": "Finana Ryugu",
+     "game": "バイオハザード ヴィレッジ",
+     "genre": "horror",
+     "playlistId": "PL5XBGPMUTVBTDqRD0wmI3DromsuQQnYO5",
+     "thumbnailUrl": "https://i.ytimg.com/vi/qZvUc48zEjE/mqdefault.jpg",
+     "videoCount": 2,
+     "addedDate": "2026-10-13",
+     "updatedDate": ""
+    },
+    {
      "id": "gap991",
      "title": "Resident Evil Requiem (Complete)",
      "streamer": "Shiori Novella",
@@ -1562,18 +1574,6 @@ const GENRE_PAGES = {
      "playlistId": "PLPexR0RmUqWs",
      "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
      "videoCount": 9,
-     "addedDate": "2026-10-12",
-     "updatedDate": "2026-10-07"
-    },
-    {
-     "id": "gap960",
-     "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
-     "streamer": "Zeal Ginjoka",
-     "game": "Five Nights at Freddy's: Into the Pit",
-     "genre": "horror",
-     "playlistId": "PLEExhBo5MuYk",
-     "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
-     "videoCount": 3,
      "addedDate": "2026-10-12",
      "updatedDate": "2026-10-07"
     }

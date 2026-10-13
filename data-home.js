@@ -5,7 +5,7 @@
  */
 const HOME_SUMMARY = {
   "version": 2,
-  "playlistCount": 6746,
+  "playlistCount": 6756,
   "gameCount": 935,
   "streamerCount": 274,
   "topGames": [
@@ -68,28 +68,28 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-13"
     },
     {
-      "id": "niji-241",
-      "title": "【進行中】ポケットモンスター ファイアレッド",
-      "streamer": "ぽめろ・ぱんち",
-      "game": "ポケットモンスター ファイアレッド・リーフグリーン",
+      "id": "gap996",
+      "title": "Paper Mario: Thousand Year Door (Incomplete)",
+      "streamer": "Shiori Novella",
+      "game": "ペーパーマリオRPG",
       "genre": "rpg",
-      "playlistId": "PLMW33QqplPxc",
-      "thumbnailUrl": "https://i.ytimg.com/vi/vm3sdrnPiRQ/mqdefault.jpg",
-      "videoCount": 9,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-12"
+      "playlistId": "PLQNcTNavhAOjiozqd9IAIRa6gCRZOWRQ1",
+      "thumbnailUrl": "https://i.ytimg.com/vi/s8SRnmxCdHM/mqdefault.jpg",
+      "videoCount": 4,
+      "addedDate": "2026-10-13",
+      "updatedDate": ""
     },
     {
-      "id": "niji-467",
-      "title": "mabinogi",
-      "streamer": "樋口楓",
-      "game": "マビノギ",
+      "id": "gap997",
+      "title": "Final Fantasy Crystal Chronicles Remastered (Complete)",
+      "streamer": "Shiori Novella",
+      "game": "FINAL FANTASY クリスタルクロニクル リマスター",
       "genre": "rpg",
-      "playlistId": "PLXVn5n2jQV_BNC3BYLh5rVQ9XxGgCfbED",
-      "thumbnailUrl": "https://i.ytimg.com/vi/9taJ-tQJcyE/mqdefault.jpg",
-      "videoCount": 35,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-12"
+      "playlistId": "PLQNcTNavhAOjyOED1RIoWRZPwkPQNSS1_",
+      "thumbnailUrl": "https://i.ytimg.com/vi/-Eg50mJxSG8/mqdefault.jpg",
+      "videoCount": 4,
+      "addedDate": "2026-10-13",
+      "updatedDate": ""
     }
   ],
   "streamerPicks": [
@@ -104,7 +104,7 @@ const HOME_SUMMARY = {
     ["Elira Pendora",20,19,"2026-09-08"],
     ["Enna Alouette",10,10,"2026-09-08"],
     ["FUWAMOCO",6,6,"2026-09-08"],
-    ["Finana Ryugu",46,46,"2026-09-08"],
+    ["Finana Ryugu",51,51,"2026-09-08"],
     ["Freodore",13,13,"2026-09-08"],
     ["Gigi Murin",13,13,"2026-09-08"],
     ["Hakos Baelz",20,20,"2026-09-08"],
@@ -116,7 +116,7 @@ const HOME_SUMMARY = {
     ["Koseki Bijou",7,7,"2026-09-08"],
     ["Kureiji Ollie",24,24,"2026-09-08"],
     ["Luca Kaneshiro",9,9,"2026-09-08"],
-    ["Maria Marionette",15,15,"2026-09-08"],
+    ["Maria Marionette",16,16,"2026-09-08"],
     ["Meloco Kyoran",4,2,"2026-09-08"],
     ["Millie Parfait",9,9,"2026-09-08"],
     ["Moona Hoshinova",4,4,"2026-09-08"],
@@ -132,7 +132,7 @@ const HOME_SUMMARY = {
     ["Ryoma Barrenwort",9,9,"2026-09-08"],
     ["Scarle Yonaguni",3,3,"2026-09-08"],
     ["Seible",8,8,"2026-09-08"],
-    ["Shiori Novella",25,25,"2026-09-08"],
+    ["Shiori Novella",29,29,"2026-09-08"],
     ["Shu Yamino",8,8,"2026-09-08"],
     ["Sonny Brisko",8,8,"2026-09-08"],
     ["Takanashi Kiara",23,23,"2026-09-08"],
