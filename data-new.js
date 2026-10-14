@@ -6,18 +6,6 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
-   "id": "gap996",
-   "title": "Paper Mario: Thousand Year Door (Incomplete)",
-   "streamer": "Shiori Novella",
-   "game": "ペーパーマリオRPG",
-   "genre": "rpg",
-   "playlistId": "PLQNcTNavhAOjiozqd9IAIRa6gCRZOWRQ1",
-   "thumbnailUrl": "https://i.ytimg.com/vi/s8SRnmxCdHM/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-13",
-   "updatedDate": ""
-  },
-  {
    "id": "gap997",
    "title": "Final Fantasy Crystal Chronicles Remastered (Complete)",
    "streamer": "Shiori Novella",
@@ -27,19 +15,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/-Eg50mJxSG8/mqdefault.jpg",
    "videoCount": 4,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
-  },
-  {
-   "id": "gap998",
-   "title": "Zenless Zone Zero",
-   "streamer": "Finana Ryugu",
-   "game": "ゼンレスゾーンゼロ",
-   "genre": "rpg",
-   "playlistId": "PL5XBGPMUTVBQkgejrDe91QC3dwRcyC8Bl",
-   "thumbnailUrl": "https://i.ytimg.com/vi/Hy2-MaV9pFo/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2026-02-12"
   },
   {
    "id": "gap999",
@@ -51,7 +27,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/SiVsdKw4ApQ/mqdefault.jpg",
    "videoCount": 4,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2025-09-14"
   },
   {
    "id": "gap1000",
@@ -63,7 +39,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/_2a78vZW_bU/mqdefault.jpg",
    "videoCount": 3,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2025-09-08"
   },
   {
    "id": "gap1001",
@@ -75,19 +51,31 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/vG9vdfJJiyY/mqdefault.jpg",
    "videoCount": 3,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2025-03-14"
   },
   {
-   "id": "gap1002",
-   "title": "Yu-Gi-Oh! Master Duel",
+   "id": "gap998",
+   "title": "Zenless Zone Zero",
    "streamer": "Finana Ryugu",
-   "game": "遊戯王マスターデュエル",
-   "genre": "other",
-   "playlistId": "PL5XBGPMUTVBTbcp3NJIa-dY6bkMrJRMPQ",
-   "thumbnailUrl": "https://i.ytimg.com/vi/e93VKRJ8Vq0/mqdefault.jpg",
-   "videoCount": 3,
+   "game": "ゼンレスゾーンゼロ",
+   "genre": "rpg",
+   "playlistId": "PL5XBGPMUTVBQkgejrDe91QC3dwRcyC8Bl",
+   "thumbnailUrl": "https://i.ytimg.com/vi/Hy2-MaV9pFo/mqdefault.jpg",
+   "videoCount": 4,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2024-12-17"
+  },
+  {
+   "id": "gap996",
+   "title": "Paper Mario: Thousand Year Door (Incomplete)",
+   "streamer": "Shiori Novella",
+   "game": "ペーパーマリオRPG",
+   "genre": "rpg",
+   "playlistId": "PLQNcTNavhAOjiozqd9IAIRa6gCRZOWRQ1",
+   "thumbnailUrl": "https://i.ytimg.com/vi/s8SRnmxCdHM/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-13",
+   "updatedDate": "2024-09-26"
   },
   {
    "id": "gap1003",
@@ -99,19 +87,19 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/fBaCMEp7Fvg/mqdefault.jpg",
    "videoCount": 3,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2024-04-23"
   },
   {
-   "id": "gap1004",
-   "title": "Resident Evil: VILLAGE",
+   "id": "gap1002",
+   "title": "Yu-Gi-Oh! Master Duel",
    "streamer": "Finana Ryugu",
-   "game": "バイオハザード ヴィレッジ",
-   "genre": "horror",
-   "playlistId": "PL5XBGPMUTVBTDqRD0wmI3DromsuQQnYO5",
-   "thumbnailUrl": "https://i.ytimg.com/vi/qZvUc48zEjE/mqdefault.jpg",
-   "videoCount": 2,
+   "game": "遊戯王マスターデュエル",
+   "genre": "other",
+   "playlistId": "PL5XBGPMUTVBTbcp3NJIa-dY6bkMrJRMPQ",
+   "thumbnailUrl": "https://i.ytimg.com/vi/e93VKRJ8Vq0/mqdefault.jpg",
+   "videoCount": 3,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2022-04-28"
   },
   {
    "id": "gap1005",
@@ -123,7 +111,31 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/Qyp_Jh9Jh-E/mqdefault.jpg",
    "videoCount": 2,
    "addedDate": "2026-10-13",
-   "updatedDate": ""
+   "updatedDate": "2022-01-25"
+  },
+  {
+   "id": "gap1004",
+   "title": "Resident Evil: VILLAGE",
+   "streamer": "Finana Ryugu",
+   "game": "バイオハザード ヴィレッジ",
+   "genre": "horror",
+   "playlistId": "PL5XBGPMUTVBTDqRD0wmI3DromsuQQnYO5",
+   "thumbnailUrl": "https://i.ytimg.com/vi/qZvUc48zEjE/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-13",
+   "updatedDate": "2021-05-28"
+  },
+  {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-14"
   },
   {
    "id": "gap958",
@@ -134,6 +146,18 @@ const NEW_LIST = {
    "playlistId": "PLDHb-kzpx5VU",
    "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
    "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-14"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-14"
   },
@@ -210,18 +234,6 @@ const NEW_LIST = {
    "updatedDate": "2026-10-11"
   },
   {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-11"
-  },
-  {
    "id": "gap949",
    "title": "【終】ゼルダの伝説 スカイウォードソード",
    "streamer": "アルス・アルマル",
@@ -230,18 +242,6 @@ const NEW_LIST = {
    "playlistId": "PLKbi8ondLwgo",
    "thumbnailUrl": "https://i.ytimg.com/vi/f1f-jdOpBRY/mqdefault.jpg",
    "videoCount": 10,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-10"
-  },
-  {
-   "id": "gap951",
-   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "streamer": "猫屋敷美紅",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLEUCHw2KzwD8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-   "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-10"
   },
