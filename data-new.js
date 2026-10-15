@@ -126,6 +126,42 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-16"
+  },
+  {
+   "id": "gap961",
+   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+   "streamer": "轟京子",
+   "game": "パラノマサイト FILE38 伊勢人魚物語",
+   "genre": "horror",
+   "playlistId": "PLFKv7E5Tpkvw",
+   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-15"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-15"
+  },
+  {
    "id": "gap951",
    "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
    "streamer": "猫屋敷美紅",
@@ -150,18 +186,6 @@ const NEW_LIST = {
    "updatedDate": "2026-10-14"
   },
   {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-14"
-  },
-  {
    "id": "gap957",
    "title": "🎮【ドラゴンクエスト シリーズ】",
    "streamer": "Rei7",
@@ -170,18 +194,6 @@ const NEW_LIST = {
    "playlistId": "PLKTfrB9_BK5U",
    "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
    "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap961",
-   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
-   "streamer": "轟京子",
-   "game": "パラノマサイト FILE38 伊勢人魚物語",
-   "genre": "horror",
-   "playlistId": "PLFKv7E5Tpkvw",
-   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
-   "videoCount": 4,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-13"
   },
@@ -196,18 +208,6 @@ const NEW_LIST = {
    "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap931",
-   "title": "死んだら即終了DARK SOULS Ⅲ",
-   "streamer": "鷹宮リオン",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLChDzynvDgpo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
-   "videoCount": 38,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-12"
   },
   {
    "id": "gap930",
