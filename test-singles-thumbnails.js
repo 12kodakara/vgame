@@ -92,6 +92,8 @@ for (const f of ['data-core.js', 'data-standalone.js', 'common.js']) {
   try { vm.runInContext(read(f), dctx); } catch (e) { /* common.js のページ用処理は document が無いと動かないが、関数定義だけ使う */ }
 }
 const PLAYS = vm.runInContext('STANDALONE_PLAYS', dctx);
+// 形式ごとのバッジ表示(common.js の playFormatLabel の仕様)。実装の関数は使わず、期待値をここで固定する
+const FORMAT_BADGE = { single: '単発', multi: '複数回・PLなし', 'mixed-playlist': '雑多PL内' };
 // データの動画URLから動画IDを独立に取り出す(実装とは別の方法)
 const idFromData = (url) => { const m = /^https:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})$/.exec(url); return m ? m[1] : null; };
 
@@ -125,7 +127,7 @@ const cards = r.cards();
     // 4. カードの情報
     const h3 = card.byTag('h3')[0];
     const badge = h3.byClass('format-badge')[0];
-    if (h3.textContent !== vm.runInContext('gameDisplayName', r.ctx)(item.game) + ' ' + badge.textContent || badge.textContent !== '単発') problems.push(item.id + ': ゲーム名・バッジ ' + h3.textContent);
+    if (h3.textContent !== vm.runInContext('gameDisplayName', r.ctx)(item.game) + ' ' + badge.textContent || badge.textContent !== FORMAT_BADGE[item.format]) problems.push(item.id + ': ゲーム名・バッジ ' + h3.textContent);
     const ps = card.byTag('p');
     const streamerLink = ps[0].byTag('a')[0];
     if (!streamerLink || streamerLink.textContent !== item.streamer || streamerLink.href !== 'streamer.html?streamer=' + encodeURIComponent(item.streamer)) problems.push(item.id + ': VTuber名');
@@ -200,7 +202,11 @@ const cards = r.cards();
     byGame.length === exp((x) => x.game === '夜勤清掃') && byStreamer.length === exp((x) => x.streamer === '熱千めら') && none.length === 0 && emptyShown &&
     multi === exp((x) => x.format === 'multi') && single === exp((x) => x.format === 'single'), [byGame.length, byStreamer.length, none.length, emptyShown, multi, single].join(','));
   // 検索で作り直しても、サムネイルのURLは同じ(ブラウザのキャッシュが使われる)
-  check('7b. 作り直し後もサムネイルの URL は同じ', s.cards().map((c) => c.byTag('img')[0].src).join() === PLAYS.map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg').join());
+  // 形式の絞り込み(single / multi / すべて)ごとに、表示されるカードのサムネイルが、その条件に合う実況の先頭の動画と同じ順で一致するかを見る
+  const thumbsFor = (f) => { format.value = f; format.fire('change'); return s.cards().map((c) => c.byTag('img')[0].src).join(); };
+  const expectThumbs = (f) => PLAYS.filter((x) => !f || x.format === f).map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg').join();
+  const thumbFails = ['single', 'multi', ''].filter((f) => thumbsFor(f) !== expectThumbs(f));
+  check('7b. 作り直し後もサムネイルの URL は同じ(単発・複数回・すべての絞り込みそれぞれ)', thumbFails.length === 0, thumbFails.map((f) => f || 'すべて').join(','));
 }
 
 // ---- 8. singles.html は変更しない ----

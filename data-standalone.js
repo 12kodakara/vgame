@@ -359,5 +359,52 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-15"
+  },
+  {
+    id: "single-026",
+    title: "【 スーパーマリオブラザーズ2 】久しぶりにマリオやる～～～🍄✦",
+    streamer: "猫又おかゆ",
+    game: "スーパーマリオブラザーズ2",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【 スーパーマリオブラザーズ2 】久しぶりにマリオやる～～～🍄✦【 猫又おかゆ/ホロライブ 】", url: "https://www.youtube.com/watch?v=D0PuyuYKFbc", publishedDate: "2026-04-09" },
+      { title: "【 スーパーマリオブラザーズ2 】久しぶりにマリオやる～～～🍄✦#02【 猫又おかゆ/ホロライブ 】", url: "https://www.youtube.com/watch?v=b7DBD1coWD0", publishedDate: "2026-04-10" },
+      { title: "【 スーパーマリオブラザーズ2 】久しぶりにマリオやる～～～🍄✦#03【 猫又おかゆ/ホロライブ 】", url: "https://www.youtube.com/watch?v=KjzhivMGKfY", publishedDate: "2026-04-16" },
+      { title: "【 スーパーマリオブラザーズ2 】久しぶりにマリオやる～～～🍄✦#最終回【 猫又おかゆ/ホロライブ 】", url: "https://www.youtube.com/watch?v=7LNpmgkK85k", publishedDate: "2026-04-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-027",
+    title: "【ポケモンZA㊗発売】Pokémon LEGENDS Z-A遊ぶぞおおおおおおおおおお！！！！",
+    streamer: "戌神ころね",
+    game: "Pokémon LEGENDS Z-A",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ポケモンZA㊗発売】Pokémon LEGENDS Z-A遊ぶぞおおおおおおおおおお！！！！【戌神ころね】", url: "https://www.youtube.com/watch?v=cIU9vmiDewQ", publishedDate: "2025-10-16" },
+      { title: "#2【ポケモンZA㊗発売】Pokémon LEGENDS Z-A遊ぶぞおおおおおおおおおお！！！！【戌神ころね】", url: "https://www.youtube.com/watch?v=QIZ6EJN0Bxs", publishedDate: "2025-10-16" },
+      { title: "#3【ポケモンZA㊗発売】Pokémon LEGENDS Z-A遊ぶぞおおおおおおおおおお！！！！【戌神ころね】", url: "https://www.youtube.com/watch?v=Dwll_KR3m_Y", publishedDate: "2025-10-17" },
+      { title: "【ポケモンZA】クリア後を楽しむの巻。伝説のポケモンほしい！！！", url: "https://www.youtube.com/watch?v=SOPKN5jgUpU", publishedDate: "2025-10-21" },
+      { title: "【ポケモンZA】図鑑埋めるまで終われまテン！？", url: "https://www.youtube.com/watch?v=OdkJFj7b7Gw", publishedDate: "2025-11-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-028",
+    title: "#1【バイオハザード HDリマスター】やるです。",
+    streamer: "戌神ころね",
+    game: "バイオハザード HDリマスター",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "#1【バイオハザード HDリマスター】やるです。", url: "https://www.youtube.com/watch?v=h3joGokdAiM", publishedDate: "2026-09-29" },
+      { title: "#2【バイオハザード HDリマスター】やるです。", url: "https://www.youtube.com/watch?v=_eZmv3qcm9w", publishedDate: "2026-10-05" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
   }
 ];
