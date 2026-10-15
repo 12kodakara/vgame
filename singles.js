@@ -82,6 +82,9 @@
       if (!q) return true;
       return normalizeSearchText([x.title, x.streamer, gameSearchText(x.game), x.note].filter(Boolean).join(" ")).includes(q);
     });
+    // 追加日(addedDate)の新しい順。filter が作った表示用の配列だけを並べ替え、元データ(STANDALONE_PLAYS)は変えない。
+    // sort は安定ソートなので、同じ追加日の中は登録順のまま。追加日の無いものは最後に回す。
+    items.sort((a, b) => (b.addedDate || "").localeCompare(a.addedDate || ""));
     count.textContent = items.length + " 件";
     grid.innerHTML = "";
     if (!items.length) {

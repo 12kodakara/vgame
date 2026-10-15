@@ -92,6 +92,11 @@ for (const f of ['data-core.js', 'data-standalone.js', 'common.js']) {
   try { vm.runInContext(read(f), dctx); } catch (e) { /* common.js のページ用処理は document が無いと動かないが、関数定義だけ使う */ }
 }
 const PLAYS = vm.runInContext('STANDALONE_PLAYS', dctx);
+// 一覧の表示順(追加日の新しい順・同じ追加日は登録順)。実装の並べ替えは使わず、登録位置を明示した比較で独立に作る
+const byShownOrder = (list) => list.map((p, i) => ({ p, i }))
+  .sort((a, b) => ((b.p.addedDate || '') > (a.p.addedDate || '') ? 1 : (b.p.addedDate || '') < (a.p.addedDate || '') ? -1 : a.i - b.i))
+  .map((x) => x.p);
+const SHOWN = byShownOrder(PLAYS);
 // 形式ごとのバッジ表示(common.js の playFormatLabel の仕様)。実装の関数は使わず、期待値をここで固定する
 const FORMAT_BADGE = { single: '単発', multi: '複数回・PLなし', 'mixed-playlist': '雑多PL内' };
 // データの動画URLから動画IDを独立に取り出す(実装とは別の方法)
@@ -106,7 +111,7 @@ const cards = r.cards();
   check('1a. 登録済みの全 ' + PLAYS.length + ' 件にカードがあり、件数表示も一致', PLAYS.length > 0 && new Set(PLAYS.map((p) => p.id)).size === PLAYS.length && cards.length === PLAYS.length && r.doc.getElementById('result-count').textContent === PLAYS.length + ' 件');
   const problems = [];
   cards.forEach((card, i) => {
-    const item = PLAYS[i];
+    const item = SHOWN[i];
     const id = idFromData((item.videos[0] || {}).url || '');
     const thumb = card.children[0];
     if (!thumb || thumb.className !== 'singles-thumb' || thumb.tagName !== 'A') { problems.push(item.id + ': 先頭にサムネイルが無い'); return; }
@@ -145,7 +150,7 @@ const cards = r.cards();
 {
   const card = cards[5];
   const thumb = card.children[0], img = thumb.byTag('img')[0];
-  const id = idFromData(PLAYS[5].videos[0].url);
+  const id = idFromData(SHOWN[5].videos[0].url);
   const u = (s) => 'https://i.ytimg.com/vi/' + id + '/' + s + '.jpg';
   // 通常の画面: 1段目(480px)が YouTube の灰色画像(120×90)
   img.naturalWidth = 120; img.naturalHeight = 90; img.fire('load');
@@ -155,7 +160,7 @@ const cards = r.cards();
   const before = img.srcHistory.length;
   img.fire('error'); img.fire('load'); // 代替表示の後に来たイベントでは何もしない
   check('5a. 画像が無いときは 480px → 320px → 代替表示「▶ YouTubeで見る」と下げ、リンクと aria-label は残る',
-    img.srcHistory[0] === u('hqdefault') && s2 === u('mqdefault') && fellBack && thumb.href === PLAYS[5].videos[0].url && !!thumb.getAttribute('aria-label'), [img.srcHistory.join(','), fellBack].join(' | '));
+    img.srcHistory[0] === u('hqdefault') && s2 === u('mqdefault') && fellBack && thumb.href === SHOWN[5].videos[0].url && !!thumb.getAttribute('aria-label'), [img.srcHistory.join(','), fellBack].join(' | '));
   check('5b. 読み込み直しは段数(2回)までで、代替表示の後は繰り返さない', img.srcHistory.length === 2 && img.srcHistory.length === before, img.srcHistory.join(' , '));
   // 高解像度の画面(2倍): 640px → 480px → 320px → 代替表示
   const hd = renderSingles(null, 2), hcard = hd.cards()[5], himg = hcard.children[0].byTag('img')[0];
@@ -204,9 +209,28 @@ const cards = r.cards();
   // 検索で作り直しても、サムネイルのURLは同じ(ブラウザのキャッシュが使われる)
   // 形式の絞り込み(single / multi / すべて)ごとに、表示されるカードのサムネイルが、その条件に合う実況の先頭の動画と同じ順で一致するかを見る
   const thumbsFor = (f) => { format.value = f; format.fire('change'); return s.cards().map((c) => c.byTag('img')[0].src).join(); };
-  const expectThumbs = (f) => PLAYS.filter((x) => !f || x.format === f).map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg').join();
+  const expectThumbs = (f) => SHOWN.filter((x) => !f || x.format === f).map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg').join();
   const thumbFails = ['single', 'multi', ''].filter((f) => thumbsFor(f) !== expectThumbs(f));
   check('7b. 作り直し後もサムネイルの URL は同じ(単発・複数回・すべての絞り込みそれぞれ)', thumbFails.length === 0, thumbFails.map((f) => f || 'すべて').join(','));
+}
+
+// ---- 9. 並び順(追加日の新しい順・同じ追加日は登録順・元データは変えない) ----
+{
+  const s = renderSingles();
+  const shownIds = s.cards().map((c) => c.byTag('img')[0].src);
+  const expectIds = SHOWN.map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg');
+  const dates = SHOWN.map((x) => x.addedDate || '');
+  const desc = dates.every((d, i) => i === 0 || dates[i - 1] >= d);
+  const srcOrder = vm.runInContext('STANDALONE_PLAYS', s.ctx).map((x) => x.id).join();
+  check('9a. 一覧は追加日の新しい順(先頭 ' + dates[0] + '・末尾 ' + dates[dates.length - 1] + ')で、同じ追加日の中は登録順',
+    shownIds.join() === expectIds.join() && desc, shownIds.slice(0, 3).join(' , '));
+  check('9b. 並べ替えは表示用の配列だけで、元データ(STANDALONE_PLAYS)の順番は変わらない', srcOrder === PLAYS.map((x) => x.id).join());
+  // 追加日の無いものは最後、同じ日付の中は登録順(テスト用データで確かめる)
+  const base = PLAYS[0];
+  const fx = [['fx-a', '2026-01-01'], ['fx-b', '2026-03-01'], ['fx-c', undefined], ['fx-d', '2026-03-01'], ['fx-e', '2026-02-01']]
+    .map(([id, d], i) => Object.assign({}, base, { id, addedDate: d, videos: [{ title: id, url: 'https://www.youtube.com/watch?v=fixture000' + i, publishedDate: '2026-01-01' }] }));
+  const order = renderSingles(fx).cards().map((c) => (/\/vi\/fixture000(\d)\//.exec(c.byTag('img')[0].src) || [])[1]);
+  check('9c. 同じ追加日は登録順、追加日の無いものは最後(fx-b → fx-d → fx-e → fx-a → fx-c)', order.join() === ['1', '3', '4', '0', '2'].join(), order.join());
 }
 
 // ---- 8. singles.html の検索向け情報は変えない ----
