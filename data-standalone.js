@@ -406,5 +406,19 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-15"
+  },
+  {
+    id: "single-029",
+    title: "【利用規約に同意したい】ころねの復帰に同意して♡",
+    streamer: "戌神ころね",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【利用規約に同意したい】ころねの復帰に同意して♡", url: "https://www.youtube.com/watch?v=u3LX06MaZOY", publishedDate: "2026-02-02" },
+      { title: "【利用規約に同意したい】ころねの復帰に同意して♡ぱーとツー♡", url: "https://www.youtube.com/watch?v=iEqeynwejQQ", publishedDate: "2026-02-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
   }
 ];
