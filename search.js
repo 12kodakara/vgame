@@ -92,7 +92,10 @@
 
   function createStandaloneSearchCard(item) {
     const article = document.createElement("article");
-    article.className = "play-card";
+    // 単発実況一覧と同じ見た目(先頭にサムネイル。common.js の createStandaloneThumbnail)。画像は遅延読み込み
+    article.className = "play-card singles-card";
+    const thumbUrl = standalonePrimaryUrl(item);
+    if (thumbUrl) article.appendChild(createStandaloneThumbnail(item, thumbUrl, false));
 
     const h3 = document.createElement("h3");
     const gameLink = document.createElement("a");

@@ -209,14 +209,15 @@ const cards = r.cards();
   check('7b. 作り直し後もサムネイルの URL は同じ(単発・複数回・すべての絞り込みそれぞれ)', thumbFails.length === 0, thumbFails.map((f) => f || 'すべて').join(','));
 }
 
-// ---- 8. singles.html は変更しない ----
+// ---- 8. singles.html の検索向け情報は変えない ----
+// (共通メニューの追加などページ全体の変更はありうるため、ファイルの差分ではなく title・H1・description・canonical を直接確かめる)
 {
-  let changed = '';
-  try { changed = execFileSync('git', ['diff', '--name-only', 'HEAD', '--', 'singles.html'], { cwd: ROOT, encoding: 'utf8' }).trim(); } catch (e) { changed = 'git 失敗'; }
   const html = read('singles.html');
+  const count = (s) => html.split(s).length - 1;
   check('8. singles.html(title・H1・description・canonical)は変更なし',
-    changed === '' && html.includes('<title>単発・専用再生リストなし実況一覧 | ぶいゲー</title>') && html.includes('<h1 class="page-title">単発・専用再生リストなし実況</h1>') &&
-    html.includes('<link rel="canonical" href="https://vgame-navi.jp/singles.html">'), changed);
+    count('<title>単発・専用再生リストなし実況一覧 | ぶいゲー</title>') === 1 && count('<h1 class="page-title">単発・専用再生リストなし実況</h1>') === 1 &&
+    count('<meta name="description" content="VTuberの単発ゲーム実況、複数回プレイだが専用再生リストがない実況、雑多な再生リストに混在する実況をまとめています。">') === 1 &&
+    count('<link rel="canonical" href="https://vgame-navi.jp/singles.html">') === 1);
 }
 
 console.log('\nPASS: ' + pass + '  FAIL: ' + fail);

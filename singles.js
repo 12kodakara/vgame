@@ -20,74 +20,14 @@
   const initial = getQueryParam("q") || "";
   input.value = initial;
 
-  // ---------- サムネイル(YouTube動画のサムネイル画像) ----------
-  // 画像URLは登録済みの動画URL(「YouTubeで見る」と同じURL)の動画IDから作る。手動では登録しない。
-  // 動画IDが取れないURL(雑多な再生リストのURLなど)は推測で補わず、代替表示にする。
-  function youtubeVideoIdOf(url) {
-    let u;
-    try { u = new URL(url); } catch (e) { return null; }
-    let id = null;
-    if (/^(www\.|m\.)?youtube\.com$/.test(u.hostname) && u.pathname === "/watch") id = u.searchParams.get("v");
-    else if (u.hostname === "youtu.be") id = u.pathname.slice(1);
-    return id && /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
-  }
-  const thumbUrl = (id, size) => "https://i.ytimg.com/vi/" + id + "/" + size + ".jpg";
-  // 読み込む順。高解像度の画面では 640px から、それ以外は 480px から始め、無ければ 320px へ下げる。
-  // (srcset の幅指定を使うと naturalWidth が画面の密度で割られ、下の 120×90 の判定ができなくなるため使わない)
-  // 段数が決まっているので、失敗しても再読み込みを繰り返さない
-  const THUMB_STAGES = (window.devicePixelRatio || 1) >= 1.5 ? ["sddefault", "hqdefault", "mqdefault"] : ["hqdefault", "mqdefault"];
-
-  function createThumb(item, url, eager) {
-    const link = document.createElement("a");
-    link.className = "singles-thumb";
-    link.href = url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-
-    function showFallback() {
-      link.innerHTML = "";
-      const fallback = document.createElement("span");
-      fallback.className = "singles-thumb-fallback";
-      fallback.textContent = "▶ YouTubeで見る";
-      link.appendChild(fallback);
-      link.setAttribute("aria-label", (item.title || gameDisplayName(item.game)) + "(YouTubeで見る)");
-    }
-
-    const id = youtubeVideoIdOf(url);
-    if (!id) {
-      showFallback();
-      return link;
-    }
-    const img = document.createElement("img");
-    img.width = 480;
-    img.height = 270;
-    img.alt = (item.title || gameDisplayName(item.game)) + "(YouTube動画のサムネイル)";
-    img.decoding = "async";
-    img.loading = eager ? "eager" : "lazy";
-    let stage = 0;
-    function apply() {
-      img.src = thumbUrl(id, THUMB_STAGES[stage]);
-    }
-    function next() {
-      stage++;
-      if (stage >= THUMB_STAGES.length) showFallback();
-      else apply();
-    }
-    // 存在しないサイズには YouTube が 120×90 の灰色画像を HTTP 404 で返す(error にならず表示される)ため、その大きさなら次へ
-    img.addEventListener("load", () => { if (img.naturalWidth === 120 && img.naturalHeight === 90) next(); });
-    img.addEventListener("error", next);
-    apply();
-    link.appendChild(img);
-    return link;
-  }
-
+  // サムネイル(YouTube動画のサムネイル画像)は common.js の createStandaloneThumbnail(作品・VTuber詳細・検索と共通)
   function createCard(item, index) {
     const article = document.createElement("article");
     article.className = "play-card singles-card";
 
     const url = standalonePrimaryUrl(item);
     // 最初の1行分(PCで3枚)は最初の画面に入るので遅延読み込みしない
-    if (url) article.appendChild(createThumb(item, url, index < 3));
+    if (url) article.appendChild(createStandaloneThumbnail(item, url, index < 3));
 
     const h3 = document.createElement("h3");
     h3.appendChild(document.createTextNode(gameDisplayName(item.game) + " "));

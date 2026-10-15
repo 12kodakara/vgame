@@ -357,6 +357,70 @@ function standalonePrimaryUrl(item) {
   return first ? first.url : "";
 }
 
+// ---------- 単発実況のサムネイル(YouTube動画のサムネイル画像) ----------
+// 単発実況一覧・作品詳細・VTuber詳細・検索の単発実況カードで共通に使う(single は対象の動画、multi は先頭の動画が代表画像)。
+// 画像URLは登録済みの動画URL(「YouTubeで見る」と同じURL)の動画IDから作る。手動では登録しない。
+// 動画IDが取れないURL(雑多な再生リストのURLなど)は推測で補わず、代替表示にする。
+function youtubeVideoIdOf(url) {
+  let u;
+  try { u = new URL(url); } catch (e) { return null; }
+  let id = null;
+  if (/^(www\.|m\.)?youtube\.com$/.test(u.hostname) && u.pathname === "/watch") id = u.searchParams.get("v");
+  else if (u.hostname === "youtu.be") id = u.pathname.slice(1);
+  return id && /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+}
+
+/**
+ * 単発実況カードの先頭に置くサムネイル(「YouTubeで見る」と同じURLへのリンク)。eager が true なら遅延読み込みしない。
+ * 読み込む順は、高解像度の画面では 640px から、それ以外は 480px から始め、無ければ 320px へ下げる
+ * (srcset の幅指定を使うと naturalWidth が画面の密度で割られ、下の 120×90 の判定ができなくなるため使わない)。
+ * 段数が決まっているので、失敗しても再読み込みを繰り返さない。すべて失敗したら代替表示にする。
+ */
+function createStandaloneThumbnail(item, url, eager) {
+  const stages = (window.devicePixelRatio || 1) >= 1.5 ? ["sddefault", "hqdefault", "mqdefault"] : ["hqdefault", "mqdefault"];
+  const link = document.createElement("a");
+  link.className = "singles-thumb";
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+
+  function showFallback() {
+    link.innerHTML = "";
+    const fallback = document.createElement("span");
+    fallback.className = "singles-thumb-fallback";
+    fallback.textContent = "▶ YouTubeで見る";
+    link.appendChild(fallback);
+    link.setAttribute("aria-label", (item.title || gameDisplayName(item.game)) + "(YouTubeで見る)");
+  }
+
+  const id = youtubeVideoIdOf(url);
+  if (!id) {
+    showFallback();
+    return link;
+  }
+  const img = document.createElement("img");
+  img.width = 480;
+  img.height = 270;
+  img.alt = (item.title || gameDisplayName(item.game)) + "(YouTube動画のサムネイル)";
+  img.decoding = "async";
+  img.loading = eager ? "eager" : "lazy";
+  let stage = 0;
+  function apply() {
+    img.src = "https://i.ytimg.com/vi/" + id + "/" + stages[stage] + ".jpg";
+  }
+  function next() {
+    stage++;
+    if (stage >= stages.length) showFallback();
+    else apply();
+  }
+  // 存在しないサイズには YouTube が 120×90 の灰色画像を HTTP 404 で返す(error にならず表示される)ため、その大きさなら次へ
+  img.addEventListener("load", () => { if (img.naturalWidth === 120 && img.naturalHeight === 90) next(); });
+  img.addEventListener("error", next);
+  apply();
+  link.appendChild(img);
+  return link;
+}
+
 function allPlayEntries() {
   const playlistEntries = getAllPlaylists().map((p) => Object.assign({ format: "series", sourceType: "playlist" }, p));
   const standaloneEntries = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).map((p) => Object.assign({ sourceType: "standalone" }, p));
@@ -573,7 +637,10 @@ function setPageMeta(title, description, canonicalPath, imageUrl) {
 function createStandaloneCard(item, opts) {
   opts = opts || {};
   const article = document.createElement("article");
-  article.className = "play-card";
+  // 単発実況一覧(singles.js)のカードと同じ見た目(先頭にサムネイル)。画像は遅延読み込み
+  article.className = "play-card singles-card";
+  const thumbUrl = standalonePrimaryUrl(item);
+  if (thumbUrl) article.appendChild(createStandaloneThumbnail(item, thumbUrl, false));
 
   const h3 = document.createElement("h3");
   if (opts.showGame) {
