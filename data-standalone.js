@@ -242,5 +242,122 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-06"
+  },
+  {
+    id: "single-017",
+    title: "【8番出口】新たな異変を見つけに行きたいゾ",
+    streamer: "戌神ころね",
+    game: "8番出口",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【8番出口】新たな異変を見つけに行きたいゾ【戌神ころね】", url: "https://www.youtube.com/watch?v=B0d7rw5tDc8", publishedDate: "2025-09-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-018",
+    title: "【Forza Horizon 6】ころねとドライブしよ～～～🚙=3",
+    streamer: "戌神ころね",
+    game: "Forza Horizon 6",
+    genre: "racing",
+    format: "single",
+    videos: [
+      { title: "【Forza Horizon 6】ころねとドライブしよ～～～🚙=3", url: "https://www.youtube.com/watch?v=AJVjf7cwpgY", publishedDate: "2026-06-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-019",
+    title: "【リズム天国ミラクルスターズ】遊ぶ【新作/発売したばかり/新しいゲーム】",
+    streamer: "戌神ころね",
+    game: "リズム天国 ミラクルスターズ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【リズム天国ミラクルスターズ】遊ぶ【新作/発売したばかり/新しいゲーム】", url: "https://www.youtube.com/watch?v=Nx9mOOAA7IA", publishedDate: "2026-07-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-020",
+    title: "【 Forza Horizon 6 】東京をドライブしよう～～～💜💜💜",
+    streamer: "猫又おかゆ",
+    game: "Forza Horizon 6",
+    genre: "racing",
+    format: "single",
+    videos: [
+      { title: "【 Forza Horizon 6 】東京をドライブしよう～～～💜💜💜【 猫又おかゆ/ホロライブ 】", url: "https://www.youtube.com/watch?v=1vYyPS-HSe4", publishedDate: "2026-05-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-021",
+    title: "【ゼンレスゾーンゼロ】はじめてのゼンゼロ！たのしみ！",
+    streamer: "花芽すみれ",
+    game: "ゼンレスゾーンゼロ",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【ゼンレスゾーンゼロ】はじめてのゼンゼロ！たのしみ！【ぶいすぽっ！/花芽すみれ】", url: "https://www.youtube.com/watch?v=UTNfEMgOkbc", publishedDate: "2026-08-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-022",
+    title: "【利用規約に同意したい】が、難しいらしい(´;ω;｀)",
+    streamer: "花芽すみれ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【利用規約に同意したい】が、難しいらしい(´;ω;｀)【ぶいすぽっ！/花芽すみれ】", url: "https://www.youtube.com/watch?v=6S9XXO5nQMM", publishedDate: "2025-12-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-023",
+    title: "【R.E.P.O.】このゲーム5人でできるんだ",
+    streamer: "花芽すみれ",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O.】このゲーム5人でできるんだ【ぶいすぽっ！/花芽すみれ】", url: "https://www.youtube.com/watch?v=RvuA9YralLw", publishedDate: "2026-01-09" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-024",
+    title: "【 HoloCure 】久しぶりのホロキュア！",
+    streamer: "綺々羅々ヴィヴィ",
+    game: "HoloCure",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 HoloCure 】久しぶりのホロキュア！【#綺々羅々ヴィヴィ #hololiveDEV_IS #FLOWGLOW】", url: "https://www.youtube.com/watch?v=akRYyULNYAc", publishedDate: "2026-07-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
+  },
+  {
+    id: "single-025",
+    title: "【めっちゃカメレオン】視聴者参加型！大阪でみんなと遊びたい！",
+    streamer: "綺々羅々ヴィヴィ",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【めっちゃカメレオン】視聴者参加型！大阪でみんなと遊びたい！【#綺々羅々ヴィヴィ #hololiveDEV_IS #FLOWGLOW】", url: "https://www.youtube.com/watch?v=90J4KKSex-A", publishedDate: "2026-08-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-15"
   }
 ];

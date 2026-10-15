@@ -100,7 +100,8 @@ const cards = r.cards();
 
 // ---- 1〜4. 全件のカード ----
 {
-  check('1a. 登録済みの全 ' + PLAYS.length + ' 件にカードがあり、件数表示も一致', cards.length === PLAYS.length && PLAYS.length === 16 && r.doc.getElementById('result-count').textContent === PLAYS.length + ' 件');
+  // 件数は固定しない(単発実況を追加しても壊れないように)。0件で「0 = 0」と通らないよう1件以上、id の重複なしも確かめる
+  check('1a. 登録済みの全 ' + PLAYS.length + ' 件にカードがあり、件数表示も一致', PLAYS.length > 0 && new Set(PLAYS.map((p) => p.id)).size === PLAYS.length && cards.length === PLAYS.length && r.doc.getElementById('result-count').textContent === PLAYS.length + ' 件');
   const problems = [];
   cards.forEach((card, i) => {
     const item = PLAYS[i];
