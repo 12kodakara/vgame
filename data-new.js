@@ -126,6 +126,30 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-17"
+  },
+  {
+   "id": "gap952",
+   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
+   "streamer": "鷹嶺ルイ",
+   "game": "ドラゴンクエストビルダーズ",
+   "genre": "sandbox",
+   "playlistId": "PLQsl2ovb1Y-Y",
+   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-17"
+  },
+  {
    "id": "gap931",
    "title": "死んだら即終了DARK SOULS Ⅲ",
    "streamer": "鷹宮リオン",
@@ -134,6 +158,18 @@ const NEW_LIST = {
    "playlistId": "PLChDzynvDgpo",
    "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
    "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-16"
+  },
+  {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-16"
   },
@@ -162,18 +198,6 @@ const NEW_LIST = {
    "updatedDate": "2026-10-15"
   },
   {
-   "id": "gap951",
-   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "streamer": "猫屋敷美紅",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLEUCHw2KzwD8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-14"
-  },
-  {
    "id": "gap958",
    "title": "🎮：星のカービィ ディスカバリー",
    "streamer": "千凛あゆむ",
@@ -194,18 +218,6 @@ const NEW_LIST = {
    "playlistId": "PLKTfrB9_BK5U",
    "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
    "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap973",
-   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
-   "streamer": "ニュイ・ソシエール",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLEVj9tREVQck",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
-   "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-13"
   },
@@ -292,18 +304,6 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-04"
-  },
-  {
-   "id": "gap952",
-   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
-   "streamer": "鷹嶺ルイ",
-   "game": "ドラゴンクエストビルダーズ",
-   "genre": "sandbox",
-   "playlistId": "PLQsl2ovb1Y-Y",
-   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-02"
   },
   {
    "id": "gap941",
