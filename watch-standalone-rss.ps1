@@ -23,8 +23,29 @@
 
   data-core.js / data-playlists.js / data-standalone.js は読み取りのみで、変更しません。
 
+  ■ RSS の取得(-Streamer / -ChannelId を指定したとき)
+    YouTube 公式のチャンネルフィード(-FeedUrlTemplate)を1チャンネル1回取得し、-FeedDir に <チャンネルID>.xml で保存してから
+    上と同じ解析・照合・重複判定に渡す(このときは今回取得した RSS だけを処理し、-FeedDir にある古いファイルは読まない)。
+    HTTP エラー・タイムアウト・通信エラー・XML として読めない応答は、-RetryDelaySeconds 秒あけて1回だけ再試行する。
+    それでも失敗したチャンネルは lastRun.errors に理由を記録して次へ進む(既存の候補は消さない)。
+    -ChannelMapPath を省略したときは streamer-channel-ids.json を使う。YouTube Data API は使わない。
+
 .PARAMETER FeedDir
-  RSS XML(*.xml)を置いたフォルダ。
+  RSS XML(*.xml)を置いたフォルダ。RSS を取得するときは保存先(無ければ作る)。
+.PARAMETER Streamer
+  RSS を取得する VTuber 名(STREAMERS の name。複数可)。
+.PARAMETER ChannelId
+  RSS を取得するチャンネルID(UC で始まる24文字。複数可)。
+.PARAMETER TimeoutSec
+  RSS 取得1回あたりのタイムアウト秒数(既定 30)。
+.PARAMETER RetryDelaySeconds
+  失敗してから再試行するまでの秒数(既定 3)。
+.PARAMETER RequestIntervalMs
+  チャンネルごとの取得の間隔(ミリ秒、既定 500)。
+.PARAMETER FeedUrlTemplate
+  RSS の URL。{0} がチャンネルIDに置き換わる(既定は YouTube 公式のチャンネルフィード)。
+.PARAMETER RequestScript
+  テスト用。取得関数 Invoke-StandaloneRssRequest を置き換える .ps1(モック)。通常は指定しない。
 .PARAMETER OutFile
   候補の保存先(既定 discovered-standalone-rss.json)。相対パスはスクリプトのフォルダから。
 .PARAMETER ChannelMapPath
@@ -32,6 +53,9 @@
   discovered-playlists-*.json をそのまま指定できる。STREAMERS が @ハンドルだけのVTuberを対応付けるために使う。
 .EXAMPLE
   .\watch-standalone-rss.ps1 -FeedDir .\rss-feeds -ChannelMapPath .\discovered-playlists-20261011.json
+.EXAMPLE
+  .\watch-standalone-rss.ps1 -FeedDir .\rss-feeds -Streamer "獅白ぼたん"
+  獅白ぼたんの RSS を1回取得して候補を抽出する
 #>
 param(
   [Parameter(Mandatory = $true)][string]$FeedDir,
@@ -39,7 +63,14 @@ param(
   [string]$ChannelMapPath,
   [string]$CorePath,
   [string]$PlaylistsPath,
-  [string]$StandalonePath
+  [string]$StandalonePath,
+  [string[]]$Streamer,
+  [string[]]$ChannelId,
+  [int]$TimeoutSec = 30,
+  [int]$RetryDelaySeconds = 3,
+  [int]$RequestIntervalMs = 500,
+  [string]$FeedUrlTemplate = "https://www.youtube.com/feeds/videos.xml?channel_id={0}",
+  [string]$RequestScript
 )
 
 $ErrorActionPreference = "Stop"
@@ -48,6 +79,14 @@ if (-not $CorePath) { $CorePath = Join-Path $scriptDir "data-core.js" }
 if (-not $PlaylistsPath) { $PlaylistsPath = Join-Path $scriptDir "data-playlists.js" }
 if (-not $StandalonePath) { $StandalonePath = Join-Path $scriptDir "data-standalone.js" }
 $outPath = if ([IO.Path]::IsPathRooted($OutFile)) { $OutFile } else { Join-Path $scriptDir $OutFile }
+# powershell -File では配列を渡せないため、"A,B" のようなカンマ区切りも受け付ける
+$Streamer = @($Streamer | ForEach-Object { "$_" -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+$ChannelId = @($ChannelId | ForEach-Object { "$_" -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+$fetchMode = ($Streamer.Count + $ChannelId.Count) -gt 0
+if ($fetchMode) {
+  if (-not (Test-Path $FeedDir)) { New-Item -ItemType Directory -Path $FeedDir -Force | Out-Null }
+  if (-not $ChannelMapPath) { $defaultMap = Join-Path $scriptDir "streamer-channel-ids.json"; if (Test-Path $defaultMap) { $ChannelMapPath = $defaultMap } }
+}
 if (-not (Test-Path $FeedDir -PathType Container)) { throw "RSS のフォルダが見つかりません: $FeedDir" }
 
 . (Join-Path $scriptDir "standalone-matching.ps1")
@@ -136,6 +175,38 @@ if (Test-Path $outPath) {
     if ($c -and $c.videoId -and -not $byVideo.ContainsKey([string]$c.videoId)) { $candidates.Add($c); $byVideo[[string]$c.videoId] = $c }
   }
 }
+# 未登録作品の候補(作品名ごと)。既存分を引き継ぎ、記録済みの動画IDは二度追加しない
+$unknownGames = New-Object System.Collections.Generic.List[object]
+$unknownByKey = @{}
+$unknownVideoIds = New-Object System.Collections.Generic.HashSet[string]
+if ($existing) {
+  foreach ($u in @($existing.unknownGames)) {
+    if (-not $u -or -not $u.key -or $unknownByKey.ContainsKey([string]$u.key)) { continue }
+    $unknownGames.Add($u); $unknownByKey[[string]$u.key] = $u
+    foreach ($v in @($u.videos)) { if ($v -and $v.videoId) { [void]$unknownVideoIds.Add([string]$v.videoId) } }
+  }
+}
+function Add-UnknownGameVideo($cand, $video) {
+  if ($unknownByKey.ContainsKey($cand.key)) {
+    $g = $unknownByKey[$cand.key]
+    if (@($g.videos | Where-Object { $_.videoId -eq $video.videoId }).Count -gt 0) { return }
+    $g.videos = @(@($g.videos) + $video)
+    $g.streamers = @(@($g.streamers) + $video.streamer | Select-Object -Unique)
+    $g.possibleExisting = @(@($g.possibleExisting) + @($cand.possibleExisting) | Where-Object { $_ } | Select-Object -Unique)
+    $g.lastSeenAt = $video.firstSeenAt
+  } else {
+    $g = [pscustomobject]@{
+      name = $cand.name; key = $cand.key; confidence = $cand.confidence; videoCount = 0
+      streamers = @($video.streamer); possibleExisting = @($cand.possibleExisting); reasons = @()
+      status = "pending"; videos = @($video); firstSeenAt = $video.firstSeenAt; lastSeenAt = $video.firstSeenAt
+    }
+    $unknownGames.Add($g); $unknownByKey[$cand.key] = $g
+  }
+  $g.videoCount = @($g.videos).Count
+  # 作品名ごとの信頼度: どれかの動画が MEDIUM、または2本以上の動画に出てくれば MEDIUM(HIGH にはしない)
+  $g.confidence = $(if (@($g.videos | Where-Object { $_.confidence -eq "MEDIUM" }).Count -gt 0 -or $g.videoCount -ge 2) { "MEDIUM" } else { "LOW" })
+  $g.reasons = @(@($g.videos | ForEach-Object { $_.reasons }) + $(if ($g.videoCount -ge 2) { "2本以上の動画に出てくる" }) | Where-Object { $_ } | Select-Object -Unique)
+}
 
 # ---- RSS の読み取り ----
 $ns = @{ a = "http://www.w3.org/2005/Atom"; yt = "http://www.youtube.com/xml/schemas/2015"; media = "http://search.yahoo.com/mrss/" }
@@ -144,11 +215,80 @@ function ConvertTo-JstDateText([string]$iso) {
   return $d.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd")
 }
 $now = (Get-Date).ToString("s")
-$stat = [ordered]@{ feeds = 0; feedsRead = 0; entries = 0; newCandidates = 0; alreadyCandidate = 0; registeredStandalone = 0; noGame = 0 }
+$stat = [ordered]@{ feeds = 0; feedsRead = 0; entries = 0; newCandidates = 0; alreadyCandidate = 0; registeredStandalone = 0; noGame = 0; unknownGameVideos = 0 }
 $errors = New-Object System.Collections.Generic.List[object]
 $warnings = New-Object System.Collections.Generic.List[object]
 
-foreach ($file in @(Get-ChildItem -Path $FeedDir -Filter *.xml -File | Sort-Object Name)) {
+# ---- RSS の取得(-Streamer / -ChannelId を指定したときだけ) ----
+# 取得関数。戻り値は @{ ok; status; content } / 失敗時 @{ ok = $false; status; reason }。テストでは -RequestScript で置き換える
+function Invoke-StandaloneRssRequest([string]$url, [int]$timeoutSec) {
+  try {
+    $r = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $timeoutSec -Headers @{ "User-Agent" = "Mozilla/5.0 (compatible; vgame-navi-rss-watch)" }
+    $text = [Text.Encoding]::UTF8.GetString($r.RawContentStream.ToArray())   # 文字コードの推測に頼らず UTF-8 で読む
+    return @{ ok = $true; status = [int]$r.StatusCode; content = $text }
+  } catch {
+    $status = $null
+    if ($_.Exception.Response) { try { $status = [int]$_.Exception.Response.StatusCode } catch { $status = $null } }
+    $isTimeout = ($_.Exception -is [System.Net.WebException]) -and ($_.Exception.Status -eq [System.Net.WebExceptionStatus]::Timeout)
+    $reason = if ($status) { "HTTP $status" } elseif ($isTimeout) { "タイムアウト" } else { "通信エラー" }
+    return @{ ok = $false; status = $status; reason = $reason }
+  }
+}
+if ($RequestScript) { . $RequestScript }
+function Test-StandaloneRssXml([string]$text) {
+  try {
+    $d = New-Object System.Xml.XmlDocument; $d.XmlResolver = $null; $d.LoadXml($text)
+    return ($d.DocumentElement -and $d.DocumentElement.LocalName -eq "feed" -and $d.DocumentElement.NamespaceURI -eq "http://www.w3.org/2005/Atom")
+  } catch { return $false }
+}
+
+$feedFiles = @()
+if ($fetchMode) {
+  [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+  $stat.fetchTargets = 0; $stat.fetched = 0; $stat.fetchFailed = 0; $stat.retried = 0
+  $nameToChannel = @{}
+  foreach ($k in $channelToStreamer.Keys) { $nameToChannel[$channelToStreamer[$k]] = $k }
+  $targets = New-Object System.Collections.Generic.List[object]
+  foreach ($n in @($Streamer | Where-Object { $_ })) {
+    if ($nameToChannel.ContainsKey($n)) { $targets.Add([pscustomobject]@{ channelId = $nameToChannel[$n]; streamer = $n }) }
+    else { $errors.Add([pscustomobject]@{ streamer = $n; reason = "チャンネルIDが分からないVTuber(対応表・STREAMERS に無い)"; stage = "fetch" }) }
+  }
+  foreach ($cid in @($ChannelId | Where-Object { $_ })) {
+    if ($cid -notmatch '^UC[A-Za-z0-9_-]{22}$') { $errors.Add([pscustomobject]@{ channelId = $cid; reason = "チャンネルIDの形式が正しくない"; stage = "fetch" }); continue }
+    $targets.Add([pscustomobject]@{ channelId = $cid; streamer = $(if ($channelToStreamer.ContainsKey($cid)) { $channelToStreamer[$cid] } else { "" }) })
+  }
+  $seenTargets = New-Object System.Collections.Generic.HashSet[string]
+  $first = $true
+  foreach ($t in $targets) {
+    if (-not $seenTargets.Add($t.channelId)) { continue }
+    $stat.fetchTargets++
+    if (-not $first -and $RequestIntervalMs -gt 0) { Start-Sleep -Milliseconds $RequestIntervalMs }
+    $first = $false
+    $url = $FeedUrlTemplate -f $t.channelId
+    $saved = $null; $reason = $null
+    for ($attempt = 1; $attempt -le 2; $attempt++) {
+      if ($attempt -eq 2) { $stat.retried++; if ($RetryDelaySeconds -gt 0) { Start-Sleep -Seconds $RetryDelaySeconds } }
+      $res = Invoke-StandaloneRssRequest $url $TimeoutSec
+      if (-not $res.ok) { $reason = [string]$res.reason; continue }
+      if (-not (Test-StandaloneRssXml ([string]$res.content))) { $reason = "XMLとして読めない応答"; continue }
+      $saved = Join-Path $FeedDir ($t.channelId + ".xml")
+      [IO.File]::WriteAllText($saved, [string]$res.content, (New-Object System.Text.UTF8Encoding($false)))
+      break
+    }
+    if ($saved) {
+      $stat.fetched++
+      $feedFiles += Get-Item -LiteralPath $saved
+      if ($attempt -eq 2) { $warnings.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = "1回目の取得に失敗し、再試行で取得した(" + $reason + ")"; stage = "fetch" }) }
+    } else {
+      $stat.fetchFailed++
+      $errors.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = $reason; attempts = 2; stage = "fetch" })
+    }
+  }
+} else {
+  $feedFiles = @(Get-ChildItem -Path $FeedDir -Filter *.xml -File | Sort-Object Name)
+}
+
+foreach ($file in $feedFiles) {
   $stat.feeds++
   try {
     $doc = New-Object System.Xml.XmlDocument
@@ -162,20 +302,20 @@ foreach ($file in @(Get-ChildItem -Path $FeedDir -Filter *.xml -File | Sort-Obje
   $feed = $doc.SelectSingleNode("/a:feed", $nsm)
   if (-not $feed) { $errors.Add([pscustomobject]@{ file = $file.Name; reason = "YouTube RSS(Atom feed)ではない" }); continue }
   $channelNode = $feed.SelectSingleNode("yt:channelId", $nsm)
-  $channelId = if ($channelNode) { $channelNode.InnerText.Trim() } else { "" }
-  if ($channelId -and $channelId -notmatch '^UC') { $channelId = "UC" + $channelId }   # RSS の yt:channelId は UC を省くことがある
-  if (-not $channelId) { $errors.Add([pscustomobject]@{ file = $file.Name; reason = "チャンネルIDが無い" }); continue }
-  if (-not $channelToStreamer.ContainsKey($channelId)) { $errors.Add([pscustomobject]@{ file = $file.Name; channelId = $channelId; reason = "登録済みVTuberのチャンネルではない(対応付けできない)" }); continue }
-  $streamer = $channelToStreamer[$channelId]
+  $feedChannelId = if ($channelNode) { $channelNode.InnerText.Trim() } else { "" }
+  if ($feedChannelId -and $feedChannelId -notmatch '^UC') { $feedChannelId = "UC" + $feedChannelId }   # RSS の yt:channelId は UC を省くことがある
+  if (-not $feedChannelId) { $errors.Add([pscustomobject]@{ file = $file.Name; reason = "チャンネルIDが無い" }); continue }
+  if (-not $channelToStreamer.ContainsKey($feedChannelId)) { $errors.Add([pscustomobject]@{ file = $file.Name; channelId = $feedChannelId; reason = "登録済みVTuberのチャンネルではない(対応付けできない)" }); continue }
+  $feedStreamer = $channelToStreamer[$feedChannelId]
   $stat.feedsRead++
   $entries = @($feed.SelectNodes("a:entry", $nsm))
-  if ($entries.Count -eq 0) { $warnings.Add([pscustomobject]@{ file = $file.Name; streamer = $streamer; reason = "動画が1件も無い" }); continue }
+  if ($entries.Count -eq 0) { $warnings.Add([pscustomobject]@{ file = $file.Name; streamer = $feedStreamer; reason = "動画が1件も無い" }); continue }
 
   foreach ($e in $entries) {
     $stat.entries++
     $vidNode = $e.SelectSingleNode("yt:videoId", $nsm)
     $videoId = if ($vidNode) { $vidNode.InnerText.Trim() } else { "" }
-    if ($videoId -notmatch '^[A-Za-z0-9_-]{11}$') { $warnings.Add([pscustomobject]@{ file = $file.Name; streamer = $streamer; reason = "動画IDが読めない項目を飛ばした" }); continue }
+    if ($videoId -notmatch '^[A-Za-z0-9_-]{11}$') { $warnings.Add([pscustomobject]@{ file = $file.Name; streamer = $feedStreamer; reason = "動画IDが読めない項目を飛ばした" }); continue }
     if ($standaloneVideoIds.Contains($videoId)) { $stat.registeredStandalone++; continue }
     if ($byVideo.ContainsKey($videoId)) { $stat.alreadyCandidate++; $byVideo[$videoId].lastSeenAt = $now; continue }
 
@@ -188,15 +328,34 @@ foreach ($file in @(Get-ChildItem -Path $FeedDir -Filter *.xml -File | Sort-Obje
     $publishedDate = ""
     if ($published) { try { $publishedDate = ConvertTo-JstDateText $published } catch { $publishedDate = "" } }
 
-    $pairKey = $streamer
+    $pairKey = $feedStreamer
     $hasGamePlaylist = { param($gameName) $siteGamePairs.Contains($pairKey + "`t" + $gameName) }.GetNewClosure()
     $m = Get-StandaloneMatch $gameIndex $title $description @{ siteHasGamePlaylist = $hasGamePlaylist }
-    if (-not $m) { $stat.noGame++; continue }
+    if (-not $m) {
+      $stat.noGame++
+      # 既存作品に一致しない動画から、未登録作品の候補を取り出す(作品マスタには登録しない)
+      if (-not $unknownVideoIds.Contains($videoId)) {
+        $added = $false
+        # 関数は配列を1つの値として返す(, $out)ので、@() で包まずに変数で受ける(0件のとき空配列が1件として数えられるのを防ぐ)
+        $unknownCands = Get-StandaloneUnknownGameCandidates $gameIndex $title $description
+        foreach ($u in $unknownCands) {
+          if (-not $u -or -not $u.key) { continue }
+          Add-UnknownGameVideo $u ([pscustomobject]@{
+            videoId = $videoId; url = ("https://www.youtube.com/watch?v=" + $videoId)
+            streamer = $feedStreamer; channelId = $feedChannelId; title = $title; publishedDate = $publishedDate
+            source = $u.source; confidence = $u.confidence; reasons = @($u.reasons); firstSeenAt = $now
+          })
+          $added = $true
+        }
+        if ($added) { [void]$unknownVideoIds.Add($videoId); $stat.unknownGameVideos++ }
+      }
+      continue
+    }
     $reasons = @($m.reasons)
     if (-not $publishedDate) { $reasons += "公開日時が読めない" }
     $c = [pscustomobject]@{
       videoId = $videoId; url = ("https://www.youtube.com/watch?v=" + $videoId)
-      streamer = $streamer; channelId = $channelId
+      streamer = $feedStreamer; channelId = $feedChannelId
       title = $title; publishedAt = $published; publishedDate = $publishedDate
       game = $m.game; confidence = $m.confidence; matchType = $m.matchType; matchedAlias = $m.matchedAlias
       reasons = @($reasons); otherGames = @($m.otherGames)
@@ -218,11 +377,13 @@ $result = [pscustomobject]@{
   # List を @() で包むと Windows PowerShell 5.1 では空のときに "Argument types do not match" になるため ToArray() を使う
   lastRun = [pscustomobject]@{ stats = [pscustomobject]$stat; errors = $errors.ToArray(); warnings = $warnings.ToArray() }
   candidates = @($candidates | Sort-Object @{ Expression = { [string]$_.publishedAt }; Descending = $true }, videoId)
+  # 作品マスタに無い作品の候補(すべて status=pending。登録するかは人が判断する)
+  unknownGames = @($unknownGames | Sort-Object @{ Expression = { [int]$_.videoCount }; Descending = $true }, key)
 }
 $tmp = $outPath + ".tmp"
 [IO.File]::WriteAllText($tmp, ($result | ConvertTo-Json -Depth 8), (New-Object System.Text.UTF8Encoding($false)))
 Move-Item -LiteralPath $tmp -Destination $outPath -Force
 
-Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsRead))・動画 $($stat.entries) 本 → 新規候補 $($stat.newCandidates) / 検出済み $($stat.alreadyCandidate) / 登録済み単発 $($stat.registeredStandalone) / ゲーム不明 $($stat.noGame)  候補合計 $($candidates.Count)")
+Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsRead))・動画 $($stat.entries) 本 → 新規候補 $($stat.newCandidates) / 検出済み $($stat.alreadyCandidate) / 登録済み単発 $($stat.registeredStandalone) / ゲーム不明 $($stat.noGame)(うち未登録作品の候補 $($stat.unknownGameVideos) 本)  候補合計 $($candidates.Count)・未登録作品の候補 $($unknownGames.Count) 作品")
 if ($errors.Count -gt 0) { Write-Output ("エラー $($errors.Count) 件: " + (($errors | ForEach-Object { "$($_.file)=$($_.reason)" }) -join " / ")) }
 if ($warnings.Count -gt 0) { Write-Output ("警告 $($warnings.Count) 件: " + (($warnings | ForEach-Object { "$($_.file)=$($_.reason)" }) -join " / ")) }

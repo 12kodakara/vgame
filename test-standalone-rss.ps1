@@ -129,7 +129,7 @@ Write-Output "== RSS が全部読めない場合"
 $feeds2 = Join-Path $work "feeds-broken"
 New-Item -ItemType Directory -Path $feeds2 -Force | Out-Null
 [IO.File]::WriteAllText((Join-Path $feeds2 "x.xml"), "not xml", $utf8)
-$r3 = Invoke-Watch $feeds2
+[void](Invoke-Watch $feeds2)
 $j3 = Read-Out
 Check "7a. 取得・解析がすべて失敗しても既存の候補5件は残る" (@($j3.candidates).Count -eq 5 -and @($j3.lastRun.errors).Count -eq 1) ("count=$(@($j3.candidates).Count)")
 
@@ -139,6 +139,149 @@ $broken = '{"candidates": [ 壊れたJSON'
 $r4 = Invoke-Watch
 Check "8a. 壊れた候補ファイルは上書きせずに中止する(終了コード≠0・内容そのまま)" ($r4.code -ne 0 -and ([IO.File]::ReadAllText($out, [Text.Encoding]::UTF8)) -eq $broken) ("code=$($r4.code)")
 Check "8b. 一時ファイル(.tmp)を残さない" (-not (Test-Path ($out + ".tmp"))) ""
+
+Write-Output "== RSS の取得(モック。ネットワークには接続しない)"
+$mockDir = Join-Path $work "mock"
+New-Item -ItemType Directory -Path $mockDir -Force | Out-Null
+$chMap = ([IO.File]::ReadAllText((Join-Path $scriptDir "streamer-channel-ids.json"), [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$kanadeReal = ($chMap | Where-Object streamer -eq "音乃瀬奏").channelId
+$roboco = "UCDqI2jOz0weumE8s7paEk6g"   # ロボ子さん(STREAMERS に /channel/UC… で登録)
+[IO.File]::WriteAllText((Join-Path $mockDir "rui.xml"), (New-Feed $rui @((New-Entry "RssFetchR01" "【8番出口】取得テスト【鷹嶺ルイ/ホロライブ】" "2026-10-17T03:00:00+00:00"))), $utf8)
+[IO.File]::WriteAllText((Join-Path $mockDir "sora.xml"), (New-Feed $sora @((New-Entry "RssFetchS01" "【8番出口】再試行テスト【ときのそら/ホロライブ】" "2026-10-17T04:00:00+00:00"))), $utf8)
+[IO.File]::WriteAllText((Join-Path $mockDir "error.html"), "<!DOCTYPE html><html><body>Error</body></html>", $utf8)
+$scenario = [ordered]@{}
+$scenario[$rui] = @(@{ ok = $true; file = "rui.xml" })
+$scenario[$sora] = @(@{ ok = $false; status = 500; reason = "HTTP 500" }, @{ ok = $true; file = "sora.xml" })
+$scenario[$kanadeReal] = @(@{ ok = $false; reason = "タイムアウト" }, @{ ok = $false; reason = "タイムアウト" })
+$scenario[$roboco] = @(@{ ok = $true; file = "error.html" }, @{ ok = $true; file = "error.html" })
+[IO.File]::WriteAllText((Join-Path $mockDir "scenario.json"), ($scenario | ConvertTo-Json -Depth 5), $utf8)
+$mockScript = Join-Path $mockDir "mock-request.ps1"
+[IO.File]::WriteAllText($mockScript, @'
+$script:mockDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:mockScenario = [IO.File]::ReadAllText((Join-Path $script:mockDir "scenario.json"), [Text.Encoding]::UTF8) | ConvertFrom-Json
+$script:mockCount = @{}
+function Invoke-StandaloneRssRequest([string]$url, [int]$timeoutSec) {
+  $cid = [regex]::Match($url, "channel_id=([A-Za-z0-9_-]+)").Groups[1].Value
+  $n = 1 + [int]$script:mockCount[$cid]; $script:mockCount[$cid] = $n
+  [IO.File]::AppendAllText((Join-Path $script:mockDir "calls.log"), "$url`t$n`t$timeoutSec`n", (New-Object System.Text.UTF8Encoding($false)))
+  $steps = @($script:mockScenario.$cid)
+  if ($steps.Count -eq 0 -or -not $steps[0]) { return @{ ok = $false; status = 404; reason = "HTTP 404" } }
+  $s = $steps[[Math]::Min($n, $steps.Count) - 1]
+  if ($s.ok) { return @{ ok = $true; status = 200; content = [IO.File]::ReadAllText((Join-Path $script:mockDir $s.file), [Text.Encoding]::UTF8) } }
+  return @{ ok = $false; status = $s.status; reason = $s.reason }
+}
+'@, (New-Object System.Text.UTF8Encoding($true)))
+$fetchDir = Join-Path $work "fetched"
+New-Item -ItemType Directory -Path $fetchDir -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $fetchDir "old.xml"), (New-Feed $rui @((New-Entry "RssFetchOld" "【8番出口】前回の取得で残ったファイル" "2026-10-01T00:00:00+00:00"))), $utf8)
+$outF = Join-Path $work "fetch-candidates.json"
+function Invoke-Fetch([string[]]$names, [string[]]$ids) {
+  $ErrorActionPreference = "Continue"
+  $a = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch, "-FeedDir", $fetchDir, "-OutFile", $outF, "-RequestScript", $mockScript, "-TimeoutSec", "7", "-RetryDelaySeconds", "0", "-RequestIntervalMs", "0")
+  if ($names) { $a += "-Streamer"; $a += ($names -join ",") }
+  if ($ids) { $a += "-ChannelId"; $a += ($ids -join ",") }
+  $o = & powershell @a 2>&1 | ForEach-Object { "$_" }
+  return [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join "`n") }
+}
+$f1 = Invoke-Fetch @("鷹嶺ルイ", "ときのそら", "音乃瀬奏", "存在しないVTuber") @($roboco, "UCbad")
+$jf = ([IO.File]::ReadAllText($outF, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$cf = @($jf.candidates); $idsF = @($cf | ForEach-Object { $_.videoId })
+$calls = @(([IO.File]::ReadAllText((Join-Path $mockDir "calls.log"), [Text.Encoding]::UTF8) -split "`n") | Where-Object { $_ })
+$callsOf = { param($c) @($calls | Where-Object { $_ -like "*channel_id=$c`t*" }).Count }
+$sf = $jf.lastRun.stats; $ef = @($jf.lastRun.errors); $wf = @($jf.lastRun.warnings)
+Check "10a. 取得できたRSSだけを解析し、候補2件(ルイ・そら)を追加する" ($f1.code -eq 0 -and $cf.Count -eq 2 -and ($idsF -contains "RssFetchR01") -and ($idsF -contains "RssFetchS01")) ($f1.output)
+Check "10b. 取得モードでは保存先に残っていた古いRSSを読まない" (-not ($idsF -contains "RssFetchOld")) ""
+Check "10c. 取得先は YouTube 公式のチャンネルフィード・タイムアウト秒数を渡す" (@($calls | Where-Object { $_ -eq ("https://www.youtube.com/feeds/videos.xml?channel_id=$rui`t1`t7") }).Count -eq 1) ($calls -join " | ")
+Check "10d. 成功したチャンネルは1回だけ取得し、失敗したチャンネルも2回(1回だけ再試行)で止める" ((& $callsOf $rui) -eq 1 -and (& $callsOf $sora) -eq 2 -and (& $callsOf $kanadeReal) -eq 2 -and (& $callsOf $roboco) -eq 2 -and $calls.Count -eq 7) ($calls -join " | ")
+Check "10e. VTuber名は対応表(streamer-channel-ids.json)でチャンネルIDに変換する(ハンドルだけの音乃瀬奏も取得対象)" ((& $callsOf $kanadeReal) -ge 1) ""
+Check "10f. 取得できたRSSは保存先に <チャンネルID>.xml で保存し、失敗したものは保存しない" ((Test-Path (Join-Path $fetchDir "$rui.xml")) -and (Test-Path (Join-Path $fetchDir "$sora.xml")) -and -not (Test-Path (Join-Path $fetchDir "$kanadeReal.xml")) -and -not (Test-Path (Join-Path $fetchDir "$roboco.xml"))) ""
+Check "10g. 再試行で取得できたチャンネルは警告に1回目の失敗理由を残す" (@($wf | Where-Object { $_.channelId -eq $sora -and $_.reason -like "*HTTP 500*" }).Count -eq 1) ($wf | ConvertTo-Json -Compress)
+Check "10h. タイムアウトが続いたチャンネルはエラー(理由・試行2回)として記録する" (@($ef | Where-Object { $_.channelId -eq $kanadeReal -and $_.reason -eq "タイムアウト" -and $_.attempts -eq 2 -and $_.stage -eq "fetch" }).Count -eq 1) ($ef | ConvertTo-Json -Compress)
+Check "10i. XMLではない応答が続いたチャンネルはエラーとして記録する" (@($ef | Where-Object { $_.channelId -eq $roboco -and $_.reason -eq "XMLとして読めない応答" }).Count -eq 1) ""
+Check "10j. 対応表に無いVTuber名・形式の正しくないチャンネルIDは取得せずエラーにする" (@($ef | Where-Object { $_.streamer -eq "存在しないVTuber" }).Count -eq 1 -and @($ef | Where-Object { $_.channelId -eq "UCbad" }).Count -eq 1) ""
+Check "10k. 取得の件数を記録する(対象4・成功2・失敗2・再試行3)" ($sf.fetchTargets -eq 4 -and $sf.fetched -eq 2 -and $sf.fetchFailed -eq 2 -and $sf.retried -eq 3) ($sf | ConvertTo-Json -Compress)
+$f2 = Invoke-Fetch @("鷹嶺ルイ", "ときのそら") $null
+$jf2 = ([IO.File]::ReadAllText($outF, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "10l. 同じRSSを再取得しても候補は増えない" ($f2.code -eq 0 -and @($jf2.candidates).Count -eq 2 -and $jf2.lastRun.stats.newCandidates -eq 0) ("count=$(@($jf2.candidates).Count)")
+$f3 = Invoke-Fetch @("音乃瀬奏") $null
+$jf3 = ([IO.File]::ReadAllText($outF, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "10m. 取得がすべて失敗しても既存の候補は消さない" ($f3.code -eq 0 -and @($jf3.candidates).Count -eq 2 -and $jf3.lastRun.stats.fetchFailed -eq 1) ("count=$(@($jf3.candidates).Count)")
+
+Write-Output "== 誤検出対策(楽曲タイトル・短い英数字名)"
+$botan = "UCUKD-uaobj9jiqB-VXt71mA"   # 獅白ぼたん(STREAMERS に /channel/UC… で登録)
+$feedsS = Join-Path $work "feeds-stray"
+New-Item -ItemType Directory -Path $feedsS -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $feedsS "botan.xml"), (New-Feed $botan @(
+  (New-Entry "RssStray001" "Stray&Stay / 獅白ぼたん【original】" "2026-09-19T03:00:00+00:00"),
+  (New-Entry "RssStray002" "見るタイプのStray&Stay【獅白ぼたん/ホロライブ】 #shorts" "2026-10-10T03:00:00+00:00"),
+  (New-Entry "RssStray003" "【Stray】猫になって街を冒険する【獅白ぼたん/ホロライブ】" "2026-10-11T03:00:00+00:00"),
+  (New-Entry "RssStray004" "Stray 実況 はじめての猫ゲーム【獅白ぼたん/ホロライブ】" "2026-10-12T03:00:00+00:00"),
+  (New-Entry "RssJpn00001" "【利用規約に同意したい】同意するだけ【獅白ぼたん/ホロライブ】" "2026-10-13T03:00:00+00:00"),
+  (New-Entry "tdCaDO2y6N0" "【利用規約に同意したい】利用規約に同意しますん【獅白ぼたん/ホロライブ】" "2025-12-12T15:16:49+00:00"),
+  (New-Entry "RssOrig0001" "【original】Minecraft の思い出を歌にした新曲【獅白ぼたん/ホロライブ】" "2026-10-14T03:00:00+00:00")
+)), $utf8)
+$outS = Join-Path $work "stray-candidates.json"
+$ErrorActionPreference = "Continue"
+$rs = & powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsS -OutFile $outS 2>&1 | ForEach-Object { "$_" }
+$ErrorActionPreference = "Stop"
+$js = ([IO.File]::ReadAllText($outS, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$cs = @($js.candidates); $idsS = @($cs | ForEach-Object { $_.videoId })
+Check "11a. 「Stray&Stay」(楽曲・ショート)は Stray と判定しない" (-not ($idsS -contains "RssStray001") -and -not ($idsS -contains "RssStray002")) (($rs -join " ") + " / " + ($idsS -join ","))
+$s3 = $cs | Where-Object videoId -eq "RssStray003"
+Check "11b. 【Stray】の実況は Stray・HIGH で検出する" ($s3 -and $s3.game -eq "Stray" -and $s3.confidence -eq "HIGH") ($s3 | ConvertTo-Json -Compress)
+$s4 = $cs | Where-Object videoId -eq "RssStray004"
+Check "11c. 【】の外の「Stray 実況」も Stray として検出する(短い英数字名なので HIGH にはしない)" ($s4 -and $s4.game -eq "Stray" -and $s4.confidence -ne "HIGH") ($s4 | ConvertTo-Json -Compress)
+$s6 = $cs | Where-Object videoId -eq "RssJpn00001"
+Check "11d. 日本語の作品名(【利用規約に同意したい】)は従来どおり HIGH" ($s6 -and $s6.game -eq "利用規約に同意したい" -and $s6.confidence -eq "HIGH") ($s6 | ConvertTo-Json -Compress)
+Check "11e. 登録済みの単発実況(tdCaDO2y6N0)は引き続き除外する" (-not ($idsS -contains "tdCaDO2y6N0") -and $js.lastRun.stats.registeredStandalone -eq 1) ""
+$s8 = $cs | Where-Object videoId -eq "RssOrig0001"
+Check "11f. 【original】の動画はゲーム名が一致しても LOW(非ゲーム語)にする" ($s8 -and $s8.confidence -eq "LOW" -and (@($s8.reasons) -contains "非ゲーム語: original")) ($s8 | ConvertTo-Json -Compress)
+
+Write-Output "== 未登録作品の候補(unknownGames)"
+$feedsU = Join-Path $work "feeds-unknown"
+New-Item -ItemType Directory -Path $feedsU -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $feedsU "botan.xml"), (New-Feed $botan @(
+  (New-Entry "UnkGears001" "ガチムチ達のプランBが帰ってきたぞ～っ！－Gears of War: E-Day【獅白ぼたん/ホロライブ】" "2026-10-16T12:00:00+00:00" "PvEモード「Horde Siege」も後でやりたいです"),
+  (New-Entry "UnkRamen001" "お店の売上金がなぜか合わないJapanese Ramen Simulator【獅白ぼたん/ホロライブ】" "2026-10-11T12:00:00+00:00" "麺屋ぼたん オープンしました"),
+  (New-Entry "UnkRamen002" "ワンオペで挑むJapanese Ramen Simulator【獅白ぼたん/ホロライブ】" "2026-10-10T12:00:00+00:00" "まずバイトを雇います"),
+  (New-Entry "UnkWardog01" "【WARDOGS】話題の100人対戦FPS！レベルあげていきたい～！【獅白ぼたん/ホロライブ】" "2026-09-16T12:00:00+00:00" "まずはレベルをあげたい！！"),
+  (New-Entry "UnkHoloDr01" "【ホロドリ】「ぽ」と「ら」と「り」を引く！！！！【獅白ぼたん/ホロライブ】" "2026-10-08T12:00:00+00:00" "獅白ぼたんがホロドリをあそびます"),
+  (New-Entry "UnkStrayer1" "【Strayer】はじめての実況【獅白ぼたん/ホロライブ】" "2026-10-07T12:00:00+00:00"),
+  (New-Entry "UnkNotGm001" "【#ホロドリ釣り名人】だからやってみろ、必ず目標を達成できる！【獅白ぼたん/ホロライブ】" "2026-10-15T12:00:00+00:00" "ゲーム内イベント"),
+  (New-Entry "UnkNotGm002" "【Steamオータムセール】まだ神ゲー間に合うか！？Steamのセール見ていくぞ～【獅白ぼたん/ホロライブ】" "2026-10-03T12:00:00+00:00" "ゲームを紹介"),
+  (New-Entry "UnkNotGm003" "【雑談】最近の振り返り雑談！いろいろあるぞ～～～～～っ【獅白ぼたん/ホロライブ】" "2026-09-27T12:00:00+00:00" "ゲームの話も"),
+  (New-Entry "UnkNotGm004" "ロボ子さんの『現世アリス』dance【獅白ぼたん/ホロライブ】✨#ロボ子さん #現世アリス #shorts #dance  #hololive" "2026-09-24T12:00:00+00:00"),
+  (New-Entry "UnkNotGm005" "【 #ねぽっくす まであと6日】💜💜#shorts" "2026-09-19T12:00:00+00:00"),
+  (New-Entry "UnkNotGm006" "【 #獅白ぼたん生誕祭2026 】重大告知あります！獅白ぼたん生誕3D LIVE✨『Stray&Stay』【獅白ぼたん/ホロライブ】" "2026-09-18T12:00:00+00:00"),
+  (New-Entry "UnkNotGm007" "Stray&Stay / 獅白ぼたん【original】" "2026-09-19T12:00:00+00:00"),
+  (New-Entry "UnkNotGm008" "おゆいさんと #めろぞーま 🩵#shorts #SWEETSTEADY #すいすて" "2026-09-17T12:00:00+00:00"),
+  (New-Entry "UnkNotGm009" "【キオクシア】ししろん先生が教える！PC ストレージ教室！【獅白ぼたん/ホロライブ】" "2026-09-16T12:00:00+00:00" "ご紹介した商品")
+)), $utf8)
+$outU = Join-Path $work "unknown-candidates.json"
+$ErrorActionPreference = "Continue"
+$ru = & powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsU -OutFile $outU 2>&1 | ForEach-Object { "$_" }
+$ErrorActionPreference = "Stop"
+$ju = ([IO.File]::ReadAllText($outU, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$ug = @($ju.unknownGames)
+$ugOf = { param($name) $ug | Where-Object name -eq $name }
+$gGears = & $ugOf "Gears of War: E-Day"; $gRamen = & $ugOf "Japanese Ramen Simulator"; $gWar = & $ugOf "WARDOGS"
+Check "12a. Gears of War: E-Day は1本(説明欄の PvE だけが手がかりなので LOW)" ($gGears -and $gGears.videoCount -eq 1 -and $gGears.confidence -eq "LOW") (($ru -join " ") + " / " + ($ug | ForEach-Object { "$($_.name)=$($_.videoCount)" }) -join ",")
+Check "12b. Japanese Ramen Simulator は2本(作品名ごとにまとめ、MEDIUM)" ($gRamen -and $gRamen.videoCount -eq 2 -and $gRamen.confidence -eq "MEDIUM" -and @($gRamen.videos | ForEach-Object { $_.videoId }).Count -eq 2) ($gRamen | ConvertTo-Json -Compress -Depth 5)
+Check "12c. WARDOGS は1本(【】の語 + タイトルの FPS で MEDIUM)" ($gWar -and $gWar.videoCount -eq 1 -and $gWar.confidence -eq "MEDIUM") ($gWar | ConvertTo-Json -Compress -Depth 5)
+$unkVideoIds = @($ug | ForEach-Object { $_.videos } | ForEach-Object { $_.videoId })
+Check "12d. 雑談・セール・ハッシュタグの【】・ショート・dance・告知・楽曲・ゲームを表す語の無い【】(企業名)は候補にしない" (@($unkVideoIds | Where-Object { $_ -like "UnkNotGm*" }).Count -eq 0) ($unkVideoIds -join ",")
+$gHolo = & $ugOf "ホロドリ"
+Check "12e. 説明欄にだけゲームを表す語がある【】の語は LOW で確認待ちにする" ($gHolo -and $gHolo.confidence -eq "LOW" -and $gHolo.status -eq "pending") ($gHolo | ConvertTo-Json -Compress -Depth 5)
+$gStrayer = & $ugOf "Strayer"
+Check "12f. 既存作品と名前が一部一致する候補には表記揺れの可能性(possibleExisting)を記録する" ($gStrayer -and (@($gStrayer.possibleExisting) -contains "Stray")) ($gStrayer | ConvertTo-Json -Compress -Depth 5)
+Check "12g. 候補はすべて status=pending・信頼度は MEDIUM まで(HIGH にしない)" (@($ug | Where-Object { $_.status -ne "pending" -or $_.confidence -eq "HIGH" }).Count -eq 0 -and $ug.Count -eq 5) ("count=$($ug.Count)")
+Check "12h. 既存作品の候補(candidates)には入れない" (@($ju.candidates).Count -eq 0) ""
+$ErrorActionPreference = "Continue"
+[void](& powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsU -OutFile $outU 2>&1)
+$ErrorActionPreference = "Stop"
+$ju2 = ([IO.File]::ReadAllText($outU, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$gRamen2 = $ju2.unknownGames | Where-Object name -eq "Japanese Ramen Simulator"
+Check "12i. 同じRSSを再処理しても同じ動画は二重に追加しない(作品数・本数とも変わらない)" (@($ju2.unknownGames).Count -eq 5 -and $gRamen2.videoCount -eq 2 -and $ju2.lastRun.stats.unknownGameVideos -eq 0) ("count=$(@($ju2.unknownGames).Count) ramen=$($gRamen2.videoCount)")
 
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""

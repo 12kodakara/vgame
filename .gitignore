@@ -46,3 +46,4 @@ desktop.ini
 *.bak
 ~$*
 *.lnk
+/rss-feeds/

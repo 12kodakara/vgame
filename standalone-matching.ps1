@@ -126,7 +126,24 @@ function Get-StandaloneBrackets([string]$title) {
   return @([regex]::Matches($n, '【([^】]+)】|\[([^\]]+)\]') | ForEach-Object { if ($_.Groups[1].Success) { $_.Groups[1].Value } else { $_.Groups[2].Value } })
 }
 
+# 一致箇所(stripped 上の [start, end))の前後が & / + で、その先が英数字なら「つながった語」(空白で区切られていれば対象外)
+function Test-StandaloneJoinedAscii($ctx, $span) {
+  $isAlnum = { param($c) ($c -ge 'a' -and $c -le 'z') -or ($c -ge '0' -and $c -le '9') }
+  $prev = $ctx.map[$span[0]] - 1
+  if ($prev -ge 1 -and '&+'.Contains([string]$ctx.collapsed[$prev]) -and (& $isAlnum $ctx.collapsed[$prev - 1])) { return $true }
+  $next = $ctx.map[$span[1] - 1] + 1
+  if ($next + 1 -lt $ctx.collapsed.Length -and '&+'.Contains([string]$ctx.collapsed[$next]) -and (& $isAlnum $ctx.collapsed[$next + 1])) { return $true }
+  return $false
+}
+
+# 【】の中身がそれだけで楽曲・公式映像を表すもの(単語の一律除外ではなく、【】全体がこの表記のときだけ非ゲーム扱い)
+$script:StandaloneNonGameBracketLabels = @('original', 'official', 'music video', 'lyric video')
+
 function Test-StandaloneNonGameTitle([string]$title) {
+  foreach ($b in @(Get-StandaloneBrackets $title)) {
+    $key = (Get-StandaloneNorm $b) -replace '\s+', ' '
+    if ($script:StandaloneNonGameBracketLabels -contains $key.Trim()) { return $key.Trim() }
+  }
   $ctx = New-StandaloneMatchText $title
   foreach ($w in $script:StandaloneNonGameWords) {
     $nw = (Get-StandaloneNorm $w) -replace ' ', ''
@@ -153,6 +170,8 @@ function Get-StandaloneSpanMatches($index, $ctx) {
   foreach ($e in $index.entries) {
     if (-not $ctx.stripped.Contains($e.stripped)) { continue }
     foreach ($sp in (Find-StandaloneCleanMatches $ctx $e.stripped)) {
+      # 短い英数字名が & / + で英数字とつながっている場合は別の語の一部とみなす(例:「Stray&Stay」の「Stray」)
+      if ($e.shortAscii -and (Test-StandaloneJoinedAscii $ctx $sp)) { continue }
       $inName = $false
       foreach ($ns in $nameSpans) { if ($ns[0] -le $sp[0] -and $ns[1] -ge $sp[1] -and ($ns[1] - $ns[0]) -gt ($sp[1] - $sp[0])) { $inName = $true; break } }
       if (-not $inName) { $found += [pscustomobject]@{ entry = $e; start = $sp[0]; end = $sp[1] } }
@@ -260,6 +279,83 @@ function Get-StandaloneRegisteredVideoIds([string]$standaloneJsText) {
   if ($start -lt 0) { return , $ids }
   foreach ($m in [regex]::Matches($body.Substring($start), '(?:watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})')) { [void]$ids.Add($m.Groups[1].Value) }
   return , $ids
+}
+
+# ============================================================
+# 未登録作品の候補(GAMES のどれとも一致しなかった動画から、作品名らしい語を取り出す。watch-standalone-rss.ps1 から使う)
+#   取り出し元: (1)【】[] の中身(VTuber名・事務所名を含む表記、# で始まるハッシュタグは除く)
+#             (2) タイトル本文の英字の語のまとまり(2語以上で、大文字で始まる語が2つ以上。例: Japanese Ramen Simulator)
+#   動画ごと除外: 非ゲーム語(Test-StandaloneNonGameTitle)、または下の $StandaloneUnknownExtraNonGameWords を含むタイトル
+#   必須条件: タイトルか説明欄にゲームを表す語(下の $StandaloneGameSignalWords)があること
+#   信頼度: タイトルにゲームを表す語があれば MEDIUM、説明欄だけなら LOW(HIGH にはしない。作品マスタには登録しない)
+#   既存の照合(Get-StandaloneMatch)の判定には影響しない
+# ============================================================
+$script:StandaloneUnknownExtraNonGameWords = @('セール', 'sale', '案件', '提供', 'dance', '踊ってみた', '生誕', '3d live')
+$script:StandaloneGameSignalWords = @('ゲーム', '実況', 'プレイ', '攻略', 'クリア', '初見', 'あそびます', '遊びます', 'fps', 'tps', 'rpg', 'pve', 'pvp', 'simulator', 'シミュレーター', 'dlc', 'ガチャ')
+$script:StandaloneAgencyWords = @('ホロライブ', 'hololive', 'にじさんじ', 'nijisanji', 'ぶいすぽ', 'vspo')
+
+# $words のうち $text に含まれる最初の語。無ければ $null
+#   英数字だけの語は、前後が英数字でないこと(英単語の一部ではないこと)を確かめる。日本語の文中の略語(「100人対戦FPS」)は一致させる。
+#   ゲーム名の照合(Find-StandaloneCleanMatches)は漢字の隣も「つながった語」とみなすが、ここはゲームを表す語の有無を見るだけなので英数字の隣だけを見る
+function Find-StandaloneWord([string]$text, [string[]]$words) {
+  $ctx = New-StandaloneMatchText $text
+  foreach ($w in $words) {
+    $nw = (Get-StandaloneNorm $w) -replace ' ', ''
+    if ($nw -match '^[a-z0-9]+$') {
+      if ([regex]::IsMatch($ctx.collapsed, '(?<![a-z0-9])' + [regex]::Escape($nw) + '(?![a-z0-9])')) { return $w }
+    }
+    elseif ($ctx.stripped.Contains($nw)) { return $w }
+  }
+  return $null
+}
+
+function Get-StandaloneUnknownGameCandidates($index, [string]$title, [string]$description) {
+  $out = @()
+  if (-not $title) { return , $out }
+  if (Test-StandaloneNonGameTitle $title) { return , $out }
+  if (Find-StandaloneWord $title $script:StandaloneUnknownExtraNonGameWords) { return , $out }
+  $titleSignal = Find-StandaloneWord $title $script:StandaloneGameSignalWords
+  $descSignal = if ($titleSignal) { $null } else { Find-StandaloneWord $description $script:StandaloneGameSignalWords }
+  if (-not $titleSignal -and -not $descSignal) { return , $out }
+
+  $names = New-Object System.Collections.Generic.List[object]
+  # (1) 【】[] の中身
+  foreach ($m in [regex]::Matches($title, '【([^】]+)】|\[([^\]]+)\]')) {
+    $raw = $(if ($m.Groups[1].Success) { $m.Groups[1].Value } else { $m.Groups[2].Value }).Trim()
+    if (-not $raw -or $raw.StartsWith('#') -or $raw.StartsWith('＃')) { continue }
+    $nz = (Get-StandaloneNorm $raw) -replace ' ', ''
+    if (@($index.streamerNames | Where-Object { $nz.Contains($_) }).Count -gt 0) { continue }   # VTuber名の表記
+    if (@($script:StandaloneAgencyWords | Where-Object { $nz.Contains(((Get-StandaloneNorm $_) -replace ' ', '')) }).Count -gt 0) { continue }
+    $names.Add([pscustomobject]@{ name = $raw; source = 'bracket' })
+  }
+  # (2) タイトル本文の英字の語のまとまり(【】[] とハッシュタグを除いた部分から探す)
+  $body = [regex]::Replace($title, '【[^】]*】|\[[^\]]*\]|[#＃]\S+', ' ')
+  foreach ($m in [regex]::Matches($body, "[A-Za-z0-9][A-Za-z0-9:'’\-]*(?: [A-Za-z0-9:'’\-]+)+")) {
+    $phrase = $m.Value.Trim().TrimEnd(':', '-')
+    $words = @($phrase -split ' ' | Where-Object { $_ })
+    if ($words.Count -lt 2 -or @($words | Where-Object { $_ -cmatch '^[A-Z0-9]' }).Count -lt 2) { continue }
+    $names.Add([pscustomobject]@{ name = $phrase; source = 'title-phrase' })
+  }
+
+  foreach ($n in $names) {
+    $key = Get-StandaloneLooseKey $n.name
+    if ($key.Length -lt 3) { continue }
+    if (@($out | Where-Object { $_.key -eq $key }).Count -gt 0) { continue }
+    $reasons = @()
+    if ($n.source -eq 'bracket') { $reasons += '【】の中の語' } else { $reasons += 'タイトル本文の英字の語' }
+    $reasons += $(if ($titleSignal) { 'タイトルにゲームを表す語: ' + $titleSignal } else { '説明欄にだけゲームを表す語: ' + $descSignal })
+    # 表記揺れの可能性: 既存作品の名前と正規化キーが一致・一部一致するもの(4文字以上)
+    $possible = @()
+    foreach ($e in $index.entries) {
+      if ($e.loose -eq $key -or ($key.Length -ge 4 -and $e.loose.Length -ge 4 -and ($e.loose.Contains($key) -or $key.Contains($e.loose)))) { $possible += $e.game }
+    }
+    $out += [pscustomobject]@{
+      name = $n.name; key = $key; source = $n.source
+      confidence = $(if ($titleSignal) { 'MEDIUM' } else { 'LOW' })
+      reasons = $reasons; possibleExisting = @($possible | Select-Object -Unique)
+    }
+  }
+  return , $out
 }
 
 # ============================================================
