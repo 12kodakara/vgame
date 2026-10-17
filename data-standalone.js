@@ -420,5 +420,18 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-15"
+  },
+  {
+    id: "single-030",
+    title: "【利用規約に同意したい】利用規約に同意しますん",
+    streamer: "獅白ぼたん",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【利用規約に同意したい】利用規約に同意しますん【獅白ぼたん/ホロライブ】", url: "https://www.youtube.com/watch?v=tdCaDO2y6N0", publishedDate: "2025-12-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
   }
 ];
