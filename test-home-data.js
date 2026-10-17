@@ -133,7 +133,9 @@ const freshPool = cand.filter(isFresh0);
 const freshPicked = w0a.filter(isFresh0).length, discPicked = w0a.filter((c) => !isFresh0(c) && c[2] <= 3).length;
 check('7d. 第0週: 新規登録枠は' + Math.min(2, freshPool.length) + '組(候補' + freshPool.length + '組)・発掘枠(作品1〜3)は4組以上',
   freshPicked >= Math.min(2, freshPool.length) && discPicked >= 4, 'fresh ' + freshPicked + ' / discovery ' + discPicked);
-const flat = [].concat(...[0, 1, 2, 3].map((k) => picksAt(cand, EPOCH + k * WEEK + 60 * 1000).filter((c) => !isFresh0(c)).map((c) => c[0])));
+// 新規登録枠の判定は home.js と同じく各週の開始時点で行う(第0週より後に初めて掲載されたVTuberも、その週の新規として除く)
+const isFreshAt = (c, k) => !!c[3] && c[3] >= jst(EPOCH + k * WEEK - 30 * 86400000) && c[3] <= jst(EPOCH + k * WEEK);
+const flat = [].concat(...[0, 1, 2, 3].map((k) => picksAt(cand, EPOCH + k * WEEK + 60 * 1000).filter((c) => !isFreshAt(c, k)).map((c) => c[0])));
 check('7e. 長く選ばれていない人を優先: 第0〜3週で新規登録枠以外に同じVTuberが2回出ない', new Set(flat).size === flat.length, flat.length + ' / ' + new Set(flat).size);
 check('7f. 第0週より前の日時は第0週として扱う', JSON.stringify(picksAt(cand, EPOCH - 3 * WEEK)) === JSON.stringify(w0a));
 // 候補不足: 5組なら5組だけ。12組(6グループ×2組)なら翌週は前週に外れた2組 + 前週の選出者で10組まで補う

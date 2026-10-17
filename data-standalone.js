@@ -433,5 +433,148 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-17"
+  },
+  {
+    id: "single-031",
+    title: "【 利用規約に同意したい 】余裕綽々",
+    streamer: "小森めと",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 利用規約に同意したい 】余裕綽々【 ぶいすぽっ！ / 小森めと 】", url: "https://www.youtube.com/watch?v=0GfcL_UYZeA", publishedDate: "2026-01-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-032",
+    title: "【 利用規約に同意したい 】 普通にキレます",
+    streamer: "橘ひなの",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 利用規約に同意したい 】 普通にキレます【ぶいすぽっ！/橘ひなの】", url: "https://www.youtube.com/watch?v=V9MjPwyqenE", publishedDate: "2026-01-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-033",
+    title: "【利用規約に同意したい】　したいちゃう、すんねん！！！！！！！！！！",
+    streamer: "蝶屋はなび",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【利用規約に同意したい】　したいちゃう、すんねん！！！！！！！！！！　【 ぶいすぽっ！ ⁠/蝶屋はなび 】", url: "https://www.youtube.com/watch?v=kTnalJSxvro", publishedDate: "2025-12-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-034",
+    title: "◤ 利用規約に同意したい ◢　同意しかないのだが",
+    streamer: "龍巻ちせ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "◤ 利用規約に同意したい ◢　同意しかないのだが　◤ぶいすぽっ！ #龍巻ちせ ⁠◢", url: "https://www.youtube.com/watch?v=dQ0sjO0fL1w", publishedDate: "2026-02-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-035",
+    title: "【利用規約に同意したい】さすがにすぐ終わるっしょｗ",
+    streamer: "千燈ゆうひ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【利用規約に同意したい】さすがにすぐ終わるっしょｗ【 ぶいすぽっ！ / 千燈ゆうひ 】", url: "https://www.youtube.com/watch?v=uraxCsKy5GE", publishedDate: "2025-12-31" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-036",
+    title: "【利用規約に同意したい】同意するだけでいいんだよね？",
+    streamer: "兎咲ミミ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【利用規約に同意したい】同意するだけでいいんだよね？【ぶいすぽ/兎咲ミミ】", url: "https://www.youtube.com/watch?v=fJDJ1geW548", publishedDate: "2026-01-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-037",
+    title: "【 利用規約に同意したい 】今日できなかったら2026年も挑戦します",
+    streamer: "神成きゅぴ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 利用規約に同意したい 】今日できなかったら2026年も挑戦します【ぶいすぽ/神成きゅぴ】", url: "https://www.youtube.com/watch?v=QIutehAgh9U", publishedDate: "2025-12-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-038",
+    title: "【 利用規約に同意したい】爆速で終わらしてやる",
+    streamer: "花芽なずな",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 利用規約に同意したい】爆速で終わらしてやる【ぶいすぽ/花芽なずな】", url: "https://www.youtube.com/watch?v=yUiwBqjBkPA", publishedDate: "2025-12-28" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-039",
+    title: "【利用規約に同意したい】利用規約に同意して生活リズムを直す",
+    streamer: "紡木こかげ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【利用規約に同意したい】利用規約に同意して生活リズムを直す【ぶいすぽっ！ / 紡木こかげ】", url: "https://www.youtube.com/watch?v=OgBYjwZjR-A", publishedDate: "2026-06-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-040",
+    title: "【 利用規約に同意したい 】最速でクリアして最高のクリスマスにしようね☺",
+    streamer: "鷹嶺ルイ",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 利用規約に同意したい 】最速でクリアして最高のクリスマスにしようね☺【鷹嶺ルイ/ ホロライブ】", url: "https://www.youtube.com/watch?v=uTPPpoWnwl0", publishedDate: "2025-12-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
+  },
+  {
+    id: "single-041",
+    title: "【 利用規約に同意したい 】ぺこーら先輩から送られたゲームやってみる！！！！！",
+    streamer: "音乃瀬奏",
+    game: "利用規約に同意したい",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 利用規約に同意したい 】ぺこーら先輩から送られたゲームやってみる！！！！！【音乃瀬奏】#hololiveDEV_IS #ReGLOSS", url: "https://www.youtube.com/watch?v=cJ8bg4oeo_8", publishedDate: "2026-01-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-17"
   }
 ];
