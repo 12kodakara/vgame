@@ -31,7 +31,7 @@
 
 $script:StandaloneShortAsciiMax = 5   # 英数字だけでこの文字数以下の名前は「短い名前」(【】の完全一致でだけ HIGH)
 $script:StandaloneNonGameWords = @('雑談', '歌枠', '歌ってみた', 'cover', 'music video', 'original song', 'shorts', '切り抜き', '誕生日', '周年',
-  '記念配信', 'お知らせ', '告知', '朝活', '晩酌', 'asmr', 'デビュー', '新衣装', '凸待ち', '3dライブ', 'mv')
+  '記念配信', 'お知らせ', '告知', '朝活', '晩酌', 'asmr', 'デビュー', '新衣装', '凸待ち', '3dライブ', 'mv', '同時視聴', 'watchalong')
 $script:StandaloneRomanDigits = @{ 'ii' = '2'; 'iii' = '3'; 'iv' = '4'; 'v' = '5'; 'vi' = '6'; 'vii' = '7'; 'viii' = '8'; 'ix' = '9' }
 
 function ConvertTo-StandaloneHiragana([string]$s) {
@@ -82,17 +82,21 @@ function Test-StandaloneWeakChar([char]$ch) {
 function Find-StandaloneCleanMatches($ctx, [string]$needle) {
   $out = @()
   if (-not $needle -or -not $ctx.stripped) { return $out }
-  $idx = $ctx.stripped.IndexOf($needle)
+  # 英字・数字・記号だけの名前は、隣が英数字のときだけ別の語の一部とみなす(「ARK上陸」「#ホロ鯖ARK」の ARK は一致させる)。
+  # かな・漢字を含む名前は従来どおり、隣が漢字・英数字なら一致させない(「大神」が「大神ミオ」の中で一致しないように)
+  $asciiNeedle = $needle -match '^[\x00-\x7F]+$'
+  $isWeak = { param($ch) if ($asciiNeedle) { ($ch -ge 'a' -and $ch -le 'z') -or ($ch -ge '0' -and $ch -le '9') } else { Test-StandaloneWeakChar $ch } }
+  $idx = $ctx.stripped.IndexOf($needle, [StringComparison]::Ordinal)
   while ($idx -ge 0) {
     $ok = $true
     $prev = $ctx.map[$idx] - 1
-    if ($prev -ge 0 -and (Test-StandaloneWeakChar $ctx.collapsed[$prev])) { $ok = $false }
+    if ($prev -ge 0 -and (& $isWeak $ctx.collapsed[$prev])) { $ok = $false }
     if ($ok) {
       $next = $ctx.map[$idx + $needle.Length - 1] + 1
-      if ($next -lt $ctx.collapsed.Length -and (Test-StandaloneWeakChar $ctx.collapsed[$next])) { $ok = $false }
+      if ($next -lt $ctx.collapsed.Length -and (& $isWeak $ctx.collapsed[$next])) { $ok = $false }
     }
     if ($ok) { $out += , @($idx, ($idx + $needle.Length)) }
-    $idx = $ctx.stripped.IndexOf($needle, $idx + 1)
+    $idx = $ctx.stripped.IndexOf($needle, $idx + 1, [StringComparison]::Ordinal)
   }
   # 1件だけのとき [start, end] の組が展開されないよう、配列のまま返す
   return , $out
@@ -110,10 +114,22 @@ function New-StandaloneGameIndex($games, [string[]]$streamerNames = @()) {
       $loose = Get-StandaloneLooseKey $a
       if ($loose.Length -lt 2) { continue }   # 1文字の名前は照合しない
       $isShortAscii = ($loose -match '^[a-z0-9]+$') -and ($loose.Length -le $script:StandaloneShortAsciiMax)
-      $entries.Add([pscustomobject]@{ game = $g.name; alias = $a; stripped = $stripped; loose = $loose; shortAscii = $isShortAscii })
+      $entries.Add([pscustomobject]@{ game = $g.name; alias = $a; stripped = $stripped; loose = $loose; shortAscii = $isShortAscii; implicitSeries = $false })
       if (-not $looseOwners.ContainsKey($loose)) { $looseOwners[$loose] = New-Object System.Collections.Generic.HashSet[string] }
       [void]$looseOwners[$loose].Add($g.name)
     }
+  }
+  # 「◯◯シリーズ」という作品は「◯◯」(3文字以上、どの作品の名前・別名でもないもの)でも一致させる。
+  # 作品を特定できないので Get-StandaloneMatch で HIGH にしない(implicitSeries)
+  foreach ($g in $games) {
+    if ($g.name -notmatch '^(.+?)\s*シリーズ$') { continue }
+    $stem = $Matches[1].Trim()
+    $loose = Get-StandaloneLooseKey $stem
+    if ($loose.Length -lt 3 -or $looseOwners.ContainsKey($loose)) { continue }
+    $isShortAscii = ($loose -match '^[a-z0-9]+$') -and ($loose.Length -le $script:StandaloneShortAsciiMax)
+    $entries.Add([pscustomobject]@{ game = $g.name; alias = $stem; stripped = ((Get-StandaloneNorm $stem) -replace ' ', ''); loose = $loose; shortAscii = $isShortAscii; implicitSeries = $true })
+    $looseOwners[$loose] = New-Object System.Collections.Generic.HashSet[string]
+    [void]$looseOwners[$loose].Add($g.name)
   }
   foreach ($e in $entries) { $e | Add-Member -NotePropertyName shared -NotePropertyValue ($looseOwners[$e.loose].Count -gt 1) }
   # VTuber名(ゲーム名を含みうる長さのもの)。一致箇所が VTuber名の中にあるときは無視する
@@ -155,16 +171,22 @@ function Test-StandaloneNonGameTitle([string]$title) {
 
 function Test-StandaloneSequel([string]$title) {
   $n = Get-StandaloneNorm $title
-  return ($n -match '#\s*\d+|part\s*\.?\s*\d+|第\s*\d+\s*(回|話|章|夜|日)|\bep\s*\.?\s*\d+|その\s*\d+')
+  return ($n -match '#\s*\d+|part\s*\.?\s*\d+|第\s*\d+\s*(回|話|章|夜|日)|\bep\s*\.?\s*\d+|その\s*\d+|\bday\s*\.?\s*\d+')
 }
 
 # テキスト中で強い境界で一致するゲーム(名前・位置)を集め、別ゲームの一致箇所に含まれる一致を除く
+# いちばん長いものを選ぶ(同じ長さなら先に見つかったもの)。Sort-Object は同じ長さどうしの順序が PowerShell の版で変わりうるため使わない
+function Select-StandaloneLongest($items, [scriptblock]$length) {
+  $best = $null; $bestLength = -1
+  foreach ($it in @($items)) { $l = [int](& $length $it); if ($l -gt $bestLength) { $best = $it; $bestLength = $l } }
+  return $best
+}
 function Get-StandaloneSpanMatches($index, $ctx) {
   # テキスト中の VTuber名の位置(この中に収まる一致はゲーム名として扱わない)
   $nameSpans = @()
   foreach ($n in $index.streamerNames) {
-    $i = $ctx.stripped.IndexOf($n)
-    while ($i -ge 0) { $nameSpans += , @($i, ($i + $n.Length)); $i = $ctx.stripped.IndexOf($n, $i + 1) }
+    $i = $ctx.stripped.IndexOf($n, [StringComparison]::Ordinal)
+    while ($i -ge 0) { $nameSpans += , @($i, ($i + $n.Length)); $i = $ctx.stripped.IndexOf($n, $i + 1, [StringComparison]::Ordinal) }
   }
   $found = @()
   foreach ($e in $index.entries) {
@@ -207,12 +229,12 @@ function Get-StandaloneMatch($index, [string]$title, [string]$description, $cont
   if ($bracketGames.Count -ge 1) {
     $matchType = 'bracket-exact'
     if ($bracketGames.Count -gt 1) { $reasons.Add('【】の名前が複数ゲームに一致: ' + ($bracketGames -join ' / ')) }
-    $pick = @($bracketHits | Sort-Object { $_.loose.Length } -Descending)[0]
+    $pick = Select-StandaloneLongest $bracketHits { param($h) $h.loose.Length }
     $game = $pick.game; $alias = $pick.alias
     if ($pick.shared) { $reasons.Add('複数ゲームで共有される名前: ' + $pick.alias) }
   } elseif ($titleGames.Count -ge 1) {
     $matchType = 'title'
-    $pick = @($titleHits | Sort-Object { $_.end - $_.start } -Descending)[0]
+    $pick = Select-StandaloneLongest $titleHits { param($h) $h.end - $h.start }
     $game = $pick.entry.game; $alias = $pick.entry.alias
     if ($pick.entry.shortAscii) { $reasons.Add('短い英数字名が【】の外で一致: ' + $pick.entry.alias) }
     elseif (@($brackets | Where-Object { $_.Contains($pick.entry.loose) }).Count -gt 0) { $reasons.Add('【】の中身と一部だけ一致: ' + $pick.entry.alias) }
@@ -227,7 +249,7 @@ function Get-StandaloneMatch($index, [string]$title, [string]$description, $cont
       $hits = @(Get-StandaloneSpanMatches $index (New-StandaloneMatchText $src.text))
       $hits = @($hits | Where-Object { -not $_.entry.shortAscii })   # 短い英数字名は説明欄では使わない(UNO 等の誤一致防止)
       if ($hits.Count -eq 0) { continue }
-      $pick = @($hits | Sort-Object { $_.end - $_.start } -Descending)[0]
+      $pick = Select-StandaloneLongest $hits { param($h) $h.end - $h.start }
       $game = $pick.entry.game; $alias = $pick.entry.alias; $matchType = $src.type
       $dg = @($hits | ForEach-Object { $_.entry.game } | Select-Object -Unique)
       if ($dg.Count -gt 1) { $reasons.Add('説明欄で複数ゲームに一致: ' + ($dg -join ' / ')) }
@@ -236,6 +258,29 @@ function Get-StandaloneMatch($index, [string]$title, [string]$description, $cont
     }
   }
   if (-not $game) { return $null }
+
+  # タイトルの一致が「◯◯シリーズ」の語幹だけのときは、説明欄にそのシリーズの具体的な作品名(語幹で始まる名前)があればそちらを選ぶ
+  $pickEntry = @($index.entries | Where-Object { $_.game -eq $game -and $_.alias -eq $alias } | Select-Object -First 1)
+  if ($pickEntry.Count -gt 0 -and $pickEntry[0].implicitSeries -and $description) {
+    $stemLoose = $pickEntry[0].loose
+    $specific = @(Get-StandaloneSpanMatches $index (New-StandaloneMatchText $description) | Where-Object { -not $_.entry.implicitSeries -and $_.entry.loose.Length -gt $stemLoose.Length -and $_.entry.loose.StartsWith($stemLoose, [StringComparison]::Ordinal) })
+    $specificBest = Select-StandaloneLongest $specific { param($h) $h.end - $h.start }
+    $specific = @(); if ($specificBest) { $specific = @($specificBest) }
+    if ($specific.Count -gt 0) {
+      $game = $specific[0].entry.game; $alias = $specific[0].entry.alias
+      $reasons.Add('タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ' + $alias)
+      $pickEntry = @($specific[0].entry)
+    }
+  }
+
+  # 作品を特定しきれない一致は HIGH にしない
+  #   (a)「◯◯シリーズ」の語幹だけで一致した  (b) 正式名ではない別名が、別の作品の正式名の先頭部分にもなっている(例: 別名「幻想水滸伝」と「幻想水滸伝 STAR LEAP」)
+  if ($pickEntry.Count -gt 0 -and $pickEntry[0].implicitSeries) { $reasons.Add('シリーズ名の一部だけで一致(作品は未特定): ' + $alias) }
+  elseif ($alias -and $alias -ne $game) {
+    $aliasLoose = Get-StandaloneLooseKey $alias
+    $prefixOf = @($index.entries | Where-Object { $_.game -ne $game -and $_.alias -eq $_.game -and $_.loose.Length -gt $aliasLoose.Length -and $_.loose.StartsWith($aliasLoose) } | ForEach-Object { $_.game } | Select-Object -Unique)
+    if ($prefixOf.Count -gt 0) { $reasons.Add('別名が別の作品名の先頭部分にもなっている(作品の取り違えの可能性): ' + $alias + ' / ' + ($prefixOf -join ' / ')) }
+  }
 
   $otherGames = @($titleGames | Where-Object { $_ -ne $game })
   if ($matchType -eq 'bracket-exact') { $otherGames = @($otherGames + @($bracketGames | Where-Object { $_ -ne $game }) | Select-Object -Unique) }
@@ -275,7 +320,7 @@ function Get-StandaloneRegisteredVideoIds([string]$standaloneJsText) {
   $ids = New-Object System.Collections.Generic.HashSet[string]
   if (-not $standaloneJsText) { return , $ids }
   $body = ($standaloneJsText -split "`n" | Where-Object { $_ -notmatch '^\s*//' }) -join "`n"
-  $start = $body.IndexOf('const STANDALONE_PLAYS')
+  $start = $body.IndexOf('const STANDALONE_PLAYS', [StringComparison]::Ordinal)
   if ($start -lt 0) { return , $ids }
   foreach ($m in [regex]::Matches($body.Substring($start), '(?:watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})')) { [void]$ids.Add($m.Groups[1].Value) }
   return , $ids
@@ -286,13 +331,19 @@ function Get-StandaloneRegisteredVideoIds([string]$standaloneJsText) {
 #   取り出し元: (1)【】[] の中身(VTuber名・事務所名を含む表記、# で始まるハッシュタグは除く)
 #             (2) タイトル本文の英字の語のまとまり(2語以上で、大文字で始まる語が2つ以上。例: Japanese Ramen Simulator)
 #   動画ごと除外: 非ゲーム語(Test-StandaloneNonGameTitle)、または下の $StandaloneUnknownExtraNonGameWords を含むタイトル
-#   必須条件: タイトルか説明欄にゲームを表す語(下の $StandaloneGameSignalWords)があること
-#   信頼度: タイトルにゲームを表す語があれば MEDIUM、説明欄だけなら LOW(HIGH にはしない。作品マスタには登録しない)
+#   手がかり: タイトル(作品名の候補の外)か説明欄にゲームを表す語(下の $StandaloneGameSignalWords)があること。
+#             無い名前は -IncludeWeak のときだけ weak として返し、呼び出し側が「2人以上の配信者に出てくる」ときだけ候補にする
+#   信頼度: タイトルにゲームを表す語があれば MEDIUM、それ以外は LOW(HIGH にはしない。作品マスタには登録しない)
 #   既存の照合(Get-StandaloneMatch)の判定には影響しない
 # ============================================================
 $script:StandaloneUnknownExtraNonGameWords = @('セール', 'sale', '案件', '提供', 'dance', '踊ってみた', '生誕', '3d live')
 $script:StandaloneGameSignalWords = @('ゲーム', '実況', 'プレイ', '攻略', 'クリア', '初見', 'あそびます', '遊びます', 'fps', 'tps', 'rpg', 'pve', 'pvp', 'simulator', 'シミュレーター', 'dlc', 'ガチャ')
 $script:StandaloneAgencyWords = @('ホロライブ', 'hololive', 'にじさんじ', 'nijisanji', 'ぶいすぽ', 'vspo')
+# 【】の中身がこれだけのときは配信の種類を表す語なので、未登録作品の名前にしない(動画ごと除外はしない)
+$script:StandaloneStreamTypeLabels = @('オフコラボ', 'コラボ', '初配信', '初見', '耐久', '生配信', '記念配信', '同時視聴', '参加型', '企画', '凸待ち', '重大告知', '新衣装', 'ネタバレあり', 'ネタバレ注意', 'ネタバレ')
+# 作品名の中にあっても「ゲームを表す語」として数えてよい語(作品名の一部によく使われるジャンル名)。
+# それ以外の語(ガチャ・ゲーム・実況 など)は、作品名の候補の外にあるときだけ手がかりにする(「ガチャ旅」のガチャは数えない)
+$script:StandaloneGameTitleGenreWords = @('simulator', 'シミュレーター', 'rpg')
 
 # $words のうち $text に含まれる最初の語。無ければ $null
 #   英数字だけの語は、前後が英数字でないこと(英単語の一部ではないこと)を確かめる。日本語の文中の略語(「100人対戦FPS」)は一致させる。
@@ -309,23 +360,26 @@ function Find-StandaloneWord([string]$text, [string[]]$words) {
   return $null
 }
 
-function Get-StandaloneUnknownGameCandidates($index, [string]$title, [string]$description) {
+#   -IncludeWeak: ゲームを表す語が無い名前も weak = $true で返す(呼び出し側で「2人以上の配信者に出てくる」ときだけ候補にする)
+function Get-StandaloneUnknownGameCandidates($index, [string]$title, [string]$description, [switch]$IncludeWeak) {
   $out = @()
   if (-not $title) { return , $out }
   if (Test-StandaloneNonGameTitle $title) { return , $out }
   if (Find-StandaloneWord $title $script:StandaloneUnknownExtraNonGameWords) { return , $out }
-  $titleSignal = Find-StandaloneWord $title $script:StandaloneGameSignalWords
-  $descSignal = if ($titleSignal) { $null } else { Find-StandaloneWord $description $script:StandaloneGameSignalWords }
-  if (-not $titleSignal -and -not $descSignal) { return , $out }
+  $descSignal = Find-StandaloneWord $description $script:StandaloneGameSignalWords
 
   $names = New-Object System.Collections.Generic.List[object]
   # (1) 【】[] の中身
   foreach ($m in [regex]::Matches($title, '【([^】]+)】|\[([^\]]+)\]')) {
     $raw = $(if ($m.Groups[1].Success) { $m.Groups[1].Value } else { $m.Groups[2].Value }).Trim()
-    if (-not $raw -or $raw.StartsWith('#') -or $raw.StartsWith('＃')) { continue }
+    if (-not $raw -or $raw.StartsWith('#', [StringComparison]::Ordinal) -or $raw.StartsWith('＃', [StringComparison]::Ordinal)) { continue }
     $nz = (Get-StandaloneNorm $raw) -replace ' ', ''
-    if (@($index.streamerNames | Where-Object { $nz.Contains($_) }).Count -gt 0) { continue }   # VTuber名の表記
+    # VTuber名の表記(【ときのそら/ホロライブ】など)。2文字の名前は区切り(/・｜空白など)で分けた語と完全一致するときだけ
+    # (「耐える」の中の「える」のように、短い名前が語の一部に含まれるだけのものは VTuber名とみなさない)
+    $tokens = @((Get-StandaloneNorm $raw) -split '[\s/／|｜・,、#＃]+' | Where-Object { $_ })
+    if (@($index.streamerNames | Where-Object { ($_.Length -ge 3 -and $nz.Contains($_)) -or ($tokens -contains $_) }).Count -gt 0) { continue }
     if (@($script:StandaloneAgencyWords | Where-Object { $nz.Contains(((Get-StandaloneNorm $_) -replace ' ', '')) }).Count -gt 0) { continue }
+    if (@($script:StandaloneStreamTypeLabels | Where-Object { $nz -eq ((Get-StandaloneNorm $_) -replace ' ', '') }).Count -gt 0) { continue }   # 配信の種類
     $names.Add([pscustomobject]@{ name = $raw; source = 'bracket' })
   }
   # (2) タイトル本文の英字の語のまとまり(【】[] とハッシュタグを除いた部分から探す)
@@ -341,16 +395,21 @@ function Get-StandaloneUnknownGameCandidates($index, [string]$title, [string]$de
     $key = Get-StandaloneLooseKey $n.name
     if ($key.Length -lt 3) { continue }
     if (@($out | Where-Object { $_.key -eq $key }).Count -gt 0) { continue }
+    # タイトルの手がかりは作品名の候補の外で探す(候補の中の語は、作品名によく使われるジャンル名だけ数える)
+    $titleSignal = Find-StandaloneWord ($title.Replace($n.name, ' ')) $script:StandaloneGameSignalWords
+    if (-not $titleSignal) { $titleSignal = Find-StandaloneWord $n.name $script:StandaloneGameTitleGenreWords }
+    $weak = (-not $titleSignal) -and (-not $descSignal)
+    if ($weak -and -not $IncludeWeak) { continue }
     $reasons = @()
     if ($n.source -eq 'bracket') { $reasons += '【】の中の語' } else { $reasons += 'タイトル本文の英字の語' }
-    $reasons += $(if ($titleSignal) { 'タイトルにゲームを表す語: ' + $titleSignal } else { '説明欄にだけゲームを表す語: ' + $descSignal })
+    $reasons += $(if ($titleSignal) { 'タイトルにゲームを表す語: ' + $titleSignal } elseif ($descSignal) { '説明欄にだけゲームを表す語: ' + $descSignal } else { 'ゲームを表す語なし' })
     # 表記揺れの可能性: 既存作品の名前と正規化キーが一致・一部一致するもの(4文字以上)
     $possible = @()
     foreach ($e in $index.entries) {
       if ($e.loose -eq $key -or ($key.Length -ge 4 -and $e.loose.Length -ge 4 -and ($e.loose.Contains($key) -or $key.Contains($e.loose)))) { $possible += $e.game }
     }
     $out += [pscustomobject]@{
-      name = $n.name; key = $key; source = $n.source
+      name = $n.name; key = $key; source = $n.source; weak = $weak
       confidence = $(if ($titleSignal) { 'MEDIUM' } else { 'LOW' })
       reasons = $reasons; possibleExisting = @($possible | Select-Object -Unique)
     }

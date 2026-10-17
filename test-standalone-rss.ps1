@@ -12,6 +12,8 @@ param()
 $ErrorActionPreference = "Stop"
 $scriptDir = $PSScriptRoot
 $watch = Join-Path $scriptDir "watch-standalone-rss.ps1"
+# テスト対象は、このテストを動かしている PowerShell と同じもの(Windows PowerShell 5.1 / PowerShell 7 の pwsh)で起動する
+$psExe = [Diagnostics.Process]::GetCurrentProcess().MainModule.FileName
 $pass = 0; $fail = 0
 function Check([string]$name, [bool]$ok, [string]$detail) {
   if ($ok) { $script:pass++; Write-Output "  [PASS] $name" } else { $script:fail++; Write-Output "  [FAIL] $name`n         $detail" }
@@ -75,7 +77,7 @@ $map = Join-Path $work "channel-map.json"
 function Invoke-Watch([string]$feedDir = $feeds) {
   # 子プロセスのエラー出力でテスト自体が止まらないよう、呼び出す間だけ Continue にして終了コードで判定する
   $ErrorActionPreference = "Continue"
-  $o = & powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedDir -OutFile $out -ChannelMapPath $map 2>&1 | ForEach-Object { "$_" }
+  $o = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedDir -OutFile $out -ChannelMapPath $map 2>&1 | ForEach-Object { "$_" }
   return [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join "`n") }
 }
 function Read-Out() { return ([IO.File]::ReadAllText($out, [Text.Encoding]::UTF8)) | ConvertFrom-Json }
@@ -180,7 +182,7 @@ function Invoke-Fetch([string[]]$names, [string[]]$ids) {
   $a = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch, "-FeedDir", $fetchDir, "-OutFile", $outF, "-RequestScript", $mockScript, "-TimeoutSec", "7", "-RetryDelaySeconds", "0", "-RequestIntervalMs", "0")
   if ($names) { $a += "-Streamer"; $a += ($names -join ",") }
   if ($ids) { $a += "-ChannelId"; $a += ($ids -join ",") }
-  $o = & powershell @a 2>&1 | ForEach-Object { "$_" }
+  $o = & $psExe @a 2>&1 | ForEach-Object { "$_" }
   return [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join "`n") }
 }
 $f1 = Invoke-Fetch @("鷹嶺ルイ", "ときのそら", "音乃瀬奏", "存在しないVTuber") @($roboco, "UCbad")
@@ -222,7 +224,7 @@ New-Item -ItemType Directory -Path $feedsS -Force | Out-Null
 )), $utf8)
 $outS = Join-Path $work "stray-candidates.json"
 $ErrorActionPreference = "Continue"
-$rs = & powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsS -OutFile $outS 2>&1 | ForEach-Object { "$_" }
+$rs = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsS -OutFile $outS 2>&1 | ForEach-Object { "$_" }
 $ErrorActionPreference = "Stop"
 $js = ([IO.File]::ReadAllText($outS, [Text.Encoding]::UTF8)) | ConvertFrom-Json
 $cs = @($js.candidates); $idsS = @($cs | ForEach-Object { $_.videoId })
@@ -259,7 +261,7 @@ New-Item -ItemType Directory -Path $feedsU -Force | Out-Null
 )), $utf8)
 $outU = Join-Path $work "unknown-candidates.json"
 $ErrorActionPreference = "Continue"
-$ru = & powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsU -OutFile $outU 2>&1 | ForEach-Object { "$_" }
+$ru = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsU -OutFile $outU 2>&1 | ForEach-Object { "$_" }
 $ErrorActionPreference = "Stop"
 $ju = ([IO.File]::ReadAllText($outU, [Text.Encoding]::UTF8)) | ConvertFrom-Json
 $ug = @($ju.unknownGames)
@@ -277,11 +279,323 @@ Check "12f. 既存作品と名前が一部一致する候補には表記揺れ�
 Check "12g. 候補はすべて status=pending・信頼度は MEDIUM まで(HIGH にしない)" (@($ug | Where-Object { $_.status -ne "pending" -or $_.confidence -eq "HIGH" }).Count -eq 0 -and $ug.Count -eq 5) ("count=$($ug.Count)")
 Check "12h. 既存作品の候補(candidates)には入れない" (@($ju.candidates).Count -eq 0) ""
 $ErrorActionPreference = "Continue"
-[void](& powershell -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsU -OutFile $outU 2>&1)
+[void](& $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsU -OutFile $outU 2>&1)
 $ErrorActionPreference = "Stop"
 $ju2 = ([IO.File]::ReadAllText($outU, [Text.Encoding]::UTF8)) | ConvertFrom-Json
 $gRamen2 = $ju2.unknownGames | Where-Object name -eq "Japanese Ramen Simulator"
 Check "12i. 同じRSSを再処理しても同じ動画は二重に追加しない(作品数・本数とも変わらない)" (@($ju2.unknownGames).Count -eq 5 -and $gRamen2.videoCount -eq 2 -and $ju2.lastRun.stats.unknownGameVideos -eq 0) ("count=$(@($ju2.unknownGames).Count) ramen=$($gRamen2.videoCount)")
+
+Write-Output "== 複数チャンネルの巡回(-All。モック)"
+$rows = @($chMap)
+$c0 = $rows[0].channelId; $c1 = $rows[1].channelId; $c2 = $rows[2].channelId; $c3 = $rows[3].channelId; $c4 = $rows[4].channelId
+$mockDir2 = Join-Path $work "mock-crawl"
+New-Item -ItemType Directory -Path $mockDir2 -Force | Out-Null
+Copy-Item -LiteralPath $mockScript -Destination (Join-Path $mockDir2 "mock-request.ps1")
+[IO.File]::WriteAllText((Join-Path $mockDir2 "c0.xml"), (New-Feed $c0 @((New-Entry "Crawl0Game1" "【8番出口】巡回テスト" "2026-10-17T01:00:00+00:00"))), $utf8)
+[IO.File]::WriteAllText((Join-Path $mockDir2 "c2.xml"), (New-Feed $c2 @((New-Entry "Crawl2Unkn1" "【WARDOGS】話題の100人対戦FPS！" "2026-10-17T02:00:00+00:00"))), $utf8)
+[IO.File]::WriteAllText((Join-Path $mockDir2 "c3.xml"), (New-Feed $c3 @((New-Entry "Crawl3Talk1" "【雑談】まったり" "2026-10-17T03:00:00+00:00"))), $utf8)
+[IO.File]::WriteAllText((Join-Path $mockDir2 "c4.xml"), (New-Feed $c4 @((New-Entry "Crawl4Game1" "【8番出口】もうひとり" "2026-10-17T04:00:00+00:00"))), $utf8)
+$sc2 = [ordered]@{}
+$sc2[$c0] = @(@{ ok = $true; file = "c0.xml" })
+$sc2[$c1] = @(@{ ok = $false; status = 500; reason = "HTTP 500" }, @{ ok = $false; status = 500; reason = "HTTP 500" })
+$sc2[$c2] = @(@{ ok = $true; file = "c2.xml" })
+$sc2[$c3] = @(@{ ok = $true; file = "c3.xml" })
+$sc2[$c4] = @(@{ ok = $true; file = "c4.xml" })
+[IO.File]::WriteAllText((Join-Path $mockDir2 "scenario.json"), ($sc2 | ConvertTo-Json -Depth 5), $utf8)
+$fetchDir2 = Join-Path $work "fetched-crawl"
+$outC = Join-Path $work "crawl-candidates.json"
+function Invoke-Crawl([string[]]$extra) {
+  $ErrorActionPreference = "Continue"
+  $a = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch, "-FeedDir", $fetchDir2, "-OutFile", $outC, "-RequestScript", (Join-Path $mockDir2 "mock-request.ps1"), "-RetryDelaySeconds", "0", "-RequestIntervalMs", "0") + $extra
+  $o = & $psExe @a 2>&1 | ForEach-Object { "$_" }
+  return [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join "`n") }
+}
+$callsLog2 = Join-Path $mockDir2 "calls.log"
+function Get-Calls2() { if (Test-Path $callsLog2) { return @(([IO.File]::ReadAllText($callsLog2, [Text.Encoding]::UTF8) -split "`n") | Where-Object { $_ }) } else { return @() } }
+$k1 = Invoke-Crawl @("-All")
+$jc = ([IO.File]::ReadAllText($outC, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$sc = $jc.lastRun.stats; $calls2 = Get-Calls2
+$callsTo = { param($c) @($calls2 | Where-Object { $_ -like "*channel_id=$c`t*" }).Count }
+Check "13a. -All は件数を指定しなければ対応表の先頭3チャンネルだけを巡回する" ($k1.code -eq 0 -and $sc.fetchTargets -eq 3 -and (& $callsTo $c0) -eq 1 -and (& $callsTo $c1) -eq 2 -and (& $callsTo $c2) -eq 1 -and (& $callsTo $c3) -eq 0 -and $sc.crawlTotal -eq 293 -and $sc.crawlNextIndex -eq 3) ($k1.output)
+Check "13b. 途中のチャンネルが失敗しても残りを処理する(成功2・失敗1、失敗はエラーに記録)" ($sc.fetched -eq 2 -and $sc.fetchFailed -eq 1 -and @($jc.lastRun.errors | Where-Object { $_.channelId -eq $c1 -and $_.reason -eq "HTTP 500" }).Count -eq 1) ($jc.lastRun.errors | ConvertTo-Json -Compress)
+Check "13c. 作品名の照合・未登録作品の候補を巡回でも行う(8番出口の候補・WARDOGS の未登録候補)" (@($jc.candidates | Where-Object videoId -eq "Crawl0Game1").Count -eq 1 -and @($jc.unknownGames | Where-Object name -eq "WARDOGS").Count -eq 1) ""
+Check "13d. 対象・成功・失敗・新規候補・未登録作品候補の件数を表示する" ($k1.output -match "巡回: 対象 3 チャンネル / 成功 2 / 失敗 1\(再試行 1\)  新規候補 1 / 未登録作品の候補 1 本") ($k1.output)
+$k2 = Invoke-Crawl @("-All")
+$jc2 = ([IO.File]::ReadAllText($outC, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "13e. 同じ範囲を再巡回しても候補・未登録作品の候補は重複しない" ($k2.code -eq 0 -and @($jc2.candidates).Count -eq 1 -and @($jc2.unknownGames).Count -eq 1 -and $jc2.lastRun.stats.newCandidates -eq 0 -and $jc2.lastRun.stats.unknownGameVideos -eq 0) ("cand=$(@($jc2.candidates).Count) unknown=$(@($jc2.unknownGames).Count)")
+$before = (Get-Calls2).Count
+$k3 = Invoke-Crawl @("-All", "-StartIndex", "3", "-MaxChannels", "2")
+$calls2 = @(Get-Calls2 | Select-Object -Skip $before)
+$jc3 = ([IO.File]::ReadAllText($outC, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "13f. -StartIndex と -MaxChannels で巡回範囲を指定でき、次回の開始位置を記録する" ($k3.code -eq 0 -and $calls2.Count -eq 2 -and (& $callsTo $c3) -eq 1 -and (& $callsTo $c4) -eq 1 -and $jc3.lastRun.stats.crawlNextIndex -eq 5 -and @($jc3.candidates | Where-Object videoId -eq "Crawl4Game1").Count -eq 1) ($k3.output)
+Check "13g. 前回までの候補は残したまま追記する" (@($jc3.candidates).Count -eq 2 -and @($jc3.unknownGames).Count -eq 1) ("cand=$(@($jc3.candidates).Count)")
+$before = (Get-Calls2).Count
+$k4 = Invoke-Crawl @("-All", "-Streamer", "鷹嶺ルイ")
+Check "13h. -All と -Streamer の同時指定はエラーにして何も取得しない" ($k4.code -ne 0 -and (Get-Calls2).Count -eq $before) ($k4.output)
+
+Write-Output "== 説明欄の定型部分・再生リストとの重複・配信の種類"
+$feedsT = Join-Path $work "feeds-template"
+New-Item -ItemType Directory -Path $feedsT -Force | Out-Null
+$promo = "🎧オリジナル楽曲『モノポリー』https://example.invalid/song"   # チャンネルの宣伝(話題の違う動画に共通する定型行)
+$series = "ARK: Survival Ascended を遊びます"                       # シリーズの動画にだけ出てくる行
+[IO.File]::WriteAllText((Join-Path $feedsT "rui.xml"), (New-Feed $rui @(
+  (New-Entry "TplTalk0001" "【雑談】まったりおしゃべり" "2026-10-17T01:00:00+00:00" "今日の話`n$promo"),
+  (New-Entry "TplNaipa001" "【#ナイパレ｜第3回】あなたはどっち？" "2026-10-16T01:00:00+00:00" "企画です`n$promo"),
+  (New-Entry "TplBigW0001" "【 Big Walk 】4人で協力" "2026-10-15T01:00:00+00:00" "みんなで歩く`n$promo"),
+  (New-Entry "TplArk00001" "【 #ホロ鯖ARK 】DAY3 拠点づくり" "2026-10-14T01:00:00+00:00" "$series`n$promo"),
+  (New-Entry "TplArk00002" "【 #ホロ鯖ARK 】DAY4 テイム" "2026-10-13T01:00:00+00:00" "$series`n$promo"),
+  (New-Entry "TplArk00003" "【 #ホロ鯖ARK 】DAY5 拡張" "2026-10-12T01:00:00+00:00" $series),
+  (New-Entry "TplMcSeq001" "【Minecraft】拠点づくり #2【鷹嶺ルイ/ホロライブ】" "2026-10-11T01:00:00+00:00"),
+  (New-Entry "TplOffco001" "【オフコラボ】ごはん会【鷹嶺ルイ/ホロライブ】" "2026-10-10T01:00:00+00:00" "ゲームもするかも")
+)), $utf8)
+$outT = Join-Path $work "template-candidates.json"
+$ErrorActionPreference = "Continue"
+[void](& $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsT -OutFile $outT 2>&1)
+$ErrorActionPreference = "Stop"
+$jt = ([IO.File]::ReadAllText($outT, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$ct = @($jt.candidates)
+Check "14a. 話題の違う3本以上に共通する宣伝の行(『モノポリー』)だけでは候補にしない" (@($ct | Where-Object game -eq "モノポリー").Count -eq 0) (($ct | ForEach-Object { "$($_.videoId)=$($_.game)" }) -join ",")
+$arkC = @($ct | Where-Object { $_.videoId -like "TplArk*" })
+Check "14b. シリーズの動画にだけ出てくる行は定型部分にしない(ARK の3本は候補に残る)" ($arkC.Count -eq 3 -and @($arkC | Where-Object game -eq "ARK: Survival Ascended").Count -eq 3) (($arkC | ForEach-Object { "$($_.videoId)=$($_.game)" }) -join ",")
+$mcS = $ct | Where-Object videoId -eq "TplMcSeq001"
+Check "14c. 再生リスト登録済み×連番の動画は削除せず、確認待ちのまま別グループ(likely-in-site-playlist)にする" ($mcS -and $mcS.reviewGroup -eq "likely-in-site-playlist" -and $mcS.status -eq "pending" -and $jt.lastRun.stats.likelyInSitePlaylist -ge 1) ($mcS | ConvertTo-Json -Compress)
+Check "14d. 「DAY3」のような連番も認識する(ルイは ARK の再生リストが無いので new-standalone のまま)" (@($arkC | Where-Object { @($_.reasons) -contains "連番あり(続き物は再生リスト方式で拾う)" }).Count -eq 3 -and @($arkC | Where-Object reviewGroup -eq "new-standalone").Count -eq 3) ""
+Check "14e. 配信の種類を表す【オフコラボ】は未登録作品の名前にしない" (@($jt.unknownGames | Where-Object name -eq "オフコラボ").Count -eq 0) (($jt.unknownGames | ForEach-Object name) -join ",")
+
+Write-Output "== 精度改善(非ゲーム表現・作品の取り違え・英字名の境界・複数配信者)"
+$feedsP = Join-Path $work "feeds-precision"
+New-Item -ItemType Directory -Path $feedsP -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $feedsP "rui.xml"), (New-Feed $rui @(
+  (New-Entry "PrcWuwa0001" "【鳴潮】「Ver.3.7予告特別通信」アーカイブ同時視聴【鷹嶺ルイ/ホロライブ】" "2026-10-17T01:00:00+00:00"),
+  (New-Entry "PrcSuiko001" "【幻想水滸伝】教えて！幻想水滸伝！！【鷹嶺ルイ/ホロライブ】" "2026-10-16T01:00:00+00:00"),
+  (New-Entry "PrcArk00001" "【#ホロ鯖ARK】ARK上陸8日目！素材集め【鷹嶺ルイ/ホロライブ】" "2026-10-15T01:00:00+00:00"),
+  (New-Entry "PrcArk00002" "【#ホロ鯖ARK】ARK上陸9日目！テイム【鷹嶺ルイ/ホロライブ】" "2026-10-14T01:00:00+00:00" "ARK: Survival Ascended をプレイ中"),
+  (New-Entry "PrcBomb0001" "【BOMBANANA!】協力して爆弾解除【鷹嶺ルイ/ホロライブ】" "2026-10-13T01:00:00+00:00"),
+  (New-Entry "PrcSpag0001" "【SPAGHET】パスタの宅配【鷹嶺ルイ/ホロライブ】" "2026-10-12T01:00:00+00:00"),
+  (New-Entry "PrcGacha001" "【ガチャ旅】どこだ、ここ【鷹嶺ルイ/ホロライブ】" "2026-10-11T01:00:00+00:00"),
+  (New-Entry "PrcSpoil001" "【ネタバレあり】初見でクリアまで【鷹嶺ルイ/ホロライブ】" "2026-10-10T01:00:00+00:00"),
+  (New-Entry "PrcTanpo001" "【タンポポは耐える。】タンポポってかわいい【鷹嶺ルイ/ホロライブ】" "2026-10-09T01:00:00+00:00" "いったいどんなゲームなんだ？"),
+  (New-Entry "PrcWater001" "プールを経営して稼ぐ Waterpark Simulator【鷹嶺ルイ/ホロライブ】" "2026-10-08T01:00:00+00:00")
+)), $utf8)
+[IO.File]::WriteAllText((Join-Path $feedsP "sora.xml"), (New-Feed $sora @(
+  (New-Entry "PrcBomb0002" "【BOMBANANA!】みんなで爆弾解除【ときのそら/ホロライブ】" "2026-10-13T02:00:00+00:00")
+)), $utf8)
+$outP = Join-Path $work "precision-candidates.json"
+$ErrorActionPreference = "Continue"
+$rp = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsP -OutFile $outP 2>&1 | ForEach-Object { "$_" }
+$ErrorActionPreference = "Stop"
+$jp = ([IO.File]::ReadAllText($outP, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$cp = @($jp.candidates); $up = @($jp.unknownGames)
+$cOf = { param($id) $cp | Where-Object videoId -eq $id }; $uOf = { param($n) $up | Where-Object name -eq $n }
+$p1 = & $cOf "PrcWuwa0001"
+Check "15a. アーカイブ同時視聴は非ゲーム表現として HIGH にしない" ($p1 -and $p1.confidence -ne "HIGH" -and @($p1.reasons | Where-Object { $_ -like "非ゲーム語*同時視聴*" }).Count -eq 1) ((($rp -join " ")) + " / " + ($p1 | ConvertTo-Json -Compress))
+$p2 = & $cOf "PrcSuiko001"
+Check "15b. 別名が別の作品名の先頭部分にもなっている一致(幻想水滸伝)は HIGH にしない" ($p2 -and $p2.confidence -ne "HIGH" -and @($p2.reasons | Where-Object { $_ -like "別名が別の作品名の先頭部分*" }).Count -eq 1) ($p2 | ConvertTo-Json -Compress)
+$p3 = & $cOf "PrcArk00001"
+Check "15c. 漢字の隣の英字名(ARK上陸)も一致させ、シリーズ名の語幹だけなら ARKシリーズ・HIGH にしない" ($p3 -and $p3.game -eq "ARKシリーズ" -and $p3.confidence -ne "HIGH" -and @($p3.reasons | Where-Object { $_ -like "シリーズ名の一部だけで一致*" }).Count -eq 1) ($p3 | ConvertTo-Json -Compress)
+$p4 = & $cOf "PrcArk00002"
+Check "15d. シリーズ名の語幹で一致しても、説明欄に具体的な作品名があればそちらで特定する" ($p4 -and $p4.game -eq "ARK: Survival Ascended" -and $p4.confidence -ne "HIGH") ($p4 | ConvertTo-Json -Compress)
+$ub = & $uOf "BOMBANANA!"
+Check "15e. ゲームを表す語が無くても2人以上の配信者に出てくる名前は未登録作品の候補にする" ($ub -and $ub.videoCount -eq 2 -and @($ub.streamers).Count -eq 2 -and $ub.status -eq "pending") ($up | ForEach-Object { "$($_.name)=$($_.videoCount)" } | Out-String)
+Check "15f. ゲームを表す語が無く1人だけの名前(SPAGHET)は候補にしない" (-not (& $uOf "SPAGHET")) ""
+Check "15g. 作品名の中の語(ガチャ旅のガチャ)はゲームを表す手がかりにしない" (-not (& $uOf "ガチャ旅")) ""
+Check "15h. 【ネタバレあり】は配信の種類として未登録作品の名前にしない" (-not (& $uOf "ネタバレあり")) ""
+$ut = & $uOf "タンポポは耐える。"
+Check "15i. 2文字のVTuber名(える)を含むだけの語(耐える)はVTuber名の表記とみなさない" ($ut -and $ut.videoCount -eq 1) ""
+$uw = & $uOf "Waterpark Simulator"
+Check "15j. 作品名によく使われるジャンル名(Simulator)は作品名の中にあっても手がかりにする" ($uw -and $uw.confidence -eq "MEDIUM") ($uw | ConvertTo-Json -Compress)
+
+Write-Output "== 再判定(確認待ちの既存候補を今のロジックで判定し直す)"
+$feedsR = Join-Path $work "feeds-rejudge"
+New-Item -ItemType Directory -Path $feedsR -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $feedsR "rui.xml"), (New-Feed $rui @(
+  (New-Entry "RjSuiko0001" "【幻想水滸伝】教えて！幻想水滸伝！！【鷹嶺ルイ/ホロライブ】" "2026-10-16T01:00:00+00:00"),
+  (New-Entry "RjWuwa00001" "【鳴潮】アーカイブ同時視聴【鷹嶺ルイ/ホロライブ】" "2026-10-15T01:00:00+00:00"),
+  (New-Entry "Rj8ex000001" "【8番出口】はじめての8番出口【鷹嶺ルイ/ホロライブ】" "2026-10-14T01:00:00+00:00"),
+  (New-Entry "RjTalk00001" "【雑談】まったりおしゃべり【鷹嶺ルイ/ホロライブ】" "2026-10-13T01:00:00+00:00"),
+  (New-Entry "RjWuwaAppr1" "【鳴潮】アーカイブ同時視聴その2【鷹嶺ルイ/ホロライブ】" "2026-10-12T01:00:00+00:00"),
+  (New-Entry "RjGacha0001" "【ガチャ旅】どこだ、ここ【鷹嶺ルイ/ホロライブ】" "2026-10-11T01:00:00+00:00"),
+  (New-Entry "RjOffco0001" "【オフコラボ】ごはん会【鷹嶺ルイ/ホロライブ】" "2026-10-10T01:00:00+00:00" "ゲームもするかも"),
+  (New-Entry "RjSpoil0001" "【ネタバレあり】クリアまで【鷹嶺ルイ/ホロライブ】" "2026-10-09T01:00:00+00:00" "初見プレイ"),
+  (New-Entry "RjWardog001" "【WARDOGS】話題の100人対戦FPS！【鷹嶺ルイ/ホロライブ】" "2026-10-08T01:00:00+00:00")
+)), $utf8)
+$old = "2026-10-01T00:00:00"
+function New-OldCand([string]$id, [string]$title, [string]$game, [string]$conf, [string]$status) {
+  return [ordered]@{ videoId = $id; url = "https://www.youtube.com/watch?v=$id"; streamer = "鷹嶺ルイ"; channelId = $rui; title = $title; publishedAt = "2026-10-01T00:00:00+00:00"; publishedDate = "2026-10-01"
+    game = $game; confidence = $conf; matchType = "bracket-exact"; matchedAlias = $game; reasons = @(); otherGames = @(); likelyNonGame = $false; siteHasGamePlaylist = $false; playlistVideoCheck = "unverified"
+    status = $status; source = "rss"; firstSeenAt = $old; lastSeenAt = $old }
+}
+function New-OldUnknown([string]$name, [string]$id, [string]$title, [string]$status) {
+  return [ordered]@{ name = $name; key = ""; confidence = "MEDIUM"; videoCount = 1; streamers = @("鷹嶺ルイ"); possibleExisting = @(); reasons = @("【】の中の語"); status = $status; firstSeenAt = $old; lastSeenAt = $old
+    videos = @([ordered]@{ videoId = $id; url = "https://www.youtube.com/watch?v=$id"; streamer = "鷹嶺ルイ"; channelId = $rui; title = $title; publishedDate = "2026-10-01"; source = "bracket"; confidence = "MEDIUM"; reasons = @("【】の中の語"); firstSeenAt = $old }) }
+}
+. (Join-Path $scriptDir "standalone-matching.ps1")
+$oldU = @((New-OldUnknown "ガチャ旅" "RjGacha0001" "【ガチャ旅】どこだ、ここ" "pending"), (New-OldUnknown "オフコラボ" "RjOffco0001" "【オフコラボ】ごはん会" "pending"),
+          (New-OldUnknown "ネタバレあり" "RjSpoil0001" "【ネタバレあり】クリアまで" "rejected"), (New-OldUnknown "WARDOGS" "RjWardog001" "【WARDOGS】話題の100人対戦FPS！" "pending"))
+foreach ($u in $oldU) { $u.key = Get-StandaloneLooseKey $u.name }
+$oldJson = [ordered]@{ generatedAt = $old; source = "youtube-channel-rss"; note = "test"; lastRun = @{}
+  candidates = @((New-OldCand "RjSuiko0001" "【幻想水滸伝】教えて！幻想水滸伝！！" "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争" "HIGH" "pending"),
+                 (New-OldCand "RjWuwa00001" "【鳴潮】アーカイブ同時視聴" "鳴潮" "HIGH" "pending"),
+                 (New-OldCand "Rj8ex000001" "【8番出口】はじめての8番出口" "8番出口" "HIGH" "pending"),
+                 (New-OldCand "RjTalk00001" "【雑談】まったりおしゃべり" "モノポリー" "LOW" "pending"),
+                 (New-OldCand "RjWuwaAppr1" "【鳴潮】アーカイブ同時視聴その2" "鳴潮" "HIGH" "approved"),
+                 (New-OldCand "RjNotInFeed" "RSS に出てこない動画" "8番出口" "HIGH" "pending"))
+  unknownGames = $oldU }
+$outR = Join-Path $work "rejudge-candidates.json"
+[IO.File]::WriteAllText($outR, ($oldJson | ConvertTo-Json -Depth 8), $utf8)
+function Invoke-Rejudge() {
+  $ErrorActionPreference = "Continue"
+  $o = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsR -OutFile $outR 2>&1 | ForEach-Object { "$_" }
+  return (($o -join " ") + "")
+}
+$rr1 = Invoke-Rejudge
+$jr = ([IO.File]::ReadAllText($outR, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$cr = { param($id) $jr.candidates | Where-Object videoId -eq $id }; $ur = { param($n) $jr.unknownGames | Where-Object name -eq $n }
+$s1 = & $cr "RjSuiko0001"; $s2 = & $cr "RjWuwa00001"
+Check "16a. 確認待ちの「教えて！幻想水滸伝」は HIGH から判定し直す(初回検出日時・タイトルは変えない)" ($s1.confidence -ne "HIGH" -and $s1.firstSeenAt -eq $old -and $s1.title -eq "【幻想水滸伝】教えて！幻想水滸伝！！" -and $s1.rejudgedAt) ($rr1 + " / " + ($s1 | ConvertTo-Json -Compress))
+Check "16b. 確認待ちの「アーカイブ同時視聴」は HIGH から LOW に判定し直す" ($s2.confidence -eq "LOW" -and @($s2.reasons | Where-Object { $_ -like "非ゲーム語*" }).Count -eq 1) ($s2 | ConvertTo-Json -Compress)
+$s3 = & $cr "Rj8ex000001"
+Check "16c. 正しい候補(8番出口)は HIGH のまま残る" ($s3 -and $s3.game -eq "8番出口" -and $s3.confidence -eq "HIGH" -and $s3.status -eq "pending") ($s3 | ConvertTo-Json -Compress)
+$s4 = & $cr "RjTalk00001"
+Check "16d. 今のロジックで既存作品に一致しなくなった候補は削除せず rejudged-not-matched の印を付ける" ($s4 -and $s4.reviewGroup -eq "rejudged-not-matched" -and $s4.confidence -eq "NONE" -and $s4.status -eq "pending" -and $s4.game -eq "モノポリー") ($s4 | ConvertTo-Json -Compress)
+$s5 = & $cr "RjWuwaAppr1"
+Check "16e. 人が確認した候補(status=approved)は判定を変えない" ($s5 -and $s5.status -eq "approved" -and $s5.confidence -eq "HIGH" -and -not $s5.rejudgedAt) ($s5 | ConvertTo-Json -Compress)
+$s6 = & $cr "RjNotInFeed"
+Check "16f. RSS に出てこない既存候補は削除しない(判定も変えない)" ($s6 -and $s6.confidence -eq "HIGH" -and $s6.lastSeenAt -eq $old) ""
+Check "16g. 未登録作品の誤検出(ガチャ旅・オフコラボ)は再判定で rejudged-not-candidate の印を付ける(削除しない)" ((& $ur "ガチャ旅").reviewGroup -eq "rejudged-not-candidate" -and (& $ur "オフコラボ").reviewGroup -eq "rejudged-not-candidate" -and @($jr.unknownGames).Count -eq 4) (($jr.unknownGames | ForEach-Object { "$($_.name)=$($_.reviewGroup)" }) -join ",")
+Check "16h. 人が却下した未登録作品(status=rejected)は変えない" ((& $ur "ネタバレあり").status -eq "rejected" -and -not (& $ur "ネタバレあり").reviewGroup) ""
+Check "16i. 正しい未登録作品の候補(WARDOGS)は残る" ((& $ur "WARDOGS").reviewGroup -eq "unknown-game" -and (& $ur "WARDOGS").videoCount -eq 1) ""
+$rr2 = Invoke-Rejudge
+$jr2 = ([IO.File]::ReadAllText($outR, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "16j. 同じRSSを2回処理しても候補は重複せず、2回目は判定が変わらない" (@($jr2.candidates).Count -eq 6 -and @($jr2.unknownGames).Count -eq 4 -and $jr2.lastRun.stats.newCandidates -eq 0 -and $jr2.lastRun.stats.rejudgeChanged -eq 0 -and $jr2.lastRun.stats.unknownRejudgedNotCandidate -eq 0) ($rr2)
+
+Write-Output "== 一括再判定(-RejudgeOnly。履歴の RSS を含めて既存候補だけを判定し直す)"
+$feedsB = Join-Path $work "feeds-bulk"
+$archB = Join-Path (Join-Path $feedsB "archive") $rui
+New-Item -ItemType Directory -Path $archB -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $feedsB "rui.xml"), (New-Feed $rui @(
+  (New-Entry "Bk8exNew001" "【8番出口】新しい動画【鷹嶺ルイ/ホロライブ】" "2026-10-17T01:00:00+00:00"),
+  (New-Entry "BkSuiko0001" "【幻想水滸伝】教えて！幻想水滸伝！！【鷹嶺ルイ/ホロライブ】" "2026-10-16T01:00:00+00:00")
+)), $utf8)
+[IO.File]::WriteAllText((Join-Path $feedsB "sora.xml"), (New-Feed $sora @(
+  (New-Entry "BkBomb00002" "【BOMBANANA!】みんなで爆弾解除【ときのそら/ホロライブ】" "2026-10-15T01:00:00+00:00")
+)), $utf8)
+$archFile = Join-Path $archB "20261001-000000.xml"
+[IO.File]::WriteAllText($archFile, (New-Feed $rui @(
+  (New-Entry "BkWuwa00001" "【鳴潮】アーカイブ同時視聴【鷹嶺ルイ/ホロライブ】" "2026-09-30T01:00:00+00:00"),
+  (New-Entry "BkApprov001" "【鳴潮】アーカイブ同時視聴その2【鷹嶺ルイ/ホロライブ】" "2026-09-29T01:00:00+00:00"),
+  (New-Entry "BkGacha0001" "【ガチャ旅】どこだ、ここ【鷹嶺ルイ/ホロライブ】" "2026-09-28T01:00:00+00:00"),
+  (New-Entry "BkWard00001" "【WARDOGS】話題の100人対戦FPS！【鷹嶺ルイ/ホロライブ】" "2026-09-27T01:00:00+00:00"),
+  (New-Entry "BkBomb00001" "【BOMBANANA!】協力して爆弾解除【鷹嶺ルイ/ホロライブ】" "2026-09-26T01:00:00+00:00")
+)), $utf8)
+(Get-Item $archFile).LastWriteTime = (Get-Date).AddDays(-10)   # 履歴は最新の RSS より古い
+$bulkU = @((New-OldUnknown "ガチャ旅" "BkGacha0001" "【ガチャ旅】どこだ、ここ" "pending"), (New-OldUnknown "WARDOGS" "BkWard00001" "【WARDOGS】話題の100人対戦FPS！" "pending"),
+           (New-OldUnknown "BOMBANANA!" "BkBomb00001" "【BOMBANANA!】協力して爆弾解除" "pending"))
+foreach ($u in $bulkU) { $u.key = Get-StandaloneLooseKey $u.name }
+$bulkJson = [ordered]@{ generatedAt = $old; source = "youtube-channel-rss"; note = "test"; lastRun = @{}
+  candidates = @((New-OldCand "BkSuiko0001" "【幻想水滸伝】教えて！幻想水滸伝！！" "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争" "HIGH" "pending"),
+                 (New-OldCand "BkWuwa00001" "【鳴潮】アーカイブ同時視聴" "鳴潮" "HIGH" "pending"),
+                 (New-OldCand "BkApprov001" "【鳴潮】アーカイブ同時視聴その2" "鳴潮" "HIGH" "approved"),
+                 (New-OldCand "BkNoRss0001" "保存済みRSSに無い動画" "8番出口" "HIGH" "pending"))
+  unknownGames = $bulkU }
+$outB = Join-Path $work "bulk-candidates.json"
+[IO.File]::WriteAllText($outB, ($bulkJson | ConvertTo-Json -Depth 8), $utf8)
+$outB2 = Join-Path $work "bulk-normal.json"
+[IO.File]::WriteAllText($outB2, ($bulkJson | ConvertTo-Json -Depth 8), $utf8)
+function Invoke-Bulk([string[]]$extra, [string]$out) {
+  $ErrorActionPreference = "Continue"
+  $o = & $psExe @(@("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch, "-FeedDir", $feedsB, "-OutFile", $out) + $extra) 2>&1 | ForEach-Object { "$_" }
+  return [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join " ") }
+}
+$b1 = Invoke-Bulk @("-RejudgeOnly") $outB
+$jb = ([IO.File]::ReadAllText($outB, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$cb = { param($id) $jb.candidates | Where-Object videoId -eq $id }; $ubk = { param($n) $jb.unknownGames | Where-Object name -eq $n }
+Check "17a. 一括再判定は最新の RSS にある確認待ちの候補を判定し直す(幻想水滸伝 HIGH → HIGH 以外)" ($b1.code -eq 0 -and (& $cb "BkSuiko0001").confidence -ne "HIGH") ($b1.output)
+Check "17b. 新着から外れて履歴(archive)にしかない確認待ちの候補も判定し直す(同時視聴 HIGH → LOW)" ((& $cb "BkWuwa00001").confidence -eq "LOW" -and (& $cb "BkWuwa00001").firstSeenAt -eq $old) ((& $cb "BkWuwa00001") | ConvertTo-Json -Compress)
+Check "17c. 人が確認した候補(approved)は変えない" ((& $cb "BkApprov001").confidence -eq "HIGH" -and (& $cb "BkApprov001").status -eq "approved" -and -not (& $cb "BkApprov001").rejudgedAt) ""
+Check "17d. 保存済みRSSに無い確認待ちの候補はそのまま残し、件数を数える" ((& $cb "BkNoRss0001").confidence -eq "HIGH" -and $jb.lastRun.stats.rejudgeNotInRss -eq 1) ("notInRss=$($jb.lastRun.stats.rejudgeNotInRss)")
+Check "17e. 一括再判定では新しい動画を候補に追加しない" (-not (& $cb "Bk8exNew001") -and @($jb.candidates).Count -eq 4 -and $jb.lastRun.stats.rejudgeSkippedNew -ge 2) ("count=$(@($jb.candidates).Count) skipped=$($jb.lastRun.stats.rejudgeSkippedNew)")
+Check "17f. 未登録作品の誤検出(ガチャ旅)は印を付け、正しい候補(WARDOGS)は残す" ((& $ubk "ガチャ旅").reviewGroup -eq "rejudged-not-candidate" -and (& $ubk "WARDOGS").reviewGroup -eq "unknown-game") ""
+$bk = & $ubk "BOMBANANA!"
+Check "17g. 新しい動画は追加しないが、2人以上の配信者に出てくる証拠としては数える(BOMBANANA! は1本のまま残る)" ($bk.reviewGroup -eq "unknown-game" -and $bk.videoCount -eq 1) ($bk | ConvertTo-Json -Compress -Depth 5)
+$b2 = Invoke-Bulk @("-RejudgeOnly") $outB
+$jb2 = ([IO.File]::ReadAllText($outB, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "17h. 同じ RSS で一括再判定を2回行っても重複せず、2回目は判定が変わらない" ($b2.code -eq 0 -and @($jb2.candidates).Count -eq 4 -and @($jb2.unknownGames).Count -eq 3 -and $jb2.lastRun.stats.rejudgeChanged -eq 0 -and $jb2.lastRun.stats.unknownRejudgedNotCandidate -eq 0) ($b2.output)
+$n1 = Invoke-Bulk @() $outB2
+$jn = ([IO.File]::ReadAllText($outB2, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "17i. 通常の処理は従来どおり(直下の RSS だけを読み、新しい動画は候補に追加し、履歴は読まない)" ($n1.code -eq 0 -and @($jn.candidates | Where-Object videoId -eq "Bk8exNew001").Count -eq 1 -and ($jn.candidates | Where-Object videoId -eq "BkWuwa00001").confidence -eq "HIGH") ($n1.output)
+$b3 = Invoke-Bulk @("-RejudgeOnly", "-Streamer", "鷹嶺ルイ") $outB
+Check "17j. -RejudgeOnly と取得の指定(-Streamer)は同時に使えない" ($b3.code -ne 0) ($b3.output)
+Check "17k. RSS を取得したときは動画ごとの履歴(entries/<チャンネルID>.json)に記録し、RSS 全体の archive は作らない" ((Test-Path (Join-Path (Join-Path $fetchDir "entries") "$rui.json")) -and -not (Test-Path (Join-Path $fetchDir "archive"))) ""
+$migr = ([IO.File]::ReadAllText((Join-Path (Join-Path $feedsB "entries") "$rui.json"), [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "17l. 以前の archive の XML は削除せず、一括再判定のときに履歴JSONへ取り込む" ((Test-Path $archFile) -and @($migr.videos | Where-Object videoId -eq "BkWuwa00001").Count -eq 1 -and @($migr.videos).Count -eq 7) ("videos=$(@($migr.videos).Count)")
+
+Write-Output "== 動画ごとの履歴(entries/<チャンネルID>.json)"
+$feedsH = Join-Path $work "feeds-history"
+New-Item -ItemType Directory -Path $feedsH -Force | Out-Null
+$entH = Join-Path $feedsH "entries"
+$ruiH = Join-Path $feedsH "rui.xml"
+function Invoke-Dir([string]$dir, [string]$o, [string[]]$extra) {
+  $ErrorActionPreference = "Continue"
+  $r = & $psExe @(@("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch, "-FeedDir", $dir, "-OutFile", $o) + $extra) 2>&1 | ForEach-Object { "$_" }
+  return [pscustomobject]@{ code = $LASTEXITCODE; output = ($r -join " ") }
+}
+function Read-Store([string]$cid) { return ([IO.File]::ReadAllText((Join-Path $entH "$cid.json"), [Text.Encoding]::UTF8)) | ConvertFrom-Json }
+$outH = Join-Path $work "history-normal.json"
+[IO.File]::WriteAllText($ruiH, (New-Feed $rui @(
+  (New-Entry "Hk8ex000001" "【8番出口】履歴テスト【鷹嶺ルイ/ホロライブ】" "2026-10-10T01:00:00+00:00" "説明1"),
+  (New-Entry "HkWuwa00001" "【鳴潮】アーカイブ同時視聴【鷹嶺ルイ/ホロライブ】" "2026-10-09T01:00:00+00:00" "元の説明"),
+  (New-Entry "HkTalk00001" "【雑談】まったり【鷹嶺ルイ/ホロライブ】" "2026-10-08T01:00:00+00:00"),
+  (New-Entry "HkApprov001" "【鳴潮】アーカイブ同時視聴その2【鷹嶺ルイ/ホロライブ】" "2026-10-07T01:00:00+00:00")
+)), $utf8)
+(Get-Item $ruiH).LastWriteTime = (Get-Date).AddMinutes(-30)
+$h1 = Invoke-Dir $feedsH $outH @()
+$s1 = Read-Store $rui
+(Get-Item $ruiH).LastWriteTime = (Get-Date).AddMinutes(-20)   # 同じ RSS をもう一度取得した想定
+$h2 = Invoke-Dir $feedsH $outH @()
+$s2 = Read-Store $rui
+$w1 = $s1.videos | Where-Object videoId -eq "HkWuwa00001"; $w2 = $s2.videos | Where-Object videoId -eq "HkWuwa00001"
+Check "18a. 同じ RSS を2回処理しても履歴の動画は増えない(4本のまま。firstSeenAt は変えず lastSeenAt だけ更新)" ($h1.code -eq 0 -and $h2.code -eq 0 -and @($s1.videos).Count -eq 4 -and @($s2.videos).Count -eq 4 -and $s2.videoCount -eq 4 -and $w2.firstSeenAt -eq $w1.firstSeenAt -and $w2.lastSeenAt -ne $w1.lastSeenAt) ("$($h2.output) first=$($w2.firstSeenAt) last=$($w2.lastSeenAt)")
+Check "18b. 履歴には動画ID・タイトル・説明欄・公開日時・初回/最終検出日時を記録する" ($w2.title -like "【鳴潮】*" -and $w2.description -eq "元の説明" -and $w2.published -eq "2026-10-09T01:00:00+00:00" -and $s2.channelId -eq $rui -and $s2.streamer -eq "鷹嶺ルイ") ($w2 | ConvertTo-Json -Compress)
+[IO.File]::WriteAllText($ruiH, (New-Feed $rui @(
+  (New-Entry "HkNew000001" "【8番出口】新着の動画【鷹嶺ルイ/ホロライブ】" "2026-10-12T01:00:00+00:00"),
+  (New-Entry "Hk8ex000001" "【8番出口】履歴テスト(タイトル変更)【鷹嶺ルイ/ホロライブ】" "2026-10-10T01:00:00+00:00" "説明1")
+)), $utf8)
+(Get-Item $ruiH).LastWriteTime = (Get-Date).AddMinutes(-10)
+$h3 = Invoke-Dir $feedsH $outH @()
+$s3 = Read-Store $rui
+$x3 = $s3.videos | Where-Object videoId -eq "Hk8ex000001"; $x1 = $s1.videos | Where-Object videoId -eq "Hk8ex000001"; $w3 = $s3.videos | Where-Object videoId -eq "HkWuwa00001"
+Check "18c. 新着から外れた動画も履歴に残り、同じ動画はタイトルと lastSeenAt だけ更新する(5本)" ($h3.code -eq 0 -and @($s3.videos).Count -eq 5 -and $w3 -and $w3.description -eq "元の説明" -and $w3.lastSeenAt -eq $w2.lastSeenAt -and $x3.title -like "*タイトル変更*" -and $x3.firstSeenAt -eq $x1.firstSeenAt -and $x3.lastSeenAt -ne $x1.lastSeenAt) ($s3.videos | ConvertTo-Json -Compress)
+Check "18d. 履歴の書き込みで一時ファイル(.tmp)を残さない" (@(Get-ChildItem -LiteralPath $entH -Filter *.tmp).Count -eq 0) ""
+$outHB = Join-Path $work "history-rejudge.json"
+$hbJson = [ordered]@{ generatedAt = $old; source = "youtube-channel-rss"; note = "test"; lastRun = @{}
+  candidates = @((New-OldCand "HkWuwa00001" "【鳴潮】アーカイブ同時視聴" "鳴潮" "HIGH" "pending"),
+                 (New-OldCand "HkApprov001" "【鳴潮】アーカイブ同時視聴その2" "鳴潮" "HIGH" "approved"),
+                 (New-OldCand "HkNoHist001" "履歴に無い動画" "8番出口" "HIGH" "pending"))
+  unknownGames = @() }
+[IO.File]::WriteAllText($outHB, ($hbJson | ConvertTo-Json -Depth 8), $utf8)
+$hb1 = Invoke-Dir $feedsH $outHB @("-RejudgeOnly")
+$jh = ([IO.File]::ReadAllText($outHB, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+$ch = { param($id) $jh.candidates | Where-Object videoId -eq $id }
+Check "18e. 一括再判定は履歴JSONを使い、新着から外れた確認待ちの候補も判定し直す(同時視聴 HIGH → LOW)" ($hb1.code -eq 0 -and (& $ch "HkWuwa00001").confidence -eq "LOW" -and (& $ch "HkWuwa00001").firstSeenAt -eq $old) ($hb1.output)
+Check "18f. 既存の候補と判定結果は失われない(3件のまま・approved は変えない・履歴に無い候補はそのまま)" (@($jh.candidates).Count -eq 3 -and (& $ch "HkApprov001").confidence -eq "HIGH" -and (& $ch "HkApprov001").status -eq "approved" -and (& $ch "HkNoHist001").confidence -eq "HIGH" -and $jh.lastRun.stats.rejudgeNotInRss -eq 1 -and -not (& $ch "HkNew000001")) ("count=$(@($jh.candidates).Count) notIn=$($jh.lastRun.stats.rejudgeNotInRss)")
+$storeHash = (Get-FileHash (Join-Path $entH "$rui.json") -Algorithm SHA256).Hash
+$hb2 = Invoke-Dir $feedsH $outHB @("-RejudgeOnly")
+$jh2 = ([IO.File]::ReadAllText($outHB, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "18g. 一括再判定を2回行っても候補・履歴は変わらない(履歴JSONを書き直さない)" ($hb2.code -eq 0 -and @($jh2.candidates).Count -eq 3 -and $jh2.lastRun.stats.rejudgeChanged -eq 0 -and (Get-FileHash (Join-Path $entH "$rui.json") -Algorithm SHA256).Hash -eq $storeHash) ($hb2.output)
+$brokenStore = '{"channelId": "' + $sora + '", "videos": [ 壊れたJSON'
+[IO.File]::WriteAllText((Join-Path $entH "$sora.json"), $brokenStore, $utf8)
+[IO.File]::WriteAllText((Join-Path $feedsH "sora.xml"), (New-Feed $sora @((New-Entry "HkSora00001" "【8番出口】そらの履歴テスト【ときのそら/ホロライブ】" "2026-10-11T01:00:00+00:00"))), $utf8)
+$h4 = Invoke-Dir $feedsH $outH @()
+$jh4 = ([IO.File]::ReadAllText($outH, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "18h. 履歴JSONが壊れていても上書きせず、エラーに記録してほかの処理は続ける" ($h4.code -eq 0 -and ([IO.File]::ReadAllText((Join-Path $entH "$sora.json"), [Text.Encoding]::UTF8)) -eq $brokenStore -and @($jh4.lastRun.errors | Where-Object { $_.stage -eq "history" -and $_.channelId -eq $sora }).Count -eq 1 -and @($jh4.candidates | Where-Object videoId -eq "HkSora00001").Count -eq 1 -and @((Read-Store $rui).videos).Count -eq 5) ($h4.output)
+$hb3 = Invoke-Dir $feedsH $outHB @("-RejudgeOnly")
+Check "18i. 履歴JSONが壊れていても一括再判定は止まらず、壊れたファイルはそのまま" ($hb3.code -eq 0 -and ([IO.File]::ReadAllText((Join-Path $entH "$sora.json"), [Text.Encoding]::UTF8)) -eq $brokenStore) ($hb3.output)
+$entF = Join-Path $fetchDir "entries"
+$fetchStoreBefore = @(Get-ChildItem -LiteralPath $entF -Filter *.json | Sort-Object Name | ForEach-Object { $_.Name + "=" + (Get-FileHash $_.FullName -Algorithm SHA256).Hash })
+$f9 = Invoke-Fetch @("音乃瀬奏") $null
+$fetchStoreAfter = @(Get-ChildItem -LiteralPath $entF -Filter *.json | Sort-Object Name | ForEach-Object { $_.Name + "=" + (Get-FileHash $_.FullName -Algorithm SHA256).Hash })
+Check "18j. RSS の取得に失敗したときは履歴JSONを変更しない" ($f9.code -eq 0 -and $fetchStoreBefore.Count -ge 2 -and ($fetchStoreBefore -join ",") -eq ($fetchStoreAfter -join ",")) ("before=$($fetchStoreBefore.Count) after=$($fetchStoreAfter.Count)")
 
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""

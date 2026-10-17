@@ -1,0 +1,54 @@
+# RSS からの単発実況候補の抽出(watch-standalone-rss.ps1)が Ubuntu + PowerShell 7(pwsh)で動くかを確かめる、手動実行専用の検証。
+# - test-standalone-rss.ps1(オフラインのテスト)を実行するだけ。テスト用の RSS・候補JSON・履歴は一時フォルダに作り、終わったら消す
+# - RSS の実取得・YouTube API・外部検索は行わない(取得のテストはモックで、ネットワークに接続しない)。秘密情報は使わない
+# - 本番の候補JSON・履歴・登録データ・サイトのファイルは変更しない(commit・push しない)。テストは data-*.js が変わらないことも確かめる
+# - 既存のワークフロー(home-data / refresh-playlist-meta / search-console-weekly)とは独立
+# - タイムゾーンで結果が変わらないことを見るため、UTC と Asia/Tokyo の2通りで実行する
+#
+# 画面・API からの手動実行は、デフォルトブランチ(main)にこのファイルがあるときに使える。
+# テストするコードは ref で指定する(空ならこのワークフローを起動したブランチ)
+#   例: gh workflow run rss-pwsh-check.yml -f ref=develop/monetization-growth
+name: rss offline test (pwsh)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "テストするブランチ・タグ・コミット(空なら起動したブランチ)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read     # コードの取り出しだけ
+
+concurrency:
+  group: rss-pwsh-check
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        tz: ["UTC", "Asia/Tokyo"]
+    env:
+      TZ: ${{ matrix.tz }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          persist-credentials: false
+
+      - name: Show PowerShell version
+        shell: pwsh
+        run: |
+          Write-Output ("PowerShell " + $PSVersionTable.PSVersion + " / " + $PSVersionTable.OS)
+          Write-Output ("TZ=" + $env:TZ + " / " + [TimeZoneInfo]::Local.Id + " / culture=" + [Globalization.CultureInfo]::CurrentCulture.Name)
+          Write-Output ("ConvertFrom-Json -DateKind: " + (Get-Command ConvertFrom-Json).Parameters.ContainsKey("DateKind"))
+
+      - name: Run offline RSS test
+        shell: pwsh
+        run: ./test-standalone-rss.ps1
