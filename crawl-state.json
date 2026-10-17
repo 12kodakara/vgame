@@ -1,0 +1,6 @@
+{
+  "nextIndex": 0,
+  "maxChannels": 75,
+  "updatedAt": "2026-10-17T00:00:00",
+  "note": "RSS 自動巡回の次の開始位置(streamer-channel-ids.json の並び順、0 始まり)。GitHub Actions が更新する"
+}

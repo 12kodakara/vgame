@@ -1,0 +1,1486 @@
+{
+    "generatedAt":  "2026-10-17T21:25:37",
+    "source":  "youtube-channel-rss",
+    "note":  "自動判定結果です(status=pending)。登録前に動画内容・再生リスト状況・single/multi を人が確認してください。playlistVideoCheck=unverified は、サイト登録済み再生リストに含まれるかを確認していないことを表します。",
+    "lastRun":  {
+                    "stats":  {
+                                  "feeds":  11,
+                                  "feedsRead":  11,
+                                  "entries":  165,
+                                  "newCandidates":  0,
+                                  "alreadyCandidate":  34,
+                                  "registeredStandalone":  0,
+                                  "noGame":  133,
+                                  "unknownGameVideos":  0,
+                                  "likelyInSitePlaylist":  12,
+                                  "templateLines":  980,
+                                  "rejudged":  34,
+                                  "rejudgeChanged":  22,
+                                  "rejudgeNotMatched":  10,
+                                  "unknownRejudgedNotCandidate":  4,
+                                  "rejudgeSkippedNew":  120,
+                                  "rejudgeNotInRss":  0,
+                                  "historyChannels":  11,
+                                  "historyAdded":  165,
+                                  "historyVideos":  165
+                              },
+                    "errors":  [
+
+                               ],
+                    "warnings":  [
+
+                                 ]
+                },
+    "candidates":  [
+                       {
+                           "videoId":  "pBz8ZGCHqOo",
+                           "url":  "https://www.youtube.com/watch?v=pBz8ZGCHqOo",
+                           "streamer":  "白上フブキ",
+                           "channelId":  "UCdn5BQ06XqgXoAxIhbqw5Rg",
+                           "title":  "【#3】Hollow Knight: Silksong【ホロライブ/白上フブキ】",
+                           "publishedAt":  "2026-10-17T08:25:48+00:00",
+                           "publishedDate":  "2026-10-17",
+                           "game":  "Hollow Knight: Silksong",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "Hollow Knight: Silksong",
+                           "reasons":  [
+                                           "【】の外で一致: Hollow Knight: Silksong",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "1rmBUIj_-ss",
+                           "url":  "https://www.youtube.com/watch?v=1rmBUIj_-ss",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY7│めちゃでか拠点作り！テイムも行きたい【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-16T20:14:12+00:00",
+                           "publishedDate":  "2026-10-17",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "K9iqnQtgoxc",
+                           "url":  "https://www.youtube.com/watch?v=K9iqnQtgoxc",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロドリ釣り名人】豪運でレア魚🐟を釣りまくれ！【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-16T14:28:07+00:00",
+                           "publishedDate":  "2026-10-16",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "yUkjRk16T_I",
+                           "url":  "https://www.youtube.com/watch?v=yUkjRk16T_I",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY7│みんなが使いやすそうなお家＆拠点作りたい！【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-15T20:18:18+00:00",
+                           "publishedDate":  "2026-10-16",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "H8nDUqLBRXU",
+                           "url":  "https://www.youtube.com/watch?v=H8nDUqLBRXU",
+                           "streamer":  "ときのそら",
+                           "channelId":  "UCp6993wxpyDPHUpavwDFqgg",
+                           "title":  "# ４【ネタバレあり】ほの暮しの庭～おつかいも楽しいのんびりゲーム～【ときのそら/ホロライブ】",
+                           "publishedAt":  "2026-10-15T15:46:03+00:00",
+                           "publishedDate":  "2026-10-16",
+                           "game":  "ほの暮らしの庭",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ほの暮しの庭",
+                           "reasons":  [
+                                           "【】の外で一致: ほの暮しの庭",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "O5pc96YtYNg",
+                           "url":  "https://www.youtube.com/watch?v=O5pc96YtYNg",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【ホロライブドリームス】雑談しながら釣り餌回収エリアクエ！ミニゲーム参加型も少々 #ホロドリ【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-15T11:08:17+00:00",
+                           "publishedDate":  "2026-10-15",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  true,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "FTmZQg1h1Qg",
+                           "url":  "https://www.youtube.com/watch?v=FTmZQg1h1Qg",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY6│拠点拡張！ルミナとギガラプも欲しい！【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-14T20:35:48+00:00",
+                           "publishedDate":  "2026-10-15",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "Hlm-t5kEmgM",
+                           "url":  "https://www.youtube.com/watch?v=Hlm-t5kEmgM",
+                           "streamer":  "AZKi",
+                           "channelId":  "UC0TXe_LYZ4scaW2XMyi5_kw",
+                           "title":  "【GeoGuessr】今日は鉄道の日！日本の鉄道車両基地をゲス！【ホロライブ / AZKi】",
+                           "publishedAt":  "2026-10-14T15:20:59+00:00",
+                           "publishedDate":  "2026-10-15",
+                           "game":  "GeoGuessr",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "GeoGuessr",
+                           "reasons":  [
+                                           "同じVTuber×ゲームの再生リストが登録済み"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "64GEC-f70zE",
+                           "url":  "https://www.youtube.com/watch?v=64GEC-f70zE",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【ホロライブドリームス】釣り雑談～お魚🐟図鑑コンプへの道！ミニゲーム参加型も少々 #ホロドリ【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-14T10:49:54+00:00",
+                           "publishedDate":  "2026-10-14",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  true,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "-WLZDL1yJFw",
+                           "url":  "https://www.youtube.com/watch?v=-WLZDL1yJFw",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY5│続！ドレイクリング冬テイムしたい＆拠点拡張！【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-13T21:00:25+00:00",
+                           "publishedDate":  "2026-10-14",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "ku7_BDnFNQY",
+                           "url":  "https://www.youtube.com/watch?v=ku7_BDnFNQY",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【#ホロドリ 】100連ガチャ対決！運のいい姉妹はだれ！？#RosaMiA  【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-13T15:41:07+00:00",
+                           "publishedDate":  "2026-10-14",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "JzHvkdqVgkI",
+                           "url":  "https://www.youtube.com/watch?v=JzHvkdqVgkI",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY4.5│ドレイクリング冬テイムしたい＆文明開化【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-12T22:40:01+00:00",
+                           "publishedDate":  "2026-10-13",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "C8W03Z6zWFk",
+                           "url":  "https://www.youtube.com/watch?v=C8W03Z6zWFk",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【#アキちょこナイパレ｜第56回】タイムマシンで行くなら過去🆚未来 あなたはどっち？｜シスターローズの懺悔室 🌹～深夜のひとくちラジオ～",
+                           "publishedAt":  "2026-10-12T15:12:06+00:00",
+                           "publishedDate":  "2026-10-13",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "MxpAOjgZX3Y",
+                           "url":  "https://www.youtube.com/watch?v=MxpAOjgZX3Y",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【#アキちょこナイパレ｜第55回】連絡は 電話派📞🆚メッセージ派💬 あなたはどっち？｜ちょこのお悩み相談室～深夜のひとくちラジオ～",
+                           "publishedAt":  "2026-10-12T15:10:30+00:00",
+                           "publishedDate":  "2026-10-13",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "Pz_nIQjzIyA",
+                           "url":  "https://www.youtube.com/watch?v=Pz_nIQjzIyA",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY4│パイロメイン＆ドレイクリング冬🦖テイムする！【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-12T14:10:02+00:00",
+                           "publishedDate":  "2026-10-12",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "fID7HLF0LJY",
+                           "url":  "https://www.youtube.com/watch?v=fID7HLF0LJY",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【ホロライブドリームス】ロボタールで釣るぞ～！ #ホロドリ【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-12T09:28:29+00:00",
+                           "publishedDate":  "2026-10-12",
+                           "game":  "モノポリー",
+                           "confidence":  "NONE",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: モノポリー)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "dbMiQqtqP_Y",
+                           "url":  "https://www.youtube.com/watch?v=dbMiQqtqP_Y",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 #ホロ鯖ARK 】DAY3│原始生活セット🦖テイム！ドレイクリング冬ちゃんも！【ホロライブ/アキロゼ】",
+                           "publishedAt":  "2026-10-11T22:31:12+00:00",
+                           "publishedDate":  "2026-10-12",
+                           "game":  "ARK: Survival Ascended",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ARK: Survival Ascended",
+                           "reasons":  [
+                                           "短い英数字名が【】の外で一致: ARK",
+                                           "タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: ARK: Survival Ascended",
+                                           "タイトルに別のゲーム名もある: ARKシリーズ",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+                                              "ARKシリーズ"
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "gbCsK3KnVVE",
+                           "url":  "https://www.youtube.com/watch?v=gbCsK3KnVVE",
+                           "streamer":  "白上フブキ",
+                           "channelId":  "UCdn5BQ06XqgXoAxIhbqw5Rg",
+                           "title":  "【#2】Hollow Knight: Silksong【ホロライブ/白上フブキ】",
+                           "publishedAt":  "2026-10-11T14:39:16+00:00",
+                           "publishedDate":  "2026-10-11",
+                           "game":  "Hollow Knight: Silksong",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "Hollow Knight: Silksong",
+                           "reasons":  [
+                                           "【】の外で一致: Hollow Knight: Silksong",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "me_Pq47Plxg",
+                           "url":  "https://www.youtube.com/watch?v=me_Pq47Plxg",
+                           "streamer":  "アキ・ローゼンタール",
+                           "channelId":  "UCFTLzh12_nrtzqBPsTCqenA",
+                           "title":  "【 Big Walk 】4人で協力謎解きできる！？#ちくまろ /ひまちゃん、べにちゃん、ちょこせん【アキロゼ/ホロライブ】",
+                           "publishedAt":  "2026-10-11T13:40:39+00:00",
+                           "publishedDate":  "2026-10-11",
+                           "game":  "モノポリー",
+                           "confidence":  "LOW",
+                           "matchType":  "description",
+                           "matchedAlias":  "モノポリー",
+                           "reasons":  [
+                                           "説明欄でだけ一致",
+                                           "同じVTuber×ゲームの再生リストが登録済み"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "new-standalone",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "QeppR1Vk3_g",
+                           "url":  "https://www.youtube.com/watch?v=QeppR1Vk3_g",
+                           "streamer":  "大空スバル",
+                           "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                           "title":  "【#最終回】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】",
+                           "publishedAt":  "2026-10-11T09:13:31+00:00",
+                           "publishedDate":  "2026-10-11",
+                           "game":  "キャプテン翼2 WORLD FIGHTERS",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "キャプテン翼2 WORLD FIGHTERS",
+                           "reasons":  [
+                                           "【】の外で一致: キャプテン翼2 WORLD FIGHTERS"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "VgVoVniznX8",
+                           "url":  "https://www.youtube.com/watch?v=VgVoVniznX8",
+                           "streamer":  "大空スバル",
+                           "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                           "title":  "【#5】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】",
+                           "publishedAt":  "2026-10-10T09:10:58+00:00",
+                           "publishedDate":  "2026-10-10",
+                           "game":  "キャプテン翼2 WORLD FIGHTERS",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "キャプテン翼2 WORLD FIGHTERS",
+                           "reasons":  [
+                                           "【】の外で一致: キャプテン翼2 WORLD FIGHTERS",
+                                           "連番あり(続き物は再生リスト方式で拾う)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "HSfxdJ_sVdw",
+                           "url":  "https://www.youtube.com/watch?v=HSfxdJ_sVdw",
+                           "streamer":  "獅白ぼたん",
+                           "channelId":  "UCUKD-uaobj9jiqB-VXt71mA",
+                           "title":  "見るタイプのStray\u0026Stay【獅白ぼたん/ホロライブ】 #shorts  #vtuber #anime #hololive #Stray\u0026Stay",
+                           "publishedAt":  "2026-10-10T08:00:26+00:00",
+                           "publishedDate":  "2026-10-10",
+                           "game":  "Stray",
+                           "confidence":  "NONE",
+                           "matchType":  "title",
+                           "matchedAlias":  "Stray",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: Stray)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  true,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T14:23:18",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "cyPhbiFX8eI",
+                           "url":  "https://www.youtube.com/watch?v=cyPhbiFX8eI",
+                           "streamer":  "AZKi",
+                           "channelId":  "UC0TXe_LYZ4scaW2XMyi5_kw",
+                           "title":  "次女大暴れ【ホロライブ / AZKi】#ぷちあず #shorts #壺おじ #hololive #RosaMiA #GettingOverIt",
+                           "publishedAt":  "2026-10-08T09:00:24+00:00",
+                           "publishedDate":  "2026-10-08",
+                           "game":  "Getting Over It",
+                           "confidence":  "LOW",
+                           "matchType":  "title",
+                           "matchedAlias":  "Getting Over It",
+                           "reasons":  [
+                                           "【】の外で一致: Getting Over It",
+                                           "非ゲーム語: shorts",
+                                           "同じVTuber×ゲームの再生リストが登録済み"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  true,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "SHqewCLHulM",
+                           "url":  "https://www.youtube.com/watch?v=SHqewCLHulM",
+                           "streamer":  "ときのそら",
+                           "channelId":  "UCp6993wxpyDPHUpavwDFqgg",
+                           "title":  "# ３【ネタバレあり】ほの暮しの庭～っ今日ものんびり探索する～【ときのそら/ホロライブ】",
+                           "publishedAt":  "2026-10-07T17:10:11+00:00",
+                           "publishedDate":  "2026-10-08",
+                           "game":  "ほの暮らしの庭",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "ほの暮しの庭",
+                           "reasons":  [
+                                           "【】の外で一致: ほの暮しの庭",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:25:53",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "iy7YT8e_ckQ",
+                           "url":  "https://www.youtube.com/watch?v=iy7YT8e_ckQ",
+                           "streamer":  "白上フブキ",
+                           "channelId":  "UCdn5BQ06XqgXoAxIhbqw5Rg",
+                           "title":  "【#1】Hollow Knight: Silksong【ホロライブ/白上フブキ】",
+                           "publishedAt":  "2026-10-07T14:48:36+00:00",
+                           "publishedDate":  "2026-10-07",
+                           "game":  "Hollow Knight: Silksong",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "Hollow Knight: Silksong",
+                           "reasons":  [
+                                           "【】の外で一致: Hollow Knight: Silksong",
+                                           "連番あり(続き物は再生リスト方式で拾う)",
+                                           "同じVTuber×ゲームの再生リストが登録済み",
+                                           "登録済み再生リストに収録されている可能性が高い(連番・収録は未確認)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  true,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "likely-in-site-playlist",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "xhYUcXSiiz4",
+                           "url":  "https://www.youtube.com/watch?v=xhYUcXSiiz4",
+                           "streamer":  "大空スバル",
+                           "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                           "title":  "【幻想水滸伝】教えて！幻想水滸伝！！【ホロライブ/大空スバル 姫森ルーナ 獅白ぼたん】",
+                           "publishedAt":  "2026-10-07T13:18:01+00:00",
+                           "publishedDate":  "2026-10-07",
+                           "game":  "幻想水滸伝I\u0026II HDリマスター 門の紋章戦争/デュナン統一戦争",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "幻想水滸伝",
+                           "reasons":  [
+                                           "別名が別の作品名の先頭部分にもなっている(作品の取り違えの可能性): 幻想水滸伝 / 幻想水滸伝 STAR LEAP"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "oIDOMuxSz8I",
+                           "url":  "https://www.youtube.com/watch?v=oIDOMuxSz8I",
+                           "streamer":  "夏色まつり",
+                           "channelId":  "UCQ0UDLQCjY0rmuxCDE38FGg",
+                           "title":  "【鳴潮】ストーリーとガチャいくぞ！！【ホロライブ/夏色まつり】",
+                           "publishedAt":  "2026-09-30T08:59:20+00:00",
+                           "publishedDate":  "2026-09-30",
+                           "game":  "鳴潮",
+                           "confidence":  "HIGH",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "鳴潮",
+                           "reasons":  [
+
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "W4kIcPlxUTU",
+                           "url":  "https://www.youtube.com/watch?v=W4kIcPlxUTU",
+                           "streamer":  "夏色まつり",
+                           "channelId":  "UCQ0UDLQCjY0rmuxCDE38FGg",
+                           "title":  "【7Days to Die】番外編！高難易度クエストいくぞ～！#ホロ7大豆劇場 【ホロライブ/夏色まつり】",
+                           "publishedAt":  "2026-09-23T15:31:16+00:00",
+                           "publishedDate":  "2026-09-24",
+                           "game":  "7 Days to Die",
+                           "confidence":  "HIGH",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "7 Days to Die",
+                           "reasons":  [
+
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "s7kmnib1hM0",
+                           "url":  "https://www.youtube.com/watch?v=s7kmnib1hM0",
+                           "streamer":  "夏色まつり",
+                           "channelId":  "UCQ0UDLQCjY0rmuxCDE38FGg",
+                           "title":  "【 鳴潮 】「Ver.3.7予告特別通信」アーカイブ同時視聴✨【ホロライブ/夏色まつり】",
+                           "publishedAt":  "2026-09-20T11:15:46+00:00",
+                           "publishedDate":  "2026-09-20",
+                           "game":  "鳴潮",
+                           "confidence":  "LOW",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "鳴潮",
+                           "reasons":  [
+                                           "非ゲーム語: 同時視聴"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  true,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "cI535pJp-TQ",
+                           "url":  "https://www.youtube.com/watch?v=cI535pJp-TQ",
+                           "streamer":  "獅白ぼたん",
+                           "channelId":  "UCUKD-uaobj9jiqB-VXt71mA",
+                           "title":  "【 #獅白ぼたん生誕祭2026 】重大告知あります！獅白ぼたん生誕3D LIVE✨『Stray\u0026Stay』【獅白ぼたん/ホロライブ】",
+                           "publishedAt":  "2026-09-19T11:10:05+00:00",
+                           "publishedDate":  "2026-09-19",
+                           "game":  "Stray",
+                           "confidence":  "NONE",
+                           "matchType":  "title",
+                           "matchedAlias":  "Stray",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: Stray)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  true,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T14:23:18",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "b6H54qq6c0A",
+                           "url":  "https://www.youtube.com/watch?v=b6H54qq6c0A",
+                           "streamer":  "獅白ぼたん",
+                           "channelId":  "UCUKD-uaobj9jiqB-VXt71mA",
+                           "title":  "Stray\u0026Stay / 獅白ぼたん【original】",
+                           "publishedAt":  "2026-09-19T11:00:07+00:00",
+                           "publishedDate":  "2026-09-19",
+                           "game":  "Stray",
+                           "confidence":  "NONE",
+                           "matchType":  "title",
+                           "matchedAlias":  "Stray",
+                           "reasons":  [
+                                           "再判定で既存作品に一致しなくなった(前回の判定: Stray)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T14:23:18",
+                           "lastSeenAt":  "2026-10-17T21:25:37",
+                           "reviewGroup":  "rejudged-not-matched",
+                           "rejudgedAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "sB05O-NIXKQ",
+                           "url":  "https://www.youtube.com/watch?v=sB05O-NIXKQ",
+                           "streamer":  "百鬼あやめ",
+                           "channelId":  "UC7fk0CB07ly8oSl0aqKkqFg",
+                           "title":  "【#ホロ夏Among Us】アツいAmong Usが…くるッ…！【百鬼あやめ/ホロライブ】",
+                           "publishedAt":  "2026-08-04T14:33:11+00:00",
+                           "publishedDate":  "2026-08-04",
+                           "game":  "Among Us",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "title",
+                           "matchedAlias":  "Among Us",
+                           "reasons":  [
+                                           "【】の中身と一部だけ一致: Among Us"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "e7JvA7J1jNs",
+                           "url":  "https://www.youtube.com/watch?v=e7JvA7J1jNs",
+                           "streamer":  "百鬼あやめ",
+                           "channelId":  "UC7fk0CB07ly8oSl0aqKkqFg",
+                           "title":  "【バイオハザード レクイエム】恐怖の地下編＃4【百鬼あやめ/ホロライブ】",
+                           "publishedAt":  "2026-04-25T17:52:49+00:00",
+                           "publishedDate":  "2026-04-26",
+                           "game":  "バイオハザード レクイエム",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "バイオハザード レクイエム",
+                           "reasons":  [
+                                           "連番あり(続き物は再生リスト方式で拾う)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       },
+                       {
+                           "videoId":  "lVaCdidMYhs",
+                           "url":  "https://www.youtube.com/watch?v=lVaCdidMYhs",
+                           "streamer":  "百鬼あやめ",
+                           "channelId":  "UC7fk0CB07ly8oSl0aqKkqFg",
+                           "title":  "【バイオハザード レクイエム】臓器探しの旅編 になりそうな予感。＃3【百鬼あやめ/ホロライブ】",
+                           "publishedAt":  "2026-04-07T17:54:50+00:00",
+                           "publishedDate":  "2026-04-08",
+                           "game":  "バイオハザード レクイエム",
+                           "confidence":  "MEDIUM",
+                           "matchType":  "bracket-exact",
+                           "matchedAlias":  "バイオハザード レクイエム",
+                           "reasons":  [
+                                           "連番あり(続き物は再生リスト方式で拾う)"
+                                       ],
+                           "otherGames":  [
+
+                                          ],
+                           "likelyNonGame":  false,
+                           "siteHasGamePlaylist":  false,
+                           "playlistVideoCheck":  "unverified",
+                           "reviewGroup":  "new-standalone",
+                           "status":  "pending",
+                           "source":  "rss",
+                           "firstSeenAt":  "2026-10-17T20:34:20",
+                           "lastSeenAt":  "2026-10-17T21:25:37"
+                       }
+                   ],
+    "unknownGames":  [
+                         {
+                             "name":  "BOMBANANA!",
+                             "key":  "bombanana",
+                             "confidence":  "LOW",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "ロボ子さん"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "ゲームを表す語なし",
+                                             "2人以上の配信者のタイトルに出てくる"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "L-AQ2t2mJbE",
+                                                "url":  "https://www.youtube.com/watch?v=L-AQ2t2mJbE",
+                                                "streamer":  "ロボ子さん",
+                                                "channelId":  "UCDqI2jOz0weumE8s7paEk6g",
+                                                "title":  "【BOMBANANA!】信じていいん…信じるのは己のみ…！？爆弾解除PONBANANA【ホロライブ/ ロボ子さん 】",
+                                                "publishedDate":  "2026-10-17",
+                                                "source":  "bracket",
+                                                "confidence":  "LOW",
+                                                "reasons":  [
+                                                                "【】の中の語",
+                                                                "ゲームを表す語なし",
+                                                                "2人以上の配信者のタイトルに出てくる"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:25:53",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:25:53",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "Don\u0027t Drop The Cake",
+                             "key":  "dontdropthecake",
+                             "confidence":  "MEDIUM",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "白上フブキ"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "タイトルにゲームを表す語: ゲーム"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "SxeyTYVya0s",
+                                                "url":  "https://www.youtube.com/watch?v=SxeyTYVya0s",
+                                                "streamer":  "白上フブキ",
+                                                "channelId":  "UCdn5BQ06XqgXoAxIhbqw5Rg",
+                                                "title":  "【Don\u0027t Drop The Cake】姉を自称する奇妙な猫から送られてきた奇妙なゲームで遊ぶ【ホロライブ/白上フブキ】",
+                                                "publishedDate":  "2026-10-06",
+                                                "source":  "bracket",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "【】の中の語",
+                                                                "タイトルにゲームを表す語: ゲーム"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "Japanese Ramen Simulator",
+                             "key":  "japaneseramensimulator",
+                             "confidence":  "MEDIUM",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "大空スバル"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "タイトル本文の英字の語",
+                                             "タイトルにゲームを表す語: simulator"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "y4TuxUICXIQ",
+                                                "url":  "https://www.youtube.com/watch?v=y4TuxUICXIQ",
+                                                "streamer":  "大空スバル",
+                                                "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                                                "title":  "【#ド珍】ラーメン屋さん開店するしゅばあああああああああああああああああああああああああああああああああああ！！！！！：Japanese Ramen Simulator【ホロライブ/大空スバル】",
+                                                "publishedDate":  "2026-10-15",
+                                                "source":  "title-phrase",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "タイトル本文の英字の語",
+                                                                "タイトルにゲームを表す語: simulator"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "PUBGモバイル",
+                             "key":  "pubgもばいる",
+                             "confidence":  "LOW",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "百鬼あやめ"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "説明欄にだけゲームを表す語: ゲーム"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "dr2emPsEh5w",
+                                                "url":  "https://www.youtube.com/watch?v=dr2emPsEh5w",
+                                                "streamer":  "百鬼あやめ",
+                                                "channelId":  "UC7fk0CB07ly8oSl0aqKkqFg",
+                                                "title":  "【PUBGモバイル】PUBGモバイルに余が参戦・・・！？【百鬼あやめ/ホロライブ】",
+                                                "publishedDate":  "2026-04-03",
+                                                "source":  "bracket",
+                                                "confidence":  "LOW",
+                                                "reasons":  [
+                                                                "【】の中の語",
+                                                                "説明欄にだけゲームを表す語: ゲーム"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "Torneko\u0027s Great Adventure: Mystery Dungeon",
+                             "key":  "tornekosgreatadventuremysterydungeon",
+                             "confidence":  "MEDIUM",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "大空スバル"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "タイトル本文の英字の語",
+                                             "タイトルにゲームを表す語: 初見"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "2aY6d7tMDOs",
+                                                "url":  "https://www.youtube.com/watch?v=2aY6d7tMDOs",
+                                                "streamer":  "大空スバル",
+                                                "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                                                "title":  "【#生スバル】閲覧注意！初見トルネコやるしゅばあああああああああああ！！！！！：Torneko\u0027s Great Adventure: Mystery Dungeon【ネタバレあり】",
+                                                "publishedDate":  "2026-10-17",
+                                                "source":  "title-phrase",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "タイトル本文の英字の語",
+                                                                "タイトルにゲームを表す語: 初見"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "Waterpark Simulator",
+                             "key":  "waterparksimulator",
+                             "confidence":  "MEDIUM",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "大空スバル"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "タイトル本文の英字の語",
+                                             "タイトルにゲームを表す語: simulator"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "8ydoQLxJyc4",
+                                                "url":  "https://www.youtube.com/watch?v=8ydoQLxJyc4",
+                                                "streamer":  "大空スバル",
+                                                "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                                                "title":  "【#アヒヨコ】プールを経営して爆稼ぎしゅばああああああああああああああああああああああああああああああああ！！！！！！：Waterpark Simulator【ホロライブ/大空スバル】",
+                                                "publishedDate":  "2026-10-07",
+                                                "source":  "title-phrase",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "タイトル本文の英字の語",
+                                                                "タイトルにゲームを表す語: simulator"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "ホロドリ",
+                             "key":  "ほろどり",
+                             "confidence":  "LOW",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "白上フブキ"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "説明欄にだけゲームを表す語: ゲーム"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "30-zovBVK4E",
+                                                "url":  "https://www.youtube.com/watch?v=30-zovBVK4E",
+                                                "streamer":  "白上フブキ",
+                                                "channelId":  "UCdn5BQ06XqgXoAxIhbqw5Rg",
+                                                "title":  "【ホロドリ】BIG👑FISHING【ホロライブ/白上フブキ】",
+                                                "publishedDate":  "2026-10-07",
+                                                "source":  "bracket",
+                                                "confidence":  "LOW",
+                                                "reasons":  [
+                                                                "【】の中の語",
+                                                                "説明欄にだけゲームを表す語: ゲーム"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "俺だけレベルアップな件：KARMA",
+                             "key":  "俺だけれべるあっぷな件karma",
+                             "confidence":  "MEDIUM",
+                             "videoCount":  1,
+                             "streamers":  [
+                                               "百鬼あやめ"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "タイトルにゲームを表す語: ゲーム"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "Jd6kk4OhJlM",
+                                                "url":  "https://www.youtube.com/watch?v=Jd6kk4OhJlM",
+                                                "streamer":  "百鬼あやめ",
+                                                "channelId":  "UC7fk0CB07ly8oSl0aqKkqFg",
+                                                "title":  "【俺だけレベルアップな件：KARMA】俺カル新作ゲーム事前プレイきちゃ！！【百鬼あやめ/ホロライブ】",
+                                                "publishedDate":  "2026-09-29",
+                                                "source":  "bracket",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "【】の中の語",
+                                                                "タイトルにゲームを表す語: ゲーム"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  ""
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "unknown-game"
+                         },
+                         {
+                             "name":  "オフコラボ",
+                             "key":  "おふこらぼ",
+                             "confidence":  "NONE",
+                             "videoCount":  0,
+                             "streamers":  [
+                                               "ロボ子さん"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "説明欄にだけゲームを表す語: ゲーム"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "WXaEsVLtZAM",
+                                                "url":  "https://www.youtube.com/watch?v=WXaEsVLtZAM",
+                                                "streamer":  "ロボ子さん",
+                                                "channelId":  "UCDqI2jOz0weumE8s7paEk6g",
+                                                "title":  "【オフコラボ】＃デビメタ で健康ごはん✨とわあああ食べてえええ【ホロライブ/ロボ子さん】",
+                                                "publishedDate":  "2026-10-11",
+                                                "source":  "bracket",
+                                                "confidence":  "LOW",
+                                                "reasons":  [
+                                                                "再判定で未登録作品の候補にならなくなった"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:25:53",
+                                                "rejudged":  "not-candidate"
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:25:53",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "rejudged-not-candidate"
+                         },
+                         {
+                             "name":  "ガチャ旅",
+                             "key":  "がちゃ旅",
+                             "confidence":  "NONE",
+                             "videoCount":  0,
+                             "streamers":  [
+                                               "赤井はあと"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "タイトルにゲームを表す語: ガチャ"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "zVQwNFMJmos",
+                                                "url":  "https://www.youtube.com/watch?v=zVQwNFMJmos",
+                                                "streamer":  "赤井はあと",
+                                                "channelId":  "UC1CfXB_kRs3C-zaeTG3oGyg",
+                                                "title":  "【ガチャ旅】どこだ、ここ・・・【ホロライブ/赤井はあと】",
+                                                "publishedDate":  "2026-09-16",
+                                                "source":  "bracket",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "再判定で未登録作品の候補にならなくなった"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  "not-candidate"
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "rejudged-not-candidate"
+                         },
+                         {
+                             "name":  "ネタバレあり",
+                             "key":  "ねたばれあり",
+                             "confidence":  "NONE",
+                             "videoCount":  0,
+                             "streamers":  [
+                                               "大空スバル"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "タイトルにゲームを表す語: 初見"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "2aY6d7tMDOs",
+                                                "url":  "https://www.youtube.com/watch?v=2aY6d7tMDOs",
+                                                "streamer":  "大空スバル",
+                                                "channelId":  "UCvzGlP9oQwU--Y0r9id_jnA",
+                                                "title":  "【#生スバル】閲覧注意！初見トルネコやるしゅばあああああああああああ！！！！！：Torneko\u0027s Great Adventure: Mystery Dungeon【ネタバレあり】",
+                                                "publishedDate":  "2026-10-17",
+                                                "source":  "bracket",
+                                                "confidence":  "MEDIUM",
+                                                "reasons":  [
+                                                                "再判定で未登録作品の候補にならなくなった"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:34:20",
+                                                "rejudged":  "not-candidate"
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:34:20",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "rejudged-not-candidate"
+                         },
+                         {
+                             "name":  "初配信",
+                             "key":  "初配信",
+                             "confidence":  "NONE",
+                             "videoCount":  0,
+                             "streamers":  [
+                                               "ロボ子さん"
+                                           ],
+                             "possibleExisting":  [
+
+                                                  ],
+                             "reasons":  [
+                                             "【】の中の語",
+                                             "説明欄にだけゲームを表す語: ゲーム"
+                                         ],
+                             "status":  "pending",
+                             "videos":  [
+                                            {
+                                                "videoId":  "L3u53Hflr_k",
+                                                "url":  "https://www.youtube.com/watch?v=L3u53Hflr_k",
+                                                "streamer":  "ロボ子さん",
+                                                "channelId":  "UCDqI2jOz0weumE8s7paEk6g",
+                                                "title":  "【 初配信 】２Ｄではろ～ぼ～！ロボ子さんです！…8年の時を超えて？    #ホロドリ【ホロライブ/ ロボ子さん 】",
+                                                "publishedDate":  "2026-10-09",
+                                                "source":  "bracket",
+                                                "confidence":  "LOW",
+                                                "reasons":  [
+                                                                "再判定で未登録作品の候補にならなくなった"
+                                                            ],
+                                                "firstSeenAt":  "2026-10-17T20:25:53",
+                                                "rejudged":  "not-candidate"
+                                            }
+                                        ],
+                             "firstSeenAt":  "2026-10-17T20:25:53",
+                             "lastSeenAt":  "2026-10-17T21:25:37",
+                             "reviewGroup":  "rejudged-not-candidate"
+                         }
+                     ]
+}

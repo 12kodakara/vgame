@@ -1,0 +1,3 @@
+# Windows と Ubuntu(GitHub Actions)で改行の差分が出ないよう、すべて LF で保存する
+* text=auto eol=lf
+*.json text eol=lf
