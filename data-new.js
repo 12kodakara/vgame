@@ -126,6 +126,18 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap930",
+   "title": "Hollow Knight: Silksong",
+   "streamer": "白上フブキ",
+   "game": "Hollow Knight: Silksong",
+   "genre": "action",
+   "playlistId": "PLZfy98ejRo_I",
+   "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-17"
+  },
+  {
    "id": "gap951",
    "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
    "streamer": "猫屋敷美紅",
@@ -146,6 +158,18 @@ const NEW_LIST = {
    "playlistId": "PLQsl2ovb1Y-Y",
    "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
    "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-17"
+  },
+  {
+   "id": "gap957",
+   "title": "🎮【ドラゴンクエスト シリーズ】",
+   "streamer": "Rei7",
+   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
+   "genre": "rpg",
+   "playlistId": "PLKTfrB9_BK5U",
+   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
+   "videoCount": 2,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-17"
   },
@@ -208,30 +232,6 @@ const NEW_LIST = {
    "videoCount": 1,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-14"
-  },
-  {
-   "id": "gap957",
-   "title": "🎮【ドラゴンクエスト シリーズ】",
-   "streamer": "Rei7",
-   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
-   "genre": "rpg",
-   "playlistId": "PLKTfrB9_BK5U",
-   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap930",
-   "title": "Hollow Knight: Silksong",
-   "streamer": "白上フブキ",
-   "game": "Hollow Knight: Silksong",
-   "genre": "action",
-   "playlistId": "PLZfy98ejRo_I",
-   "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-11"
   },
   {
    "id": "gap950",
