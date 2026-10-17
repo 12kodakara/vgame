@@ -1467,7 +1467,7 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
      "videoCount": 4,
      "addedDate": "2026-10-12",
-     "updatedDate": "2026-10-13"
+     "updatedDate": "2026-10-15"
     },
     {
      "id": "niji-7tamanoi-01",

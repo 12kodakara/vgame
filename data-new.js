@@ -135,7 +135,67 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
    "videoCount": 8,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-14"
+   "updatedDate": "2026-10-17"
+  },
+  {
+   "id": "gap952",
+   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
+   "streamer": "鷹嶺ルイ",
+   "game": "ドラゴンクエストビルダーズ",
+   "genre": "sandbox",
+   "playlistId": "PLQsl2ovb1Y-Y",
+   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
+   "videoCount": 7,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-17"
+  },
+  {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-16"
+  },
+  {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-16"
+  },
+  {
+   "id": "gap961",
+   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
+   "streamer": "轟京子",
+   "game": "パラノマサイト FILE38 伊勢人魚物語",
+   "genre": "horror",
+   "playlistId": "PLFKv7E5Tpkvw",
+   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
+   "videoCount": 4,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-15"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-15"
   },
   {
    "id": "gap958",
@@ -150,18 +210,6 @@ const NEW_LIST = {
    "updatedDate": "2026-10-14"
   },
   {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-14"
-  },
-  {
    "id": "gap957",
    "title": "🎮【ドラゴンクエスト シリーズ】",
    "streamer": "Rei7",
@@ -172,42 +220,6 @@ const NEW_LIST = {
    "videoCount": 2,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap961",
-   "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
-   "streamer": "轟京子",
-   "game": "パラノマサイト FILE38 伊勢人魚物語",
-   "genre": "horror",
-   "playlistId": "PLFKv7E5Tpkvw",
-   "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap973",
-   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
-   "streamer": "ニュイ・ソシエール",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLEVj9tREVQck",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-13"
-  },
-  {
-   "id": "gap931",
-   "title": "死んだら即終了DARK SOULS Ⅲ",
-   "streamer": "鷹宮リオン",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLChDzynvDgpo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
-   "videoCount": 38,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-12"
   },
   {
    "id": "gap930",
@@ -292,18 +304,6 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-04"
-  },
-  {
-   "id": "gap952",
-   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
-   "streamer": "鷹嶺ルイ",
-   "game": "ドラゴンクエストビルダーズ",
-   "genre": "sandbox",
-   "playlistId": "PLQsl2ovb1Y-Y",
-   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-02"
   },
   {
    "id": "gap941",
