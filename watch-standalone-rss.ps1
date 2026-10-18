@@ -413,12 +413,14 @@ if ($fetchMode) {
     if (-not $first -and $RequestIntervalMs -gt 0) { Start-Sleep -Milliseconds $RequestIntervalMs }
     $first = $false
     $url = $FeedUrlTemplate -f $t.channelId
-    $saved = $null; $reason = $null
+    $saved = $null; $reason = $null; $status = $null
+    $attemptReasons = New-Object System.Collections.Generic.List[string]   # 失敗した試行ごとの理由(どのチャンネルがどう失敗したかを後から確認するため)
     for ($attempt = 1; $attempt -le 2; $attempt++) {
       if ($attempt -eq 2) { $stat.retried++; if ($RetryDelaySeconds -gt 0) { Start-Sleep -Seconds $RetryDelaySeconds } }
       $res = Invoke-StandaloneRssRequest $url $TimeoutSec
-      if (-not $res.ok) { $reason = [string]$res.reason; continue }
-      if (-not (Test-StandaloneRssXml ([string]$res.content))) { $reason = "XMLとして読めない応答"; continue }
+      $status = $res.status
+      if (-not $res.ok) { $reason = [string]$res.reason; $attemptReasons.Add($reason); continue }
+      if (-not (Test-StandaloneRssXml ([string]$res.content))) { $reason = "XMLとして読めない応答"; $attemptReasons.Add($reason); continue }
       $saved = Join-Path $FeedDir ($t.channelId + ".xml")
       [IO.File]::WriteAllText($saved, [string]$res.content, (New-Object System.Text.UTF8Encoding($false)))
       # 新着15本から外れた動画は、RSS 全体ではなく動画ごとの履歴(entries\<チャンネルID>.json)に残す(下の解析で記録)
@@ -427,10 +429,10 @@ if ($fetchMode) {
     if ($saved) {
       $stat.fetched++
       $feedFiles += Get-Item -LiteralPath $saved
-      if ($attempt -eq 2) { $warnings.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = "1回目の取得に失敗し、再試行で取得した(" + $reason + ")"; stage = "fetch" }) }
+      if ($attempt -eq 2) { $warnings.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = "1回目の取得に失敗し、再試行で取得した(" + $reason + ")"; attemptReasons = $attemptReasons.ToArray(); attempts = 2; stage = "fetch" }) }
     } else {
       $stat.fetchFailed++
-      $errors.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = $reason; attempts = 2; stage = "fetch" })
+      $errors.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = $reason; status = $(if ($status) { [int]$status } else { $null }); attemptReasons = $attemptReasons.ToArray(); attempts = 2; stage = "fetch" })
     }
   }
 } elseif ($RejudgeOnly) {
@@ -752,5 +754,15 @@ Write-Output ("履歴: 更新 $($stat.historyChannels) チャンネル・新し�
 if ($stat.rejudged -gt 0 -or $stat.unknownRejudgedNotCandidate -gt 0) {
   Write-Output ("再判定: 確認待ちの既存候補 $($stat.rejudged) 件(変更 $($stat.rejudgeChanged)・既存作品に一致しなくなった $($stat.rejudgeNotMatched))・未登録作品の候補から外れた動画 $($stat.unknownRejudgedNotCandidate) 本")
 }
-if ($errors.Count -gt 0) { Write-Output ("エラー $($errors.Count) 件: " + (($errors | ForEach-Object { "$($_.file)=$($_.reason)" }) -join " / ")) }
-if ($warnings.Count -gt 0) { Write-Output ("警告 $($warnings.Count) 件: " + (($warnings | ForEach-Object { "$($_.file)=$($_.reason)" }) -join " / ")) }
+# 項目の見出し: ファイル名が無いもの(RSS の取得など)は「VTuber名(チャンネルID)」で示す。公開のチャンネル情報だけを出す(URL・認証情報は出さない)
+function Get-IssueLabel($x) {
+  if ($x.file) { return [string]$x.file }
+  $id = [string]$x.channelId; $name = [string]$x.streamer
+  if ($name -and $id) { return "$name($id)" } elseif ($id) { return $id } else { return $name }
+}
+if ($errors.Count -gt 0) { Write-Output ("エラー $($errors.Count) 件: " + (($errors | ForEach-Object { "$(Get-IssueLabel $_)=$($_.reason)" }) -join " / ")) }
+if ($warnings.Count -gt 0) { Write-Output ("警告 $($warnings.Count) 件: " + (($warnings | ForEach-Object { "$(Get-IssueLabel $_)=$($_.reason)" }) -join " / ")) }
+# RSS の取得に失敗したチャンネル(1チャンネル1行)
+foreach ($x in @($errors | Where-Object { $_.stage -eq "fetch" -and $_.channelId -and $_.attempts })) {
+  Write-Output ("取得失敗: $(Get-IssueLabel $x)  $($x.reason)  試行 $($x.attempts) 回(" + (@($x.attemptReasons) -join " → ") + ")")
+}
