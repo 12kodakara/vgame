@@ -4,7 +4,11 @@
 #   (streamer-channel-ids.json)は main から取り出す(書き込まない)
 # - 候補JSON・動画ごとの履歴・巡回位置(crawl-state.json)は rss-state ブランチから取り出し、結果も rss-state にだけ保存する
 # - 候補は自動登録しない(すべて status=pending のまま。登録は人が確認してから行う)
-# - main・登録データ・GitHub Pages は更新しない。YouTube Data API・APIキー・秘密情報は使わない(公開の RSS だけを読む)
+# - main・登録データ・GitHub Pages は更新しない
+# - 取得元は source で選ぶ: rss(既定。公開の RSS だけを読み、秘密情報は使わない) / api(YouTube Data API。
+#   Secret の YOUTUBE_API_KEY を巡回の手順にだけ渡す。値は表示しない。1回の呼び出しは MAX_API_CALLS まで)
+# - api では、前回取得できなかったチャンネル(crawl-state.json の retryChannelIds)を先に取り直す
+# - 取得の失敗が対象の半数を超えたとき・API の利用枠超過・キー/権限のエラーのときは保存しない
 # - 保存前に JSON の読み込み・件数(減っていないこと)・巡回位置を検証し、失敗したら push しない
 # - push が競合したら強制 push せずに止める(次回の実行が同じ位置からやり直す。同じ動画は重複しない)
 # - 既存のワークフロー(home-data / refresh-playlist-meta / search-console-weekly / rss-pwsh-check)とは独立
@@ -12,7 +16,7 @@
 # いまは手動実行(workflow_dispatch)専用。定期実行(schedule)は試験運転で確認してから追加する
 # 試験運転(dry_run = true、既定): 巡回・検証・結果の表示までを行い、rss-state への commit・push は一切しない
 # 本番(dry_run = false): 保存前の検証をすべて通ったときだけ rss-state に保存する
-#   例: gh workflow run rss-crawl.yml -f dry_run=true
+#   例: gh workflow run rss-crawl.yml -f dry_run=true -f source=api
 name: rss crawl
 
 on:
@@ -23,6 +27,12 @@ on:
         type: boolean
         required: false
         default: true
+      source:
+        description: "取得元(rss: YouTube のチャンネル RSS / api: YouTube Data API)"
+        type: choice
+        options: [rss, api]
+        required: false
+        default: rss
 
 permissions:
   contents: write    # rss-state ブランチへの push だけに使う(main は persist-credentials: false で取り出し、push しない)
@@ -34,6 +44,8 @@ concurrency:
 env:
   TZ: Asia/Tokyo
   MAX_CHANNELS: "75"
+  MAX_API_CALLS: "300"   # api のときの1回の呼び出し上限(1 unit/回。失敗した呼び出しも数える)
+  SOURCE: ${{ inputs.source == 'api' && 'api' || 'rss' }}
   # 保存するのは手動実行で dry_run = false を明示したときだけ(それ以外はすべて試験運転として扱う)
   SAVE_RESULTS: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == false }}
 
@@ -59,7 +71,10 @@ jobs:
 
       - name: Check inputs
         shell: pwsh
+        env:
+          HAS_API_KEY: ${{ secrets.YOUTUBE_API_KEY != '' }}   # 有無だけ(値は渡さない)
         run: |
+          if ($env:SOURCE -eq "api" -and $env:HAS_API_KEY -ne "true") { throw "Secret の YOUTUBE_API_KEY が登録されていません(api では必須)。巡回しない" }
           $need = @("tools/watch-standalone-rss.ps1", "tools/standalone-matching.ps1", "tools/streamer-channel-ids.json",
                     "tools/data-core.js", "tools/data-playlists.js", "tools/data-standalone.js",
                     "state/crawl-state.json", "state/discovered-standalone-rss.json", "state/rss-feeds/entries")
@@ -74,8 +89,15 @@ jobs:
           foreach ($f in Get-ChildItem -LiteralPath state/rss-feeds/entries -Filter *.json -File) {
             $hist += @((Get-Content -LiteralPath $f.FullName -Raw -Encoding utf8 | ConvertFrom-Json -DateKind String).videos).Count
           }
+          # 前回取得できなかったチャンネル(api のときだけ先に取り直す)と、続けて取得できなかった回数
+          $retryIds = @(@($cs.retryChannelIds) | Where-Object { [string]$_ -match '^UC[A-Za-z0-9_-]{22}$' } | ForEach-Object { [string]$_ } | Select-Object -Unique)
+          $retryCounts = [ordered]@{}
+          if ($cs.retryCounts) { foreach ($p in $cs.retryCounts.PSObject.Properties) { $retryCounts[$p.Name] = [int]$p.Value } }
           $before = [ordered]@{
             startIndex = $start
+            source = $env:SOURCE
+            retryChannelIds = [object[]]$retryIds
+            retryCounts = $retryCounts
             candidates = @($cand.candidates).Count
             unknownGames = @($cand.unknownGames).Count
             historyVideos = $hist
@@ -85,20 +107,30 @@ jobs:
             unknownVideos = @($cand.unknownGames | ForEach-Object { $k = [string]$_.key; @($_.videos) | ForEach-Object { $k + "|" + [string]$_.videoId } })
           }
           $before | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath (Join-Path $env:RUNNER_TEMP "before.json") -Encoding utf8
-          Write-Output ("PowerShell $($PSVersionTable.PSVersion) / 開始位置 $start / 候補 $($before.candidates) 件・未登録作品 $($before.unknownGames) 作品・履歴 $hist 本")
+          Write-Output ("PowerShell $($PSVersionTable.PSVersion) / 取得元 $($env:SOURCE) / 開始位置 $start / 取り直し $($retryIds.Count) チャンネル / 候補 $($before.candidates) 件・未登録作品 $($before.unknownGames) 作品・履歴 $hist 本")
 
       - name: Crawl RSS
         id: crawl
         shell: pwsh
+        env:
+          # api のときだけ値を渡す(rss のときは空)。スクリプトは環境変数から読み、表示しない
+          YOUTUBE_API_KEY: ${{ env.SOURCE == 'api' && secrets.YOUTUBE_API_KEY || '' }}
         run: |
           $before = Get-Content -LiteralPath (Join-Path $env:RUNNER_TEMP "before.json") -Raw -Encoding utf8 | ConvertFrom-Json
           $ws = $env:GITHUB_WORKSPACE
-          # RSS の取得に失敗したチャンネルはスクリプトが lastRun.errors に記録して次へ進む(終了コードは 0)
-          pwsh -NoProfile -File (Join-Path $ws "tools/watch-standalone-rss.ps1") `
-            -FeedDir (Join-Path $ws "state/rss-feeds") `
-            -OutFile (Join-Path $ws "state/discovered-standalone-rss.json") `
-            -ChannelMapPath (Join-Path $ws "tools/streamer-channel-ids.json") `
-            -All -MaxChannels ([int]$env:MAX_CHANNELS) -StartIndex ([int]$before.startIndex)
+          # 取得に失敗したチャンネルはスクリプトが lastRun.errors に記録して次へ進む(終了コードは 0)
+          $a = @("-NoProfile", "-File", (Join-Path $ws "tools/watch-standalone-rss.ps1"),
+                 "-FeedDir", (Join-Path $ws "state/rss-feeds"),
+                 "-OutFile", (Join-Path $ws "state/discovered-standalone-rss.json"),
+                 "-ChannelMapPath", (Join-Path $ws "tools/streamer-channel-ids.json"),
+                 "-All", "-MaxChannels", [string][int]$env:MAX_CHANNELS, "-StartIndex", [string][int]$before.startIndex)
+          if ($env:SOURCE -eq "api") {
+            $a += @("-Source", "Api", "-MaxApiCalls", [string][int]$env:MAX_API_CALLS)
+            $retry = @($before.retryChannelIds | Where-Object { $_ })
+            if ($retry.Count -gt 0) { $a += @("-PriorityChannelId", ($retry -join ",")) }   # 前回取得できなかったチャンネルを先に取り直す
+          }
+          pwsh @a
+          # 終了コード 3 = API キー・権限のエラーで取得をやめた(保存しない)
           if ($LASTEXITCODE -ne 0) { throw "巡回スクリプトが失敗した(終了コード $LASTEXITCODE)。保存しない" }
 
       - name: Validate results
@@ -131,13 +163,29 @@ jobs:
           elseif ([int]$s.crawlStartIndex -ne [int]$before.startIndex) { $fail.Add("開始位置が違う($($before.startIndex) / $($s.crawlStartIndex))") }
           elseif ($next -lt 0 -or $next -ge $total) { $fail.Add("次の開始位置が範囲外($next / $total)") }
           # 1チャンネルも取得できなかったときは保存しない(巡回位置を進めず、次回に同じチャンネルを取り直す)
-          if ([int]$s.fetchTargets -gt 0 -and [int]$s.fetched -eq 0) { $fail.Add("RSS を1件も取得できなかった(対象 $($s.fetchTargets) チャンネル)") }
+          if ([int]$s.fetchTargets -gt 0 -and [int]$s.fetched -eq 0) { $fail.Add("1件も取得できなかった(対象 $($s.fetchTargets) チャンネル)") }
+          # 取得の失敗が対象の半数を超えたら保存しない(拒否・障害の可能性が高い。巡回位置を進めず、次回に同じチャンネルを取り直す)
+          elseif ([int]$s.fetchFailed * 2 -gt [int]$s.fetchTargets) { $fail.Add("取得の失敗が半数を超えた(失敗 $($s.fetchFailed) / 対象 $($s.fetchTargets))") }
+          # API の利用枠超過・キーや権限のエラーで止めたときは保存しない
+          if ([string]$s.apiStopped -eq "quota") { $fail.Add("API の利用枠を超えた(quotaExceeded)") }
+          if ([string]$s.apiStopped -eq "fatal") { $fail.Add("API キーまたは権限のエラー") }
+          if ($env:SOURCE -eq "api" -and [string]$s.source -ne "Api") { $fail.Add("api を指定したが API 方式で実行されていない") }
+
+          # 次回に取り直すチャンネル: api は今回取得できなかったもの(成功したものは外れる)。続けて取得できなかった回数を数える
+          $prevCounts = @{}; if ($before.retryCounts) { foreach ($p in $before.retryCounts.PSObject.Properties) { $prevCounts[$p.Name] = [int]$p.Value } }
+          if ($env:SOURCE -eq "api") { $newRetry = @(@($cand.lastRun.retryChannelIds) | Where-Object { $_ } | ForEach-Object { [string]$_ } | Select-Object -Unique) }
+          else { $newRetry = @(@($before.retryChannelIds) | Where-Object { $_ } | ForEach-Object { [string]$_ }) }   # rss では取り直しの一覧を変えない
+          $newCounts = [ordered]@{}
+          foreach ($id in $newRetry) { $k = [string]$id; $newCounts[$k] = $(if ($env:SOURCE -eq "api") { 1 + [int]$prevCounts[$k] } else { [int]$prevCounts[$k] }) }   # キーは文字列に(PSObject のままだと引けない)
+          $needsCheck = @($newRetry | Where-Object { [int]$newCounts[[string]$_] -ge 3 })
 
           $summary = @(
             "### RSS 巡回の結果",
             $(if ($env:SAVE_RESULTS -eq "true") { "- モード: 本番(検証を通ったら rss-state に保存する)" } else { "- モード: **試験運転**(rss-state には保存しない)" }),
             "- 巡回: 開始位置 $($before.startIndex) → 次回 $next(対応表 $total 件)",
+            ("- 取得元: $($env:SOURCE)" + $(if ($env:SOURCE -eq "api") { "(API 呼び出し $($s.apiCalls) / 上限 $($s.maxApiCalls)・読んだページ $($s.apiPages)・取得前に止めた $($s.fetchNotAttempted) チャンネル" + $(if ($s.apiStopped) { "・停止 $($s.apiStopped)" } else { "" }) + ")" } else { "" })),
             "- 取得: 対象 $($s.fetchTargets) / 成功 $($s.fetched) / 失敗 $($s.fetchFailed)(再試行 $($s.retried))",
+            ("- 取り直し: 今回先に取得 $(@($before.retryChannelIds).Count) チャンネル → 次回 $($newRetry.Count) チャンネル" + $(if ($needsCheck.Count -gt 0) { "(3回以上続けて取得できない **要確認** $($needsCheck.Count): " + ($needsCheck -join ", ") + ")" } else { "" })),
             "- 新規候補 $($s.newCandidates) 件・未登録作品の候補 $($s.unknownGameVideos) 本(すべて確認待ち)",
             "- 候補 $($before.candidates) → $after 件・未登録作品 $($before.unknownGames) → $afterUnknown 作品・履歴 $($before.historyVideos) → $hist 本",
             "- エラー $(@($cand.lastRun.errors).Count) 件・警告 $(@($cand.lastRun.warnings).Count) 件"
@@ -153,7 +201,10 @@ jobs:
             maxChannels = [int]$env:MAX_CHANNELS
             updatedAt = [DateTimeOffset]::UtcNow.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss")
             note = "RSS 自動巡回の次の開始位置(streamer-channel-ids.json の並び順、0 始まり)。GitHub Actions が更新する"
-            lastRun = [ordered]@{ startIndex = [int]$before.startIndex; crawlTotal = $total; fetched = [int]$s.fetched; fetchFailed = [int]$s.fetchFailed; runId = $env:GITHUB_RUN_ID }
+            # 次回に先に取り直すチャンネル(api)と、続けて取得できなかった回数
+            retryChannelIds = [object[]]$newRetry
+            retryCounts = $newCounts
+            lastRun = [ordered]@{ source = $env:SOURCE; startIndex = [int]$before.startIndex; crawlTotal = $total; fetched = [int]$s.fetched; fetchFailed = [int]$s.fetchFailed; apiCalls = $s.apiCalls; runId = $env:GITHUB_RUN_ID }
           }
           [IO.File]::WriteAllText((Join-Path $env:GITHUB_WORKSPACE "state/crawl-state.json"), (($state | ConvertTo-Json -Depth 3) + "`n"), (New-Object System.Text.UTF8Encoding($false)))
           "CRAWL_RANGE=$($before.startIndex)-$next" | Add-Content -LiteralPath $env:GITHUB_ENV -Encoding utf8
@@ -199,7 +250,9 @@ jobs:
           $dir = Join-Path $env:RUNNER_TEMP "rss-review"
           New-Item -ItemType Directory -Path $dir -Force | Out-Null
           $utf8 = New-Object System.Text.UTF8Encoding($false)
-          $meta = [ordered]@{ generatedAt = [DateTimeOffset]::UtcNow.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss"); runId = $env:GITHUB_RUN_ID; startIndex = [int]$before.startIndex; nextIndex = $cand.lastRun.stats.crawlNextIndex }
+          $meta = [ordered]@{ generatedAt = [DateTimeOffset]::UtcNow.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss"); runId = $env:GITHUB_RUN_ID; startIndex = [int]$before.startIndex; nextIndex = $cand.lastRun.stats.crawlNextIndex
+                    source = $env:SOURCE; apiCalls = $cand.lastRun.stats.apiCalls; apiStopped = [string]$cand.lastRun.stats.apiStopped
+                    retryFirst = [object[]]@($before.retryChannelIds | Where-Object { $_ }); retryNext = [object[]]@($cand.lastRun.retryChannelIds | Where-Object { $_ }) }
           $candDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $candDoc[$k] = $meta[$k] }
           $candDoc["count"] = $newCands.Count; $candDoc["byConfidence"] = $byConf; $candDoc["candidates"] = $newCands   # .count は辞書の Count と重なるため添字で入れる
           # RSS の取得に失敗したチャンネル(公開のチャンネルID・VTuber名・理由だけ。原因の確認用に同じファイルへ入れる)
