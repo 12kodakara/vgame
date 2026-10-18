@@ -80,11 +80,15 @@ jobs:
             unknownGames = @($cand.unknownGames).Count
             historyVideos = $hist
             candidateIds = @($cand.candidates | ForEach-Object { [string]$_.videoId })
+            # 試験運転の候補一覧で「今回新しく増えた未登録作品の候補」を見分けるため(作品のキー|動画ID)
+            unknownKeys = @($cand.unknownGames | ForEach-Object { [string]$_.key })
+            unknownVideos = @($cand.unknownGames | ForEach-Object { $k = [string]$_.key; @($_.videos) | ForEach-Object { $k + "|" + [string]$_.videoId } })
           }
           $before | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath (Join-Path $env:RUNNER_TEMP "before.json") -Encoding utf8
           Write-Output ("PowerShell $($PSVersionTable.PSVersion) / 開始位置 $start / 候補 $($before.candidates) 件・未登録作品 $($before.unknownGames) 作品・履歴 $hist 本")
 
       - name: Crawl RSS
+        id: crawl
         shell: pwsh
         run: |
           $before = Get-Content -LiteralPath (Join-Path $env:RUNNER_TEMP "before.json") -Raw -Encoding utf8 | ConvertFrom-Json
@@ -153,6 +157,77 @@ jobs:
           }
           [IO.File]::WriteAllText((Join-Path $env:GITHUB_WORKSPACE "state/crawl-state.json"), (($state | ConvertTo-Json -Depth 3) + "`n"), (New-Object System.Text.UTF8Encoding($false)))
           "CRAWL_RANGE=$($before.startIndex)-$next" | Add-Content -LiteralPath $env:GITHUB_ENV -Encoding utf8
+
+      # ---- 試験運転だけ: 今回新しく増えた候補の一覧を artifact(7日間)に残す(検証で保存を止めたときも原因確認用に出す) ----
+      - name: Build review files (dry run only)
+        id: review
+        if: ${{ always() && env.SAVE_RESULTS != 'true' && steps.crawl.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          $before = Get-Content -LiteralPath (Join-Path $env:RUNNER_TEMP "before.json") -Raw -Encoding utf8 | ConvertFrom-Json
+          $cand = Get-Content -LiteralPath state/discovered-standalone-rss.json -Raw -Encoding utf8 | ConvertFrom-Json -DateKind String
+          $oldIds = New-Object System.Collections.Generic.HashSet[string]
+          foreach ($id in @($before.candidateIds)) { if ($id) { [void]$oldIds.Add([string]$id) } }
+          $oldKeys = New-Object System.Collections.Generic.HashSet[string]
+          foreach ($k in @($before.unknownKeys)) { if ($k) { [void]$oldKeys.Add([string]$k) } }
+          $oldUnknownVideos = New-Object System.Collections.Generic.HashSet[string]
+          foreach ($v in @($before.unknownVideos)) { if ($v) { [void]$oldUnknownVideos.Add([string]$v) } }
+
+          # 確認に必要な項目だけを残す(公開動画の情報だけ。説明欄・認証情報は含めない)
+          $newCands = [object[]]@($cand.candidates | Where-Object { -not $oldIds.Contains([string]$_.videoId) } | ForEach-Object {
+            [pscustomobject][ordered]@{
+              videoId = [string]$_.videoId; url = [string]$_.url; streamer = [string]$_.streamer; title = [string]$_.title
+              publishedDate = [string]$_.publishedDate; game = [string]$_.game; confidence = [string]$_.confidence
+              matchType = [string]$_.matchType; reasons = [object[]]@($_.reasons | ForEach-Object { [string]$_ }); reviewGroup = [string]$_.reviewGroup
+            }
+          })
+          $newUnknown = [object[]]@($cand.unknownGames | ForEach-Object {
+            $g = $_; $k = [string]$g.key
+            $vids = [object[]]@(@($g.videos) | Where-Object { -not $oldUnknownVideos.Contains($k + "|" + [string]$_.videoId) } | ForEach-Object {
+              [pscustomobject][ordered]@{ videoId = [string]$_.videoId; url = [string]$_.url; streamer = [string]$_.streamer; title = [string]$_.title; publishedDate = [string]$_.publishedDate; confidence = [string]$_.confidence; reasons = [object[]]@($_.reasons | ForEach-Object { [string]$_ }) }
+            })
+            if ($vids.Count -gt 0) {
+              [pscustomobject][ordered]@{
+                name = [string]$g.name; key = $k; newGame = (-not $oldKeys.Contains($k)); confidence = [string]$g.confidence
+                videoCount = [int]$g.videoCount; streamers = [object[]]@($g.streamers | ForEach-Object { [string]$_ }); reviewGroup = [string]$g.reviewGroup; newVideos = $vids
+              }
+            }
+          })
+          $byConf = [ordered]@{ HIGH = 0; MEDIUM = 0; LOW = 0; other = 0 }
+          foreach ($c in $newCands) { if ($byConf.Contains($c.confidence) -and $c.confidence -ne "other") { $byConf[$c.confidence]++ } else { $byConf.other++ } }
+
+          $dir = Join-Path $env:RUNNER_TEMP "rss-review"
+          New-Item -ItemType Directory -Path $dir -Force | Out-Null
+          $utf8 = New-Object System.Text.UTF8Encoding($false)
+          $meta = [ordered]@{ generatedAt = [DateTimeOffset]::UtcNow.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss"); runId = $env:GITHUB_RUN_ID; startIndex = [int]$before.startIndex; nextIndex = $cand.lastRun.stats.crawlNextIndex }
+          $candDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $candDoc[$k] = $meta[$k] }
+          $candDoc["count"] = $newCands.Count; $candDoc["byConfidence"] = $byConf; $candDoc["candidates"] = $newCands   # .count は辞書の Count と重なるため添字で入れる
+          [IO.File]::WriteAllText((Join-Path $dir "new-candidates.json"), ((ConvertTo-Json -InputObject ([pscustomobject]$candDoc) -Depth 6) + "`n"), $utf8)
+          $unkDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $unkDoc[$k] = $meta[$k] }
+          $unkDoc["count"] = $newUnknown.Count; $unkDoc["unknownGames"] = $newUnknown
+          [IO.File]::WriteAllText((Join-Path $dir "new-unknown-games.json"), ((ConvertTo-Json -InputObject ([pscustomobject]$unkDoc) -Depth 6) + "`n"), $utf8)
+          # CSV: Excel で文字化けしないよう BOM 付き UTF-8・CRLF。判定理由は " / " でつなぐ
+          $q = { param($v) '"' + ([string]$v).Replace('"', '""') + '"' }
+          $csv = New-Object System.Collections.Generic.List[string]
+          $csv.Add((@("videoId", "url", "streamer", "title", "publishedDate", "game", "confidence", "matchType", "reasons", "reviewGroup") | ForEach-Object { & $q $_ }) -join ",")
+          foreach ($c in $newCands) {
+            $csv.Add((@($c.videoId, $c.url, $c.streamer, $c.title, $c.publishedDate, $c.game, $c.confidence, $c.matchType, (@($c.reasons) -join " / "), $c.reviewGroup) | ForEach-Object { & $q $_ }) -join ",")
+          }
+          [IO.File]::WriteAllText((Join-Path $dir "new-candidates.csv"), (($csv -join "`r`n") + "`r`n"), (New-Object System.Text.UTF8Encoding($true)))
+
+          $line = "- 新規候補の信頼度: HIGH $($byConf.HIGH) / MEDIUM $($byConf.MEDIUM) / LOW $($byConf.LOW)" + $(if ($byConf.other -gt 0) { " / その他 $($byConf.other)" } else { "" }) + "(候補一覧は artifact に7日間保存)"
+          $line2 = "- 未登録作品の候補: 新しい動画のある作品 $($newUnknown.Count)(うち新しい作品 $(@($newUnknown | Where-Object { $_.newGame }).Count))"
+          ($line, $line2) -join "`n" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Encoding utf8
+          Write-Output $line; Write-Output $line2
+
+      - name: Upload review files (dry run only)
+        if: ${{ always() && env.SAVE_RESULTS != 'true' && steps.review.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: rss-crawl-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/rss-review/
+          retention-days: 7
+          if-no-files-found: error
 
       - name: Dry run (not saved)
         if: ${{ env.SAVE_RESULTS != 'true' }}
