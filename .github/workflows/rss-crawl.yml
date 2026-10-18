@@ -202,6 +202,11 @@ jobs:
           $meta = [ordered]@{ generatedAt = [DateTimeOffset]::UtcNow.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss"); runId = $env:GITHUB_RUN_ID; startIndex = [int]$before.startIndex; nextIndex = $cand.lastRun.stats.crawlNextIndex }
           $candDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $candDoc[$k] = $meta[$k] }
           $candDoc["count"] = $newCands.Count; $candDoc["byConfidence"] = $byConf; $candDoc["candidates"] = $newCands   # .count は辞書の Count と重なるため添字で入れる
+          # RSS の取得に失敗したチャンネル(公開のチャンネルID・VTuber名・理由だけ。原因の確認用に同じファイルへ入れる)
+          $fetchFailures = [object[]]@($cand.lastRun.errors | Where-Object { $_.stage -eq "fetch" -and $_.channelId -and $_.attempts } | ForEach-Object {
+            [pscustomobject][ordered]@{ channelId = [string]$_.channelId; streamer = [string]$_.streamer; reason = [string]$_.reason; status = $_.status; attempts = [int]$_.attempts; attemptReasons = [object[]]@($_.attemptReasons | ForEach-Object { [string]$_ }) }
+          })
+          $candDoc["fetchFailureCount"] = $fetchFailures.Count; $candDoc["fetchFailures"] = $fetchFailures
           [IO.File]::WriteAllText((Join-Path $dir "new-candidates.json"), ((ConvertTo-Json -InputObject ([pscustomobject]$candDoc) -Depth 6) + "`n"), $utf8)
           $unkDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $unkDoc[$k] = $meta[$k] }
           $unkDoc["count"] = $newUnknown.Count; $unkDoc["unknownGames"] = $newUnknown
@@ -217,8 +222,9 @@ jobs:
 
           $line = "- 新規候補の信頼度: HIGH $($byConf.HIGH) / MEDIUM $($byConf.MEDIUM) / LOW $($byConf.LOW)" + $(if ($byConf.other -gt 0) { " / その他 $($byConf.other)" } else { "" }) + "(候補一覧は artifact に7日間保存)"
           $line2 = "- 未登録作品の候補: 新しい動画のある作品 $($newUnknown.Count)(うち新しい作品 $(@($newUnknown | Where-Object { $_.newGame }).Count))"
-          ($line, $line2) -join "`n" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Encoding utf8
-          Write-Output $line; Write-Output $line2
+          $line3 = "- RSS の取得に失敗したチャンネル: $($fetchFailures.Count)(一覧は artifact の new-candidates.json の fetchFailures)"
+          ($line, $line2, $line3) -join "`n" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Encoding utf8
+          Write-Output $line; Write-Output $line2; Write-Output $line3
 
       - name: Upload review files (dry run only)
         if: ${{ always() && env.SAVE_RESULTS != 'true' && steps.review.outcome == 'success' }}
