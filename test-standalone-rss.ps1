@@ -597,6 +597,140 @@ $f9 = Invoke-Fetch @("音乃瀬奏") $null
 $fetchStoreAfter = @(Get-ChildItem -LiteralPath $entF -Filter *.json | Sort-Object Name | ForEach-Object { $_.Name + "=" + (Get-FileHash $_.FullName -Algorithm SHA256).Hash })
 Check "18j. RSS の取得に失敗したときは履歴JSONを変更しない" ($f9.code -eq 0 -and $fetchStoreBefore.Count -ge 2 -and ($fetchStoreBefore -join ",") -eq ($fetchStoreAfter -join ",")) ("before=$($fetchStoreBefore.Count) after=$($fetchStoreAfter.Count)")
 
+Write-Output "== API 方式(-Source Api。モック。ネットワークには接続しない)"
+$apiDir = Join-Path $work "api-mock"
+New-Item -ItemType Directory -Path $apiDir -Force | Out-Null
+$fakeKey = "TESTKEY-DO-NOT-PRINT-7f3a9c"
+$apiChannels = @(@{ id = $rui; name = "鷹嶺ルイ" }, @{ id = $sora; name = "ときのそら" }, @{ id = $botan; name = "獅白ぼたん" }, @{ id = $roboco; name = "ロボ子さん" }, @{ id = $kanadeReal; name = "音乃瀬奏" })
+$apiMap = Join-Path $work "api-map.json"
+[IO.File]::WriteAllText($apiMap, (ConvertTo-Json -InputObject @($apiChannels | ForEach-Object { [pscustomobject]@{ streamer = $_.name; channelId = $_.id } }) -Depth 3), $utf8)
+$uu = @{}; foreach ($c in $apiChannels) { $uu[$c.name] = "UU" + $c.id.Substring(2) }
+function New-ApiPage([object[]]$items, [string]$next = "") {
+  $o = [ordered]@{ kind = "youtube#playlistItemListResponse"; items = @($items | ForEach-Object {
+    $cd = [ordered]@{ videoId = $_.id }; if ($_.pub) { $cd.videoPublishedAt = $_.pub }
+    [ordered]@{ snippet = [ordered]@{ title = $_.title; description = [string]$_.desc }; contentDetails = $cd } }) }
+  if ($next) { $o.nextPageToken = $next }
+  return ($o | ConvertTo-Json -Depth 6)
+}
+function Write-ApiFile([string]$name, [string]$text) { [IO.File]::WriteAllText((Join-Path $apiDir $name), $text, $utf8) }
+Write-ApiFile "rui.json" (New-ApiPage @(@{ id = "ApiRui00001"; title = "【8番出口】API取得テスト【鷹嶺ルイ/ホロライブ】"; pub = "2026-10-18T01:00:00Z" }, @{ id = "ApiRuiPriv1"; title = "非公開の動画"; pub = "" }))
+Write-ApiFile "sora.json" (New-ApiPage @(@{ id = "ApiSora0001"; title = "【8番出口】そらのAPIテスト【ときのそら/ホロライブ】"; pub = "2026-10-17T01:00:00Z" }))
+Write-ApiFile "botan-ch.json" ((@{ items = @(@{ contentDetails = @{ relatedPlaylists = @{ uploads = "UUbotanResolved0000000x" } } }) } | ConvertTo-Json -Depth 6))
+Write-ApiFile "botan.json" (New-ApiPage @(@{ id = "ApiBotan001"; title = "【雑談】ぼたんの雑談"; pub = "2026-10-16T01:00:00Z" }))
+Write-ApiFile "roboco1.json" (New-ApiPage @(@{ id = "ApiRobo0001"; title = "【雑談】ロボ1"; pub = "2026-10-15T03:00:00Z" }, @{ id = "ApiRobo0002"; title = "【雑談】ロボ2"; pub = "2026-10-15T02:00:00Z" }) "PAGE2")
+Write-ApiFile "roboco2.json" (New-ApiPage @(@{ id = "ApiRobo0003"; title = "【雑談】ロボ3(2ページ目)"; pub = "2026-10-15T01:00:00Z" }, @{ id = "RbOld000001"; title = "【雑談】前回の動画"; pub = "2026-10-01T01:00:00Z" }))
+Write-ApiFile "kanade1.json" (New-ApiPage @(@{ id = "ApiKnd00001"; title = "【雑談】奏の新着"; pub = "2026-10-14T02:00:00Z" }, @{ id = "KnKnown0001"; title = "【雑談】前回の動画"; pub = "2026-10-01T01:00:00Z" }) "PAGE2")
+Write-ApiFile "kanade2.json" (New-ApiPage @(@{ id = "KnPage2only"; title = "読まれないはずの2ページ目"; pub = "2026-09-01T01:00:00Z" }))
+[IO.File]::WriteAllText((Join-Path $apiDir "api-mock.ps1"), @'
+$script:md = Split-Path -Parent $MyInvocation.MyCommand.Path
+$script:sc = [IO.File]::ReadAllText((Join-Path $script:md "scenario.json"), [Text.Encoding]::UTF8) | ConvertFrom-Json
+$script:cnt = @{}
+function Invoke-StandaloneApiRequest([string]$url, [int]$timeoutSec) {
+  $hasKey = [int]($url -match '[?&]key=[^&]+$')
+  if ($url -match '/v3/channels\?.*[?&]id=([^&]+)') { $k = "channels:" + [uri]::UnescapeDataString($Matches[1]) }
+  else { $k = [uri]::UnescapeDataString([regex]::Match($url, 'playlistId=([^&]+)').Groups[1].Value) + "|" + [uri]::UnescapeDataString([regex]::Match($url, 'pageToken=([^&]+)').Groups[1].Value) }
+  $n = 1 + [int]$script:cnt[$k]; $script:cnt[$k] = $n
+  [IO.File]::AppendAllText((Join-Path $script:md "calls.log"), "$k`t$n`t$hasKey`n", (New-Object System.Text.UTF8Encoding($false)))   # API キー・URL は記録しない
+  $steps = @($script:sc.$k)
+  if ($steps.Count -eq 0 -or -not $steps[0]) { return @{ ok = $false; status = 404; reason = "HTTP 404"; apiReason = "playlistNotFound" } }
+  $s = $steps[[Math]::Min($n, $steps.Count) - 1]
+  if ($s.ok) { return @{ ok = $true; status = 200; content = [IO.File]::ReadAllText((Join-Path $script:md $s.file), [Text.Encoding]::UTF8) } }
+  return @{ ok = $false; status = [int]$s.status; reason = [string]$s.reason; apiReason = [string]$s.apiReason }
+}
+'@, (New-Object System.Text.UTF8Encoding($true)))
+$okStep = { param($f) @(@{ ok = $true; file = $f }) }
+function Write-ApiScenario($overrides) {
+  $sc = [ordered]@{}
+  $sc[$uu["鷹嶺ルイ"] + "|"] = & $okStep "rui.json"
+  $sc[$uu["ときのそら"] + "|"] = @(@{ ok = $false; status = 500; reason = "HTTP 500"; apiReason = "backendError" }, @{ ok = $true; file = "sora.json" })
+  $sc[$uu["獅白ぼたん"] + "|"] = @(@{ ok = $false; status = 404; reason = "HTTP 404"; apiReason = "playlistNotFound" })
+  $sc["channels:" + $botan] = & $okStep "botan-ch.json"
+  $sc["UUbotanResolved0000000x|"] = & $okStep "botan.json"
+  $sc[$uu["ロボ子さん"] + "|"] = & $okStep "roboco1.json"
+  $sc[$uu["ロボ子さん"] + "|PAGE2"] = & $okStep "roboco2.json"
+  $sc[$uu["音乃瀬奏"] + "|"] = & $okStep "kanade1.json"
+  $sc[$uu["音乃瀬奏"] + "|PAGE2"] = & $okStep "kanade2.json"
+  if ($overrides) { foreach ($k in $overrides.Keys) { $sc[$k] = $overrides[$k] } }
+  [IO.File]::WriteAllText((Join-Path $apiDir "scenario.json"), ($sc | ConvertTo-Json -Depth 6), $utf8)
+  if (Test-Path (Join-Path $apiDir "calls.log")) { Remove-Item -LiteralPath (Join-Path $apiDir "calls.log") }
+}
+function New-ApiFeedDir([string]$name) {
+  $d = Join-Path $work $name; $e = Join-Path $d "entries"; New-Item -ItemType Directory -Path $e -Force | Out-Null
+  # 前回の記録: ロボ子さんは1ページ目に既知の動画が無い(2ページ目を読む)、奏は1ページ目に既知の動画がある(読まない)
+  foreach ($h in @(@{ id = $roboco; name = "ロボ子さん"; vid = "RbOld000001" }, @{ id = $kanadeReal; name = "音乃瀬奏"; vid = "KnKnown0001" })) {
+    $doc = [ordered]@{ channelId = $h.id; streamer = $h.name; updatedAt = $old; videoCount = 1; videos = @([ordered]@{ videoId = $h.vid; title = "前回の動画"; description = ""; published = "2026-10-01T01:00:00Z"; firstSeenAt = $old; lastSeenAt = $old }) }
+    [IO.File]::WriteAllText((Join-Path $e ($h.id + ".json")), ($doc | ConvertTo-Json -Depth 5), $utf8)
+  }
+  return $d
+}
+function Invoke-ApiRun([string]$feedDir, [string]$outFile, [string[]]$extra, [string]$key = $fakeKey) {
+  $ErrorActionPreference = "Continue"
+  $saved = $env:YOUTUBE_API_KEY; $env:YOUTUBE_API_KEY = $key
+  try {
+    $a = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch, "-FeedDir", $feedDir, "-OutFile", $outFile, "-ChannelMapPath", $apiMap, "-Source", "Api",
+           "-RequestScript", (Join-Path $apiDir "api-mock.ps1"), "-RetryDelaySeconds", "0", "-RequestIntervalMs", "0") + $extra
+    $o = & $psExe @a 2>&1 | ForEach-Object { "$_" }
+    return [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join "`n") }
+  } finally { $env:YOUTUBE_API_KEY = $saved }
+}
+function Get-ApiCalls() { $p = Join-Path $apiDir "calls.log"; if (Test-Path $p) { return @(([IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) -split "`n") | Where-Object { $_ }) } else { return @() } }
+function Read-ApiOut([string]$p) { return ([IO.File]::ReadAllText($p, [Text.Encoding]::UTF8)) | ConvertFrom-Json }
+
+# A. 正常: 5チャンネル(再試行・再生リストの調べ直し・2ページ目あり/なし)
+Write-ApiScenario $null
+$fdA = New-ApiFeedDir "api-feeds-a"; $outA = Join-Path $work "api-a.json"
+$ra = Invoke-ApiRun $fdA $outA @("-All", "-MaxChannels", "5", "-StartIndex", "0")
+$ja = Read-ApiOut $outA; $sa = $ja.lastRun.stats; $ca = Get-ApiCalls
+$idsA = @($ja.candidates | ForEach-Object { $_.videoId })
+Check "19a. API 方式で5チャンネルを取得し、取得した動画を既存の判定に渡す(【8番出口】は候補)" ($ra.code -eq 0 -and $sa.source -eq "Api" -and $sa.fetched -eq 5 -and $sa.fetchFailed -eq 0 -and ($idsA -contains "ApiRui00001") -and ($idsA -contains "ApiSora0001")) ($ra.output)
+Check "19b. 呼び出し回数を数える(ルイ1・そら2[500→再試行]・ぼたん3[404→調べ直し→取得]・ロボ子2[2ページ]・奏1 = 9回)" ($sa.apiCalls -eq 9 -and $ca.Count -eq 9 -and $sa.apiResolvedUploads -eq 1 -and $sa.apiPages -eq 6 -and $sa.retried -eq 1) ("calls=$($sa.apiCalls) log=$($ca.Count) pages=$($sa.apiPages) resolved=$($sa.apiResolvedUploads) retried=$($sa.retried)")
+$hRobo = Read-ApiOut (Join-Path (Join-Path $fdA "entries") "$roboco.json"); $hKnd = Read-ApiOut (Join-Path (Join-Path $fdA "entries") "$kanadeReal.json"); $hRui = Read-ApiOut (Join-Path (Join-Path $fdA "entries") "$rui.json")
+Check "19c. 前回の記録があり1ページ目に既知の動画が無いときだけ2ページ目を読む(ロボ子は読む・奏は読まない)" (@($hRobo.videos | Where-Object videoId -eq "ApiRobo0003").Count -eq 1 -and @($hKnd.videos | Where-Object videoId -eq "KnPage2only").Count -eq 0 -and @($ca | Where-Object { $_ -like ($uu["音乃瀬奏"] + "|PAGE2*") }).Count -eq 0) ""
+Check "19d. 非公開・削除済み(videoPublishedAt が無い)動画は除き、取得した動画は履歴に記録する" (@($hRui.videos | Where-Object videoId -eq "ApiRui00001").Count -eq 1 -and @($hRui.videos | Where-Object videoId -eq "ApiRuiPriv1").Count -eq 0 -and -not ($idsA -contains "ApiRuiPriv1")) ""
+Check "19e. 最後まで巡回したら次回の開始位置は 0・取り直すチャンネルは無い" ($sa.crawlNextIndex -eq 0 -and @($ja.lastRun.retryChannelIds).Count -eq 0) ("next=$($sa.crawlNextIndex) retry=$(@($ja.lastRun.retryChannelIds) -join ',')")
+$keyLeak = @($ra.output, [IO.File]::ReadAllText($outA, [Text.Encoding]::UTF8), (Get-ChildItem -LiteralPath (Join-Path $fdA "entries") -File | ForEach-Object { [IO.File]::ReadAllText($_.FullName) }) -join "") | Where-Object { $_ -match [regex]::Escape($fakeKey) }
+Check "19f. API キーはリクエストに付けるが、ログ・候補JSON・履歴には出さない" (@($ca | Where-Object { $_ -notmatch "`t1$" }).Count -eq 0 -and @($keyLeak).Count -eq 0) ""
+$ra2 = Invoke-ApiRun $fdA $outA @("-All", "-MaxChannels", "5", "-StartIndex", "0")
+$ja2 = Read-ApiOut $outA
+Check "19g. 同じ内容を2回取得しても候補は増えない" ($ra2.code -eq 0 -and @($ja2.candidates).Count -eq @($ja.candidates).Count -and $ja2.lastRun.stats.newCandidates -eq 0) ("count=$(@($ja2.candidates).Count)")
+
+# B. 呼び出しの上限: 4回で止める(ぼたんの調べ直しは上限で打ち切り → 失敗として次回に取り直す。ロボ子・奏は取得前に止める)
+Write-ApiScenario $null
+$fdB = New-ApiFeedDir "api-feeds-b"; $outB3 = Join-Path $work "api-b.json"
+$rb = Invoke-ApiRun $fdB $outB3 @("-All", "-MaxChannels", "5", "-StartIndex", "0", "-MaxApiCalls", "4")
+$jb3 = Read-ApiOut $outB3; $sb = $jb3.lastRun.stats
+Check "19h. 失敗した呼び出しも数え、上限(4回)を超えて呼ばない" ($rb.code -eq 0 -and $sb.apiCalls -eq 4 -and (Get-ApiCalls).Count -eq 4 -and $sb.apiStopped -eq "limit") ("calls=$($sb.apiCalls) stopped=$($sb.apiStopped)")
+Check "19i. 上限で止めたときは、試したところまで巡回位置を進め(次回 3)、取得前のチャンネルは巡回位置で次回に残す" ($sb.crawlNextIndex -eq 3 -and $sb.fetched -eq 2 -and $sb.fetchFailed -eq 1 -and $sb.fetchNotAttempted -eq 2 -and ((@($jb3.lastRun.retryChannelIds)) -join ",") -eq $botan) ("next=$($sb.crawlNextIndex) fetched=$($sb.fetched) failed=$($sb.fetchFailed) notAttempted=$($sb.fetchNotAttempted) retry=$(@($jb3.lastRun.retryChannelIds) -join ',')")
+
+# C. 取り直し: 前回失敗したぼたん・ロボ子を先に取得(ロボ子は巡回の順でも対象だが1回だけ取得する)
+Write-ApiScenario $null
+$fdC = New-ApiFeedDir "api-feeds-c"; $outC3 = Join-Path $work "api-c.json"
+$rc = Invoke-ApiRun $fdC $outC3 @("-All", "-MaxChannels", "3", "-StartIndex", "3", "-PriorityChannelId", "$botan,$roboco,UCbadId")
+$jc3 = Read-ApiOut $outC3; $sc3 = $jc3.lastRun.stats; $cc = Get-ApiCalls
+Check "19j. 取り直すチャンネルを先に取得し(-MaxChannels の枠に含める)、成功したチャンネルは同じ実行で取り直さない" ($rc.code -eq 0 -and $sc3.priorityTargets -eq 2 -and $sc3.fetched -eq 2 -and $cc[0] -like ($uu["獅白ぼたん"] + "|*") -and @($cc | Where-Object { $_ -like ($uu["ロボ子さん"] + "|`t*") }).Count -eq 1 -and @($jc3.lastRun.retryChannelIds).Count -eq 0) ("prio=$($sc3.priorityTargets) fetched=$($sc3.fetched) calls=$($cc -join ' | ')")
+Check "19k. 巡回位置は対応表の順の分だけ進め(3 → 4)、形式の正しくない取り直しIDはエラーにする" ($sc3.crawlNextIndex -eq 4 -and @($jc3.lastRun.errors | Where-Object { $_.channelId -eq "UCbadId" }).Count -eq 1) ("next=$($sc3.crawlNextIndex)")
+
+# D. 利用枠の超過: そらで quotaExceeded → その時点で取得をやめる(取得できた分は判定・残りは次回)
+Write-ApiScenario @{ ($uu["ときのそら"] + "|") = @(@{ ok = $false; status = 403; reason = "HTTP 403"; apiReason = "quotaExceeded" }) }
+$fdD = New-ApiFeedDir "api-feeds-d"; $outD = Join-Path $work "api-d.json"
+$rd = Invoke-ApiRun $fdD $outD @("-All", "-MaxChannels", "5", "-StartIndex", "0")
+$jd = Read-ApiOut $outD; $sd = $jd.lastRun.stats
+Check "19l. quotaExceeded では再試行せずに取得をやめ、取得できた分は判定し、そらは次回に取り直す" ($rd.code -eq 0 -and $sd.apiStopped -eq "quota" -and $sd.apiCalls -eq 2 -and $sd.fetched -eq 1 -and $sd.crawlNextIndex -eq 2 -and ((@($jd.lastRun.retryChannelIds)) -join ",") -eq $sora -and (@($jd.candidates | ForEach-Object videoId) -contains "ApiRui00001")) ("code=$($rd.code) stopped=$($sd.apiStopped) calls=$($sd.apiCalls) next=$($sd.crawlNextIndex)")
+
+# E. キーの誤り(400 keyInvalid): 1回目で取得をやめ、終了コード 3
+Write-ApiScenario @{ ($uu["鷹嶺ルイ"] + "|") = @(@{ ok = $false; status = 400; reason = "HTTP 400"; apiReason = "keyInvalid" }) }
+$fdE = New-ApiFeedDir "api-feeds-e"; $outE = Join-Path $work "api-e.json"
+$re = Invoke-ApiRun $fdE $outE @("-All", "-MaxChannels", "5", "-StartIndex", "0")
+Check "19m. API キー・権限のエラーでは、それ以上呼ばずに終了コード 3 で止める" ($re.code -eq 3 -and (Get-ApiCalls).Count -eq 1 -and (Read-ApiOut $outE).lastRun.stats.apiStopped -eq "fatal") ("code=$($re.code) calls=$((Get-ApiCalls).Count)")
+
+# F. API キーが無い・指定の組み合わせが正しくない: 何も呼ばずに止め、出力ファイルを作らない
+Write-ApiScenario $null
+$outF2 = Join-Path $work "api-f.json"
+$rf = Invoke-ApiRun (New-ApiFeedDir "api-feeds-f") $outF2 @("-All", "-MaxChannels", "5") ""
+Check "19n. API キーが無いときは何も呼ばずに止め、出力ファイルを作らない" ($rf.code -ne 0 -and (Get-ApiCalls).Count -eq 0 -and -not (Test-Path $outF2)) ("code=$($rf.code)")
+$rg = Invoke-ApiRun (New-ApiFeedDir "api-feeds-g") $outF2 @("-Streamer", "鷹嶺ルイ", "-PriorityChannelId", $rui)
+Check "19o. -PriorityChannelId は -All と一緒でないと止める" ($rg.code -ne 0 -and (Get-ApiCalls).Count -eq 0) ("code=$($rg.code)")
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 

@@ -64,6 +64,17 @@
   既存の候補のうち確認待ち(pending)のものと、未登録作品の候補に記録済みの動画だけを今のロジックで判定し直す。
   新しい動画は候補に追加しない。RSS は取得しない。
   -Streamer / -ChannelId / -All とは同時に指定できない。
+.PARAMETER Source
+  取得元。Rss(既定。YouTube のチャンネル RSS)か Api(YouTube Data API。取得するときだけ指定できる)。
+  Api ではチャンネルID の UC… を UU… にした「アップロード動画の再生リスト」を playlistItems.list で読む(1ページ50本・1 unit)。
+  再生リストが見つからないときだけ channels.list で調べ直す。2ページ目は、前回の記録があるのに1ページ目の50本に
+  既知の動画が1本も無いときだけ読む(最大2ページ)。API キーは環境変数 YOUTUBE_API_KEY から読み、表示しない。
+  利用枠の超過・上限到達では取得をやめて取得できた分だけ判定する。キー・権限のエラーでは取得をやめて終了コード 3。
+.PARAMETER MaxApiCalls
+  -Source Api で1回の実行に使う API 呼び出しの上限(既定 300。失敗した呼び出しも1回と数える)。
+.PARAMETER PriorityChannelId
+  -All と一緒に指定。対応表の順の巡回より先に取得するチャンネルID(前回の lastRun.retryChannelIds。カンマ区切り可)。
+  -MaxChannels の枠に含める。取得前に止めた・失敗したものは、次回用に lastRun.retryChannelIds に残す。
 .PARAMETER StartIndex
   -All で巡回を始める対応表の位置(0 始まり、既定 0)。結果の lastRun.stats.crawlNextIndex が次回の開始位置。
 .PARAMETER OutFile
@@ -94,7 +105,10 @@ param(
   [switch]$All,
   [int]$MaxChannels = 3,
   [int]$StartIndex = 0,
-  [switch]$RejudgeOnly
+  [switch]$RejudgeOnly,
+  [ValidateSet("Rss", "Api")][string]$Source = "Rss",
+  [int]$MaxApiCalls = 300,
+  [string[]]$PriorityChannelId
 )
 
 $ErrorActionPreference = "Stop"
@@ -111,6 +125,15 @@ if ($All -and $MaxChannels -lt 1) { throw "-MaxChannels には1以上の件数�
 if ($All -and $StartIndex -lt 0) { throw "-StartIndex には0以上を指定してください。" }
 if ($RejudgeOnly -and ($All -or ($Streamer.Count + $ChannelId.Count) -gt 0)) { throw "-RejudgeOnly は -Streamer / -ChannelId / -All と同時に指定できません(一括再判定は RSS を取得しません)。" }
 $fetchMode = (($Streamer.Count + $ChannelId.Count) -gt 0) -or [bool]$All
+$PriorityChannelId = @($PriorityChannelId | ForEach-Object { "$_" -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+if ($PriorityChannelId.Count -gt 0 -and -not $All) { throw "-PriorityChannelId は -All と一緒に指定してください(巡回の前に取り直すチャンネル)。" }
+if ($Source -eq "Api") {
+  if (-not $fetchMode) { throw "-Source Api は取得するとき(-All / -Streamer / -ChannelId)だけ指定できます。" }
+  if ($MaxApiCalls -lt 1) { throw "-MaxApiCalls には1以上を指定してください。" }
+  # API キーは環境変数からだけ読む(引数・ログ・出力ファイルには出さない)
+  $apiKey = [string]$env:YOUTUBE_API_KEY
+  if (-not $apiKey) { throw "環境変数 YOUTUBE_API_KEY が設定されていません(-Source Api では必須)。何も取得していません。" }
+}
 if ($fetchMode) {
   if (-not (Test-Path $FeedDir)) { New-Item -ItemType Directory -Path $FeedDir -Force | Out-Null }
   if (-not $ChannelMapPath) { $defaultMap = Join-Path $scriptDir "streamer-channel-ids.json"; if (Test-Path $defaultMap) { $ChannelMapPath = $defaultMap } }
@@ -342,7 +365,127 @@ function Invoke-StandaloneRssRequest([string]$url, [int]$timeoutSec) {
     return @{ ok = $false; status = $status; reason = $reason }
   }
 }
+# YouTube Data API の GET(1回 = 1 unit)。@{ ok; status; content } か @{ ok = $false; status; reason; apiReason } を返す。
+# URL(API キーを含む)は返さない・表示しない。エラーの理由は HTTP ステータスと API の reason(quotaExceeded など)だけを残す
+function Invoke-StandaloneApiRequest([string]$url, [int]$timeoutSec) {
+  try {
+    $r = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec $timeoutSec
+    return @{ ok = $true; status = [int]$r.StatusCode; content = [Text.Encoding]::UTF8.GetString($r.RawContentStream.ToArray()) }
+  } catch {
+    $status = $null; $body = ""
+    if ($_.Exception.Response) { try { $status = [int]$_.Exception.Response.StatusCode } catch { $status = $null } }
+    if ($_.ErrorDetails -and $_.ErrorDetails.Message) { $body = [string]$_.ErrorDetails.Message }
+    elseif ($_.Exception.Response -and $_.Exception.Response.PSObject.Methods["GetResponseStream"]) {
+      try { $sr = New-Object IO.StreamReader($_.Exception.Response.GetResponseStream()); $body = $sr.ReadToEnd(); $sr.Close() } catch { $body = "" }
+    }
+    $apiReason = ""
+    if ($body) { try { $apiReason = [string]@((ConvertFrom-StandaloneJson $body).error.errors)[0].reason } catch { $apiReason = "" } }
+    $isTimeout = ($_.Exception -is [System.Net.WebException]) -and ($_.Exception.Status -eq [System.Net.WebExceptionStatus]::Timeout)
+    $reason = if ($status) { "HTTP $status" } elseif ($isTimeout) { "タイムアウト" } else { "通信エラー" }
+    return @{ ok = $false; status = $status; reason = $reason; apiReason = $apiReason }
+  }
+}
 if ($RequestScript) { . $RequestScript }
+
+# ---- API 方式(-Source Api)の取得 ----
+# 失敗の種類: quota = 利用枠の超過(その時点で取得をやめる) / fatal = キーの誤り・権限など(取得をやめ、終了コード 3)
+#             notFound = そのチャンネルの再生リストが無い / transient = 一時的(5xx・タイムアウト・回数制限。1回だけ再試行)
+function Get-StandaloneApiFailureKind($res) {
+  $r = [string]$res.apiReason; $st = 0; if ($res.status) { $st = [int]$res.status }
+  if ($r -eq "quotaExceeded" -or $r -eq "dailyLimitExceeded") { return "quota" }
+  if ($r -eq "playlistNotFound" -or $r -eq "playlistItemsNotAccessible" -or $st -eq 404) { return "notFound" }
+  if ($r -eq "rateLimitExceeded" -or $r -eq "userRateLimitExceeded" -or $r -eq "backendError" -or $st -ge 500 -or $st -eq 0) { return "transient" }
+  return "fatal"   # 400(keyInvalid など)・401・その他の 403(accessNotConfigured・forbidden など)
+}
+$apiState = @{ calls = 0; stopped = "" }   # stopped: limit(呼び出しの上限) / quota / fatal
+# API の呼び出し(失敗した呼び出しも1回として数え、-MaxApiCalls を超えて呼ばない)
+function Invoke-StandaloneApiCall([string]$query) {
+  if ($apiState.stopped) { return @{ ok = $false; skipped = $true } }
+  if ($apiState.calls -ge $MaxApiCalls) { $apiState.stopped = "limit"; return @{ ok = $false; skipped = $true } }
+  $apiState.calls++
+  $res = Invoke-StandaloneApiRequest ("https://www.googleapis.com/youtube/v3/" + $query + "&key=" + [uri]::EscapeDataString($apiKey)) $TimeoutSec
+  if (-not $res.ok) {
+    $res.kind = Get-StandaloneApiFailureKind $res
+    if ($res.kind -eq "quota" -or $res.kind -eq "fatal") { $apiState.stopped = $res.kind }
+  }
+  return $res
+}
+function Get-StandaloneApiFailureText($res) {
+  if ($res.apiReason) { return "$($res.reason)($($res.apiReason))" } else { return [string]$res.reason }
+}
+# アップロード動画の再生リストを1ページ(最新50本・1 unit)取得する。一時的な失敗だけ1回再試行する
+function Invoke-StandaloneApiPage([string]$playlistId, [string]$pageToken, $log) {
+  $res = $null
+  for ($i = 1; $i -le 2; $i++) {
+    if ($i -eq 2) { $stat.retried++; if ($RetryDelaySeconds -gt 0) { Start-Sleep -Seconds $RetryDelaySeconds } }
+    $q = "playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=" + [uri]::EscapeDataString($playlistId)
+    if ($pageToken) { $q += "&pageToken=" + [uri]::EscapeDataString($pageToken) }
+    $res = Invoke-StandaloneApiCall $q
+    if ($res.ok -or $res.skipped) { return $res }
+    $log.Add((Get-StandaloneApiFailureText $res))
+    if ($res.kind -ne "transient") { return $res }
+  }
+  return $res
+}
+# API の結果を RSS と同じ形(videoId / title / description / published)にする。非公開・削除済み(videoPublishedAt が無い)は除く
+function ConvertFrom-StandaloneApiItems($data) {
+  $list = New-Object System.Collections.Generic.List[object]
+  foreach ($it in @($data.items)) {
+    $vid = [string]$it.contentDetails.videoId; $pub = [string]$it.contentDetails.videoPublishedAt
+    if (-not $vid -or -not $pub) { continue }
+    $list.Add([pscustomobject]@{ videoId = $vid; title = [string]$it.snippet.title; description = [string]$it.snippet.description; published = $pub })
+  }
+  return , $list.ToArray()
+}
+# 前回までに記録した動画(動画ごとの履歴)。無い・読めないときは $null(初めてのチャンネルとして扱う)
+function Get-StandaloneHistoryVideoIds([string]$cid) {
+  $path = Join-Path (Join-Path $feedDirFull "entries") ($cid + ".json")
+  if (-not (Test-Path -LiteralPath $path)) { return $null }
+  try {
+    $set = New-Object System.Collections.Generic.HashSet[string]
+    foreach ($v in @((ConvertFrom-StandaloneJson ([IO.File]::ReadAllText($path, [Text.Encoding]::UTF8))).videos)) { if ($v.videoId) { [void]$set.Add([string]$v.videoId) } }
+    return , $set
+  } catch { return $null }
+}
+# 1チャンネル分: UC… → UU… の再生リストを読む。無ければ channels.list で調べ直して1回だけ取り直す。
+# 2ページ目は「前回の記録があるのに、1ページ目の50本に既知の動画が1本も無い(取りこぼしの恐れ)」ときだけ読む
+function Get-StandaloneApiUploads($t) {
+  $log = New-Object System.Collections.Generic.List[string]
+  $callsBefore = $apiState.calls
+  $playlistId = "UU" + $t.channelId.Substring(2)
+  $res = Invoke-StandaloneApiPage $playlistId "" $log
+  if (-not $res.ok -and -not $res.skipped -and $res.kind -eq "notFound") {
+    $ch = Invoke-StandaloneApiCall ("channels?part=contentDetails&id=" + [uri]::EscapeDataString($t.channelId))
+    if ($ch.ok) {
+      $up = ""; try { $up = [string]@((ConvertFrom-StandaloneJson $ch.content).items)[0].contentDetails.relatedPlaylists.uploads } catch { $up = "" }
+      if ($up -and $up -ne $playlistId) { $stat.apiResolvedUploads++; $playlistId = $up; $res = Invoke-StandaloneApiPage $playlistId "" $log }
+      else { $log.Add("アップロード動画の再生リストが見つからない") }
+    } elseif (-not $ch.skipped) { $log.Add((Get-StandaloneApiFailureText $ch)); $res = $ch }
+  }
+  $calls = $apiState.calls - $callsBefore
+  if (-not $res.ok) {
+    return @{ ok = $false; attempted = ($calls -gt 0); calls = $calls; log = $log.ToArray(); reason = $(if ($res.skipped) { "API の呼び出しを止めたため取得できなかった($($apiState.stopped))" } else { Get-StandaloneApiFailureText $res }); status = $res.status; apiReason = [string]$res.apiReason }
+  }
+  $data = ConvertFrom-StandaloneJson $res.content
+  $entries = New-Object System.Collections.Generic.List[object]
+  $ids = New-Object System.Collections.Generic.HashSet[string]
+  foreach ($e in (ConvertFrom-StandaloneApiItems $data)) { if ($ids.Add($e.videoId)) { $entries.Add($e) } }
+  $pages = 1
+  if ($data.nextPageToken -and $entries.Count -gt 0) {
+    $known = Get-StandaloneHistoryVideoIds $t.channelId
+    if ($null -ne $known -and @($entries | Where-Object { $known.Contains($_.videoId) }).Count -eq 0) {
+      $res2 = Invoke-StandaloneApiPage $playlistId ([string]$data.nextPageToken) $log
+      if ($res2.ok) {
+        $pages = 2
+        foreach ($e in (ConvertFrom-StandaloneApiItems (ConvertFrom-StandaloneJson $res2.content))) { if ($ids.Add($e.videoId)) { $entries.Add($e) } }
+      } else {
+        $warnings.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = "2ページ目を取得できなかった(1ページ目の50本だけで判定した)"; stage = "fetch" })
+      }
+    }
+  }
+  $stat.apiPages += $pages
+  return @{ ok = $true; attempted = $true; calls = ($apiState.calls - $callsBefore); log = $log.ToArray(); entries = $entries.ToArray(); pages = $pages }
+}
 # 説明欄の定型部分(告知欄・宣伝など): 話題の違う3本以上の動画の説明欄に共通して出てくる行
 #   (前後の空白を除いて完全一致、2文字未満の行は数えない)。話題はタイトルの最初の【】の中身(無ければタイトルの先頭)で見る。
 #   同じシリーズの動画にだけ出てくる行(例: 続き物の作品名の行)は話題が1つなので定型部分にしない
@@ -377,9 +520,13 @@ function Test-StandaloneRssXml([string]$text) {
 }
 
 $feedFiles = @()
+$apiUnits = New-Object System.Collections.Generic.List[object]   # API 方式で取得したチャンネル(RSS と同じ形の動画一覧)
+$retryChannelIds = New-Object System.Collections.Generic.List[string]   # 次回に取り直すチャンネル(失敗・取得前に止めた取り直し分)
 if ($fetchMode) {
   [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
   $stat.fetchTargets = 0; $stat.fetched = 0; $stat.fetchFailed = 0; $stat.retried = 0
+  $stat.source = $Source
+  if ($Source -eq "Api") { $stat.apiCalls = 0; $stat.maxApiCalls = $MaxApiCalls; $stat.apiPages = 0; $stat.apiResolvedUploads = 0; $stat.apiStopped = ""; $stat.fetchNotAttempted = 0 }
   $nameToChannel = @{}
   foreach ($k in $channelToStreamer.Keys) { $nameToChannel[$channelToStreamer[$k]] = $k }
   $targets = New-Object System.Collections.Generic.List[object]
@@ -400,16 +547,52 @@ if ($fetchMode) {
       Where-Object { $_.streamer -and $knownForCrawl.Contains([string]$_.streamer) -and ([string]$_.channelId -match '^UC[A-Za-z0-9_-]{22}$') })
     $stat.crawlTotal = $crawlRows.Count
     $stat.crawlStartIndex = $StartIndex
-    $picked = @($crawlRows | Select-Object -Skip $StartIndex -First $MaxChannels)
-    foreach ($row in $picked) { $targets.Add([pscustomobject]@{ channelId = [string]$row.channelId; streamer = [string]$row.streamer }) }
-    $next = $StartIndex + $picked.Count
-    $stat.crawlNextIndex = $(if ($next -ge $crawlRows.Count) { 0 } else { $next })   # 最後まで巡回したら次回は先頭から
+    # 前回取得できなかったチャンネル(-PriorityChannelId)を先に取得し、残りの枠で対応表の順に巡回する
+    $prio = New-Object System.Collections.Generic.List[object]
+    $prioSeen = New-Object System.Collections.Generic.HashSet[string]
+    foreach ($prioId in $PriorityChannelId) {
+      if ($prioId -notmatch '^UC[A-Za-z0-9_-]{22}$') { $errors.Add([pscustomobject]@{ channelId = $prioId; reason = "取り直すチャンネルIDの形式が正しくない"; stage = "fetch" }); continue }
+      if (-not $channelToStreamer.ContainsKey($prioId)) { $errors.Add([pscustomobject]@{ channelId = $prioId; reason = "取り直すチャンネルが登録済みVTuberではない"; stage = "fetch" }); continue }
+      if (-not $prioSeen.Add($prioId)) { continue }
+      if ($prio.Count -ge $MaxChannels) { $retryChannelIds.Add($prioId); continue }   # 枠を超えた分は次回に回す
+      $prio.Add([pscustomobject]@{ channelId = $prioId; streamer = $channelToStreamer[$prioId]; seq = $false })
+    }
+    foreach ($p in $prio) { $targets.Add($p) }
+    $picked = @($crawlRows | Select-Object -Skip $StartIndex -First ([Math]::Max(0, $MaxChannels - $prio.Count)))
+    foreach ($row in $picked) { $targets.Add([pscustomobject]@{ channelId = [string]$row.channelId; streamer = [string]$row.streamer; seq = $true }) }
+    $stat.priorityTargets = $prio.Count
   }
   $seenTargets = New-Object System.Collections.Generic.HashSet[string]
   $first = $true
+  $seqHandled = 0; $seqOpen = $true   # 巡回位置: 対応表の順のうち、実際に試したところまで進める(取得前に止めた分は次回に残す)
   foreach ($t in $targets) {
-    if (-not $seenTargets.Add($t.channelId)) { continue }
+    if (-not $seenTargets.Add($t.channelId)) { if ($t.seq -and $seqOpen) { $seqHandled++ }; continue }   # 取り直しで取得済み
+    if ($Source -eq "Api") {
+      if (-not $channelToStreamer.ContainsKey($t.channelId)) { $errors.Add([pscustomobject]@{ channelId = $t.channelId; reason = "登録済みVTuberのチャンネルではない(対応付けできない)"; stage = "fetch" }); if ($t.seq -and $seqOpen) { $seqHandled++ }; continue }
+      if ($apiState.stopped -or $apiState.calls -ge $MaxApiCalls) {
+        # 取得前に止めた: 呼び出しはしない。取り直し分は次回の取り直しに、巡回分は巡回位置を進めずに残す
+        if (-not $apiState.stopped) { $apiState.stopped = "limit" }
+        $stat.fetchNotAttempted++; if ($t.seq) { $seqOpen = $false } else { $retryChannelIds.Add($t.channelId) }
+        continue
+      }
+      $stat.fetchTargets++
+      if (-not $first -and $RequestIntervalMs -gt 0) { Start-Sleep -Milliseconds $RequestIntervalMs }
+      $first = $false
+      $ar = Get-StandaloneApiUploads $t
+      if (-not $ar.attempted) { $stat.fetchTargets--; $stat.fetchNotAttempted++; if ($t.seq) { $seqOpen = $false } else { $retryChannelIds.Add($t.channelId) }; continue }
+      if ($t.seq -and $seqOpen) { $seqHandled++ }
+      if ($ar.ok) {
+        $stat.fetched++
+        $apiUnits.Add([pscustomobject]@{ label = "api:" + $t.channelId; channelId = $t.channelId; entries = $ar.entries })
+        if (@($ar.log).Count -gt 0) { $warnings.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = "途中で失敗したが取得できた(" + (@($ar.log) -join " → ") + ")"; attemptReasons = @($ar.log); attempts = $ar.calls; stage = "fetch" }) }
+      } else {
+        $stat.fetchFailed++; $retryChannelIds.Add($t.channelId)
+        $errors.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = $ar.reason; status = $(if ($ar.status) { [int]$ar.status } else { $null }); apiReason = $ar.apiReason; attemptReasons = @($ar.log); attempts = $ar.calls; stage = "fetch" })
+      }
+      continue
+    }
     $stat.fetchTargets++
+    if ($t.seq -and $seqOpen) { $seqHandled++ }
     if (-not $first -and $RequestIntervalMs -gt 0) { Start-Sleep -Milliseconds $RequestIntervalMs }
     $first = $false
     $url = $FeedUrlTemplate -f $t.channelId
@@ -431,9 +614,19 @@ if ($fetchMode) {
       $feedFiles += Get-Item -LiteralPath $saved
       if ($attempt -eq 2) { $warnings.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = "1回目の取得に失敗し、再試行で取得した(" + $reason + ")"; attemptReasons = $attemptReasons.ToArray(); attempts = 2; stage = "fetch" }) }
     } else {
-      $stat.fetchFailed++
+      $stat.fetchFailed++; $retryChannelIds.Add($t.channelId)
       $errors.Add([pscustomobject]@{ channelId = $t.channelId; streamer = $t.streamer; reason = $reason; status = $(if ($status) { [int]$status } else { $null }); attemptReasons = $attemptReasons.ToArray(); attempts = 2; stage = "fetch" })
     }
+  }
+  if ($All) {
+    $next = $StartIndex + $seqHandled
+    $stat.crawlNextIndex = $(if ($next -ge $crawlRows.Count) { 0 } else { $next })   # 最後まで巡回したら次回は先頭から
+  }
+  if ($Source -eq "Api") {
+    $stat.apiCalls = $apiState.calls; $stat.apiStopped = $apiState.stopped
+    if ($apiState.stopped -eq "quota") { $warnings.Add([pscustomobject]@{ reason = "API の利用枠を超えたため、途中で取得をやめた(残りは次回)"; stage = "fetch" }) }
+    elseif ($apiState.stopped -eq "limit") { $warnings.Add([pscustomobject]@{ reason = "API の呼び出しが上限($MaxApiCalls 回)に達したため、途中で取得をやめた(残りは次回)"; stage = "fetch" }) }
+    elseif ($apiState.stopped -eq "fatal") { $errors.Add([pscustomobject]@{ reason = "API キーまたは権限のエラーのため取得をやめた(保存しないこと)"; stage = "fetch" }) }
   }
 } elseif ($RejudgeOnly) {
   # 一括再判定: 以前の archive の XML も含めて古い順に読み、履歴に取り込む(判定は下でチャンネルごとの履歴を使う)
@@ -552,6 +745,12 @@ foreach ($file in $feedFiles) {
   } else {
     $feedUnits.Add([pscustomobject]@{ label = $file.Name; channelId = $cid; entries = $p.entries })
   }
+}
+# API 方式で取得したチャンネル: RSS と同じく履歴に記録してから、同じ判定に渡す(検出日時は今回の実行日時)
+foreach ($au in $apiUnits) {
+  $stat.feeds++; $stat.feedsRead++
+  Add-HistoryEntries (Get-HistoryStore $au.channelId) $au.entries $now
+  $feedUnits.Add($au)
 }
 if ($RejudgeOnly) {
   if (Test-Path -LiteralPath $entriesDir) {
@@ -731,7 +930,8 @@ $result = [pscustomobject]@{
   source = "youtube-channel-rss"
   note = "自動判定結果です(status=pending)。登録前に動画内容・再生リスト状況・single/multi を人が確認してください。playlistVideoCheck=unverified は、サイト登録済み再生リストに含まれるかを確認していないことを表します。"
   # List を @() で包むと Windows PowerShell 5.1 では空のときに "Argument types do not match" になるため ToArray() を使う
-  lastRun = [pscustomobject]@{ stats = [pscustomobject]$stat; errors = $errors.ToArray(); warnings = $warnings.ToArray() }
+  # retryChannelIds: 次回に先に取り直すチャンネル(取得に失敗したもの・取得前に止めた取り直し分。成功したものは入れない)
+  lastRun = [pscustomobject]@{ stats = [pscustomobject]$stat; errors = $errors.ToArray(); warnings = $warnings.ToArray(); retryChannelIds = [string[]]@($retryChannelIds | Select-Object -Unique) }
   candidates = Get-StandaloneOrdinalSorted $candidates.ToArray() { param($x, $y)
     $c = [string]::CompareOrdinal([string]$y.publishedAt, [string]$x.publishedAt); if ($c -ne 0) { $c } else { [string]::CompareOrdinal([string]$x.videoId, [string]$y.videoId) } }
   # 作品マスタに無い作品の候補(すべて status=pending。登録するかは人が判断する)
@@ -745,6 +945,9 @@ Move-Item -LiteralPath $tmp -Destination $outPath -Force
 if ($fetchMode) {
   $crawlInfo = $(if ($All) { "  (対応表 $($stat.crawlTotal) 件の $($StartIndex) 番目から。次回の開始位置 $($stat.crawlNextIndex))" } else { "" })
   Write-Output ("巡回: 対象 $($stat.fetchTargets) チャンネル / 成功 $($stat.fetched) / 失敗 $($stat.fetchFailed)(再試行 $($stat.retried))  新規候補 $($stat.newCandidates) / 未登録作品の候補 $($stat.unknownGameVideos) 本" + $crawlInfo)
+  if ($Source -eq "Api") {
+    Write-Output ("API: 呼び出し $($stat.apiCalls) 回(上限 $MaxApiCalls)・読んだページ $($stat.apiPages)・再生リストを調べ直した $($stat.apiResolvedUploads) チャンネル・取得前に止めた $($stat.fetchNotAttempted) チャンネル" + $(if ($stat.apiStopped) { "  停止: $($stat.apiStopped)" } else { "" }) + "  次回に取り直す $(@($retryChannelIds | Select-Object -Unique).Count) チャンネル")
+  }
 }
 Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsRead))・動画 $($stat.entries) 本 → 新規候補 $($stat.newCandidates) / 検出済み $($stat.alreadyCandidate) / 登録済み単発 $($stat.registeredStandalone) / ゲーム不明 $($stat.noGame)(うち未登録作品の候補 $($stat.unknownGameVideos) 本)  候補合計 $($candidates.Count)・未登録作品の候補 $($unknownGames.Count) 作品")
 if ($RejudgeOnly) {
@@ -766,3 +969,5 @@ if ($warnings.Count -gt 0) { Write-Output ("警告 $($warnings.Count) 件: " + (
 foreach ($x in @($errors | Where-Object { $_.stage -eq "fetch" -and $_.channelId -and $_.attempts })) {
   Write-Output ("取得失敗: $(Get-IssueLabel $x)  $($x.reason)  試行 $($x.attempts) 回(" + (@($x.attemptReasons) -join " → ") + ")")
 }
+# API キー・権限のエラーで止めたときは終了コード 3(ワークフローは保存しない)。利用枠の超過・上限到達は取得できた分を残して 0
+if ($Source -eq "Api" -and $apiState.stopped -eq "fatal") { exit 3 }
