@@ -126,6 +126,18 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-18"
+  },
+  {
    "id": "gap930",
    "title": "Hollow Knight: Silksong",
    "streamer": "白上フブキ",
@@ -206,18 +218,6 @@ const NEW_LIST = {
    "playlistId": "PLFKv7E5Tpkvw",
    "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
    "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-15"
-  },
-  {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-15"
   },
