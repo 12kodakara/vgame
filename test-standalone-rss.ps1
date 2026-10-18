@@ -777,6 +777,45 @@ $rr = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $fetchDi
 $rrCode = $LASTEXITCODE; $ErrorActionPreference = "Stop"
 Check "19w. -InitialMaxAgeDays は RSS 方式では使えない(何も取得せずに止める)" ($rrCode -ne 0 -and -not (Test-Path (Join-Path $work "api-rss-age.json"))) ("code=$rrCode")
 
+Write-Output "== 確認分類(single / series / playlist-review / non-gameplay)"
+$feedsK = Join-Path $work "feeds-category"
+New-Item -ItemType Directory -Path $feedsK -Force | Out-Null
+[IO.File]::WriteAllText((Join-Path $feedsK "rui.xml"), (New-Feed $rui @(
+  (New-Entry "CatRuiSng01" "【8番出口】はじめての8番出口【鷹嶺ルイ/ホロライブ】" "2026-10-16T01:00:00+00:00"),
+  (New-Entry "CatRuiClip1" "【8番出口】名場面まとめ 切り抜き【鷹嶺ルイ/ホロライブ】" "2026-10-15T01:00:00+00:00"),
+  (New-Entry "CatRuiMc005" "【Minecraft】拠点づくり #5【鷹嶺ルイ/ホロライブ】" "2026-10-14T01:00:00+00:00")
+)), $utf8)
+[IO.File]::WriteAllText((Join-Path $feedsK "sora.xml"), (New-Feed $sora @(
+  (New-Entry "CatSoraEp01" "【8番出口】そらの8番出口 #1【ときのそら/ホロライブ】" "2026-10-13T01:00:00+00:00"),
+  (New-Entry "CatSoraEp02" "【8番出口】そらの8番出口 最終回【ときのそら/ホロライブ】" "2026-10-12T01:00:00+00:00")
+)), $utf8)
+[IO.File]::WriteAllText((Join-Path $feedsK "kanade.xml"), (New-Feed $kanade @(
+  (New-Entry "CatKndShort" "【8番出口】奏の8番出口 #shorts" "2026-10-11T01:00:00+00:00"),
+  (New-Entry "CatKndRecov" "【8番出口】奏のRecover作戦【音乃瀬奏】" "2026-10-10T01:00:00+00:00")
+)), $utf8)
+$outK = Join-Path $work "category.json"
+$ErrorActionPreference = "Continue"
+$rk = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsK -OutFile $outK -ChannelMapPath $map 2>&1 | ForEach-Object { "$_" }
+$ErrorActionPreference = "Stop"
+$jk = Read-ApiOut $outK; $ck = { param($id) $jk.candidates | Where-Object videoId -eq $id }
+$catOf = { param($id) [string](& $ck $id).reviewCategory }
+Check "20a. 1本だけの作品は single、同じVTuber×作品が2本以上は series(VTuber|作品 と本数を持つ)" ((& $catOf "CatRuiSng01") -eq "single" -and (& $catOf "CatSoraEp01") -eq "series" -and (& $catOf "CatSoraEp02") -eq "series" -and (& $ck "CatSoraEp01").seriesKey -eq "ときのそら|8番出口" -and [int](& $ck "CatSoraEp01").seriesCount -eq 2) ($rk -join " ")
+Check "20b. 番号表現(#1・最終回)は除外に使わず、episodeMarker として残す" ((& $ck "CatSoraEp01").episodeMarker -eq $true -and (& $ck "CatSoraEp02").episodeMarker -eq $true -and (& $ck "CatRuiSng01").episodeMarker -eq $false -and $null -ne (& $ck "CatSoraEp02")) ""
+Check "20c. 登録済み再生リストに入っている可能性のある回は playlist-review" ((& $catOf "CatRuiMc005") -eq "playlist-review" -and (& $ck "CatRuiMc005").reviewGroup -eq "likely-in-site-playlist") ((& $ck "CatRuiMc005") | ConvertTo-Json -Compress)
+Check "20d. #shorts・切り抜きは non-gameplay(候補は消さない)。Recover のような語は誤って除外しない" ((& $catOf "CatKndShort") -eq "non-gameplay" -and (& $catOf "CatRuiClip1") -eq "non-gameplay" -and (& $catOf "CatKndRecov") -eq "single") ("short=$(& $catOf 'CatKndShort') clip=$(& $catOf 'CatRuiClip1') recover=$(& $catOf 'CatKndRecov')")
+$sk = $jk.lastRun.stats
+Check "20e. 分類別の件数(動画の本数)と続き物の組数を区別して記録する" ($sk.reviewSingle -eq 2 -and $sk.reviewSeriesGroups -eq 1 -and $sk.reviewSeriesVideos -eq 2 -and $sk.reviewPlaylist -eq 1 -and $sk.reviewNonGameplay -eq 2 -and $sk.reviewCategorized -eq 7) ($sk | ConvertTo-Json -Compress)
+Check "20f. 分類は追加の情報だけで、判定(作品・信頼度・確認待ち)は変えない" (@($jk.candidates).Count -eq 7 -and @($jk.candidates | Where-Object { $_.status -ne "pending" }).Count -eq 0 -and (& $ck "CatRuiSng01").game -eq "8番出口" -and (& $ck "CatRuiSng01").confidence -eq "HIGH") ""
+# 人が確認した候補は分類せず、続き物の本数にも数えない(そらの #1 を approved にすると、最終回は1本だけ = single)
+$jkRaw = Read-ApiOut $outK
+foreach ($c in $jkRaw.candidates) { if ($c.videoId -eq "CatSoraEp01") { $c.status = "approved" } }
+[IO.File]::WriteAllText($outK, ($jkRaw | ConvertTo-Json -Depth 8), $utf8)
+$ErrorActionPreference = "Continue"
+[void](& $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $feedsK -OutFile $outK -ChannelMapPath $map 2>&1)
+$ErrorActionPreference = "Stop"
+$jk2 = Read-ApiOut $outK
+Check "20g. 人が確認した候補は続き物の本数に数えない(残りの1本は single)" ((($jk2.candidates | Where-Object videoId -eq "CatSoraEp02").reviewCategory) -eq "single" -and ($jk2.candidates | Where-Object videoId -eq "CatSoraEp01").status -eq "approved") ""
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 
