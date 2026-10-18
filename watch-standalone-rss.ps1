@@ -967,6 +967,43 @@ $stat.rejudged = $rjIds.Count; $stat.rejudgeChanged = $rjChangedIds.Count; $stat
 $pendingIds = @($candidates | Where-Object { [string]$_.status -eq "pending" } | ForEach-Object { [string]$_.videoId })
 if ($RejudgeOnly) { $stat.rejudgeNotInRss = @($pendingIds | Where-Object { -not $rjSeenIds.Contains($_) }).Count }
 
+# ---- 確認分類(確認用の情報を追加するだけ。判定・履歴・保存条件は変えない) ----
+#   reviewCategory: non-gameplay(タイトルにショート・切り抜き等の明確な表現) / playlist-review(登録済み再生リストに入っている可能性)
+#                   / series(同じVTuber×作品の確認待ち候補が2本以上 = multi 候補) / single(単発実況候補)
+#   seriesKey・seriesCount: series のまとまり(VTuber|作品)と本数。episodeMarker: #5・DAY9・最終回 などの番号表現(除外には使わない)
+#   人が確認した候補(status が pending 以外)と、既存作品に一致しなくなった候補(rejudged-not-matched)は分類しない
+$script:StandaloneNonGameplayTitlePattern = '(?i)#shorts|(?<![a-z])shorts(?![a-z])|切り抜き|切抜き|歌ってみた|(?<![a-z])covered?(?![a-z])|(?<![a-z])mv(?![a-z])|music\s*video|original\s*song|同時視聴'
+function Test-StandaloneEpisodeMarker([string]$title) {
+  return ((Test-StandaloneSequel $title) -or ([string]$title -match '最終回|\d+\s*日目|[前中後]編|続き'))
+}
+function Get-StandaloneReviewCategory($c) {
+  if ([string]$c.title -match $script:StandaloneNonGameplayTitlePattern) { return "non-gameplay" }
+  if ([string]$c.reviewGroup -eq "likely-in-site-playlist") { return "playlist-review" }
+  return ""   # series か single かは、同じVTuber×作品の本数で決める
+}
+function Update-StandaloneReviewCategories($list) {
+  $targets = @($list | Where-Object { [string]$_.status -eq "pending" -and [string]$_.reviewGroup -ne "rejudged-not-matched" -and $_.game })
+  $pairCount = @{}
+  foreach ($c in $targets) {
+    $cat = Get-StandaloneReviewCategory $c
+    Set-ObjProp $c "reviewCategory" $cat
+    Set-ObjProp $c "episodeMarker" (Test-StandaloneEpisodeMarker ([string]$c.title))
+    if (-not $cat) { $k = [string]$c.streamer + "|" + [string]$c.game; $pairCount[$k] = 1 + [int]$pairCount[$k] }
+  }
+  foreach ($c in $targets) {
+    if ([string]$c.reviewCategory) { Set-ObjProp $c "seriesKey" ""; Set-ObjProp $c "seriesCount" 0; continue }
+    $k = [string]$c.streamer + "|" + [string]$c.game
+    if ($pairCount[$k] -ge 2) { Set-ObjProp $c "reviewCategory" "series"; Set-ObjProp $c "seriesKey" $k; Set-ObjProp $c "seriesCount" $pairCount[$k] }
+    else { Set-ObjProp $c "reviewCategory" "single"; Set-ObjProp $c "seriesKey" ""; Set-ObjProp $c "seriesCount" 1 }
+  }
+  $byCat = [ordered]@{ single = 0; series = 0; "playlist-review" = 0; "non-gameplay" = 0 }
+  foreach ($c in $targets) { $byCat[[string]$c.reviewCategory]++ }
+  $stat.reviewSingle = $byCat["single"]; $stat.reviewSeriesVideos = $byCat["series"]
+  $stat.reviewSeriesGroups = @($targets | Where-Object { $_.reviewCategory -eq "series" } | ForEach-Object { $_.seriesKey } | Sort-Object -Unique).Count
+  $stat.reviewPlaylist = $byCat["playlist-review"]; $stat.reviewNonGameplay = $byCat["non-gameplay"]; $stat.reviewCategorized = $targets.Count
+}
+Update-StandaloneReviewCategories $candidates.ToArray()
+
 # ---- 書き出し(一時ファイル → 置き換え) ----
 $result = [pscustomobject]@{
   generatedAt = $now
@@ -999,6 +1036,7 @@ Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsR
 if ($RejudgeOnly) {
   Write-Output ("一括再判定: 確認待ちの候補 $($pendingIds.Count) 件のうち履歴・RSS にあった $($pendingIds.Count - $stat.rejudgeNotInRss) 件を判定し直した(見つからない $($stat.rejudgeNotInRss) 件はそのまま)。新しい動画 $($stat.rejudgeSkippedNew) 本は追加していない")
 }
+Write-Output ("確認分類(確認待ち $($stat.reviewCategorized) 件): 単発 $($stat.reviewSingle) / 続き物 $($stat.reviewSeriesGroups) 組・$($stat.reviewSeriesVideos) 本 / 再生リスト確認 $($stat.reviewPlaylist) / ゲーム実況以外 $($stat.reviewNonGameplay)")
 Write-Output ("履歴: 更新 $($stat.historyChannels) チャンネル・新しく記録した動画 $($stat.historyAdded) 本(読み込んだ履歴の動画 合計 $($stat.historyVideos) 本)")
 if ($stat.rejudged -gt 0 -or $stat.unknownRejudgedNotCandidate -gt 0) {
   Write-Output ("再判定: 確認待ちの既存候補 $($stat.rejudged) 件(変更 $($stat.rejudgeChanged)・既存作品に一致しなくなった $($stat.rejudgeNotMatched))・未登録作品の候補から外れた動画 $($stat.unknownRejudgedNotCandidate) 本")

@@ -188,6 +188,7 @@ jobs:
             "- 取得: 対象 $($s.fetchTargets) / 成功 $($s.fetched) / 失敗 $($s.fetchFailed)(再試行 $($s.retried))",
             ("- 取り直し: 今回先に取得 $(@($before.retryChannelIds).Count) チャンネル → 次回 $($newRetry.Count) チャンネル" + $(if ($needsCheck.Count -gt 0) { "(3回以上続けて取得できない **要確認** $($needsCheck.Count): " + ($needsCheck -join ", ") + ")" } else { "" })),
             "- 新規候補 $($s.newCandidates) 件・未登録作品の候補 動画 $($s.unknownGameVideos) 本(作品別の延べ $($s.unknownGameVideoRows) 件)(すべて確認待ち)",
+            "- 確認分類(確認待ち全体 $($s.reviewCategorized) 件): 単発 $($s.reviewSingle) 本 / 続き物 $($s.reviewSeriesGroups) 組・$($s.reviewSeriesVideos) 本 / 再生リスト確認 $($s.reviewPlaylist) 本 / ゲーム実況以外 $($s.reviewNonGameplay) 本",
             $(if ($env:SOURCE -eq "api") { "- 初回 API 巡回: $($s.initialApiChannels) チャンネル・公開から $($s.initialMaxAgeDays) 日を超えた $($s.initialApiSkipped) 本は候補にせず履歴に記録(履歴の印で候補にしなかった動画 $($s.skippedByHistoryMark) 本)" } else { "" }),
             "- 候補 $($before.candidates) → $after 件・未登録作品 $($before.unknownGames) → $afterUnknown 作品・履歴 $($before.historyVideos) → $hist 本",
             "- エラー $(@($cand.lastRun.errors).Count) 件・警告 $(@($cand.lastRun.warnings).Count) 件"
@@ -232,6 +233,7 @@ jobs:
               videoId = [string]$_.videoId; url = [string]$_.url; streamer = [string]$_.streamer; title = [string]$_.title
               publishedDate = [string]$_.publishedDate; game = [string]$_.game; confidence = [string]$_.confidence
               matchType = [string]$_.matchType; reasons = [object[]]@($_.reasons | ForEach-Object { [string]$_ }); reviewGroup = [string]$_.reviewGroup
+              reviewCategory = [string]$_.reviewCategory; seriesKey = [string]$_.seriesKey; seriesCount = [int]$_.seriesCount; episodeMarker = [bool]$_.episodeMarker
             }
           })
           $newUnknown = [object[]]@($cand.unknownGames | ForEach-Object {
@@ -248,6 +250,11 @@ jobs:
           })
           $byConf = [ordered]@{ HIGH = 0; MEDIUM = 0; LOW = 0; other = 0 }
           foreach ($c in $newCands) { if ($byConf.Contains($c.confidence) -and $c.confidence -ne "other") { $byConf[$c.confidence]++ } else { $byConf.other++ } }
+          # 確認分類ごとの件数(動画の本数)と、続き物のまとまり(VTuber|作品)の組数
+          $byCat = [ordered]@{ single = 0; series = 0; "playlist-review" = 0; "non-gameplay" = 0; none = 0 }
+          foreach ($c in $newCands) { if ($c.reviewCategory -and $byCat.Contains($c.reviewCategory)) { $byCat[$c.reviewCategory]++ } else { $byCat.none++ } }
+          $seriesGroups = [object[]]@($newCands | Where-Object { $_.reviewCategory -eq "series" } | Group-Object seriesKey | Sort-Object @{ Expression = { $_.Count }; Descending = $true }, Name | ForEach-Object {
+            [pscustomobject][ordered]@{ seriesKey = $_.Name; streamer = [string]$_.Group[0].streamer; game = [string]$_.Group[0].game; videoCount = $_.Count; videoIds = [object[]]@($_.Group | ForEach-Object { $_.videoId }) } })
 
           $dir = Join-Path $env:RUNNER_TEMP "rss-review"
           New-Item -ItemType Directory -Path $dir -Force | Out-Null
@@ -257,7 +264,7 @@ jobs:
                     retryFirst = [object[]]@($before.retryChannelIds | Where-Object { $_ }); retryNext = [object[]]@($cand.lastRun.retryChannelIds | Where-Object { $_ })
                     initialApiChannels = $cand.lastRun.stats.initialApiChannels; initialApiSkipped = $cand.lastRun.stats.initialApiSkipped; skippedByHistoryMark = $cand.lastRun.stats.skippedByHistoryMark }
           $candDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $candDoc[$k] = $meta[$k] }
-          $candDoc["count"] = $newCands.Count; $candDoc["byConfidence"] = $byConf; $candDoc["candidates"] = $newCands   # .count は辞書の Count と重なるため添字で入れる
+          $candDoc["count"] = $newCands.Count; $candDoc["byConfidence"] = $byConf; $candDoc["byCategory"] = $byCat; $candDoc["seriesGroupCount"] = $seriesGroups.Count; $candDoc["seriesGroups"] = $seriesGroups; $candDoc["candidates"] = $newCands   # .count は辞書の Count と重なるため添字で入れる
           # RSS の取得に失敗したチャンネル(公開のチャンネルID・VTuber名・理由だけ。原因の確認用に同じファイルへ入れる)
           $fetchFailures = [object[]]@($cand.lastRun.errors | Where-Object { $_.stage -eq "fetch" -and $_.channelId -and $_.attempts } | ForEach-Object {
             [pscustomobject][ordered]@{ channelId = [string]$_.channelId; streamer = [string]$_.streamer; reason = [string]$_.reason; status = $_.status; attempts = [int]$_.attempts; attemptReasons = [object[]]@($_.attemptReasons | ForEach-Object { [string]$_ }) }
@@ -273,17 +280,18 @@ jobs:
           # CSV: Excel で文字化けしないよう BOM 付き UTF-8・CRLF。判定理由は " / " でつなぐ
           $q = { param($v) '"' + ([string]$v).Replace('"', '""') + '"' }
           $csv = New-Object System.Collections.Generic.List[string]
-          $csv.Add((@("videoId", "url", "streamer", "title", "publishedDate", "game", "confidence", "matchType", "reasons", "reviewGroup") | ForEach-Object { & $q $_ }) -join ",")
+          $csv.Add((@("videoId", "url", "streamer", "title", "publishedDate", "game", "confidence", "matchType", "reasons", "reviewGroup", "reviewCategory", "seriesKey", "seriesCount", "episodeMarker") | ForEach-Object { & $q $_ }) -join ",")
           foreach ($c in $newCands) {
-            $csv.Add((@($c.videoId, $c.url, $c.streamer, $c.title, $c.publishedDate, $c.game, $c.confidence, $c.matchType, (@($c.reasons) -join " / "), $c.reviewGroup) | ForEach-Object { & $q $_ }) -join ",")
+            $csv.Add((@($c.videoId, $c.url, $c.streamer, $c.title, $c.publishedDate, $c.game, $c.confidence, $c.matchType, (@($c.reasons) -join " / "), $c.reviewGroup, $c.reviewCategory, $c.seriesKey, $c.seriesCount, $c.episodeMarker) | ForEach-Object { & $q $_ }) -join ",")
           }
           [IO.File]::WriteAllText((Join-Path $dir "new-candidates.csv"), (($csv -join "`r`n") + "`r`n"), (New-Object System.Text.UTF8Encoding($true)))
 
           $line = "- 新規候補の信頼度: HIGH $($byConf.HIGH) / MEDIUM $($byConf.MEDIUM) / LOW $($byConf.LOW)" + $(if ($byConf.other -gt 0) { " / その他 $($byConf.other)" } else { "" }) + "(候補一覧は artifact に7日間保存)"
           $line2 = "- 未登録作品の候補: 新しい動画のある作品 $($newUnknown.Count)(うち新しい作品 $(@($newUnknown | Where-Object { $_.newGame }).Count))・動画 $($unkVideoUnique.Count) 本(作品別の延べ $($unkVideoRows.Count) 件)"
           $line3 = "- RSS の取得に失敗したチャンネル: $($fetchFailures.Count)(一覧は artifact の new-candidates.json の fetchFailures)"
-          ($line, $line2, $line3) -join "`n" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Encoding utf8
-          Write-Output $line; Write-Output $line2; Write-Output $line3
+          $line4 = "- 新規候補の確認分類(動画 $($newCands.Count) 本): 単発 $($byCat.single) 本 / 続き物 $($seriesGroups.Count) 組・$($byCat.series) 本 / 再生リスト確認 $($byCat['playlist-review']) 本 / ゲーム実況以外 $($byCat['non-gameplay']) 本" + $(if ($byCat.none -gt 0) { " / 分類なし $($byCat.none) 本" } else { "" })
+          ($line, $line4, $line2, $line3) -join "`n" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Encoding utf8
+          Write-Output $line; Write-Output $line4; Write-Output $line2; Write-Output $line3
 
       - name: Upload review files (dry run only)
         if: ${{ always() && env.SAVE_RESULTS != 'true' && steps.review.outcome == 'success' }}
