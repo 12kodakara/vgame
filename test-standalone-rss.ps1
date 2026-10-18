@@ -731,6 +731,52 @@ Check "19n. API キーが無いときは何も呼ばずに止め、出力ファ�
 $rg = Invoke-ApiRun (New-ApiFeedDir "api-feeds-g") $outF2 @("-Streamer", "鷹嶺ルイ", "-PriorityChannelId", $rui)
 Check "19o. -PriorityChannelId は -All と一緒でないと止める" ($rg.code -ne 0 -and (Get-ApiCalls).Count -eq 0) ("code=$($rg.code)")
 
+Write-Output "== 初回 API 巡回の候補制限(-InitialMaxAgeDays。モック)"
+# 日付は実行日から計算する(テストを実行する日によって結果が変わらないように)
+$isoAgo = { param([int]$d) (Get-Date).ToUniversalTime().AddDays(-$d).ToString("yyyy-MM-dd'T'HH:mm:ss'Z'") }
+Write-ApiFile "rui-age.json" (New-ApiPage @(@{ id = "ApiAgeNew01"; title = "【8番出口】最近の動画【鷹嶺ルイ/ホロライブ】"; pub = (& $isoAgo 2) }, @{ id = "ApiAgeOld01"; title = "【8番出口】60日前の動画【鷹嶺ルイ/ホロライブ】"; pub = (& $isoAgo 60) }))
+$ageScenario = @{ ($uu["鷹嶺ルイ"] + "|") = (& $okStep "rui-age.json") }
+$histOf = { param($dir, $cid) Read-ApiOut (Join-Path (Join-Path $dir "entries") "$cid.json") }
+
+# H1. 初回 API 巡回: 60日前の動画は候補にせず、履歴に印を付けて記録する。RSS の履歴があるチャンネル(ロボ子・奏)も初回として扱う
+Write-ApiScenario $ageScenario
+$fdH = New-ApiFeedDir "api-feeds-h"; $outH5 = Join-Path $work "api-h.json"
+$rh1 = Invoke-ApiRun $fdH $outH5 @("-All", "-MaxChannels", "5", "-StartIndex", "0", "-InitialMaxAgeDays", "30")
+$jh1 = Read-ApiOut $outH5; $sh1 = $jh1.lastRun.stats; $idsH1 = @($jh1.candidates | ForEach-Object videoId)
+$ruiH1 = & $histOf $fdH $rui; $oldH1 = $ruiH1.videos | Where-Object videoId -eq "ApiAgeOld01"
+Check "19p. 初回 API 巡回では公開から30日以内の動画だけを候補にする(2日前は候補・60日前は候補にしない)" ($rh1.code -eq 0 -and ($idsH1 -contains "ApiAgeNew01") -and -not ($idsH1 -contains "ApiAgeOld01") -and [int]$sh1.initialApiSkipped -ge 1) ("$($rh1.output)")
+Check "19q. 候補にしなかった動画も履歴に記録し、スキップ理由を残す" ($oldH1 -and [string]$oldH1.candidateSkipped -eq "initial-api-older-than-30d" -and $oldH1.candidateSkippedAt) ($oldH1 | ConvertTo-Json -Compress)
+$firstAt = @{}; foreach ($c in $apiChannels) { $firstAt[$c.id] = [string](& $histOf $fdH $c.id).apiFirstCrawledAt }
+Check "19r. 取得できた5チャンネルに初回 API 巡回の完了日時を記録する(RSS の履歴があったチャンネルも。既存の履歴の動画は残す)" ($sh1.initialApiChannels -eq 5 -and @($firstAt.Values | Where-Object { $_ }).Count -eq 5 -and @((& $histOf $fdH $roboco).videos | Where-Object videoId -eq "RbOld000001").Count -eq 1) ("channels=$($sh1.initialApiChannels)")
+
+# H2. 2回目: 初回の処理は使わない(通常の判定)。ただし印の付いた古い動画は候補にしない
+Start-Sleep -Seconds 1
+$rh2 = Invoke-ApiRun $fdH $outH5 @("-All", "-MaxChannels", "5", "-StartIndex", "0", "-InitialMaxAgeDays", "30")
+$jh2 = Read-ApiOut $outH5; $sh2 = $jh2.lastRun.stats
+Check "19s. 2回目は初回の処理を使わず(0チャンネル)、完了日時も変えず、印の付いた古い動画は候補にしない" ($rh2.code -eq 0 -and [int]$sh2.initialApiChannels -eq 0 -and [string](& $histOf $fdH $rui).apiFirstCrawledAt -eq $firstAt[$rui] -and -not (@($jh2.candidates | ForEach-Object videoId) -contains "ApiAgeOld01") -and [int]$sh2.skippedByHistoryMark -ge 1) ("initial=$($sh2.initialApiChannels) skippedByMark=$($sh2.skippedByHistoryMark)")
+
+# H3. -InitialMaxAgeDays を指定しないときは従来どおり(古い動画も判定する)
+Write-ApiScenario $ageScenario
+$fdH3 = New-ApiFeedDir "api-feeds-h3"; $outH3 = Join-Path $work "api-h3.json"
+$rh3 = Invoke-ApiRun $fdH3 $outH3 @("-All", "-MaxChannels", "5", "-StartIndex", "0")
+Check "19t. -InitialMaxAgeDays を指定しないときは従来どおり古い動画も判定し、完了日時も記録しない" ($rh3.code -eq 0 -and (@((Read-ApiOut $outH3).candidates | ForEach-Object videoId) -contains "ApiAgeOld01") -and -not [string](& $histOf $fdH3 $rui).apiFirstCrawledAt) ""
+
+# H4. 取得に失敗したチャンネルは初回 API 巡回を終えたことにしない(利用枠の超過でそら以降を取得できない)
+$q = @{}; foreach ($k in $ageScenario.Keys) { $q[$k] = $ageScenario[$k] }
+$q[$uu["ときのそら"] + "|"] = @(@{ ok = $false; status = 403; reason = "HTTP 403"; apiReason = "quotaExceeded" })
+Write-ApiScenario $q
+$fdH4 = New-ApiFeedDir "api-feeds-h4"; $outH4 = Join-Path $work "api-h4.json"
+$rh4 = Invoke-ApiRun $fdH4 $outH4 @("-All", "-MaxChannels", "5", "-StartIndex", "0", "-InitialMaxAgeDays", "30")
+$roboH4 = & $histOf $fdH4 $roboco
+Check "19u. 取得できなかったチャンネル(そら・取得前に止めたロボ子)には完了日時を記録せず、履歴も変えない" ($rh4.code -eq 0 -and [string](& $histOf $fdH4 $rui).apiFirstCrawledAt -and -not (Test-Path (Join-Path (Join-Path $fdH4 "entries") "$sora.json")) -and -not [string]$roboH4.apiFirstCrawledAt -and @($roboH4.videos).Count -eq 1) ""
+
+# H5. 未登録作品の候補は「動画の実数」と「作品別の延べ件数」を別々に数える。RSS では -InitialMaxAgeDays を使えない
+Check "19v. 未登録作品の候補の動画の実数と延べ件数を記録する(延べ ≥ 実数)" ($null -ne $sh1.unknownGameVideoRows -and [int]$sh1.unknownGameVideoRows -ge [int]$sh1.unknownGameVideos) ("videos=$($sh1.unknownGameVideos) rows=$($sh1.unknownGameVideoRows)")
+$ErrorActionPreference = "Continue"
+$rr = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $fetchDir -OutFile (Join-Path $work "api-rss-age.json") -Streamer "鷹嶺ルイ" -RequestScript $mockScript -InitialMaxAgeDays 30 2>&1
+$rrCode = $LASTEXITCODE; $ErrorActionPreference = "Stop"
+Check "19w. -InitialMaxAgeDays は RSS 方式では使えない(何も取得せずに止める)" ($rrCode -ne 0 -and -not (Test-Path (Join-Path $work "api-rss-age.json"))) ("code=$rrCode")
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 

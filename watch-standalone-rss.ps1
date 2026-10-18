@@ -72,6 +72,10 @@
   利用枠の超過・上限到達では取得をやめて取得できた分だけ判定する。キー・権限のエラーでは取得をやめて終了コード 3。
 .PARAMETER MaxApiCalls
   -Source Api で1回の実行に使う API 呼び出しの上限(既定 300。失敗した呼び出しも1回と数える)。
+.PARAMETER InitialMaxAgeDays
+  -Source Api と一緒に指定。各チャンネルの初回 API 巡回(履歴の apiFirstCrawledAt が無い。RSS の履歴の有無は問わない)だけ、
+  公開からこの日数を超えた動画を候補にしない(既定 0 = 制限しない)。その動画は履歴に記録し、candidateSkipped を付けて
+  次回以降も候補にしない。初回 API 巡回を終えたチャンネルは履歴に apiFirstCrawledAt を記録する(取得に失敗したチャンネルは記録しない)。
 .PARAMETER PriorityChannelId
   -All と一緒に指定。対応表の順の巡回より先に取得するチャンネルID(前回の lastRun.retryChannelIds。カンマ区切り可)。
   -MaxChannels の枠に含める。取得前に止めた・失敗したものは、次回用に lastRun.retryChannelIds に残す。
@@ -108,6 +112,7 @@ param(
   [switch]$RejudgeOnly,
   [ValidateSet("Rss", "Api")][string]$Source = "Rss",
   [int]$MaxApiCalls = 300,
+  [int]$InitialMaxAgeDays = 0,
   [string[]]$PriorityChannelId
 )
 
@@ -127,6 +132,8 @@ if ($RejudgeOnly -and ($All -or ($Streamer.Count + $ChannelId.Count) -gt 0)) { t
 $fetchMode = (($Streamer.Count + $ChannelId.Count) -gt 0) -or [bool]$All
 $PriorityChannelId = @($PriorityChannelId | ForEach-Object { "$_" -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
 if ($PriorityChannelId.Count -gt 0 -and -not $All) { throw "-PriorityChannelId は -All と一緒に指定してください(巡回の前に取り直すチャンネル)。" }
+if ($InitialMaxAgeDays -lt 0) { throw "-InitialMaxAgeDays には0以上を指定してください。" }
+if ($InitialMaxAgeDays -gt 0 -and $Source -ne "Api") { throw "-InitialMaxAgeDays は -Source Api と一緒に指定してください(各チャンネルの初回 API 巡回だけに使う)。" }
 if ($Source -eq "Api") {
   if (-not $fetchMode) { throw "-Source Api は取得するとき(-All / -Streamer / -ChannelId)だけ指定できます。" }
   if ($MaxApiCalls -lt 1) { throw "-MaxApiCalls には1以上を指定してください。" }
@@ -343,7 +350,7 @@ function ConvertTo-JstDateText([string]$iso) {
   return $d.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd")
 }
 $now = Get-StandaloneJstStamp ([DateTime]::UtcNow)
-$stat = [ordered]@{ feeds = 0; feedsRead = 0; entries = 0; newCandidates = 0; alreadyCandidate = 0; registeredStandalone = 0; noGame = 0; unknownGameVideos = 0; likelyInSitePlaylist = 0; templateLines = 0; rejudged = 0; rejudgeChanged = 0; rejudgeNotMatched = 0; unknownRejudgedNotCandidate = 0; rejudgeSkippedNew = 0; rejudgeNotInRss = 0; historyChannels = 0; historyAdded = 0; historyVideos = 0 }
+$stat = [ordered]@{ feeds = 0; feedsRead = 0; entries = 0; newCandidates = 0; alreadyCandidate = 0; registeredStandalone = 0; noGame = 0; unknownGameVideos = 0; unknownGameVideoRows = 0; likelyInSitePlaylist = 0; templateLines = 0; rejudged = 0; rejudgeChanged = 0; rejudgeNotMatched = 0; unknownRejudgedNotCandidate = 0; rejudgeSkippedNew = 0; rejudgeNotInRss = 0; historyChannels = 0; historyAdded = 0; historyVideos = 0 }
 $errors = New-Object System.Collections.Generic.List[object]
 # 再判定の件数は動画ごとに数える(一括再判定では同じ動画が履歴の複数のRSSに出てくるため)
 $rjIds = New-Object System.Collections.Generic.HashSet[string]; $rjChangedIds = New-Object System.Collections.Generic.HashSet[string]
@@ -668,11 +675,13 @@ $historyStores = @{}
 function Get-HistoryStore([string]$cid) {
   if ($historyStores.ContainsKey($cid)) { return $historyStores[$cid] }
   $path = Join-Path $entriesDir ($cid + ".json")
-  $h = @{ path = $path; list = (New-Object System.Collections.Generic.List[object]); byId = @{}; dirty = $false; broken = $false; added = 0 }
+  # apiFirstCrawledAt: このチャンネルの初回 API 巡回を終えた日時(RSS の履歴とは別の項目。空なら未実施)
+  $h = @{ path = $path; list = (New-Object System.Collections.Generic.List[object]); byId = @{}; dirty = $false; broken = $false; added = 0; apiFirstCrawledAt = "" }
   if (Test-Path -LiteralPath $path) {
     try {
       $data = ConvertFrom-StandaloneJson ([IO.File]::ReadAllText($path, [Text.Encoding]::UTF8))
       if (-not $data -or [string]$data.channelId -ne $cid -or $null -eq $data.videos) { throw "履歴の形式ではない" }
+      $h.apiFirstCrawledAt = [string]$data.apiFirstCrawledAt
       foreach ($v in @($data.videos)) {
         if ([string]$v.videoId -notmatch '^[A-Za-z0-9_-]{11}$') { throw "動画IDの正しくない項目がある" }
         if ($h.byId.ContainsKey([string]$v.videoId)) { continue }
@@ -716,7 +725,10 @@ function Save-HistoryStores {
       if (-not (Test-Path -LiteralPath $entriesDir)) { New-Item -ItemType Directory -Path $entriesDir -Force | Out-Null }
       $videos = Get-StandaloneOrdinalSorted $h.list.ToArray() { param($x, $y)
         $c = [string]::CompareOrdinal([string]$y.published, [string]$x.published); if ($c -ne 0) { $c } else { [string]::CompareOrdinal([string]$x.videoId, [string]$y.videoId) } }
-      $doc = [pscustomobject][ordered]@{ channelId = $cid; streamer = [string]$channelToStreamer[$cid]; updatedAt = $now; videoCount = $videos.Count; videos = $videos }
+      $docMap = [ordered]@{ channelId = $cid; streamer = [string]$channelToStreamer[$cid]; updatedAt = $now }
+      if ($h.apiFirstCrawledAt) { $docMap["apiFirstCrawledAt"] = $h.apiFirstCrawledAt }   # 一度記録したら消さない
+      $docMap["videoCount"] = $videos.Count; $docMap["videos"] = $videos
+      $doc = [pscustomobject]$docMap
       $tmp = $h.path + ".tmp"
       [IO.File]::WriteAllText($tmp, ($doc | ConvertTo-Json -Depth 4), (New-Object System.Text.UTF8Encoding($false)))
       if (Test-Path -LiteralPath $h.path) { [IO.File]::Replace($tmp, $h.path, $h.path + ".bak") } else { [IO.File]::Move($tmp, $h.path) }
@@ -747,9 +759,31 @@ foreach ($file in $feedFiles) {
   }
 }
 # API 方式で取得したチャンネル: RSS と同じく履歴に記録してから、同じ判定に渡す(検出日時は今回の実行日時)
+# 初回 API 巡回(-InitialMaxAgeDays。RSS の履歴の有無に関係なく、apiFirstCrawledAt の無いチャンネル):
+#   公開から指定日数を超えた動画は候補にしない。履歴に記録し、candidateSkipped を付けて次回以降も候補にしない。
+#   取得に失敗したチャンネルはここに来ないので記録しない。保存しなかったとき(検証で中止など)は履歴ごと残らないので、次回も初回として扱う
+$initialSkipIds = New-Object System.Collections.Generic.HashSet[string]   # 履歴JSONが読めず印を付けられないときの代わり(今回だけ)
+if ($InitialMaxAgeDays -gt 0) { $stat.initialApiChannels = 0; $stat.initialApiSkipped = 0; $stat.initialMaxAgeDays = $InitialMaxAgeDays }
+$stat.skippedByHistoryMark = 0
+$initialCutoff = [DateTimeOffset]::UtcNow.AddDays(-$InitialMaxAgeDays)
 foreach ($au in $apiUnits) {
   $stat.feeds++; $stat.feedsRead++
-  Add-HistoryEntries (Get-HistoryStore $au.channelId) $au.entries $now
+  $h = Get-HistoryStore $au.channelId
+  Add-HistoryEntries $h $au.entries $now
+  if ($InitialMaxAgeDays -gt 0 -and -not $h.apiFirstCrawledAt) {
+    $stat.initialApiChannels++
+    foreach ($x in $au.entries) {
+      $vid = [string]$x.videoId
+      if ($standaloneVideoIds.Contains($vid) -or $byVideo.ContainsKey($vid) -or $unknownVideoIds.Contains($vid)) { continue }   # 既存の候補・登録済みは従来どおり
+      $pub = $null; try { $pub = [DateTimeOffset]::Parse([string]$x.published, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AssumeUniversal) } catch { $pub = $null }
+      if ($null -eq $pub -or $pub -ge $initialCutoff) { continue }   # 公開日が読めない・指定日数以内は従来どおり判定する
+      $stat.initialApiSkipped++
+      if ($h.broken) { [void]$initialSkipIds.Add($vid); continue }
+      $hv = $h.byId[$vid]
+      if ($hv -and -not [string]$hv.candidateSkipped) { Set-ObjProp $hv "candidateSkipped" "initial-api-older-than-$($InitialMaxAgeDays)d"; Set-ObjProp $hv "candidateSkippedAt" $now; $h.dirty = $true }
+    }
+    if (-not $h.broken) { $h.apiFirstCrawledAt = $now; $h.dirty = $true }
+  }
   $feedUnits.Add($au)
 }
 if ($RejudgeOnly) {
@@ -787,6 +821,12 @@ foreach ($unit in $feedUnits) {
     $existingCand = if ($byVideo.ContainsKey($videoId)) { $byVideo[$videoId] } else { $null }
     if ($existingCand) { $stat.alreadyCandidate++; Set-ObjProp $existingCand "lastSeenAt" $now }
     if ($existingCand -and [string]$existingCand.status -ne "pending") { continue }
+    # 初回 API 巡回で候補にしなかった古い動画(履歴の candidateSkipped)は、次回以降も候補にしない(既存の候補は従来どおり)
+    if (-not $existingCand -and -not $unknownVideoIds.Contains($videoId)) {
+      $hsk = if ($historyStores.ContainsKey($feedChannelId)) { $historyStores[$feedChannelId] } else { $null }
+      $hvk = if ($hsk -and $hsk.byId.ContainsKey($videoId)) { $hsk.byId[$videoId] } else { $null }
+      if ($initialSkipIds.Contains($videoId) -or ($hvk -and [string]$hvk.candidateSkipped)) { $stat.skippedByHistoryMark++; continue }
+    }
     # 一括再判定: 新しい動画は候補に追加しない(未登録作品名が「2人以上の配信者に出てくる」かの証拠としてだけ数える)
     $rjNewVideo = $false
     if ($RejudgeOnly) {
@@ -840,9 +880,9 @@ foreach ($unit in $feedUnits) {
           $weakUnknown[$u.key].Add([pscustomobject]@{ cand = $u; video = $uv })
           continue
         }
-        if (-not $RejudgeOnly -and (Add-UnknownGameVideo $u $uv)) { $added = $true }
+        if (-not $RejudgeOnly -and (Add-UnknownGameVideo $u $uv)) { $added = $true; $stat.unknownGameVideoRows++ }   # 作品別の延べ件数(1本が複数の作品名に入ることがある)
       }
-      if ($added) { [void]$unknownVideoIds.Add($videoId); $stat.unknownGameVideos++ }
+      if ($added) { [void]$unknownVideoIds.Add($videoId); $stat.unknownGameVideos++ }   # 動画の実数
       continue
     }
     # 既存作品に一致した: 未登録作品の候補に記録済みなら、その作品名からは外れたことを記録する
@@ -912,7 +952,10 @@ foreach ($key in @($weakUnknown.Keys)) {
     }
     # 同じ作品名に記録済みの動画は Add-UnknownGameVideo が二重に追加しない
     if ($RejudgeOnly) { continue }   # 一括再判定では新しい動画を加えない
-    if ((Add-UnknownGameVideo $it.cand $it.video) -and $unknownVideoIds.Add([string]$it.video.videoId)) { $stat.unknownGameVideos++ }
+    if (Add-UnknownGameVideo $it.cand $it.video) {
+      $stat.unknownGameVideoRows++
+      if ($unknownVideoIds.Add([string]$it.video.videoId)) { $stat.unknownGameVideos++ }
+    }
   }
 }
 
@@ -945,11 +988,14 @@ Move-Item -LiteralPath $tmp -Destination $outPath -Force
 if ($fetchMode) {
   $crawlInfo = $(if ($All) { "  (対応表 $($stat.crawlTotal) 件の $($StartIndex) 番目から。次回の開始位置 $($stat.crawlNextIndex))" } else { "" })
   Write-Output ("巡回: 対象 $($stat.fetchTargets) チャンネル / 成功 $($stat.fetched) / 失敗 $($stat.fetchFailed)(再試行 $($stat.retried))  新規候補 $($stat.newCandidates) / 未登録作品の候補 $($stat.unknownGameVideos) 本" + $crawlInfo)
+  if ($InitialMaxAgeDays -gt 0) {
+    Write-Output ("初回 API 巡回: $($stat.initialApiChannels) チャンネル・公開から $InitialMaxAgeDays 日を超えた $($stat.initialApiSkipped) 本は候補にせず履歴に記録  (履歴の印で候補にしなかった動画 $($stat.skippedByHistoryMark) 本)")
+  }
   if ($Source -eq "Api") {
     Write-Output ("API: 呼び出し $($stat.apiCalls) 回(上限 $MaxApiCalls)・読んだページ $($stat.apiPages)・再生リストを調べ直した $($stat.apiResolvedUploads) チャンネル・取得前に止めた $($stat.fetchNotAttempted) チャンネル" + $(if ($stat.apiStopped) { "  停止: $($stat.apiStopped)" } else { "" }) + "  次回に取り直す $(@($retryChannelIds | Select-Object -Unique).Count) チャンネル")
   }
 }
-Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsRead))・動画 $($stat.entries) 本 → 新規候補 $($stat.newCandidates) / 検出済み $($stat.alreadyCandidate) / 登録済み単発 $($stat.registeredStandalone) / ゲーム不明 $($stat.noGame)(うち未登録作品の候補 $($stat.unknownGameVideos) 本)  候補合計 $($candidates.Count)・未登録作品の候補 $($unknownGames.Count) 作品")
+Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsRead))・動画 $($stat.entries) 本 → 新規候補 $($stat.newCandidates) / 検出済み $($stat.alreadyCandidate) / 登録済み単発 $($stat.registeredStandalone) / ゲーム不明 $($stat.noGame)(うち未登録作品の候補 $($stat.unknownGameVideos) 本・作品別の延べ $($stat.unknownGameVideoRows))  候補合計 $($candidates.Count)・未登録作品の候補 $($unknownGames.Count) 作品")
 if ($RejudgeOnly) {
   Write-Output ("一括再判定: 確認待ちの候補 $($pendingIds.Count) 件のうち履歴・RSS にあった $($pendingIds.Count - $stat.rejudgeNotInRss) 件を判定し直した(見つからない $($stat.rejudgeNotInRss) 件はそのまま)。新しい動画 $($stat.rejudgeSkippedNew) 本は追加していない")
 }

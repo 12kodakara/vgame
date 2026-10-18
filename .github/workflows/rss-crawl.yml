@@ -45,6 +45,7 @@ env:
   TZ: Asia/Tokyo
   MAX_CHANNELS: "75"
   MAX_API_CALLS: "300"   # api のときの1回の呼び出し上限(1 unit/回。失敗した呼び出しも数える)
+  INITIAL_MAX_AGE_DAYS: "30"   # api のときだけ: 各チャンネルの初回 API 巡回では、公開から30日を超えた動画を候補にせず履歴に記録する
   SOURCE: ${{ inputs.source == 'api' && 'api' || 'rss' }}
   # 保存するのは手動実行で dry_run = false を明示したときだけ(それ以外はすべて試験運転として扱う)
   SAVE_RESULTS: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == false }}
@@ -125,7 +126,7 @@ jobs:
                  "-ChannelMapPath", (Join-Path $ws "tools/streamer-channel-ids.json"),
                  "-All", "-MaxChannels", [string][int]$env:MAX_CHANNELS, "-StartIndex", [string][int]$before.startIndex)
           if ($env:SOURCE -eq "api") {
-            $a += @("-Source", "Api", "-MaxApiCalls", [string][int]$env:MAX_API_CALLS)
+            $a += @("-Source", "Api", "-MaxApiCalls", [string][int]$env:MAX_API_CALLS, "-InitialMaxAgeDays", [string][int]$env:INITIAL_MAX_AGE_DAYS)
             $retry = @($before.retryChannelIds | Where-Object { $_ })
             if ($retry.Count -gt 0) { $a += @("-PriorityChannelId", ($retry -join ",")) }   # 前回取得できなかったチャンネルを先に取り直す
           }
@@ -186,7 +187,8 @@ jobs:
             ("- 取得元: $($env:SOURCE)" + $(if ($env:SOURCE -eq "api") { "(API 呼び出し $($s.apiCalls) / 上限 $($s.maxApiCalls)・読んだページ $($s.apiPages)・取得前に止めた $($s.fetchNotAttempted) チャンネル" + $(if ($s.apiStopped) { "・停止 $($s.apiStopped)" } else { "" }) + ")" } else { "" })),
             "- 取得: 対象 $($s.fetchTargets) / 成功 $($s.fetched) / 失敗 $($s.fetchFailed)(再試行 $($s.retried))",
             ("- 取り直し: 今回先に取得 $(@($before.retryChannelIds).Count) チャンネル → 次回 $($newRetry.Count) チャンネル" + $(if ($needsCheck.Count -gt 0) { "(3回以上続けて取得できない **要確認** $($needsCheck.Count): " + ($needsCheck -join ", ") + ")" } else { "" })),
-            "- 新規候補 $($s.newCandidates) 件・未登録作品の候補 $($s.unknownGameVideos) 本(すべて確認待ち)",
+            "- 新規候補 $($s.newCandidates) 件・未登録作品の候補 動画 $($s.unknownGameVideos) 本(作品別の延べ $($s.unknownGameVideoRows) 件)(すべて確認待ち)",
+            $(if ($env:SOURCE -eq "api") { "- 初回 API 巡回: $($s.initialApiChannels) チャンネル・公開から $($s.initialMaxAgeDays) 日を超えた $($s.initialApiSkipped) 本は候補にせず履歴に記録(履歴の印で候補にしなかった動画 $($s.skippedByHistoryMark) 本)" } else { "" }),
             "- 候補 $($before.candidates) → $after 件・未登録作品 $($before.unknownGames) → $afterUnknown 作品・履歴 $($before.historyVideos) → $hist 本",
             "- エラー $(@($cand.lastRun.errors).Count) 件・警告 $(@($cand.lastRun.warnings).Count) 件"
           )
@@ -252,7 +254,8 @@ jobs:
           $utf8 = New-Object System.Text.UTF8Encoding($false)
           $meta = [ordered]@{ generatedAt = [DateTimeOffset]::UtcNow.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss"); runId = $env:GITHUB_RUN_ID; startIndex = [int]$before.startIndex; nextIndex = $cand.lastRun.stats.crawlNextIndex
                     source = $env:SOURCE; apiCalls = $cand.lastRun.stats.apiCalls; apiStopped = [string]$cand.lastRun.stats.apiStopped
-                    retryFirst = [object[]]@($before.retryChannelIds | Where-Object { $_ }); retryNext = [object[]]@($cand.lastRun.retryChannelIds | Where-Object { $_ }) }
+                    retryFirst = [object[]]@($before.retryChannelIds | Where-Object { $_ }); retryNext = [object[]]@($cand.lastRun.retryChannelIds | Where-Object { $_ })
+                    initialApiChannels = $cand.lastRun.stats.initialApiChannels; initialApiSkipped = $cand.lastRun.stats.initialApiSkipped; skippedByHistoryMark = $cand.lastRun.stats.skippedByHistoryMark }
           $candDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $candDoc[$k] = $meta[$k] }
           $candDoc["count"] = $newCands.Count; $candDoc["byConfidence"] = $byConf; $candDoc["candidates"] = $newCands   # .count は辞書の Count と重なるため添字で入れる
           # RSS の取得に失敗したチャンネル(公開のチャンネルID・VTuber名・理由だけ。原因の確認用に同じファイルへ入れる)
@@ -262,7 +265,10 @@ jobs:
           $candDoc["fetchFailureCount"] = $fetchFailures.Count; $candDoc["fetchFailures"] = $fetchFailures
           [IO.File]::WriteAllText((Join-Path $dir "new-candidates.json"), ((ConvertTo-Json -InputObject ([pscustomobject]$candDoc) -Depth 6) + "`n"), $utf8)
           $unkDoc = [ordered]@{}; foreach ($k in $meta.Keys) { $unkDoc[$k] = $meta[$k] }
-          $unkDoc["count"] = $newUnknown.Count; $unkDoc["unknownGames"] = $newUnknown
+          # 動画の実数(重複を除いた動画ID)と、作品別の延べ件数(1本が複数の作品名に入ることがある)を分けて記録する
+          $unkVideoRows = @($newUnknown | ForEach-Object { @($_.newVideos) } | Where-Object { $_ })
+          $unkVideoUnique = @($unkVideoRows | ForEach-Object { [string]$_.videoId } | Sort-Object -Unique)
+          $unkDoc["count"] = $newUnknown.Count; $unkDoc["videoCount"] = $unkVideoUnique.Count; $unkDoc["videoRows"] = $unkVideoRows.Count; $unkDoc["unknownGames"] = $newUnknown
           [IO.File]::WriteAllText((Join-Path $dir "new-unknown-games.json"), ((ConvertTo-Json -InputObject ([pscustomobject]$unkDoc) -Depth 6) + "`n"), $utf8)
           # CSV: Excel で文字化けしないよう BOM 付き UTF-8・CRLF。判定理由は " / " でつなぐ
           $q = { param($v) '"' + ([string]$v).Replace('"', '""') + '"' }
@@ -274,7 +280,7 @@ jobs:
           [IO.File]::WriteAllText((Join-Path $dir "new-candidates.csv"), (($csv -join "`r`n") + "`r`n"), (New-Object System.Text.UTF8Encoding($true)))
 
           $line = "- 新規候補の信頼度: HIGH $($byConf.HIGH) / MEDIUM $($byConf.MEDIUM) / LOW $($byConf.LOW)" + $(if ($byConf.other -gt 0) { " / その他 $($byConf.other)" } else { "" }) + "(候補一覧は artifact に7日間保存)"
-          $line2 = "- 未登録作品の候補: 新しい動画のある作品 $($newUnknown.Count)(うち新しい作品 $(@($newUnknown | Where-Object { $_.newGame }).Count))"
+          $line2 = "- 未登録作品の候補: 新しい動画のある作品 $($newUnknown.Count)(うち新しい作品 $(@($newUnknown | Where-Object { $_.newGame }).Count))・動画 $($unkVideoUnique.Count) 本(作品別の延べ $($unkVideoRows.Count) 件)"
           $line3 = "- RSS の取得に失敗したチャンネル: $($fetchFailures.Count)(一覧は artifact の new-candidates.json の fetchFailures)"
           ($line, $line2, $line3) -join "`n" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Encoding utf8
           Write-Output $line; Write-Output $line2; Write-Output $line3
