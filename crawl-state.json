@@ -1,6 +1,17 @@
 {
-  "nextIndex": 0,
+  "nextIndex": 75,
   "maxChannels": 75,
-  "updatedAt": "2026-10-17T00:00:00",
-  "note": "RSS 自動巡回の次の開始位置(streamer-channel-ids.json の並び順、0 始まり)。GitHub Actions が更新する"
+  "updatedAt": "2026-10-18T18:55:51",
+  "note": "RSS 自動巡回の次の開始位置(streamer-channel-ids.json の並び順、0 始まり)。GitHub Actions が更新する",
+  "retryChannelIds": [],
+  "retryCounts": {},
+  "lastRun": {
+    "source": "api",
+    "startIndex": 0,
+    "crawlTotal": 293,
+    "fetched": 75,
+    "fetchFailed": 0,
+    "apiCalls": 75,
+    "runId": "39117132645"
+  }
 }
