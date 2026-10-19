@@ -32,6 +32,18 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "niji-saotomeberry-01",
+      "title": "🍓ほの暮しの庭",
+      "streamer": "早乙女ベリー",
+      "game": "ほの暮らしの庭",
+      "genre": "sim",
+      "playlistId": "PLD4dyy5_JVGw",
+      "thumbnailUrl": "https://i.ytimg.com/vi/-zQvScbCsUA/mqdefault.jpg",
+      "videoCount": 2,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-20"
+    },
+    {
       "id": "holo-076",
       "title": "ARK🐏",
       "streamer": "角巻わため",
@@ -44,6 +56,30 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-19"
     },
     {
+      "id": "holo-118",
+      "title": "鳴潮 Wuthering Waves",
+      "streamer": "姫森ルーナ",
+      "game": "鳴潮",
+      "genre": "rpg",
+      "playlistId": "PL6gUpTCMieF5tt-S0Yty858pGwr-JUz_0",
+      "thumbnailUrl": "https://i.ytimg.com/vi/lJublvlWNNw/mqdefault.jpg",
+      "videoCount": 26,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-10-19"
+    },
+    {
+      "id": "hd-1217",
+      "title": "⚾ホロライブ甲子園⚾",
+      "streamer": "博衣こより",
+      "game": "パワフルプロ野球",
+      "genre": "sports",
+      "playlistId": "PLCxKJRIVDrYFgNRKTab7YnLo404DhdL_S",
+      "thumbnailUrl": "https://i.ytimg.com/vi/1XUSYVz_Cow/mqdefault.jpg",
+      "videoCount": 45,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-19"
+    },
+    {
       "id": "vspo-mimitosaki-04",
       "title": "VALORANT",
       "streamer": "兎咲ミミ",
@@ -53,42 +89,6 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
       "videoCount": 279,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-19"
-    },
-    {
-      "id": "vspo-lisahanabusa-06",
-      "title": "VALORANT",
-      "streamer": "英リサ",
-      "game": "VALORANT",
-      "genre": "fps",
-      "playlistId": "PLMbPsuw36kChBG5HS1cSNb_zpK8JX9Ht_",
-      "thumbnailUrl": "https://i.ytimg.com/vi/7xClVATmdQM/mqdefault.jpg",
-      "videoCount": 348,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-19"
-    },
-    {
-      "id": "vspo-emaaizawa-02",
-      "title": "VALORANT",
-      "streamer": "藍沢エマ",
-      "game": "VALORANT",
-      "genre": "fps",
-      "playlistId": "PLY1aH6rSJj8E",
-      "thumbnailUrl": "https://i.ytimg.com/vi/w-O1pwDrd9U/mqdefault.jpg",
-      "videoCount": 160,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-19"
-    },
-    {
-      "id": "niji-fumivirtual-09",
-      "title": "遊戯王マスターデュエル",
-      "streamer": "フミ",
-      "game": "遊戯王マスターデュエル",
-      "genre": "other",
-      "playlistId": "PLWRt-KFHLtpdw-d19RIsq0dKRQqre09nl",
-      "thumbnailUrl": "https://i.ytimg.com/vi/8lBLmn7W7CA/mqdefault.jpg",
-      "videoCount": 159,
-      "addedDate": "2026-09-08",
       "updatedDate": "2026-10-19"
     }
   ],
