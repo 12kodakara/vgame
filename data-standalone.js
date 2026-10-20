@@ -576,5 +576,144 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-17"
+  },
+{
+    id: "single-042",
+    title: "【バイオハザード６】ポンコツバイオでゆくレオン・ヘレナ編クリア耐久",
+    streamer: "さくらみこ",
+    game: "バイオハザード6",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【バイオハザード６】ポンコツバイオでゆくレオン・ヘレナ編クリア耐久【ホロライブ/#みこったかにぇ】", url: "https://www.youtube.com/watch?v=TIJctYljVA0", publishedDate: "2026-10-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-043",
+    title: "【鳴潮】ストーリーとガチャいくぞ！！",
+    streamer: "夏色まつり",
+    game: "鳴潮",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【鳴潮】ストーリーとガチャいくぞ！！【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=oIDOMuxSz8I", publishedDate: "2026-09-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-044",
+    title: "【R.E.P.O.】ひさしぶりのREPO！はじめ視点",
+    streamer: "轟はじめ",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O.】ひさしぶりのREPO！はじめ視点【轟はじめ/ReGLOSS】", url: "https://www.youtube.com/watch?v=g3XDlsGUU8w", publishedDate: "2026-09-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-045",
+    title: "【デュエプレ】そんなに怖いか？新世壊が！！新弾「虹帝∞命動」開封！！",
+    streamer: "社築",
+    game: "デュエル・マスターズ プレイス",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【デュエプレ】そんなに怖いか？新世壊が！！新弾「虹帝∞命動」開封！！【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=eN92w-z7j_8", publishedDate: "2026-09-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-046",
+    title: "【逆転裁判123 成歩堂セレクション】※ネタバレ有 めっちゃ久しぶりに話進める！",
+    streamer: "春崎エアル",
+    game: "逆転裁判123 成歩堂セレクション",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【逆転裁判123 成歩堂セレクション】※ネタバレ有 めっちゃ久しぶりに話進める！【春崎エアル/にじさんじ】", url: "https://www.youtube.com/watch?v=3mkR6gvUAmM", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-047",
+    title: "【壺おじ】目指すんだ…！圧倒的高み…ッ！！",
+    streamer: "百灯キョーコ",
+    game: "Getting Over It",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【壺おじ】目指すんだ…！圧倒的高み…ッ！！【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=ai5tJOVZwUU", publishedDate: "2026-09-28" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-048",
+    title: "【ポケコロツイン】かざまの着せ替えセンスを見せるときが来たか・・・！",
+    streamer: "風真いろは",
+    game: "ポケコロツイン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【ポケコロツイン】かざまの着せ替えセンスを見せるときが来たか・・・！【風真いろは/ホロライブ】", url: "https://www.youtube.com/watch?v=dTouiXf4DiA", publishedDate: "2026-09-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-049",
+    title: "【夜勤事件】コワクナイ。",
+    streamer: "鈴鳴つづり",
+    game: "夜勤事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【夜勤事件】コワクナイ。【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=gTT0Af4vYyI", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-050",
+    title: "【幻想水滸伝】教えて！幻想水滸伝！！",
+    streamer: "大空スバル",
+    game: "幻想水滸伝I&II HDリマスター 門の紋章戦争/デュナン統一戦争",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【幻想水滸伝】教えて！幻想水滸伝！！【ホロライブ/大空スバル 姫森ルーナ 獅白ぼたん】", url: "https://www.youtube.com/watch?v=xhYUcXSiiz4", publishedDate: "2026-10-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-051",
+    title: "【7Days to Die】初参戦！初心者なので教えてもらいながら！！",
+    streamer: "夏色まつり",
+    game: "7 Days to Die",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【7Days to Die】初参戦！初心者なので教えてもらいながら！！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=zSlhsP1jHwE", publishedDate: "2026-08-18" },
+      { title: "【7Days to Die】エイムで７日目を乗り越える～！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=yncG6v5Bu0E", publishedDate: "2026-08-19" },
+      { title: "【7Days to Die】引っ越したらしい！クエスト受けまくり～！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=shTjdf6aE5g", publishedDate: "2026-08-24" },
+      { title: "【7Days to Die】砂漠あちあちゾンビ！！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=HULJY5ZMKmo", publishedDate: "2026-09-08" },
+      { title: "【7Days to Die】冷静にさばいていくッ！！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=eBrln7M6Rdo", publishedDate: "2026-09-08" },
+      { title: "【7Days to Die】銃がつよくなりました！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=eX02LKDWsk4", publishedDate: "2026-09-09" },
+      { title: "【7Days to Die】立てこもり！襲撃に耐えろ！！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=lra3XyTDKhE", publishedDate: "2026-09-15" },
+      { title: "【7Days to Die】荒地でクエスト回しまくり～！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=lpejWDQTlJU", publishedDate: "2026-09-17" },
+      { title: "【7Days to Die】最終日！背中はまかせた～！！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=vHj0NCLwo-k", publishedDate: "2026-09-20" },
+      { title: "【7Days to Die】番外編！高難易度クエストいくぞ～！#ホロ7大豆劇場 【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=W4kIcPlxUTU", publishedDate: "2026-09-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
   }
 ];
