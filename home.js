@@ -14,7 +14,11 @@
 
 const HOME_LIST_LIMIT = 5;
 const HOME_STREAMER_LIMIT = 10;
-const HOME_SUMMARY_VERSION = 2;
+// 3: 「最近更新された再生リスト」から除外する VTuber を追加(古い data-home.js が残っていても使わず、その場で集計し直す)
+const HOME_SUMMARY_VERSION = 3;
+// 「最近更新された再生リスト」に表示しない VTuber(STREAMERS の name と完全一致で判定する)。
+// この欄だけの除外で、VTuberページ・ゲームページ・検索・登録データには影響しない
+const HOME_RECENT_UPDATED_EXCLUDED_STREAMERS = new Set(["博衣こより"]);
 
 // ⭐ 今週のおすすめVTuber: 毎週月曜 04:00(日本時間)に入れ替える週替わりの紹介。閲覧数・配信頻度・登録本数では選ばない。
 //   新規登録枠(初回掲載から30日以内)2組 → 発掘枠(掲載作品1〜3)4組 → 一般枠4組の順に埋め、足りない枠は一般枠で補う。
@@ -132,7 +136,8 @@ function computeHomeSummary(playlists, standalonePlays) {
   }
 
   // 🔄 最近更新された再生リスト(updatedDate優先、無ければaddedDateが新しい上位)
-  const recentUpdated = playlists.filter((p) => p.updatedDate || p.addedDate)
+  //   除外する VTuber は上位を選ぶ前に外すので、表示件数(HOME_LIST_LIMIT)は変わらない
+  const recentUpdated = playlists.filter((p) => (p.updatedDate || p.addedDate) && !HOME_RECENT_UPDATED_EXCLUDED_STREAMERS.has(p.streamer))
     .slice()
     .sort((a, b) => new Date(b.updatedDate || b.addedDate) - new Date(a.updatedDate || a.addedDate))
     .slice(0, HOME_LIST_LIMIT);

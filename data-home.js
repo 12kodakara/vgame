@@ -4,7 +4,7 @@
  * トップページは数MBある data-playlists.js の代わりにこれを読み込んで初期表示する。
  */
 const HOME_SUMMARY = {
-  "version": 2,
+  "version": 3,
   "playlistCount": 6756,
   "gameCount": 935,
   "streamerCount": 274,

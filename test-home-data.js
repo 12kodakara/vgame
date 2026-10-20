@@ -37,7 +37,7 @@ for (const f of ['data-core.js', 'data-playlists.js', 'data-home.js']) vm.runInC
 const playlists = vm.runInContext('PLAYLISTS', ctx);
 const s = JSON.parse(JSON.stringify(vm.runInContext('HOME_SUMMARY', ctx)));
 const popularity = (p) => (p && (p.popularity || p.videoCount)) || 0;   // common.js calculatePopularity と同じ定義であることは 5. で確認
-check('2a. version = 2', s.version === 2);
+check('2a. version = 3', s.version === 3);
 check('2b. 掲載件数が PLAYLISTS の件数と一致', s.playlistCount === playlists.length, s.playlistCount + ' / ' + playlists.length);
 check('2c. ゲーム数が PLAYLISTS のゲーム種類数と一致', s.gameCount === new Set(playlists.map((p) => p.game)).size);
 check('2d. VTuber数が PLAYLISTS の実況者種類数と一致', s.streamerCount === new Set(playlists.map((p) => p.streamer)).size);
@@ -49,8 +49,10 @@ const maxGame = Math.max(...[...gameScore.values()].map((v) => v.score));
 check('2f. 人気のゲーム1位が全ゲーム中の最高スコア', gameScore.get(s.topGames[0].key).score === maxGame);
 // 2g(人気VTuber上位10件)は 7. へ移した(「今週のおすすめVTuber」の週替わり選出に置き換えた)
 const dateOf = (p) => new Date(p.updatedDate || p.addedDate).getTime();
-const newest = Math.max(...playlists.filter((p) => p.updatedDate || p.addedDate).map(dateOf));
-check('2h. 最近更新は5件・日付降順・先頭が全体の最新日付', s.recentUpdated.length === 5 && s.recentUpdated.every((p, i) => i === 0 || dateOf(s.recentUpdated[i - 1]) >= dateOf(p)) && dateOf(s.recentUpdated[0]) === newest);
+const recentExcluded = new Set(['博衣こより']);
+const newest = Math.max(...playlists.filter((p) => (p.updatedDate || p.addedDate) && !recentExcluded.has(p.streamer)).map(dateOf));
+check('2h. 最近更新は5件・日付降順・先頭が(除外するVTuberを除いた)最新日付', s.recentUpdated.length === 5 && s.recentUpdated.every((p, i) => i === 0 || dateOf(s.recentUpdated[i - 1]) >= dateOf(p)) && dateOf(s.recentUpdated[0]) === newest);
+check('2h2. 最近更新に博衣こよりの再生リストを含めない(完全一致の除外)。登録データの博衣こよりは減らない', s.recentUpdated.every((p) => !recentExcluded.has(p.streamer)) && playlists.some((p) => p.streamer === '博衣こより') && s.playlistCount === playlists.length);
 const byId = new Map(playlists.map((p) => [p.id, p]));
 check('2i. 最近更新の各項目は PLAYLISTS の該当レコードと完全一致(表示に必要な項目の欠落なし)', s.recentUpdated.every((p) => JSON.stringify(byId.get(p.id)) === JSON.stringify(p)));
 check('2j. data-home.js は 20KB 未満(軽量であること)', Buffer.byteLength(read('data-home.js')) < 20 * 1024, Buffer.byteLength(read('data-home.js')) + ' bytes');
