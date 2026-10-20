@@ -4,7 +4,7 @@
  * トップページは数MBある data-playlists.js の代わりにこれを読み込んで初期表示する。
  */
 const HOME_SUMMARY = {
-  "version": 2,
+  "version": 3,
   "playlistCount": 6756,
   "gameCount": 935,
   "streamerCount": 274,
@@ -68,18 +68,6 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-19"
     },
     {
-      "id": "hd-1217",
-      "title": "⚾ホロライブ甲子園⚾",
-      "streamer": "博衣こより",
-      "game": "パワフルプロ野球",
-      "genre": "sports",
-      "playlistId": "PLCxKJRIVDrYFgNRKTab7YnLo404DhdL_S",
-      "thumbnailUrl": "https://i.ytimg.com/vi/1XUSYVz_Cow/mqdefault.jpg",
-      "videoCount": 45,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-19"
-    },
-    {
       "id": "vspo-mimitosaki-04",
       "title": "VALORANT",
       "streamer": "兎咲ミミ",
@@ -88,6 +76,18 @@ const HOME_SUMMARY = {
       "playlistId": "PLrZeo6egs0S4A7TRW_2tnb3P_1HIUPneB",
       "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
       "videoCount": 279,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-19"
+    },
+    {
+      "id": "vspo-hinanotachib-33",
+      "title": "LOL",
+      "streamer": "橘ひなの",
+      "game": "League of Legends",
+      "genre": "other",
+      "playlistId": "PLzzYMrfmt7TAyxtEDuCeBSGKVoCQ55wG_",
+      "thumbnailUrl": "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
+      "videoCount": 64,
       "addedDate": "2026-09-07",
       "updatedDate": "2026-10-19"
     }
