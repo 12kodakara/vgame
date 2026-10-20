@@ -1458,6 +1458,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "vspo-totokogara-21",
+     "title": "DBD",
+     "streamer": "小雀とと",
+     "game": "Dead by Daylight",
+     "genre": "horror",
+     "playlistId": "PLuXZStCIRGE32i_dmwvRlmUQ2eDfVG8t4",
+     "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
+     "videoCount": 38,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-10-20"
+    },
+    {
      "id": "gap961",
      "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
      "streamer": "轟京子",
@@ -1564,18 +1576,6 @@ const GENRE_PAGES = {
      "videoCount": 2,
      "addedDate": "2026-10-11",
      "updatedDate": "2026-10-06"
-    },
-    {
-     "id": "niji-blackshibach-06",
-     "title": "黒夢町",
-     "streamer": "黒井しば",
-     "game": "黒夢町",
-     "genre": "horror",
-     "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
-     "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
-     "videoCount": 30,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-03"
     }
    ]
   }
