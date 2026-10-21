@@ -1,5 +1,5 @@
 # 登録済みVTuberの YouTube チャンネル RSS を順番に巡回し、単発実況の候補を rss-state ブランチに保存する。
-# - 1回75チャンネル。定期実行を追加したら1日2回(日本時間 6:00・18:00 ごろ)で、293チャンネルを約2日で一巡する予定
+# - 1回75チャンネル。定期実行は1日1回(日本時間 6:00 ごろ)で、293チャンネルを約4日で一巡する(API は1回 75 unit 前後)
 # - 巡回スクリプト(watch-standalone-rss.ps1・standalone-matching.ps1)・作品マスタ(data-*.js)・チャンネル対応表
 #   (streamer-channel-ids.json)は main から取り出す(書き込まない)
 # - 候補JSON・動画ごとの履歴・巡回位置(crawl-state.json)は rss-state ブランチから取り出し、結果も rss-state にだけ保存する
@@ -13,13 +13,17 @@
 # - push が競合したら強制 push せずに止める(次回の実行が同じ位置からやり直す。同じ動画は重複しない)
 # - 既存のワークフロー(home-data / refresh-playlist-meta / search-console-weekly / rss-pwsh-check)とは独立
 #
-# いまは手動実行(workflow_dispatch)専用。定期実行(schedule)は試験運転で確認してから追加する
+# 定期実行(schedule): 毎日 21:00 UTC(日本時間 6:00 ごろ。GitHub の混雑で遅れることがある)。取得元は api に固定し、
+#   保存前の検証をすべて通ったときだけ rss-state に保存する(refresh-playlist-meta の 19:00 UTC とは時間をずらしている)
+# 手動実行(workflow_dispatch)は従来どおり:
 # 試験運転(dry_run = true、既定): 巡回・検証・結果の表示までを行い、rss-state への commit・push は一切しない
 # 本番(dry_run = false): 保存前の検証をすべて通ったときだけ rss-state に保存する
 #   例: gh workflow run rss-crawl.yml -f dry_run=true -f source=api
 name: rss crawl
 
 on:
+  schedule:
+    - cron: "0 21 * * *"   # 毎日 21:00 UTC = 日本時間 6:00(cron は常に UTC)
   workflow_dispatch:
     inputs:
       dry_run:
@@ -46,9 +50,10 @@ env:
   MAX_CHANNELS: "75"
   MAX_API_CALLS: "300"   # api のときの1回の呼び出し上限(1 unit/回。失敗した呼び出しも数える)
   INITIAL_MAX_AGE_DAYS: "30"   # api のときだけ: 各チャンネルの初回 API 巡回では、公開から30日を超えた動画を候補にせず履歴に記録する
-  SOURCE: ${{ inputs.source == 'api' && 'api' || 'rss' }}
-  # 保存するのは手動実行で dry_run = false を明示したときだけ(それ以外はすべて試験運転として扱う)
-  SAVE_RESULTS: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == false }}
+  # 定期実行は api に固定(入力が無いため、inputs.source だけで決めると rss になってしまう)。手動実行は入力どおり
+  SOURCE: ${{ (github.event_name == 'schedule' || inputs.source == 'api') && 'api' || 'rss' }}
+  # 保存するのは定期実行のときと、手動実行で dry_run = false を明示したときだけ(それ以外はすべて試験運転として扱う)
+  SAVE_RESULTS: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.dry_run == false) }}
 
 jobs:
   crawl:
