@@ -76,6 +76,12 @@
   -Source Api と一緒に指定。各チャンネルの初回 API 巡回(履歴の apiFirstCrawledAt が無い。RSS の履歴の有無は問わない)だけ、
   公開からこの日数を超えた動画を候補にしない(既定 0 = 制限しない)。その動画は履歴に記録し、candidateSkipped を付けて
   次回以降も候補にしない。初回 API 巡回を終えたチャンネルは履歴に apiFirstCrawledAt を記録する(取得に失敗したチャンネルは記録しない)。
+.PARAMETER ReconcileOnly
+  登録済み候補の整理だけを行う(YouTube API・RSS には接続しない。-FeedDir は不要)。-OutFile の候補 JSON を読み、
+  data-standalone.js に登録済みの動画の候補(確認待ち・承認)を registered にする(registeredAs・registeredAt を記録)。
+  未登録の候補・分類・未登録作品の候補は変えず、候補の追加・削除もしない。既定は dry-run(件数を表示するだけ)。
+.PARAMETER Save
+  -ReconcileOnly で整理結果を保存する。保存先は明示した -OutFile だけ(Git には触れないので、rss-state への反映は別の操作)。
 .PARAMETER PriorityChannelId
   -All と一緒に指定。対応表の順の巡回より先に取得するチャンネルID(前回の lastRun.retryChannelIds。カンマ区切り可)。
   -MaxChannels の枠に含める。取得前に止めた・失敗したものは、次回用に lastRun.retryChannelIds に残す。
@@ -93,7 +99,7 @@
   獅白ぼたんの RSS を1回取得して候補を抽出する
 #>
 param(
-  [Parameter(Mandatory = $true)][string]$FeedDir,
+  [string]$FeedDir,   # -ReconcileOnly 以外では必須(下で確認する)
   [string]$OutFile = "discovered-standalone-rss.json",
   [string]$ChannelMapPath,
   [string]$CorePath,
@@ -113,7 +119,9 @@ param(
   [ValidateSet("Rss", "Api")][string]$Source = "Rss",
   [int]$MaxApiCalls = 300,
   [int]$InitialMaxAgeDays = 0,
-  [string[]]$PriorityChannelId
+  [string[]]$PriorityChannelId,
+  [switch]$ReconcileOnly,
+  [switch]$Save
 )
 
 $ErrorActionPreference = "Stop"
@@ -130,6 +138,17 @@ if ($All -and $MaxChannels -lt 1) { throw "-MaxChannels には1以上の件数�
 if ($All -and $StartIndex -lt 0) { throw "-StartIndex には0以上を指定してください。" }
 if ($RejudgeOnly -and ($All -or ($Streamer.Count + $ChannelId.Count) -gt 0)) { throw "-RejudgeOnly は -Streamer / -ChannelId / -All と同時に指定できません(一括再判定は RSS を取得しません)。" }
 $fetchMode = (($Streamer.Count + $ChannelId.Count) -gt 0) -or [bool]$All
+# 登録済み候補の整理だけ(-ReconcileOnly): 取得・判定はしない。既定は dry-run で、-Save と -OutFile の明示があるときだけ保存する
+if ($ReconcileOnly) {
+  if ($fetchMode -or $RejudgeOnly -or $Source -ne "Rss" -or $PSBoundParameters.ContainsKey("PriorityChannelId") -or $InitialMaxAgeDays -gt 0 -or $RequestScript) {
+    throw "-ReconcileOnly は取得・再判定の指定(-All / -Streamer / -ChannelId / -RejudgeOnly / -Source Api / -PriorityChannelId / -InitialMaxAgeDays / -RequestScript)と同時に指定できません。"
+  }
+  if ($Save -and -not $PSBoundParameters.ContainsKey("OutFile")) { throw "-ReconcileOnly -Save では、保存先の候補 JSON(-OutFile)を明示してください。何も保存していません。" }
+  if (-not (Test-Path -LiteralPath $outPath)) { throw "候補 JSON が見つかりません: $outPath" }
+} else {
+  if ($Save) { throw "-Save は -ReconcileOnly と一緒に指定してください。" }
+  if (-not $FeedDir) { throw "-FeedDir を指定してください(RSS のフォルダ)。" }
+}
 $PriorityChannelId = @($PriorityChannelId | ForEach-Object { "$_" -split "," } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
 if ($PriorityChannelId.Count -gt 0 -and -not $All) { throw "-PriorityChannelId は -All と一緒に指定してください(巡回の前に取り直すチャンネル)。" }
 if ($InitialMaxAgeDays -lt 0) { throw "-InitialMaxAgeDays には0以上を指定してください。" }
@@ -145,8 +164,11 @@ if ($fetchMode) {
   if (-not (Test-Path $FeedDir)) { New-Item -ItemType Directory -Path $FeedDir -Force | Out-Null }
   if (-not $ChannelMapPath) { $defaultMap = Join-Path $scriptDir "streamer-channel-ids.json"; if (Test-Path $defaultMap) { $ChannelMapPath = $defaultMap } }
 }
-if (-not (Test-Path $FeedDir -PathType Container)) { throw "RSS のフォルダが見つかりません: $FeedDir" }
-$feedDirFull = (Resolve-Path -LiteralPath $FeedDir).ProviderPath
+if ($ReconcileOnly) { $feedDirFull = "" }
+else {
+  if (-not (Test-Path $FeedDir -PathType Container)) { throw "RSS のフォルダが見つかりません: $FeedDir" }
+  $feedDirFull = (Resolve-Path -LiteralPath $FeedDir).ProviderPath
+}
 
 . (Join-Path $scriptDir "standalone-matching.ps1")
 
@@ -379,6 +401,20 @@ foreach ($c in $candidates) {
   if ([string]$c.status -ne "pending" -and [string]$c.status -ne "approved") { continue }
   Set-ObjProp $c "status" "registered"; Set-ObjProp $c "registeredAs" $registeredMap[$vid]; Set-ObjProp $c "registeredAt" $now
   $stat.markedRegistered++
+}
+if ($ReconcileOnly) {
+  # 整理だけ: 取得・判定・分類・未登録作品の候補には触れない。保存するのは整理した候補の status 等だけ(候補の追加・削除・並べ替えなし)
+  if ($registeredMap.Count -eq 0) { throw "登録データ(data-standalone.js)から登録済みの動画を読めないため中止しました(何も保存していません): $StandalonePath" }
+  $byStatus = @{}; foreach ($c in $candidates) { $k = [string]$c.status; $byStatus[$k] = 1 + [int]$byStatus[$k] }
+  Write-Output ("登録済みの整理(取得なし): 候補 $($candidates.Count) 件・登録データの動画 $($registeredMap.Count) 本 → registered にする候補 $($stat.markedRegistered) 件")
+  Write-Output ("整理後の状態: " + (($byStatus.Keys | Sort-Object | ForEach-Object { "$_ $($byStatus[$_])" }) -join " / "))
+  if (-not $Save) { Write-Output "dry-run のため保存していません(保存するには -Save と -OutFile を指定)。"; exit 0 }
+  if ($stat.markedRegistered -eq 0) { Write-Output "整理する候補が無いため、ファイルは変更していません。"; exit 0 }
+  $tmp = $outPath + ".tmp"
+  [IO.File]::WriteAllText($tmp, ($existing | ConvertTo-Json -Depth 8), (New-Object System.Text.UTF8Encoding($false)))
+  Move-Item -LiteralPath $tmp -Destination $outPath -Force
+  Write-Output "保存しました: $outPath"
+  exit 0
 }
 $errors = New-Object System.Collections.Generic.List[object]
 # 再判定の件数は動画ごとに数える(一括再判定では同じ動画が履歴の複数のRSSに出てくるため)
