@@ -135,7 +135,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
    "videoCount": 8,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-21"
+   "updatedDate": "2026-10-22"
   },
   {
    "id": "gap931",
@@ -147,19 +147,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
    "videoCount": 38,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-20"
-  },
-  {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-20"
+   "updatedDate": "2026-10-21"
   },
   {
    "id": "gap973",
@@ -171,7 +159,19 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
    "videoCount": 8,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-19"
+   "updatedDate": "2026-10-21"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-21"
   },
   {
    "id": "gap930",

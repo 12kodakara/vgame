@@ -32,52 +32,52 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "vspo-lisahanabusa-11",
-      "title": "APEX",
-      "streamer": "英リサ",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PLMbPsuw36kCglBhUr2Vx_mh_wv7QWl6j2",
-      "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
-      "videoCount": 351,
+      "id": "vspo-yuuhisendo-36",
+      "title": "League of Legends",
+      "streamer": "千燈ゆうひ",
+      "game": "League of Legends",
+      "genre": "other",
+      "playlistId": "PL7rBIMrt1ue5OQr1HncWbkvhepX-6_bIr",
+      "thumbnailUrl": "https://i.ytimg.com/vi/MgopQQWE05o/mqdefault.jpg",
+      "videoCount": 414,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-21"
+      "updatedDate": "2026-10-22"
     },
     {
-      "id": "niji-ruri4ori8-01",
-      "title": "ELDEN RING",
-      "streamer": "栞葉るり",
-      "game": "ELDEN RING",
-      "genre": "action",
-      "playlistId": "PLDqc_4uZON30",
-      "thumbnailUrl": "https://i.ytimg.com/vi/s-7u2Kt-lKA/mqdefault.jpg",
-      "videoCount": 2,
+      "id": "niji-fumivirtual-09",
+      "title": "遊戯王マスターデュエル",
+      "streamer": "フミ",
+      "game": "遊戯王マスターデュエル",
+      "genre": "other",
+      "playlistId": "PLWRt-KFHLtpdw-d19RIsq0dKRQqre09nl",
+      "thumbnailUrl": "https://i.ytimg.com/vi/8lBLmn7W7CA/mqdefault.jpg",
+      "videoCount": 159,
       "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-21"
+      "updatedDate": "2026-10-22"
     },
     {
-      "id": "nijien-claudeclawmark-02",
-      "title": "Apex Legends",
-      "streamer": "Claude Clawmark",
-      "game": "Apex Legends",
+      "id": "niji-rai173-13",
+      "title": "OW2",
+      "streamer": "伊波ライ",
+      "game": "Overwatch",
       "genre": "fps",
-      "playlistId": "PLbIxPSQexznw",
-      "thumbnailUrl": "https://i.ytimg.com/vi/fPqirTsaPzs/mqdefault.jpg",
-      "videoCount": 28,
+      "playlistId": "PLVnoYfXIFllbkno30d-oadKs_-7Whrl9B",
+      "thumbnailUrl": "https://i.ytimg.com/vi/3r6-k_0aiQY/mqdefault.jpg",
+      "videoCount": 12,
       "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-21"
+      "updatedDate": "2026-10-22"
     },
     {
-      "id": "gap835",
-      "title": "LOST JUDGMENT：裁かれざる記憶",
-      "streamer": "水宮枢",
-      "game": "LOST JUDGMENT:裁かれざる記憶",
-      "genre": "action",
-      "playlistId": "PLLOWP7UoerRc",
-      "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
-      "videoCount": 3,
+      "id": "gap819",
+      "title": "League of Legends",
+      "streamer": "Claude Clawmark",
+      "game": "League of Legends",
+      "genre": "other",
+      "playlistId": "PLGY3YhPwh07A",
+      "thumbnailUrl": "https://i.ytimg.com/vi/S6ND3psj9yQ/mqdefault.jpg",
+      "videoCount": 22,
       "addedDate": "2026-10-11",
-      "updatedDate": "2026-10-21"
+      "updatedDate": "2026-10-22"
     },
     {
       "id": "gap951",
@@ -89,7 +89,7 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
       "videoCount": 8,
       "addedDate": "2026-10-12",
-      "updatedDate": "2026-10-21"
+      "updatedDate": "2026-10-22"
     }
   ],
   "streamerPicks": [
