@@ -167,14 +167,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-056",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "IixrJzaYlLc",
@@ -259,14 +261,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "卯月コウ|ELDEN RING",
-      "seriesCount": 5
+      "seriesCount": 5,
+      "registeredAs": "single-064",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "keX-vGIf71A",
@@ -380,14 +384,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "7ikCWr3DDdk",
@@ -565,14 +571,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "卯月コウ|ELDEN RING",
-      "seriesCount": 5
+      "seriesCount": 5,
+      "registeredAs": "single-064",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "JcYAtre-eLs",
@@ -625,14 +633,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|都市伝説解体センター",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-068",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "FU8RgzmOfVY",
@@ -923,14 +933,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-060",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "EP2fbcZ6dLk",
@@ -1229,14 +1241,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "社築|スプラトゥーン3",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-075",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "1IsDTkBvZFE",
@@ -1376,14 +1390,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "qRWzJTFgqe4",
@@ -1437,14 +1453,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|Cuphead",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-065",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "95jxlctrd6s",
@@ -1781,14 +1799,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "鈴鳴つづり|VALORANT",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-066",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "oHGNAOEqT_k",
@@ -1988,14 +2008,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "-My48xXxdGI",
@@ -2330,14 +2352,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "卯月コウ|ELDEN RING",
-      "seriesCount": 5
+      "seriesCount": 5,
+      "registeredAs": "single-064",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "Hlm-t5kEmgM",
@@ -2773,14 +2797,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|Cuphead",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-065",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "ODv3y376gFg",
@@ -2802,14 +2828,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "vG_eQdfuIPs",
@@ -3256,14 +3284,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "JzHvkdqVgkI",
@@ -3376,14 +3406,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-046",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "RAFETsi0eyA",
@@ -3672,14 +3704,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-057",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "koqFM_bBLJY",
@@ -4219,14 +4253,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|都市伝説解体センター",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-068",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "500PyNuOTTs",
@@ -4342,14 +4378,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "鈴鳴つづり|VALORANT",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-066",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "EuC6bpuiZDo",
@@ -4371,14 +4409,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "夕陽リリ|日本事故物件監視協会",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-069",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "xpbwReIWM8Y",
@@ -4494,14 +4534,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "卯月コウ|ELDEN RING",
-      "seriesCount": 5
+      "seriesCount": 5,
+      "registeredAs": "single-064",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "mNcFyUgR_B4",
@@ -4613,14 +4655,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "大空スバル|キャプテン翼2 WORLD FIGHTERS",
-      "seriesCount": 6
+      "seriesCount": 6,
+      "registeredAs": "single-063",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "Fq5RR1ORQgc",
@@ -4754,14 +4798,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|Cuphead",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-065",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "1VxtRtZOq54",
@@ -4813,14 +4859,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "yfVCHt9brno",
@@ -4997,14 +5045,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "卯月コウ|ELDEN RING",
-      "seriesCount": 5
+      "seriesCount": 5,
+      "registeredAs": "single-064",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "c9XZhiqOPk4",
@@ -5054,14 +5104,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-049",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "kch-3FbzjEI",
@@ -5194,14 +5246,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "博衣こより|空の軌跡 the 2nd",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-067",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "dY2708MMKmY",
@@ -5254,14 +5308,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "大空スバル|キャプテン翼2 WORLD FIGHTERS",
-      "seriesCount": 6
+      "seriesCount": 6,
+      "registeredAs": "single-063",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "HSfxdJ_sVdw",
@@ -5338,14 +5394,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "tqzLShTKJkk",
@@ -5611,14 +5669,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "Xf1JTtAz7gM",
@@ -5673,14 +5733,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|Cuphead",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-065",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "BiFTTcUHXJ4",
@@ -5913,14 +5975,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-053",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "cyPhbiFX8eI",
@@ -5973,14 +6037,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "静凛|No Man's Sky",
-      "seriesCount": 9
+      "seriesCount": 9,
+      "registeredAs": "single-062",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "nYwfcdAROHI",
@@ -6175,14 +6241,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-052",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "xhYUcXSiiz4",
@@ -6204,7 +6272,7 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
@@ -6212,7 +6280,9 @@
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-050",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "JpBKsKWOYic",
@@ -6292,14 +6362,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-042",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "WmmhxWD1j2s",
@@ -6381,14 +6453,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "夕陽リリ|日本事故物件監視協会",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-069",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "JLALCjMzjTM",
@@ -7238,14 +7312,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "博衣こより|空の軌跡 the 2nd",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-067",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "BOjKLly-bLQ",
@@ -7268,14 +7344,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "大空スバル|キャプテン翼2 WORLD FIGHTERS",
-      "seriesCount": 6
+      "seriesCount": 6,
+      "registeredAs": "single-063",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "9A0AJzfRXZo",
@@ -7635,14 +7713,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-059",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "e0p5pjL3yRw",
@@ -7794,14 +7874,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "大空スバル|キャプテン翼2 WORLD FIGHTERS",
-      "seriesCount": 6
+      "seriesCount": 6,
+      "registeredAs": "single-063",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "Ibd0E7cEr1M",
@@ -7821,14 +7903,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "博衣こより|空の軌跡 the 2nd",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-067",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "skzSFU37Jys",
@@ -8302,14 +8386,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百灯キョーコ|都市伝説解体センター",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-068",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "LKWMaCecqBw",
@@ -9060,14 +9146,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-043",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "k6396BuDH-w",
@@ -9242,14 +9330,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-055",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "8w3b1H5ww5Q",
@@ -9272,14 +9362,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "鈴鳴つづり|VALORANT",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-066",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "9nVA_THFlgI",
@@ -9595,14 +9687,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-047",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "iPqPNmh4MF8",
@@ -9685,14 +9779,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "鈴鳴つづり|VALORANT",
-      "seriesCount": 4
+      "seriesCount": 4,
+      "registeredAs": "single-066",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "DlYNaEImoaA",
@@ -9923,14 +10019,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "大空スバル|キャプテン翼2 WORLD FIGHTERS",
-      "seriesCount": 6
+      "seriesCount": 6,
+      "registeredAs": "single-063",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "9I2joAEu_Ds",
@@ -10011,14 +10109,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-061",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "DC-jTgas4jw",
@@ -10098,14 +10198,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "社築|遊戯王マスターデュエル",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-073",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "wSUodhDmUB8",
@@ -10441,14 +10543,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "大空スバル|キャプテン翼2 WORLD FIGHTERS",
-      "seriesCount": 6
+      "seriesCount": 6,
+      "registeredAs": "single-063",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "rprVgtm3Lt8",
@@ -10528,14 +10632,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-045",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "HxwogHrIk_w",
@@ -10888,14 +10994,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-054",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "CWif8AqPJyo",
@@ -10976,14 +11084,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "夏色まつり|7 Days to Die",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-051",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "Yz0xRa3EIWo",
@@ -11312,14 +11422,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "轟京子|パラノマサイト FILE23 本所七不思議",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-070",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "fFW8PcXboZs",
@@ -11898,14 +12010,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "社築|遊戯王マスターデュエル",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-072",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "GZ1Y5Ud1bQ4",
@@ -12316,14 +12430,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "社築|スプラトゥーン3",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-074",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "Fn2Xhj6DQpc",
@@ -12683,14 +12799,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "轟京子|パラノマサイト FILE23 本所七不思議",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-070",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "oAGJF9p0N2M",
@@ -12832,14 +12950,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": false,
       "seriesKey": "夏色まつり|7 Days to Die",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-051",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "SwYIcBAPHro",
@@ -12944,14 +13064,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-044",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "jwf8Y5J_HcM",
@@ -13246,14 +13368,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "轟京子|パラノマサイト FILE23 本所七不思議",
-      "seriesCount": 3
+      "seriesCount": 3,
+      "registeredAs": "single-070",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "waYpW5gw-FA",
@@ -13361,14 +13485,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-18T18:54:10",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-048",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "sB05O-NIXKQ",
@@ -13390,14 +13516,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-058",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "e7JvA7J1jNs",
@@ -13419,14 +13547,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百鬼あやめ|バイオハザード レクイエム",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-071",
+      "registeredAt": "2026-10-21T22:50:52"
     },
     {
       "videoId": "lVaCdidMYhs",
@@ -13448,14 +13578,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-17T20:34:20",
       "lastSeenAt": "2026-10-18T18:54:10",
       "reviewCategory": "series",
       "episodeMarker": true,
       "seriesKey": "百鬼あやめ|バイオハザード レクイエム",
-      "seriesCount": 2
+      "seriesCount": 2,
+      "registeredAs": "single-071",
+      "registeredAt": "2026-10-21T22:50:52"
     }
   ],
   "unknownGames": [
