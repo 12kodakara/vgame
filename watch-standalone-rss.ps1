@@ -193,6 +193,71 @@ function ConvertFrom-StandaloneJson([string]$text) {
   $reader.DateParseHandling = [Newtonsoft.Json.DateParseHandling]::None
   return , (ConvertFrom-StandaloneJToken ([Newtonsoft.Json.Linq.JToken]::ReadFrom($reader)))
 }
+# JSON の保存: PowerShell 7 の ConvertTo-Json と同じ書式(2スペース・LF・キーの順序そのまま・末尾改行なし)にする
+#   7 以降: 従来どおり ConvertTo-Json(改行だけ LF にそろえる) / 5.1: ConvertTo-Json は書式(インデント・空の配列・< > & ' の表記)が違うため同じ書式を自前で書く
+#   5.1 で書けない値(日時型など)や -Depth を超える階層は、書式を保証できないため保存を中止する
+function ConvertTo-StandaloneJsonText($InputObject, [int]$Depth) {
+  if ($PSVersionTable.PSVersion.Major -ge 6) { return (($InputObject | ConvertTo-Json -Depth $Depth) -replace "`r`n", "`n") }
+  $sb = New-Object System.Text.StringBuilder
+  Add-StandaloneJsonValue $sb $InputObject 0 $Depth
+  return $sb.ToString()
+}
+function Add-StandaloneJsonString([Text.StringBuilder]$sb, [string]$s) {
+  # 文字列の書き方は 7(Newtonsoft.Json の既定)と同じ: " \ 制御文字・U+0085・U+2028・U+2029 だけを書き換え、日本語や記号はそのまま
+  [void]$sb.Append('"')
+  if (-not [regex]::IsMatch($s, '[\x00-\x1f"\\\u0085  ]')) { [void]$sb.Append($s) }
+  else {
+    foreach ($ch in $s.ToCharArray()) {
+      $n = [int]$ch
+      if ($n -eq 0x22) { [void]$sb.Append('\"') } elseif ($n -eq 0x5C) { [void]$sb.Append('\\') }
+      elseif ($n -eq 0x08) { [void]$sb.Append('\b') } elseif ($n -eq 0x09) { [void]$sb.Append('\t') } elseif ($n -eq 0x0A) { [void]$sb.Append('\n') }
+      elseif ($n -eq 0x0C) { [void]$sb.Append('\f') } elseif ($n -eq 0x0D) { [void]$sb.Append('\r') }
+      elseif ($n -lt 0x20 -or $n -eq 0x85 -or $n -eq 0x2028 -or $n -eq 0x2029) { [void]$sb.Append('\u' + $n.ToString("x4")) }
+      else { [void]$sb.Append($ch) }
+    }
+  }
+  [void]$sb.Append('"')
+}
+function Add-StandaloneJsonValue([Text.StringBuilder]$sb, $value, [int]$level, [int]$depth) {
+  if ($null -eq $value) { [void]$sb.Append('null'); return }
+  $v = $value.PSObject.BaseObject
+  $inv = [Globalization.CultureInfo]::InvariantCulture
+  if ($v -is [string] -or $v -is [char]) { Add-StandaloneJsonString $sb ([string]$v); return }
+  if ($v -is [bool]) { [void]$sb.Append($(if ($v) { 'true' } else { 'false' })); return }
+  if ($v -is [int] -or $v -is [long] -or $v -is [int16] -or $v -is [byte] -or $v -is [sbyte] -or $v -is [uint16] -or $v -is [uint32] -or $v -is [uint64]) { [void]$sb.Append($v.ToString($inv)); return }
+  if ($v -is [double] -or $v -is [single] -or $v -is [decimal]) {
+    if ($v -isnot [decimal] -and ([double]::IsNaN($v) -or [double]::IsInfinity($v))) { throw "JSON に書けない数値($v)があるため保存を中止しました" }
+    $t = if ($v -is [decimal]) { $v.ToString($inv) } else { $v.ToString("R", $inv) }
+    if ($t -notmatch '[.eE]') { $t += ".0" }   # 7 と同じく、整数値の小数は 1.0 と書く
+    [void]$sb.Append($t); return
+  }
+  $isDict = $v -is [Collections.IDictionary]
+  $isObj = $isDict -or $v -is [Management.Automation.PSCustomObject]
+  if (-not $isObj -and $v -isnot [Collections.IEnumerable]) { throw "JSON に書けない値(型 $($v.GetType().FullName))があるため保存を中止しました" }
+  if ($level -ge $depth) { throw "JSON の階層が -Depth $depth を超えるため保存を中止しました" }
+  $pad = "`n" + ("  " * ($level + 1))
+  if ($isObj) {
+    # if の結果を代入すると配列が展開される(空 → null・1要素 → 値)ため、代入は分岐の中で行う
+    if ($isDict) { $names = @($v.Keys | ForEach-Object { [string]$_ }) } else { $names = @($value.PSObject.Properties | ForEach-Object { $_.Name }) }
+    if ($names.Count -eq 0) { [void]$sb.Append('{}'); return }
+    [void]$sb.Append('{')
+    for ($i = 0; $i -lt $names.Count; $i++) {
+      if ($i -gt 0) { [void]$sb.Append(',') }
+      [void]$sb.Append($pad); Add-StandaloneJsonString $sb $names[$i]; [void]$sb.Append(': ')
+      if ($isDict) { $item = $v[$names[$i]] } else { $item = $value.PSObject.Properties[$names[$i]].Value }
+      Add-StandaloneJsonValue $sb $item ($level + 1) $depth
+    }
+  } else {
+    $items = @($v)
+    if ($items.Count -eq 0) { [void]$sb.Append('[]'); return }
+    [void]$sb.Append('[')
+    for ($i = 0; $i -lt $items.Count; $i++) {
+      if ($i -gt 0) { [void]$sb.Append(',') }
+      [void]$sb.Append($pad); Add-StandaloneJsonValue $sb $items[$i] ($level + 1) $depth
+    }
+  }
+  [void]$sb.Append("`n" + ("  " * $level) + $(if ($isObj) { '}' } else { ']' }))
+}
 # 日時の記録: OS のタイムゾーンに関係なく日本時間(+09:00)で、従来と同じ書式(yyyy-MM-ddTHH:mm:ss)にする
 function Get-StandaloneJstStamp([DateTime]$utc) {
   return ([DateTimeOffset]$utc.ToUniversalTime()).ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd'T'HH:mm:ss", [Globalization.CultureInfo]::InvariantCulture)
@@ -411,7 +476,7 @@ if ($ReconcileOnly) {
   if (-not $Save) { Write-Output "dry-run のため保存していません(保存するには -Save と -OutFile を指定)。"; exit 0 }
   if ($stat.markedRegistered -eq 0) { Write-Output "整理する候補が無いため、ファイルは変更していません。"; exit 0 }
   $tmp = $outPath + ".tmp"
-  [IO.File]::WriteAllText($tmp, ($existing | ConvertTo-Json -Depth 8), (New-Object System.Text.UTF8Encoding($false)))
+  [IO.File]::WriteAllText($tmp, (ConvertTo-StandaloneJsonText $existing 8), (New-Object System.Text.UTF8Encoding($false)))
   Move-Item -LiteralPath $tmp -Destination $outPath -Force
   Write-Output "保存しました: $outPath"
   exit 0
@@ -795,7 +860,7 @@ function Save-HistoryStores {
       $docMap["videoCount"] = $videos.Count; $docMap["videos"] = $videos
       $doc = [pscustomobject]$docMap
       $tmp = $h.path + ".tmp"
-      [IO.File]::WriteAllText($tmp, ($doc | ConvertTo-Json -Depth 4), (New-Object System.Text.UTF8Encoding($false)))
+      [IO.File]::WriteAllText($tmp, (ConvertTo-StandaloneJsonText $doc 4), (New-Object System.Text.UTF8Encoding($false)))
       if (Test-Path -LiteralPath $h.path) { [IO.File]::Replace($tmp, $h.path, $h.path + ".bak") } else { [IO.File]::Move($tmp, $h.path) }
       $stat.historyChannels++; $stat.historyAdded += $h.added
     } catch {
@@ -1084,7 +1149,7 @@ $result = [pscustomobject]@{
     $c = ([int]$y.videoCount).CompareTo([int]$x.videoCount); if ($c -ne 0) { $c } else { [string]::CompareOrdinal([string]$x.key, [string]$y.key) } }
 }
 $tmp = $outPath + ".tmp"
-[IO.File]::WriteAllText($tmp, ($result | ConvertTo-Json -Depth 8), (New-Object System.Text.UTF8Encoding($false)))
+[IO.File]::WriteAllText($tmp, (ConvertTo-StandaloneJsonText $result 8), (New-Object System.Text.UTF8Encoding($false)))
 Move-Item -LiteralPath $tmp -Destination $outPath -Force
 
 if ($fetchMode) {

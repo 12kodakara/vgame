@@ -885,6 +885,31 @@ Check "22e. 保存先の明示なし・取得の指定との併用・登録デ�
 $e5 = & $runRc @("-OutFile", $rcOut)
 Check "22f. 通常の処理では従来どおり -FeedDir が必須" ($e5.code -ne 0 -and $e5.output -match "FeedDir") ($e5.output)
 
+Write-Output "== JSON の保存書式(5.1 でも 7 と同じ: 2スペース・LF・キーの順序そのまま)"
+# 保存用の関数だけを watch-standalone-rss.ps1 から読み込んで直接確かめる
+$jsonHasDateKind = (Get-Command ConvertFrom-Json).Parameters.ContainsKey("DateKind")
+$watchAst = [Management.Automation.Language.Parser]::ParseFile($watch, [ref]$null, [ref]$null)
+foreach ($fn in $watchAst.FindAll({ param($a) $a -is [Management.Automation.Language.FunctionDefinitionAst] -and $a.Name -match '^(ConvertFrom|ConvertTo|Add)-StandaloneJ(son|Token)' }, $true)) { . ([scriptblock]::Create($fn.Extent.Text)) }
+$emoji = [char]::ConvertFromUtf32(0x1F3AE)
+$jsSample = [ordered]@{ text = "記号<>&'`"\ タブ`t改行`n制御$([char]1)区切り$([char]0x2028)絵文字$emoji"; empty = @(); emptyObj = [ordered]@{}; none = $null; yes = $true; no = $false
+  count = 3; big = [long]10000000000; ratio = [double]0.85; whole = [double]1; one = @("x"); list = @([ordered]@{ id = "a"; tags = @() }, [pscustomobject]@{ id = "b"; n = 2 }) }
+$jsExpected = @('{', ('  "text": "記号<>&''\"\\ タブ\t改行\n制御\u0001区切り\u2028絵文字' + $emoji + '",'), '  "empty": [],', '  "emptyObj": {},', '  "none": null,', '  "yes": true,', '  "no": false,',
+  '  "count": 3,', '  "big": 10000000000,', '  "ratio": 0.85,', '  "whole": 1.0,', '  "one": [', '    "x"', '  ],', '  "list": [', '    {', '      "id": "a",', '      "tags": []', '    },', '    {', '      "id": "b",', '      "n": 2', '    }', '  ]', '}') -join "`n"
+$jsText = ConvertTo-StandaloneJsonText $jsSample 8
+Check "23a. 特殊文字・空の配列/オブジェクト・null・真偽値・整数・小数・1要素の配列を 7 と同じ書式で書く(LF・末尾改行なし)" ($jsText -ceq $jsExpected) $jsText
+Check "23b. 読み込んだ JSON を変更なしで書き戻すと元の文字列と完全に一致する" ((ConvertTo-StandaloneJsonText (ConvertFrom-StandaloneJson $jsExpected) 8) -ceq $jsExpected) ""
+$rc7 = Join-Path $regDir "reconcile-ps7.json"
+$rc7Text = ConvertTo-StandaloneJsonText $rcDoc 8
+[IO.File]::WriteAllText($rc7, $rc7Text, $utf8)
+$r7 = & $runRc @("-ReconcileOnly", "-Save", "-OutFile", $rc7, "-StandalonePath", $regStandalone)
+$r7Text = [IO.File]::ReadAllText($rc7, $utf8)
+Check "23c. -ReconcileOnly -Save は 7 の書式のまま保存し、差分は registered にした3件(status と2項目の追加)だけ" ($r7.code -eq 0 -and -not $r7Text.Contains("`r") -and ($r7Text -ceq (ConvertTo-StandaloneJsonText (ConvertFrom-StandaloneJson $r7Text) 8)) -and ($r7Text -split "`n").Count -eq (($rc7Text -split "`n").Count + 6) -and @(([regex]'"status": "registered"').Matches($r7Text)).Count -eq 3) ($r7.output)
+if ($PSVersionTable.PSVersion.Major -lt 6) {
+  $badType = $null; try { [void](ConvertTo-StandaloneJsonText ([ordered]@{ at = [datetime]"2026-10-21" }) 8) } catch { $badType = "$_" }
+  $badDepth = $null; try { [void](ConvertTo-StandaloneJsonText ([ordered]@{ a = [ordered]@{ b = @(1) } }) 2) } catch { $badDepth = "$_" }
+  Check "23d. 5.1 で書式を保証できない値(日時型)・-Depth を超える階層は保存を中止する" ($badType -match "保存を中止" -and $badDepth -match "保存を中止") "type=$badType depth=$badDepth"
+}
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 
