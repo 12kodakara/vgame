@@ -977,5 +977,94 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
+  },
+{
+    id: "single-070",
+    title: "【 🎮パラノマサイト FILE23 本所七不思議 / #1 】蘇りの秘術を求めて呪っちゃう？ホラーミステリー※ネタバレあり",
+    streamer: "轟京子",
+    game: "パラノマサイト FILE23 本所七不思議",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【 🎮パラノマサイト FILE23 本所七不思議 / #1 】蘇りの秘術を求めて呪っちゃう？ホラーミステリー※ネタバレあり 【にじさんじ/轟京子】", url: "https://www.youtube.com/watch?v=GzPgNeTTYQU", publishedDate: "2026-09-15" },
+      { title: "【 🎮パラノマサイト FILE23 本所七不思議 / #2 】呪え！蘇りの秘術を巡るホラーミステリー※ネタバレあり 【にじさんじ/轟京子】", url: "https://www.youtube.com/watch?v=gU58n6lDilQ", publishedDate: "2026-09-16" },
+      { title: "【 🎮パラノマサイト FILE23 本所七不思議 / #3 】コックリさんなんかチャレンジしてみちゃうホラーミステリー※ネタバレあり 【にじさんじ/轟京子】", url: "https://www.youtube.com/watch?v=Av7tWZ9iAB4", publishedDate: "2026-09-18" },
+      { title: "【 🎮パラノマサイト FILE23 本所七不思議 / #4 】呪主探して墨田区を練り歩こう！※ネタバレあり 【にじさんじ/轟京子】", url: "https://www.youtube.com/watch?v=5kz4YTEobNI", publishedDate: "2026-09-19" },
+      { title: "【 🎮パラノマサイト FILE23 本所七不思議 / #5 】だいぶエグい事件が起こっているホラーミステリー※ネタバレあり 【にじさんじ/轟京子】", url: "https://www.youtube.com/watch?v=WgNjSyEg0i8", publishedDate: "2026-09-20" },
+      { title: "【 🎮パラノマサイト FILE23 本所七不思議 / #6 】入手困難すぎる本と、人を探しています。※ネタバレあり 【にじさんじ/轟京子】", url: "https://www.youtube.com/watch?v=6XcB8hTTCB4", publishedDate: "2026-09-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-071",
+    title: "【バイオハザード レクイエム】新作のバイオやるぞ・・・！",
+    streamer: "百鬼あやめ",
+    game: "バイオハザード レクイエム",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【バイオハザード レクイエム】新作のバイオやるぞ・・・！【百鬼あやめ/ホロライブ】", url: "https://www.youtube.com/watch?v=2srqHwe62vE", publishedDate: "2026-03-28" },
+      { title: "【バイオハザード レクイエム】ステルスを覚え始めました。＃2【百鬼あやめ/ホロライブ】", url: "https://www.youtube.com/watch?v=E1DuNe3uIrY", publishedDate: "2026-04-01" },
+      { title: "【バイオハザード レクイエム】臓器探しの旅編 になりそうな予感。＃3【百鬼あやめ/ホロライブ】", url: "https://www.youtube.com/watch?v=lVaCdidMYhs", publishedDate: "2026-04-08" },
+      { title: "【バイオハザード レクイエム】恐怖の地下編＃4【百鬼あやめ/ホロライブ】", url: "https://www.youtube.com/watch?v=e7JvA7J1jNs", publishedDate: "2026-04-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-072",
+    title: "【遊戯王マスターデュエル　#にじ遊戯王祭2026】あのねっ！ マギストスってなあに？",
+    streamer: "社築",
+    game: "遊戯王マスターデュエル",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【遊戯王マスターデュエル　#にじ遊戯王祭2026】あのねっ！ マギストスってなあに？【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=BiPnuK6KCRY", publishedDate: "2026-09-08" },
+      { title: "【遊戯王マスターデュエル　#にじ遊戯王祭2026】おい、修行しろよ【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=fzlEBHWCjiw", publishedDate: "2026-09-16" },
+      { title: "【遊戯王マスターデュエル　#にじ遊戯王祭2026】えらいハリキリ☆チームが顔合わせじゃねぇか【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=b-V4x8HPkjo", publishedDate: "2026-09-18" },
+      { title: "【遊戯王マスターデュエル　#にじ遊戯王祭2026】僕が言いたいのは「粛清」　予選Aリーグ【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=heoYTNO39tI", publishedDate: "2026-09-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-073",
+    title: "【遊戯王マスターデュエル】町内対抗☆ゲートボール大会☆",
+    streamer: "社築",
+    game: "遊戯王マスターデュエル",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【遊戯王マスターデュエル】町内対抗☆ゲートボール大会☆【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=P68BSNROdKs", publishedDate: "2026-09-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-074",
+    title: "【スプラトゥーン3】誘ったら来てくれた杯2　ジェッパマン箱外に出動！",
+    streamer: "社築",
+    game: "スプラトゥーン3",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【スプラトゥーン3】誘ったら来てくれた杯2　ジェッパマン箱外に出動！！【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=Wn2LiMz2LGM", publishedDate: "2026-09-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-075",
+    title: "【スプラトゥーン3】VCC INK FES 2いきなり本番　イカすジェッパを見せる男",
+    streamer: "社築",
+    game: "スプラトゥーン3",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【スプラトゥーン3】VCC INK FES 2いきなり本番　イカすジェッパを見せる男【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=aY5t0v5DTps", publishedDate: "2026-10-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
   }
 ];
