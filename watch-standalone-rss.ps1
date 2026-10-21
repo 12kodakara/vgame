@@ -350,7 +350,36 @@ function ConvertTo-JstDateText([string]$iso) {
   return $d.ToOffset([TimeSpan]::FromHours(9)).ToString("yyyy-MM-dd")
 }
 $now = Get-StandaloneJstStamp ([DateTime]::UtcNow)
-$stat = [ordered]@{ feeds = 0; feedsRead = 0; entries = 0; newCandidates = 0; alreadyCandidate = 0; registeredStandalone = 0; noGame = 0; unknownGameVideos = 0; unknownGameVideoRows = 0; likelyInSitePlaylist = 0; templateLines = 0; rejudged = 0; rejudgeChanged = 0; rejudgeNotMatched = 0; unknownRejudgedNotCandidate = 0; rejudgeSkippedNew = 0; rejudgeNotInRss = 0; historyChannels = 0; historyAdded = 0; historyVideos = 0 }
+$stat = [ordered]@{ feeds = 0; feedsRead = 0; entries = 0; newCandidates = 0; alreadyCandidate = 0; registeredStandalone = 0; noGame = 0; unknownGameVideos = 0; unknownGameVideoRows = 0; likelyInSitePlaylist = 0; templateLines = 0; rejudged = 0; rejudgeChanged = 0; rejudgeNotMatched = 0; unknownRejudgedNotCandidate = 0; rejudgeSkippedNew = 0; rejudgeNotInRss = 0; historyChannels = 0; historyAdded = 0; historyVideos = 0; markedRegistered = 0 }
+
+# ---- サイトに登録済みになった候補の整理 ----
+#   data-standalone.js(STANDALONE_PLAYS)に登録済みの動画の候補は、確認待ち(pending)・承認(approved)なら status を registered にし、
+#   登録先の単発実況 ID(registeredAs)と日時(registeredAt)を記録する(候補は消さない)。候補は動画ごとなので、
+#   続き物の一部だけ登録したときは、未登録の動画は確認待ちのまま残る。保留・除外・registered 済みは変えない(再実行しても同じ結果)
+function Get-StandaloneRegisteredVideoMap([string]$standaloneJsText) {
+  $map = @{}
+  if (-not $standaloneJsText) { return $map }
+  $body = ($standaloneJsText -split "`n" | Where-Object { $_ -notmatch '^\s*//' }) -join "`n"
+  $start = $body.IndexOf('const STANDALONE_PLAYS', [StringComparison]::Ordinal)
+  if ($start -lt 0) { return $map }
+  $body = $body.Substring($start)
+  $ids = [regex]::Matches($body, '(?m)^\s*id:\s*"([^"]+)"')
+  for ($i = 0; $i -lt $ids.Count; $i++) {
+    $end = $(if ($i + 1 -lt $ids.Count) { $ids[$i + 1].Index } else { $body.Length })
+    foreach ($m in [regex]::Matches($body.Substring($ids[$i].Index, $end - $ids[$i].Index), '(?:watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})')) {
+      if (-not $map.ContainsKey($m.Groups[1].Value)) { $map[$m.Groups[1].Value] = $ids[$i].Groups[1].Value }
+    }
+  }
+  return $map
+}
+$registeredMap = Get-StandaloneRegisteredVideoMap $(if (Test-Path $StandalonePath) { [IO.File]::ReadAllText($StandalonePath, [Text.Encoding]::UTF8) } else { "" })
+foreach ($c in $candidates) {
+  $vid = [string]$c.videoId
+  if (-not $registeredMap.ContainsKey($vid)) { continue }
+  if ([string]$c.status -ne "pending" -and [string]$c.status -ne "approved") { continue }
+  Set-ObjProp $c "status" "registered"; Set-ObjProp $c "registeredAs" $registeredMap[$vid]; Set-ObjProp $c "registeredAt" $now
+  $stat.markedRegistered++
+}
 $errors = New-Object System.Collections.Generic.List[object]
 # 再判定の件数は動画ごとに数える(一括再判定では同じ動画が履歴の複数のRSSに出てくるため)
 $rjIds = New-Object System.Collections.Generic.HashSet[string]; $rjChangedIds = New-Object System.Collections.Generic.HashSet[string]
@@ -1036,7 +1065,8 @@ Write-Output ("完了: $outPath  RSS $($stat.feeds) 件(読めた $($stat.feedsR
 if ($RejudgeOnly) {
   Write-Output ("一括再判定: 確認待ちの候補 $($pendingIds.Count) 件のうち履歴・RSS にあった $($pendingIds.Count - $stat.rejudgeNotInRss) 件を判定し直した(見つからない $($stat.rejudgeNotInRss) 件はそのまま)。新しい動画 $($stat.rejudgeSkippedNew) 本は追加していない")
 }
-Write-Output ("確認分類(確認待ち $($stat.reviewCategorized) 件): 単発 $($stat.reviewSingle) / 続き物 $($stat.reviewSeriesGroups) 組・$($stat.reviewSeriesVideos) 本 / 再生リスト確認 $($stat.reviewPlaylist) / ゲーム実況以外 $($stat.reviewNonGameplay)")
+if ($stat.markedRegistered -gt 0) { Write-Output ("登録済みの整理: サイトに登録済みの動画の候補 $($stat.markedRegistered) 件を registered にした(候補は消していない)") }
+Write-Output ("確認分類(確認待ち $($stat.reviewCategorized) 件):単発 $($stat.reviewSingle) / 続き物 $($stat.reviewSeriesGroups) 組・$($stat.reviewSeriesVideos) 本 / 再生リスト確認 $($stat.reviewPlaylist) / ゲーム実況以外 $($stat.reviewNonGameplay)")
 Write-Output ("履歴: 更新 $($stat.historyChannels) チャンネル・新しく記録した動画 $($stat.historyAdded) 本(読み込んだ履歴の動画 合計 $($stat.historyVideos) 本)")
 if ($stat.rejudged -gt 0 -or $stat.unknownRejudgedNotCandidate -gt 0) {
   Write-Output ("再判定: 確認待ちの既存候補 $($stat.rejudged) 件(変更 $($stat.rejudgeChanged)・既存作品に一致しなくなった $($stat.rejudgeNotMatched))・未登録作品の候補から外れた動画 $($stat.unknownRejudgedNotCandidate) 本")

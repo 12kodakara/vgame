@@ -816,6 +816,50 @@ $ErrorActionPreference = "Stop"
 $jk2 = Read-ApiOut $outK
 Check "20g. 人が確認した候補は続き物の本数に数えない(残りの1本は single)" ((($jk2.candidates | Where-Object videoId -eq "CatSoraEp02").reviewCategory) -eq "single" -and ($jk2.candidates | Where-Object videoId -eq "CatSoraEp01").status -eq "approved") ""
 
+Write-Output "== サイトに登録済みになった候補の整理(registered)"
+$regDir = Join-Path $work "registered"; $regFeeds = Join-Path $regDir "feeds"
+New-Item -ItemType Directory -Path $regFeeds -Force | Out-Null
+$regStandalone = Join-Path $regDir "data-standalone.js"
+[IO.File]::WriteAllText($regStandalone, @"
+const STANDALONE_PLAYS = [
+  // { id: "single-900", videos: [ { url: "https://www.youtube.com/watch?v=RgPending02" } ] },
+  {
+    id: "single-901",
+    videos: [
+      { title: "a", url: "https://www.youtube.com/watch?v=RgPending01", publishedDate: "2026-10-01" }
+    ]
+  },
+  {
+    id: "single-902",
+    videos: [
+      { title: "b", url: "https://www.youtube.com/watch?v=RgApprove01", publishedDate: "2026-10-01" },
+      { title: "c", url: "https://www.youtube.com/watch?v=RgSeries001", publishedDate: "2026-10-02" },
+      { title: "d", url: "https://www.youtube.com/watch?v=RgHeld00001", publishedDate: "2026-10-03" }
+    ]
+  }
+];
+"@, $utf8)
+$mk = { param($id, $status, $key = "") [ordered]@{ videoId = $id; url = "https://www.youtube.com/watch?v=$id"; streamer = "鷹嶺ルイ"; title = "【8番出口】$id"; publishedAt = "2026-10-01T01:00:00Z"; publishedDate = "2026-10-01"; game = "8番出口"; confidence = "HIGH"; reasons = @("x"); reviewGroup = "new-standalone"; status = $status; firstSeenAt = $old; lastSeenAt = $old; reviewCategory = $(if ($key) { "series" } else { "single" }); seriesKey = $key } }
+$regCands = @((& $mk "RgPending01" "pending"), (& $mk "RgApprove01" "approved"), (& $mk "RgHeld00001" "held"), (& $mk "RgPending02" "pending"),
+              (& $mk "RgSeries001" "pending" "鷹嶺ルイ|8番出口"), (& $mk "RgSeries002" "pending" "鷹嶺ルイ|8番出口"))
+$regOut = Join-Path $regDir "candidates.json"
+[IO.File]::WriteAllText($regOut, ([ordered]@{ generatedAt = $old; source = "youtube-channel-rss"; note = "test"; lastRun = @{}; candidates = $regCands; unknownGames = @() } | ConvertTo-Json -Depth 8), $utf8)
+$runReg = { $ErrorActionPreference = "Continue"; $o = & $psExe -NoProfile -ExecutionPolicy Bypass -File $watch -FeedDir $regFeeds -OutFile $regOut -StandalonePath $regStandalone 2>&1 | ForEach-Object { "$_" }; [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join " ") } }
+$rr1 = & $runReg
+$jr = ([IO.File]::ReadAllText($regOut, [Text.Encoding]::UTF8)) | ConvertFrom-Json; $rc = { param($id) $jr.candidates | Where-Object videoId -eq $id }
+Check "21a. 登録済みの動画の候補(確認待ち・承認)は registered にし、登録先 ID と日時を記録する" ($rr1.code -eq 0 -and (& $rc "RgPending01").status -eq "registered" -and (& $rc "RgPending01").registeredAs -eq "single-901" -and (& $rc "RgApprove01").status -eq "registered" -and (& $rc "RgApprove01").registeredAs -eq "single-902" -and (& $rc "RgPending01").registeredAt -and $jr.lastRun.stats.markedRegistered -eq 3) ($rr1.output)
+Check "21b. 続き物の一部だけ登録したときは、未登録の動画を確認待ちのまま残す" ((& $rc "RgSeries001").status -eq "registered" -and (& $rc "RgSeries002").status -eq "pending") ""
+Check "21c. 保留は変えず、コメント行の動画・未登録の候補は確認待ちのまま。候補は消さない" ((& $rc "RgHeld00001").status -eq "held" -and (& $rc "RgPending02").status -eq "pending" -and @($jr.candidates).Count -eq 6) ""
+$at1 = (& $rc "RgPending01").registeredAt; Start-Sleep -Seconds 1
+$rr2 = & $runReg
+$jr2 = ([IO.File]::ReadAllText($regOut, [Text.Encoding]::UTF8)) | ConvertFrom-Json
+Check "21d. 再実行しても結果は変わらない(新たに整理 0 件・登録日時もそのまま)" ($rr2.code -eq 0 -and $jr2.lastRun.stats.markedRegistered -eq 0 -and ($jr2.candidates | Where-Object videoId -eq "RgPending01").registeredAt -eq $at1 -and @($jr2.candidates | Where-Object status -eq "registered").Count -eq 3) ($rr2.output)
+$exportScript = Join-Path $scriptDir "export-standalone-review.ps1"
+$sheetDir = Join-Path $regDir "sheets"
+$ErrorActionPreference = "Continue"; [void](& $psExe -NoProfile -ExecutionPolicy Bypass -File $exportScript -CandidatesPath $regOut -OutDir $sheetDir 2>&1); $ErrorActionPreference = "Stop"
+$sheetIds = @(Import-Csv -LiteralPath (@(Get-ChildItem -LiteralPath $sheetDir -Filter *.csv)[0].FullName) -Encoding UTF8 | ForEach-Object { $_.videoIds -split ' ' })
+Check "21e. registered の候補は確認シートに載らない(確認待ちの2件だけ)" ($sheetIds.Count -eq 2 -and ($sheetIds -contains "RgPending02") -and ($sheetIds -contains "RgSeries002") -and -not ($sheetIds -match "RgPending01|RgApprove01|RgSeries001")) ($sheetIds -join ",")
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 
