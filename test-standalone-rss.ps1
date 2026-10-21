@@ -860,6 +860,31 @@ $ErrorActionPreference = "Continue"; [void](& $psExe -NoProfile -ExecutionPolicy
 $sheetIds = @(Import-Csv -LiteralPath (@(Get-ChildItem -LiteralPath $sheetDir -Filter *.csv)[0].FullName) -Encoding UTF8 | ForEach-Object { $_.videoIds -split ' ' })
 Check "21e. registered の候補は確認シートに載らない(確認待ちの2件だけ)" ($sheetIds.Count -eq 2 -and ($sheetIds -contains "RgPending02") -and ($sheetIds -contains "RgSeries002") -and -not ($sheetIds -match "RgPending01|RgApprove01|RgSeries001")) ($sheetIds -join ",")
 
+Write-Output "== 登録済み候補の整理だけ(-ReconcileOnly。取得しない)"
+$rcOut = Join-Path $regDir "reconcile.json"
+$rcDoc = [ordered]@{ generatedAt = $old; source = "youtube-channel-rss"; note = "test"; lastRun = [ordered]@{ stats = [ordered]@{ crawlNextIndex = 75 } }; candidates = $regCands
+  unknownGames = @([ordered]@{ name = "テスト作品"; key = "てすと"; status = "pending"; videos = @([ordered]@{ videoId = "RgUnknown01"; title = "x" }) }) }
+[IO.File]::WriteAllText($rcOut, ($rcDoc | ConvertTo-Json -Depth 8), $utf8)
+$runRc = { param([string[]]$extra) $ErrorActionPreference = "Continue"; $o = & $psExe @(@("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watch) + $extra) 2>&1 | ForEach-Object { "$_" }; [pscustomobject]@{ code = $LASTEXITCODE; output = ($o -join " ") } }
+$h0 = (Get-FileHash $rcOut).Hash
+$rd = & $runRc @("-ReconcileOnly", "-OutFile", $rcOut, "-StandalonePath", $regStandalone)
+Check "22a. 既定は dry-run: -FeedDir なしで動き、registered にする件数(3件)を表示するだけでファイルは変えない" ($rd.code -eq 0 -and $rd.output -match "registered にする候補 3 件" -and $rd.output -match "dry-run" -and (Get-FileHash $rcOut).Hash -eq $h0) ($rd.output)
+$rs = & $runRc @("-ReconcileOnly", "-Save", "-OutFile", $rcOut, "-StandalonePath", $regStandalone)
+$jc = ([IO.File]::ReadAllText($rcOut, [Text.Encoding]::UTF8)) | ConvertFrom-Json; $cc = { param($id) $jc.candidates | Where-Object videoId -eq $id }
+Check "22b. -Save で登録済みの候補だけを registered にし、登録先 ID と日時を記録する(保留・未登録は変えない)" ($rs.code -eq 0 -and (& $cc "RgPending01").status -eq "registered" -and (& $cc "RgPending01").registeredAs -eq "single-901" -and (& $cc "RgApprove01").status -eq "registered" -and (& $cc "RgSeries001").status -eq "registered" -and (& $cc "RgHeld00001").status -eq "held" -and (& $cc "RgPending02").status -eq "pending" -and (& $cc "RgSeries002").status -eq "pending") ($rs.output)
+Check "22c. 候補の追加・削除・分類の付け直しはせず、未登録作品の候補と lastRun もそのまま" (@($jc.candidates).Count -eq 6 -and (& $cc "RgSeries002").reviewCategory -eq "series" -and (& $cc "RgPending02").confidence -eq "HIGH" -and @($jc.unknownGames).Count -eq 1 -and $jc.lastRun.stats.crawlNextIndex -eq 75 -and $jc.generatedAt -eq $old) ""
+$at = (& $cc "RgPending01").registeredAt; $h1 = (Get-FileHash $rcOut).Hash; Start-Sleep -Seconds 1
+$rs2 = & $runRc @("-ReconcileOnly", "-Save", "-OutFile", $rcOut, "-StandalonePath", $regStandalone)
+Check "22d. 再実行すると整理は0件で、ファイル(登録日時を含む)は変わらない" ($rs2.code -eq 0 -and $rs2.output -match "registered にする候補 0 件" -and (Get-FileHash $rcOut).Hash -eq $h1 -and ((([IO.File]::ReadAllText($rcOut, [Text.Encoding]::UTF8)) | ConvertFrom-Json).candidates | Where-Object videoId -eq "RgPending01").registeredAt -eq $at) ($rs2.output)
+$h2 = (Get-FileHash $rcOut).Hash
+$e1 = & $runRc @("-ReconcileOnly", "-Save", "-StandalonePath", $regStandalone)
+$e2 = & $runRc @("-ReconcileOnly", "-All", "-OutFile", $rcOut, "-StandalonePath", $regStandalone)
+$e3 = & $runRc @("-ReconcileOnly", "-Save", "-OutFile", $rcOut, "-StandalonePath", (Join-Path $regDir "no-such.js"))
+$e4 = & $runRc @("-FeedDir", $regFeeds, "-OutFile", $rcOut, "-Save", "-StandalonePath", $regStandalone)
+Check "22e. 保存先の明示なし・取得の指定との併用・登録データが読めない・-ReconcileOnly なしの -Save はすべて止めて何も変えない" ($e1.code -ne 0 -and $e2.code -ne 0 -and $e3.code -ne 0 -and $e4.code -ne 0 -and (Get-FileHash $rcOut).Hash -eq $h2) ("codes=$($e1.code),$($e2.code),$($e3.code),$($e4.code)")
+$e5 = & $runRc @("-OutFile", $rcOut)
+Check "22f. 通常の処理では従来どおり -FeedDir が必須" ($e5.code -ne 0 -and $e5.output -match "FeedDir") ($e5.output)
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 
