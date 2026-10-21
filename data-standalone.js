@@ -715,5 +715,267 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
+  },
+{
+    id: "single-052",
+    title: "【めっちゃカメレオン】今頃！やっと初プレイのめっちゃカメレオンwith謎いつメン",
+    streamer: "社築",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【めっちゃカメレオン】今頃！！やっと初プレイのめっちゃカメレオンwith謎いつメン【にじさんじ/社築】", url: "https://www.youtube.com/watch?v=oVd8OJGrLDs", publishedDate: "2026-10-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-053",
+    title: "【アソビ大全】「運」の熱千めら VS「知」の宙科そぴあ",
+    streamer: "熱千めら",
+    game: "世界のアソビ大全51",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【アソビ大全】「運」の熱千めら VS「知」の宙科そぴあ【ホロライブ】", url: "https://www.youtube.com/watch?v=LyPzb9zrjXU", publishedDate: "2026-10-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-054",
+    title: "事故物件をあーだこーだ ※ネタバレ禁止  | 日本事故物件監視協会 -JSP-",
+    streamer: "叶",
+    game: "日本事故物件監視協会",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "事故物件をあーだこーだ ※ネタバレ禁止  | 日本事故物件監視協会 -JSP-【にじさんじ/叶】", url: "https://www.youtube.com/watch?v=ACLr0oq58u0", publishedDate: "2026-09-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-055",
+    title: "BDX二次会カメレオンらしい  | めっちゃカメレオン",
+    streamer: "叶",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "BDX二次会カメレオンらしい  | めっちゃカメレオン【にじさんじ/叶】", url: "https://www.youtube.com/watch?v=A4TtiPNZbgg", publishedDate: "2026-09-29" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-056",
+    title: "【初】３Dで莉々華とリングフィット アドベンチャー！",
+    streamer: "轟はじめ",
+    game: "リングフィットアドベンチャー",
+    genre: "sports",
+    format: "single",
+    videos: [
+      { title: "【初】３Dで莉々華とリングフィット アドベンチャー！【轟はじめ/ホロライブReGLOSS】", url: "https://www.youtube.com/watch?v=Qv7M3pSYW5U", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-057",
+    title: "ありえんスマートな2人によるSuper Bunny Man",
+    streamer: "宙科そぴあ",
+    game: "Super Bunny Man",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "ありえんスマートな2人によるSuper Bunny Man【宙科そぴあ/鈴鳴つづり/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=fGnE7S2OFfo", publishedDate: "2026-10-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-058",
+    title: "【#ホロ夏Among Us】アツいAmong Usが…くるッ…！",
+    streamer: "百鬼あやめ",
+    game: "Among Us",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#ホロ夏Among Us】アツいAmong Usが…くるッ…！【百鬼あやめ/ホロライブ】", url: "https://www.youtube.com/watch?v=sB05O-NIXKQ", publishedDate: "2026-08-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-059",
+    title: "【ホラー】カフェの仕事？憧れてたんです！ | 閉店事件",
+    streamer: "百灯キョーコ",
+    game: "閉店事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【ホラー】カフェの仕事？憧れてたんです！ | 閉店事件【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=yT6Sp7JtRVY", publishedDate: "2026-10-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-060",
+    title: "【EN】First time playing Five Nights at Freddy's! | FNAF",
+    streamer: "百灯キョーコ",
+    game: "Five Nights at Freddy's",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【EN】First time playing Five Nights at Freddy's!! | FNAF【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=UoDgaiOpxIw", publishedDate: "2026-10-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-061",
+    title: "魔法少女ノ魔女裁判｜ この中に、魔女になった少女がいる ※ネタバレ注意",
+    streamer: "夕陽リリ",
+    game: "魔法少女ノ魔女裁判",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "▶︎▷ 魔法少女ノ魔女裁判｜ この中に、魔女になった少女がいる ※ネタバレ注意 ｜ 夕陽リリ ￤ にじさんじ", url: "https://www.youtube.com/watch?v=WUfZtcK1S0o", publishedDate: "2026-09-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-062",
+    title: "宇宙探検隊 | No Man's Sky",
+    streamer: "静凛",
+    game: "No Man's Sky",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "🚀 | 宇宙探検隊 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=C9HmvFjdt0U", publishedDate: "2026-10-08" },
+      { title: "🚀02 | 宇宙探検隊 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=z9S8tElDSs4", publishedDate: "2026-10-09" },
+      { title: "🚀03 | 宇宙探検隊 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=GUMIbX_CXig", publishedDate: "2026-10-10" },
+      { title: "🚀04 | 宇宙探検隊 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=A-ZR6yqnsuo", publishedDate: "2026-10-11" },
+      { title: "🚀05 | 宇宙探検隊 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=EiGBwXyY7fE", publishedDate: "2026-10-13" },
+      { title: "🚀06 | コルベットver1.0完成!! | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=ODv3y376gFg", publishedDate: "2026-10-14" },
+      { title: "🚀07 | 今日の宇宙は | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=26hGhUBOR1k", publishedDate: "2026-10-15" },
+      { title: "🚀08 | 宇宙船… | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=LbjXZEee92Y", publishedDate: "2026-10-16" },
+      { title: "🚀共同探検23 01 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=sqxAKcovqtU", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-063",
+    title: "【#生スバル】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！",
+    streamer: "大空スバル",
+    game: "キャプテン翼2 WORLD FIGHTERS",
+    genre: "sports",
+    format: "multi",
+    videos: [
+      { title: "【#生スバル】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】", url: "https://www.youtube.com/watch?v=uEJk1HN5AyM", publishedDate: "2026-09-26" },
+      { title: "【#2】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】", url: "https://www.youtube.com/watch?v=SqQWD7yy06U", publishedDate: "2026-09-27" },
+      { title: "【#3】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】", url: "https://www.youtube.com/watch?v=nVLlI4TBy_w", publishedDate: "2026-10-03" },
+      { title: "【#4】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】", url: "https://www.youtube.com/watch?v=BOjKLly-bLQ", publishedDate: "2026-10-04" },
+      { title: "【#5】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】", url: "https://www.youtube.com/watch?v=VgVoVniznX8", publishedDate: "2026-10-10" },
+      { title: "【#最終回】キャプテン翼2 WORLD FIGHTERS やるしゅばあああああああああああああああああああああああああああ！！！！！！！【ホロライブ/大空スバル】", url: "https://www.youtube.com/watch?v=QeppR1Vk3_g", publishedDate: "2026-10-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-064",
+    title: "【ELDEN RING/エルデンリング】俺は王になる男だ",
+    streamer: "卯月コウ",
+    game: "ELDEN RING",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【ELDEN RING/エルデンリング】俺は王になる男だ #1【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=71HA995ZF64", publishedDate: "2026-10-11" },
+      { title: "【ELDEN RING/エルデンリング】マルギット倒せたんだから王になれる #2【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=0Fn_4V4rm4Y", publishedDate: "2026-10-11" },
+      { title: "【ELDEN RING/エルデンリング】おいそこどけキングのお通り  #３【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=mjoNPXV498A", publishedDate: "2026-10-15" },
+      { title: "【ELDEN RING/エルデンリング】魔女BBA倒して王になる  #４【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=5JHuwA7WrOY", publishedDate: "2026-10-18" },
+      { title: "【ELDEN RING/エルデンリング】竜の力で王になる  #5【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=kPRq0aJiQy8", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-065",
+    title: "【EN】#1 FIRST TIME PLAYING Cuphead",
+    streamer: "百灯キョーコ",
+    game: "Cuphead",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【EN】#1 FIRST TIME PLAYING Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=n1VcCnoPHds", publishedDate: "2026-10-09" },
+      { title: "【EN】#2 I'm already in love with this game! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=GGHPveb5wFU", publishedDate: "2026-10-11" },
+      { title: "【EN】#3 Continuing on the 2nd Isle!! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=1xNlquw8BYw", publishedDate: "2026-10-14" },
+      { title: "【EN】#4 Can I finish the 2nd Isle today? | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=CVsPXWqiD8k", publishedDate: "2026-10-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-066",
+    title: "VALORANT イモータルを目指す!",
+    streamer: "鈴鳴つづり",
+    game: "VALORANT",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "VALORANT イモータルを目指す!! 　#１【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=8GlaHUbu95o", publishedDate: "2026-09-28" },
+      { title: "VALORANT イモータルを目指す!! 　#２【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=8w3b1H5ww5Q", publishedDate: "2026-09-29" },
+      { title: "VALORANT イモータルを目指す!! 　#３【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=pvcMRIQ9jwQ", publishedDate: "2026-10-12" },
+      { title: "VALORANT イモータルを目指す!! 　#４【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=ZspvK4EGpWY", publishedDate: "2026-10-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-067",
+    title: "【空の軌跡 the 2nd】完全初見！2ndいくぞおおおおおお！※ネタバレあり",
+    streamer: "博衣こより",
+    game: "空の軌跡 the 2nd",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【空の軌跡 the 2nd】完全初見！2ndいくぞおおおおおお！！！！！！！！！【博衣こより/ホロライブ】※ネタバレあり", url: "https://www.youtube.com/watch?v=Ibd0E7cEr1M", publishedDate: "2026-10-03" },
+      { title: "【空の軌跡 the 2nd】完全初見！第1章プレイ中！withシェラ姉だよ～！ #2 【博衣こより/ホロライブ】※ネタバレあり", url: "https://www.youtube.com/watch?v=d3_-HSxjShc", publishedDate: "2026-10-04" },
+      { title: "【空の軌跡 the 2nd】完全初見！第2章突入！withシェラ姉！ #3 【博衣こより/ホロライブ】※ネタバレあり", url: "https://www.youtube.com/watch?v=z8qmbc8BMC8", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-068",
+    title: "#1 神ゲーに挑むぞー！ | 都市伝説解体センター　※ネタバレ注意",
+    streamer: "百灯キョーコ",
+    game: "都市伝説解体センター",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "#1 神ゲーに挑むぞー！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=zscbFBdOvyI", publishedDate: "2026-10-02" },
+      { title: "#2 更なる謎の解明に！いざああああ！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=255rLPEHoi8", publishedDate: "2026-10-12" },
+      { title: "#3 深まる謎も、全部解き明かすよーー！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=yaGBdBwtvWA", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
+  },
+  {
+    id: "single-069",
+    title: "日本事故物件監視協会 -Japan Stigmatized Property- ｜ ホラーゲーム",
+    streamer: "夕陽リリ",
+    game: "日本事故物件監視協会",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "▶︎▷ 日本事故物件監視協会 -Japan Stigmatized Property- ｜ ホラーゲーム ｜ 夕陽リリ ￤ にじさんじ", url: "https://www.youtube.com/watch?v=uL1Uc-8zDeg", publishedDate: "2026-10-06" },
+      { title: "▶︎▷ 日本事故物件監視協会 -Japan Stigmatized Property- ｜ ホラーゲーム2 ｜ 夕陽リリ ￤ にじさんじ", url: "https://www.youtube.com/watch?v=EuC6bpuiZDo", publishedDate: "2026-10-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-10-21"
   }
 ];
