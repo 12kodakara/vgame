@@ -1458,6 +1458,42 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "hd-0127",
+     "title": "R.E.P.O.",
+     "streamer": "白上フブキ",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL7LdRPp7xCkOXRU8NyFuB9WXdAZ9pVizi",
+     "thumbnailUrl": "https://i.ytimg.com/vi/5pQ10AsYS38/mqdefault.jpg",
+     "videoCount": 51,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-10-22"
+    },
+    {
+     "id": "hd-0545",
+     "title": "REPO",
+     "streamer": "不知火フレア",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PLBoFNGFmekcOCZrdDMt2FfhIcNfIflyF2",
+     "thumbnailUrl": "https://i.ytimg.com/vi/j4AvE2ucY8Y/mqdefault.jpg",
+     "videoCount": 25,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-10-22"
+    },
+    {
+     "id": "holo-086",
+     "title": "R.E.P.O",
+     "streamer": "尾丸ポルカ",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PLWGY2acU-ZeQqAM0T-hwzmc5YXjaCnQsu",
+     "thumbnailUrl": "https://i.ytimg.com/vi/p8HGTHfYp4g/mqdefault.jpg",
+     "videoCount": 46,
+     "addedDate": "2026-09-06",
+     "updatedDate": "2026-10-22"
+    },
+    {
      "id": "vspo-totokogara-21",
      "title": "DBD",
      "streamer": "小雀とと",
@@ -1540,42 +1576,6 @@ const GENRE_PAGES = {
      "videoCount": 14,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-09"
-    },
-    {
-     "id": "gap937",
-     "title": "【完結】バイオハザードレクイエムRE9",
-     "streamer": "水宮枢",
-     "game": "バイオハザード レクイエム",
-     "genre": "horror",
-     "playlistId": "PLPexR0RmUqWs",
-     "thumbnailUrl": "https://i.ytimg.com/vi/rXjkqFLbiqI/mqdefault.jpg",
-     "videoCount": 9,
-     "addedDate": "2026-10-12",
-     "updatedDate": "2026-10-07"
-    },
-    {
-     "id": "gap960",
-     "title": "Five Nights at Freddy's: Into the Pit 【ongoing】",
-     "streamer": "Zeal Ginjoka",
-     "game": "Five Nights at Freddy's: Into the Pit",
-     "genre": "horror",
-     "playlistId": "PLEExhBo5MuYk",
-     "thumbnailUrl": "https://i.ytimg.com/vi/CC5S4dbdulY/mqdefault.jpg",
-     "videoCount": 3,
-     "addedDate": "2026-10-12",
-     "updatedDate": "2026-10-07"
-    },
-    {
-     "id": "gap834",
-     "title": "バイオハザード6",
-     "streamer": "鷹嶺ルイ",
-     "game": "バイオハザード6",
-     "genre": "horror",
-     "playlistId": "PLXPW6-4naNnE",
-     "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
-     "videoCount": 2,
-     "addedDate": "2026-10-11",
-     "updatedDate": "2026-10-06"
     }
    ]
   }
