@@ -1458,6 +1458,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-24"
+    },
+    {
      "id": "hd-0127",
      "title": "R.E.P.O.",
      "streamer": "白上フブキ",
@@ -1516,18 +1528,6 @@ const GENRE_PAGES = {
      "videoCount": 4,
      "addedDate": "2026-10-12",
      "updatedDate": "2026-10-15"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-13"
     },
     {
      "id": "niji-kitamicoolgu-01",

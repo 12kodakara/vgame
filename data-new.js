@@ -126,6 +126,18 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-24"
+  },
+  {
    "id": "gap973",
    "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
    "streamer": "ニュイ・ソシエール",
@@ -160,18 +172,6 @@ const NEW_LIST = {
    "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-22"
-  },
-  {
-   "id": "gap931",
-   "title": "死んだら即終了DARK SOULS Ⅲ",
-   "streamer": "鷹宮リオン",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLChDzynvDgpo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
-   "videoCount": 38,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-21"
   },
   {
    "id": "gap930",
