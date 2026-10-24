@@ -100,6 +100,34 @@ $rep = Invoke-Script $export @("-CandidatesPath", $dPath, "-OutDir", $badOut, "-
 $rbs = Invoke-Script $export @("-CandidatesPath", $dPath, "-OutDir", $badOut, "-PlaylistsPath", $plPath, "-StandalonePath", (Join-Path $plDir "no-such.js"))
 Check "1g. 参照ファイルが無い・再生リストを1件も読めないときは止め、確認シートを書き出さない" ($rbp.code -ne 0 -and $rbp.output -match "見つかりません" -and $rep.code -ne 0 -and $rep.output -match "1件も読めません" -and $rbs.code -ne 0 -and $rbs.output -match "見つかりません" -and -not (Test-Path -LiteralPath $badOut)) ("$($rbp.output) / $($rep.output) / $($rbs.output)")
 
+# 作品を特定しきれない一致(部分一致・シリーズ名だけ)は優先度 C(作品の確認)。RSS-160 で見つかった誤分類の例をもとにする
+$wc = { param($id, $title, $alias, [string[]]$reasons, $conf = "MEDIUM", $mt = "title")
+  $c = New-Cand $id "配信者W" "作品W" "single"; $c.title = $title; $c.matchedAlias = $alias; $c.reasons = $reasons; $c.confidence = $conf; $c.matchType = $mt; $c.otherGames = @(); $c }
+$wCands = @(
+  (& $wc "WkDungeon02" "【Minecraft Dungeons II】初めてのダンジョンズ" "Minecraft Dungeons" @("【】の中身と一部だけ一致: Minecraft Dungeons")),
+  (& $wc "WkTownfall1" "【 SILENT HILL: Townfall 】サイレントヒル最新作！" "SILENT HILL" @("【】の中身と一部だけ一致: SILENT HILL", "シリーズ名の一部だけで一致(作品は未特定): SILENT HILL")),
+  (& $wc "WkDqm4Taiken" "【ドラゴンクエストモンスターズ４】DQM4体験版" "ドラゴンクエスト" @("【】の中身と一部だけ一致: ドラゴンクエスト")),
+  (& $wc "WkTsugunohi" "【つぐのひ -天招ねく救いの糸-】あの頃の帰り道" "つぐのひ" @("【】の中身と一部だけ一致: つぐのひ")),
+  (& $wc "WkTwoPoint01" "【ツーポイントホスピタル：ハートフルコレクション】よくバイオハザードが起きてるらしい" "バイオハザード" @("シリーズ名の一部だけで一致(作品は未特定): バイオハザード")),
+  (& $wc "WkEldenRing1" "【ELDEN RING/エルデンリング】俺は王になる男だ" "ELDEN RING" @("【】の中身と一部だけ一致: ELDEN RING")),
+  (& $wc "WkGensoAlias" "【幻想水滸伝】教えて！" "幻想水滸伝" @("別名が別の作品名の先頭部分にもなっている(作品の取り違えの可能性): 幻想水滸伝 / 幻想水滸伝II")),
+  (& $wc "WkSeriesDesc" "【リズム天国】初見プレイ" "リズム天国 ミラクルスターズ" @("タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定: リズム天国 ミラクルスターズ")),
+  (& $wc "WkExactHigh1" "【8番出口】はじめての8番出口" "8番出口" @() "HIGH" "bracket-exact"),
+  (& $wc "WkOutsideMed" "8番出口をやってみる" "8番出口" @("【】の外で一致: 8番出口"))
+)
+$wOther = & $wc "WkOtherGame1" "【Minecraft Dungeons II】とMinecraft" "Minecraft Dungeons" @("【】の中身と一部だけ一致: Minecraft Dungeons"); $wOther.otherGames = @("Minecraft")
+$wPl = & $wc "WkWithSitePl" "【Minecraft Dungeons II】再生リストあり" "Minecraft Dungeons" @("【】の中身と一部だけ一致: Minecraft Dungeons"); $wPl.siteHasGamePlaylist = $true
+$wDoc = [ordered]@{ generatedAt = "2026-10-18T10:00:00"; candidates = @($wCands + @($wOther, $wPl)); unknownGames = @() }
+$wPath = Join-Path $work "works.json"; [IO.File]::WriteAllText($wPath, ($wDoc | ConvertTo-Json -Depth 8), $utf8)
+$wOut = Join-Path $work "works-sheet"
+$rw = Invoke-Script $export @("-CandidatesPath", $wPath, "-OutDir", $wOut, "-PlaylistsPath", $plPath, "-StandalonePath", $saPath)
+$wRows = @(Import-Csv -LiteralPath (@(Get-ChildItem -LiteralPath $wOut -Filter *.csv)[0].FullName) -Encoding UTF8)
+$wp = { param($id) [string]($wRows | Where-Object { $_.videoIds -eq $id }).$priCol }
+$seqC = "C(作品の確認: 部分一致・シリーズ名で判定・続編や別作品の疑い)"; $plainC = "C(作品の確認: 部分一致・シリーズ名で判定)"
+Check "1h. 部分一致・シリーズ名だけの判定は優先度 C(作品の確認)。続編・別作品の疑い(II・数字・副題)を添える" ($rw.code -eq 0 -and (& $wp "WkDungeon02") -eq $seqC -and (& $wp "WkTownfall1") -eq $seqC -and (& $wp "WkDqm4Taiken") -eq $seqC -and (& $wp "WkTsugunohi") -eq $seqC -and (& $wp "WkTwoPoint01") -eq $plainC -and (& $wp "WkGensoAlias") -eq $plainC) (($wRows | ForEach-Object { $_.videoIds + "=" + $_.$priCol }) -join " ; ")
+Check "1i. 読みや企画タグが続くだけの部分一致には続編の疑いを付けず、説明欄で作品を特定した一致・完全一致・【】外の一致は従来どおり" ((& $wp "WkEldenRing1") -eq $plainC -and (& $wp "WkSeriesDesc") -like "B*" -and (& $wp "WkExactHigh1") -like "A*" -and (& $wp "WkOutsideMed") -like "B*") (($wRows | ForEach-Object { $_.videoIds + "=" + $_.$priCol }) -join " ; ")
+Check "1j. 別の作品名もある候補は従来どおり「別の作品名あり」、再生リストが登録済みでも作品の確認(C)を重複の疑い(D)より先にする" ((& $wp "WkOtherGame1") -eq "C(ゲーム名の確認: 別の作品名あり)" -and (& $wp "WkWithSitePl") -eq $seqC) (($wRows | ForEach-Object { $_.videoIds + "=" + $_.$priCol }) -join " ; ")
+
 Write-Output "== 判断の取り込み(正常)"
 $edit = @($rows | ForEach-Object { $_.PSObject.Copy() })
 ($edit | Where-Object rowType -eq "single").$decisionCol = "approve"

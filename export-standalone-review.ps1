@@ -138,8 +138,10 @@ $rows = New-Object System.Collections.Generic.List[object]
 # 判断の案と優先度(参考。判断欄には書き込まない。自動で承認・保留・除外はしない)
 #   watch-standalone-rss.ps1 が付けた判定結果(likelyNonGame・otherGames・siteHasGamePlaylist・matchType・confidence)だけから決める
 #   single          : 案は「要確認」(1本ずつ人が見る)。優先度 A〜E(目印の強いものから順に当てはめる)
-#                     E ゲーム実況でない可能性 / C 別の作品名あり / D 同じ作品の再生リストが登録済み(重複の疑い) /
+#                     E ゲーム実況でない可能性 / C 別の作品名あり / C 作品の確認(部分一致・シリーズ名だけで判定) /
+#                     D 同じ作品の再生リストが登録済み(重複の疑い) /
 #                     C 概要欄だけで判定・信頼度 LOW(ゲーム名の確認が必要) / A 目印なし・HIGH / B 目印なし・MEDIUM
+#                     ※ 優先度 C の単発は、人が正しい作品を確かめるまで登録用の下書きに使わない(マスタに作品が無ければ作品の追加を先に行う)
 #   playlist-review と、同じ作品の再生リストが登録済みの series は、再生リストに最後に動画が追加された日(data-playlists.js の
 #   updatedDate)と動画の公開日を比べる(API は使わない。再生リストに入っているかは確かめていない):
 #     全動画が代表サムネイルの動画と一致、または公開日が最後の追加日以前 → hold 案(一括保留候補)
@@ -148,6 +150,25 @@ $rows = New-Object System.Collections.Generic.List[object]
 #   同じ作品の再生リストが無い series は「要確認」(新しい再生リストの候補。別段階)
 #   series / playlist-review でも、ゲーム実況でない可能性・別の作品名がある動画を含めば「要確認」(個別確認)
 #   non-gameplay・unclassified: 「要確認」(個別確認)。ショート・切り抜きなどの理由だけで除外の案にはしない
+# 作品を特定しきれない一致の理由(standalone-matching.ps1 が reasons に書く文言)。
+#   「タイトルはシリーズ名の一部で一致し、説明欄の作品名で特定」は特定できているので含めない
+$workUncertainPattern = '^【】の中身と一部だけ一致|作品は未特定|^別名が別の作品名の先頭部分'
+# 続編や別作品の疑い(表示だけ。除外・作品の変更はしない): 【】の中で、一致した名前のすぐ後ろに
+#   ローマ数字(II など)・数字を含む語・副題の区切り(- ～ : など)が続く。/ や # で始まる続き(読み・企画タグなど)は対象外
+function Test-ReviewSequelHint($c) {
+  $alias = [string]$c.matchedAlias
+  if (-not $alias) { return $false }
+  foreach ($m in [regex]::Matches([string]$c.title, '[【\[]([^】\]]*)[】\]]')) {
+    $b = $m.Groups[1].Value
+    $i = $b.IndexOf($alias, [StringComparison]::OrdinalIgnoreCase)
+    if ($i -lt 0) { continue }
+    $rest = $b.Substring($i + $alias.Length).Trim()
+    if (-not $rest -or $rest -match '^[/／#＃(（|｜]') { continue }
+    $tok = ($rest -split '[\s/／#＃]')[0]
+    if ($rest -match '^(II|III|IV|V|VI|VII|VIII|IX|X|[ⅡⅢⅣⅤⅥⅦⅧⅨⅩ])(?![A-Za-z])' -or $tok -match '[0-9０-９]' -or $rest -match '^[-‐―～~:：「『]') { return $true }
+  }
+  return $false
+}
 function Get-ReviewSuggestion([string]$type, $items) {
   if ($type -eq "non-gameplay") {
     if (@($items | Where-Object { @($_.reasons) -contains "非ゲーム語: shorts" }).Count -gt 0) { return @{ suggestion = "要確認: ショート(#shorts)と判定。ゲーム実況のショートでないか確認して保留か除外"; priority = "ショート確認" } }
@@ -161,6 +182,10 @@ function Get-ReviewSuggestion([string]$type, $items) {
     $c = $items[0]
     if ($nonGame) { $p = "E(ゲーム実況でない可能性)" }
     elseif ($otherGame) { $p = "C(ゲーム名の確認: 別の作品名あり)" }
+    elseif (@($c.reasons | Where-Object { [string]$_ -match $workUncertainPattern }).Count -gt 0) {
+      # 作品を特定しきれない一致(部分一致・シリーズ名だけ・別作品の正式名の先頭と同じ別名)。重複の疑い(D)より先に作品を確かめる
+      $p = "C(作品の確認: 部分一致・シリーズ名で判定" + $(if (Test-ReviewSequelHint $c) { "・続編や別作品の疑い" } else { "" }) + ")"
+    }
     elseif ($sitePlaylist) { $p = "D(同じ作品の再生リストが登録済み: 重複の疑い)" }
     elseif ([string]$c.matchType -like "description*" -or [string]$c.confidence -notin @("HIGH", "MEDIUM")) { $p = "C(ゲーム名の確認: 概要欄だけ・信頼度 LOW)" }
     elseif ([string]$c.confidence -eq "HIGH") { $p = "A(目印なし・HIGH)" }
