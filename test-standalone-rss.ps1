@@ -916,4 +916,6 @@ Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を�
 Remove-Item -LiteralPath $work -Recurse -Force
 Write-Output ""
 Write-Output "PASS: $pass  FAIL: $fail"
-if ($fail -gt 0) { exit 1 }
+# 終了コードはテストの結果だけで決める(途中で起動した確認用の処理の終了コード $LASTEXITCODE が残っていても使わない)。
+# 予期しない例外は $ErrorActionPreference = "Stop" でここに来る前に止まり、失敗(0 以外)になる
+if ($fail -gt 0) { exit 1 } else { exit 0 }
