@@ -61,7 +61,44 @@ Check "1b. BOM 付き UTF-8・判断欄は空欄" ($bytes[0] -eq 0xEF -and $byte
 
 $sugCol = "suggestion(判断の案・参考)"; $priCol = "priority(優先度・参考)"; $hdr = @($rows[0].PSObject.Properties.Name)
 $rowOf = { param($t) $rows | Where-Object rowType -eq $t }
-Check "1c. 末尾に判断の案・優先度の2列を足す(判断欄は空欄のまま。単発は要確認・B / 続き物は要確認・別段階 / 再生リスト確認は hold 案)" ($hdr[-2] -eq $sugCol -and $hdr[-1] -eq $priCol -and $hdr[-3] -eq "seriesKey" -and (& $rowOf "single").$sugCol -eq "要確認" -and (& $rowOf "single").$priCol -like "B*" -and (& $rowOf "series").$sugCol -eq "要確認" -and (& $rowOf "series").$priCol -like "別段階*" -and (& $rowOf "playlist-review").$sugCol -eq "hold" -and (& $rowOf "playlist-review").$priCol -like "一括確認*") (($rows | ForEach-Object { $_.rowType + "=" + $_.$sugCol + "/" + $_.$priCol }) -join " ; ")
+Check "1c. 末尾に判断の案・優先度の2列を足す(判断欄は空欄のまま。単発は要確認・B / 続き物は要確認・別段階 / ゲーム実況でない可能性はその他の判定)" ($hdr[-2] -eq $sugCol -and $hdr[-1] -eq $priCol -and $hdr[-3] -eq "seriesKey" -and (& $rowOf "single").$sugCol -eq "要確認" -and (& $rowOf "single").$priCol -like "B*" -and (& $rowOf "series").$sugCol -eq "要確認" -and (& $rowOf "series").$priCol -like "別段階*" -and (& $rowOf "non-gameplay").$priCol -eq "その他のゲーム実況判定") (($rows | ForEach-Object { $_.rowType + "=" + $_.$sugCol + "/" + $_.$priCol }) -join " ; ")
+
+# 再生リストに最後に動画が追加された日(updatedDate)との比較。登録データはテスト用の小さなファイルを使う
+$plDir = Join-Path $work "pl"; New-Item -ItemType Directory -Path $plDir -Force | Out-Null
+$plPath = Join-Path $plDir "data-playlists.js"; $saPath = Join-Path $plDir "data-standalone.js"
+$plEntry = { param($id, $streamer, $game, $thumb, $updated) @("  {", "    id: `"$id`",", "    streamer: `"$streamer`",", "    game: `"$game`",", "    genre: `"action`",", "    thumbnailUrl: `"https://i.ytimg.com/vi/$thumb/mqdefault.jpg`",") + $(if ($updated) { @("    updatedDate: `"$updated`",") } else { @() }) + @("  },") }
+$plLines = @("const PLAYLISTS = [") + (& $plEntry "pl-a" "配信者A" "作品A" "PlThumb0001" "2026-10-08") + (& $plEntry "pl-b" "配信者B" "作品B" "PlThumb0002" "") + (& $plEntry "pl-c" "配信者C" "作品C" "PlThumb0003" "2026-10-08") + @("];")
+[IO.File]::WriteAllText($plPath, ($plLines -join "`n"), $utf8); [IO.File]::WriteAllText($saPath, "const STANDALONE_PLAYS = [];", $utf8)
+$withPl = { param($c) $c.siteHasGamePlaylist = $true; $c }
+$dCands = @(
+  (& $withPl (New-Cand "PlBefore001" "配信者A" "作品A" "playlist-review" "pending" "" "2026-10-08")),
+  (& $withPl (New-Cand "PlAfter0001" "配信者A" "作品A" "playlist-review" "pending" "" "2026-10-09")),
+  (& $withPl (New-Cand "PlThumb0001" "配信者A" "作品A" "playlist-review" "pending" "" "2026-10-20")),
+  (& $withPl (New-Cand "PlNoList001" "配信者X" "作品X" "playlist-review")),
+  (& $withPl (New-Cand "PlNoDate001" "配信者B" "作品B" "playlist-review")),
+  (& $withPl (New-Cand "PlSerOk0001" "配信者C" "作品C" "series" "pending" "配信者C|作品C" "2026-10-01")),
+  (& $withPl (New-Cand "PlSerOk0002" "配信者C" "作品C" "series" "pending" "配信者C|作品C" "2026-10-08")),
+  (& $withPl (New-Cand "PlSerMix001" "配信者A" "作品A" "series" "pending" "配信者A|作品A" "2026-10-07")),
+  (& $withPl (New-Cand "PlSerMix002" "配信者A" "作品A" "series" "pending" "配信者A|作品A" "2026-10-12"))
+)
+$dShort = New-Cand "PlShort0001" "配信者A" "作品A" "non-gameplay"; $dShort.reasons = @("非ゲーム語: shorts")
+$dDoc = [ordered]@{ generatedAt = "2026-10-18T10:00:00"; candidates = @($dCands + @($dShort)); unknownGames = @() }
+$dPath = Join-Path $work "dates.json"; [IO.File]::WriteAllText($dPath, ($dDoc | ConvertTo-Json -Depth 8), $utf8)
+$dOut = Join-Path $work "dates-sheet"
+$rdd = Invoke-Script $export @("-CandidatesPath", $dPath, "-OutDir", $dOut, "-PlaylistsPath", $plPath, "-StandalonePath", $saPath)
+$dRows = @(Import-Csv -LiteralPath (@(Get-ChildItem -LiteralPath $dOut -Filter *.csv)[0].FullName) -Encoding UTF8)
+$pri = { param($id) [string]($dRows | Where-Object { @($_.videoIds -split ' ') -contains $id }).$priCol }
+$sug = { param($id) [string]($dRows | Where-Object { @($_.videoIds -split ' ') -contains $id }).$sugCol }
+Check "1d. 再生リストの最後の追加日以前・代表サムネイルと一致は一括保留候補(hold 案・収録は未確認と明記)、追加日より後は個別確認" ($rdd.code -eq 0 -and (& $pri "PlBefore001") -eq "一括保留候補" -and (& $sug "PlBefore001") -like "hold(案)*収録は未確認" -and (& $pri "PlThumb0001") -eq "一括保留候補" -and (& $pri "PlAfter0001") -eq "個別確認(追加日より後)" -and (& $pri "PlSerOk0001") -eq "一括保留候補" -and (& $pri "PlSerMix001") -eq "個別確認(追加日より後)" -and (& $sug "PlSerMix001") -like "*1 本*") (($dRows | ForEach-Object { $_.videoIds + "=" + $_.$priCol }) -join " ; ")
+Check "1e. 再生リストが見つからない・最後の追加日が無いときは安全側で個別確認。ショートはショート確認(案は要確認)" ((& $pri "PlNoList001") -eq "個別確認(作品名・目印など)" -and (& $pri "PlNoDate001") -eq "個別確認(日付不明)" -and (& $pri "PlShort0001") -eq "ショート確認" -and (& $sug "PlShort0001") -like "要確認*" -and @($dRows | Where-Object { $_."decision(approve/hold/reject)" }).Count -eq 0) (($dRows | ForEach-Object { $_.videoIds + "=" + $_.$priCol }) -join " ; ")
+
+Check "1f. 再生リストの参照元を表示する(指定したときは警告しない・省略したときは参照元を表示)" ($rdd.output -match "再生リストの参照元: .*pl[\\/]data-playlists\.js\(再生リスト 3 件・最後の追加日の最新 2026-10-08\)" -and $rdd.output -notmatch "警告:" -and $re.output -match "再生リストの参照元: ") ($rdd.output)
+$badOut = Join-Path $work "bad-sheet"
+$rbp = Invoke-Script $export @("-CandidatesPath", $dPath, "-OutDir", $badOut, "-PlaylistsPath", (Join-Path $plDir "no-such.js"), "-StandalonePath", $saPath)
+$emptyPl = Join-Path $plDir "empty-playlists.js"; [IO.File]::WriteAllText($emptyPl, "const PLAYLISTS = [];", $utf8)
+$rep = Invoke-Script $export @("-CandidatesPath", $dPath, "-OutDir", $badOut, "-PlaylistsPath", $emptyPl, "-StandalonePath", $saPath)
+$rbs = Invoke-Script $export @("-CandidatesPath", $dPath, "-OutDir", $badOut, "-PlaylistsPath", $plPath, "-StandalonePath", (Join-Path $plDir "no-such.js"))
+Check "1g. 参照ファイルが無い・再生リストを1件も読めないときは止め、確認シートを書き出さない" ($rbp.code -ne 0 -and $rbp.output -match "見つかりません" -and $rep.code -ne 0 -and $rep.output -match "1件も読めません" -and $rbs.code -ne 0 -and $rbs.output -match "見つかりません" -and -not (Test-Path -LiteralPath $badOut)) ("$($rbp.output) / $($rep.output) / $($rbs.output)")
 
 Write-Output "== 判断の取り込み(正常)"
 $edit = @($rows | ForEach-Object { $_.PSObject.Copy() })
