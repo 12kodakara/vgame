@@ -34,7 +34,8 @@ $cands = @(
   (New-Cand "RvSeries003" "ときのそら" "Minecraft" "series" "pending" "ときのそら|Minecraft" "2026-10-10"),
   (New-Cand "RvPlayl0001" "鷹嶺ルイ" "Minecraft" "playlist-review"),
   (New-Cand "RvNonGame01" "鷹嶺ルイ" "8番出口" "non-gameplay"),
-  (New-Cand "RvDecided01" "鷹嶺ルイ" "8番出口" "single" "approved")
+  (New-Cand "RvDecided01" "鷹嶺ルイ" "8番出口" "single" "approved"),
+  (New-Cand "RvUnclass01" "鷹嶺ルイ" "モノポリー" "")
 )
 $doc = [ordered]@{ generatedAt = "2026-10-18T10:00:00"; source = "youtube-channel-rss"; note = "test"; lastRun = [ordered]@{ stats = [ordered]@{ crawlNextIndex = 75 } }; candidates = $cands; unknownGames = @() }
 $candPath = Join-Path $work "candidates.json"
@@ -55,8 +56,12 @@ $re = Invoke-Script $export @("-CandidatesPath", $candPath, "-OutDir", $outDir)
 $sheet = @(Get-ChildItem -LiteralPath $outDir -Filter *.csv)[0].FullName
 $rows = @(Import-Csv -LiteralPath $sheet -Encoding UTF8)
 $bytes = [IO.File]::ReadAllBytes($sheet)
-Check "1a. 単発1行・続き物1行(3本)・再生リスト確認1行。ゲーム実況以外と判断済みは載せない" ($re.code -eq 0 -and $rows.Count -eq 3 -and @($rows | Where-Object rowType -eq "series")[0].videoCount -eq "3" -and -not ($rows.videoIds -match "RvNonGame01|RvDecided01")) ($re.output)
+Check "1a. 単発1行・続き物1行(3本)・再生リスト確認1行の後に、ゲーム実況でない可能性1行・分類なし1行。判断済みは載せない" ($re.code -eq 0 -and $rows.Count -eq 5 -and @($rows | Where-Object rowType -eq "series")[0].videoCount -eq "3" -and (($rows | ForEach-Object rowType) -join ",") -eq "single,series,playlist-review,non-gameplay,unclassified" -and $rows[3].videoIds -eq "RvNonGame01" -and $rows[4].videoIds -eq "RvUnclass01" -and -not ($rows.videoIds -match "RvDecided01")) ($re.output)
 Check "1b. BOM 付き UTF-8・判断欄は空欄" ($bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF -and @($rows | Where-Object { $_.$decisionCol }).Count -eq 0) ""
+
+$sugCol = "suggestion(判断の案・参考)"; $priCol = "priority(優先度・参考)"; $hdr = @($rows[0].PSObject.Properties.Name)
+$rowOf = { param($t) $rows | Where-Object rowType -eq $t }
+Check "1c. 末尾に判断の案・優先度の2列を足す(判断欄は空欄のまま。単発は要確認・B / 続き物は要確認・別段階 / 再生リスト確認は hold 案)" ($hdr[-2] -eq $sugCol -and $hdr[-1] -eq $priCol -and $hdr[-3] -eq "seriesKey" -and (& $rowOf "single").$sugCol -eq "要確認" -and (& $rowOf "single").$priCol -like "B*" -and (& $rowOf "series").$sugCol -eq "要確認" -and (& $rowOf "series").$priCol -like "別段階*" -and (& $rowOf "playlist-review").$sugCol -eq "hold" -and (& $rowOf "playlist-review").$priCol -like "一括確認*") (($rows | ForEach-Object { $_.rowType + "=" + $_.$sugCol + "/" + $_.$priCol }) -join " ; ")
 
 Write-Output "== 判断の取り込み(正常)"
 $edit = @($rows | ForEach-Object { $_.PSObject.Copy() })
@@ -67,13 +72,13 @@ $okSheet = Write-Sheet $edit "ok.csv"
 $hash0 = (Get-FileHash $candPath).Hash
 $rd = Invoke-Script $import @("-CsvPath", $okSheet, "-CandidatesPath", $candPath)
 Check "2a. 既定は dry-run: 変更予定(approved 1・rejected 2)を表示し、ファイルは変えない" ($rd.code -eq 0 -and $rd.output -match "変更予定: 3 件\(approved 1 / held 0 / rejected 2\)" -and $rd.output -match "dry-run" -and (Get-FileHash $candPath).Hash -eq $hash0) ($rd.output)
-Check "2b. 判断欄が空欄の行(再生リスト確認)と、続き物から外した動画は変更予定に入らない" ($rd.output -match "空欄の行 1 行・続き物から外した動画 1 本" -and $rd.output -notmatch "RvPlayl0001 pending" -and $rd.output -notmatch "RvSeries002 pending") ""
+Check "2b. 判断欄が空欄の行(再生リスト確認・ゲーム実況でない可能性・分類なし)と、続き物から外した動画は変更予定に入らない" ($rd.output -match "空欄の行 3 行・続き物から外した動画 1 本" -and $rd.output -notmatch "RvPlayl0001 pending" -and $rd.output -notmatch "RvSeries002 pending") ""
 $ra = Invoke-Script $import @("-CsvPath", $okSheet, "-CandidatesPath", $candPath, "-Apply")
 $j = Read-Cand; $st = { param($id) [string]($j.candidates | Where-Object videoId -eq $id).status }
 Check "2c. -Apply で status だけを反映する(承認 → approved・除外 → rejected・外した動画と空欄は pending のまま)" ($ra.code -eq 0 -and (& $st "RvSingle001") -eq "approved" -and (& $st "RvSeries001") -eq "rejected" -and (& $st "RvSeries003") -eq "rejected" -and (& $st "RvSeries002") -eq "pending" -and (& $st "RvPlayl0001") -eq "pending") ($ra.output)
 $c1 = $j.candidates | Where-Object videoId -eq "RvSingle001"
 Check "2d. 確認の記録(reviewedAt・reviewBatch)を残し、作品名などの下書き欄は書き込まない" ($c1.reviewedAt -and $c1.reviewBatch -eq "ok.csv" -and $c1.game -eq "8番出口") ($c1 | ConvertTo-Json -Compress)
-Check "2e. ほかの候補・判断済み・lastRun はそのまま。元のファイルを残す" (@($j.candidates).Count -eq 7 -and (& $st "RvDecided01") -eq "approved" -and (& $st "RvNonGame01") -eq "pending" -and $j.lastRun.stats.crawlNextIndex -eq 75 -and @(Get-ChildItem -LiteralPath $work -Filter "candidates.before-import-*.json").Count -eq 1) ""
+Check "2e. ほかの候補・判断済み・lastRun はそのまま。元のファイルを残す" (@($j.candidates).Count -eq 8 -and (& $st "RvDecided01") -eq "approved" -and (& $st "RvNonGame01") -eq "pending" -and $j.lastRun.stats.crawlNextIndex -eq 75 -and @(Get-ChildItem -LiteralPath $work -Filter "candidates.before-import-*.json").Count -eq 1) ""
 $hash1 = (Get-FileHash $candPath).Hash
 $rr = Invoke-Script $import @("-CsvPath", $okSheet, "-CandidatesPath", $candPath, "-Apply")
 Check "2f. 反映済みのシートをもう一度取り込むと、判断済みとして中止し、ファイルを変えない" ($rr.code -eq 2 -and $rr.output -match "すでに判断済み" -and (Get-FileHash $candPath).Hash -eq $hash1) ($rr.output)
@@ -85,7 +90,11 @@ $cases = @(
   @{ name = "3c. 同じ動画IDが複数の行にある"; make = { param($e) $x = $e | Where-Object rowType -eq "playlist-review"; $x.videoIds = "RvSingle001"; $x.$decisionCol = "hold" }; expect = "重複" },
   @{ name = "3d. 続き物の動画の組が違う(1本足りない)"; make = { param($e) $x = $e | Where-Object rowType -eq "series"; $x.videoIds = "RvSeries001 RvSeries002"; $x.$decisionCol = "approve" }; expect = "動画の組が候補 JSON と違う" },
   @{ name = "3e. 単発の行に excludeVideoIds"; make = { param($e) $x = $e | Where-Object rowType -eq "single"; $x.$decisionCol = "approve"; $x.$excludeCol = "RvSingle001" }; expect = "続き物\(series\)の行にだけ" },
-  @{ name = "3f. 行の種類と候補の分類が違う"; make = { param($e) $x = $e | Where-Object rowType -eq "playlist-review"; $x.rowType = "single"; $x.$decisionCol = "approve" }; expect = "分類が違う" }
+  @{ name = "3f. 行の種類と候補の分類が違う"; make = { param($e) $x = $e | Where-Object rowType -eq "playlist-review"; $x.rowType = "single"; $x.$decisionCol = "approve" }; expect = "分類が違う" },
+  @{ name = "3k. ゲーム実況でない可能性の行に approve"; make = { param($e) ($e | Where-Object rowType -eq "non-gameplay").$decisionCol = "approve" }; expect = "承認できない" },
+  @{ name = "3l. 分類なしの行に approve"; make = { param($e) ($e | Where-Object rowType -eq "unclassified").$decisionCol = "Approve" }; expect = "承認できない" },
+  @{ name = "3m. 分類なしの行に分類のある候補(ゲーム実況でない可能性)を書いた"; make = { param($e) ($e | Where-Object rowType -eq "non-gameplay").$decisionCol = ""; $x = $e | Where-Object rowType -eq "unclassified"; $x.videoIds = "RvNonGame01"; $x.$decisionCol = "reject" }; expect = "分類が違う" },
+  @{ name = "3n. ゲーム実況でない可能性の行に単発の候補を書いた"; make = { param($e) $x = $e | Where-Object rowType -eq "non-gameplay"; $x.videoIds = "RvSingle001"; $x.$decisionCol = "hold" }; expect = "分類が違う" }
 )
 foreach ($case in $cases) {
   Reset-Candidates; $h = (Get-FileHash $candPath).Hash
@@ -124,6 +133,13 @@ $got = & $readJson $fmtAfter; $exp = & $readJson $fmtText
 $gotById = @{}; foreach ($c in @($got.candidates)) { $gotById[[string]$c.videoId] = $c }
 foreach ($c in @($exp.candidates)) { $g = $gotById[[string]$c.videoId]; if ($g.status -ne $c.status) { $c.status = $g.status; $c | Add-Member -NotePropertyName reviewedAt -NotePropertyValue $g.reviewedAt; $c | Add-Member -NotePropertyName reviewBatch -NotePropertyValue $g.reviewBatch } }
 Check "4a. 取り込み後も同じ書式で保存し、差分は判断した3件(status の変更と記録2項目の追加)だけ" ($rf.code -eq 0 -and -not $fmtAfter.Contains("`r") -and @($got.candidates | Where-Object { $_.reviewBatch }).Count -eq 3 -and ($fmtAfter -ceq (ConvertTo-StandaloneJsonText $exp 8)) -and ($fmtAfter -split "`n").Count -eq (($fmtText -split "`n").Count + 6)) ($rf.output)
+
+Write-Output "== ゲーム実況でない可能性・分類なしの行(保留・除外だけ)"
+Reset-Candidates
+$e = @($rows | ForEach-Object { $_.PSObject.Copy() }); ($e | Where-Object rowType -eq "non-gameplay").$decisionCol = "reject"; ($e | Where-Object rowType -eq "unclassified").$decisionCol = "hold"
+$rx = Invoke-Script $import @("-CsvPath", (Write-Sheet $e "extra.csv"), "-CandidatesPath", $candPath, "-Apply")
+$jx = Read-Cand; $sx = { param($id) [string]($jx.candidates | Where-Object videoId -eq $id).status }
+Check "5a. ゲーム実況でない可能性 → 除外(rejected)・分類なし → 保留(held)を取り込み、ほかの候補は確認待ちのまま" ($rx.code -eq 0 -and $rx.output -match "変更予定: 2 件\(approved 0 / held 1 / rejected 1\)" -and (& $sx "RvNonGame01") -eq "rejected" -and (& $sx "RvUnclass01") -eq "held" -and (& $sx "RvSingle001") -eq "pending" -and (& $sx "RvPlayl0001") -eq "pending") ($rx.output)
 
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""

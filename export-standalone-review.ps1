@@ -10,8 +10,9 @@
        single          : 1動画1行
        series          : 配信者×作品(seriesKey)ごとに1行(動画本数・URL・動画IDをまとめる)。承認すると multi として登録する想定
        playlist-review : 1動画1行(登録済み再生リストに入っている可能性がある回)
-       non-gameplay    : 行にせず件数だけ表示する(ショート・切り抜きなど)
-     分類の無い確認待ち候補(既存作品に一致しなくなったものなど)も件数だけ表示する
+       non-gameplay    : 1動画1行(ショート・切り抜きなど。ゲーム実況でない可能性)。取り込みでは保留・除外だけ(承認できない)
+       unclassified    : 1動画1行(分類の無い確認待ち候補。既存作品に一致しなくなったものなど)。取り込みでは保留・除外だけ
+     non-gameplay・unclassified の行は、ほかの行の後(シートの末尾)に並べる
   4) 作品のジャンル(genre)は、data-playlists.js / data-standalone.js で同じ作品に付いているものから多いものを下書きする
      同じ配信者×作品の登録済み再生リスト数・単発実況 ID も参考に載せる(重複登録の確認用)
   5) Excel で文字化けしない BOM 付き UTF-8・CRLF の CSV を書き出す
@@ -102,15 +103,45 @@ function Get-GenreSuggestion([string]$game) {
 # ---- 確認シートの対象: 確認待ち(pending)だけ。判断済みは載せない ----
 $pending = @($all | Where-Object { [string]$_.status -eq "pending" })
 $decided = $all.Count - $pending.Count
-$byCat = @{}; foreach ($c in $pending) { $k = [string]$c.reviewCategory; if (-not $k) { $k = "(分類なし)" }; $byCat[$k] = 1 + [int]$byCat[$k] }
 $confRank = @{ HIGH = 0; MEDIUM = 1; LOW = 2 }
 $rows = New-Object System.Collections.Generic.List[object]
+# 判断の案と優先度(参考。判断欄には書き込まない。自動で承認・保留・除外はしない)
+#   watch-standalone-rss.ps1 が付けた判定結果(likelyNonGame・otherGames・siteHasGamePlaylist・matchType・confidence)だけから決める
+#   single          : 案は「要確認」(1本ずつ人が見る)。優先度 A〜E(目印の強いものから順に当てはめる)
+#                     E ゲーム実況でない可能性 / C 別の作品名あり / D 同じ作品の再生リストが登録済み(重複の疑い) /
+#                     C 概要欄だけで判定・信頼度 LOW(ゲーム名の確認が必要) / A 目印なし・HIGH / B 目印なし・MEDIUM
+#   series          : 同じ作品の再生リストが登録済みなら hold 案(一括確認)。無ければ「要確認」(新しい再生リストの候補。別段階)
+#   playlist-review : hold 案(一括確認)
+#   series / playlist-review でも、ゲーム実況でない可能性・別の作品名がある動画を含めば「要確認」(個別確認)
+#   non-gameplay・unclassified: 「要確認」(個別確認)。ショート・切り抜きなどの理由だけで除外の案にはしない
+function Get-ReviewSuggestion([string]$type, $items) {
+  if ($type -eq "non-gameplay") { return @{ suggestion = "要確認"; priority = "個別確認(ゲーム実況でない可能性。保留か除外)" } }
+  if ($type -eq "unclassified") { return @{ suggestion = "要確認"; priority = "個別確認(既存作品に一致しなくなった。保留か除外)" } }
+  $nonGame = @($items | Where-Object { $_.likelyNonGame -eq $true }).Count -gt 0
+  $otherGame = @($items | Where-Object { @($_.otherGames | Where-Object { $_ }).Count -gt 0 }).Count -gt 0   # 項目が無い候補(null)を「あり」と数えない
+  $sitePlaylist = @($items | Where-Object { $_.siteHasGamePlaylist -eq $true }).Count -gt 0
+  if ($type -eq "single") {
+    $c = $items[0]
+    if ($nonGame) { $p = "E(ゲーム実況でない可能性)" }
+    elseif ($otherGame) { $p = "C(ゲーム名の確認: 別の作品名あり)" }
+    elseif ($sitePlaylist) { $p = "D(同じ作品の再生リストが登録済み: 重複の疑い)" }
+    elseif ([string]$c.matchType -like "description*" -or [string]$c.confidence -notin @("HIGH", "MEDIUM")) { $p = "C(ゲーム名の確認: 概要欄だけ・信頼度 LOW)" }
+    elseif ([string]$c.confidence -eq "HIGH") { $p = "A(目印なし・HIGH)" }
+    else { $p = "B(目印なし・MEDIUM)" }
+    return @{ suggestion = "要確認"; priority = $p }
+  }
+  if ($nonGame -or $otherGame) { return @{ suggestion = "要確認"; priority = "個別確認(ゲーム実況でない可能性・別の作品名あり)" } }
+  if ($type -eq "playlist-review") { return @{ suggestion = "hold"; priority = "一括確認(登録済み再生リストに入っている見込み)" } }
+  if ($sitePlaylist) { return @{ suggestion = "hold"; priority = "一括確認(同じ作品の再生リストが登録済み)" } }
+  return @{ suggestion = "要確認"; priority = "別段階(新しい再生リストの候補)" }
+}
 function New-ReviewRow([string]$type, $items, [string]$seriesKey) {
   $items = @($items | Sort-Object @{ Expression = { [string]$_.publishedAt } }, @{ Expression = { [string]$_.videoId } })
   $first = $items[0]; $k = [string]$first.streamer + "|" + [string]$first.game
   $g = Get-GenreSuggestion ([string]$first.game)
   $confs = @($items | Group-Object { [string]$_.confidence } | Sort-Object { $confRank[$_.Name] } | ForEach-Object { if ($items.Count -eq 1) { $_.Name } else { "$($_.Name) $($_.Count)" } }) -join " / "
   $reasons = @($items | ForEach-Object { @($_.reasons) } | ForEach-Object { [string]$_ } | Where-Object { $_ } | Select-Object -Unique) -join " / "
+  $sg = Get-ReviewSuggestion $type $items
   return [pscustomobject][ordered]@{
     rowType = $type
     "decision(approve/hold/reject)" = ""
@@ -132,6 +163,9 @@ function New-ReviewRow([string]$type, $items, [string]$seriesKey) {
     note = ""
     videoIds = @($items | ForEach-Object { [string]$_.videoId }) -join " "
     seriesKey = $seriesKey
+    # 末尾の2列は参考(取り込みでは読まない)。案を使うときは、人が確かめてから判断欄に書き写す
+    "suggestion(判断の案・参考)" = $sg.suggestion
+    "priority(優先度・参考)" = $sg.priority
   }
 }
 foreach ($c in @($pending | Where-Object { $_.reviewCategory -eq "single" } | Sort-Object @{ Expression = { $confRank[[string]$_.confidence] } }, @{ Expression = { [string]$_.streamer } }, @{ Expression = { [string]$_.publishedAt } })) {
@@ -142,6 +176,13 @@ foreach ($grp in @($pending | Where-Object { $_.reviewCategory -eq "series" } | 
 }
 foreach ($c in @($pending | Where-Object { $_.reviewCategory -eq "playlist-review" } | Sort-Object @{ Expression = { [string]$_.streamer } }, @{ Expression = { [string]$_.game } }, @{ Expression = { [string]$_.publishedAt } })) {
   $rows.Add((New-ReviewRow "playlist-review" @($c) ""))
+}
+# 末尾: ゲーム実況でない可能性がある候補と、分類の無い候補(既存の行の番号・順序は変えない)
+foreach ($c in @($pending | Where-Object { $_.reviewCategory -eq "non-gameplay" } | Sort-Object @{ Expression = { [string]$_.streamer } }, @{ Expression = { [string]$_.game } }, @{ Expression = { [string]$_.publishedAt } })) {
+  $rows.Add((New-ReviewRow "non-gameplay" @($c) ""))
+}
+foreach ($c in @($pending | Where-Object { -not [string]$_.reviewCategory } | Sort-Object @{ Expression = { [string]$_.streamer } }, @{ Expression = { [string]$_.publishedAt } })) {
+  $rows.Add((New-ReviewRow "unclassified" @($c) ""))
 }
 
 # ---- CSV(BOM 付き UTF-8・CRLF。すべての値を "" で囲む) ----
@@ -160,5 +201,4 @@ $cnt = @{}; foreach ($r in $rows) { $cnt[$r.rowType] = 1 + [int]$cnt[$r.rowType]
 $seriesVideos = (@($rows | Where-Object rowType -eq "series") | Measure-Object videoCount -Sum).Sum
 Write-Output "確認シート: $outPath"
 Write-Output ("読んだ候補: $sourceLabel  全 $($all.Count) 件(確認待ち $($pending.Count) 件・判断済み $decided 件は載せない)")
-Write-Output ("行: 合計 $($rows.Count) 行 = 単発 $([int]$cnt['single']) 行 / 続き物 $([int]$cnt['series']) 行(動画 $([int]$seriesVideos) 本) / 再生リスト確認 $([int]$cnt['playlist-review']) 行")
-Write-Output ("件数だけ: ゲーム実況以外 $([int]$byCat['non-gameplay']) 件 / 分類なし(既存作品に一致しなくなったなど) $([int]$byCat['(分類なし)']) 件")
+Write-Output ("行: 合計 $($rows.Count) 行 = 単発 $([int]$cnt['single']) 行 / 続き物 $([int]$cnt['series']) 行(動画 $([int]$seriesVideos) 本) / 再生リスト確認 $([int]$cnt['playlist-review']) 行 / ゲーム実況でない可能性 $([int]$cnt['non-gameplay']) 行 / 分類なし $([int]$cnt['unclassified']) 行")

@@ -11,7 +11,8 @@
   次のどれか1つでもあれば、全体の取り込みを中止する(1件も反映しない):
     必要な列が無い / 判断欄の値が不正 / 行の種類が不正 / 動画IDの形式が不正 / 候補 JSON に無い動画ID /
     同じ動画IDが複数の行にある / 判断済み(pending 以外)の候補に判断を書いた / 行の種類と候補の分類が違う /
-    続き物の動画の組が候補 JSON と違う / excludeVideoIds が行の動画に無い・続き物以外に書いてある
+    続き物の動画の組が候補 JSON と違う / excludeVideoIds が行の動画に無い・続き物以外に書いてある /
+    ゲーム実況でない可能性(non-gameplay)・分類なし(unclassified)の行に approve を書いた(この2種類は hold・reject だけ)
   反映するのは status と、確認の記録(reviewedAt・reviewBatch)だけ。作品名・ジャンル・備考などの下書き欄は書き込まない。
   書き込みは「元のファイルを .before-import-日時.json に残す → 一時ファイルに書く → 置き換え → 読み直して、
   変更した候補以外が元と同じかを確かめる(違えば元に戻す)」。
@@ -95,8 +96,10 @@ if ($problems.Count -eq 0) {
     $type = ([string]$r.rowType).Trim()
     $ids = @(([string]$r.videoIds).Trim() -split '\s+' | Where-Object { $_ })
     $exclude = @(([string]$r.$excludeCol).Trim() -split '[\s,]+' | Where-Object { $_ })
-    if ($type -notin @("single", "series", "playlist-review")) { $problems.Add("行 ${rowNo}: 行の種類が不正($type)"); continue }
+    if ($type -notin @("single", "series", "playlist-review", "non-gameplay", "unclassified")) { $problems.Add("行 ${rowNo}: 行の種類が不正($type)"); continue }
     if ($decision -and -not $statusOf.ContainsKey($decision)) { $problems.Add("行 ${rowNo}: 判断欄の値が不正($decision。approve / hold / reject のどれか、または空欄)"); continue }
+    # ゲーム実況でない可能性・分類なしの候補は、誤登録を防ぐため承認できない(保留か除外だけ)
+    if ($decision -eq "approve" -and $type -in @("non-gameplay", "unclassified")) { $problems.Add("行 ${rowNo}: $type の行は承認できない(hold か reject のどちらか)"); continue }
     if ($ids.Count -eq 0) { $problems.Add("行 ${rowNo}: 動画IDが無い"); continue }
     foreach ($id in $ids) {
       if ($id -notmatch '^[A-Za-z0-9_-]{11}$') { $problems.Add("行 ${rowNo}: 動画IDの形式が不正($id)"); continue }
@@ -123,7 +126,7 @@ if ($problems.Count -eq 0) {
     foreach ($id in $ids) {
       $c = $byId[$id]
       if ([string]$c.status -ne "pending") { $problems.Add("行 ${rowNo}: $id はすでに判断済み(status=$($c.status))。シートが古い可能性"); continue }
-      $expect = $(if ($type -eq "playlist-review") { "playlist-review" } else { $type })
+      $expect = $(if ($type -eq "unclassified") { "" } else { $type })   # unclassified の行は分類の無い候補だけ
       if ([string]$c.reviewCategory -ne $expect) { $problems.Add("行 ${rowNo}: $id の分類が違う(シート $type / 候補 $($c.reviewCategory))"); continue }
       if ($exclude -contains $id) { $excludedKept++; continue }   # 続き物から外した動画は変更しない
       $changes.Add([pscustomobject]@{ row = $rowNo; rowType = $type; videoId = $id; from = [string]$c.status; to = $statusOf[$decision]; streamer = [string]$c.streamer; game = [string]$c.game })
