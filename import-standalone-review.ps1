@@ -47,6 +47,13 @@ function ConvertFrom-ReviewJson([string]$text) {
   if ((Get-Command ConvertFrom-Json).Parameters.ContainsKey("DateKind")) { return , ($text | ConvertFrom-Json -DateKind String) }
   return , ($text | ConvertFrom-Json)
 }
+# 保存は watch-standalone-rss.ps1 と同じ書式にする(5.1 でも 7 と同じ: 2スペース・LF・キーの順序そのまま。差分を変えた候補だけにする)
+#   その保存用の関数だけを watch-standalone-rss.ps1 から読み込む(読めなければ、何も変更せずに止める)
+$watchPath = Join-Path $scriptDir "watch-standalone-rss.ps1"
+if (-not (Test-Path -LiteralPath $watchPath)) { throw "保存処理を読み込めません(何も変更していません): $watchPath" }
+$watchAst = [Management.Automation.Language.Parser]::ParseFile($watchPath, [ref]$null, [ref]$null)
+foreach ($fn in $watchAst.FindAll({ param($a) $a -is [Management.Automation.Language.FunctionDefinitionAst] -and $a.Name -match '^(ConvertTo|Add)-StandaloneJson' }, $true)) { . ([scriptblock]::Create($fn.Extent.Text)) }
+if (-not (Get-Command ConvertTo-StandaloneJsonText -ErrorAction SilentlyContinue)) { throw "保存処理(ConvertTo-StandaloneJsonText)が見つかりません(何も変更していません): $watchPath" }
 function Get-GitShowText([string]$spec) {
   $psi = New-Object System.Diagnostics.ProcessStartInfo
   $psi.FileName = "git"; $psi.Arguments = "-C `"$scriptDir`" show `"$spec`""
@@ -150,7 +157,7 @@ $full = (Resolve-Path -LiteralPath $CandidatesPath).Path
 $backup = $full -replace '\.json$', ".before-import-$stamp.json"
 [IO.File]::WriteAllText($backup, $originalText, (New-Object System.Text.UTF8Encoding($false)))
 $tmp = $full + ".tmp"
-[IO.File]::WriteAllText($tmp, ($data | ConvertTo-Json -Depth 10), (New-Object System.Text.UTF8Encoding($false)))
+[IO.File]::WriteAllText($tmp, (ConvertTo-StandaloneJsonText $data 10), (New-Object System.Text.UTF8Encoding($false)))
 Move-Item -LiteralPath $tmp -Destination $full -Force
 
 # 読み直して、変更した候補の status 以外が元と同じかを確かめる(違えば元に戻す)

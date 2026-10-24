@@ -110,6 +110,21 @@ Check "3i. -Apply には書き換える候補 JSON の指定が必要" ($rn.code
 $rb = Invoke-Script $import @("-CsvPath", $sheet, "-CandidatesPath", $candPath, "-Apply")
 Check "3j. 判断欄がすべて空欄なら何も変えない" ($rb.code -eq 0 -and $rb.output -match "変更予定: 0 件" -and (Get-FileHash $candPath).Hash -eq $h) ($rb.output)
 
+Write-Output "== 保存の書式(5.1 でも 7 と同じ: 2スペース・LF・キーの順序そのまま)"
+# 本番の候補 JSON と同じ書式(watch-standalone-rss.ps1 の保存処理)で作った候補に取り込み、差分が判断した候補の分だけになることを確かめる
+$watchAst = [Management.Automation.Language.Parser]::ParseFile((Join-Path $scriptDir "watch-standalone-rss.ps1"), [ref]$null, [ref]$null)
+foreach ($fn in $watchAst.FindAll({ param($a) $a -is [Management.Automation.Language.FunctionDefinitionAst] -and $a.Name -match '^(ConvertTo|Add)-StandaloneJson' }, $true)) { . ([scriptblock]::Create($fn.Extent.Text)) }
+$fmtText = ConvertTo-StandaloneJsonText $doc 8
+[IO.File]::WriteAllText($candPath, $fmtText, $utf8)
+$rf = Invoke-Script $import @("-CsvPath", $okSheet, "-CandidatesPath", $candPath, "-Apply")
+$fmtAfter = [IO.File]::ReadAllText($candPath, $utf8)
+# 期待する結果: 元の文字列を読み、判断した3件に status と記録2項目を足して同じ書式で書いたもの(ほかは1文字も変わらない)
+$readJson = { param($t) if ((Get-Command ConvertFrom-Json).Parameters.ContainsKey("DateKind")) { $t | ConvertFrom-Json -DateKind String } else { $t | ConvertFrom-Json } }
+$got = & $readJson $fmtAfter; $exp = & $readJson $fmtText
+$gotById = @{}; foreach ($c in @($got.candidates)) { $gotById[[string]$c.videoId] = $c }
+foreach ($c in @($exp.candidates)) { $g = $gotById[[string]$c.videoId]; if ($g.status -ne $c.status) { $c.status = $g.status; $c | Add-Member -NotePropertyName reviewedAt -NotePropertyValue $g.reviewedAt; $c | Add-Member -NotePropertyName reviewBatch -NotePropertyValue $g.reviewBatch } }
+Check "4a. 取り込み後も同じ書式で保存し、差分は判断した3件(status の変更と記録2項目の追加)だけ" ($rf.code -eq 0 -and -not $fmtAfter.Contains("`r") -and @($got.candidates | Where-Object { $_.reviewBatch }).Count -eq 3 -and ($fmtAfter -ceq (ConvertTo-StandaloneJsonText $exp 8)) -and ($fmtAfter -split "`n").Count -eq (($fmtText -split "`n").Count + 6)) ($rf.output)
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 Remove-Item -LiteralPath $work -Recurse -Force
