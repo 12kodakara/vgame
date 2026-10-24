@@ -1066,5 +1066,538 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
+  },
+  {
+    id: "single-076",
+    title: "【スプラトゥーン3 】　短射程はやめた！！っぱスピナーよ",
+    streamer: "アルス・アルマル",
+    game: "スプラトゥーン3",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【スプラトゥーン3 】　短射程はやめた！！っぱスピナーよ　【アルス・アルマル/にじさんじ】", url: "https://www.youtube.com/watch?v=v7NCiECxw80", publishedDate: "2026-10-23" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-077",
+    title: "【マリオカートワールド】朗読新刊出ました",
+    streamer: "シェリン・バーガンディ",
+    game: "マリオカートワールド",
+    genre: "racing",
+    format: "single",
+    videos: [
+      { title: "【マリオカートワールド】朗読新刊出ました【シェリン/にじさんじ】", url: "https://www.youtube.com/watch?v=2JPTgIJMt3g", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-078",
+    title: "【 ぽこ あ ポケモン 】ポケモン達もハロウィンを楽しんでいるみたい",
+    streamer: "セフィナ",
+    game: "ぽこ あ ポケモン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 ぽこ あ ポケモン 】ポケモン達もハロウィンを楽しんでいるみたい【にじさんじ | セフィナ】", url: "https://www.youtube.com/watch?v=NU10enUjuhI", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-079",
+    title: "【 めっちゃカメレオン 】めっちゃ #ふぃことりすた 🐤⭐️ カメレオン！",
+    streamer: "ソフィア・ヴァレンタイン",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 めっちゃカメレオン 】めっちゃ #ふぃことりすた 🐤⭐️ カメレオン！【ソフィア・ヴァレンタイン/にじさんじ】", url: "https://www.youtube.com/watch?v=3UgcHwhBEyU", publishedDate: "2026-09-26" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-080",
+    title: "【Melatonin】リズムゲーム初心者ぷりん・らら・もーど見参‼🍮💌",
+    streamer: "ぷりん・らら・もーど",
+    game: "Melatonin",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Melatonin】リズムゲーム初心者ぷりん・らら・もーど見参‼🍮💌【ぷりん・らら・もーど / にじさんじ】", url: "https://www.youtube.com/watch?v=cRktz3VVLyE", publishedDate: "2026-10-01" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-081",
+    title: "【ピクミン２】完全初見！今まで見たことなかった紫な子と白い子どんな子なんだ⁉ぷりんとおともだちになってほしすぎる～💖🍮💌",
+    streamer: "ぷりん・らら・もーど",
+    game: "ピクミン2",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【ピクミン２】完全初見！今まで見たことなかった紫な子と白い子どんな子なんだ⁉ぷりんとおともだちになってほしすぎる～💖🍮💌【ぷりん・らら・もーど / にじさんじ】", url: "https://www.youtube.com/watch?v=_Mc5o0HNmGc", publishedDate: "2026-10-24" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-082",
+    title: "【 ファミレスを享受せよ 】ファミレスで駄弁ってたあの青春よ、永遠に……",
+    streamer: "ぽめろ・ぱんち",
+    game: "ファミレスを享受せよ",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 ファミレスを享受せよ 】ファミレスで駄弁ってたあの青春よ、永遠に……【ぽめろ・ぱんち / にじさんじ】", url: "https://www.youtube.com/watch?v=bboVYS9ifJM", publishedDate: "2026-10-16" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-083",
+    title: "【 Shadowverse: Worlds Beyond 】本日はドラゴン",
+    streamer: "ルンルン",
+    game: "Shadowverse: Worlds Beyond",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 Shadowverse: Worlds Beyond 】本日はドラゴン【ルンルン/にじさんじ】", url: "https://www.youtube.com/watch?v=fqF2kPXzE4g", publishedDate: "2026-09-25" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-084",
+    title: "【Slay the Spire 2】鬼久々まったりスレスパ",
+    streamer: "レイン・パターソン",
+    game: "Slay the Spire 2",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Slay the Spire 2】鬼久々まったりスレスパ【レイン・パターソン/にじさんじ】", url: "https://www.youtube.com/watch?v=qpc1Xqgi2cs", publishedDate: "2026-10-02" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-085",
+    title: "【Unpacking】ちる～く引っ越し整理する",
+    streamer: "レオス・ヴィンセント",
+    game: "Unpacking",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【Unpacking】ちる～く引っ越し整理する【レオス・ヴィンセント/にじさんじ】", url: "https://www.youtube.com/watch?v=O3eJlAHC3_w", publishedDate: "2026-10-12" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-086",
+    title: "【 アークナイツ：エンドフィールド 】スーが来たぞおおおおおお！！！！",
+    streamer: "伊波ライ",
+    game: "アークナイツ：エンドフィールド",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【 アークナイツ：エンドフィールド 】スーが来たぞおおおおおお！！！！【 伊波ライ / にじさんじ 】", url: "https://www.youtube.com/watch?v=pxhtCaIsIDM", publishedDate: "2026-10-21" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-087",
+    title: "【スーパーマリオサンシャイン】泣き言は聞きたくない。",
+    streamer: "一ノ瀬うるは",
+    game: "スーパーマリオサンシャイン",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【スーパーマリオサンシャイン】泣き言は聞きたくない。【ぶいすぽ/一ノ瀬うるは】", url: "https://www.youtube.com/watch?v=mHxcoFfUEzc", publishedDate: "2026-09-25" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-088",
+    title: "【SuperBunnyMan】ずっとやりたくてあたためていたが我慢できないのでソロ",
+    streamer: "宇佐美リト",
+    game: "Super Bunny Man",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【SuperBunnyMan】ずっとやりたくてあたためていたが我慢できないのでソロ【宇佐美リト/にじさんじ】", url: "https://www.youtube.com/watch?v=4_fXEIFTCVE", publishedDate: "2026-09-30" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-089",
+    title: "【Lethal Company】８人でゴミ拾い会社就職",
+    streamer: "英リサ",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【Lethal Company】８人でゴミ拾い会社就職【ぶいすぽっ！/英リサ】", url: "https://www.youtube.com/watch?v=cXR7ZitMJNQ", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-090",
+    title: "【REPO】久々におバカなやつらとのREPOが帰ってきた",
+    streamer: "花芽なずな",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【REPO】久々におバカなやつらとのREPOが帰ってきた【ぶいすぽ/花芽なずな】", url: "https://www.youtube.com/watch?v=Td1knDZkWKE", publishedDate: "2026-10-06" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-091",
+    title: "【Teamfight Tactics】たぬふぁい本番Dチーム！大会四連覇する。",
+    streamer: "空澄セナ",
+    game: "Teamfight Tactics",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Teamfight Tactics】たぬふぁい本番Dチーム！大会四連覇する。【空澄セナ/ぶいすぽっ！】", url: "https://www.youtube.com/watch?v=1MSAb0Opz90", publishedDate: "2026-10-01" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-092",
+    title: "【雀魂】天開塾！え、わたしって押しすぎ……？/w 天開司",
+    streamer: "健屋花那",
+    game: "雀魂",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【雀魂】天開塾！え、わたしって押しすぎ……？/w 天開司【健屋花那/にじさんじ】", url: "https://www.youtube.com/watch?v=sVdcrnNI_k4", publishedDate: "2026-10-16" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-093",
+    title: "【めっちゃカメレオン】＃謎いつメン でめっちゃカメレオンやるのだ",
+    streamer: "黒井しば",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【めっちゃカメレオン】＃謎いつメン でめっちゃカメレオンやるのだ【黒井しば視点】", url: "https://www.youtube.com/watch?v=Oto21fMWj70", publishedDate: "2026-10-08" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-094",
+    title: "【デュエプレ】第37弾「虹帝∞命動」　～天門！天門！天門！～",
+    streamer: "榊ネス",
+    game: "デュエル・マスターズ プレイス",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【デュエプレ】第37弾「虹帝∞命動」　～天門！天門！天門！～【榊ネス/にじさんじ】", url: "https://www.youtube.com/watch?v=eES6gHnublI", publishedDate: "2026-10-05" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-095",
+    title: "【PEAK】にじSSS ～再び頂を目指して～",
+    streamer: "榊ネス",
+    game: "PEAK",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【PEAK】にじSSS ～再び頂を目指して～【榊ネス/にじさんじ】", url: "https://www.youtube.com/watch?v=DU8a_w55Kbg", publishedDate: "2026-10-06" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-096",
+    title: "【Pokémon Champions】サカキなのであく統一パでランクに挑戦します",
+    streamer: "榊ネス",
+    game: "Pokémon Champions",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Pokémon Champions】サカキなのであく統一パでランクに挑戦します【榊ネス/にじさんじ】", url: "https://www.youtube.com/watch?v=SZNTfJESBXc", publishedDate: "2026-10-15" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-097",
+    title: "【ファミレスを享受せよ】チルくて素晴らしい音楽があるらしい",
+    streamer: "山田龍一郎",
+    game: "ファミレスを享受せよ",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【ファミレスを享受せよ】チルくて素晴らしい音楽があるらしい【にじさんじ / 山田龍一郎】", url: "https://www.youtube.com/watch?v=HaPZ9Zx07-E", publishedDate: "2026-10-04" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-098",
+    title: "【 めっちゃカメレオン 】#ふぃことりすた のみんなとめちゃカメ🎨 七瀬視点",
+    streamer: "七瀬すず菜",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 めっちゃカメレオン 】#ふぃことりすた のみんなとめちゃカメ🎨 七瀬視点【 七瀬すず菜 /にじさんじ】", url: "https://www.youtube.com/watch?v=5iCeP_5jiys", publishedDate: "2026-09-26" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-099",
+    title: "【めっちゃカメレオン】めっちゃ大好き☆ #謎いつメン",
+    streamer: "周央サンゴ",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【めっちゃカメレオン】めっちゃ大好き☆ #謎いつメン 【アンジュ・カトリーナ/黒井しば/社築/周央サンゴ】", url: "https://www.youtube.com/watch?v=v6Q-dh3wVJw", publishedDate: "2026-10-07" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-100",
+    title: "【デュエプレ】新弾開封！バラギアラマジ！？",
+    streamer: "渚トラウト",
+    game: "デュエル・マスターズ プレイス",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【デュエプレ】新弾開封！バラギアラマジ！？【渚トラウト/にじさんじ】", url: "https://www.youtube.com/watch?v=ezIO2ASnxfQ", publishedDate: "2026-09-24" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-101",
+    title: "【 Lethal Company 】ぶいすぽりーさるかんぱに～",
+    streamer: "小雀とと",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 Lethal Company 】ぶいすぽりーさるかんぱに～【 ぶいすぽ / 小雀とと 】", url: "https://www.youtube.com/watch?v=C8P_hvyCci0", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-102",
+    title: "【PowerWash Simulator 2】久々寝るか！「赤城ウェンの寝る時間ですよ！」",
+    streamer: "赤城ウェン",
+    game: "PowerWash Simulator2",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【PowerWash Simulator 2】久々寝るか！「赤城ウェンの寝る時間ですよ！」【赤城ウェン/にじさんじ】", url: "https://www.youtube.com/watch?v=lJQCPnspi6E", publishedDate: "2026-10-24" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-103",
+    title: "【APEX】きゃわいい後輩ずと昼えぺ！w/ぱたち、あゆゆ",
+    streamer: "雪城眞尋",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【APEX】きゃわいい後輩ずと昼えぺ！w/ぱたち、あゆゆ【雪城眞尋/にじさんじ】", url: "https://www.youtube.com/watch?v=rp9hmGvPoNw", publishedDate: "2026-10-01" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-104",
+    title: "【 スイカゲーム 】みどり髪と黒髪でスイカな２人🍉話しながらまったり遊ぶ w/ 十河ののは先輩",
+    streamer: "千凛あゆむ",
+    game: "スイカゲーム",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【 スイカゲーム 】みどり髪と黒髪でスイカな２人🍉話しながらまったり遊ぶ w/ 十河ののは先輩【にじさんじ / 千凛あゆむ】", url: "https://www.youtube.com/watch?v=WQ5g1n70E2o", publishedDate: "2026-10-01" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-105",
+    title: "【 メグとばけもの 】泣くほど感動するRPG。感情移入しちゃうタイプだけど大丈夫かな？",
+    streamer: "千凛あゆむ",
+    game: "メグとばけもの",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 メグとばけもの 】泣くほど感動するRPG。感情移入しちゃうタイプだけど大丈夫かな？【にじさんじ / 千凛あゆむ】", url: "https://www.youtube.com/watch?v=qB6AsleBy8s", publishedDate: "2026-10-12" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-106",
+    title: "【 スプラトゥーン3 】スプラ元1億2297万2528位  w/ 倉持めると先輩 綺沙良先輩 早乙女ベリー先輩",
+    streamer: "千凛あゆむ",
+    game: "スプラトゥーン3",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【 スプラトゥーン3 】スプラ元1億2297万2528位  w/ 倉持めると先輩 綺沙良先輩 早乙女ベリー先輩　【にじさんじ / 千凛あゆむ】", url: "https://www.youtube.com/watch?v=8IDzKZUO8gU", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-107",
+    title: "【ゼルダの伝説 ティアーズ オブ ザ キングダム】#last ｺｺ完全初見🔰時を超えてガノンドロフを討ち取るぞ！！！",
+    streamer: "倉持めると",
+    game: "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【ゼルダの伝説 ティアーズ オブ ザ キングダム】#last ｺｺ完全初見🔰時を超えてガノンドロフを討ち取るぞ！！！【倉持めると/にじさんじ】", url: "https://www.youtube.com/watch?v=8GHanfm6Mlk", publishedDate: "2026-09-24" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-108",
+    title: "【アソビ大全】そーまとアソビ大全でバトル！！",
+    streamer: "早乙女ベリー",
+    game: "世界のアソビ大全51",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【アソビ大全】そーまとアソビ大全でバトル！！早乙女ベリー/ 酒寄颯馬/にじさんじ】", url: "https://www.youtube.com/watch?v=GM9gim11SGo", publishedDate: "2026-10-08" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-109",
+    title: "【APEX】なんか流行ってるらしいじゃん",
+    streamer: "長尾景",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【APEX】なんか流行ってるらしいじゃん【長尾景/にじさんじ】", url: "https://www.youtube.com/watch?v=uVcpbemMuTo", publishedDate: "2026-09-27" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-110",
+    title: "【マイクラ】にじ鯖でおにごっこ！？！？",
+    streamer: "長尾景",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【マイクラ】にじ鯖でおにごっこ！？？【長尾景/にじさんじ】#にじクラおにごっこ", url: "https://www.youtube.com/watch?v=ZDtH5XKQKGo", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-111",
+    title: "【Lethal Company】大人数でゴミ集め",
+    streamer: "兎咲ミミ",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【Lethal Company】大人数でゴミ集め【ぶいすぽ/兎咲ミミ】", url: "https://www.youtube.com/watch?v=I1uC1LS3MjI", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-112",
+    title: "【Lethal Company】ぶいすぽメンバーとゴミ拾いに行きます",
+    streamer: "猫汰つな",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【Lethal Company】ぶいすぽメンバーとゴミ拾いに行きます【ぶいすぽ / 猫汰つな】", url: "https://www.youtube.com/watch?v=2O5DPB_ZyrA", publishedDate: "2026-10-09" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-113",
+    title: "【リズム天国 ミラクルスターズ】久々リズ天🎶全部のメダルとＰがほしい🎶ステージ15から🎶",
+    streamer: "白砂あやね",
+    game: "リズム天国 ミラクルスターズ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【リズム天国 ミラクルスターズ】久々リズ天🎶全部のメダルとＰがほしい🎶ステージ15から🎶【 白砂あやね / にじさんじ 】", url: "https://www.youtube.com/watch?v=aY_xMHW2liA", publishedDate: "2026-10-01" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-114",
+    title: "【めっちゃカメレオン】#ふぃことりすた 🐤⭐️のみんなと色塗りかくれんぼ！",
+    streamer: "立伝都々",
+    game: "めっちゃカメレオン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【めっちゃカメレオン】#ふぃことりすた 🐤⭐️のみんなと色塗りかくれんぼ！【立伝都々視点/にじさんじ】", url: "https://www.youtube.com/watch?v=xbShYtX72SE", publishedDate: "2026-09-26" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-115",
+    title: "【NieR:Automata】消すか壊すか、残酷な2択",
+    streamer: "鈴原るる",
+    game: "NieR:Automata",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【NieR:Automata】消すか壊すか、残酷な2択【にじさんじ/鈴原るる】", url: "https://www.youtube.com/watch?v=CQn1dLr6xy0", publishedDate: "2026-10-21" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
+  },
+  {
+    id: "single-116",
+    title: "【 Super Bunny Man 】 初コラボ！ツクリさんと遊ぶぞ～～！",
+    streamer: "蝸堂みかる",
+    game: "Super Bunny Man",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【 Super Bunny Man 】 初コラボ！ツクリさんと遊ぶぞ～～！ 【 にじさんじ 蝸堂みかる / ミリプロ 眠雲ツクリ 】", url: "https://www.youtube.com/watch?v=lunYpkVdYEU", publishedDate: "2026-10-09" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-24"
   }
 ];
