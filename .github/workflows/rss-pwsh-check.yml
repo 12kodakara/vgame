@@ -1,5 +1,5 @@
 # RSS からの単発実況候補の抽出(watch-standalone-rss.ps1)が Ubuntu + PowerShell 7(pwsh)で動くかを確かめる、手動実行専用の検証。
-# - test-standalone-rss.ps1(オフラインのテスト)を実行するだけ。テスト用の RSS・候補JSON・履歴は一時フォルダに作り、終わったら消す
+# - test-standalone-rss.ps1・test-standalone-review.ps1(オフラインのテスト)を実行するだけ。テスト用の RSS・候補JSON・履歴は一時フォルダに作り、終わったら消す
 # - RSS の実取得・YouTube API・外部検索は行わない(取得のテストはモックで、ネットワークに接続しない)。秘密情報は使わない
 # - 本番の候補JSON・履歴・登録データ・サイトのファイルは変更しない(commit・push しない)。テストは data-*.js が変わらないことも確かめる
 # - 既存のワークフロー(home-data / refresh-playlist-meta / search-console-weekly)とは独立
@@ -52,3 +52,10 @@ jobs:
       - name: Run offline RSS test
         shell: pwsh
         run: ./test-standalone-rss.ps1
+
+      # 確認シートの書き出し・判断の取り込み(export/import-standalone-review.ps1)のオフラインテスト。
+      # 上の RSS テストが失敗しても、取り消されていなければ実行する(どちらかが失敗すればジョブは失敗)
+      - name: Run offline review test
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: ./test-standalone-review.ps1
