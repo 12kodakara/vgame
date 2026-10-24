@@ -10,7 +10,7 @@
   完全に一致することを確かめる(書き出した後に動画が増えた・減ったときは中止する)。excludeVideoIds に書いた動画は変更しない。
   次のどれか1つでもあれば、全体の取り込みを中止する(1件も反映しない):
     必要な列が無い / 判断欄の値が不正 / 行の種類が不正 / 動画IDの形式が不正 / 候補 JSON に無い動画ID /
-    同じ動画IDが複数の行にある / 判断済み(pending 以外)の候補に判断を書いた / 行の種類と候補の分類が違う /
+    同じ動画IDが複数の行にある / 判断済み(pending 以外。-AllowReconsiderHeld のときは held も除く)の候補に判断を書いた / 行の種類と候補の分類が違う /
     続き物の動画の組が候補 JSON と違う / excludeVideoIds が行の動画に無い・続き物以外に書いてある /
     ゲーム実況でない可能性(non-gameplay)・分類なし(unclassified)の行に approve を書いた(この2種類は hold・reject だけ)
   反映するのは status と、確認の記録(reviewedAt・reviewBatch)だけ。作品名・ジャンル・備考などの下書き欄は書き込まない。
@@ -25,6 +25,10 @@
   dry-run で -CandidatesPath を省略したときに読む Git の参照(既定 origin/rss-state)。
 .PARAMETER Apply
   指定したときだけ -CandidatesPath に反映する。
+.PARAMETER AllowReconsiderHeld
+  保留(held)の候補の判断の変更(承認・除外・再保留)を許可する(export-standalone-review.ps1 -IncludeHeld で書き出したシート用)。
+  指定しなければ、従来どおり確認待ち(pending)の候補だけを変更し、保留の候補に判断を書いた行があれば全体を中止する。
+  指定しても、動画ID・行の種類と候補の分類・続き物の動画の組は同じように照合する。承認済み・除外済み・登録済みは変更しない。
 .EXAMPLE
   .\import-standalone-review.ps1 -CsvPath .\standalone-review-20261019.csv
   変更予定だけを表示する(dry-run)
@@ -35,7 +39,8 @@ param(
   [Parameter(Mandatory = $true)][string]$CsvPath,
   [string]$CandidatesPath,
   [string]$StateRef = "origin/rss-state",
-  [switch]$Apply
+  [switch]$Apply,
+  [switch]$AllowReconsiderHeld
 )
 
 $ErrorActionPreference = "Stop"
@@ -86,6 +91,8 @@ else {
   }
 }
 $statusOf = @{ approve = "approved"; hold = "held"; reject = "rejected" }
+# 判断を変えてよい候補の状態: 確認待ちだけ。-AllowReconsiderHeld のときだけ保留も(承認済み・除外済み・登録済みは変えない)
+$openStatuses = @("pending") + $(if ($AllowReconsiderHeld) { @("held") } else { @() })
 $seenIds = @{}
 $changes = New-Object System.Collections.Generic.List[object]
 $blankRows = 0; $excludedKept = 0
@@ -112,7 +119,7 @@ if ($problems.Count -eq 0) {
       if ($exclude.Count -gt 0) { $problems.Add("行 ${rowNo}: excludeVideoIds は続き物(series)の行にだけ書ける") }
     } else {
       $key = ([string]$r.seriesKey).Trim()
-      $group = @($data.candidates | Where-Object { [string]$_.status -eq "pending" -and [string]$_.reviewCategory -eq "series" -and [string]$_.seriesKey -eq $key } | ForEach-Object { [string]$_.videoId })
+      $group = @($data.candidates | Where-Object { [string]$_.status -in $openStatuses -and [string]$_.reviewCategory -eq "series" -and [string]$_.seriesKey -eq $key } | ForEach-Object { [string]$_.videoId })
       $a = ($ids | Sort-Object) -join ","; $b = ($group | Sort-Object) -join ","
       if (-not $key) { $problems.Add("行 ${rowNo}: 続き物の行に seriesKey が無い") }
       elseif ($a -ne $b) { $problems.Add("行 ${rowNo}: 続き物 $key の動画の組が候補 JSON と違う(シート $($ids.Count) 本 / 候補 $($group.Count) 本。書き出し後に変わった可能性)") }
@@ -125,7 +132,10 @@ if ($problems.Count -eq 0) {
     }
     foreach ($id in $ids) {
       $c = $byId[$id]
-      if ([string]$c.status -ne "pending") { $problems.Add("行 ${rowNo}: $id はすでに判断済み(status=$($c.status))。シートが古い可能性"); continue }
+      if ([string]$c.status -notin $openStatuses) {
+        $hint = $(if ([string]$c.status -eq "held") { "保留の判断を変えるには -AllowReconsiderHeld を指定" } else { "シートが古い可能性" })
+        $problems.Add("行 ${rowNo}: $id はすでに判断済み(status=$($c.status))。$hint"); continue
+      }
       $expect = $(if ($type -eq "unclassified") { "" } else { $type })   # unclassified の行は分類の無い候補だけ
       if ([string]$c.reviewCategory -ne $expect) { $problems.Add("行 ${rowNo}: $id の分類が違う(シート $type / 候補 $($c.reviewCategory))"); continue }
       if ($exclude -contains $id) { $excludedKept++; continue }   # 続き物から外した動画は変更しない
@@ -135,6 +145,7 @@ if ($problems.Count -eq 0) {
 }
 
 $byTo = @{}; foreach ($ch in $changes) { $byTo[$ch.to] = 1 + [int]$byTo[$ch.to] }
+$fromHeld = @($changes | Where-Object { $_.from -eq "held" }).Count
 Write-Output ("確認シート: $CsvPath($($rows.Count) 行)  候補 JSON: $sourceLabel(全 $(@($data.candidates).Count) 件)")
 if ($problems.Count -gt 0) {
   Write-Output "問題が $($problems.Count) 件あるため、取り込みを中止しました(1件も反映していません):"
@@ -142,7 +153,7 @@ if ($problems.Count -gt 0) {
   if ($problems.Count -gt 30) { Write-Output "  …ほか $($problems.Count - 30) 件" }
   exit 2
 }
-Write-Output ("変更予定: $($changes.Count) 件(approved $([int]$byTo['approved']) / held $([int]$byTo['held']) / rejected $([int]$byTo['rejected']))  判断欄が空欄の行 $blankRows 行・続き物から外した動画 $excludedKept 本は変更しない")
+Write-Output ("変更予定: $($changes.Count) 件(approved $([int]$byTo['approved']) / held $([int]$byTo['held']) / rejected $([int]$byTo['rejected']))  判断欄が空欄の行 $blankRows 行・続き物から外した動画 $excludedKept 本は変更しない" + $(if ($AllowReconsiderHeld) { "  保留からの再判定 $fromHeld 件" } else { "" }))
 foreach ($ch in $changes) { Write-Output ("  行 $($ch.row) [$($ch.rowType)] $($ch.videoId) $($ch.from) → $($ch.to)  $($ch.streamer) / $($ch.game)") }
 
 if (-not $Apply) { Write-Output "dry-run のため、どのファイルも変更していません(反映するには -CandidatesPath と -Apply を指定)。"; exit 0 }
@@ -177,7 +188,8 @@ foreach ($c in @($before.candidates)) {
   if ($changedIds.Contains($id)) {
     $exp = $byId[$id]
     if ([string]$a.status -ne [string]$exp.status) { $bad.Add("候補 $id の status が予定と違う") }
-    foreach ($p in $c.PSObject.Properties) { if ($p.Name -ne "status" -and (($p.Value | ConvertTo-Json -Depth 6 -Compress) -ne ($a.($p.Name) | ConvertTo-Json -Depth 6 -Compress))) { $bad.Add("候補 $id の $($p.Name) が変わった") } }
+    # 保留からの再判定では、前回の確認の記録(reviewedAt・reviewBatch)も今回の値に変わる
+    foreach ($p in $c.PSObject.Properties) { if ($p.Name -notin @("status", "reviewedAt", "reviewBatch") -and (($p.Value | ConvertTo-Json -Depth 6 -Compress) -ne ($a.($p.Name) | ConvertTo-Json -Depth 6 -Compress))) { $bad.Add("候補 $id の $($p.Name) が変わった") } }
   } elseif (($c | ConvertTo-Json -Depth 6 -Compress) -ne ($a | ConvertTo-Json -Depth 6 -Compress)) { $bad.Add("変更しない候補 $id が変わった") }
 }
 if ($bad.Count -gt 0) {

@@ -178,6 +178,38 @@ $rx = Invoke-Script $import @("-CsvPath", (Write-Sheet $e "extra.csv"), "-Candid
 $jx = Read-Cand; $sx = { param($id) [string]($jx.candidates | Where-Object videoId -eq $id).status }
 Check "5a. ゲーム実況でない可能性 → 除外(rejected)・分類なし → 保留(held)を取り込み、ほかの候補は確認待ちのまま" ($rx.code -eq 0 -and $rx.output -match "変更予定: 2 件\(approved 0 / held 1 / rejected 1\)" -and (& $sx "RvNonGame01") -eq "rejected" -and (& $sx "RvUnclass01") -eq "held" -and (& $sx "RvSingle001") -eq "pending" -and (& $sx "RvPlayl0001") -eq "pending") ($rx.output)
 
+Write-Output "== 保留の候補の再確認(-IncludeHeld で書き出し・-AllowReconsiderHeld で取り込み)"
+# 単発・再生リスト確認・続き物(3本)を保留にした候補 JSON
+$heldDoc = & $readJson ($doc | ConvertTo-Json -Depth 8)   # 日付を文字列のまま読む(PowerShell 7 でも同じ結果にする)
+foreach ($c in @($heldDoc.candidates | Where-Object { $_.videoId -in @("RvSingle001", "RvPlayl0001", "RvSeries001", "RvSeries002", "RvSeries003") })) {
+  $c.status = "held"; $c | Add-Member -NotePropertyName reviewedAt -NotePropertyValue "2026-10-20T10:00:00"; $c | Add-Member -NotePropertyName reviewBatch -NotePropertyValue "first.csv"
+}
+$writeHeld = { [IO.File]::WriteAllText($candPath, ($heldDoc | ConvertTo-Json -Depth 8), $utf8) }
+& $writeHeld
+$hOut0 = Join-Path $work "held-sheet0"; $hOut1 = Join-Path $work "held-sheet1"
+$rh0 = Invoke-Script $export @("-CandidatesPath", $candPath, "-OutDir", $hOut0)
+$rh1 = Invoke-Script $export @("-CandidatesPath", $candPath, "-OutDir", $hOut1, "-IncludeHeld")
+$hRows0 = @(Import-Csv -LiteralPath (@(Get-ChildItem -LiteralPath $hOut0 -Filter *.csv)[0].FullName) -Encoding UTF8)
+$hRows1 = @(Import-Csv -LiteralPath (@(Get-ChildItem -LiteralPath $hOut1 -Filter *.csv)[0].FullName) -Encoding UTF8)
+$hRow = { param($rs, $id) $rs | Where-Object { @($_.videoIds -split ' ') -contains $id } }
+Check "6a. 既定では保留の候補を載せず、-IncludeHeld のときだけ載せる(判断の案の先頭に [保留中] と前回の記録)" ($rh0.code -eq 0 -and $rh1.code -eq 0 -and -not (& $hRow $hRows0 "RvPlayl0001") -and -not (& $hRow $hRows0 "RvSeries001") -and $hRows1.Count -eq ($hRows0.Count + 3) -and (& $hRow $hRows1 "RvPlayl0001").$sugCol -like "[[]保留中 1 本・前回 2026-10-20T10:00:00 first.csv]*" -and (& $hRow $hRows1 "RvSeries001").videoCount -eq "3" -and [string]::IsNullOrEmpty((& $hRow $hRows1 "RvSeries001")."decision(approve/hold/reject)")) ("$($rh1.output)")
+$he = @($hRows1 | ForEach-Object { $_.PSObject.Copy() })
+(& $hRow $he "RvPlayl0001").$decisionCol = "approve"; (& $hRow $he "RvSingle001").$decisionCol = "hold"
+$hs = & $hRow $he "RvSeries001"; $hs.$decisionCol = "reject"; $hs.$excludeCol = "RvSeries003"
+$heldSheet = Write-Sheet $he "held.csv"
+$hh = (Get-FileHash $candPath).Hash
+$rn1 = Invoke-Script $import @("-CsvPath", $heldSheet, "-CandidatesPath", $candPath, "-Apply")
+Check "6b. -AllowReconsiderHeld なしでは保留の候補を変えずに中止する" ($rn1.code -eq 2 -and $rn1.output -match "AllowReconsiderHeld" -and (Get-FileHash $candPath).Hash -eq $hh) ($rn1.output)
+$ry1 = Invoke-Script $import @("-CsvPath", $heldSheet, "-CandidatesPath", $candPath, "-Apply", "-AllowReconsiderHeld")
+$jh = Read-Cand; $sh = { param($id) $jh.candidates | Where-Object videoId -eq $id }
+Check "6c. -AllowReconsiderHeld では保留から承認・除外・再保留でき、確認の記録を今回の値にする(外した動画と空欄の行は変えない)" ($ry1.code -eq 0 -and $ry1.output -match "保留からの再判定 4 件" -and (& $sh "RvPlayl0001").status -eq "approved" -and (& $sh "RvSingle001").status -eq "held" -and (& $sh "RvSingle001").reviewBatch -eq "held.csv" -and (& $sh "RvSeries001").status -eq "rejected" -and (& $sh "RvSeries002").status -eq "rejected" -and (& $sh "RvSeries003").status -eq "held" -and (& $sh "RvSeries003").reviewBatch -eq "first.csv" -and (& $sh "RvNonGame01").status -eq "pending" -and (& $sh "RvDecided01").status -eq "approved" -and @($jh.candidates).Count -eq 8) ($ry1.output)
+& $writeHeld; $hh2 = (Get-FileHash $candPath).Hash
+$hd = @($hRows1 | ForEach-Object { $_.PSObject.Copy() }); $x = & $hRow $hd "RvSingle001"; $x.videoIds = "RvDecided01"; $x.$decisionCol = "reject"
+$rd1 = Invoke-Script $import @("-CsvPath", (Write-Sheet $hd "held-bad.csv"), "-CandidatesPath", $candPath, "-Apply", "-AllowReconsiderHeld")
+$hm = @($hRows1 | ForEach-Object { $_.PSObject.Copy() }); $x = & $hRow $hm "RvSeries001"; $x.videoIds = "RvSeries001 RvSeries002"; $x.$decisionCol = "approve"
+$rm1 = Invoke-Script $import @("-CsvPath", (Write-Sheet $hm "held-mismatch.csv"), "-CandidatesPath", $candPath, "-Apply", "-AllowReconsiderHeld")
+Check "6d. -AllowReconsiderHeld でも、承認済みの候補・続き物の動画の組の違いは中止して何も変えない" ($rd1.code -eq 2 -and $rd1.output -match "すでに判断済み\(status=approved\)" -and $rm1.code -eq 2 -and $rm1.output -match "動画の組が候補 JSON と違う" -and (Get-FileHash $candPath).Hash -eq $hh2) ("$($rd1.output) / $($rm1.output)")
+
 $hashAfter = @($dataFiles | ForEach-Object { (Get-FileHash $_ -Algorithm SHA256).Hash })
 Check "9a. 本番の data-core.js / data-playlists.js / data-standalone.js を変更しない" (($hashBefore -join ",") -eq ($hashAfter -join ",")) ""
 Remove-Item -LiteralPath $work -Recurse -Force

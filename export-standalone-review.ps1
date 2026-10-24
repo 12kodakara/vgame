@@ -6,6 +6,7 @@
 .DESCRIPTION
   1) 候補 JSON を読む(既定は rss-state ブランチの discovered-standalone-rss.json を git show で読む。-CandidatesPath でファイルも指定可)
   2) status = pending の候補だけを対象にする(承認・保留・除外など判断済みの候補は載せない)
+     -IncludeHeld のときだけ、保留(held)の候補も載せる(判断の案の先頭に「[保留中]」と前回の確認の記録を付ける)
   3) watch-standalone-rss.ps1 が付けた確認分類(reviewCategory)で行を作る
        single          : 1動画1行
        series          : 配信者×作品(seriesKey)ごとに1行(動画本数・URL・動画IDをまとめる)。承認すると multi として登録する想定
@@ -38,7 +39,8 @@ param(
   [string]$StateRef = "origin/rss-state",
   [string]$OutDir = (Join-Path ([IO.Path]::GetTempPath()) "vgame-standalone-review"),
   [string]$PlaylistsPath,
-  [string]$StandalonePath
+  [string]$StandalonePath,
+  [switch]$IncludeHeld
 )
 
 $ErrorActionPreference = "Stop"
@@ -127,7 +129,9 @@ function Get-GenreSuggestion([string]$game) {
 }
 
 # ---- 確認シートの対象: 確認待ち(pending)だけ。判断済みは載せない ----
-$pending = @($all | Where-Object { [string]$_.status -eq "pending" })
+# -IncludeHeld のときは保留も対象(続き物は確認待ちと保留を合わせて1行。取り込みは -AllowReconsiderHeld で照合する)
+$targetStatuses = @("pending") + $(if ($IncludeHeld) { @("held") } else { @() })
+$pending = @($all | Where-Object { [string]$_.status -in $targetStatuses })
 $decided = $all.Count - $pending.Count
 $confRank = @{ HIGH = 0; MEDIUM = 1; LOW = 2 }
 $rows = New-Object System.Collections.Generic.List[object]
@@ -187,6 +191,8 @@ function New-ReviewRow([string]$type, $items, [string]$seriesKey) {
   $confs = @($items | Group-Object { [string]$_.confidence } | Sort-Object { $confRank[$_.Name] } | ForEach-Object { if ($items.Count -eq 1) { $_.Name } else { "$($_.Name) $($_.Count)" } }) -join " / "
   $reasons = @($items | ForEach-Object { @($_.reasons) } | ForEach-Object { [string]$_ } | Where-Object { $_ } | Select-Object -Unique) -join " / "
   $sg = Get-ReviewSuggestion $type $items
+  $heldItems = @($items | Where-Object { [string]$_.status -eq "held" })
+  if ($heldItems.Count -gt 0) { $sg.suggestion = "[保留中 $($heldItems.Count) 本・前回 $([string]$heldItems[0].reviewedAt) $([string]$heldItems[0].reviewBatch)] " + $sg.suggestion }
   return [pscustomobject][ordered]@{
     rowType = $type
     "decision(approve/hold/reject)" = ""
@@ -246,7 +252,7 @@ $cnt = @{}; foreach ($r in $rows) { $cnt[$r.rowType] = 1 + [int]$cnt[$r.rowType]
 $seriesVideos = (@($rows | Where-Object rowType -eq "series") | Measure-Object videoCount -Sum).Sum
 Write-Output "確認シート: $outPath"
 foreach ($n in $plNotes) { Write-Output $n }
-Write-Output ("読んだ候補: $sourceLabel  全 $($all.Count) 件(確認待ち $($pending.Count) 件・判断済み $decided 件は載せない)")
+Write-Output ("読んだ候補: $sourceLabel  全 $($all.Count) 件(対象 $($pending.Count) 件$(if ($IncludeHeld) { "(確認待ち・保留)" } else { "(確認待ち)" })・それ以外の判断済み $decided 件は載せない)")
 Write-Output ("行: 合計 $($rows.Count) 行 = 単発 $([int]$cnt['single']) 行 / 続き物 $([int]$cnt['series']) 行(動画 $([int]$seriesVideos) 本) / 再生リスト確認 $([int]$cnt['playlist-review']) 行 / ゲーム実況でない可能性 $([int]$cnt['non-gameplay']) 行 / 分類なし $([int]$cnt['unclassified']) 行")
 $priCol = "priority(優先度・参考)"
 Write-Output ("優先度(動画の本数): " + ((@($rows | Group-Object { ([string]$_.$priCol) -replace '\(.*$', '' } | Sort-Object Name) | ForEach-Object { "$($_.Name) $(($_.Group | Measure-Object videoCount -Sum).Sum)" }) -join " / "))
