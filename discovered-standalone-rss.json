@@ -269,14 +269,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-081",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "PxILQxg8ddE",
@@ -383,14 +385,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-102",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "2KB-B3TqzpU",
@@ -1503,14 +1507,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-076",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "1fi_E-Lfqmo",
@@ -2930,14 +2936,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-086",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "W6HUaZ5cgh8",
@@ -3052,14 +3060,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-115",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "Lg3jgo6cIuY",
@@ -6714,14 +6724,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-106",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "rhzCP8zwPkw",
@@ -7102,14 +7114,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-078",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "7ikCWr3DDdk",
@@ -10195,14 +10209,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-092",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "IDTdACI1Cvg",
@@ -10252,14 +10268,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-082",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "j-0xE3EE2pw",
@@ -13403,14 +13421,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-096",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "M-LJdXxkH-Y",
@@ -15455,14 +15475,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-110",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "SRw3-oq9JOk",
@@ -15732,14 +15754,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-077",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "KbgCp2EQesw",
@@ -17831,14 +17855,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-105",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "AeG_STMpfes",
@@ -18193,14 +18219,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-085",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "7oPO_-SK_CY",
@@ -21998,14 +22026,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-101",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "hr1Ier2EbVQ",
@@ -22146,14 +22176,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-089",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "y-8p5lgHGG0",
@@ -22328,14 +22360,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-111",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "BnljtVmtLpE",
@@ -22695,14 +22729,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-112",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "lunYpkVdYEU",
@@ -22722,14 +22758,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-116",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "z9S8tElDSs4",
@@ -24452,14 +24490,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-093",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "WsqEMM2D3Qc",
@@ -24862,14 +24902,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-108",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "NBNzS2IG6WY",
@@ -25157,14 +25199,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-099",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "oVd8OJGrLDs",
@@ -26592,14 +26636,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-095",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "kf8qhri3BMI",
@@ -27633,14 +27679,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-090",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "YaVBC4HkCx4",
@@ -28843,14 +28891,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-094",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "ffiRtvdubvA",
@@ -29972,14 +30022,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-097",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "7MRq3DpM1gw",
@@ -33665,14 +33717,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-084",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "yr8qTJ7j_i4",
@@ -35467,14 +35521,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-080",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "9LYpEdSutcQ",
@@ -36009,14 +36065,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-103",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "aB2u8pGZbiI",
@@ -36666,14 +36724,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-104",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "NYAESF1LZ4c",
@@ -36907,14 +36967,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-091",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "VsOGWjqSaJU",
@@ -36994,14 +37056,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-113",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "B5Mv14_L7aA",
@@ -37323,14 +37387,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-088",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "cYCME6nl8Mw",
@@ -41674,14 +41740,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-23T08:55:25",
       "lastSeenAt": "2026-10-23T08:55:25",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-109",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "eJESKjtwIQk",
@@ -43495,14 +43563,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-114",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "csFUKp7rsww",
@@ -43640,14 +43710,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-098",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "3UgcHwhBEyU",
@@ -43667,14 +43739,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-079",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "FgxAo1_Db1Y",
@@ -45347,14 +45421,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-083",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "mHxcoFfUEzc",
@@ -45374,14 +45450,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-087",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "Mpv4L-mY2ZQ",
@@ -46233,14 +46311,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-107",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "pzFHUpbMpwU",
@@ -46385,14 +46465,16 @@
       "siteHasGamePlaylist": false,
       "playlistVideoCheck": "unverified",
       "reviewGroup": "new-standalone",
-      "status": "pending",
+      "status": "registered",
       "source": "rss",
       "firstSeenAt": "2026-10-24T08:47:12",
       "lastSeenAt": "2026-10-24T08:47:12",
       "reviewCategory": "single",
       "episodeMarker": false,
       "seriesKey": "",
-      "seriesCount": 1
+      "seriesCount": 1,
+      "registeredAs": "single-100",
+      "registeredAt": "2026-10-24T19:35:30"
     },
     {
       "videoId": "TnfEMHBQ9io",
