@@ -1454,12 +1454,20 @@ function renderTable(tbody, items, emptyMessage, rowOpts) {
  * ページ表示(#page-indicator)を使ったページネーションを初期化する。
  * これらの要素が無いページでは何もせず、渡された items をそのまま1ページとして描画する。
  *
- * renderPage(pageItems): そのページ分の items を描画するコールバック。
+ * renderPage(pageItems, start): そのページ分の items を描画するコールバック(start は全体での先頭の位置)。
  * defaultPageSize: 初期表示件数(省略時20)。
- * 戻り値: setItems(items) — 一覧の中身(検索条件やソート順が変わった時)を渡して
- *         1ページ目から描画し直す関数。
+ * options(省略可。指定したページだけ動きが増え、従来のページはそのまま):
+ *   pageNumbers: ページ番号ボタンを入れる要素(#page-numbers など)
+ *   urlParam: ページ番号を URL に残すクエリ名(例 "page")。ページを移ると履歴に積む(戻る・進むで戻れる)。
+ *             1ページ目では URL から外す。戻る・進むの復元は呼び出し側が popstate で showPage する
+ *   scrollTarget: ページを移ったときに先頭へスクロールする要素
+ * 戻り値: setItems(items, opts) — 一覧の中身(検索条件やソート順が変わった時)を渡して
+ *         1ページ目(opts.page を渡せばそのページ)から描画し直す関数。
+ *         setItems.showPage(page) で、履歴に積まずにそのページを描画する(URL からの復元用)。
+ *         setItems.pageOf(index) で、全体の index 番目が何ページ目かを返す。
  */
-function initPagination(renderPage, defaultPageSize) {
+function initPagination(renderPage, defaultPageSize, options) {
+  const opts = options || {};
   const pagesizeSelect = document.getElementById("pagesize-select");
   const pagePrev = document.getElementById("page-prev");
   const pageNext = document.getElementById("page-next");
@@ -1480,11 +1488,10 @@ function initPagination(renderPage, defaultPageSize) {
 
   function render() {
     const size = pageSize();
-    totalPages = Math.max(1, Math.ceil(items.length / size));
-    if (currentPage > totalPages) currentPage = totalPages;
-    if (currentPage < 1) currentPage = 1;
-    const start = (currentPage - 1) * size;
-    renderPage(items.slice(start, start + size));
+    const range = pageRange(items.length, currentPage, size);
+    totalPages = range.totalPages;
+    currentPage = range.page;
+    renderPage(items.slice(range.start, range.end), range.start);
     if (pageIndicator) pageIndicator.textContent = currentPage + " / " + totalPages + " ページ";
     if (pagePrev) pagePrev.disabled = currentPage <= 1;
     if (pageNext) pageNext.disabled = currentPage >= totalPages;
@@ -1492,27 +1499,108 @@ function initPagination(renderPage, defaultPageSize) {
       pageJumpInput.max = String(totalPages);
       pageJumpInput.placeholder = String(currentPage);
     }
+    if (opts.pageNumbers) renderPageNumbers(opts.pageNumbers, currentPage, totalPages, (p) => goTo(p));
+  }
+
+  // 利用者の操作でページを移る(URL に残す・先頭へスクロールする設定があればそれも行う)
+  function goTo(page) {
+    currentPage = page;
+    render();
+    if (opts.urlParam) writePageToUrl(opts.urlParam, currentPage, true);
+    if (opts.scrollTarget && opts.scrollTarget.scrollIntoView) opts.scrollTarget.scrollIntoView({ block: "start" });
   }
 
   if (pagesizeSelect) pagesizeSelect.addEventListener("change", () => { currentPage = 1; render(); });
-  if (pagePrev) pagePrev.addEventListener("click", () => { currentPage -= 1; render(); });
-  if (pageNext) pageNext.addEventListener("click", () => { currentPage += 1; render(); });
+  if (pagePrev) pagePrev.addEventListener("click", () => goTo(currentPage - 1));
+  if (pageNext) pageNext.addEventListener("click", () => goTo(currentPage + 1));
   if (pageJumpForm) {
     pageJumpForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const page = parseInt(pageJumpInput.value, 10);
       if (!page) return;
-      currentPage = Math.min(Math.max(page, 1), totalPages);
-      render();
+      goTo(Math.min(Math.max(page, 1), totalPages));
       pageJumpInput.value = "";
     });
   }
 
-  return function setItems(newItems) {
+  function setItems(newItems, setOpts) {
     items = newItems;
-    currentPage = 1;
+    currentPage = (setOpts && setOpts.page) || 1;
     render();
-  };
+  }
+  setItems.showPage = (page) => { currentPage = page || 1; render(); };
+  setItems.pageOf = (index) => Math.floor(index / pageSize()) + 1;
+  setItems.goTo = goTo;
+  return setItems;
+}
+
+/**
+ * 全 total 件を size 件ずつに分けたときの page ページ目の範囲(page は 1〜最終ページに収める)。
+ * 戻り値: { page, totalPages, start, end }(items.slice(start, end) がそのページ)
+ */
+function pageRange(total, page, size) {
+  const totalPages = Math.max(1, Math.ceil(total / size));
+  const p = Math.min(Math.max(parseInt(page, 10) || 1, 1), totalPages);
+  const start = (p - 1) * size;
+  return { page: p, totalPages: totalPages, start: start, end: Math.min(start + size, total) };
+}
+
+/**
+ * ページ番号ボタンに並べる番号。1ページ目・最終ページ・現在のページの前後 around ページを出し、
+ * 間が空く所は "…" にする(1ページだけ空く所は、その番号をそのまま出す)。
+ * 例: pageNumberItems(6, 12) → [1, "…", 4, 5, 6, 7, 8, "…", 12]
+ */
+function pageNumberItems(current, total, around) {
+  const span = around == null ? 2 : around;
+  const out = [];
+  let last = 0;
+  for (let p = 1; p <= total; p++) {
+    if (p !== 1 && p !== total && Math.abs(p - current) > span) continue;
+    if (last && p - last === 2) out.push(last + 1);
+    else if (last && p - last > 2) out.push("…");
+    out.push(p);
+    last = p;
+  }
+  return out;
+}
+
+/** ページ番号ボタン(現在のページは aria-current、1ページしか無ければ空)を container に描画する */
+function renderPageNumbers(container, current, total, onSelect) {
+  container.innerHTML = "";
+  if (total <= 1) return;
+  pageNumberItems(current, total).forEach((p) => {
+    if (p === "…") {
+      const gap = document.createElement("span");
+      gap.className = "page-gap";
+      gap.textContent = "…";
+      container.appendChild(gap);
+      return;
+    }
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "page-num";
+    btn.textContent = String(p);
+    btn.setAttribute("aria-label", p + "ページ目");
+    if (p === current) btn.setAttribute("aria-current", "page");
+    else btn.addEventListener("click", () => onSelect(p));
+    container.appendChild(btn);
+  });
+}
+
+/** URL のクエリ name からページ番号を読む(無い・不正なら 1) */
+function readPageFromUrl(name) {
+  const n = parseInt(getQueryParam(name) || "", 10);
+  return n > 0 ? n : 1;
+}
+
+/** ページ番号を URL のクエリ name に書く(1ページ目なら外す)。push なら履歴に積み、そうでなければ置き換える */
+function writePageToUrl(name, page, push) {
+  const url = new URL(window.location.href);
+  if (page > 1) url.searchParams.set(name, String(page));
+  else url.searchParams.delete(name);
+  if (url.href === window.location.href) return;
+  if (push) history.pushState(null, "", url.href);
+  else history.replaceState(null, "", url.href);
 }
 
 /**

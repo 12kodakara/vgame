@@ -17,8 +17,6 @@
   const format = document.getElementById("format-select");
   const grid = document.getElementById("single-grid");
   const count = document.getElementById("result-count");
-  const initial = getQueryParam("q") || "";
-  input.value = initial;
 
   // サムネイル(YouTube動画のサムネイル画像)は common.js の createStandaloneThumbnail(作品・VTuber詳細・検索と共通)
   function createCard(item, index) {
@@ -74,7 +72,31 @@
     return article;
   }
 
-  function render() {
+  // 24件ずつページ分けし、そのページの分だけ描画する。ページ番号は URL の ?page= に残し、戻る・進むで復元する。
+  // 遅延読み込みしないのは従来どおり一覧全体の先頭3件(1ページ目の最初の1行)だけ
+  const PAGE_SIZE = 24;
+  const pagination = document.getElementById("pagination");
+  const setItems = initPagination((pageItems, start) => {
+    grid.innerHTML = "";
+    pageItems.forEach((x, i) => grid.appendChild(createCard(x, start + i)));
+  }, PAGE_SIZE, { pageNumbers: document.getElementById("page-numbers"), urlParam: "page", scrollTarget: count });
+
+  // 検索語・形式を URL に書く(入力のたびに履歴を増やさないよう置き換える。条件が変わったら1ページ目に戻す)
+  function writeQueryToUrl() {
+    const url = new URL(window.location.href);
+    const raw = input.value.trim();
+    if (raw) url.searchParams.set("q", raw); else url.searchParams.delete("q");
+    if (format.value) url.searchParams.set("format", format.value); else url.searchParams.delete("format");
+    url.searchParams.delete("page");
+    if (url.href !== window.location.href) history.replaceState(null, "", url.href);
+  }
+  function readQueryFromUrl() {
+    input.value = getQueryParam("q") || "";
+    const f = getQueryParam("format") || "";
+    format.value = Array.from(format.options || []).some((o) => o.value === f) ? f : "";
+  }
+
+  function render(page) {
     const q = normalizeSearchText(input.value);
     const f = format.value;
     const items = (typeof STANDALONE_PLAYS === "undefined" ? [] : STANDALONE_PLAYS).filter((x) => {
@@ -86,18 +108,31 @@
     // sort は安定ソートなので、同じ追加日の中は登録順のまま。追加日の無いものは最後に回す。
     items.sort((a, b) => (b.addedDate || "").localeCompare(a.addedDate || ""));
     count.textContent = items.length + " 件";
-    grid.innerHTML = "";
+    pagination.hidden = items.length <= PAGE_SIZE;
     if (!items.length) {
+      grid.innerHTML = "";
       const empty = document.createElement("div");
       empty.className = "empty-state";
       empty.textContent = "条件に一致する実況はまだ登録されていません。";
       grid.appendChild(empty);
       return;
     }
-    items.forEach((x, i) => grid.appendChild(createCard(x, i)));
+    setItems(items, { page: page || 1 });
   }
 
-  input.addEventListener("input", debounce(render, 150));
-  format.addEventListener("change", render);
-  render();
+  // 条件が変わったときは1ページ目から(URL の page も外す)
+  function onConditionChange() {
+    writeQueryToUrl();
+    render(1);
+  }
+
+  input.addEventListener("input", debounce(onConditionChange, 150));
+  format.addEventListener("change", onConditionChange);
+  // 戻る・進む: URL の条件とページ番号から表示し直す
+  window.addEventListener("popstate", () => {
+    readQueryFromUrl();
+    render(readPageFromUrl("page"));
+  });
+  readQueryFromUrl();
+  render(readPageFromUrl("page"));
 })();

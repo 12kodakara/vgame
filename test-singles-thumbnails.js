@@ -83,7 +83,16 @@ function renderSingles(standalone, dpr) {
   vm.runInContext(read('common.js'), ctx, { filename: 'common.js' });
   vm.runInContext(read('singles.js'), ctx, { filename: 'singles.js' });
   const grid = doc.getElementById('single-grid');
-  return { doc, ctx, grid, cards: () => grid.children.filter((c) => c.tagName === 'ARTICLE') };
+  // 一覧は24件ずつのページ分け(test-games-pagination.js で確かめる)。ここでは全ページを順にめくってカードを集め、1ページ目に戻す
+  const next = doc.getElementById('page-next'), prev = doc.getElementById('page-prev');
+  const pageCards = () => grid.children.filter((c) => c.tagName === 'ARTICLE');
+  const cards = () => {
+    const all = pageCards().slice();
+    while (next && !next.disabled && pageCards().length) { next.fire('click'); all.push(...pageCards()); }
+    while (prev && !prev.disabled) prev.fire('click');
+    return all;
+  };
+  return { doc, ctx, grid, cards, pageCards };
 }
 
 // ---- データ ----

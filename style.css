@@ -822,6 +822,32 @@ main:has(#grid:empty) #pagination {
   opacity: 0.5;
 }
 
+/* ページ番号ボタン(ゲーム一覧・ゲーム名検索)。現在のページは塗りつぶし、押せない */
+.page-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pagination .page-num {
+  min-width: 2.6em;
+  padding: 7px 10px;
+}
+
+.pagination .page-num[aria-current="page"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  cursor: default;
+}
+
+.page-gap {
+  color: var(--text-dim);
+  padding: 0 2px;
+}
+
 /* ---------- Wikiテーブル ---------- */
 /* サムネイル列を含めると、事務所名・ゲーム名が長い場合などにテーブルの
    最小幅がコンテンツ幅を超えることがある。その場合にページ全体がズレて
@@ -1399,6 +1425,10 @@ main:has(#grid:empty) #pagination {
     padding: 11px 16px;
     min-height: 44px;
     font-size: 0.9rem;
+  }
+  .pagination .page-num {
+    min-width: 44px;
+    padding: 11px 8px;
   }
   .page-jump input[type="number"] {
     padding: 9px 8px;

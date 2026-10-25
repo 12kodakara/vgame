@@ -62,23 +62,62 @@
     return;
   }
 
+  // 行のゲームを1列に並べ、24件ずつページ分けする(そのページの分だけ描画する)。
+  // ページ番号は URL の ?page= に残し、戻る・進むで復元する
+  const PAGE_SIZE = 24;
+  const entries = [];
+  const firstIndexOfGroup = {};
   groups.forEach((group) => {
-    const section = document.createElement("div");
-    section.className = "section-box";
-    section.id = "kana-" + group.row;
-
-    const h2 = document.createElement("h2");
-    h2.textContent = group.row;
-    section.appendChild(h2);
-
-    const ul = document.createElement("ul");
-    ul.className = "index-list";
-    group.names.forEach((name) => {
-      const count = listingCountOfGame(name);
-      ul.appendChild(createCountIndexItem(gameUrl(name), gameDisplayName(name), count));
-    });
-    section.appendChild(ul);
-
-    container.appendChild(section);
+    firstIndexOfGroup[group.row] = entries.length;
+    group.names.forEach((name, i) => entries.push({ group: group.row, name: name, continued: i > 0 }));
   });
+
+  const listEl = document.createElement("div");
+  container.appendChild(listEl);
+
+  // そのページの分を、かな(小見出し)ごとにまとめて描画する。前のページから続くかなは「(続き)」を付ける
+  const setItems = initPagination((pageItems) => {
+    listEl.innerHTML = "";
+    let section = null, ul = null, current = null;
+    pageItems.forEach((entry, i) => {
+      if (entry.group !== current) {
+        current = entry.group;
+        section = document.createElement("div");
+        section.className = "section-box";
+        const startsHere = !(i === 0 && entry.continued);
+        if (startsHere) section.id = "kana-" + entry.group;
+        const h2 = document.createElement("h2");
+        h2.textContent = entry.group + (startsHere ? "" : "(続き)");
+        section.appendChild(h2);
+        ul = document.createElement("ul");
+        ul.className = "index-list";
+        section.appendChild(ul);
+        listEl.appendChild(section);
+      }
+      ul.appendChild(createCountIndexItem(gameUrl(entry.name), gameDisplayName(entry.name), listingCountOfGame(entry.name)));
+    });
+  }, PAGE_SIZE, { pageNumbers: document.getElementById("page-numbers"), urlParam: "page", scrollTarget: subNav });
+
+  // 小見出しのリンク: そのかなの先頭があるページへ移ってから、その見出しへスクロールする
+  subNav.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const row = a.getAttribute("href").slice("#kana-".length);
+      setItems.goTo(setItems.pageOf(firstIndexOfGroup[row]));
+      const target = document.getElementById("kana-" + row);
+      if (target) target.scrollIntoView({ block: "start" });
+    });
+  });
+
+  // 初期表示: URL の ?page=、無ければ #kana-◯ のかながあるページ
+  const hashRow = decodeURIComponent((window.location.hash || "").replace(/^#kana-/, ""));
+  const initialPage = getQueryParam("page") ? readPageFromUrl("page")
+    : (hashRow && firstIndexOfGroup[hashRow] != null ? setItems.pageOf(firstIndexOfGroup[hashRow]) : 1);
+  document.getElementById("pagination").hidden = entries.length <= PAGE_SIZE;
+  setItems(entries, { page: initialPage });
+  if (hashRow && !getQueryParam("page")) {
+    const target = document.getElementById("kana-" + hashRow);
+    if (target) target.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("popstate", () => setItems.showPage(readPageFromUrl("page")));
 })();
