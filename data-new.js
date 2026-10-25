@@ -135,7 +135,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
    "videoCount": 38,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-24"
+   "updatedDate": "2026-10-25"
   },
   {
    "id": "gap973",
