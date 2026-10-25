@@ -1871,11 +1871,55 @@ function attachSearchSuggest(input) {
   let activeIndex = -1;
   let debounceTimer = null;
 
+  // 入力欄の直下に置く。見えている範囲は visualViewport(iPhone Safari でキーボードが出ると、ページを動かさずに
+  // 表示範囲だけがずれる)で求める。入力欄が見えている範囲の外に出たら false(古い位置に残さず閉じる)。
+  // キーボード表示中などで下の余白が狭いときは、はみ出さない高さに抑える(CSS の上限 340px はそのまま)
   function positionList() {
     const rect = input.getBoundingClientRect();
+    const vv = window.visualViewport;
+    const viewTop = vv ? vv.offsetTop : 0;
+    const viewBottom = vv ? vv.offsetTop + vv.height : window.innerHeight;
+    if (rect.bottom < viewTop || rect.top > viewBottom) return false;
+    const top = rect.bottom + 4;
     list.style.left = rect.left + "px";
-    list.style.top = rect.bottom + 4 + "px";
+    list.style.top = top + "px";
     list.style.width = rect.width + "px";
+    const room = Math.floor(viewBottom - top - 8);
+    list.style.maxHeight = room < 340 ? Math.max(room, 120) + "px" : "";
+    return true;
+  }
+
+  // 候補を表示している間だけ、スクロール・画面サイズ・visualViewport の変化で位置を計算し直す
+  // (表示していない間はリスナーを外す。同じ関数・同じ設定で外すので、重複登録や外し漏れがない)
+  let tracking = false;
+  let repositionFrame = 0;
+  function scheduleReposition() {
+    if (repositionFrame) return;
+    repositionFrame = requestAnimationFrame(() => {
+      repositionFrame = 0;
+      if (!list.hidden && !positionList()) closeList();
+    });
+  }
+  function startTracking() {
+    if (tracking) return;
+    tracking = true;
+    window.addEventListener("scroll", scheduleReposition, { passive: true, capture: true });
+    window.addEventListener("resize", scheduleReposition);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", scheduleReposition);
+      window.visualViewport.addEventListener("scroll", scheduleReposition);
+    }
+  }
+  function stopTracking() {
+    if (!tracking) return;
+    tracking = false;
+    window.removeEventListener("scroll", scheduleReposition, { capture: true });
+    window.removeEventListener("resize", scheduleReposition);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener("resize", scheduleReposition);
+      window.visualViewport.removeEventListener("scroll", scheduleReposition);
+    }
+    if (repositionFrame) { cancelAnimationFrame(repositionFrame); repositionFrame = 0; }
   }
 
   function closeList() {
@@ -1883,6 +1927,7 @@ function attachSearchSuggest(input) {
     list.innerHTML = "";
     currentItems = [];
     activeIndex = -1;
+    stopTracking();
   }
 
   function updateActive() {
@@ -1954,8 +1999,12 @@ function attachSearchSuggest(input) {
       list.appendChild(footer);
     }
 
-    positionList();
+    if (!positionList()) {
+      closeList();
+      return;
+    }
     list.hidden = false;
+    startTracking();
   }
 
   function showRecentSearches() {
@@ -2029,9 +2078,6 @@ function attachSearchSuggest(input) {
   input.addEventListener("blur", () => {
     setTimeout(closeList, 100);
   });
-
-  window.addEventListener("scroll", closeList, { passive: true, capture: true });
-  window.addEventListener("resize", closeList);
 }
 
 /**
