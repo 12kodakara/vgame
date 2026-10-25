@@ -1529,7 +1529,7 @@ main:has(#grid:empty) #pagination {
 .agency-tile-count{font-size:.78rem;color:var(--text-dim)}
 
 /* ---------- 検索サジェスト(入力候補ドロップダウン) ---------- */
-.search-suggest-list{position:fixed;z-index:1000;margin:0;padding:4px;list-style:none;background:var(--content-bg);border:1px solid var(--border-strong);border-radius:4px;box-shadow:0 6px 18px rgba(0,0,0,.14);max-height:340px;overflow-y:auto}
+.search-suggest-list{position:absolute;z-index:1000;margin:0;padding:4px;list-style:none;background:var(--content-bg);border:1px solid var(--border-strong);border-radius:4px;box-shadow:0 6px 18px rgba(0,0,0,.14);max-height:340px;overflow-y:auto}
 .search-suggest-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:3px;cursor:pointer}
 .search-suggest-item:hover,.search-suggest-item.active{background:var(--row-hover)}
 .search-suggest-badge{flex:0 0 auto;font-size:.66rem;font-weight:700;padding:2px 7px;border-radius:3px;color:#fff;white-space:nowrap}

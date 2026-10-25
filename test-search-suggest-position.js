@@ -9,6 +9,7 @@
  *   4. 入力欄が見えている範囲の外に出たら、古い位置に残さず閉じる
  *   5. リスナーは表示中だけ登録し、閉じたら外す(何度開閉しても重複しない)
  *   6. 候補の選択(↓・Enter)、Esc で閉じる操作は従来どおり
+ *   9. 候補は position:absolute でページ座標に置く: スクロール済みのページでも、画面上の位置 + スクロール量で入力欄の直下になる
  *   8. 検索履歴は廃止: 以前の履歴を削除し、空の検索欄では候補を出さず、タップ・Enter・送信でも保存しない
  * 失敗が1件でもあれば終了コード1。
  */
@@ -66,7 +67,7 @@ function setup(width, savedStorage) {
     location: { search: '', href: 'https://vgame-navi.jp/', pathname: '/', hash: '' }, history: { replaceState() {}, pushState() {} },
     setTimeout: (f) => { timers.push(f); return timers.length; }, clearTimeout() {},
     requestAnimationFrame: (f) => { frames.push(f); return frames.length; }, cancelAnimationFrame: (id) => { frames[id - 1] = null; },
-    matchMedia: () => ({ matches: false, addEventListener() {} }), innerWidth: width, innerHeight: 800, visualViewport: vv,
+    matchMedia: () => ({ matches: false, addEventListener() {} }), innerWidth: width, innerHeight: 800, visualViewport: vv, scrollX: 0, scrollY: 0,
   };
   ctx.window = ctx;
   ctx.addEventListener = win.addEventListener; ctx.removeEventListener = win.removeEventListener;
@@ -132,6 +133,33 @@ for (const [label, width] of [['PC', 1366], ['スマホ', 390]]) {
   delete s.ctx.visualViewport;
   s.type('マイ');
   check('7. visualViewport が無くても、innerHeight で見えている範囲を求めて表示する', !s.list.hidden && s.list.style.top === '140px' && s.win.count('scroll') === 1);
+}
+
+// ---- 9. ページ座標(position:absolute)での配置 ----
+// 候補は body 直下の absolute 要素なので、画面上の位置(getBoundingClientRect)にスクロール量を足したページ座標に置く
+for (const [label, width] of [['PC', 1366], ['スマホ', 390]]) {
+  const s = setup(width);
+  s.ctx.scrollX = 0; s.ctx.scrollY = 500;
+  s.type('マイ');
+  check('9a. [' + label + '] スクロール済みのページでも、入力欄の直下(画面上の下端+4px+スクロール量)に表示する', !s.list.hidden && s.list.style.top === (136 + 4 + 500) + 'px' && s.list.style.left === '20px' && s.list.style.maxHeight === '');
+  // スクロールで入力欄が画面上で上へ動いても、ページ上の位置は同じ
+  s.input.rect = Object.assign({}, s.input.rect, { top: 40, bottom: 76 }); s.ctx.scrollY = 560;
+  s.win.fire('scroll'); s.flushFrames();
+  check('9b. [' + label + '] スクロール後も、入力欄の直下のページ座標に追従する', !s.list.hidden && s.list.style.top === (76 + 4 + 560) + 'px');
+  // iPhone Safari: キーボード表示でページのスクロールと表示範囲のずれが同時に起きる
+  s.input.rect = Object.assign({}, s.input.rect, { top: 300, bottom: 336 }); s.ctx.scrollY = 300;
+  Object.assign(s.vv, { offsetTop: 250, height: 330 });
+  s.vv.fire('resize'); s.flushFrames();
+  check('9c. [' + label + '] キーボード表示中も入力欄の直下(重ならない)に置き、高さは見えている範囲に収める', !s.list.hidden && s.list.style.top === (336 + 4 + 300) + 'px' && s.list.style.maxHeight === Math.max(Math.floor(250 + 330 - 340 - 8), 120) + 'px');
+  // 横スクロールがあるときは横方向も足す
+  s.ctx.scrollX = 15; Object.assign(s.vv, { offsetTop: 0, height: 800 });
+  s.win.fire('resize'); s.flushFrames();
+  check('9d. [' + label + '] 横スクロール量も左位置に足す', s.list.style.left === (20 + 15) + 'px');
+  // 候補のタップで移動して閉じる
+  s.ctx.location.href = '';
+  items(s.list)[0].fire('mousedown');
+  const went = s.ctx.location.href;
+  check('9e. [' + label + '] スクロール済みのページでも、候補のタップで移動して閉じる', /game\.html\?game=|streamer\.html\?streamer=/.test(went) && s.list.hidden && s.win.count('scroll') === 0);
 }
 
 // ---- 8. 検索履歴の廃止 ----

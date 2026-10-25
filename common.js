@@ -1843,6 +1843,8 @@ function attachSearchSuggest(input) {
   // 入力欄の直下に置く。見えている範囲は visualViewport(iPhone Safari でキーボードが出ると、ページを動かさずに
   // 表示範囲だけがずれる)で求める。入力欄が見えている範囲の外に出たら false(古い位置に残さず閉じる)。
   // キーボード表示中などで下の余白が狭いときは、はみ出さない高さに抑える(CSS の上限 340px はそのまま)
+  // 候補は position:absolute でページ座標(画面上の位置 + スクロール量)に置く。fixed だとキーボード表示中の
+  // Safari で基準がずれて入力欄に重なることがあるため、入力欄と同じページの座標系で一緒に動かす
   function positionList() {
     const rect = input.getBoundingClientRect();
     const vv = window.visualViewport;
@@ -1850,8 +1852,8 @@ function attachSearchSuggest(input) {
     const viewBottom = vv ? vv.offsetTop + vv.height : window.innerHeight;
     if (rect.bottom < viewTop || rect.top > viewBottom) return false;
     const top = rect.bottom + 4;
-    list.style.left = rect.left + "px";
-    list.style.top = top + "px";
+    list.style.left = (rect.left + (window.scrollX || 0)) + "px";
+    list.style.top = (top + (window.scrollY || 0)) + "px";
     list.style.width = rect.width + "px";
     const room = Math.floor(viewBottom - top - 8);
     list.style.maxHeight = room < 340 ? Math.max(room, 120) + "px" : "";
