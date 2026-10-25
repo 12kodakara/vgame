@@ -6,7 +6,7 @@
 const HOME_SUMMARY = {
   "version": 3,
   "playlistCount": 6756,
-  "gameCount": 940,
+  "gameCount": 941,
   "streamerCount": 274,
   "topGames": [
     {

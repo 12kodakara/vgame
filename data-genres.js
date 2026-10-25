@@ -229,11 +229,6 @@ const GENRE_PAGES = {
      4
     ],
     [
-     "つぐのひ",
-     4,
-     4
-    ],
-    [
      "メグとばけもの",
      4,
      4
@@ -260,6 +255,11 @@ const GENRE_PAGES = {
     ],
     [
      "Little Nightmares III",
+     3,
+     3
+    ],
+    [
+     "つぐのひ",
      3,
      3
     ],
@@ -320,6 +320,11 @@ const GENRE_PAGES = {
     ],
     [
      "The Outlast Trials",
+     2,
+     2
+    ],
+    [
+     "つぐのひシリーズ",
      2,
      2
     ],
@@ -470,11 +475,6 @@ const GENRE_PAGES = {
     ],
     [
      "inside the backrooms",
-     1,
-     1
-    ],
-    [
-     "つぐのひシリーズ",
      1,
      1
     ],
