@@ -337,7 +337,6 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const term = input.value.trim();
-    if (term) addRecentSearch(term);
     history.replaceState(null, "", "search.html?q=" + encodeURIComponent(term));
     render();
   });

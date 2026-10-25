@@ -984,38 +984,11 @@ function initFavoriteButton(button, type, entry) {
 }
 
 /**
- * ============================================================
- * 最近の検索語(localStorageのみ、個人情報は保存しない)
- * ============================================================
- * 検索ボックスで実際に検索を実行した語句だけを最大5件、新しい順で保存する。
- * 入力途中の文字列は保存しない(送信・候補選択のタイミングでのみ記録)。
+ * 検索履歴(以前の「最近の検索語」)は廃止した。以前の版が端末に保存した履歴は、読み込んだときに削除する
+ * (以後は保存しないので、削除されるのは最初の1回だけ。保存できない環境では何もしない)。
  */
-const RECENT_SEARCHES_KEY = "vgame_recent_searches_v1";
-const RECENT_SEARCHES_LIMIT = 5;
-
-function getRecentSearches() {
-  const raw = safeStorageGet(RECENT_SEARCHES_KEY);
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function addRecentSearch(term) {
-  const value = String(term == null ? "" : term).trim();
-  if (!value) return;
-  const normalized = normalizeSearchText(value);
-  const filtered = getRecentSearches().filter((x) => normalizeSearchText(x) !== normalized);
-  filtered.unshift(value);
-  safeStorageSet(RECENT_SEARCHES_KEY, JSON.stringify(filtered.slice(0, RECENT_SEARCHES_LIMIT)));
-}
-
-function clearRecentSearches() {
-  safeStorageSet(RECENT_SEARCHES_KEY, JSON.stringify([]));
-}
+const LEGACY_RECENT_SEARCHES_KEY = "vgame_recent_searches_v1";
+try { window.localStorage.removeItem(LEGACY_RECENT_SEARCHES_KEY); } catch (e) { /* 保存できない環境では何もしない */ }
 
 /** サムネイルもVTuberアイコンも無い/失敗した場合の、実況者名の頭文字プレースホルダー。 */
 function createThumbnailPlaceholder(streamerName, placeholderClass) {
@@ -1756,7 +1729,6 @@ function initMobileMenu() {
  */
 function wikiSearchSubmit(form) {
   const q = form.q.value.trim();
-  if (q) addRecentSearch(q);
   window.location.href = "search.html" + (q ? "?q=" + encodeURIComponent(q) : "");
   return false;
 }
@@ -1772,7 +1744,7 @@ function wikiSearchSubmit(form) {
  * 横断検索の動作(wikiSearchSubmit / search.js の submit ハンドラ)はそのまま維持し、
  * 候補を選ばず送信した場合は従来通り動作する。
  */
-const SEARCH_SUGGEST_TYPE_LABELS = { game: "ゲーム", streamer: "VTuber", playlist: "再生リスト", recent: "履歴" };
+const SEARCH_SUGGEST_TYPE_LABELS = { game: "ゲーム", streamer: "VTuber", playlist: "再生リスト" };
 
 let _searchSuggestPlaylistIndexCache = null;
 /** PLAYLISTS の title を正規化した索引を(初回利用時に)作って使い回す。件数が多いため。 */
@@ -1849,9 +1821,6 @@ function searchSuggestGoTo(item) {
     window.location.href = streamerUrl(item.key);
   } else if (item.type === "playlist") {
     window.open(playlistUrl(item.playlist), "_blank", "noopener");
-  } else if (item.type === "recent") {
-    addRecentSearch(item.key);
-    window.location.href = "search.html?q=" + encodeURIComponent(item.key);
   }
 }
 
@@ -1936,7 +1905,7 @@ function attachSearchSuggest(input) {
     });
   }
 
-  function showList(items, opts) {
+  function showList(items) {
     currentItems = items;
     activeIndex = -1;
     list.innerHTML = "";
@@ -1974,7 +1943,6 @@ function attachSearchSuggest(input) {
 
       li.addEventListener("mousedown", (e) => {
         e.preventDefault();
-        if (item.type !== "recent" && input.value.trim()) addRecentSearch(input.value);
         searchSuggestGoTo(item);
         closeList();
       });
@@ -1982,40 +1950,12 @@ function attachSearchSuggest(input) {
       list.appendChild(li);
     });
 
-    if (opts && opts.onClear) {
-      const footer = document.createElement("li");
-      footer.className = "search-suggest-item search-suggest-item--footer";
-      footer.setAttribute("role", "none");
-      const clearBtn = document.createElement("button");
-      clearBtn.type = "button";
-      clearBtn.className = "search-suggest-clear";
-      clearBtn.textContent = "検索履歴を削除";
-      clearBtn.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-        opts.onClear();
-        closeList();
-      });
-      footer.appendChild(clearBtn);
-      list.appendChild(footer);
-    }
-
     if (!positionList()) {
       closeList();
       return;
     }
     list.hidden = false;
     startTracking();
-  }
-
-  function showRecentSearches() {
-    const recent = getRecentSearches();
-    if (!recent.length) {
-      closeList();
-      return;
-    }
-    showList(recent.map((term) => ({ type: "recent", label: term, key: term })), {
-      onClear: () => { clearRecentSearches(); },
-    });
   }
 
   // 再生リストを遅延読み込みするページ(トップページ)では、検索欄を操作した時点で
@@ -2038,18 +1978,15 @@ function attachSearchSuggest(input) {
       if (value.trim()) {
         showList(buildSearchSuggestions(value, 8));
       } else {
-        showRecentSearches();
+        closeList();
       }
     }, 120);
   });
 
+  // 空の検索欄では候補を出さない(入力し始めてから出す)
   input.addEventListener("focus", () => {
     ensurePlaylistsForSuggest();
-    if (input.value.trim()) {
-      showList(buildSearchSuggestions(input.value, 8));
-    } else {
-      showRecentSearches();
-    }
+    if (input.value.trim()) showList(buildSearchSuggestions(input.value, 8));
   });
 
   input.addEventListener("keydown", (e) => {
@@ -2066,7 +2003,6 @@ function attachSearchSuggest(input) {
       if (activeIndex >= 0) {
         e.preventDefault();
         const item = currentItems[activeIndex];
-        if (item.type !== "recent" && input.value.trim()) addRecentSearch(input.value);
         searchSuggestGoTo(item);
         closeList();
       }

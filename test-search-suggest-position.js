@@ -9,6 +9,7 @@
  *   4. 入力欄が見えている範囲の外に出たら、古い位置に残さず閉じる
  *   5. リスナーは表示中だけ登録し、閉じたら外す(何度開閉しても重複しない)
  *   6. 候補の選択(↓・Enter)、Esc で閉じる操作は従来どおり
+ *   8. 検索履歴は廃止: 以前の履歴を削除し、空の検索欄では候補を出さず、タップ・Enter・送信でも保存しない
  * 失敗が1件でもあれば終了コード1。
  */
 'use strict';
@@ -50,7 +51,7 @@ function makeTarget() {
 }
 
 // width: 画面幅(PC 1366 / スマホ 390)。入力欄の位置は input.rect を書き換えて再現する
-function setup(width) {
+function setup(width, savedStorage) {
   const doc = { body: new El('body'), head: new El('head'), listeners: {}, readyState: 'loading', activeElement: null };
   doc.createElement = (t) => new El(t); doc.createDocumentFragment = () => new El('#fragment');
   doc.getElementById = () => null; doc.querySelector = () => null; doc.querySelectorAll = () => [];
@@ -59,7 +60,7 @@ function setup(width) {
   const vv = Object.assign(makeTarget(), { offsetTop: 0, height: 800, width });
   const frames = [];
   const timers = [];
-  const storage = { data: {}, getItem(k) { return this.data[k] || null; }, setItem(k, v) { this.data[k] = String(v); }, removeItem(k) { delete this.data[k]; } };
+  const storage = { data: Object.assign({}, savedStorage || {}), getItem(k) { return this.data[k] || null; }, setItem(k, v) { this.data[k] = String(v); }, removeItem(k) { delete this.data[k]; } };
   const ctx = {
     console, document: doc, localStorage: storage, sessionStorage: storage, navigator: { userAgent: 'node' }, URLSearchParams, URL, encodeURIComponent, decodeURIComponent,
     location: { search: '', href: 'https://vgame-navi.jp/', pathname: '/', hash: '' }, history: { replaceState() {}, pushState() {} },
@@ -79,7 +80,7 @@ function setup(width) {
   const flushTimers = () => { while (timers.length) timers.shift()(); };
   const flushFrames = () => { while (frames.length) { const f = frames.shift(); if (f) f(); } };
   const type = (v) => { input.value = v; doc.activeElement = input; input.fire('input'); flushTimers(); };
-  return { ctx, doc, win, vv, input, list, type, flushFrames, flushTimers };
+  return { ctx, doc, win, vv, input, list, type, flushFrames, flushTimers, storage };
 }
 const items = (list) => list.children.filter((c) => /search-suggest-item(?!--footer)/.test(c.className) && !/footer/.test(c.className));
 
@@ -131,6 +132,30 @@ for (const [label, width] of [['PC', 1366], ['スマホ', 390]]) {
   delete s.ctx.visualViewport;
   s.type('マイ');
   check('7. visualViewport が無くても、innerHeight で見えている範囲を求めて表示する', !s.list.hidden && s.list.style.top === '140px' && s.win.count('scroll') === 1);
+}
+
+// ---- 8. 検索履歴の廃止 ----
+{
+  const OLD = 'vgame_recent_searches_v1';
+  const s = setup(390, { [OLD]: JSON.stringify(['マイクラ', 'APEX']), vgame_recently_viewed_v1: '{"game":[],"streamer":[],"playlist":[]}' });
+  check('8a. 以前の版が保存した検索履歴は読み込み時に削除し、「最近見た」の保存は残す', !(OLD in s.storage.data) && 'vgame_recently_viewed_v1' in s.storage.data);
+  s.doc.activeElement = s.input; s.input.fire('focus');
+  check('8b. 空の検索欄をタップ(focus)しても候補を出さない(リスナーも登録しない)', s.list.hidden && items(s.list).length === 0 && s.win.count('scroll') === 0);
+  s.type('マイ');
+  const shown = items(s.list);
+  check('8c. 検索語を入力すると、ゲーム・VTuber の候補を出す(「履歴」の候補・「検索履歴を削除」は出ない)', !s.list.hidden && shown.length > 0 && !s.list.textContent.includes('履歴'));
+  s.type('');
+  check('8d. 入力を消すと候補を閉じる(履歴を出さない)', s.list.hidden && s.win.count('scroll') === 0);
+  // 候補のタップ(mousedown)・Enter で移動しても、送信しても、検索語は保存しない
+  s.type('マイ');
+  const before = JSON.stringify(s.storage.data);
+  items(s.list)[0].fire('mousedown');
+  const tapped = s.ctx.location.href;
+  s.type('マイ'); s.input.fire('keydown', { key: 'ArrowDown' }); s.input.fire('keydown', { key: 'Enter' });
+  const entered = s.ctx.location.href;
+  vm.runInContext('wikiSearchSubmit', s.ctx)({ q: { value: 'マイクラ' } });
+  check('8e. 候補のタップ・Enter で移動し、サイドバー検索の送信で検索結果へ移る。どれも検索語を保存しない', /game\.html\?game=|streamer\.html\?streamer=/.test(tapped) && /game\.html\?game=|streamer\.html\?streamer=/.test(entered) && s.ctx.location.href === 'search.html?q=' + encodeURIComponent('マイクラ') && JSON.stringify(s.storage.data) === before && !(OLD in s.storage.data));
+  check('8f. 検索履歴の関数は無く、search.js も検索語を保存しない', vm.runInContext('typeof addRecentSearch === "undefined" && typeof getRecentSearches === "undefined" && typeof clearRecentSearches === "undefined"', s.ctx) && !/RecentSearch|recent_searches/.test(read('search.js')));
 }
 
 console.log('\nPASS: ' + pass + '  FAIL: ' + fail);
