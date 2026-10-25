@@ -1,5 +1,5 @@
 /**
- * 人気ランキング・新着ページ軽量化(data-ranking.js / data-new.js)の回帰テスト。ブラウザ不要(node test-list-data.js)。
+ * 人気ランキング・新着ページ軽量化(data-ranking.js / data-new.js)の回帰テスト。ブラウザ不要(node tests/test-list-data.js)。
  *
  *   1. data-ranking.js / data-new.js が data-playlists.js から生成した最新の内容と一致する(鮮度)
  *   2. ランキング上位50件が、全再生リストから人気順に並べた結果と一致する(順位・並び順・レコード)
@@ -16,7 +16,7 @@ const path = require('path');
 const vm = require('vm');
 const { execFileSync } = require('child_process');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

@@ -1,5 +1,5 @@
 /**
- * canonical / sitemap の整合性の回帰テスト。ブラウザ不要(node test-seo-canonical.js)。
+ * canonical / sitemap の整合性の回帰テスト。ブラウザ不要(node tests/test-seo-canonical.js)。
  *
  *   1. クエリで対象が決まるページ(game.html / streamer.html / games-row.html)の元のHTMLには
  *      canonical・og:url を書かない。JS(setPageMeta)が唯一の canonical として自分自身のURLを挿入する
@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

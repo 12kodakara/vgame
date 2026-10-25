@@ -1,5 +1,5 @@
 /**
- * ゲーム一覧(games-row.html)・ゲーム名検索(games.html)の24件ずつのページ分けの回帰テスト。ブラウザ不要(node test-games-pagination.js)。
+ * ゲーム一覧(games-row.html)・ゲーム名検索(games.html)の24件ずつのページ分けの回帰テスト。ブラウザ不要(node tests/test-games-pagination.js)。
  *
  * games-row.js / games.js を最小限の DOM の上で実際に動かし、次を確かめる。
  *   1. ページ分けの計算(pageRange・pageNumberItems)
@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

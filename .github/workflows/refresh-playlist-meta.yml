@@ -106,10 +106,10 @@ jobs:
           node generate-detail-data.js
           node generate-list-data.js
           node generate-genre-data.js
-          node test-home-data.js
-          node test-detail-data.js
-          node test-list-data.js
-          node test-genre-page.js
+          node tests/test-home-data.js
+          node tests/test-detail-data.js
+          node tests/test-list-data.js
+          node tests/test-genre-page.js
 
       - name: 差分があれば commit して push
         if: steps.diff.outputs.changed == 'true'

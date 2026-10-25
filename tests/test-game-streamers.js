@@ -1,5 +1,5 @@
 /**
- * ゲーム詳細「このゲームを実況しているVTuber」全件リンク化の回帰テスト。ブラウザ不要(node test-game-streamers.js)。
+ * ゲーム詳細「このゲームを実況しているVTuber」全件リンク化の回帰テスト。ブラウザ不要(node tests/test-game-streamers.js)。
  *
  * game.js の描画処理を最小限の DOM の上で全ゲームについて実際に動かし、次を確かめる。
  *   1. 実況しているVTuberが全員、通常の <a href> として描画時に DOM に入る(クリック後に生成しない)
@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {
@@ -274,7 +274,7 @@ check('6j. 公開(kirby): 旧ページに「作品別に探す: 星のカービ�
   !!kirbyHubLink && kirbyHubLink.href === 'series.html?series=kirby' && metaText(kirbyHubPub) === '作品別に探す: 星のカービィシリーズのVTuber実況(作品別一覧)'
   && kirbyHubPub.doc.title === kirbyHub.doc.title && kirbyHubPub.doc.getElementById('page-title').textContent === 'カービィ(複数作品まとめ)', kirbyHubLink && metaText(kirbyHubPub));
 // 公開判定(series-publish.js)の内部リンク対象と、ゲーム詳細の判定が一致する
-const { getSeriesPublication } = require('./series-publish.js');
+const { getSeriesPublication } = require('../series-publish.js');
 const os = require('os');
 const fx = path.join(os.tmpdir(), 'vgame-series-links-' + process.pid + '.js');
 fs.writeFileSync(fx, 'const SERIES_PAGES = ' + JSON.stringify(pk) + ';');

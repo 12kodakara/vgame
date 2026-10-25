@@ -14,7 +14,7 @@
 #>
 param()
 $ErrorActionPreference = "Stop"
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 . (Join-Path $scriptDir "standalone-matching.ps1")
 
 $script:pass = 0; $script:fail = 0

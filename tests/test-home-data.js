@@ -1,5 +1,5 @@
 /**
- * トップページ軽量化(data-home.js)の回帰テスト。ブラウザ不要(node test-home-data.js)。
+ * トップページ軽量化(data-home.js)の回帰テスト。ブラウザ不要(node tests/test-home-data.js)。
  *
  *   1. data-home.js が data-playlists.js から生成した最新の内容と一致する(鮮度)
  *   2. HOME_SUMMARY の件数・並び順が全再生リストから求めた値と整合する
@@ -16,7 +16,7 @@ const path = require('path');
 const vm = require('vm');
 const { execFileSync } = require('child_process');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

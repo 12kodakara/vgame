@@ -13,7 +13,7 @@
 #>
 param()
 $ErrorActionPreference = "Stop"
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 . (Join-Path $scriptDir "standalone-matching.ps1")
 
 # ---- 本番の GAMES を読む(1ゲーム1行の書式) ----
@@ -138,7 +138,7 @@ $m = M "【GeoGuessr】場所当て" "" @{ dedicatedPlaylists = $dedNone }
 Check "10b. 専用PLなし(0件)なら HIGH のまま(空配列を1件と数えない)" ($m.confidence -eq "HIGH" -and $m.dedicatedPlaylists.Count -eq 0) (Show $m)
 $m = M "【GeoGuessr】場所当て" "" @{ dedicatedPlaylists = $dedHit }
 Check "10b. ゲーム名入りのチャンネルPLがあれば MEDIUM" ($m.confidence -eq "MEDIUM" -and $m.dedicatedPlaylists.Count -eq 1 -and $m.dedicatedPlaylists[0].id -eq "PLx") (Show $m)
-$disc = [IO.File]::ReadAllText((Join-Path $PSScriptRoot "discover-standalone.ps1"), [Text.Encoding]::UTF8)
+$disc = [IO.File]::ReadAllText((Join-Path $scriptDir "discover-standalone.ps1"), [Text.Encoding]::UTF8)
 Check "10b. discover はクロージャ内で関数参照経由で専用PL判定を呼ぶ" ($disc.Contains('${function:Get-StandaloneDedicatedPlaylists}') -and $disc.Contains('New-StandaloneGameIndex $games $allStreamerNames'))
 
 # ---- 11. 重複除外(STANDALONE_PLAYS・再生リスト) ----

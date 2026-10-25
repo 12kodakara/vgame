@@ -5,7 +5,7 @@
     .\test-standalone-followups-cache.ps1
 #>
 $ErrorActionPreference = "Stop"
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 . (Join-Path $scriptDir "standalone-matching.ps1")
 . (Join-Path $scriptDir "standalone-followups.ps1")
 

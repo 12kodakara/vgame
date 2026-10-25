@@ -6,7 +6,7 @@
   node が必要(データの読み込み・書き換え後の検証に使うため)。
 #>
 $ErrorActionPreference = 'Stop'
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 . (Join-Path $scriptDir 'standalone-matching.ps1')
 . (Join-Path $scriptDir 'standalone-followups.ps1')
 . (Join-Path $scriptDir 'standalone-migration-approval.ps1')

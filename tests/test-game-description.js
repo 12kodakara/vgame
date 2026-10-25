@@ -1,5 +1,5 @@
 /**
- * ゲーム詳細の meta description(buildGameDescription)の回帰テスト。ブラウザ不要(node test-game-description.js)。
+ * ゲーム詳細の meta description(buildGameDescription)の回帰テスト。ブラウザ不要(node tests/test-game-description.js)。
  *
  *   1. 全ゲームで生成でき、正規ゲーム名で始まる。完全一致の重複が無い
  *   2. 挙げる VTuber は再生リスト件数 → 動画本数 → 最終更新日 → 名前(文字コード順)で決まり、実行ごとに変わらない
@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

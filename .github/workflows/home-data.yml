@@ -51,10 +51,10 @@ jobs:
 
       - name: 回帰テスト
         run: |
-          node test-home-data.js
-          node test-detail-data.js
-          node test-list-data.js
-          node test-genre-page.js
+          node tests/test-home-data.js
+          node tests/test-detail-data.js
+          node tests/test-list-data.js
+          node tests/test-genre-page.js
 
       - name: 差分を検査
         id: diff

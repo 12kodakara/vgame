@@ -6,7 +6,7 @@
     .\test-standalone-migration-derived.ps1
 #>
 $ErrorActionPreference = 'Stop'
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 . (Join-Path $scriptDir 'standalone-matching.ps1')
 . (Join-Path $scriptDir 'standalone-followups.ps1')
 . (Join-Path $scriptDir 'standalone-migration-approval.ps1')

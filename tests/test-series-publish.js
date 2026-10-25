@@ -17,9 +17,9 @@ const os = require('os');
 const path = require('path');
 const vm = require('vm');
 const { execFileSync } = require('child_process');
-const { getSeriesPublication, seriesUrlPath } = require('./series-publish.js');
+const { getSeriesPublication, seriesUrlPath } = require('../series-publish.js');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {
   if (ok) { pass++; console.log('  [PASS] ' + name); } else { fail++; console.log('  [FAIL] ' + name + (detail ? '\n         ' + String(detail).slice(0, 400) : '')); }

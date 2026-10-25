@@ -1,5 +1,5 @@
 /**
- * ゲームシリーズページ(series.html。LOCAL PoC・未公開)の回帰テスト。ブラウザ不要(node test-series-page.js)。
+ * ゲームシリーズページ(series.html。LOCAL PoC・未公開)の回帰テスト。ブラウザ不要(node tests/test-series-page.js)。
  *
  *   1. data-series.js の定義が GAMES と整合する(存在・重複・複数シリーズ所属・関連作品の名前)
  *   2. 集計(作品・関連作品・VTuber・横断数・再生リスト・動画)が全件から独立に計算した結果と一致する
@@ -14,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {
@@ -113,7 +113,7 @@ if (ryu) {
 // ---- 6. PoC のまま ----
 const html = read('series.html');
 // 公開状態は data-series.js の publish から決まる(判定は series-publish.js)。期待値はそこから計算して照合する
-const publication = require('./series-publish.js').getSeriesPublication(ROOT);
+const publication = require('../series-publish.js').getSeriesPublication(ROOT);
 check('6a. series.html は元HTMLに canonical を書かず、noindex は公開シリーズが無いときだけ書く(' + (publication.published.length ? '公開あり → なし' : '公開なし → あり') + ')',
   /<meta name="robots" content="noindex,follow">/.test(html) === (publication.published.length === 0) && !/rel="canonical"/.test(html));
 check('6b. 関連作品の表示枠は最初は隠れている(関連作品の無いシリーズでは出ない)', /<div id="series-related-block" hidden>/.test(html));

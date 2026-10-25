@@ -32,7 +32,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 $matcher = Join-Path $scriptDir "match-playlist-candidates.ps1"
 if (-not (Test-Path $matcher)) { Write-Error "match-playlist-candidates.ps1 が見つかりません: $matcher"; exit 1 }
 

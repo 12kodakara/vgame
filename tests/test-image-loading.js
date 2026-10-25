@@ -1,5 +1,5 @@
 /**
- * 画像読み込み最適化の回帰テスト。ブラウザ不要(node test-image-loading.js)。
+ * 画像読み込み最適化の回帰テスト。ブラウザ不要(node tests/test-image-loading.js)。
  *
  *   1. VTuberアイコン(yt3)の表示サイズ向けURL(sizedIconSources)が、全アイコンで正しい形になる
  *      (1x/2x/3x の srcset・元の解像度を超えない・サイズ指定以外の部分は元URLのまま・対象外URLはそのまま)
@@ -14,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

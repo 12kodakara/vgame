@@ -1,5 +1,5 @@
 /**
- * 単発・PLなし実況ページ(singles.html)のサムネイル表示の回帰テスト。ブラウザ不要(node test-singles-thumbnails.js)。
+ * 単発・PLなし実況ページ(singles.html)のサムネイル表示の回帰テスト。ブラウザ不要(node tests/test-singles-thumbnails.js)。
  *
  * singles.js を最小限の DOM の上で実際に動かし、次を確かめる。
  *   1. 登録済みの全件にカードがあり、上部にサムネイル(16:9 の枠・alt・遅延読み込み)がある
@@ -18,7 +18,7 @@ const path = require('path');
 const vm = require('vm');
 const { execFileSync } = require('child_process');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

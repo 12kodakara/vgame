@@ -1,5 +1,5 @@
 /**
- * VTuber詳細「このVTuberが実況したゲーム」全件リンク化の回帰テスト。ブラウザ不要(node test-streamer-games.js)。
+ * VTuber詳細「このVTuberが実況したゲーム」全件リンク化の回帰テスト。ブラウザ不要(node tests/test-streamer-games.js)。
  *
  * streamer.js の描画処理を最小限の DOM の上で全VTuberについて実際に動かし、次を確かめる。
  *   1. 実況したゲームが全件、通常の <a href> として描画時に DOM に入る(クリック後に生成しない)
@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

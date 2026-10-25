@@ -1,5 +1,5 @@
 /**
- * VTuberのゲーム企画(data-core.js の GAME_EVENTS / PLAYLIST_EVENTS)の表示の回帰テスト。ブラウザ不要(node test-playlist-events.js)。
+ * VTuberのゲーム企画(data-core.js の GAME_EVENTS / PLAYLIST_EVENTS)の表示の回帰テスト。ブラウザ不要(node tests/test-playlist-events.js)。
  *
  * 次を確かめる。
  *   1. 定義: 企画の再生リストは id で列挙され、再生リスト・企画・使用ゲームが存在し、game は再生リストの game と同じ
@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

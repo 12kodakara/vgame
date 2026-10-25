@@ -1,5 +1,5 @@
 /**
- * ジャンル別ページ(genre.html、PoC はホラーのみ)の回帰テスト。ブラウザ不要(node test-genre-page.js)。
+ * ジャンル別ページ(genre.html、PoC はホラーのみ)の回帰テスト。ブラウザ不要(node tests/test-genre-page.js)。
  *
  *   1. data-genres.js が最新の data-playlists.js と一致する(鮮度)
  *   2. 公開ジャンルはホラーだけ(genre.js・data-genres.js・sitemap がそろっている)
@@ -16,7 +16,7 @@ const path = require('path');
 const vm = require('vm');
 const { execFileSync } = require('child_process');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

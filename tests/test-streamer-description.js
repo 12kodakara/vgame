@@ -1,5 +1,5 @@
 /**
- * VTuber詳細の meta description(buildStreamerDescription)の回帰テスト。ブラウザ不要(node test-streamer-description.js)。
+ * VTuber詳細の meta description(buildStreamerDescription)の回帰テスト。ブラウザ不要(node tests/test-streamer-description.js)。
  *
  *   1. 全VTuberで生成でき、VTuber名で始まり、空・undefined 等が無い。完全一致の重複が無い
  *   2. 挙げるゲームは再生リスト件数 → 動画本数 → 最終更新日 → 名前(文字コード順)で決まり、実行ごとに変わらない
@@ -14,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

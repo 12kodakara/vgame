@@ -1,5 +1,5 @@
 /**
- * 検索候補(attachSearchSuggest)の表示位置の回帰テスト。ブラウザ不要(node test-search-suggest-position.js)。
+ * 検索候補(attachSearchSuggest)の表示位置の回帰テスト。ブラウザ不要(node tests/test-search-suggest-position.js)。
  *
  * iPhone Safari では、キーボードが出るとページを動かさずに表示範囲(visualViewport)だけがずれ、
  * 一度だけ計算した位置のまま候補が入力欄に重なることがあった。最小限の DOM の上で次を確かめる。
@@ -18,7 +18,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

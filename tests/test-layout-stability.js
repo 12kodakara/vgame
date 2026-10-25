@@ -1,5 +1,5 @@
 /**
- * レイアウトシフト(CLS)対策の回帰テスト。ブラウザ不要(node test-layout-stability.js)。
+ * レイアウトシフト(CLS)対策の回帰テスト。ブラウザ不要(node tests/test-layout-stability.js)。
  *
  *   1. スクロールバーの幅を常に確保する(PC で一覧描画後にスクロールバーが出てページ全体が横にずれるのを防ぐ)
  *   2. JS が後から中身を入れる要素(件数表示・VTuber見出し・掲載件数・人気コンテンツ・人気のゲーム)の場所を
@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 let pass = 0, fail = 0;
 function check(name, ok, detail) {

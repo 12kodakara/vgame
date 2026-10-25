@@ -18,7 +18,7 @@
 param()
 
 $ErrorActionPreference = "Stop"
-$scriptDir = $PSScriptRoot
+$scriptDir = Split-Path -Parent $PSScriptRoot
 $validator = Join-Path $scriptDir "validate-data.ps1"
 $corePath = Join-Path $scriptDir "data-core.js"
 foreach ($p in @($validator, $corePath)) { if (-not (Test-Path $p)) { Write-Error "見つかりません: $p"; exit 1 } }
