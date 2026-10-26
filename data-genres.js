@@ -1473,16 +1473,6 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
-     "id": "gap1006",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "白砂あやね",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLF74GEJMvXC8",
-     "videoCount": 8,
-     "addedDate": "2026-10-26"
-    },
-    {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "珠乃井ナナ",
@@ -1541,6 +1531,18 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-10-20"
+    },
+    {
+     "id": "gap1006",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "白砂あやね",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLF74GEJMvXC8",
+     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
+     "videoCount": 8,
+     "addedDate": "2026-10-26",
+     "updatedDate": "2026-10-18"
     },
     {
      "id": "gap961",

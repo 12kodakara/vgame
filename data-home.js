@@ -32,48 +32,40 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "vspo-yuuhisendo-36",
-      "title": "League of Legends",
-      "streamer": "千燈ゆうひ",
-      "game": "League of Legends",
-      "genre": "other",
-      "playlistId": "PL7rBIMrt1ue5OQr1HncWbkvhepX-6_bIr",
-      "thumbnailUrl": "https://i.ytimg.com/vi/MgopQQWE05o/mqdefault.jpg",
-      "videoCount": 414,
-      "addedDate": "2026-09-07",
+      "id": "holo-157",
+      "title": "鬼武者 Way of the Sword",
+      "streamer": "百灯キョーコ",
+      "game": "鬼武者 Way of the Sword",
+      "genre": "action",
+      "playlistId": "PLWHs_m-7iN0k",
+      "thumbnailUrl": "https://i.ytimg.com/vi/thX2A1-Ktyk/mqdefault.jpg",
+      "videoCount": 3,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-10-27"
+    },
+    {
+      "id": "niji-301",
+      "title": "スーパーマリオギャラクシー２",
+      "streamer": "山田龍一郎",
+      "game": "スーパーマリオギャラクシー2",
+      "genre": "action",
+      "playlistId": "PLJANXEq8zMOY",
+      "thumbnailUrl": "https://i.ytimg.com/vi/zZ9K1_5-bhE/mqdefault.jpg",
+      "videoCount": 4,
+      "addedDate": "2026-09-06",
       "updatedDate": "2026-10-26"
     },
     {
-      "id": "gap1006",
-      "title": "魔法少女ノ魔女裁判",
-      "streamer": "白砂あやね",
-      "game": "魔法少女ノ魔女裁判",
-      "genre": "horror",
-      "playlistId": "PLF74GEJMvXC8",
-      "videoCount": 8,
-      "addedDate": "2026-10-26"
-    },
-    {
-      "id": "gap1007",
-      "title": "【ジャッジアイズ】実況プレイ",
-      "streamer": "鈴原るる",
-      "game": "JUDGE EYES:死神の遺言",
-      "genre": "action",
-      "playlistId": "PLWhQG2c9UEJg",
-      "videoCount": 7,
-      "addedDate": "2026-10-26"
-    },
-    {
-      "id": "niji-072",
-      "title": "スプラ🦑",
-      "streamer": "東堂コハク",
-      "game": "スプラトゥーン",
+      "id": "vspo-mimitosaki-04",
+      "title": "VALORANT",
+      "streamer": "兎咲ミミ",
+      "game": "VALORANT",
       "genre": "fps",
-      "playlistId": "PL7ALL1Q2z-BC0eVnVfQJuA2t8RJ-K63Vy",
-      "thumbnailUrl": "https://i.ytimg.com/vi/4B1Ot3EEkHY/mqdefault.jpg",
-      "videoCount": 105,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-25"
+      "playlistId": "PLrZeo6egs0S4A7TRW_2tnb3P_1HIUPneB",
+      "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
+      "videoCount": 279,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-26"
     },
     {
       "id": "vspo-hinanotachib-33",
@@ -85,7 +77,19 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
       "videoCount": 64,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-25"
+      "updatedDate": "2026-10-26"
+    },
+    {
+      "id": "vspo-emaaizawa-10",
+      "title": "スト6",
+      "streamer": "藍沢エマ",
+      "game": "ストリートファイター6",
+      "genre": "action",
+      "playlistId": "PLyqh3naVl78Gi4C504n43RNBJGjdx1lP9",
+      "thumbnailUrl": "https://i.ytimg.com/vi/2m9N5_KnRDE/mqdefault.jpg",
+      "videoCount": 188,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-10-26"
     }
   ],
   "streamerPicks": [

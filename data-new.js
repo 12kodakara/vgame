@@ -6,24 +6,28 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
-   "id": "gap1006",
-   "title": "魔法少女ノ魔女裁判",
-   "streamer": "白砂あやね",
-   "game": "魔法少女ノ魔女裁判",
-   "genre": "horror",
-   "playlistId": "PLF74GEJMvXC8",
-   "videoCount": 8,
-   "addedDate": "2026-10-26"
-  },
-  {
    "id": "gap1007",
    "title": "【ジャッジアイズ】実況プレイ",
    "streamer": "鈴原るる",
    "game": "JUDGE EYES:死神の遺言",
    "genre": "action",
    "playlistId": "PLWhQG2c9UEJg",
+   "thumbnailUrl": "https://i.ytimg.com/vi/K_pJOU3jc9c/mqdefault.jpg",
    "videoCount": 7,
-   "addedDate": "2026-10-26"
+   "addedDate": "2026-10-26",
+   "updatedDate": "2026-10-20"
+  },
+  {
+   "id": "gap1006",
+   "title": "魔法少女ノ魔女裁判",
+   "streamer": "白砂あやね",
+   "game": "魔法少女ノ魔女裁判",
+   "genre": "horror",
+   "playlistId": "PLF74GEJMvXC8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-26",
+   "updatedDate": "2026-10-18"
   },
   {
    "id": "gap997",
@@ -146,6 +150,42 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-26"
+  },
+  {
+   "id": "gap958",
+   "title": "🎮：星のカービィ ディスカバリー",
+   "streamer": "千凛あゆむ",
+   "game": "星のカービィ ディスカバリー",
+   "genre": "action",
+   "playlistId": "PLDHb-kzpx5VU",
+   "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
+   "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-26"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-26"
+  },
+  {
    "id": "gap931",
    "title": "死んだら即終了DARK SOULS Ⅲ",
    "streamer": "鷹宮リオン",
@@ -168,30 +208,6 @@ const NEW_LIST = {
    "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-23"
-  },
-  {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-23"
-  },
-  {
-   "id": "gap951",
-   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "streamer": "猫屋敷美紅",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLEUCHw2KzwD8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-22"
   },
   {
    "id": "gap930",
@@ -240,18 +256,6 @@ const NEW_LIST = {
    "videoCount": 4,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-15"
-  },
-  {
-   "id": "gap958",
-   "title": "🎮：星のカービィ ディスカバリー",
-   "streamer": "千凛あゆむ",
-   "game": "星のカービィ ディスカバリー",
-   "genre": "action",
-   "playlistId": "PLDHb-kzpx5VU",
-   "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
-   "videoCount": 1,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-14"
   },
   {
    "id": "gap950",

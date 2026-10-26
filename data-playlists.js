@@ -3238,7 +3238,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/zZ9K1_5-bhE/mqdefault.jpg",
     videoCount: 4,
     addedDate: "2026-09-06",
-    updatedDate: "2026-09-11",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-316",
@@ -22759,7 +22759,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
     videoCount: 279,
     addedDate: "2026-09-07",
-    updatedDate: "2026-10-22",
+    updatedDate: "2026-10-26",
   },
   {
     id: "vspo-mimitosaki-05",
@@ -23395,7 +23395,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
     videoCount: 64,
     addedDate: "2026-09-07",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-26",
   },
   {
     id: "vspo-hinanotachib-34",
@@ -24055,7 +24055,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/2m9N5_KnRDE/mqdefault.jpg",
     videoCount: 188,
     addedDate: "2026-09-07",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-26",
   },
   {
     id: "vspo-emaaizawa-11",
@@ -25723,7 +25723,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/YStlXqyJVYQ/mqdefault.jpg",
     videoCount: 347,
     addedDate: "2026-09-07",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-26",
   },
   {
     id: "vspo-yuuhisendo-01",
@@ -26383,7 +26383,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/sppiv-cbDXQ/mqdefault.jpg",
     videoCount: 208,
     addedDate: "2026-09-07",
-    updatedDate: "2026-10-06",
+    updatedDate: "2026-10-26",
   },
   {
     id: "vspo-amayuimoka-01",
@@ -35959,7 +35959,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/2mfRGmdLEm8/mqdefault.jpg",
     videoCount: 139,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-sakuraritsuk-20",
@@ -36055,7 +36055,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/rz28BeiEuTc/mqdefault.jpg",
     videoCount: 793,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-24",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-chimamachita-01",
@@ -41047,7 +41047,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/sM-ej41LYNA/mqdefault.jpg",
     videoCount: 196,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-04",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-nuisociere-42",
@@ -42655,7 +42655,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/upCCiWN0wmg/mqdefault.jpg",
     videoCount: 93,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-11",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-hkagami2434-71",
@@ -44983,7 +44983,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/cYvhY0ObgZg/mqdefault.jpg",
     videoCount: 16,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-23",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-souhayase-02",
@@ -45799,7 +45799,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/ngWhZIWPL8w/mqdefault.jpg",
     videoCount: 84,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-19",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-sarahoshikaw-07",
@@ -49603,7 +49603,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/1QOCuE_a8zg/mqdefault.jpg",
     videoCount: 94,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-21",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-kaidaharu-44",
@@ -59431,7 +59431,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/ejV-HHsJFfo/mqdefault.jpg",
     videoCount: 77,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-20",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-usamiritopow-36",
@@ -60523,7 +60523,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/o2u1WtrIhpM/mqdefault.jpg",
     videoCount: 88,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-07",
+    updatedDate: "2026-10-26",
   },
   {
     id: "niji-rai173-01",
@@ -74695,7 +74695,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/O-10LJXFlq4/mqdefault.jpg",
     videoCount: 2,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-17",
+    updatedDate: "2026-10-26",
   },
   {
     id: "gap490",
@@ -78805,7 +78805,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/thX2A1-Ktyk/mqdefault.jpg",
     videoCount: 3,
     addedDate: "2026-10-11",
-    updatedDate: "2026-10-23",
+    updatedDate: "2026-10-27",
   },
   {
     id: "holo-158",
@@ -79129,7 +79129,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/xpbwReIWM8Y/mqdefault_live.jpg",
     videoCount: 2,
     addedDate: "2026-10-11",
-    updatedDate: "2026-10-22",
+    updatedDate: "2026-10-26",
   },
   {
     id: "gap840",
@@ -79477,7 +79477,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/xgH_228jFBY/mqdefault.jpg",
     videoCount: 2,
     addedDate: "2026-10-11",
-    updatedDate: "2026-10-22",
+    updatedDate: "2026-10-26",
   },
   {
     id: "gap869",
@@ -80473,7 +80473,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
     videoCount: 8,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-22",
+    updatedDate: "2026-10-26",
   },
   {
     id: "gap952",
@@ -80557,7 +80557,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
     videoCount: 1,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-14",
+    updatedDate: "2026-10-26",
   },
   {
     id: "gap959",
@@ -80749,7 +80749,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
     videoCount: 5,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-23",
+    updatedDate: "2026-10-26",
   },
   {
     id: "gap975",
@@ -81130,8 +81130,10 @@ const PLAYLISTS = [
     game: "魔法少女ノ魔女裁判",
     genre: "horror",
     playlistId: "PLF74GEJMvXC8",
+    thumbnailUrl: "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
     videoCount: 8,
     addedDate: "2026-10-26",
+    updatedDate: "2026-10-18",
   },
   {
     id: "gap1007",
@@ -81140,8 +81142,10 @@ const PLAYLISTS = [
     game: "JUDGE EYES:死神の遺言",
     genre: "action",
     playlistId: "PLWhQG2c9UEJg",
+    thumbnailUrl: "https://i.ytimg.com/vi/K_pJOU3jc9c/mqdefault.jpg",
     videoCount: 7,
     addedDate: "2026-10-26",
+    updatedDate: "2026-10-20",
   },
 ];
 
