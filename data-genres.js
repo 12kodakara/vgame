@@ -8,9 +8,9 @@ const GENRE_PAGES = {
   "horror": {
    "stats": {
     "games": 122,
-    "streamers": 168,
-    "playlists": 651,
-    "videos": 4119
+    "streamers": 169,
+    "playlists": 652,
+    "videos": 4127
    },
    "games": [
     [
@@ -104,14 +104,14 @@ const GENRE_PAGES = {
      12
     ],
     [
-     "Phasmophobia",
-     11,
+     "魔法少女ノ魔女裁判",
+     12,
      12
     ],
     [
-     "魔法少女ノ魔女裁判",
+     "Phasmophobia",
      11,
-     11
+     12
     ],
     [
      "Layers of Fear",
@@ -1371,6 +1371,11 @@ const GENRE_PAGES = {
      1
     ],
     [
+     "白砂あやね",
+     1,
+     1
+    ],
+    [
      "白銀ノエル",
      1,
      1
@@ -1467,6 +1472,16 @@ const GENRE_PAGES = {
     ]
    ],
    "recent": [
+    {
+     "id": "gap1006",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "白砂あやね",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLF74GEJMvXC8",
+     "videoCount": 8,
+     "addedDate": "2026-10-26"
+    },
     {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
@@ -1572,18 +1587,6 @@ const GENRE_PAGES = {
      "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
      "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
      "videoCount": 17,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-09"
-    },
-    {
-     "id": "gap753",
-     "title": "SILENT HILL",
-     "streamer": "白雪巴",
-     "game": "SILENT HILL f",
-     "genre": "horror",
-     "playlistId": "PLX-dBVwQ53SUUBKX7RbHJBHNVquXIVegY",
-     "thumbnailUrl": "https://i.ytimg.com/vi/rIQPyPawfKU/mqdefault.jpg",
-     "videoCount": 14,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-09"
     }

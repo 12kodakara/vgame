@@ -5,7 +5,7 @@
  */
 const HOME_SUMMARY = {
   "version": 3,
-  "playlistCount": 6756,
+  "playlistCount": 6758,
   "gameCount": 941,
   "streamerCount": 274,
   "topGames": [
@@ -44,6 +44,26 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-10-26"
     },
     {
+      "id": "gap1006",
+      "title": "魔法少女ノ魔女裁判",
+      "streamer": "白砂あやね",
+      "game": "魔法少女ノ魔女裁判",
+      "genre": "horror",
+      "playlistId": "PLF74GEJMvXC8",
+      "videoCount": 8,
+      "addedDate": "2026-10-26"
+    },
+    {
+      "id": "gap1007",
+      "title": "【ジャッジアイズ】実況プレイ",
+      "streamer": "鈴原るる",
+      "game": "JUDGE EYES:死神の遺言",
+      "genre": "action",
+      "playlistId": "PLWhQG2c9UEJg",
+      "videoCount": 7,
+      "addedDate": "2026-10-26"
+    },
+    {
       "id": "niji-072",
       "title": "スプラ🦑",
       "streamer": "東堂コハク",
@@ -64,30 +84,6 @@ const HOME_SUMMARY = {
       "playlistId": "PLzzYMrfmt7TAyxtEDuCeBSGKVoCQ55wG_",
       "thumbnailUrl": "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
       "videoCount": 64,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-25"
-    },
-    {
-      "id": "vspo-emaaizawa-10",
-      "title": "スト6",
-      "streamer": "藍沢エマ",
-      "game": "ストリートファイター6",
-      "genre": "action",
-      "playlistId": "PLyqh3naVl78Gi4C504n43RNBJGjdx1lP9",
-      "thumbnailUrl": "https://i.ytimg.com/vi/2m9N5_KnRDE/mqdefault.jpg",
-      "videoCount": 188,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-10-25"
-    },
-    {
-      "id": "vspo-kokagetsumug-13",
-      "title": "VALORANT",
-      "streamer": "紡木こかげ",
-      "game": "VALORANT",
-      "genre": "fps",
-      "playlistId": "PLsYH4NvRwnM2cqKLaoZ4mt5s6hSchl5WR",
-      "thumbnailUrl": "https://i.ytimg.com/vi/YStlXqyJVYQ/mqdefault.jpg",
-      "videoCount": 347,
       "addedDate": "2026-09-07",
       "updatedDate": "2026-10-25"
     }
@@ -305,7 +301,7 @@ const HOME_SUMMARY = {
     ["癒月ちょこ",3,3,"2026-09-06"],
     ["白上フブキ",155,141,"2026-09-06"],
     ["白波らむね",13,13,"2026-09-07"],
-    ["白砂あやね",6,6,"2026-09-06"],
+    ["白砂あやね",7,7,"2026-09-06"],
     ["白銀ノエル",30,30,"2026-09-06"],
     ["白雪巴",30,30,"2026-09-06"],
     ["百灯キョーコ",6,6,"2026-10-11"],
@@ -350,7 +346,7 @@ const HOME_SUMMARY = {
     ["轟はじめ",35,33,"2026-09-06"],
     ["轟京子",14,14,"2026-09-08"],
     ["酒寄颯馬",10,10,"2026-09-08"],
-    ["鈴原るる",74,69,"2026-09-06"],
+    ["鈴原るる",75,70,"2026-09-06"],
     ["鈴木勝",5,5,"2026-09-06"],
     ["鈴鳴つづり",2,2,"2026-10-21"],
     ["銀城サイネ",8,8,"2026-09-07"],

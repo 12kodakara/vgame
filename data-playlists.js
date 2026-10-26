@@ -81123,6 +81123,26 @@ const PLAYLISTS = [
     addedDate: "2026-10-13",
     updatedDate: "2022-01-25",
   },
+  {
+    id: "gap1006",
+    title: "魔法少女ノ魔女裁判",
+    streamer: "白砂あやね",
+    game: "魔法少女ノ魔女裁判",
+    genre: "horror",
+    playlistId: "PLF74GEJMvXC8",
+    videoCount: 8,
+    addedDate: "2026-10-26",
+  },
+  {
+    id: "gap1007",
+    title: "【ジャッジアイズ】実況プレイ",
+    streamer: "鈴原るる",
+    game: "JUDGE EYES:死神の遺言",
+    genre: "action",
+    playlistId: "PLWhQG2c9UEJg",
+    videoCount: 7,
+    addedDate: "2026-10-26",
+  },
 ];
 
 // STANDALONE_PLAYS は data-standalone.js に分離しました

@@ -6,6 +6,26 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
+   "id": "gap1006",
+   "title": "魔法少女ノ魔女裁判",
+   "streamer": "白砂あやね",
+   "game": "魔法少女ノ魔女裁判",
+   "genre": "horror",
+   "playlistId": "PLF74GEJMvXC8",
+   "videoCount": 8,
+   "addedDate": "2026-10-26"
+  },
+  {
+   "id": "gap1007",
+   "title": "【ジャッジアイズ】実況プレイ",
+   "streamer": "鈴原るる",
+   "game": "JUDGE EYES:死神の遺言",
+   "genre": "action",
+   "playlistId": "PLWhQG2c9UEJg",
+   "videoCount": 7,
+   "addedDate": "2026-10-26"
+  },
+  {
    "id": "gap997",
    "title": "Final Fantasy Crystal Chronicles Remastered (Complete)",
    "streamer": "Shiori Novella",
@@ -580,30 +600,6 @@ const NEW_LIST = {
    "videoCount": 14,
    "addedDate": "2026-10-12",
    "updatedDate": "2025-04-18"
-  },
-  {
-   "id": "gap989",
-   "title": "ホロキュア",
-   "streamer": "姫森ルーナ",
-   "game": "HoloCure",
-   "genre": "action",
-   "playlistId": "PL6gUpTCMieF5I5_upqddmh133mYq9mHWW",
-   "thumbnailUrl": "https://i.ytimg.com/vi/eXBcOtXcztU/mqdefault.jpg",
-   "videoCount": 6,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2024-12-20"
-  },
-  {
-   "id": "gap995",
-   "title": "Resident Evil 4 Remake (Complete)",
-   "streamer": "Shiori Novella",
-   "game": "バイオハザード RE:4",
-   "genre": "horror",
-   "playlistId": "PLQNcTNavhAOjTe1qJLHDWjxq9M1lonVX1",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCz_WkvWqos/mqdefault.jpg",
-   "videoCount": 4,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2024-10-12"
   }
  ]
 };
