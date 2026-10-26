@@ -596,9 +596,10 @@ const STANDALONE_PLAYS = [
     streamer: "夏色まつり",
     game: "鳴潮",
     genre: "rpg",
-    format: "single",
+    format: "multi",
     videos: [
-      { title: "【鳴潮】ストーリーとガチャいくぞ！！【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=oIDOMuxSz8I", publishedDate: "2026-09-30" }
+      { title: "【鳴潮】ストーリーとガチャいくぞ！！【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=oIDOMuxSz8I", publishedDate: "2026-09-30" },
+      { title: "【 鳴潮 】今日は姫に守護ってもらうポルまちゅ！【ホロライブ/夏色まつり】", url: "https://www.youtube.com/watch?v=JNOjAFc5oso", publishedDate: "2026-10-24" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -862,7 +863,10 @@ const STANDALONE_PLAYS = [
       { title: "🚀06 | コルベットver1.0完成!! | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=ODv3y376gFg", publishedDate: "2026-10-14" },
       { title: "🚀07 | 今日の宇宙は | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=26hGhUBOR1k", publishedDate: "2026-10-15" },
       { title: "🚀08 | 宇宙船… | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=LbjXZEee92Y", publishedDate: "2026-10-16" },
-      { title: "🚀共同探検23 01 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=sqxAKcovqtU", publishedDate: "2026-10-18" }
+      { title: "🚀共同探検23 01 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=sqxAKcovqtU", publishedDate: "2026-10-18" },
+      { title: "🚀共同探検23 02 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=mxUlqfGxP7E", publishedDate: "2026-10-19" },
+      { title: "🚀共同探検23 03 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=ah706yKX4jA", publishedDate: "2026-10-22" },
+      { title: "🚀共同探検23 04 | No Man's Sky【静凛/にじさんじ】", url: "https://www.youtube.com/watch?v=CDMB23_t5pU", publishedDate: "2026-10-25" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -897,7 +901,10 @@ const STANDALONE_PLAYS = [
       { title: "【ELDEN RING/エルデンリング】マルギット倒せたんだから王になれる #2【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=0Fn_4V4rm4Y", publishedDate: "2026-10-11" },
       { title: "【ELDEN RING/エルデンリング】おいそこどけキングのお通り  #３【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=mjoNPXV498A", publishedDate: "2026-10-15" },
       { title: "【ELDEN RING/エルデンリング】魔女BBA倒して王になる  #４【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=5JHuwA7WrOY", publishedDate: "2026-10-18" },
-      { title: "【ELDEN RING/エルデンリング】竜の力で王になる  #5【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=kPRq0aJiQy8", publishedDate: "2026-10-18" }
+      { title: "【ELDEN RING/エルデンリング】竜の力で王になる  #5【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=kPRq0aJiQy8", publishedDate: "2026-10-18" },
+      { title: "【ELDEN RING/エルデンリング】星が落ちた地  #6【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=vyR2fvR-8aQ", publishedDate: "2026-10-23" },
+      { title: "【ELDEN RING/エルデンリング】王都を侵略して王になる #7【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=ck6sBHiVx2Y", publishedDate: "2026-10-25" },
+      { title: "【ELDEN RING/エルデンリング】王都完結、そして火山も破壊する #8【にじさんじ/卯月コウ】", url: "https://www.youtube.com/watch?v=NDlq2Z8MBcA", publishedDate: "2026-10-26" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -1599,5 +1606,109 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-10-24"
+  },
+  {
+    id: "single-117",
+    title: "【 レーシングマスター  】　深夜ドライブってこと？？？！？！！！！！！！！！！",
+    streamer: "蝶屋はなび",
+    game: "レーシングマスター",
+    genre: "racing",
+    format: "single",
+    videos: [
+      { title: "【 レーシングマスター  】　深夜ドライブってこと？？？！？！！！！！！！！！！　【 ぶいすぽっ！ ⁠/蝶屋はなび 】", url: "https://www.youtube.com/watch?v=sVdyKycu7eU", publishedDate: "2026-10-24" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-118",
+    title: "【 R.E.P.O. 】仕事帰りにはやっぱりREPOだよな～～🥂✨",
+    streamer: "角巻わため",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 R.E.P.O. 】仕事帰りにはやっぱりREPOだよな～～🥂✨【角巻わため/ホロライブ４期生】", url: "https://www.youtube.com/watch?v=83F3kMuhy1M", publishedDate: "2026-10-23" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-119",
+    title: "【  Unpacking 】　早起きしたから片付けでもするか！！！！！！！！！",
+    streamer: "蝶屋はなび",
+    game: "Unpacking",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【  Unpacking 】　早起きしたから片付けでもするか！！！！！！！！！　【 ぶいすぽっ！ ⁠/蝶屋はなび 】", url: "https://www.youtube.com/watch?v=m4otrIjv5ZY", publishedDate: "2026-10-22" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-120",
+    title: "【アークナイツ】戦闘システムが好き！アークナイツの世界に帰還！初配信～！",
+    streamer: "尾丸ポルカ",
+    game: "アークナイツ",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【アークナイツ】戦闘システムが好き！アークナイツの世界に帰還！初配信～！【尾丸ポルカ/ホロライブ】", url: "https://www.youtube.com/watch?v=CI5KKwUfKtM", publishedDate: "2026-10-20" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-121",
+    title: "【  R.E.P.O. 】　ストリヌで出会った本仲間たちとお金稼ぐぞおおおお！！！！！！！！！w/そあら／ゾム／ショッピ／ひょう太朗／シヴァ",
+    streamer: "蝶屋はなび",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【  R.E.P.O. 】　ストリヌで出会った本仲間たちとお金稼ぐぞおおおお！！！！！！！！！w/そあら／ゾム／ショッピ／ひょう太朗／シヴァ　【 ぶいすぽっ！ ⁠/蝶屋はなび 】", url: "https://www.youtube.com/watch?v=5GwuQx9fqJk", publishedDate: "2026-10-15" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-122",
+    title: "【 Lethal Company 】　ぶいすぽメンバーと大人数MODいれてあそぶぞおおお！！！",
+    streamer: "蝶屋はなび",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 Lethal Company 】　ぶいすぽメンバーと大人数MODいれてあそぶぞおおお！！！　【 ぶいすぽっ！ ⁠/蝶屋はなび 】", url: "https://www.youtube.com/watch?v=flmx5U-oIhk", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-123",
+    title: "【Lethal Company】ぶいすぽゴミ拾い部始動!!",
+    streamer: "銀城サイネ",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【Lethal Company】ぶいすぽゴミ拾い部始動!!【ぶいすぽっ！ #銀城サイネ 】", url: "https://www.youtube.com/watch?v=yn0a9LFg3UI", publishedDate: "2026-10-10" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-124",
+    title: "【 Euro Truck Simulator 2 】　乗ってけ（免許なし）（サムネはあくまで未来）！！！！！！！",
+    streamer: "蝶屋はなび",
+    game: "Euro Truck Simulator 2",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【 Euro Truck Simulator 2 】　乗ってけ（免許なし）（サムネはあくまで未来）！！！！！！！　【 ぶいすぽっ！ ⁠/蝶屋はなび 】", url: "https://www.youtube.com/watch?v=KvBiY7Bx-6c", publishedDate: "2026-09-28" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
   }
 ];
