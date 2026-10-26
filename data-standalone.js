@@ -1710,5 +1710,369 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-10-26"
+  },
+  {
+    id: "single-125",
+    title: "【MINECRAFT】FLYING HIGH WITH CREATE AERONAUTICS WITH YAMINO-KUN",
+    streamer: "Luca Kaneshiro",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【MINECRAFT】FLYING HIGH WITH CREATE AERONAUTICS WITH YAMINO-KUN【 #lucakaneshiro #nijisanji_en 】", url: "https://www.youtube.com/watch?v=ByRVWHxNg7E", publishedDate: "2026-10-23" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-126",
+    title: "【MINECRAFT】  my f-f-f-first time on StellarCraft! 😳",
+    streamer: "青月レミア",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【MINECRAFT】  my f-f-f-first time on StellarCraft! 😳【#VSPOEN #RemiaAotsuki】", url: "https://www.youtube.com/watch?v=UGaNZi9t-jM", publishedDate: "2026-10-22" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-127",
+    title: "Finding my way with Uki!【WE WERE HERE FOREVER】",
+    streamer: "Vantacrow Bringer",
+    game: "We Were Here Forever",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "Finding my way with Uki!【WE WERE HERE FOREVER】", url: "https://www.youtube.com/watch?v=03SYBzosMVY", publishedDate: "2026-10-21" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-128",
+    title: "【WE WERE HERE FOREVER】psycrow is back, but we're trapped 🐦‍⬛💜",
+    streamer: "Uki Violeta",
+    game: "We Were Here Forever",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【WE WERE HERE FOREVER】psycrow is back, but we're trapped 🐦‍⬛💜", url: "https://www.youtube.com/watch?v=0yLuKR-CeSQ", publishedDate: "2026-10-21" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-129",
+    title: "【DETROIT: BECOME HUMAN】67 STAB WOUNDS WITH @holoen_ceciliaimmergreen",
+    streamer: "Koseki Bijou",
+    game: "Detroit: Become Human",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【DETROIT: BECOME HUMAN】67 STAB WOUNDS WITH @holoen_ceciliaimmergreen", url: "https://www.youtube.com/watch?v=Yn624nnrVNQ", publishedDate: "2026-10-20" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-130",
+    title: "Chopcon takes on PUBG. WINNER WINNER CHICKEN DINNER TIME |  [PUBG: BATTLEGROUNDS]",
+    streamer: "Ryoma Barrenwort",
+    game: "PUBG: BATTLEGROUNDS",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "Chopcon takes on PUBG. WINNER WINNER CHICKEN DINNER TIME |  [PUBG: BATTLEGROUNDS]", url: "https://www.youtube.com/watch?v=hJ7YuZCzWtg", publishedDate: "2026-10-19" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-131",
+    title: "【OVERWATCH】   international girl squad rank demons 😈",
+    streamer: "青月レミア",
+    game: "Overwatch",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【OVERWATCH】   international girl squad rank demons 😈 【#VSPOEN #RemiaAotsuki】", url: "https://www.youtube.com/watch?v=AKmiLNWeGCE", publishedDate: "2026-10-18" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-132",
+    title: "【Super Bunny Man】With My Beloved Riri-senpai!",
+    streamer: "Klara Charmwood",
+    game: "Super Bunny Man",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【Super Bunny Man】With My Beloved Riri-senpai!【NIJISANJI EN | Klara Charmwood】", url: "https://www.youtube.com/watch?v=ozjtvjOk_x4", publishedDate: "2026-10-16" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-133",
+    title: "【LEAGUE OF LEGENDS】WITH MORI CALLIOPE!! (REAL)(NOTCLICKBAIT) + ANNOUNCEMENT",
+    streamer: "Gigi Murin",
+    game: "League of Legends",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【LEAGUE OF LEGENDS】WITH MORI CALLIOPE!! (REAL)(NOTCLICKBAIT) + ANNOUNCEMENT", url: "https://www.youtube.com/watch?v=w13xqPC1h1g", publishedDate: "2026-10-15" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-134",
+    title: "Camping with KRISISIS!【SONS OF THE FOREST】",
+    streamer: "Vantacrow Bringer",
+    game: "Sons of the Forest",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "Camping with KRISISIS!【SONS OF THE FOREST】", url: "https://www.youtube.com/watch?v=h9Vz4bbwNKQ", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-135",
+    title: "【Sons of the Forest】Krisisis in an abandoned forest... or is it?",
+    streamer: "Vezalius Bandage",
+    game: "Sons of the Forest",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【Sons of the Forest】Krisisis in an abandoned forest... or is it?【NIJISANJI EN | Vezalius Bandage】", url: "https://www.youtube.com/watch?v=WNbJBoIA9uQ", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-136",
+    title: "【Vampire Survivors】 Here It Comes",
+    streamer: "Zeal Ginjoka",
+    game: "Vampire Survivors",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【Vampire Survivors】 Here It Comes 【NIJISANJI EN | Zeal Ginjoka】", url: "https://www.youtube.com/watch?v=dhy3jYFXzAQ", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-137",
+    title: "【VALORANT】  EU CS2 player tries edating..",
+    streamer: "青月レミア",
+    game: "VALORANT",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【VALORANT】  EU CS2 player tries edating.. 【#VSPOEN #RemiaAotsuki】", url: "https://www.youtube.com/watch?v=yklAo9pHOio", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-138",
+    title: "【FINAL FANTASY XIV】LEEEEEEEEETS GO FISHINGGGGGG #ad",
+    streamer: "Gigi Murin",
+    game: "FINAL FANTASY XIV",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【FINAL FANTASY XIV】LEEEEEEEEETS GO FISHINGGGGGG #ad", url: "https://www.youtube.com/watch?v=UIx1lScM4IU", publishedDate: "2026-10-12" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-139",
+    title: "【VAMPIRE SURVIVORS】6 LIVES SHOULD BE ENOUGH, RIGHT?",
+    streamer: "Raora Panthera",
+    game: "Vampire Survivors",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【VAMPIRE SURVIVORS】6 LIVES SHOULD BE ENOUGH, RIGHT?", url: "https://www.youtube.com/watch?v=M_-a09BBegM", publishedDate: "2026-10-11" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-140",
+    title: "【AMONG US】TAG COLLAB YEY",
+    streamer: "Millie Parfait",
+    game: "Among Us",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【AMONG US】TAG COLLAB YEY", url: "https://www.youtube.com/watch?v=T-ie3HbKgXo", publishedDate: "2026-10-08" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-141",
+    title: "【UNO】dos, tres",
+    streamer: "Vestia Zeta",
+    game: "UNO",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【UNO】dos, tres", url: "https://www.youtube.com/watch?v=_Dl6Vu1L3kw", publishedDate: "2026-10-08" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-142",
+    title: "【PEAK】にじSSS三人、仲間パワーで山登りリベンジ！！！",
+    streamer: "Klara Charmwood",
+    game: "PEAK",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【PEAK】にじSSS三人、仲間パワーで山登りリベンジ！！！【NIJISANJI EN | Klara Charmwood】", url: "https://www.youtube.com/watch?v=EUZPAl46ACs", publishedDate: "2026-10-06" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-143",
+    title: "【MINECRAFT】I'M NOT SCARED! TEST OF COURAGE 2026! #マイクラ肝試し2026",
+    streamer: "Gigi Murin",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【MINECRAFT】I'M NOT SCARED! TEST OF COURAGE 2026! #マイクラ肝試し2026", url: "https://www.youtube.com/watch?v=C1WvGkD8Zfo", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-144",
+    title: "【R.E.P.O.】 my friends are my power to get over these CRAMPS",
+    streamer: "Elira Pendora",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O.】 my friends are my power to get over these CRAMPS 【NIJISANJI EN | Elira Pendora】", url: "https://www.youtube.com/watch?v=aVV_7fdXxNo", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-145",
+    title: "【REPO】 Experiencing the new game updates! [Collab] Ft. Elira, Millie, Uki, Wilson & Zeal",
+    streamer: "Finana Ryugu",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【REPO】 Experiencing the new game updates! [Collab] Ft. Elira, Millie, Uki, Wilson & Zeal", url: "https://www.youtube.com/watch?v=r8p7ygFxjwc", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-146",
+    title: "【R.E.P.O.】no ramen for us 😔",
+    streamer: "Uki Violeta",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O.】no ramen for us 😔", url: "https://www.youtube.com/watch?v=ox52wjpRajM", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-147",
+    title: "【R.E.P.O.】 ft. NijiEN",
+    streamer: "Zeal Ginjoka",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O.】 ft. NijiEN 【NIJISANJI EN | Zeal Ginjoka】", url: "https://www.youtube.com/watch?v=hMBaIftWWEo", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-148",
+    title: "【R.E.P.O.】NO RAMEN SO WE JUST STEAL STUFF",
+    streamer: "Millie Parfait",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O.】NO RAMEN SO WE JUST STEAL STUFF", url: "https://www.youtube.com/watch?v=8Wif2Uc2XJs", publishedDate: "2026-10-03" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-149",
+    title: "【PEAK】 w/ juno, pan, rpr",
+    streamer: "涼上エリス",
+    game: "PEAK",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【PEAK】 w/ juno, pan, rpr【#VSPOEN #ErisSuzukami 】", url: "https://www.youtube.com/watch?v=RuG-64He1Qk", publishedDate: "2026-09-30" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-150",
+    title: "【DEAD BY DAYLIGHT】 surviving 2v8 game mode one last time with Kitten",
+    streamer: "Elira Pendora",
+    game: "Dead by Daylight",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【DEAD BY DAYLIGHT】 surviving 2v8 game mode one last time with Kitten 【NIJISANJI EN | Elira Pendora】", url: "https://www.youtube.com/watch?v=gVoY6lq0B3I", publishedDate: "2026-09-29" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-151",
+    title: "【OVERWATCH】chill(?) sunday rankge",
+    streamer: "ソラリリコ",
+    game: "Overwatch",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【OVERWATCH】chill(?) sunday rankge【#VSPOEN #RikoSolari】", url: "https://www.youtube.com/watch?v=giumS9mdxpQ", publishedDate: "2026-09-28" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
+  },
+  {
+    id: "single-152",
+    title: "【HITMAN】i protec and i also reck 🐾🩵 【FUWAWA SOLO】",
+    streamer: "FUWAMOCO",
+    game: "HITMAN",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【HITMAN】i protec and i also reck 🐾🩵 【FUWAWA SOLO】", url: "https://www.youtube.com/watch?v=uHDGJmhsX7k", publishedDate: "2026-09-27" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-10-26"
   }
 ];
