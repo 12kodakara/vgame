@@ -88,7 +88,9 @@
   $script:RssMinSeriesCount 本以上あり、サイトに同じVTuber×ゲームの再生リストが無い」VTuberを選ぶ
   (続き物の本数が多い順)。チャンネルIDが streamer-channel-ids.json と一致しない候補は使わない。
   探索・照合・重複除外・30日再探索抑制は従来の処理をそのまま使う。入力ファイルは読むだけで変更しない。
-  省略時は従来どおり。-Strategy Game / -TestDiscoveredJson / -CacheOnly とは併用できない。
+  省略時は従来どおり。-Strategy Game / -TestDiscoveredJson とは併用できない。
+  -CacheOnly と併用すると、選んだVTuberをAPIで探索せず、ローカルキャッシュ($CachePath)の結果だけを使う
+  (キャッシュに無いVTuberは補わずに「キャッシュ無し」と表示する。キャッシュの日時はファイルの更新日時で表示する)。
 
 .PARAMETER MaxRssVtubers
   -RssCandidatesJson 指定時に1回で探索するVTuber数の上限(既定 $script:DefaultMaxRssVtubers)。
@@ -98,6 +100,12 @@
   STEP2(探索対象の選定)まで実行して選定結果を表示し、YouTube APIを呼ばずに終了する。
   APIキー不要。探索履歴(search-history.json)は更新しない。30日再探索抑制は実際の探索と同じく適用する。
   -TestDiscoveredJson / -CacheOnly とは併用できない。
+
+.PARAMETER MaxApiUnits
+  1回の実行で使ってよいYouTube APIユニット数の上限(既定10)。channels.list・playlists.list・
+  playlistItems.list はどれも1回1ユニット。呼び出す前に残りを確認し、上限を超える呼び出しはしない
+  (失敗した呼び出しも1ユニットとして数える)。上限に達したらそこで探索を止め、それまでの結果で続きの
+  照合・レポートを行う。上限で探索が途中になったVTuberは探索履歴に記録しない(次回も探索対象に残る)。
 
 .EXAMPLE
   .\run-playlist-cycle.ps1
@@ -131,7 +139,8 @@ param(
   [int]$InsufficientMax = 2,
   [string]$RssCandidatesJson,
   [int]$MaxRssVtubers = 10,
-  [switch]$SelectOnly
+  [switch]$SelectOnly,
+  [int]$MaxApiUnits = 10
 )
 
 $ErrorActionPreference = "Stop"
@@ -167,8 +176,12 @@ if ($SelectOnly -and ($TestDiscoveredJson -or $CacheOnly)) {
   Write-Error "-SelectOnly は -TestDiscoveredJson / -CacheOnly と同時に指定できません(選定だけを行うモードのため)。"
   exit 1
 }
-if ($RssCandidatesJson -and ($Strategy -eq "Game" -or $TestDiscoveredJson -or $CacheOnly)) {
-  Write-Error "-RssCandidatesJson は -Strategy Game / -TestDiscoveredJson / -CacheOnly と同時に指定できません(選定方法・入力元が二重になるため)。選定の確認は -SelectOnly を使ってください。"
+if ($MaxApiUnits -lt 1) {
+  Write-Error "-MaxApiUnits は1以上を指定してください: $MaxApiUnits"
+  exit 1
+}
+if ($RssCandidatesJson -and ($Strategy -eq "Game" -or $TestDiscoveredJson)) {
+  Write-Error "-RssCandidatesJson は -Strategy Game / -TestDiscoveredJson と同時に指定できません(選定方法・入力元が二重になるため)。選定の確認は -SelectOnly を使ってください。"
   exit 1
 }
 if ($RssCandidatesJson -and $MaxRssVtubers -lt 1) {
@@ -623,6 +636,9 @@ New-Item -ItemType Directory -Path $rawDir -Force | Out-Null
 $allDiscovered = @()
 $searchedNames = New-Object System.Collections.Generic.List[string]
 $apiCallCount = 0
+# APIユニットの使用量(-MaxApiUnits の範囲で数える。失敗した呼び出しも1ユニット)
+$apiUnitsUsed = 0
+$apiBudgetReached = $false
 # streamer名 -> @{ status; errorType; errorDetail }
 # 「API探索が成立したVTuber」だけを search-history.json に記録するために使う。
 $discoverStatus = @{}
@@ -651,11 +667,23 @@ if ($CacheOnly) {
   # (-MaxVtubers の上限をキャッシュ利用時にも効かせるため)。
   Write-Output "[STEP3] -CacheOnly: APIを呼び出さず、選定済みVTuberぶんのローカルキャッシュを使用します。"
   Write-Output "  入力: $cacheFullPath"
+  if (-not (Test-Path -LiteralPath $cacheFullPath)) {
+    Write-Error "ローカルキャッシュが見つかりません: $cacheFullPath  (-CachePath で指定してください)"
+    exit 1
+  }
+  # キャッシュの各エントリは取得日時を持たないため、鮮度はファイルの更新日時で示す
+  $cacheTime = (Get-Item -LiteralPath $cacheFullPath).LastWriteTime
+  Write-Output ("  キャッシュの更新日時: {0}({1:N0}日前)" -f $cacheTime.ToString("yyyy-MM-dd HH:mm"), ((Get-Date) - $cacheTime).TotalDays)
   $cacheAll = Get-Content $cacheFullPath -Raw -Encoding UTF8 | ConvertFrom-Json
   $selectedNameSet = @{}
   foreach ($s in $selected) { $selectedNameSet[$s.name] = $true }
   $allDiscovered = @($cacheAll | Where-Object { $selectedNameSet.ContainsKey($_.streamer) })
   foreach ($e in $allDiscovered) { $searchedNames.Add($e.streamer) }
+  # キャッシュに無いVTuberは補わない(推測で結果を作らない)。件数と名前だけを示す
+  $cacheMissing = @($selected | Where-Object { -not ($searchedNames -contains $_.name) } | ForEach-Object { $_.name })
+  if ($cacheMissing.Count -gt 0) {
+    Write-Output ("  キャッシュ無し: {0}名 ({1})。APIで探索しないと結果はありません。" -f $cacheMissing.Count, ($cacheMissing -join ", "))
+  }
 } elseif (-not $usingLiveApi) {
   Write-Output "[STEP3] テストモード(-TestDiscoveredJson指定): APIを呼び出さず既存JSONを使用します。"
   $allDiscovered = Get-Content $TestDiscoveredJson -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -669,16 +697,28 @@ if ($CacheOnly) {
     [PSCustomObject]@{ name = $n; youtube = $yt; playlistCount = $(if ($playlistCountByStreamer.ContainsKey($n)) { $playlistCountByStreamer[$n] } else { 0 }); daysSinceSearch = [double]::MaxValue }
   })
 } else {
-  Write-Output "[STEP3] discover-playlists.ps1でAPI探索しています..."
+  Write-Output ("[STEP3] discover-playlists.ps1でAPI探索しています(APIユニット上限 {0})..." -f $MaxApiUnits)
   $i = 0
   foreach ($s in $selected) {
     $i++
+    # 残りのユニットを discover-playlists.ps1 に渡し、その範囲だけで探索させる
+    $remainingUnits = $MaxApiUnits - $apiUnitsUsed
+    if ($remainingUnits -lt 1) {
+      $apiBudgetReached = $true
+      Write-Warning ("  APIユニットの上限({0})に達したため探索を止めました。残り {1}名は探索していません(探索履歴に記録しません)。" -f $MaxApiUnits, ($selected.Count - $i + 1))
+      break
+    }
     $outRelative = "$rawDirRelative\discover-$i.json"
     $out = Join-Path $rawDir "discover-$i.json"
     try {
-      $output = & powershell.exe -NoProfile -File $discoverScript -Streamer $s.name -OutFile $outRelative 2>&1 | Out-String
+      $output = & powershell.exe -NoProfile -File $discoverScript -Streamer $s.name -OutFile $outRelative -MaxApiUnits $remainingUnits 2>&1 | Out-String
       $safe = Get-RedactedMessage $output
-      Write-Output ("  [{0}/{1}] {2}: {3}" -f $i, $selected.Count, $s.name, ($safe.Trim() -split "`n" | Select-Object -Last 1))
+      # 使ったユニット数は discover-playlists.ps1 の「API_UNITS_USED=n」を読む。読めない場合は
+      # 渡した残りをすべて使ったものとして数える(上限を確実に守るため、少なく見積もらない)
+      $unitsMatch = [regex]::Match($output, 'API_UNITS_USED=(\d+)')
+      $apiUnitsUsed += $(if ($unitsMatch.Success) { [Math]::Min([int]$unitsMatch.Groups[1].Value, $remainingUnits) } else { $remainingUnits })
+      $lastLine = ($safe.Trim() -split "`n" | Where-Object { $_ -notmatch '^API_UNITS_USED=' } | Select-Object -Last 1)
+      Write-Output ("  [{0}/{1}] {2}: {3}" -f $i, $selected.Count, $s.name, $lastLine)
       $apiCallCount++
       if (Test-Path $out) {
         $data = Get-Content $out -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -705,12 +745,16 @@ if ($CacheOnly) {
       }
     } catch {
       $msg = Get-RedactedMessage $_.Exception.Message
+      # 何ユニット使ったか分からないため、渡した残りをすべて使ったものとして数える(以降のAPI呼び出しはしない)
+      $apiUnitsUsed = $MaxApiUnits
       $discoverStatus[$s.name] = @{ status = "failed"; errorType = "DISCOVER_INVOCATION_FAILED"; errorDetail = $msg }
       Write-Warning ("  [{0}] 取得失敗: {1} … 探索履歴には記録しません" -f $s.name, $msg)
     }
     # API の利用枠超過・キー不正は、残りのVTuberを探索しても同じ失敗になるだけなので、ここで止める
-    # (止めたVTuberは探索履歴に記録しないため、次回以降も探索対象に戻る)
-    if ($discoverStatus.ContainsKey($s.name) -and @("QUOTA_ERROR", "API_KEY_INVALID") -contains $discoverStatus[$s.name].errorType) {
+    # (止めたVTuberは探索履歴に記録しないため、次回以降も探索対象に戻る)。
+    # -MaxApiUnits の上限に達した場合(API_BUDGET_EXCEEDED)も、ここで正常に止める
+    if ($discoverStatus.ContainsKey($s.name) -and $discoverStatus[$s.name].errorType -eq "API_BUDGET_EXCEEDED") { $apiBudgetReached = $true }
+    if ($discoverStatus.ContainsKey($s.name) -and @("QUOTA_ERROR", "API_KEY_INVALID", "API_BUDGET_EXCEEDED") -contains $discoverStatus[$s.name].errorType) {
       Write-Warning ("  API探索を停止しました[{0}]。残り {1}名は探索していません。" -f $discoverStatus[$s.name].errorType, ($selected.Count - $i))
       break
     }
@@ -801,7 +845,15 @@ if ($FetchVideoSamples -and $usingLiveApi -and $manualReview.Count -gt 0) {
   $n = 0
   foreach ($c in $manualReview) {
     if ($n -ge $fetchCount) { break }
+    # playlistItems.list も1ユニット。上限を超えるなら呼び出さずに止める(取得済みの分は使う)
+    if (($apiUnitsUsed + 1) -gt $MaxApiUnits) {
+      $apiBudgetReached = $true
+      Write-Warning ("  APIユニットの上限({0})に達したため、代表動画タイトルの取得を止めました({1}件取得済み)。" -f $MaxApiUnits, $n)
+      break
+    }
     $n++
+    # 失敗した呼び出しも消費として数えるため、呼び出す前に数える
+    $apiUnitsUsed++
     try {
       $url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=$($c.playlistId)&maxResults=5&key=$apiKey"
       $resp = Invoke-RestMethod -Uri $url -Method Get -ErrorAction Stop
@@ -925,6 +977,9 @@ $summary = [ordered]@{
   preAudit           = [ordered]@{ games = $preAudit.totals.games; streamers = $preAudit.totals.streamers; playlists = $preAudit.totals.playlists; errorTotal = $preAudit.errorTotal }
   apiCallsUsed       = $apiCallCount
   apiCallsUsedApprox = $apiCallCount   # 旧キー(既存レポートとの互換のため残す)
+  apiUnitsUsed       = $apiUnitsUsed   # 使ったAPIユニット数(失敗した呼び出しを含む。読めなかった分は上限まで数える)
+  maxApiUnits        = $MaxApiUnits
+  apiBudgetReached   = $apiBudgetReached
   searchListUsed     = $false          # search.listによるYouTube全体検索は実装していない
   productionChanged  = $false
 }
@@ -1079,6 +1134,8 @@ Write-Output "  $(if ($importReady.Count -eq 0) { 'N/A(import-ready 0件)' } els
 Write-Output ""
 Write-Output "API呼び出し回数："
 Write-Output "  $apiCallCount  (search.listによるYouTube全体検索: 未使用)"
+Write-Output "APIユニット使用量："
+Write-Output ("  {0} / 上限 {1}{2}" -f $apiUnitsUsed, $MaxApiUnits, $(if ($apiBudgetReached) { "(上限に達したため途中で止めました)" } else { "" }))
 Write-Output ""
 Write-Output "audit："
 Write-Output "  ERROR $($preAudit.errorTotal)(実行前。本番は今回変更していません)"
