@@ -32,6 +32,54 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "holo-076",
+      "title": "ARK🐏",
+      "streamer": "角巻わため",
+      "game": "ARK: Survival Evolved",
+      "genre": "sandbox",
+      "playlistId": "PLZ34fLWik_iD66BIiK84dPzqknR7oHqE_",
+      "thumbnailUrl": "https://i.ytimg.com/vi/6BEmQniT-tw/mqdefault.jpg",
+      "videoCount": 33,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-10-28"
+    },
+    {
+      "id": "niji-blackshibach-06",
+      "title": "黒夢町",
+      "streamer": "黒井しば",
+      "game": "黒夢町",
+      "genre": "horror",
+      "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
+      "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
+      "videoCount": 30,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-28"
+    },
+    {
+      "id": "niji-levie2434-02",
+      "title": "ほの暮らしの庭",
+      "streamer": "レヴィ・エリファ",
+      "game": "ほの暮らしの庭",
+      "genre": "sim",
+      "playlistId": "PLMG3imoNQ2uo",
+      "thumbnailUrl": "https://i.ytimg.com/vi/veVYH3ELQk8/mqdefault.jpg",
+      "videoCount": 7,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-28"
+    },
+    {
+      "id": "niji-karutayamaga-20",
+      "title": "⋆⸜ Splatoon ⸝⋆",
+      "streamer": "山神カルタ",
+      "game": "スプラトゥーン3",
+      "genre": "fps",
+      "playlistId": "PLjFz-Ge41_ev9anHtWuNcBH5hj534_Pel",
+      "thumbnailUrl": "https://i.ytimg.com/vi/3WLw_nCYX-U/mqdefault.jpg",
+      "videoCount": 80,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-28"
+    },
+    {
       "id": "niji-069",
       "title": "スプラ🖌",
       "streamer": "空星きらめ",
@@ -41,54 +89,6 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
       "videoCount": 59,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-27"
-    },
-    {
-      "id": "niji-chigusa24zon-07",
-      "title": "⟡ ゼンレスゾーンゼロ",
-      "streamer": "西園チグサ",
-      "game": "ゼンレスゾーンゼロ",
-      "genre": "rpg",
-      "playlistId": "PLYqQxMpsjrWvkJ5yXCxDWEmPcHM7A4Diw",
-      "thumbnailUrl": "https://i.ytimg.com/vi/jTvW34EWDEE/mqdefault.jpg",
-      "videoCount": 81,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-27"
-    },
-    {
-      "id": "niji-lainpaterson-16",
-      "title": "ブルーアーカイブ",
-      "streamer": "レイン・パターソン",
-      "game": "ブルーアーカイブ",
-      "genre": "rpg",
-      "playlistId": "PLnf0TderQXzKmG32jfGJnUi1rwFWU5Pav",
-      "thumbnailUrl": "https://i.ytimg.com/vi/CmpsArX53bQ/mqdefault.jpg",
-      "videoCount": 38,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-27"
-    },
-    {
-      "id": "niji-sumeragi0o-16",
-      "title": "あつまれどうぶつの森",
-      "streamer": "皇れお",
-      "game": "あつまれ どうぶつの森",
-      "genre": "sim",
-      "playlistId": "PLxu10EeAImVP5fxsLfAVS9sbkQwcV4S5G",
-      "thumbnailUrl": "https://i.ytimg.com/vi/D4CLcAO0twQ/mqdefault.jpg",
-      "videoCount": 21,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-27"
-    },
-    {
-      "id": "niji-mikogamikoto-03",
-      "title": "【スプラトゥーン3】",
-      "streamer": "御子神琴音",
-      "game": "スプラトゥーン3",
-      "genre": "fps",
-      "playlistId": "PLfR07NJoYm-I",
-      "thumbnailUrl": "https://i.ytimg.com/vi/nSRoXrO_Bes/mqdefault.jpg",
-      "videoCount": 7,
-      "addedDate": "2026-09-08",
       "updatedDate": "2026-10-27"
     }
   ],

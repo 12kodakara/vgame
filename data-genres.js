@@ -1473,6 +1473,30 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-blackshibach-06",
+     "title": "黒夢町",
+     "streamer": "黒井しば",
+     "game": "黒夢町",
+     "genre": "horror",
+     "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
+     "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
+     "videoCount": 30,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-28"
+    },
+    {
+     "id": "niji-chimamachita-02",
+     "title": "黒夢町",
+     "streamer": "町田ちま",
+     "game": "黒夢町",
+     "genre": "horror",
+     "playlistId": "PLz9E_XhmAFEEfhIlBj_MWrA0Zcf1DtQwb",
+     "thumbnailUrl": "https://i.ytimg.com/vi/S5XFlBJQYoo/mqdefault.jpg",
+     "videoCount": 106,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-27"
+    },
+    {
      "id": "niji-7tamanoi-01",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "珠乃井ナナ",
@@ -1567,30 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 1,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-11"
-    },
-    {
-     "id": "niji-nesssakaki-01",
-     "title": "【2026年ホラゲ】SILENT HILL 2",
-     "streamer": "榊ネス",
-     "game": "SILENT HILL 2",
-     "genre": "horror",
-     "playlistId": "PLJgDA-3USeTc",
-     "thumbnailUrl": "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-11"
-    },
-    {
-     "id": "gap047",
-     "title": "Dead By Daylight",
-     "streamer": "Finana Ryugu",
-     "game": "Dead by Daylight",
-     "genre": "horror",
-     "playlistId": "PL5XBGPMUTVBSKT2urLG6tTQs4Jdr3P_K3",
-     "thumbnailUrl": "https://i.ytimg.com/vi/PIxBRTRR5Bg/mqdefault.jpg",
-     "videoCount": 17,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-09"
     }
    ]
   }
