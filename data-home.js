@@ -32,6 +32,54 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "niji-072",
+      "title": "スプラ🦑",
+      "streamer": "東堂コハク",
+      "game": "スプラトゥーン",
+      "genre": "fps",
+      "playlistId": "PL7ALL1Q2z-BC0eVnVfQJuA2t8RJ-K63Vy",
+      "thumbnailUrl": "https://i.ytimg.com/vi/4B1Ot3EEkHY/mqdefault.jpg",
+      "videoCount": 105,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-10-29"
+    },
+    {
+      "id": "niji-sakuraritsuk-27",
+      "title": "マイクラ",
+      "streamer": "桜凛月",
+      "game": "Minecraft",
+      "genre": "sandbox",
+      "playlistId": "PLocKfGhRosWTZ7nv3ozx8tyWfaVldXc9N",
+      "thumbnailUrl": "https://i.ytimg.com/vi/rz28BeiEuTc/mqdefault.jpg",
+      "videoCount": 793,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-29"
+    },
+    {
+      "id": "niji-lizehelesta-01",
+      "title": "【P5R/ペルソナ5 ザ・ロイヤル】",
+      "streamer": "リゼ・ヘルエスタ",
+      "game": "ペルソナ5 ザ・ロイヤル",
+      "genre": "rpg",
+      "playlistId": "PLIaK3rAEKClM",
+      "thumbnailUrl": "https://i.ytimg.com/vi/ELM4ivEy7rI/mqdefault.jpg",
+      "videoCount": 7,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-29"
+    },
+    {
+      "id": "niji-1o46v-21",
+      "title": "【シューティング】VALORANT",
+      "streamer": "弦月藤士郎",
+      "game": "VALORANT",
+      "genre": "fps",
+      "playlistId": "PLt1c9byI2pER0xVC93cTV8-LL0LdZ1tOA",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Tqq87gX9JFI/mqdefault.jpg",
+      "videoCount": 37,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-29"
+    },
+    {
       "id": "holo-076",
       "title": "ARK🐏",
       "streamer": "角巻わため",
@@ -42,54 +90,6 @@ const HOME_SUMMARY = {
       "videoCount": 33,
       "addedDate": "2026-09-06",
       "updatedDate": "2026-10-28"
-    },
-    {
-      "id": "niji-blackshibach-06",
-      "title": "黒夢町",
-      "streamer": "黒井しば",
-      "game": "黒夢町",
-      "genre": "horror",
-      "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
-      "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
-      "videoCount": 30,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-28"
-    },
-    {
-      "id": "niji-levie2434-02",
-      "title": "ほの暮らしの庭",
-      "streamer": "レヴィ・エリファ",
-      "game": "ほの暮らしの庭",
-      "genre": "sim",
-      "playlistId": "PLMG3imoNQ2uo",
-      "thumbnailUrl": "https://i.ytimg.com/vi/veVYH3ELQk8/mqdefault.jpg",
-      "videoCount": 7,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-28"
-    },
-    {
-      "id": "niji-karutayamaga-20",
-      "title": "⋆⸜ Splatoon ⸝⋆",
-      "streamer": "山神カルタ",
-      "game": "スプラトゥーン3",
-      "genre": "fps",
-      "playlistId": "PLjFz-Ge41_ev9anHtWuNcBH5hj534_Pel",
-      "thumbnailUrl": "https://i.ytimg.com/vi/3WLw_nCYX-U/mqdefault.jpg",
-      "videoCount": 80,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-28"
-    },
-    {
-      "id": "niji-069",
-      "title": "スプラ🖌",
-      "streamer": "空星きらめ",
-      "game": "スプラトゥーン",
-      "genre": "fps",
-      "playlistId": "PLcEj_AhpEQ3kPgpVUJoz5b-TaJlP0a0mv",
-      "thumbnailUrl": "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
-      "videoCount": 59,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-27"
     }
   ],
   "streamerPicks": [

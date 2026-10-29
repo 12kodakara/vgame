@@ -2374,7 +2374,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/4B1Ot3EEkHY/mqdefault.jpg",
     videoCount: 105,
     addedDate: "2026-09-06",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-074",
@@ -36055,7 +36055,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/rz28BeiEuTc/mqdefault.jpg",
     videoCount: 793,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-26",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-chimamachita-01",
@@ -38203,7 +38203,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/ELM4ivEy7rI/mqdefault.jpg",
     videoCount: 7,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-lizehelesta-02",
@@ -48799,7 +48799,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/Tqq87gX9JFI/mqdefault.jpg",
     videoCount: 37,
     addedDate: "2026-09-08",
-    updatedDate: "2026-08-10",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-1o46v-22",
