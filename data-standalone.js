@@ -2074,5 +2074,49 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-10-26"
+  },
+  {
+    id: "single-153",
+    title: "Apex Legends 配信まとめ",
+    streamer: "胡桃のあ",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【 APEX 】モチベ結構あります【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=Ejxf2jkUNdw", publishedDate: "2026-09-24" },
+      { title: "【 APEX 】移動できるキャラに甘えんじゃないよ【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=PSL_JnxgFHk", publishedDate: "2026-09-25" },
+      { title: "【 APEX 】美が呼んでいます【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=2nz9F90qViE", publishedDate: "2026-09-28" },
+      { title: "【 APEX 】私のハートはすべてを見破る。【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=PhWKT1y71O4", publishedDate: "2026-09-30" },
+      { title: "【 APEX 】久しぶりにソロ行ってみるかぁ【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=HZh3kKEseqM", publishedDate: "2026-10-11" },
+      { title: "【 APEX 】今も特に環境はかわらずですか？【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=uSEPDCBu3pE", publishedDate: "2026-10-19" },
+      { title: "【 APEX 】いかないで；；【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=qmeWbb02TxA", publishedDate: "2026-10-21" },
+      { title: "【 APEX 】ソロでもダイヤ２に行きたい！【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=iN_5lu5pE3U", publishedDate: "2026-10-22" },
+      { title: "【 APEX 】ちょっと寝てたけどワールズエッジのために【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=FjPVM3IqJJI", publishedDate: "2026-10-26" }
+    ],
+    note: "専用再生リストなし(RSS収集による仮登録。公式再生リストではありません)",
+    addedDate: "2026-10-28"
+  },
+  {
+    id: "single-154",
+    title: "VALORANT 配信まとめ",
+    streamer: "レヨン",
+    game: "VALORANT",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【VALORANT】2日連続valoをやったっていい", url: "https://www.youtube.com/watch?v=iG3DJAPTfuY", publishedDate: "2026-10-01" },
+      { title: "【VALORANT】新しいマウスを頂いたので早速使ってみた", url: "https://www.youtube.com/watch?v=39fAQaKhFqE", publishedDate: "2026-10-05" },
+      { title: "【VALORANT】新しいマウスに慣れるためにランクですな", url: "https://www.youtube.com/watch?v=k1-r6-p2btk", publishedDate: "2026-10-06" },
+      { title: "【VALORANT】今日は歌みたがあがるらしいですな", url: "https://www.youtube.com/watch?v=Idu7jhwQytI", publishedDate: "2026-10-07" },
+      { title: "【VALORANT】俺はソロだ。", url: "https://www.youtube.com/watch?v=R6HNd0-9Yh0", publishedDate: "2026-10-08" },
+      { title: "【VALORANT】本日まさかの3回配信です", url: "https://www.youtube.com/watch?v=1D5alwRw5rw", publishedDate: "2026-10-11" },
+      { title: "【VALORANT】24時を回ればハーフアニバまであと1週間だぜ", url: "https://www.youtube.com/watch?v=nsuqux3_JJE", publishedDate: "2026-10-12" },
+      { title: "【VALORANT】今日でシーズンリセットらしい。", url: "https://www.youtube.com/watch?v=AQqpU1WVSUY", publishedDate: "2026-10-14" },
+      { title: "【VALORANT】新シーズンが来たらしいな。", url: "https://www.youtube.com/watch?v=KGKb0fJbV-k", publishedDate: "2026-10-16" },
+      { title: "【VALORANT】家のトイレが先ほど壊れたって話する？", url: "https://www.youtube.com/watch?v=af_cA8fgR20", publishedDate: "2026-10-23" },
+      { title: "【VALORANT】レイナレイナレイナ。", url: "https://www.youtube.com/watch?v=VjvstWtjBQM", publishedDate: "2026-10-24" }
+    ],
+    note: "専用再生リストなし(RSS収集による仮登録。公式再生リストではありません)",
+    addedDate: "2026-10-28"
   }
 ];
