@@ -2362,7 +2362,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
     videoCount: 59,
     addedDate: "2026-09-06",
-    updatedDate: "2026-10-27",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-072",
@@ -50923,7 +50923,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/n8dNVNVxNyo/mqdefault.jpg",
     videoCount: 17,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-30",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-chigusa24zon-03",
@@ -51007,7 +51007,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/XuaTZ1D2C04/mqdefault.jpg",
     videoCount: 116,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-18",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-chigusa24zon-10",
@@ -52375,7 +52375,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/qE_MWT2HFuI/mqdefault.jpg",
     videoCount: 23,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-17",
+    updatedDate: "2026-10-28",
   },
   {
     id: "niji-yotsuhaumise-05",
@@ -52495,7 +52495,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/OKqOqmDUVrg/mqdefault.jpg",
     videoCount: 12,
     addedDate: "2026-09-08",
-    updatedDate: "2025-12-15",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-yotsuhaumise-15",
@@ -54283,7 +54283,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/lPz_mWxGBBA/mqdefault.jpg",
     videoCount: 30,
     addedDate: "2026-09-08",
-    updatedDate: "2025-12-10",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-wataraihibar-37",
@@ -54463,7 +54463,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/aW0yhE5CLW4/mqdefault.jpg",
     videoCount: 6,
     addedDate: "2026-09-08",
-    updatedDate: "2022-10-30",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-shikinagi243-10",
@@ -54835,7 +54835,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/PkM5dGARr5w/mqdefault.jpg",
     videoCount: 31,
     addedDate: "2026-09-08",
-    updatedDate: "2025-12-14",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-seraphdazz-31",
@@ -56083,7 +56083,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/5Td6P-EjNY4/mqdefault.jpg",
     videoCount: 22,
     addedDate: "2026-09-08",
-    updatedDate: "2024-11-23",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-seffyna2434-08",
@@ -56683,7 +56683,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/5VQgYTG5vqw/mqdefault.jpg",
     videoCount: 14,
     addedDate: "2026-09-08",
-    updatedDate: "2026-07-20",
+    updatedDate: "2026-10-28",
   },
   {
     id: "niji-toru2434-42",
@@ -59431,7 +59431,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/ejV-HHsJFfo/mqdefault.jpg",
     videoCount: 77,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-26",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-usamiritopow-36",
@@ -59491,7 +59491,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/RZ7z3Hh7_Ng/mqdefault.jpg",
     videoCount: 5,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-23",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-hibachimana-02",
@@ -60799,7 +60799,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/EQxJEDs3G3k/mqdefault.jpg",
     videoCount: 28,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-16",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-rai173-24",
@@ -61135,7 +61135,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/s-7u2Kt-lKA/mqdefault.jpg",
     videoCount: 2,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-21",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-ruri4ori8-02",
@@ -62119,7 +62119,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
     videoCount: 4,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-11",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-nesssakaki-02",
@@ -62479,7 +62479,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/kbe2GzQGOIs/mqdefault.jpg",
     videoCount: 13,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-shigariko-15",
@@ -63703,7 +63703,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/Z1j05NowvUQ/mqdefault.jpg",
     videoCount: 34,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-18",
+    updatedDate: "2026-10-31",
   },
   {
     id: "niji-saotomeberry-13",
@@ -64003,7 +64003,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/OnjEOjIqNlM/mqdefault.jpg",
     videoCount: 35,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-31",
   },
   {
     id: "niji-kiraratamako-24",
@@ -64039,7 +64039,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/tuFWniFGRKE/mqdefault.jpg",
     videoCount: 90,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-20",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-sakayorisoma-02",
@@ -64963,7 +64963,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/m-zC5pmuz-g/mqdefault.jpg",
     videoCount: 33,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-13",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-sumeragi0o-15",
@@ -65323,7 +65323,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/f06suYyN5sE/mqdefault.jpg",
     videoCount: 10,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-04",
+    updatedDate: "2026-10-29",
   },
   {
     id: "hd-todorokihajime-honokurashi",
@@ -65659,7 +65659,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/nSRoXrO_Bes/mqdefault.jpg",
     videoCount: 7,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-27",
+    updatedDate: "2026-10-29",
   },
   {
     id: "niji-mikogamikoto-04",
@@ -68131,7 +68131,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/fPqirTsaPzs/mqdefault.jpg",
     videoCount: 28,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-24",
+    updatedDate: "2026-10-28",
   },
   {
     id: "nijien-claudeclawmark-03",
@@ -68431,7 +68431,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/9yIAxUU6FsQ/mqdefault.jpg",
     videoCount: 64,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-28",
+    updatedDate: "2026-10-29",
   },
   {
     id: "nijien-seible-02",
@@ -68611,7 +68611,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/VBuxLSPomA8/mqdefault.jpg",
     videoCount: 23,
     addedDate: "2026-09-08",
-    updatedDate: "2025-08-24",
+    updatedDate: "2026-10-27",
   },
   {
     id: "vspoen-narinmikure-02",
@@ -77503,7 +77503,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/9YFr0n9YMkM/mqdefault_live.jpg",
     videoCount: 26,
     addedDate: "2026-09-08",
-    updatedDate: "2026-09-07",
+    updatedDate: "2026-10-28",
   },
   {
     id: "gap724",
@@ -79021,7 +79021,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/7RogSphg1bE/mqdefault.jpg",
     videoCount: 5,
     addedDate: "2026-10-11",
-    updatedDate: "2026-10-05",
+    updatedDate: "2026-10-30",
   },
   {
     id: "gap831",
@@ -79177,7 +79177,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/_7MHCF8Qz8k/mqdefault.jpg",
     videoCount: 17,
     addedDate: "2026-10-11",
-    updatedDate: "2026-09-09",
+    updatedDate: "2026-08-31",
   },
   {
     id: "gap844",
@@ -79477,7 +79477,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/xgH_228jFBY/mqdefault.jpg",
     videoCount: 2,
     addedDate: "2026-10-11",
-    updatedDate: "2026-10-26",
+    updatedDate: "2026-10-29",
   },
   {
     id: "gap869",
@@ -80233,7 +80233,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
     videoCount: 38,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-28",
   },
   {
     id: "gap932",
@@ -80485,7 +80485,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
     videoCount: 7,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-17",
+    updatedDate: "2026-10-31",
   },
   {
     id: "gap953",
@@ -80545,7 +80545,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
     videoCount: 2,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-17",
+    updatedDate: "2026-10-28",
   },
   {
     id: "gap958",
@@ -80557,7 +80557,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
     videoCount: 1,
     addedDate: "2026-10-12",
-    updatedDate: "2026-10-26",
+    updatedDate: "2026-10-29",
   },
   {
     id: "gap959",

@@ -1473,6 +1473,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-nesssakaki-01",
+     "title": "【2026年ホラゲ】SILENT HILL 2",
+     "streamer": "榊ネス",
+     "game": "SILENT HILL 2",
+     "genre": "horror",
+     "playlistId": "PLJgDA-3USeTc",
+     "thumbnailUrl": "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
+     "videoCount": 4,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-29"
+    },
+    {
      "id": "niji-blackshibach-06",
      "title": "黒夢町",
      "streamer": "黒井しば",
@@ -1579,18 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 4,
      "addedDate": "2026-10-12",
      "updatedDate": "2026-10-15"
-    },
-    {
-     "id": "niji-kitamicoolgu-01",
-     "title": "パラノマサイト FILE38 伊勢人魚物語",
-     "streamer": "北見遊征",
-     "game": "パラノマサイト FILE38 伊勢人魚物語",
-     "genre": "horror",
-     "playlistId": "PLQGuvrqdUwkg",
-     "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
-     "videoCount": 1,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-11"
     }
    ]
   }

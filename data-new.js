@@ -150,16 +150,16 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
-   "id": "gap951",
-   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "streamer": "猫屋敷美紅",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLEUCHw2KzwD8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-   "videoCount": 8,
+   "id": "gap952",
+   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
+   "streamer": "鷹嶺ルイ",
+   "game": "ドラゴンクエストビルダーズ",
+   "genre": "sandbox",
+   "playlistId": "PLQsl2ovb1Y-Y",
+   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
+   "videoCount": 7,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-26"
+   "updatedDate": "2026-10-31"
   },
   {
    "id": "gap958",
@@ -170,6 +170,42 @@ const NEW_LIST = {
    "playlistId": "PLDHb-kzpx5VU",
    "thumbnailUrl": "https://i.ytimg.com/vi/zSuZMR902M8/mqdefault.jpg",
    "videoCount": 1,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-29"
+  },
+  {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-28"
+  },
+  {
+   "id": "gap957",
+   "title": "🎮【ドラゴンクエスト シリーズ】",
+   "streamer": "Rei7",
+   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
+   "genre": "rpg",
+   "playlistId": "PLKTfrB9_BK5U",
+   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-28"
+  },
+  {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-26"
   },
@@ -184,18 +220,6 @@ const NEW_LIST = {
    "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-26"
-  },
-  {
-   "id": "gap931",
-   "title": "死んだら即終了DARK SOULS Ⅲ",
-   "streamer": "鷹宮リオン",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLChDzynvDgpo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
-   "videoCount": 38,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-25"
   },
   {
    "id": "gap973",
@@ -217,30 +241,6 @@ const NEW_LIST = {
    "genre": "action",
    "playlistId": "PLZfy98ejRo_I",
    "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-17"
-  },
-  {
-   "id": "gap952",
-   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
-   "streamer": "鷹嶺ルイ",
-   "game": "ドラゴンクエストビルダーズ",
-   "genre": "sandbox",
-   "playlistId": "PLQsl2ovb1Y-Y",
-   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-17"
-  },
-  {
-   "id": "gap957",
-   "title": "🎮【ドラゴンクエスト シリーズ】",
-   "streamer": "Rei7",
-   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
-   "genre": "rpg",
-   "playlistId": "PLKTfrB9_BK5U",
-   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
    "videoCount": 2,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-17"
