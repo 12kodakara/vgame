@@ -28,7 +28,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/rz28BeiEuTc/mqdefault.jpg",
    "videoCount": 793,
    "addedDate": "2026-09-08",
-   "updatedDate": "2026-10-29",
+   "updatedDate": "2026-10-31",
    "_rank": 2
   },
   {

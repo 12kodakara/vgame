@@ -32,6 +32,42 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "niji-sakuraritsuk-27",
+      "title": "マイクラ",
+      "streamer": "桜凛月",
+      "game": "Minecraft",
+      "genre": "sandbox",
+      "playlistId": "PLocKfGhRosWTZ7nv3ozx8tyWfaVldXc9N",
+      "thumbnailUrl": "https://i.ytimg.com/vi/rz28BeiEuTc/mqdefault.jpg",
+      "videoCount": 793,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-31"
+    },
+    {
+      "id": "niji-levie2434-04",
+      "title": "ぽこ あ ポケモン",
+      "streamer": "レヴィ・エリファ",
+      "game": "ぽこ あ ポケモン",
+      "genre": "other",
+      "playlistId": "PLOzLuGbMLuwwjH7C81rHmyLAknCoH1Xee",
+      "thumbnailUrl": "https://i.ytimg.com/vi/61hmQAz8LJw/mqdefault.jpg",
+      "videoCount": 23,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-31"
+    },
+    {
+      "id": "niji-karutayamaga-20",
+      "title": "⋆⸜ Splatoon ⸝⋆",
+      "streamer": "山神カルタ",
+      "game": "スプラトゥーン3",
+      "genre": "fps",
+      "playlistId": "PLjFz-Ge41_ev9anHtWuNcBH5hj534_Pel",
+      "thumbnailUrl": "https://i.ytimg.com/vi/3WLw_nCYX-U/mqdefault.jpg",
+      "videoCount": 80,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-10-31"
+    },
+    {
       "id": "niji-saotomeberry-12",
       "title": "🍓スプラトゥーン3",
       "streamer": "早乙女ベリー",
@@ -54,42 +90,6 @@ const HOME_SUMMARY = {
       "videoCount": 35,
       "addedDate": "2026-09-08",
       "updatedDate": "2026-10-31"
-    },
-    {
-      "id": "gap952",
-      "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
-      "streamer": "鷹嶺ルイ",
-      "game": "ドラゴンクエストビルダーズ",
-      "genre": "sandbox",
-      "playlistId": "PLQsl2ovb1Y-Y",
-      "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
-      "videoCount": 7,
-      "addedDate": "2026-10-12",
-      "updatedDate": "2026-10-31"
-    },
-    {
-      "id": "niji-069",
-      "title": "スプラ🖌",
-      "streamer": "空星きらめ",
-      "game": "スプラトゥーン",
-      "genre": "fps",
-      "playlistId": "PLcEj_AhpEQ3kPgpVUJoz5b-TaJlP0a0mv",
-      "thumbnailUrl": "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
-      "videoCount": 59,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-10-30"
-    },
-    {
-      "id": "niji-chigusa24zon-02",
-      "title": "⟡ 鳴潮",
-      "streamer": "西園チグサ",
-      "game": "鳴潮",
-      "genre": "rpg",
-      "playlistId": "PLYqQxMpsjrWtqdRHrsobwWlm7uApCpYRI",
-      "thumbnailUrl": "https://i.ytimg.com/vi/n8dNVNVxNyo/mqdefault.jpg",
-      "videoCount": 17,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-10-30"
     }
   ],
   "streamerPicks": [

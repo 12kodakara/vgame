@@ -2806,7 +2806,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/DJ6Felk0PXk/mqdefault.jpg",
     videoCount: 11,
     addedDate: "2026-09-06",
-    updatedDate: "2026-09-08",
+    updatedDate: "2026-10-27",
   },
   {
     id: "niji-215",
@@ -35035,7 +35035,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/u7WciVI0XuY/mqdefault.jpg",
     videoCount: 93,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-14",
+    updatedDate: "2026-10-28",
   },
   {
     id: "niji-harusakiair2-04",
@@ -35959,7 +35959,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/2mfRGmdLEm8/mqdefault.jpg",
     videoCount: 139,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-26",
+    updatedDate: "2026-10-27",
   },
   {
     id: "niji-sakuraritsuk-20",
@@ -36007,7 +36007,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/m3qCrjMGKRY/mqdefault.jpg",
     videoCount: 162,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-20",
+    updatedDate: "2026-10-27",
   },
   {
     id: "niji-sakuraritsuk-24",
@@ -36055,7 +36055,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/rz28BeiEuTc/mqdefault.jpg",
     videoCount: 793,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-29",
+    updatedDate: "2026-10-31",
   },
   {
     id: "niji-chimamachita-01",
@@ -39931,7 +39931,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/61hmQAz8LJw/mqdefault.jpg",
     videoCount: 23,
     addedDate: "2026-09-08",
-    updatedDate: "2026-08-30",
+    updatedDate: "2026-10-31",
   },
   {
     id: "niji-levie2434-05",
@@ -44443,7 +44443,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/U8jbXlWNhaU/mqdefault.jpg",
     videoCount: 35,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-25",
+    updatedDate: "2026-10-30",
   },
   {
     id: "niji-amamiyakokor-35",
@@ -46219,7 +46219,7 @@ const PLAYLISTS = [
     thumbnailUrl: "https://i.ytimg.com/vi/3WLw_nCYX-U/mqdefault.jpg",
     videoCount: 80,
     addedDate: "2026-09-08",
-    updatedDate: "2026-10-28",
+    updatedDate: "2026-10-31",
   },
   {
     id: "niji-karutayamaga-21",
