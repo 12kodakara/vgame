@@ -159,7 +159,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
    "videoCount": 7,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-31"
+   "updatedDate": "2026-11-01"
   },
   {
    "id": "gap958",
@@ -198,6 +198,18 @@ const NEW_LIST = {
    "updatedDate": "2026-10-28"
   },
   {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-10-28"
+  },
+  {
    "id": "gap951",
    "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
    "streamer": "猫屋敷美紅",
@@ -220,18 +232,6 @@ const NEW_LIST = {
    "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-26"
-  },
-  {
-   "id": "gap973",
-   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
-   "streamer": "ニュイ・ソシエール",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLEVj9tREVQck",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-23"
   },
   {
    "id": "gap930",

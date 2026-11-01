@@ -1473,6 +1473,42 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap787",
+     "title": "凛LIVE --- R.E.P.O.",
+     "streamer": "静凛",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
+     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
+     "videoCount": 13,
+     "addedDate": "2026-09-19",
+     "updatedDate": "2026-11-01"
+    },
+    {
+     "id": "gap061",
+     "title": "Phasmophobia",
+     "streamer": "Finana Ryugu",
+     "game": "Phasmophobia",
+     "genre": "horror",
+     "playlistId": "PL5XBGPMUTVBQ5GBurKO_SPTt2-9J38oco",
+     "thumbnailUrl": "https://i.ytimg.com/vi/1PiXZDOsOp8/mqdefault.jpg",
+     "videoCount": 11,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-31"
+    },
+    {
+     "id": "hd-0127",
+     "title": "R.E.P.O.",
+     "streamer": "白上フブキ",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL7LdRPp7xCkOXRU8NyFuB9WXdAZ9pVizi",
+     "thumbnailUrl": "https://i.ytimg.com/vi/5pQ10AsYS38/mqdefault.jpg",
+     "videoCount": 51,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-10-30"
+    },
+    {
      "id": "niji-nesssakaki-01",
      "title": "【2026年ホラゲ】SILENT HILL 2",
      "streamer": "榊ネス",
@@ -1521,18 +1557,6 @@ const GENRE_PAGES = {
      "updatedDate": "2026-10-24"
     },
     {
-     "id": "hd-0127",
-     "title": "R.E.P.O.",
-     "streamer": "白上フブキ",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PL7LdRPp7xCkOXRU8NyFuB9WXdAZ9pVizi",
-     "thumbnailUrl": "https://i.ytimg.com/vi/5pQ10AsYS38/mqdefault.jpg",
-     "videoCount": 51,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-10-22"
-    },
-    {
      "id": "hd-0545",
      "title": "REPO",
      "streamer": "不知火フレア",
@@ -1567,30 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-10-20"
-    },
-    {
-     "id": "gap1006",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "白砂あやね",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLF74GEJMvXC8",
-     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
-     "videoCount": 8,
-     "addedDate": "2026-10-26",
-     "updatedDate": "2026-10-18"
-    },
-    {
-     "id": "gap961",
-     "title": "京子の【パラノマサイト FILE38 伊勢人魚物語】",
-     "streamer": "轟京子",
-     "game": "パラノマサイト FILE38 伊勢人魚物語",
-     "genre": "horror",
-     "playlistId": "PLFKv7E5Tpkvw",
-     "thumbnailUrl": "https://i.ytimg.com/vi/NBNzS2IG6WY/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-10-12",
-     "updatedDate": "2026-10-15"
     }
    ]
   }
