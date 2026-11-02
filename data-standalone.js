@@ -2118,5 +2118,96 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(RSS収集による仮登録。公式再生リストではありません)",
     addedDate: "2026-10-28"
+  },
+  {
+    id: "single-155",
+    title: "【コラボ】アソビ★まわり隊！の４人でR.E.P.Oに挑戦だーーー！！！",
+    streamer: "百灯キョーコ",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【コラボ】アソビ★まわり隊！の４人でR.E.P.Oに挑戦だーーー！！！【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=pHmyFfovwj8", publishedDate: "2026-10-14" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-156",
+    title: "ホロライブ新人ユニットがホラゲ「R.E.P.O.」で遊ぶのじゃ",
+    streamer: "熱千めら",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "ホロライブ新人ユニットがホラゲ「R.E.P.O.」で遊ぶのじゃ【アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=xKhbOWNoYN8", publishedDate: "2026-10-14" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-157",
+    title: "既プレイなのに反応が初見すぎる「夜勤事件」",
+    streamer: "熱千めら",
+    game: "夜勤事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "既プレイなのに反応が初見すぎる「夜勤事件」【ホロライブ/熱千めら】", url: "https://www.youtube.com/watch?v=ZQJkVI2CWq0", publishedDate: "2026-10-23" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-158",
+    title: "【APEX】　トワ先輩・すいせい先輩と初コラボ！？APEX参ります!!!!!",
+    streamer: "鈴鳴つづり",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【APEX】　トワ先輩・すいせい先輩と初コラボ！？APEX参ります!!!!!【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=xb1KaLmkaoo", publishedDate: "2026-10-29" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-159",
+    title: "【R.E.P.O. with アソビ★まわり隊！】博士が幽霊に負けるわけないよねっ！！",
+    streamer: "宙科そぴあ",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O. with アソビ★まわり隊！】博士が幽霊に負けるわけないよねっ！！【宙科そぴあ視点/ホロライブ】", url: "https://www.youtube.com/watch?v=cZc0ItF8h44", publishedDate: "2026-10-14" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-160",
+    title: "【アソビ★まわり隊！】4人で協力アクション、できるのかっ！？",
+    streamer: "宙科そぴあ",
+    game: "PICO PARK",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【アソビ★まわり隊！】4人で協力アクション、できるのかっ！？【PICO PARK/ホロライブ】", url: "https://www.youtube.com/watch?v=m2z1mA9ICSI", publishedDate: "2026-10-20" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-161",
+    title: "【#ホロ鯖かくれんぼ】ホロメンの先輩とマイクラで かくれんぼっ！",
+    streamer: "宙科そぴあ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【#ホロ鯖かくれんぼ】ホロメンの先輩とマイクラで かくれんぼっ！【宙科そぴあ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=Uy-KPheZe7U", publishedDate: "2026-10-22" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
   }
 ];
