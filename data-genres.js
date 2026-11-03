@@ -1482,7 +1482,7 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
      "videoCount": 13,
      "addedDate": "2026-09-19",
-     "updatedDate": "2026-11-01"
+     "updatedDate": "2026-11-02"
     },
     {
      "id": "gap061",
