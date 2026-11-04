@@ -470,7 +470,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/AtXswQOokxQ/mqdefault.jpg",
    "videoCount": 199,
    "addedDate": "2026-09-08",
-   "updatedDate": "2026-10-23",
+   "updatedDate": "2026-11-04",
    "_rank": 36
   },
   {

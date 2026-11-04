@@ -162,6 +162,18 @@ const NEW_LIST = {
    "updatedDate": "2026-11-01"
   },
   {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-01"
+  },
+  {
    "id": "gap958",
    "title": "🎮：星のカービィ ディスカバリー",
    "streamer": "千凛あゆむ",
@@ -218,18 +230,6 @@ const NEW_LIST = {
    "playlistId": "PLEUCHw2KzwD8",
    "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
    "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-26"
-  },
-  {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-26"
   },

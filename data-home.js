@@ -32,40 +32,52 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "niji-seffyna2434-07",
-      "title": "🦑SPLATOON",
-      "streamer": "セフィナ",
-      "game": "スプラトゥーン3",
+      "id": "niji-144",
+      "title": "スプラトゥーン",
+      "streamer": "フミ",
+      "game": "スプラトゥーン",
       "genre": "fps",
-      "playlistId": "PLVkryDuTSzpNxVSd8O89BfV8rthhB7gZw",
-      "thumbnailUrl": "https://i.ytimg.com/vi/5Td6P-EjNY4/mqdefault.jpg",
-      "videoCount": 22,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-03"
-    },
-    {
-      "id": "gap841",
-      "title": "｢スイカゲーム｣です🍉",
-      "streamer": "篠宮ゆの",
-      "game": "スイカゲーム",
-      "genre": "puzzle",
-      "playlistId": "PLaC2-cpcpagw",
-      "thumbnailUrl": "https://i.ytimg.com/vi/FW4dDHVsE68/mqdefault.jpg",
-      "videoCount": 23,
-      "addedDate": "2026-10-11",
-      "updatedDate": "2026-11-03"
-    },
-    {
-      "id": "holo-076",
-      "title": "ARK🐏",
-      "streamer": "角巻わため",
-      "game": "ARK: Survival Evolved",
-      "genre": "sandbox",
-      "playlistId": "PLZ34fLWik_iD66BIiK84dPzqknR7oHqE_",
-      "thumbnailUrl": "https://i.ytimg.com/vi/6BEmQniT-tw/mqdefault.jpg",
+      "playlistId": "PLWRt-KFHLtpdS15i4LNO9kFkZHkFQWFZ4",
+      "thumbnailUrl": "https://i.ytimg.com/vi/gWrVu8xMu30/mqdefault.jpg",
       "videoCount": 33,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-02"
+      "updatedDate": "2026-11-04"
+    },
+    {
+      "id": "niji-chigusa24zon-13",
+      "title": "⟡ 原神",
+      "streamer": "西園チグサ",
+      "game": "原神",
+      "genre": "rpg",
+      "playlistId": "PLYqQxMpsjrWsACCzSgFfJJG-T1BKbuuMl",
+      "thumbnailUrl": "https://i.ytimg.com/vi/AtXswQOokxQ/mqdefault.jpg",
+      "videoCount": 199,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-04"
+    },
+    {
+      "id": "niji-toru2434-41",
+      "title": "スプラトゥーン",
+      "streamer": "小清水透",
+      "game": "スプラトゥーン3",
+      "genre": "fps",
+      "playlistId": "PL9mzRTKsqnF5EpglRyvsmvQC_BUWTMA2q",
+      "thumbnailUrl": "https://i.ytimg.com/vi/5VQgYTG5vqw/mqdefault.jpg",
+      "videoCount": 14,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-04"
+    },
+    {
+      "id": "gap835",
+      "title": "LOST JUDGMENT：裁かれざる記憶",
+      "streamer": "水宮枢",
+      "game": "LOST JUDGMENT:裁かれざる記憶",
+      "genre": "action",
+      "playlistId": "PLLOWP7UoerRc",
+      "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
+      "videoCount": 3,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-11-04"
     },
     {
       "id": "niji-069",
@@ -77,19 +89,7 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
       "videoCount": 59,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-02"
-    },
-    {
-      "id": "niji-072",
-      "title": "スプラ🦑",
-      "streamer": "東堂コハク",
-      "game": "スプラトゥーン",
-      "genre": "fps",
-      "playlistId": "PL7ALL1Q2z-BC0eVnVfQJuA2t8RJ-K63Vy",
-      "thumbnailUrl": "https://i.ytimg.com/vi/4B1Ot3EEkHY/mqdefault.jpg",
-      "videoCount": 105,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-02"
+      "updatedDate": "2026-11-03"
     }
   ],
   "streamerPicks": [

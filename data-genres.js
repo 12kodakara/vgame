@@ -1482,7 +1482,19 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
      "videoCount": 13,
      "addedDate": "2026-09-19",
-     "updatedDate": "2026-11-02"
+     "updatedDate": "2026-11-03"
+    },
+    {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-11-03"
     },
     {
      "id": "gap061",
@@ -1543,18 +1555,6 @@ const GENRE_PAGES = {
      "videoCount": 106,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-27"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-24"
     },
     {
      "id": "hd-0545",
