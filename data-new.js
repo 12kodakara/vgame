@@ -6,6 +6,18 @@ const NEW_LIST = {
  "version": 1,
  "items": [
   {
+   "id": "gap1006",
+   "title": "魔法少女ノ魔女裁判",
+   "streamer": "白砂あやね",
+   "game": "魔法少女ノ魔女裁判",
+   "genre": "horror",
+   "playlistId": "PLF74GEJMvXC8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-26",
+   "updatedDate": "2026-11-03"
+  },
+  {
    "id": "gap1007",
    "title": "【ジャッジアイズ】実況プレイ",
    "streamer": "鈴原るる",
@@ -16,18 +28,6 @@ const NEW_LIST = {
    "videoCount": 7,
    "addedDate": "2026-10-26",
    "updatedDate": "2026-10-20"
-  },
-  {
-   "id": "gap1006",
-   "title": "魔法少女ノ魔女裁判",
-   "streamer": "白砂あやね",
-   "game": "魔法少女ノ魔女裁判",
-   "genre": "horror",
-   "playlistId": "PLF74GEJMvXC8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-26",
-   "updatedDate": "2026-10-18"
   },
   {
    "id": "gap997",
@@ -150,18 +150,6 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
-   "id": "gap952",
-   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
-   "streamer": "鷹嶺ルイ",
-   "game": "ドラゴンクエストビルダーズ",
-   "genre": "sandbox",
-   "playlistId": "PLQsl2ovb1Y-Y",
-   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
-   "videoCount": 7,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-11-01"
-  },
-  {
    "id": "gap974",
    "title": "空の軌跡 the 2nd",
    "streamer": "立伝都々",
@@ -170,6 +158,30 @@ const NEW_LIST = {
    "playlistId": "PLJos2LstWKfY",
    "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
    "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-05"
+  },
+  {
+   "id": "gap973",
+   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
+   "streamer": "ニュイ・ソシエール",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLEVj9tREVQck",
+   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-04"
+  },
+  {
+   "id": "gap952",
+   "title": "ドラゴンクエスト ビルダーズ -アレフガルドを復活せよ-",
+   "streamer": "鷹嶺ルイ",
+   "game": "ドラゴンクエストビルダーズ",
+   "genre": "sandbox",
+   "playlistId": "PLQsl2ovb1Y-Y",
+   "thumbnailUrl": "https://i.ytimg.com/vi/5h8DeoXN31c/mqdefault.jpg",
+   "videoCount": 7,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-11-01"
   },
@@ -206,18 +218,6 @@ const NEW_LIST = {
    "playlistId": "PLKTfrB9_BK5U",
    "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
    "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-28"
-  },
-  {
-   "id": "gap973",
-   "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
-   "streamer": "ニュイ・ソシエール",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLEVj9tREVQck",
-   "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
-   "videoCount": 8,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-28"
   },

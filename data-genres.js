@@ -1482,6 +1482,30 @@ const GENRE_PAGES = {
      "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
      "videoCount": 13,
      "addedDate": "2026-09-19",
+     "updatedDate": "2026-11-04"
+    },
+    {
+     "id": "vspo-totokogara-21",
+     "title": "DBD",
+     "streamer": "小雀とと",
+     "game": "Dead by Daylight",
+     "genre": "horror",
+     "playlistId": "PLuXZStCIRGE32i_dmwvRlmUQ2eDfVG8t4",
+     "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
+     "videoCount": 38,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-11-04"
+    },
+    {
+     "id": "gap1006",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "白砂あやね",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLF74GEJMvXC8",
+     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
+     "videoCount": 8,
+     "addedDate": "2026-10-26",
      "updatedDate": "2026-11-03"
     },
     {
@@ -1567,30 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 25,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-10-22"
-    },
-    {
-     "id": "holo-086",
-     "title": "R.E.P.O",
-     "streamer": "尾丸ポルカ",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PLWGY2acU-ZeQqAM0T-hwzmc5YXjaCnQsu",
-     "thumbnailUrl": "https://i.ytimg.com/vi/p8HGTHfYp4g/mqdefault.jpg",
-     "videoCount": 46,
-     "addedDate": "2026-09-06",
-     "updatedDate": "2026-10-22"
-    },
-    {
-     "id": "vspo-totokogara-21",
-     "title": "DBD",
-     "streamer": "小雀とと",
-     "game": "Dead by Daylight",
-     "genre": "horror",
-     "playlistId": "PLuXZStCIRGE32i_dmwvRlmUQ2eDfVG8t4",
-     "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
-     "videoCount": 38,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-10-20"
     }
    ]
   }
