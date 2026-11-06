@@ -67,7 +67,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/MgopQQWE05o/mqdefault.jpg",
    "videoCount": 414,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-11-05",
+   "updatedDate": "2026-11-06",
    "_rank": 5
   },
   {
@@ -132,7 +132,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
    "videoCount": 351,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-11-04",
+   "updatedDate": "2026-11-05",
    "_rank": 10
   },
   {
@@ -158,7 +158,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/YStlXqyJVYQ/mqdefault.jpg",
    "videoCount": 347,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-11-04",
+   "updatedDate": "2026-11-05",
    "_rank": 12
   },
   {
@@ -548,7 +548,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/bCnRk6HMoEw/mqdefault.jpg",
    "videoCount": 187,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-11-01",
+   "updatedDate": "2026-11-05",
    "_rank": 42
   },
   {

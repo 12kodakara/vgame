@@ -32,28 +32,40 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "holo-109",
-      "title": "Minecraft",
-      "streamer": "鷹嶺ルイ",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLD992QYJ2953R-EX7LQLFD6uWmgy76W8F",
-      "thumbnailUrl": "https://i.ytimg.com/vi/8twmC-iwveM/mqdefault.jpg",
-      "videoCount": 37,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-06"
+      "id": "niji-1o46v-18",
+      "title": "【シューティング】Splatoon3",
+      "streamer": "弦月藤士郎",
+      "game": "スプラトゥーン3",
+      "genre": "fps",
+      "playlistId": "PLt1c9byI2pESBIgdXCF2PgbVuTZucLqT4",
+      "thumbnailUrl": "https://i.ytimg.com/vi/WfppKZAckjU/mqdefault.jpg",
+      "videoCount": 39,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-07"
     },
     {
-      "id": "niji-144",
-      "title": "スプラトゥーン",
-      "streamer": "フミ",
-      "game": "スプラトゥーン",
+      "id": "niji-lainpaterson-18",
+      "title": "スプラトゥーン３",
+      "streamer": "レイン・パターソン",
+      "game": "スプラトゥーン3",
       "genre": "fps",
-      "playlistId": "PLWRt-KFHLtpdS15i4LNO9kFkZHkFQWFZ4",
-      "thumbnailUrl": "https://i.ytimg.com/vi/gWrVu8xMu30/mqdefault.jpg",
-      "videoCount": 33,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-06"
+      "playlistId": "PLnf0TderQXzJOIVYeY0Yt5tjSlX59qYDI",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Eha_YQG3NCY/mqdefault.jpg",
+      "videoCount": 43,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-07"
+    },
+    {
+      "id": "niji-hibachimana-11",
+      "title": "スプラトゥーン（初見プレイ～）",
+      "streamer": "緋八マナ",
+      "game": "スプラトゥーン3",
+      "genre": "fps",
+      "playlistId": "PLkV4-gCgeV3rcImuczKmJBevf8wbsK_9X",
+      "thumbnailUrl": "https://i.ytimg.com/vi/CGEXq1eKNlQ/mqdefault.jpg",
+      "videoCount": 41,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-07"
     },
     {
       "id": "niji-saotomeberry-12",
@@ -65,31 +77,19 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/Z1j05NowvUQ/mqdefault.jpg",
       "videoCount": 34,
       "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-06"
+      "updatedDate": "2026-11-07"
     },
     {
-      "id": "niji-mikogamikoto-03",
-      "title": "【スプラトゥーン3】",
-      "streamer": "御子神琴音",
-      "game": "スプラトゥーン3",
-      "genre": "fps",
-      "playlistId": "PLfR07NJoYm-I",
-      "thumbnailUrl": "https://i.ytimg.com/vi/nSRoXrO_Bes/mqdefault.jpg",
-      "videoCount": 7,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-06"
-    },
-    {
-      "id": "niji-069",
-      "title": "スプラ🖌",
-      "streamer": "空星きらめ",
-      "game": "スプラトゥーン",
-      "genre": "fps",
-      "playlistId": "PLcEj_AhpEQ3kPgpVUJoz5b-TaJlP0a0mv",
-      "thumbnailUrl": "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
-      "videoCount": 59,
+      "id": "holo-109",
+      "title": "Minecraft",
+      "streamer": "鷹嶺ルイ",
+      "game": "Minecraft",
+      "genre": "sandbox",
+      "playlistId": "PLD992QYJ2953R-EX7LQLFD6uWmgy76W8F",
+      "thumbnailUrl": "https://i.ytimg.com/vi/8twmC-iwveM/mqdefault.jpg",
+      "videoCount": 37,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-05"
+      "updatedDate": "2026-11-06"
     }
   ],
   "streamerPicks": [
