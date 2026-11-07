@@ -2276,5 +2276,19 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-07"
+  },
+  {
+    id: "single-166",
+    title: "レーシングマスター 配信まとめ",
+    streamer: "兎田ぺこら",
+    game: "レーシングマスター",
+    genre: "racing",
+    format: "multi",
+    videos: [
+      { title: "【レーシングマスター】本格レースの世界を体験してみる！ぺこ！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=E1-SAXfsQZQ", publishedDate: "2026-09-23" },
+      { title: "【爆走】ぺこら、レーシングマスター案件でガチレース！最速の座を目指して大爆走！【兎田ぺこら／レーシングマスター】", url: "https://www.youtube.com/watch?v=5XVavftwhps", publishedDate: "2026-10-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
   }
 ];
