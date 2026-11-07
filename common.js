@@ -1471,6 +1471,7 @@ function renderTable(tbody, items, emptyMessage, rowOpts) {
  *   urlParam: ページ番号を URL に残すクエリ名(例 "page")。ページを移ると履歴に積む(戻る・進むで戻れる)。
  *             1ページ目では URL から外す。戻る・進むの復元は呼び出し側が popstate で showPage する
  *   scrollTarget: ページを移ったときに先頭へスクロールする要素
+ *   topBar: 表の上にも置くページ送り(中の .page-prev / .page-next / .page-indicator を使う。1ページだけのときは隠す)
  * 戻り値: setItems(items, opts) — 一覧の中身(検索条件やソート順が変わった時)を渡して
  *         1ページ目(opts.page を渡せばそのページ)から描画し直す関数。
  *         setItems.showPage(page) で、履歴に積まずにそのページを描画する(URL からの復元用)。
@@ -1484,6 +1485,10 @@ function initPagination(renderPage, defaultPageSize, options) {
   const pageIndicator = document.getElementById("page-indicator");
   const pageJumpForm = document.getElementById("page-jump-form");
   const pageJumpInput = document.getElementById("page-jump-input");
+  const topBar = opts.topBar || null;
+  const topPrev = topBar && topBar.querySelector(".page-prev");
+  const topNext = topBar && topBar.querySelector(".page-next");
+  const topIndicator = topBar && topBar.querySelector(".page-indicator");
 
   if (pagesizeSelect) pagesizeSelect.value = String(defaultPageSize || 20);
 
@@ -1510,6 +1515,12 @@ function initPagination(renderPage, defaultPageSize, options) {
       pageJumpInput.placeholder = String(currentPage);
     }
     if (opts.pageNumbers) renderPageNumbers(opts.pageNumbers, currentPage, totalPages, (p) => goTo(p));
+    if (topBar) {
+      topBar.hidden = totalPages <= 1;
+      if (topIndicator) topIndicator.textContent = currentPage + " / " + totalPages + " ページ";
+      if (topPrev) topPrev.disabled = currentPage <= 1;
+      if (topNext) topNext.disabled = currentPage >= totalPages;
+    }
   }
 
   // 利用者の操作でページを移る(URL に残す・先頭へスクロールする設定があればそれも行う)
@@ -1523,6 +1534,8 @@ function initPagination(renderPage, defaultPageSize, options) {
   if (pagesizeSelect) pagesizeSelect.addEventListener("change", () => { currentPage = 1; render(); });
   if (pagePrev) pagePrev.addEventListener("click", () => goTo(currentPage - 1));
   if (pageNext) pageNext.addEventListener("click", () => goTo(currentPage + 1));
+  if (topPrev) topPrev.addEventListener("click", () => goTo(currentPage - 1));
+  if (topNext) topNext.addEventListener("click", () => goTo(currentPage + 1));
   if (pageJumpForm) {
     pageJumpForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -1611,6 +1624,197 @@ function writePageToUrl(name, page, push) {
   if (url.href === window.location.href) return;
   if (push) history.pushState(null, "", url.href);
   else history.replaceState(null, "", url.href);
+}
+
+/**
+ * ============================================================
+ * 再生リスト一覧(playlists.html)・新着再生リスト(new.html)共通の検索・絞り込み
+ * ============================================================
+ * 更新頻度が高く件数の多い5ゲームは、この2ページの通常表示からだけ外す(登録データ・ゲーム別/VTuber別・
+ * サイト内検索・ランキング・トップは対象外)。判定はゲームマスターの正式名との完全一致で、部分一致は使わない
+ * (Minecraft Dungeons・League of Legends: Wild Rift などの別作品は外さない)。
+ * ゲームの絞り込みでそのゲームを選んだとき、または検索語がそのゲームの名前・別名と一致したときは表示する。
+ * extraKeywords: ゲームマスターに別名として無い表記で、検索したときに表示へ戻す語
+ */
+const LIST_HIDDEN_GAMES = [
+  { name: "Minecraft", extraKeywords: [] },
+  { name: "Grand Theft Auto V", extraKeywords: [] },
+  { name: "Apex Legends", extraKeywords: [] },
+  { name: "VALORANT", extraKeywords: ["ヴァロラント"] },
+  { name: "League of Legends", extraKeywords: ["LoL"] },
+];
+const _listHiddenGameByName = new Map(LIST_HIDDEN_GAMES.map((g) => [g.name, g]));
+
+function isListHiddenGame(gameName) {
+  return _listHiddenGameByName.has(gameName);
+}
+
+/** そのゲームを検索で表示に戻す語(正式名・日本語名・読み・別名・extraKeywords。正規化済み) */
+function listHiddenGameKeywords(gameName) {
+  const entry = _listHiddenGameByName.get(gameName);
+  if (!entry) return [];
+  const game = gameCatalogOf(gameName) || {};
+  return [gameName, game.nameJa, game.kana, ...(game.aliases || []), ...entry.extraKeywords]
+    .filter(Boolean).map(normalizeSearchText);
+}
+
+/** 絞り込み条件で明示的に指定された(=表示に戻す)対象ゲームの名前の集合 */
+function revealedListHiddenGames(filters) {
+  const out = new Set();
+  if (filters.game && isListHiddenGame(filters.game)) out.add(filters.game);
+  const q = normalizeSearchText(filters.q);
+  if (q) {
+    const padded = " " + q + " ";
+    LIST_HIDDEN_GAMES.forEach((g) => {
+      // 検索語全体、または空白で区切った語の並びとして名前・別名が含まれるときだけ(「a」などの部分一致では戻さない)
+      if (listHiddenGameKeywords(g.name).some((k) => padded.includes(" " + k + " "))) out.add(g.name);
+    });
+  }
+  return out;
+}
+
+/** 検索・絞り込みが1つでも指定されているか(新着ページで全件データを読み込むかの判定) */
+function hasPlaylistListFilters(filters) {
+  return !!(normalizeSearchText(filters.q) || filters.game || filters.streamer || filters.genre || filters.agency);
+}
+
+/**
+ * items(並び順はそのまま)に絞り込み条件を当て、対象5ゲームを外す(DOMに触れない純粋関数)。
+ * 戻り値: { items: 表示するもの, hiddenCount: 条件には一致したが対象5ゲームのため外した件数 }
+ * 外す処理は件数計算・ページ送りより前に行う(呼び出し側は items をそのままページ送りに渡す)。
+ */
+function filterPlaylistsForList(items, filters) {
+  const q = normalizeSearchText(filters.q);
+  const revealed = revealedListHiddenGames(filters);
+  const shown = [];
+  let hiddenCount = 0;
+  items.forEach((item) => {
+    if (filters.game && item.game !== filters.game) return;
+    if (filters.streamer && item.streamer !== filters.streamer) return;
+    if (filters.genre && item.genre !== filters.genre) return;
+    if (filters.agency && agencyOf(item.streamer) !== filters.agency) return;
+    if (q) {
+      const haystack = normalizeSearchText([
+        item.title,
+        item.streamer,
+        item.note,
+        gameSearchText(item.game),
+        ...listHiddenGameKeywords(item.game),
+      ].filter(Boolean).join(" "));
+      if (!haystack.includes(q)) return;
+    }
+    if (isListHiddenGame(item.game) && !revealed.has(item.game)) {
+      hiddenCount++;
+      return;
+    }
+    shown.push(item);
+  });
+  return { items: shown, hiddenCount: hiddenCount };
+}
+
+/** 件数表示に添える「人気5ゲーム n 件は非表示」(外したものが無ければ空文字) */
+function listHiddenNote(hiddenCount) {
+  return hiddenCount > 0 ? "・人気5ゲーム " + hiddenCount + " 件は非表示" : "";
+}
+
+/**
+ * 検索欄(#search-input)・ジャンル/ゲーム/事務所/実況者の絞り込み(#genre-select ほか)を初期化する。
+ * 選択肢は data-core.js と data-counts.js(件数索引)から作るので、data-playlists.js を読み込まない
+ * ページ(新着)でも全件と同じ選択肢になる。URL の q / genre / game / agency / streamer を初期値にする。
+ * スマートフォン幅(720px以下)では絞り込み欄(#list-filters の <details>)を折りたためる(PC幅では常に開く)。
+ * onChange(): 検索語(入力が落ち着いてから)・絞り込みが変わったときに呼ぶ。
+ * 戻り値: { getFilters() } — 現在の条件 { q, genre, game, agency, streamer }
+ */
+function initPlaylistListControls(onChange) {
+  const searchInput = document.getElementById("search-input");
+  const genreSelect = document.getElementById("genre-select");
+  const gameSelect = document.getElementById("game-select");
+  const agencySelect = document.getElementById("agency-select");
+  const streamerSelect = document.getElementById("streamer-select");
+  const details = document.getElementById("list-filters");
+  const activeCount = document.getElementById("filter-active-count");
+
+  function fillSelect(selectEl, entries, allLabel) {
+    selectEl.innerHTML = "";
+    [["", allLabel]].concat(entries).forEach(([value, label]) => {
+      const opt = document.createElement("option");
+      opt.value = value;
+      opt.textContent = label;
+      selectEl.appendChild(opt);
+    });
+  }
+
+  const gameCounts = typeof PLAYLIST_COUNTS_BY_GAME === "undefined" ? {} : PLAYLIST_COUNTS_BY_GAME;
+  const streamerCounts = typeof PLAYLIST_COUNTS_BY_STREAMER === "undefined" ? {} : PLAYLIST_COUNTS_BY_STREAMER;
+  const agencies = [];
+  STREAMERS.forEach((s) => {
+    const agency = agencyOf(s.name);
+    if (agencies.indexOf(agency) === -1) agencies.push(agency);
+  });
+
+  function fillStreamers() {
+    const current = streamerSelect.value;
+    const agency = agencySelect.value;
+    const names = uniqueSorted(Object.keys(streamerCounts).filter((n) => !agency || agencyOf(n) === agency));
+    fillSelect(streamerSelect, names.map((n) => [n, n]), "すべて");
+    if (names.indexOf(current) !== -1) streamerSelect.value = current;
+  }
+
+  fillSelect(genreSelect, GENRES.map((g) => [g.id, g.label]), "すべてのジャンル");
+  fillSelect(gameSelect, uniqueSorted(Object.keys(gameCounts)).map((n) => [n, gameDisplayName(n)]), "すべてのゲーム");
+  fillSelect(agencySelect, agencies.map((a) => [a, a]), "すべての事務所");
+
+  // URL からの初期値(選択肢に無い値は「すべて」のまま)
+  searchInput.value = getQueryParam("q") || "";
+  [[genreSelect, "genre"], [gameSelect, "game"], [agencySelect, "agency"]].forEach(([el, name]) => {
+    const v = getQueryParam(name);
+    if (v) el.value = v;
+  });
+  fillStreamers();
+  const initialStreamer = getQueryParam("streamer");
+  if (initialStreamer) streamerSelect.value = initialStreamer;
+
+  function getFilters() {
+    return {
+      q: searchInput.value,
+      genre: genreSelect.value,
+      game: gameSelect.value,
+      agency: agencySelect.value,
+      streamer: streamerSelect.value,
+    };
+  }
+
+  // 折りたたみの見出しに、指定中の絞り込みの数を出す(閉じていても条件が分かるように)
+  function updateActiveCount() {
+    if (!activeCount) return;
+    const f = getFilters();
+    const n = [f.genre, f.game, f.agency, f.streamer].filter(Boolean).length;
+    activeCount.textContent = n ? "(" + n + "件指定中)" : "";
+  }
+
+  function changed() {
+    updateActiveCount();
+    onChange();
+  }
+
+  // 検索欄はキー入力のたびに再描画しないよう、入力が落ち着いてから絞り込む。セレクトは change だけを見る
+  searchInput.addEventListener("input", debounce(changed, 150));
+  agencySelect.addEventListener("change", () => { fillStreamers(); changed(); });
+  [genreSelect, gameSelect, streamerSelect].forEach((el) => el.addEventListener("change", changed));
+
+  if (details && window.matchMedia) {
+    const mobile = window.matchMedia("(max-width: 720px)");
+    const f = getFilters();
+    const hasSelects = !!(f.genre || f.game || f.agency || f.streamer);
+    details.open = !mobile.matches || hasSelects;
+    // PC幅では見出しを隠して常に開く(スマホ幅で閉じたまま幅を広げても、絞り込み欄が消えたままにならないように)
+    const keepOpenOnWide = () => { if (!mobile.matches) details.open = true; };
+    if (mobile.addEventListener) mobile.addEventListener("change", keepOpenOnWide);
+    else if (mobile.addListener) mobile.addListener(keepOpenOnWide);
+  }
+  updateActiveCount();
+
+  return { getFilters: getFilters };
 }
 
 /**

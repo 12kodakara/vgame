@@ -38,7 +38,7 @@
 <meta name="twitter:description" content="直近で追加されたVTuberのゲーム実況・再生リストを新着順に一覧表示します。">
 <meta name="twitter:image" content="https://vgame-navi.jp/og-image.png">
 </head>
-<body data-lazy-playlists>
+<body class="playlists-page" data-lazy-playlists>
 
 <header class="wiki-banner">
   <div class="wiki-banner-inner">
@@ -86,19 +86,44 @@
       <h1 class="page-title">新着再生リスト</h1>
       <p class="page-lead">追加日が新しい順に表示しています。直近14日以内に追加されたものには「NEW」が付きます。</p>
 
-      <div class="controls-row">
-        <select id="pagesize-select">
-          <option value="20" selected>20件表示</option>
-          <option value="50">50件表示</option>
-        </select>
-      </div>
+      <form class="controls" onsubmit="return false">
+        <div class="controls-row">
+          <input type="search" id="search-input" placeholder="ゲーム名・VTuber を検索" aria-label="ゲーム名・VTuber を検索">
+        </div>
+        <details class="controls-more" id="list-filters" open>
+          <summary>絞り込み<span id="filter-active-count"></span></summary>
+          <div class="controls-row">
+            <select id="genre-select" aria-label="ジャンルで絞り込み"></select>
+            <select id="game-select" aria-label="ゲームで絞り込み"></select>
+            <select id="agency-select" aria-label="事務所で絞り込み"></select>
+            <select id="streamer-select" aria-label="実況者で絞り込み"></select>
+            <select id="pagesize-select" aria-label="1ページの表示件数">
+              <option value="20" selected>20件表示</option>
+              <option value="50">50件表示</option>
+              <option value="100">100件表示</option>
+            </select>
+          </div>
+        </details>
+      </form>
+      <p class="list-hidden-games-note">Minecraft・GTA V・Apex Legends・VALORANT・League of Legends は件数が多いため、通常は表示していません。ゲームで絞り込むか、ゲーム名で検索すると表示されます。</p>
+
       <p class="result-count" id="result-count"></p>
+      <div class="pagination pagination-top" id="pagination-top" hidden>
+        <button type="button" class="page-prev">← 前へ</button>
+        <span class="page-indicator"></span>
+        <button type="button" class="page-next">次へ →</button>
+      </div>
       <div class="wiki-table-wrap">
         <table class="wiki-table">
           <thead>
             <tr>
-              <th class="sortable" data-sort="genre"><button type="button" class="th-sort-btn"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></button></th><th class="sortable" data-sort="title"><button type="button" class="th-sort-btn"><span class="th-label">タイトル</span><span class="sort-arrow"></span></button></th><th class="sortable" data-sort="game"><button type="button" class="th-sort-btn"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></button></th><th class="sortable" data-sort="agency"><button type="button" class="th-sort-btn"><span class="th-label">事務所</span><span class="sort-arrow"></span></button></th><th class="sortable" data-sort="streamer"><button type="button" class="th-sort-btn"><span class="th-label">実況者</span><span class="sort-arrow"></span></button></th><th class="sortable" data-sort="videoCount"><button type="button" class="th-sort-btn"><span class="th-label">動画数</span><span class="sort-arrow"></span></button></th>
-              <th class="sortable" data-sort="updatedDate"><button type="button" class="th-sort-btn"><span class="th-label">更新日</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-genre" data-sort="genre"><button type="button" class="th-sort-btn"><span class="th-label">ジャンル</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable title-cell" data-sort="title"><button type="button" class="th-sort-btn"><span class="th-label">タイトル</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-game" data-sort="game"><button type="button" class="th-sort-btn"><span class="th-label">ゲーム</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-agency" data-sort="agency"><button type="button" class="th-sort-btn"><span class="th-label">事務所</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-streamer" data-sort="streamer"><button type="button" class="th-sort-btn"><span class="th-label">実況者</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-count" data-sort="videoCount"><button type="button" class="th-sort-btn"><span class="th-label">動画数</span><span class="sort-arrow"></span></button></th>
+              <th class="sortable col-date" data-sort="updatedDate"><button type="button" class="th-sort-btn"><span class="th-label">更新日</span><span class="sort-arrow"></span></button></th>
             </tr>
           </thead>
           <tbody id="grid"></tbody>

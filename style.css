@@ -848,6 +848,19 @@ main:has(#grid:empty) #pagination {
   padding: 0 2px;
 }
 
+/* 再生リスト一覧・新着再生リスト: 表の上のページ送り(1ページだけのときは隠す)・人気5ゲーム非表示の説明・
+   全件の読み込み失敗時の再試行ボタン・スマホ幅で折りたためる絞り込み欄(PC幅では見出しを出さず常に開く) */
+.pagination-top { margin: 0 0 10px; }
+.pagination-top[hidden] { display: none; }
+.list-hidden-games-note { margin: -6px 0 8px; font-size: 0.74rem; color: var(--text-dim); }
+.result-retry { margin-left: 4px; padding: 2px 10px; font-size: 0.78rem; cursor: pointer; }
+.controls-more > summary { display: none; }
+@media (max-width: 720px) {
+  .controls-more > summary { display: list-item; cursor: pointer; padding: 4px 0; font-size: 0.82rem; color: var(--link); }
+  .controls-more[open] > summary { margin-bottom: 8px; }
+  .controls-more .controls-row select { flex: 1 1 calc(50% - 4px); }
+}
+
 /* ---------- Wikiテーブル ---------- */
 /* サムネイル列を含めると、事務所名・ゲーム名が長い場合などにテーブルの
    最小幅がコンテンツ幅を超えることがある。その場合にページ全体がズレて

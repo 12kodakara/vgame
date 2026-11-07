@@ -89,21 +89,30 @@
       <form class="controls" onsubmit="return false">
         <div class="controls-row">
           <input type="search" id="search-input" placeholder="ゲーム名・VTuber を検索" aria-label="ゲーム名・VTuber を検索">
-          <select id="genre-select" aria-label="ジャンルで絞り込み"></select>
-          <select id="game-select" aria-label="ゲームで絞り込み"></select>
         </div>
-        <div class="controls-row">
-          <select id="agency-select" aria-label="事務所で絞り込み"></select>
-          <select id="streamer-select" aria-label="実況者で絞り込み"></select>
-          <select id="pagesize-select">
-            <option value="20" selected>20件表示</option>
-            <option value="50">50件表示</option>
-            <option value="100">100件表示</option>
-          </select>
-        </div>
+        <details class="controls-more" id="list-filters" open>
+          <summary>絞り込み<span id="filter-active-count"></span></summary>
+          <div class="controls-row">
+            <select id="genre-select" aria-label="ジャンルで絞り込み"></select>
+            <select id="game-select" aria-label="ゲームで絞り込み"></select>
+            <select id="agency-select" aria-label="事務所で絞り込み"></select>
+            <select id="streamer-select" aria-label="実況者で絞り込み"></select>
+            <select id="pagesize-select" aria-label="1ページの表示件数">
+              <option value="20" selected>20件表示</option>
+              <option value="50">50件表示</option>
+              <option value="100">100件表示</option>
+            </select>
+          </div>
+        </details>
       </form>
+      <p class="list-hidden-games-note">Minecraft・GTA V・Apex Legends・VALORANT・League of Legends は件数が多いため、通常は表示していません。ゲームで絞り込むか、ゲーム名で検索すると表示されます。</p>
 
       <p class="result-count" id="result-count"></p>
+      <div class="pagination pagination-top" id="pagination-top" hidden>
+        <button type="button" class="page-prev">← 前へ</button>
+        <span class="page-indicator"></span>
+        <button type="button" class="page-next">次へ →</button>
+      </div>
       <div class="wiki-table-wrap">
         <table class="wiki-table">
           <thead>
