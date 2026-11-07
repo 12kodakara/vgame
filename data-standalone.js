@@ -2219,5 +2219,62 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-11-02"
+  },
+  {
+    id: "single-162",
+    title: "Jump King 配信まとめ",
+    streamer: "百灯キョーコ",
+    game: "Jump King",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【EN】FIRST TIME PLAYING JUMP KING!!! 【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=Z4mtsZKfnTw", publishedDate: "2026-10-28" },
+      { title: "明日のイベントに向けて練習～～～！！ | Jump King【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=Wuca3jqkXjg", publishedDate: "2026-10-30" },
+      { title: "【JUMP KING HOLORACE】遂に本番！！ てっぺん目指すぞーーー！！ |  Kyoko POV【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=B_NEeTucjJI", publishedDate: "2026-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
+  },
+  {
+    id: "single-163",
+    title: "Jump King 配信まとめ",
+    streamer: "熱千めら",
+    game: "Jump King",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "🔰鬼畜ゲー「Jump King」初心者大会直前練習のじゃ！【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=67vqn8Hyw3I", publishedDate: "2026-10-30" },
+      { title: "初心者は1時間で「Jump King」どこまで登れるか…？！ 【ホロライブ/熱千めら】", url: "https://www.youtube.com/watch?v=_3_gYnsYquE", publishedDate: "2026-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
+  },
+  {
+    id: "single-164",
+    title: "Jump King 配信まとめ",
+    streamer: "宙科そぴあ",
+    game: "Jump King",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "物理学博士によるJump King【宙科そぴあ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=fMC8x2qT5-A", publishedDate: "2026-10-28" },
+      { title: "【JUMP KING HOLORACE】ジャンプは物理 by 宙科そぴあ【ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=1nGDxGnxJtA", publishedDate: "2026-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
+  },
+  {
+    id: "single-165",
+    title: "R.E.P.O. 配信まとめ",
+    streamer: "鈴鳴つづり",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "ホロライブ新人ユニットで【R.E.P.O  with.アソビ★まわり隊！】#ホロライブ #アソビまわり隊", url: "https://www.youtube.com/watch?v=xl-CTTXCekc", publishedDate: "2026-10-14" },
+      { title: "【R.E.P.O.】新MAPも来た！？先輩方と初めてのR.E.P.Oでワクワク！！【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=JvUyxkeFWRM", publishedDate: "2026-10-31" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
   }
 ];

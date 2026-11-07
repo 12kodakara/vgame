@@ -10,6 +10,8 @@
  *   6. 動画IDが取れないURLは推測せず代替表示
  *   7. ゲーム名・VTuber名の検索、形式の絞り込みは従来どおり
  *   8. singles.html(title・H1・description・canonical)は変更しない
+ *  10. 複数回・PLなし(multi)のカードは「全○本を見る」(details・初期状態は閉じる)で全動画へのリンクを登録順に並べ、
+ *      それ以外のカードには付けない
  * 失敗が1件でもあれば終了コード1。
  */
 'use strict';
@@ -153,6 +155,36 @@ const cards = r.cards();
   check('1b〜4. 全カード: 先頭にサムネイル(16:9 の枠 480×270・alt・先頭3枚以外は遅延読み込み)、画像は動画IDから生成、リンクは「YouTubeで見る」と同じ動画、ほかの情報は維持', problems.length === 0, problems.slice(0, 6).join(' / '));
   const ids = cards.map((c) => (c.byTag('img')[0] || {}).src);
   check('2. サムネイルの動画IDはすべて別(同じ画像を重複して読み込まない)', new Set(ids).size === ids.length);
+}
+
+// ---- 10. 複数回・PLなし(multi)の全動画リンク ----
+{
+  const problems = [];
+  let multiCount = 0;
+  cards.forEach((card, i) => {
+    const item = SHOWN[i];
+    const lists = card.byClass('standalone-videos');
+    if (item.format !== 'multi' || item.videos.length < 2) {
+      if (lists.length) problems.push(item.id + ': multi 以外に動画一覧がある');
+      return;
+    }
+    multiCount++;
+    const det = lists[0];
+    if (lists.length !== 1 || det.tagName !== 'DETAILS' || det.open) { problems.push(item.id + ': details が無い・初期状態で開いている'); return; }
+    if (card.children[card.children.length - 1] !== det) problems.push(item.id + ': 一覧がカードの末尾(ボタンの下)に無い');
+    const summary = det.byTag('summary')[0];
+    if (!summary || summary.textContent !== '全' + item.videos.length + '本を見る') problems.push(item.id + ': summary ' + (summary && summary.textContent));
+    const links = det.byTag('a');
+    if (links.length !== item.videos.length) { problems.push(item.id + ': リンク数 ' + links.length + ' / 登録 ' + item.videos.length); return; }
+    links.forEach((a, k) => {
+      const v = item.videos[k];
+      if (a.href !== v.url || a.textContent !== v.title || a.target !== '_blank' || a.rel !== 'noopener') problems.push(item.id + ': ' + (k + 1) + '本目のリンク ' + a.href);
+    });
+    const times = det.byTag('time');
+    if (times.length !== item.videos.filter((v) => v.publishedDate).length || times.some((t, k) => t.dateTime !== item.videos[k].publishedDate)) problems.push(item.id + ': 公開日');
+  });
+  check('10. 複数回・PLなしの全 ' + multiCount + ' 件: 「全○本を見る」(閉じた details)をカード末尾に置き、登録順の全動画へ正しいURL・別タブで開くリンクと公開日を並べる。それ以外のカードには付けない',
+    multiCount > 0 && problems.length === 0, problems.slice(0, 5).join(' / '));
 }
 
 // ---- 5. 画像が無いときの切り替え ----

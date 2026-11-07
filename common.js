@@ -691,8 +691,45 @@ function createStandaloneCard(item, opts) {
     actions.appendChild(a);
   }
   article.appendChild(actions);
+  const videoList = createStandaloneVideoList(item);
+  if (videoList) article.appendChild(videoList);
 
   return article;
+}
+
+/**
+ * 複数回・PLなし(multi)の単発実況カードの末尾に付ける「全○本を見る」。登録されている全動画へのリンクを
+ * 登録順のまま並べる(サムネイルと「YouTubeで見る」は先頭の動画だけを指すため)。
+ * HTML 標準の details/summary で開閉する(初期状態は閉じる。キーボードでも Enter / Space で開閉できる)。
+ * multi 以外、または動画が1本以下なら null を返し、カードには何も足さない。
+ */
+function createStandaloneVideoList(item) {
+  const videos = item.videos || [];
+  if (item.format !== "multi" || videos.length < 2) return null;
+  const details = document.createElement("details");
+  details.className = "standalone-videos";
+  const summary = document.createElement("summary");
+  summary.textContent = "全" + videos.length + "本を見る";
+  details.appendChild(summary);
+  const list = document.createElement("ol");
+  videos.forEach((v) => {
+    const li = document.createElement("li");
+    if (v.publishedDate) {
+      const time = document.createElement("time");
+      time.dateTime = v.publishedDate;
+      time.textContent = formatDate(v.publishedDate);
+      li.appendChild(time);
+    }
+    const a = document.createElement("a");
+    a.href = v.url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = v.title || v.url;
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+  details.appendChild(list);
+  return details;
 }
 
 /**

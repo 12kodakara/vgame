@@ -1473,6 +1473,13 @@ main:has(#grid:empty) #pagination {
 .singles-thumb-fallback{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:var(--text-dim);font-weight:700;font-size:.9rem}
 .singles-card .singles-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.5;min-height:3em}
 .singles-card .play-actions{margin-top:auto;padding-top:10px}
+/* 複数回・PLなしカードの「全○本を見る」(details)。開くとカード内に全動画のリンクを縦に並べる。長いタイトルは折り返す */
+.standalone-videos{margin-top:10px;border-top:1px solid var(--border);font-size:.86rem}
+.standalone-videos summary{cursor:pointer;padding:10px 0;color:var(--link)}
+.standalone-videos summary:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:2px}
+.standalone-videos ol{margin:0 0 4px;padding-left:1.4em}
+.standalone-videos li{margin:0 0 8px;overflow-wrap:anywhere;line-height:1.5}
+.standalone-videos time{display:block;color:var(--text-dim);font-size:.78rem}
 .tabs-summary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
 .summary-chip{padding:5px 10px;border-radius:999px;background:var(--th-bg);color:var(--accent-dark);font-size:.9rem}
 .search-result-section{margin:22px 0}
