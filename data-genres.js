@@ -1473,6 +1473,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap1006",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "白砂あやね",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLF74GEJMvXC8",
+     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
+     "videoCount": 8,
+     "addedDate": "2026-10-26",
+     "updatedDate": "2026-11-07"
+    },
+    {
      "id": "gap787",
      "title": "凛LIVE --- R.E.P.O.",
      "streamer": "静凛",
@@ -1495,18 +1507,6 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-11-04"
-    },
-    {
-     "id": "gap1006",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "白砂あやね",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLF74GEJMvXC8",
-     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
-     "videoCount": 8,
-     "addedDate": "2026-10-26",
-     "updatedDate": "2026-11-03"
     },
     {
      "id": "niji-7tamanoi-01",

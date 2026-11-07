@@ -15,7 +15,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
    "videoCount": 8,
    "addedDate": "2026-10-26",
-   "updatedDate": "2026-11-03"
+   "updatedDate": "2026-11-07"
   },
   {
    "id": "gap1007",
@@ -159,7 +159,7 @@ const NEW_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/UFrKUx-UzpU/mqdefault.jpg",
    "videoCount": 8,
    "addedDate": "2026-10-12",
-   "updatedDate": "2026-11-06"
+   "updatedDate": "2026-11-07"
   },
   {
    "id": "gap930",
