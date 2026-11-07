@@ -68,6 +68,9 @@
     gameDetailLink.textContent = "ゲーム詳細";
     actions.appendChild(gameDetailLink);
     article.appendChild(actions);
+    // 複数回・PLなし(multi)は「全○本を見る」で全動画へのリンクを開ける(common.js と共通)
+    const videoList = createStandaloneVideoList(item);
+    if (videoList) article.appendChild(videoList);
 
     return article;
   }

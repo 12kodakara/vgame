@@ -24,6 +24,12 @@
 .PARAMETER OutFile
   出力先JSONファイル名。省略時は discovered-playlists.json。
 
+.PARAMETER MaxApiUnits
+  このスクリプト1回で使ってよいAPIユニット数の上限(0 = 上限なし。既定は0で従来どおり)。
+  channels.list・playlists.list はどちらも1回1ユニット。呼び出す前に上限を確認し、超える呼び出しはしない。
+  失敗した呼び出しも1ユニットとして数える。上限で止まったVTuberは errorType=API_BUDGET_EXCEEDED(探索不成立)。
+  使ったユニット数は最後に「API_UNITS_USED=n」の1行で出力する(run-playlist-cycle.ps1 が読み取る)。
+
 .EXAMPLE
   .\discover-playlists.ps1 -ApiKey "AIza..." -Group "ぶいすぽ"
 #>
@@ -31,7 +37,8 @@ param(
   [string]$ApiKey = $env:YOUTUBE_API_KEY,
   [string]$Group,
   [string]$Streamer,
-  [string]$OutFile = "discovered-playlists.json"
+  [string]$OutFile = "discovered-playlists.json",
+  [int]$MaxApiUnits = 0
 )
 
 $ErrorActionPreference = "Stop"
@@ -76,6 +83,21 @@ function Get-ApiErrorType($errorRecord) {
 if (-not $ApiKey) {
   Write-Error "APIキーが指定されていません。-ApiKey パラメータか環境変数 YOUTUBE_API_KEY を設定してください。"
   exit 1
+}
+if ($MaxApiUnits -lt 0) {
+  Write-Error "-MaxApiUnits は0(上限なし)以上を指定してください: $MaxApiUnits"
+  exit 1
+}
+
+# ---- APIユニットの上限管理 ----
+# 呼び出しの直前に1ユニットを予約する(失敗した呼び出しも消費として数えるため、結果を見る前に数える)。
+# 予約できなければ false を返し、呼び出し側はその呼び出しをしない。
+$script:apiUnitsUsed = 0
+$script:apiBudgetExceeded = $false
+function Request-ApiUnit {
+  if ($MaxApiUnits -gt 0 -and ($script:apiUnitsUsed + 1) -gt $MaxApiUnits) { $script:apiBudgetExceeded = $true; return $false }
+  $script:apiUnitsUsed++
+  return $true
 }
 
 $scriptDir = $PSScriptRoot
@@ -133,7 +155,11 @@ foreach ($s in $streamers) {
     $channelId = $Matches[1]
   } elseif ($s.Youtube -match '/@([^/?"]+)') {
     $handle = $Matches[1]
-    try {
+    if (-not (Request-ApiUnit)) {
+      $status = "failed"; $errorType = "API_BUDGET_EXCEEDED"
+      $errorDetail = "APIユニットの上限($MaxApiUnits)に達したため、channels.list を呼び出していません"
+      Write-Warning "[$i/$($streamers.Count)] $($s.Name): $errorDetail"
+    } else { try {
       $resolveUrl = "https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=$([uri]::EscapeDataString('@' + $handle))&key=$ApiKey"
       $resolveResp = Invoke-RestMethod -Uri $resolveUrl -Method Get
       if ($resolveResp.items -and $resolveResp.items.Count -gt 0) {
@@ -147,7 +173,7 @@ foreach ($s in $streamers) {
       $status = "failed"; $errorType = Get-ApiErrorType $_
       $errorDetail = Get-RedactedText $_.Exception.Message
       Write-Warning "[$i/$($streamers.Count)] $($s.Name) (@$handle) のチャンネルID解決に失敗[$errorType]: $errorDetail"
-    }
+    } }
   } else {
     $status = "failed"; $errorType = "NO_CHANNEL_URL"
     $errorDetail = "youtubeフィールドから channel/UCxxxx も @handle も取り出せませんでした"
@@ -157,6 +183,7 @@ foreach ($s in $streamers) {
   if (-not $channelId) {
     if ($status -eq "success") { $status = "failed"; $errorType = "CHANNEL_RESOLVE_FAILED"; $errorDetail = "チャンネルIDを解決できませんでした" }
     $results += [PSCustomObject]@{ streamer = $s.Name; group = $s.Group; channelId = $null; playlists = @(); status = $status; errorType = $errorType; errorDetail = $errorDetail }
+    if ($script:apiBudgetExceeded) { break }
     continue
   }
 
@@ -166,6 +193,13 @@ foreach ($s in $streamers) {
   $pageToken = $null
   try {
     do {
+      # 上限に達したら次のページは取得しない(取得済みの分は残すが、不完全なので探索不成立とする)
+      if (-not (Request-ApiUnit)) {
+        $status = "failed"; $errorType = "API_BUDGET_EXCEEDED"
+        $errorDetail = "APIユニットの上限($MaxApiUnits)に達したため、playlists.list の続きを取得していません(取得済み $($playlists.Count) 件)"
+        Write-Warning "$($s.Name): $errorDetail"
+        break
+      }
       $url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=$channelId&maxResults=50&key=$ApiKey"
       if ($pageToken) { $url += "&pageToken=$([uri]::EscapeDataString($pageToken))" }
       $resp = Invoke-RestMethod -Uri $url -Method Get
@@ -202,7 +236,12 @@ foreach ($s in $streamers) {
     errorType = $errorType
     errorDetail = $errorDetail
   }
+  if ($script:apiBudgetExceeded) { break }
 }
 
+if ($script:apiBudgetExceeded) {
+  Write-Warning "APIユニットの上限($MaxApiUnits)に達したため、ここで探索を止めました(残りの実況者は探索していません)。"
+}
 ($results | ConvertTo-Json -Depth 6) | Set-Content -Path $outPath -Encoding UTF8
 Write-Output "`n完了しました。結果を書き出しました: $outPath"
+Write-Output "API_UNITS_USED=$($script:apiUnitsUsed)"

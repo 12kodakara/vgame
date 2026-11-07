@@ -223,9 +223,10 @@ const STANDALONE_PLAYS = [
     streamer: "熱千めら",
     game: "GeoGuessr",
     genre: "other",
-    format: "single",
+    format: "multi",
     videos: [
-      { title: "【GeoGuessr】なぜか場所特定が得意なのじゃ…【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=z_ZP9E7qJc4", publishedDate: "2026-09-27" }
+      { title: "【GeoGuessr】なぜか場所特定が得意なのじゃ…【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=z_ZP9E7qJc4", publishedDate: "2026-09-27" },
+      { title: "電柱ソムリエの一歩も動かないGeoGuessr【ホロライブ/熱千めら】", url: "https://www.youtube.com/watch?v=0PgUff6IQ-Y", publishedDate: "2026-10-25" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-06"
@@ -649,9 +650,10 @@ const STANDALONE_PLAYS = [
     streamer: "百灯キョーコ",
     game: "Getting Over It",
     genre: "action",
-    format: "single",
+    format: "multi",
     videos: [
-      { title: "【壺おじ】目指すんだ…！圧倒的高み…ッ！！【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=ai5tJOVZwUU", publishedDate: "2026-09-28" }
+      { title: "【壺おじ】目指すんだ…！圧倒的高み…ッ！！【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=ai5tJOVZwUU", publishedDate: "2026-09-28" },
+      { title: "【壺おじ】シーズン２、遂に解禁【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=yLNe1445sNs", publishedDate: "2026-10-29" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -827,9 +829,11 @@ const STANDALONE_PLAYS = [
     streamer: "百灯キョーコ",
     game: "Five Nights at Freddy's",
     genre: "horror",
-    format: "single",
+    format: "multi",
     videos: [
-      { title: "【EN】First time playing Five Nights at Freddy's!! | FNAF【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=UoDgaiOpxIw", publishedDate: "2026-10-17" }
+      { title: "【EN】First time playing Five Nights at Freddy's!! | FNAF【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=UoDgaiOpxIw", publishedDate: "2026-10-17" },
+      { title: "【EN】I'm back at Five Nights at Freddy's!! | FNAF【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=hgqohSU3vpg", publishedDate: "2026-10-20" },
+      { title: "【EN】I’m gonna become a FNAF master!!  | Five Nights at Freddy's 2【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=Zrchcy1PtV0", publishedDate: "2026-10-23" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -920,7 +924,10 @@ const STANDALONE_PLAYS = [
       { title: "【EN】#1 FIRST TIME PLAYING Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=n1VcCnoPHds", publishedDate: "2026-10-09" },
       { title: "【EN】#2 I'm already in love with this game! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=GGHPveb5wFU", publishedDate: "2026-10-11" },
       { title: "【EN】#3 Continuing on the 2nd Isle!! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=1xNlquw8BYw", publishedDate: "2026-10-14" },
-      { title: "【EN】#4 Can I finish the 2nd Isle today? | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=CVsPXWqiD8k", publishedDate: "2026-10-16" }
+      { title: "【EN】#4 Can I finish the 2nd Isle today? | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=CVsPXWqiD8k", publishedDate: "2026-10-16" },
+      { title: "【EN】#5 YAY!! I made it to the 3rd Isle!! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=HhcEbmmIkFY", publishedDate: "2026-10-22" },
+      { title: "【EN】#6 YAY!! I made it to the 3rd Isle!! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=FLSPXynYTJ0", publishedDate: "2026-10-26" },
+      { title: "【EN】#7 WHO IS LEFT!? I'M COMING FOR YOU!!!! | Cuphead【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=kYxfR1beO4o", publishedDate: "2026-10-31" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -936,7 +943,9 @@ const STANDALONE_PLAYS = [
       { title: "VALORANT イモータルを目指す!! 　#１【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=8GlaHUbu95o", publishedDate: "2026-09-28" },
       { title: "VALORANT イモータルを目指す!! 　#２【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=8w3b1H5ww5Q", publishedDate: "2026-09-29" },
       { title: "VALORANT イモータルを目指す!! 　#３【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=pvcMRIQ9jwQ", publishedDate: "2026-10-12" },
-      { title: "VALORANT イモータルを目指す!! 　#４【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=ZspvK4EGpWY", publishedDate: "2026-10-16" }
+      { title: "VALORANT イモータルを目指す!! 　#４【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=ZspvK4EGpWY", publishedDate: "2026-10-16" },
+      { title: "VALORANT イモータルを目指す!! #５　【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=aAAvIiof87M", publishedDate: "2026-10-24" },
+      { title: "VALORANT 先行体験！！新キャラ(HUSH)をお試しで使います...!!!　【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=zpOdryzEx00", publishedDate: "2026-10-27" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -966,7 +975,8 @@ const STANDALONE_PLAYS = [
     videos: [
       { title: "#1 神ゲーに挑むぞー！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=zscbFBdOvyI", publishedDate: "2026-10-02" },
       { title: "#2 更なる謎の解明に！いざああああ！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=255rLPEHoi8", publishedDate: "2026-10-12" },
-      { title: "#3 深まる謎も、全部解き明かすよーー！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=yaGBdBwtvWA", publishedDate: "2026-10-18" }
+      { title: "#3 深まる謎も、全部解き明かすよーー！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=yaGBdBwtvWA", publishedDate: "2026-10-18" },
+      { title: "#4 審判の日が近づく！？今回も謎をガンガン解いてこーー！！！ | 都市伝説解体センター　※ネタバレ注意【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=BtIXGeBO2dU", publishedDate: "2026-10-26" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-10-21"
@@ -2074,5 +2084,197 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-10-26"
+  },
+  {
+    id: "single-153",
+    title: "Apex Legends 配信まとめ",
+    streamer: "胡桃のあ",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【 APEX 】モチベ結構あります【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=Ejxf2jkUNdw", publishedDate: "2026-09-24" },
+      { title: "【 APEX 】移動できるキャラに甘えんじゃないよ【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=PSL_JnxgFHk", publishedDate: "2026-09-25" },
+      { title: "【 APEX 】美が呼んでいます【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=2nz9F90qViE", publishedDate: "2026-09-28" },
+      { title: "【 APEX 】私のハートはすべてを見破る。【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=PhWKT1y71O4", publishedDate: "2026-09-30" },
+      { title: "【 APEX 】久しぶりにソロ行ってみるかぁ【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=HZh3kKEseqM", publishedDate: "2026-10-11" },
+      { title: "【 APEX 】今も特に環境はかわらずですか？【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=uSEPDCBu3pE", publishedDate: "2026-10-19" },
+      { title: "【 APEX 】いかないで；；【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=qmeWbb02TxA", publishedDate: "2026-10-21" },
+      { title: "【 APEX 】ソロでもダイヤ２に行きたい！【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=iN_5lu5pE3U", publishedDate: "2026-10-22" },
+      { title: "【 APEX 】ちょっと寝てたけどワールズエッジのために【 ぶいすぽっ！胡桃のあ 】", url: "https://www.youtube.com/watch?v=FjPVM3IqJJI", publishedDate: "2026-10-26" }
+    ],
+    note: "専用再生リストなし(RSS収集による仮登録。公式再生リストではありません)",
+    addedDate: "2026-10-28"
+  },
+  {
+    id: "single-154",
+    title: "VALORANT 配信まとめ",
+    streamer: "レヨン",
+    game: "VALORANT",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【VALORANT】2日連続valoをやったっていい", url: "https://www.youtube.com/watch?v=iG3DJAPTfuY", publishedDate: "2026-10-01" },
+      { title: "【VALORANT】新しいマウスを頂いたので早速使ってみた", url: "https://www.youtube.com/watch?v=39fAQaKhFqE", publishedDate: "2026-10-05" },
+      { title: "【VALORANT】新しいマウスに慣れるためにランクですな", url: "https://www.youtube.com/watch?v=k1-r6-p2btk", publishedDate: "2026-10-06" },
+      { title: "【VALORANT】今日は歌みたがあがるらしいですな", url: "https://www.youtube.com/watch?v=Idu7jhwQytI", publishedDate: "2026-10-07" },
+      { title: "【VALORANT】俺はソロだ。", url: "https://www.youtube.com/watch?v=R6HNd0-9Yh0", publishedDate: "2026-10-08" },
+      { title: "【VALORANT】本日まさかの3回配信です", url: "https://www.youtube.com/watch?v=1D5alwRw5rw", publishedDate: "2026-10-11" },
+      { title: "【VALORANT】24時を回ればハーフアニバまであと1週間だぜ", url: "https://www.youtube.com/watch?v=nsuqux3_JJE", publishedDate: "2026-10-12" },
+      { title: "【VALORANT】今日でシーズンリセットらしい。", url: "https://www.youtube.com/watch?v=AQqpU1WVSUY", publishedDate: "2026-10-14" },
+      { title: "【VALORANT】新シーズンが来たらしいな。", url: "https://www.youtube.com/watch?v=KGKb0fJbV-k", publishedDate: "2026-10-16" },
+      { title: "【VALORANT】家のトイレが先ほど壊れたって話する？", url: "https://www.youtube.com/watch?v=af_cA8fgR20", publishedDate: "2026-10-23" },
+      { title: "【VALORANT】レイナレイナレイナ。", url: "https://www.youtube.com/watch?v=VjvstWtjBQM", publishedDate: "2026-10-24" }
+    ],
+    note: "専用再生リストなし(RSS収集による仮登録。公式再生リストではありません)",
+    addedDate: "2026-10-28"
+  },
+  {
+    id: "single-155",
+    title: "【コラボ】アソビ★まわり隊！の４人でR.E.P.Oに挑戦だーーー！！！",
+    streamer: "百灯キョーコ",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【コラボ】アソビ★まわり隊！の４人でR.E.P.Oに挑戦だーーー！！！【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=pHmyFfovwj8", publishedDate: "2026-10-14" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-156",
+    title: "ホロライブ新人ユニットがホラゲ「R.E.P.O.」で遊ぶのじゃ",
+    streamer: "熱千めら",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "ホロライブ新人ユニットがホラゲ「R.E.P.O.」で遊ぶのじゃ【アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=xKhbOWNoYN8", publishedDate: "2026-10-14" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-157",
+    title: "既プレイなのに反応が初見すぎる「夜勤事件」",
+    streamer: "熱千めら",
+    game: "夜勤事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "既プレイなのに反応が初見すぎる「夜勤事件」【ホロライブ/熱千めら】", url: "https://www.youtube.com/watch?v=ZQJkVI2CWq0", publishedDate: "2026-10-23" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-158",
+    title: "【APEX】　トワ先輩・すいせい先輩と初コラボ！？APEX参ります!!!!!",
+    streamer: "鈴鳴つづり",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【APEX】　トワ先輩・すいせい先輩と初コラボ！？APEX参ります!!!!!【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=xb1KaLmkaoo", publishedDate: "2026-10-29" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-159",
+    title: "【R.E.P.O. with アソビ★まわり隊！】博士が幽霊に負けるわけないよねっ！！",
+    streamer: "宙科そぴあ",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【R.E.P.O. with アソビ★まわり隊！】博士が幽霊に負けるわけないよねっ！！【宙科そぴあ視点/ホロライブ】", url: "https://www.youtube.com/watch?v=cZc0ItF8h44", publishedDate: "2026-10-14" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-160",
+    title: "【アソビ★まわり隊！】4人で協力アクション、できるのかっ！？",
+    streamer: "宙科そぴあ",
+    game: "PICO PARK",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【アソビ★まわり隊！】4人で協力アクション、できるのかっ！？【PICO PARK/ホロライブ】", url: "https://www.youtube.com/watch?v=m2z1mA9ICSI", publishedDate: "2026-10-20" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-161",
+    title: "【#ホロ鯖かくれんぼ】ホロメンの先輩とマイクラで かくれんぼっ！",
+    streamer: "宙科そぴあ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【#ホロ鯖かくれんぼ】ホロメンの先輩とマイクラで かくれんぼっ！【宙科そぴあ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=Uy-KPheZe7U", publishedDate: "2026-10-22" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-02"
+  },
+  {
+    id: "single-162",
+    title: "Jump King 配信まとめ",
+    streamer: "百灯キョーコ",
+    game: "Jump King",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【EN】FIRST TIME PLAYING JUMP KING!!! 【Hyakuto Kyoko/Hololive】", url: "https://www.youtube.com/watch?v=Z4mtsZKfnTw", publishedDate: "2026-10-28" },
+      { title: "明日のイベントに向けて練習～～～！！ | Jump King【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=Wuca3jqkXjg", publishedDate: "2026-10-30" },
+      { title: "【JUMP KING HOLORACE】遂に本番！！ てっぺん目指すぞーーー！！ |  Kyoko POV【百灯キョーコ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=B_NEeTucjJI", publishedDate: "2026-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
+  },
+  {
+    id: "single-163",
+    title: "Jump King 配信まとめ",
+    streamer: "熱千めら",
+    game: "Jump King",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "🔰鬼畜ゲー「Jump King」初心者大会直前練習のじゃ！【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=67vqn8Hyw3I", publishedDate: "2026-10-30" },
+      { title: "初心者は1時間で「Jump King」どこまで登れるか…？！ 【ホロライブ/熱千めら】", url: "https://www.youtube.com/watch?v=_3_gYnsYquE", publishedDate: "2026-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
+  },
+  {
+    id: "single-164",
+    title: "Jump King 配信まとめ",
+    streamer: "宙科そぴあ",
+    game: "Jump King",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "物理学博士によるJump King【宙科そぴあ/ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=fMC8x2qT5-A", publishedDate: "2026-10-28" },
+      { title: "【JUMP KING HOLORACE】ジャンプは物理 by 宙科そぴあ【ホロライブ/アソビ★まわり隊！】", url: "https://www.youtube.com/watch?v=1nGDxGnxJtA", publishedDate: "2026-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
+  },
+  {
+    id: "single-165",
+    title: "R.E.P.O. 配信まとめ",
+    streamer: "鈴鳴つづり",
+    game: "R.E.P.O.",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "ホロライブ新人ユニットで【R.E.P.O  with.アソビ★まわり隊！】#ホロライブ #アソビまわり隊", url: "https://www.youtube.com/watch?v=xl-CTTXCekc", publishedDate: "2026-10-14" },
+      { title: "【R.E.P.O.】新MAPも来た！？先輩方と初めてのR.E.P.Oでワクワク！！【鈴鳴つづり/ホロライブ/アソビ★まわり隊！】 #ホロライブ #アソビまわり隊  #つづり配達中", url: "https://www.youtube.com/watch?v=JvUyxkeFWRM", publishedDate: "2026-10-31" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-07"
   }
 ];

@@ -81,8 +81,38 @@
   -MaxVtubers 人を選べなかった場合にかぎり、自動的に $script:InsufficientFallbackMax
   (既定5 = 3〜5件)まで対象を広げる。
 
+.PARAMETER RssCandidatesJson
+  RSS巡回の候補JSON(rss-state ブランチの discovered-standalone-rss.json。例:
+  git show origin/rss-state:discovered-standalone-rss.json > discovered-standalone-rss.json)のパス。
+  指定すると、-Strategy Vtuber の選定(再生リスト件数順)の代わりに、RSS で「同じゲームの続き物が
+  $script:RssMinSeriesCount 本以上あり、サイトに同じVTuber×ゲームの再生リストが無い」VTuberを選ぶ
+  (続き物の本数が多い順)。チャンネルIDが streamer-channel-ids.json と一致しない候補は使わない。
+  探索・照合・重複除外・30日再探索抑制は従来の処理をそのまま使う。入力ファイルは読むだけで変更しない。
+  省略時は従来どおり。-Strategy Game / -TestDiscoveredJson とは併用できない。
+  -CacheOnly と併用すると、選んだVTuberをAPIで探索せず、ローカルキャッシュ($CachePath)の結果だけを使う
+  (キャッシュに無いVTuberは補わずに「キャッシュ無し」と表示する。キャッシュの日時はファイルの更新日時で表示する)。
+
+.PARAMETER MaxRssVtubers
+  -RssCandidatesJson 指定時に1回で探索するVTuber数の上限(既定 $script:DefaultMaxRssVtubers)。
+  -MaxVtubers の代わりに使う。
+
+.PARAMETER SelectOnly
+  STEP2(探索対象の選定)まで実行して選定結果を表示し、YouTube APIを呼ばずに終了する。
+  APIキー不要。探索履歴(search-history.json)は更新しない。30日再探索抑制は実際の探索と同じく適用する。
+  -TestDiscoveredJson / -CacheOnly とは併用できない。
+
+.PARAMETER MaxApiUnits
+  1回の実行で使ってよいYouTube APIユニット数の上限(既定10)。channels.list・playlists.list・
+  playlistItems.list はどれも1回1ユニット。呼び出す前に残りを確認し、上限を超える呼び出しはしない
+  (失敗した呼び出しも1ユニットとして数える)。上限に達したらそこで探索を止め、それまでの結果で続きの
+  照合・レポートを行う。上限で探索が途中になったVTuberは探索履歴に記録しない(次回も探索対象に残る)。
+
 .EXAMPLE
   .\run-playlist-cycle.ps1
+.EXAMPLE
+  # RSS の続き物を持つVTuberを優先して探索する(まず -SelectOnly で対象を確認)
+  .\run-playlist-cycle.ps1 -RssCandidatesJson discovered-standalone-rss.json -SelectOnly
+  .\run-playlist-cycle.ps1 -RssCandidatesJson discovered-standalone-rss.json -MaxRssVtubers 10
 .EXAMPLE
   .\run-playlist-cycle.ps1 -MaxVtubers 10
 .EXAMPLE
@@ -106,7 +136,11 @@ param(
   [string]$TestDiscoveredJson,
   [switch]$CacheOnly,
   [string]$CachePath = "discovered-playlists.json",
-  [int]$InsufficientMax = 2
+  [int]$InsufficientMax = 2,
+  [string]$RssCandidatesJson,
+  [int]$MaxRssVtubers = 10,
+  [switch]$SelectOnly,
+  [int]$MaxApiUnits = 10
 )
 
 $ErrorActionPreference = "Stop"
@@ -125,6 +159,8 @@ $script:DefaultSuppressDays = 30
 $script:MaxVideoSampleCalls = 10   # manual-review向け追加API呼び出しの安全弁(念のための上限)
 $script:InsufficientFallbackMax = 5 # -Strategy Game で候補が足りない場合に広げる上限(3〜5件)
 $script:MaxEvidencePerVtuber = 5    # レポートに載せる根拠ゲームの表示上限
+$script:DefaultMaxRssVtubers = 10   # -RssCandidatesJson 指定時の探索人数の既定上限
+$script:RssMinSeriesCount = 3       # RSS の続き物として扱う最小本数(同じVTuber×ゲームの確認待ち動画)
 
 $opsDir = Join-Path $scriptDir "reports\playlist-operations"
 $historyPath = Join-Path $opsDir "search-history.json"
@@ -136,14 +172,31 @@ if ($TestDiscoveredJson -and $CacheOnly) {
   Write-Error "-TestDiscoveredJson と -CacheOnly は同時に指定できません(探索結果の入力元が二重になるため)。どちらか一方を指定してください。"
   exit 1
 }
+if ($SelectOnly -and ($TestDiscoveredJson -or $CacheOnly)) {
+  Write-Error "-SelectOnly は -TestDiscoveredJson / -CacheOnly と同時に指定できません(選定だけを行うモードのため)。"
+  exit 1
+}
+if ($MaxApiUnits -lt 1) {
+  Write-Error "-MaxApiUnits は1以上を指定してください: $MaxApiUnits"
+  exit 1
+}
+if ($RssCandidatesJson -and ($Strategy -eq "Game" -or $TestDiscoveredJson)) {
+  Write-Error "-RssCandidatesJson は -Strategy Game / -TestDiscoveredJson と同時に指定できません(選定方法・入力元が二重になるため)。選定の確認は -SelectOnly を使ってください。"
+  exit 1
+}
+if ($RssCandidatesJson -and $MaxRssVtubers -lt 1) {
+  Write-Error "-MaxRssVtubers は1以上を指定してください: $MaxRssVtubers"
+  exit 1
+}
 
 # キャッシュのパスはスクリプトディレクトリ基準で解決する(相対指定を許す)
 $cacheFullPath = $CachePath
 if (-not [System.IO.Path]::IsPathRooted($cacheFullPath)) { $cacheFullPath = Join-Path $scriptDir $CachePath }
 
 $apiKey = $env:YOUTUBE_API_KEY
-# APIを呼び出さないモードは2つ: -TestDiscoveredJson(任意のJSONを入力) と -CacheOnly(ローカルキャッシュを入力)
-$usingLiveApi = (-not $TestDiscoveredJson) -and (-not $CacheOnly)
+# APIを呼び出さないモードは3つ: -TestDiscoveredJson(任意のJSONを入力) と -CacheOnly(ローカルキャッシュを入力)、
+# -SelectOnly(選定結果の表示だけで終了)
+$usingLiveApi = (-not $TestDiscoveredJson) -and (-not $CacheOnly) -and (-not $SelectOnly)
 if ($usingLiveApi -and -not $apiKey) {
   Write-Error "YOUTUBE_API_KEY が環境変数に見つかりません。値を直接指定せず、環境変数を設定するか -TestDiscoveredJson でテストモードを使ってください。"
   exit 1
@@ -273,7 +326,8 @@ foreach ($o in $streamerObjs) {
 #   注意: この環境の Windows PowerShell 5.1 では @($genericList) が
 #   ArgumentException("Argument types do not match") を投げるため、
 #   List を配列化するときは .ToArray() を使う(パイプライン経由の @(...) は可)。
-$applySuppression = $usingLiveApi
+#   -SelectOnly はAPIを呼ばないが、実際の探索と同じ選定結果を見せるため適用する。
+$applySuppression = $usingLiveApi -or $SelectOnly
 if ($applySuppression) {
   $selectionPool = @($candidatesForSelection | Where-Object { -not $_.suppressed })
 } else {
@@ -458,8 +512,104 @@ if ($Strategy -eq "Game") {
   foreach ($s in $selected) {
     Write-Output ("    - {0}: 不足ゲーム{1}件に一致(HIGH {2}件 / MEDIUM {3}件) … {4}" -f $s.name, $s.anyGameCount, $s.highCount, $s.medCount, $s.evidence)
   }
+} elseif ($RssCandidatesJson) {
+  # ============================================================
+  # STEP2-R: RSS候補起点の選定(YouTube APIは呼び出さない)
+  #   RSS巡回(watch-standalone-rss.ps1)が判定済みの候補をそのまま使い、判定ロジックは書かない。
+  #   対象: 確認待ち(pending)・続き物(reviewCategory=series)で、同じVTuber×ゲームの確認待ちが
+  #   $script:RssMinSeriesCount 本以上あり、サイトに同じVTuber×ゲームの再生リストが無いもの。
+  #   VTuber名が STREAMERS に無いもの・チャンネルIDが streamer-channel-ids.json と一致しないものは使わない。
+  #   30日再探索抑制は $selectionPool(上で適用済み)を通すことで従来どおり効く。
+  # ============================================================
+  $rssPath = $RssCandidatesJson
+  if (-not [System.IO.Path]::IsPathRooted($rssPath)) { $rssPath = Join-Path $scriptDir $RssCandidatesJson }
+  Write-Output "  [STEP2-R] RSS候補起点: $rssPath"
+  if (-not (Test-Path -LiteralPath $rssPath)) {
+    Write-Error "RSS候補JSONが見つかりません: $rssPath  (rss-state ブランチの discovered-standalone-rss.json を取り出して指定してください)"
+    exit 1
+  }
+  try {
+    $rssData = [System.IO.File]::ReadAllText($rssPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+  } catch {
+    Write-Error "RSS候補JSONを読み込めません: $rssPath ($($_.Exception.Message))"
+    exit 1
+  }
+  if ($null -eq $rssData -or -not ($rssData.PSObject.Properties.Name -contains "candidates")) {
+    Write-Error "RSS候補JSONに candidates がありません(形式が違います): $rssPath"
+    exit 1
+  }
+  $channelIdsPath = Join-Path $scriptDir "streamer-channel-ids.json"
+  if (-not (Test-Path -LiteralPath $channelIdsPath)) {
+    Write-Error "チャンネル対応表が見つかりません: $channelIdsPath"
+    exit 1
+  }
+  $channelIdByStreamer = @{}
+  # Windows PowerShell 5.1 の ConvertFrom-Json は配列を1つのオブジェクトとして流すため、変数に受けてから展開する
+  $channelIdRows = [System.IO.File]::ReadAllText($channelIdsPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+  foreach ($r in @($channelIdRows)) {
+    if ($r.streamer -and $r.channelId) { $channelIdByStreamer[[string]$r.streamer] = [string]$r.channelId }
+  }
+  $sitePairs = @{}
+  foreach ($o in $playlistObjs) { $sitePairs[(Field $o "streamer") + "`t" + (Field $o "game")] = $true }
+
+  # VTuber×ゲームごとに確認待ちの続き物を数える(同じ動画IDは1回だけ)
+  $rssPairVideos = @{}
+  $rssSkipped = @{ channel = @{}; sitePlaylist = 0 }
+  foreach ($c in @($rssData.candidates)) {
+    if ([string]$c.status -ne "pending" -or [string]$c.reviewCategory -ne "series" -or $c.likelyNonGame -eq $true) { continue }
+    $sn = [string]$c.streamer; $gn = [string]$c.game
+    if (-not $sn -or -not $gn -or -not $c.videoId) { continue }
+    if (-not $channelIdByStreamer.ContainsKey($sn) -or $channelIdByStreamer[$sn] -ne [string]$c.channelId) { $rssSkipped.channel[$sn] = $true; continue }
+    $pk = $sn + "`t" + $gn
+    if ($sitePairs.ContainsKey($pk)) { $rssSkipped.sitePlaylist++; continue }
+    if (-not $rssPairVideos.ContainsKey($pk)) { $rssPairVideos[$pk] = @{} }
+    $rssPairVideos[$pk][[string]$c.videoId] = $true
+  }
+  # VTuber単位にまとめる(重複排除)。根拠は続き物の組と本数
+  $rssByStreamer = @{}
+  foreach ($pk in $rssPairVideos.Keys) {
+    $n = $rssPairVideos[$pk].Count
+    if ($n -lt $script:RssMinSeriesCount) { continue }
+    $sn, $gn = $pk -split "`t", 2
+    if (-not $rssByStreamer.ContainsKey($sn)) { $rssByStreamer[$sn] = @{ videos = 0; games = New-Object System.Collections.Generic.List[string] } }
+    $rssByStreamer[$sn].videos += $n
+    $rssByStreamer[$sn].games.Add("${gn}(${n}本)")
+  }
+  $poolByName = @{}
+  foreach ($p in $selectionPool) { $poolByName[$p.name] = $p }
+  $allByName = @{}
+  foreach ($p in $candidatesForSelection) { $allByName[$p.name] = $p }
+  $rssRanked = New-Object System.Collections.Generic.List[object]
+  $rssNotInStreamers = 0; $rssSuppressed = 0
+  foreach ($sn in $rssByStreamer.Keys) {
+    if (-not $allByName.ContainsKey($sn)) { $rssNotInStreamers++; continue }
+    if (-not $poolByName.ContainsKey($sn)) { $rssSuppressed++; continue }
+    $p = $poolByName[$sn]
+    $rssRanked.Add([PSCustomObject]@{ name = $p.name; youtube = $p.youtube; playlistCount = $p.playlistCount; daysSinceSearch = $p.daysSinceSearch
+      rssVideos = $rssByStreamer[$sn].videos; rssGames = $rssByStreamer[$sn].games.Count; evidence = (@($rssByStreamer[$sn].games | Select-Object -First $script:MaxEvidencePerVtuber) -join " / ") })
+  }
+  $selected = @($rssRanked | Sort-Object @{Expression = { -$_.rssVideos } }, @{Expression = { -$_.rssGames } }, name | Select-Object -First $MaxRssVtubers)
+  Write-Output ("    続き物を持つVTuber: {0}名(重複排除後) / 30日以内に探索済みで除外: {1}名 / STREAMERSに無い: {2}名 / チャンネルID不一致で除外: {3}名 / サイトに再生リストがある組の動画: {4}本" -f $rssByStreamer.Count, $rssSuppressed, $rssNotInStreamers, $rssSkipped.channel.Count, $rssSkipped.sitePlaylist)
+  Write-Output ("    選定: {0}名(上限 -MaxRssVtubers {1})" -f $selected.Count, $MaxRssVtubers)
+  foreach ($s in $selected) {
+    Write-Output ("    - {0}: 続き物 {1}本 … {2}" -f $s.name, $s.rssVideos, $s.evidence)
+  }
 } else {
   $selected = @($selectionPool | Sort-Object playlistCount, @{Expression = { -$_.daysSinceSearch } } | Select-Object -First $MaxVtubers)
+}
+
+if ($SelectOnly) {
+  # 選定だけを表示して終了する(API呼び出し・探索履歴の更新・候補レポートの作成はしない)
+  Write-Output ("  [SelectOnly] 探索対象 {0}名(30日以内に探索済みのVTuberは除外済み):" -f $selected.Count)
+  foreach ($s in $selected) {
+    $daysLabel = if ($s.daysSinceSearch -eq [double]::MaxValue) { "未探索" } else { "{0:N0}日前に探索" -f $s.daysSinceSearch }
+    Write-Output ("    - {0} (既存{1}件、{2})" -f $s.name, $s.playlistCount, $daysLabel)
+  }
+  Write-Output ""
+  Write-Output "=============================="
+  Write-Output "SelectOnly: YouTube APIは呼び出していません。本番データ・探索履歴は変更していません"
+  Write-Output "=============================="
+  exit 0
 }
 
 if ($selected.Count -eq 0 -and $usingLiveApi) {
@@ -486,6 +636,9 @@ New-Item -ItemType Directory -Path $rawDir -Force | Out-Null
 $allDiscovered = @()
 $searchedNames = New-Object System.Collections.Generic.List[string]
 $apiCallCount = 0
+# APIユニットの使用量(-MaxApiUnits の範囲で数える。失敗した呼び出しも1ユニット)
+$apiUnitsUsed = 0
+$apiBudgetReached = $false
 # streamer名 -> @{ status; errorType; errorDetail }
 # 「API探索が成立したVTuber」だけを search-history.json に記録するために使う。
 $discoverStatus = @{}
@@ -514,11 +667,23 @@ if ($CacheOnly) {
   # (-MaxVtubers の上限をキャッシュ利用時にも効かせるため)。
   Write-Output "[STEP3] -CacheOnly: APIを呼び出さず、選定済みVTuberぶんのローカルキャッシュを使用します。"
   Write-Output "  入力: $cacheFullPath"
+  if (-not (Test-Path -LiteralPath $cacheFullPath)) {
+    Write-Error "ローカルキャッシュが見つかりません: $cacheFullPath  (-CachePath で指定してください)"
+    exit 1
+  }
+  # キャッシュの各エントリは取得日時を持たないため、鮮度はファイルの更新日時で示す
+  $cacheTime = (Get-Item -LiteralPath $cacheFullPath).LastWriteTime
+  Write-Output ("  キャッシュの更新日時: {0}({1:N0}日前)" -f $cacheTime.ToString("yyyy-MM-dd HH:mm"), ((Get-Date) - $cacheTime).TotalDays)
   $cacheAll = Get-Content $cacheFullPath -Raw -Encoding UTF8 | ConvertFrom-Json
   $selectedNameSet = @{}
   foreach ($s in $selected) { $selectedNameSet[$s.name] = $true }
   $allDiscovered = @($cacheAll | Where-Object { $selectedNameSet.ContainsKey($_.streamer) })
   foreach ($e in $allDiscovered) { $searchedNames.Add($e.streamer) }
+  # キャッシュに無いVTuberは補わない(推測で結果を作らない)。件数と名前だけを示す
+  $cacheMissing = @($selected | Where-Object { -not ($searchedNames -contains $_.name) } | ForEach-Object { $_.name })
+  if ($cacheMissing.Count -gt 0) {
+    Write-Output ("  キャッシュ無し: {0}名 ({1})。APIで探索しないと結果はありません。" -f $cacheMissing.Count, ($cacheMissing -join ", "))
+  }
 } elseif (-not $usingLiveApi) {
   Write-Output "[STEP3] テストモード(-TestDiscoveredJson指定): APIを呼び出さず既存JSONを使用します。"
   $allDiscovered = Get-Content $TestDiscoveredJson -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -532,16 +697,28 @@ if ($CacheOnly) {
     [PSCustomObject]@{ name = $n; youtube = $yt; playlistCount = $(if ($playlistCountByStreamer.ContainsKey($n)) { $playlistCountByStreamer[$n] } else { 0 }); daysSinceSearch = [double]::MaxValue }
   })
 } else {
-  Write-Output "[STEP3] discover-playlists.ps1でAPI探索しています..."
+  Write-Output ("[STEP3] discover-playlists.ps1でAPI探索しています(APIユニット上限 {0})..." -f $MaxApiUnits)
   $i = 0
   foreach ($s in $selected) {
     $i++
+    # 残りのユニットを discover-playlists.ps1 に渡し、その範囲だけで探索させる
+    $remainingUnits = $MaxApiUnits - $apiUnitsUsed
+    if ($remainingUnits -lt 1) {
+      $apiBudgetReached = $true
+      Write-Warning ("  APIユニットの上限({0})に達したため探索を止めました。残り {1}名は探索していません(探索履歴に記録しません)。" -f $MaxApiUnits, ($selected.Count - $i + 1))
+      break
+    }
     $outRelative = "$rawDirRelative\discover-$i.json"
     $out = Join-Path $rawDir "discover-$i.json"
     try {
-      $output = & powershell.exe -NoProfile -File $discoverScript -Streamer $s.name -OutFile $outRelative 2>&1 | Out-String
+      $output = & powershell.exe -NoProfile -File $discoverScript -Streamer $s.name -OutFile $outRelative -MaxApiUnits $remainingUnits 2>&1 | Out-String
       $safe = Get-RedactedMessage $output
-      Write-Output ("  [{0}/{1}] {2}: {3}" -f $i, $selected.Count, $s.name, ($safe.Trim() -split "`n" | Select-Object -Last 1))
+      # 使ったユニット数は discover-playlists.ps1 の「API_UNITS_USED=n」を読む。読めない場合は
+      # 渡した残りをすべて使ったものとして数える(上限を確実に守るため、少なく見積もらない)
+      $unitsMatch = [regex]::Match($output, 'API_UNITS_USED=(\d+)')
+      $apiUnitsUsed += $(if ($unitsMatch.Success) { [Math]::Min([int]$unitsMatch.Groups[1].Value, $remainingUnits) } else { $remainingUnits })
+      $lastLine = ($safe.Trim() -split "`n" | Where-Object { $_ -notmatch '^API_UNITS_USED=' } | Select-Object -Last 1)
+      Write-Output ("  [{0}/{1}] {2}: {3}" -f $i, $selected.Count, $s.name, $lastLine)
       $apiCallCount++
       if (Test-Path $out) {
         $data = Get-Content $out -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -568,8 +745,18 @@ if ($CacheOnly) {
       }
     } catch {
       $msg = Get-RedactedMessage $_.Exception.Message
+      # 何ユニット使ったか分からないため、渡した残りをすべて使ったものとして数える(以降のAPI呼び出しはしない)
+      $apiUnitsUsed = $MaxApiUnits
       $discoverStatus[$s.name] = @{ status = "failed"; errorType = "DISCOVER_INVOCATION_FAILED"; errorDetail = $msg }
       Write-Warning ("  [{0}] 取得失敗: {1} … 探索履歴には記録しません" -f $s.name, $msg)
+    }
+    # API の利用枠超過・キー不正は、残りのVTuberを探索しても同じ失敗になるだけなので、ここで止める
+    # (止めたVTuberは探索履歴に記録しないため、次回以降も探索対象に戻る)。
+    # -MaxApiUnits の上限に達した場合(API_BUDGET_EXCEEDED)も、ここで正常に止める
+    if ($discoverStatus.ContainsKey($s.name) -and $discoverStatus[$s.name].errorType -eq "API_BUDGET_EXCEEDED") { $apiBudgetReached = $true }
+    if ($discoverStatus.ContainsKey($s.name) -and @("QUOTA_ERROR", "API_KEY_INVALID", "API_BUDGET_EXCEEDED") -contains $discoverStatus[$s.name].errorType) {
+      Write-Warning ("  API探索を停止しました[{0}]。残り {1}名は探索していません。" -f $discoverStatus[$s.name].errorType, ($selected.Count - $i))
+      break
     }
   }
   $failedNames = @($discoverStatus.Keys | Where-Object { $discoverStatus[$_].status -ne "success" })
@@ -580,6 +767,8 @@ if ($CacheOnly) {
 
 $selectionLabel = if ($Strategy -eq "Game") {
   "不足ゲームにキャッシュ内の未登録playlistが一致した順"
+} elseif ($RssCandidatesJson) {
+  "RSSの続き物(サイト未登録の組)の本数が多い順"
 } else {
   "既存再生リスト件数の少ない順・未探索/長期未探索を優先。テストモード時は入力JSONのstreamerに合わせて表示"
 }
@@ -656,7 +845,15 @@ if ($FetchVideoSamples -and $usingLiveApi -and $manualReview.Count -gt 0) {
   $n = 0
   foreach ($c in $manualReview) {
     if ($n -ge $fetchCount) { break }
+    # playlistItems.list も1ユニット。上限を超えるなら呼び出さずに止める(取得済みの分は使う)
+    if (($apiUnitsUsed + 1) -gt $MaxApiUnits) {
+      $apiBudgetReached = $true
+      Write-Warning ("  APIユニットの上限({0})に達したため、代表動画タイトルの取得を止めました({1}件取得済み)。" -f $MaxApiUnits, $n)
+      break
+    }
     $n++
+    # 失敗した呼び出しも消費として数えるため、呼び出す前に数える
+    $apiUnitsUsed++
     try {
       $url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=$($c.playlistId)&maxResults=5&key=$apiKey"
       $resp = Invoke-RestMethod -Uri $url -Method Get -ErrorAction Stop
@@ -756,6 +953,11 @@ $summary = [ordered]@{
   gameStrategyEvidence     = $(if ($Strategy -eq "Game") {
       @($selected | ForEach-Object { [ordered]@{ streamer = $_.name; insufficientGamesMatched = $_.anyGameCount; highCandidates = $_.highCount; mediumCandidates = $_.medCount; evidence = $_.evidence } })
     } else { @() })
+  # ---- -RssCandidatesJson 指定時の選定内訳(未指定なら空) ----
+  rssCandidatesJson  = $(if ($RssCandidatesJson) { $RssCandidatesJson } else { "" })
+  rssStrategyEvidence = $(if ($RssCandidatesJson) {
+      @($selected | ForEach-Object { [ordered]@{ streamer = $_.name; seriesVideos = $_.rssVideos; seriesGames = $_.rssGames; evidence = $_.evidence } })
+    } else { @() })
   targetVtubers      = @($selected | ForEach-Object { $_.name })
   # ---- API探索の成否(第5回データ拡充で追加) ----
   # failed のVTuberは search-history.json に記録されないため、
@@ -775,6 +977,9 @@ $summary = [ordered]@{
   preAudit           = [ordered]@{ games = $preAudit.totals.games; streamers = $preAudit.totals.streamers; playlists = $preAudit.totals.playlists; errorTotal = $preAudit.errorTotal }
   apiCallsUsed       = $apiCallCount
   apiCallsUsedApprox = $apiCallCount   # 旧キー(既存レポートとの互換のため残す)
+  apiUnitsUsed       = $apiUnitsUsed   # 使ったAPIユニット数(失敗した呼び出しを含む。読めなかった分は上限まで数える)
+  maxApiUnits        = $MaxApiUnits
+  apiBudgetReached   = $apiBudgetReached
   searchListUsed     = $false          # search.listによるYouTube全体検索は実装していない
   productionChanged  = $false
 }
@@ -929,6 +1134,8 @@ Write-Output "  $(if ($importReady.Count -eq 0) { 'N/A(import-ready 0件)' } els
 Write-Output ""
 Write-Output "API呼び出し回数："
 Write-Output "  $apiCallCount  (search.listによるYouTube全体検索: 未使用)"
+Write-Output "APIユニット使用量："
+Write-Output ("  {0} / 上限 {1}{2}" -f $apiUnitsUsed, $MaxApiUnits, $(if ($apiBudgetReached) { "(上限に達したため途中で止めました)" } else { "" }))
 Write-Output ""
 Write-Output "audit："
 Write-Output "  ERROR $($preAudit.errorTotal)(実行前。本番は今回変更していません)"
