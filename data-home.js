@@ -32,6 +32,30 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "niji-sakuraritsuk-23",
+      "title": "APEX",
+      "streamer": "桜凛月",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLocKfGhRosWTVtOrf-jsi0hUwV55P6qIT",
+      "thumbnailUrl": "https://i.ytimg.com/vi/m3qCrjMGKRY/mqdefault.jpg",
+      "videoCount": 162,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-09"
+    },
+    {
+      "id": "gap951",
+      "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+      "streamer": "猫屋敷美紅",
+      "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+      "genre": "action",
+      "playlistId": "PLEUCHw2KzwD8",
+      "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+      "videoCount": 8,
+      "addedDate": "2026-10-12",
+      "updatedDate": "2026-11-09"
+    },
+    {
       "id": "holo-074",
       "title": "マインクラフト🐏",
       "streamer": "角巻わため",
@@ -40,6 +64,18 @@ const HOME_SUMMARY = {
       "playlistId": "PLZ34fLWik_iBPCTi4beXGLxeMYKQZRTqd",
       "thumbnailUrl": "https://i.ytimg.com/vi/PwINloYDiv4/mqdefault.jpg",
       "videoCount": 279,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-11-08"
+    },
+    {
+      "id": "niji-069",
+      "title": "スプラ🖌",
+      "streamer": "空星きらめ",
+      "game": "スプラトゥーン",
+      "genre": "fps",
+      "playlistId": "PLcEj_AhpEQ3kPgpVUJoz5b-TaJlP0a0mv",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Xc7PSLZg_Qo/mqdefault.jpg",
+      "videoCount": 59,
       "addedDate": "2026-09-06",
       "updatedDate": "2026-11-08"
     },
@@ -53,42 +89,6 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/tpSj2pDh_2c/mqdefault.jpg",
       "videoCount": 85,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-08"
-    },
-    {
-      "id": "vspo-yuuhisendo-36",
-      "title": "League of Legends",
-      "streamer": "千燈ゆうひ",
-      "game": "League of Legends",
-      "genre": "other",
-      "playlistId": "PL7rBIMrt1ue5OQr1HncWbkvhepX-6_bIr",
-      "thumbnailUrl": "https://i.ytimg.com/vi/MgopQQWE05o/mqdefault.jpg",
-      "videoCount": 414,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-08"
-    },
-    {
-      "id": "niji-yotsuhaumise-14",
-      "title": "スプラ3(と２が一回)",
-      "streamer": "海妹四葉",
-      "game": "スプラトゥーン3",
-      "genre": "fps",
-      "playlistId": "PLnHcRQJMltplGR-jqRsQA0E7AN9GtpnSC",
-      "thumbnailUrl": "https://i.ytimg.com/vi/OKqOqmDUVrg/mqdefault.jpg",
-      "videoCount": 12,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-08"
-    },
-    {
-      "id": "niji-saotomeberry-12",
-      "title": "🍓スプラトゥーン3",
-      "streamer": "早乙女ベリー",
-      "game": "スプラトゥーン3",
-      "genre": "fps",
-      "playlistId": "PL_Gxyc6sF6YGDLD_JZnUJBsON4v20Aotl",
-      "thumbnailUrl": "https://i.ytimg.com/vi/Z1j05NowvUQ/mqdefault.jpg",
-      "videoCount": 34,
-      "addedDate": "2026-09-08",
       "updatedDate": "2026-11-08"
     }
   ],

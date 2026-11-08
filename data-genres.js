@@ -1473,6 +1473,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "hd-0545",
+     "title": "REPO",
+     "streamer": "不知火フレア",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PLBoFNGFmekcOCZrdDMt2FfhIcNfIflyF2",
+     "thumbnailUrl": "https://i.ytimg.com/vi/j4AvE2ucY8Y/mqdefault.jpg",
+     "videoCount": 25,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-11-08"
+    },
+    {
      "id": "gap1006",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "白砂あやね",
@@ -1579,18 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 106,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-27"
-    },
-    {
-     "id": "hd-0545",
-     "title": "REPO",
-     "streamer": "不知火フレア",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PLBoFNGFmekcOCZrdDMt2FfhIcNfIflyF2",
-     "thumbnailUrl": "https://i.ytimg.com/vi/j4AvE2ucY8Y/mqdefault.jpg",
-     "videoCount": 25,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-10-22"
     }
    ]
   }

@@ -150,6 +150,42 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-09"
+  },
+  {
+   "id": "gap957",
+   "title": "🎮【ドラゴンクエスト シリーズ】",
+   "streamer": "Rei7",
+   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
+   "genre": "rpg",
+   "playlistId": "PLKTfrB9_BK5U",
+   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-08"
+  },
+  {
+   "id": "gap974",
+   "title": "空の軌跡 the 2nd",
+   "streamer": "立伝都々",
+   "game": "空の軌跡 the 2nd",
+   "genre": "rpg",
+   "playlistId": "PLJos2LstWKfY",
+   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
+   "videoCount": 5,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-08"
+  },
+  {
    "id": "gap973",
    "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
    "streamer": "ニュイ・ソシエール",
@@ -170,18 +206,6 @@ const NEW_LIST = {
    "playlistId": "PLZfy98ejRo_I",
    "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
    "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-11-05"
-  },
-  {
-   "id": "gap974",
-   "title": "空の軌跡 the 2nd",
-   "streamer": "立伝都々",
-   "game": "空の軌跡 the 2nd",
-   "genre": "rpg",
-   "playlistId": "PLJos2LstWKfY",
-   "thumbnailUrl": "https://i.ytimg.com/vi/fCF0oeuzOPA/mqdefault.jpg",
-   "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-11-05"
   },
@@ -220,30 +244,6 @@ const NEW_LIST = {
    "videoCount": 38,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-28"
-  },
-  {
-   "id": "gap957",
-   "title": "🎮【ドラゴンクエスト シリーズ】",
-   "streamer": "Rei7",
-   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
-   "genre": "rpg",
-   "playlistId": "PLKTfrB9_BK5U",
-   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-28"
-  },
-  {
-   "id": "gap951",
-   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "streamer": "猫屋敷美紅",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLEUCHw2KzwD8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-26"
   },
   {
    "id": "gap961",
