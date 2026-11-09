@@ -2290,5 +2290,20 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-07"
+  },
+  {
+    id: "single-167",
+    title: "トルネコの大冒険 配信まとめ",
+    streamer: "兎田ぺこら",
+    game: "トルネコの大冒険 不思議のダンジョン",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【初見】もっと不思議のダンジョンに挑戦！トルネコの大冒険 ちょっとステキなリマスター！ぺこ！【ホロライブ/兎田ぺこら】※ネタバレ注意", url: "https://www.youtube.com/watch?v=Leqxfa6jYzM", publishedDate: "2026-09-21" },
+      { title: "【初見】もっと不思議のダンジョンをクリアしたい！トルネコの大冒険 ちょっとステキなリマスター！ぺこ！【ホロライブ/兎田ぺこら】※ネタバレ注意", url: "https://www.youtube.com/watch?v=ZCAWxX1oRBU", publishedDate: "2026-09-22" },
+      { title: "【初見】もっと不思議のダンジョンをマジでクリアしたい！トルネコの大冒険 ちょっとステキなリマスター！ぺこ！【ホロライブ/兎田ぺこら】※ネタバレ注意", url: "https://www.youtube.com/watch?v=nKJpG9-zd6Y", publishedDate: "2026-09-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-08"
   }
 ];
