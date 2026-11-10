@@ -1473,6 +1473,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap787",
+     "title": "凛LIVE --- R.E.P.O.",
+     "streamer": "静凛",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
+     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
+     "videoCount": 13,
+     "addedDate": "2026-09-19",
+     "updatedDate": "2026-11-10"
+    },
+    {
      "id": "hd-0545",
      "title": "REPO",
      "streamer": "不知火フレア",
@@ -1495,18 +1507,6 @@ const GENRE_PAGES = {
      "videoCount": 8,
      "addedDate": "2026-10-26",
      "updatedDate": "2026-11-07"
-    },
-    {
-     "id": "gap787",
-     "title": "凛LIVE --- R.E.P.O.",
-     "streamer": "静凛",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
-     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
-     "videoCount": 13,
-     "addedDate": "2026-09-19",
-     "updatedDate": "2026-11-05"
     },
     {
      "id": "vspo-totokogara-21",
