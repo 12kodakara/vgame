@@ -12,6 +12,8 @@
  * single/multi は videos に動画URLを登録します。
  * mixed-playlist は mixedPlaylistUrl と videos の両方を持てます。
  * 実在確認できたURLだけを登録してください。
+ * 同じVTuber×ゲームの再生リストが登録済みでも、別シリーズの実況は例外として登録できる(個別指定のみ。validate-data.ps1 が検証する):
+ *   separateSeriesFrom(再生リストid・複数はカンマ区切り) / separateSeriesReason(理由) / playlistCheckedAt(YYYY-MM-DD。再生リストに対象動画が無いと確認した日)
  *
  * 以前は data-playlists.js の末尾にありましたが、game.html/streamer.html が
  * 数MBある PLAYLISTS(data-playlists.js)を読み込まずに済むよう、
@@ -2305,5 +2307,23 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-08"
+  },
+  {
+    id: "single-168",
+    title: "ポケットモンスター シャイニングパール 配信まとめ",
+    streamer: "兎田ぺこら",
+    game: "ポケットモンスター ブリリアントダイヤモンド・シャイニングパール",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ポケモンダイパ】ホロメン6人に貰ったタマゴでクリアを目指す旅！ぺこ！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=183AUMKOkas", publishedDate: "2026-10-04" },
+      { title: "#2【ポケモンダイパ】ホロメン6人に貰ったタマゴでクリアを目指す旅！ぺこ！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=ffiRtvdubvA", publishedDate: "2026-10-05" },
+      { title: "#3【ポケモンダイパ】いくぞ四天王戦！ホロメン6人に貰ったタマゴでクリアを目指す旅！ぺこ！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=w_QlfNcwYZ0", publishedDate: "2026-10-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-11",
+    separateSeriesFrom: "hd-0514",
+    separateSeriesReason: "2021年の再生リスト(ポケモンBD)とは別の実況。2026年10月の「ホロメン6人に貰ったタマゴでクリアを目指す旅」(シャイニングパール)で、再生リストの内容をブラウザで確認し3本が未収録と確認済み",
+    playlistCheckedAt: "2026-11-11"
   }
 ];

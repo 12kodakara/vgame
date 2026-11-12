@@ -28,6 +28,9 @@
       - 再生リストとの重複(再生リスト方式を優先するため登録不可):
           ・同じVTuber×同じゲームの再生リストが PLAYLISTS に登録済み
           ・mixedPlaylistUrl の再生リストが PLAYLISTS に登録済み
+        ※ 例外: 別シリーズの実況は、登録データに separateSeriesFrom(再生リストid) / separateSeriesReason(理由) /
+          playlistCheckedAt(YYYY-MM-DD。再生リストに対象動画が無いと確認した日)を書けば許可する(個別指定のみ。
+          同じVTuber×ゲームの再生リストを全て列挙する。理由・確認日が欠けるとエラー。動画IDの重複検査は例外でも有効)
         ※ PLAYLISTS は再生リスト内の動画IDを保持していないため、
           「同じ video ID が登録済み再生リストに含まれるか」はここでは判定できない。
           それは discover-standalone.ps1 が候補を作る時点で YouTube API を使って除外する。
@@ -351,9 +354,14 @@ if ($null -eq $standaloneText) {
 
 # 再生リスト優先の判定用: 登録済みの「VTuber×ゲーム」
 $playlistStreamerGame = @{}
+$playlistIdsByStreamerGame = @{}
 foreach ($obj in $playlistObjs) {
   $s = Field $obj "streamer"; $g = Field $obj "game"
-  if ($s -and $g) { $playlistStreamerGame["$s`t$g"] = $true }
+  if ($s -and $g) {
+    $playlistStreamerGame["$s`t$g"] = $true
+    if (-not $playlistIdsByStreamerGame.ContainsKey("$s`t$g")) { $playlistIdsByStreamerGame["$s`t$g"] = New-Object System.Collections.Generic.List[string] }
+    [void]$playlistIdsByStreamerGame["$s`t$g"].Add((Field $obj "id"))
+  }
 }
 
 $standaloneFormats = @("single", "multi", "mixed-playlist")
@@ -445,8 +453,30 @@ foreach ($obj in $standaloneObjs) {
   }
 
   # 再生リスト方式を優先: 同じVTuber×ゲームの再生リストがあれば単発実況として登録しない
+  # 例外(別シリーズ): separateSeriesFrom(再生リストid。複数はカンマ区切り) / separateSeriesReason / playlistCheckedAt の3項目を
+  # すべて満たした登録だけ、同じVTuber×ゲームの再生リストがあっても許可する。個別指定のみで、他の登録には効かない。
+  $sepFrom = Field $obj "separateSeriesFrom"; $sepReason = Field $obj "separateSeriesReason"; $sepChecked = Field $obj "playlistCheckedAt"
+  $hasSeparateSeries = [bool]($sepFrom -or $sepReason -or $sepChecked)
   if ($streamer -and $game -and $playlistStreamerGame.ContainsKey("$streamer`t$game")) {
-    Add-Issue $errors "単発:再生リスト重複" $errorDetails "[$label] $streamer × $game の再生リストが PLAYLISTS に登録済みです(再生リストを優先)"
+    if (-not $hasSeparateSeries) {
+      Add-Issue $errors "単発:再生リスト重複" $errorDetails "[$label] $streamer × $game の再生リストが PLAYLISTS に登録済みです(再生リストを優先)"
+    } else {
+      $required = @($playlistIdsByStreamerGame["$streamer`t$game"])
+      $listed = @($sepFrom -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+      $missing = @($required | Where-Object { $listed -notcontains $_ })
+      $unknown = @($listed | Where-Object { $required -notcontains $_ })
+      $checkedDate = [datetime]::MinValue
+      if ($missing.Count -gt 0) { Add-Issue $errors "単発:別シリーズ例外の不備" $errorDetails "[$label] separateSeriesFrom に、同じ $streamer × $game の再生リストが全て列挙されていません(不足: $($missing -join ', '))" }
+      if ($unknown.Count -gt 0) { Add-Issue $errors "単発:別シリーズ例外の不備" $errorDetails "[$label] separateSeriesFrom に、同じ $streamer × $game の再生リストではないidがあります: $($unknown -join ', ')" }
+      if (-not $sepReason.Trim()) { Add-Issue $errors "単発:別シリーズ例外の不備" $errorDetails "[$label] separateSeriesReason(別シリーズである理由・根拠)がありません" }
+      if (-not [datetime]::TryParseExact($sepChecked, "yyyy-MM-dd", [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$checkedDate)) {
+        Add-Issue $errors "単発:別シリーズ例外の不備" $errorDetails "[$label] playlistCheckedAt(再生リストに対象動画が無いと確認した日)が YYYY-MM-DD 形式ではありません"
+      } elseif ($checkedDate.Date -gt (Get-Date).Date) {
+        Add-Issue $errors "単発:別シリーズ例外の不備" $errorDetails "[$label] playlistCheckedAt が未来の日付です: $sepChecked"
+      }
+    }
+  } elseif ($hasSeparateSeries) {
+    Add-Issue $warnings "単発:不要な別シリーズ例外" $warningDetails "[$label] 同じ $streamer × $game の再生リストが無いため、separateSeries 系の項目は不要です"
   }
 }
 

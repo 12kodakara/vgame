@@ -74,6 +74,15 @@ $cases = @(
   @{ name = "再生リスト重複(同じVTuber×ゲームのPLが登録済み)"; entries = @((Entry @{ streamer = "姫森ルーナ" })); expect = @("単発:再生リスト重複") }
   @{ name = "再生リスト重複(mixedPlaylistUrlが登録済みPL)"; entries = @((Entry @{ format = "mixed-playlist"; mixedPlaylistUrl = "https://www.youtube.com/playlist?list=$registeredPlaylistId" })); expect = @("単発:再生リスト重複") }
   @{ name = "mixedPlaylistUrl不正"; entries = @((Entry @{ format = "mixed-playlist"; mixedPlaylistUrl = "https://www.youtube.com/watch?v=Ac-DypNuXyc" })); expect = @("単発:再生リストURL不正") }
+  @{ name = "別シリーズ例外: 正しい指定(multi・理由・確認日あり)なら許可"; entries = @((Entry @{ streamer = "姫森ルーナ"; format = "multi"; separateSeriesFrom = "t-001"; separateSeriesReason = "2021年とは別企画の実況"; playlistCheckedAt = "2026-11-10"; videos = @("https://www.youtube.com/watch?v=Ac-DypNuXyc", "https://www.youtube.com/watch?v=NBPgxu6pLgk") })); expectCount = 1; expect = @(); forbid = @("*") }
+  @{ name = "別シリーズ例外: 指定なしは従来どおり再生リスト重複"; entries = @((Entry @{ streamer = "姫森ルーナ"; format = "multi" })); expect = @("単発:再生リスト重複"); forbid = @("単発:別シリーズ例外の不備") }
+  @{ name = "別シリーズ例外: 指定があっても動画IDが重複ならエラー"; entries = @((Entry @{ id = "single-t1" }), (Entry @{ id = "single-t2"; streamer = "姫森ルーナ"; separateSeriesFrom = "t-001"; separateSeriesReason = "別企画"; playlistCheckedAt = "2026-11-10" })); expect = @("単発:video ID重複"); forbid = @("単発:再生リスト重複", "単発:別シリーズ例外の不備") }
+  @{ name = "別シリーズ例外: 理由がない"; entries = @((Entry @{ streamer = "姫森ルーナ"; separateSeriesFrom = "t-001"; playlistCheckedAt = "2026-11-10" })); expect = @("単発:別シリーズ例外の不備"); forbid = @("単発:再生リスト重複") }
+  @{ name = "別シリーズ例外: 確認日がない"; entries = @((Entry @{ streamer = "姫森ルーナ"; separateSeriesFrom = "t-001"; separateSeriesReason = "別企画" })); expect = @("単発:別シリーズ例外の不備") }
+  @{ name = "別シリーズ例外: 確認日の形式が不正"; entries = @((Entry @{ streamer = "姫森ルーナ"; separateSeriesFrom = "t-001"; separateSeriesReason = "別企画"; playlistCheckedAt = "2026/11/10" })); expect = @("単発:別シリーズ例外の不備") }
+  @{ name = "別シリーズ例外: 確認日が未来"; entries = @((Entry @{ streamer = "姫森ルーナ"; separateSeriesFrom = "t-001"; separateSeriesReason = "別企画"; playlistCheckedAt = "2999-01-01" })); expect = @("単発:別シリーズ例外の不備") }
+  @{ name = "別シリーズ例外: 再生リストidが違う(不足と無関係なid)"; entries = @((Entry @{ streamer = "姫森ルーナ"; separateSeriesFrom = "t-999"; separateSeriesReason = "別企画"; playlistCheckedAt = "2026-11-10" })); expect = @("単発:別シリーズ例外の不備") }
+  @{ name = "別シリーズ例外: 再生リストが無い組み合わせでは従来どおり正常(例外は不要・警告のみ)"; entries = @((Entry @{ separateSeriesFrom = "t-001"; separateSeriesReason = "別企画"; playlistCheckedAt = "2026-11-10" })); expectCount = 1; expect = @(); forbid = @("*") }
 )
 
 $pass = 0; $fail = 0
