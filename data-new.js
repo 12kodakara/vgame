@@ -150,6 +150,42 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap951",
+   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "streamer": "猫屋敷美紅",
+   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+   "genre": "action",
+   "playlistId": "PLEUCHw2KzwD8",
+   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+   "videoCount": 8,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-14"
+  },
+  {
+   "id": "gap931",
+   "title": "死んだら即終了DARK SOULS Ⅲ",
+   "streamer": "鷹宮リオン",
+   "game": "DARK SOULS III",
+   "genre": "action",
+   "playlistId": "PLChDzynvDgpo",
+   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
+   "videoCount": 38,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-13"
+  },
+  {
+   "id": "gap957",
+   "title": "🎮【ドラゴンクエスト シリーズ】",
+   "streamer": "Rei7",
+   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
+   "genre": "rpg",
+   "playlistId": "PLKTfrB9_BK5U",
+   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-13"
+  },
+  {
    "id": "gap973",
    "title": "【進行中】🌤️空の軌跡 the 2nd🌤️",
    "streamer": "ニュイ・ソシエール",
@@ -172,30 +208,6 @@ const NEW_LIST = {
    "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-11-10"
-  },
-  {
-   "id": "gap951",
-   "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "streamer": "猫屋敷美紅",
-   "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-   "genre": "action",
-   "playlistId": "PLEUCHw2KzwD8",
-   "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-   "videoCount": 8,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-11-09"
-  },
-  {
-   "id": "gap957",
-   "title": "🎮【ドラゴンクエスト シリーズ】",
-   "streamer": "Rei7",
-   "game": "ドラゴンクエストモンスターズ テリーのワンダーランドRETRO",
-   "genre": "rpg",
-   "playlistId": "PLKTfrB9_BK5U",
-   "thumbnailUrl": "https://i.ytimg.com/vi/G8HIjXre6Uw/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-11-08"
   },
   {
    "id": "gap930",
@@ -232,18 +244,6 @@ const NEW_LIST = {
    "videoCount": 1,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-10-29"
-  },
-  {
-   "id": "gap931",
-   "title": "死んだら即終了DARK SOULS Ⅲ",
-   "streamer": "鷹宮リオン",
-   "game": "DARK SOULS III",
-   "genre": "action",
-   "playlistId": "PLChDzynvDgpo",
-   "thumbnailUrl": "https://i.ytimg.com/vi/3bhohbR9Sps/mqdefault.jpg",
-   "videoCount": 38,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-10-28"
   },
   {
    "id": "gap961",

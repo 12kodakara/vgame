@@ -32,6 +32,54 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "holo-021",
+      "title": "FINAL FANTASY XIV",
+      "streamer": "白上フブキ",
+      "game": "FINAL FANTASY XIV",
+      "genre": "rpg",
+      "playlistId": "PL7LdRPp7xCkOk_9-idScV8iKbn4CXZ031",
+      "thumbnailUrl": "https://i.ytimg.com/vi/CFQy9EyQttg/mqdefault.jpg",
+      "videoCount": 123,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-11-14"
+    },
+    {
+      "id": "gap826",
+      "title": "UNDERTALE",
+      "streamer": "Raora Panthera",
+      "game": "UNDERTALE",
+      "genre": "rpg",
+      "playlistId": "PLVDEv75YFMa0",
+      "thumbnailUrl": "https://i.ytimg.com/vi/-x5I9D9wXqQ/mqdefault.jpg",
+      "videoCount": 6,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-11-14"
+    },
+    {
+      "id": "gap835",
+      "title": "LOST JUDGMENT：裁かれざる記憶",
+      "streamer": "水宮枢",
+      "game": "LOST JUDGMENT:裁かれざる記憶",
+      "genre": "action",
+      "playlistId": "PLLOWP7UoerRc",
+      "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
+      "videoCount": 3,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-11-14"
+    },
+    {
+      "id": "gap951",
+      "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
+      "streamer": "猫屋敷美紅",
+      "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+      "genre": "action",
+      "playlistId": "PLEUCHw2KzwD8",
+      "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
+      "videoCount": 8,
+      "addedDate": "2026-10-12",
+      "updatedDate": "2026-11-14"
+    },
+    {
       "id": "niji-144",
       "title": "スプラトゥーン",
       "streamer": "フミ",
@@ -42,54 +90,6 @@ const HOME_SUMMARY = {
       "videoCount": 33,
       "addedDate": "2026-09-06",
       "updatedDate": "2026-11-13"
-    },
-    {
-      "id": "niji-eluworld-35",
-      "title": "APEX",
-      "streamer": "える",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PLlKNHmvM5HaDMrL9Sw6leAojcpVW4laDa",
-      "thumbnailUrl": "https://i.ytimg.com/vi/UhFs645qxXE/mqdefault.jpg",
-      "videoCount": 1036,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-13"
-    },
-    {
-      "id": "niji-chigusa24zon-13",
-      "title": "⟡ 原神",
-      "streamer": "西園チグサ",
-      "game": "原神",
-      "genre": "rpg",
-      "playlistId": "PLYqQxMpsjrWsACCzSgFfJJG-T1BKbuuMl",
-      "thumbnailUrl": "https://i.ytimg.com/vi/AtXswQOokxQ/mqdefault.jpg",
-      "videoCount": 199,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-13"
-    },
-    {
-      "id": "holo-021",
-      "title": "FINAL FANTASY XIV",
-      "streamer": "白上フブキ",
-      "game": "FINAL FANTASY XIV",
-      "genre": "rpg",
-      "playlistId": "PL7LdRPp7xCkOk_9-idScV8iKbn4CXZ031",
-      "thumbnailUrl": "https://i.ytimg.com/vi/CFQy9EyQttg/mqdefault.jpg",
-      "videoCount": 123,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-12"
-    },
-    {
-      "id": "niji-345",
-      "title": "マリカー",
-      "streamer": "皇れお",
-      "game": "マリオカートワールド",
-      "genre": "racing",
-      "playlistId": "PLxu10EeAImVOPX9WCXGuV_iEtr77NQj2g",
-      "thumbnailUrl": "https://i.ytimg.com/vi/dtvWSyOj_14/mqdefault.jpg",
-      "videoCount": 17,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-12"
     }
   ],
   "streamerPicks": [
