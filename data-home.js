@@ -32,6 +32,18 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "niji-kirame2434-27",
+      "title": "雀魂🀄✨",
+      "streamer": "空星きらめ",
+      "game": "雀魂",
+      "genre": "other",
+      "playlistId": "PLcEj_AhpEQ3nQ7ETwU85spL0wJlhaNBDa",
+      "thumbnailUrl": "https://i.ytimg.com/vi/rLu4zEvad4Q/mqdefault.jpg",
+      "videoCount": 225,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-15"
+    },
+    {
       "id": "holo-021",
       "title": "FINAL FANTASY XIV",
       "streamer": "白上フブキ",
@@ -44,52 +56,40 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-11-14"
     },
     {
-      "id": "gap826",
-      "title": "UNDERTALE",
-      "streamer": "Raora Panthera",
-      "game": "UNDERTALE",
-      "genre": "rpg",
-      "playlistId": "PLVDEv75YFMa0",
-      "thumbnailUrl": "https://i.ytimg.com/vi/-x5I9D9wXqQ/mqdefault.jpg",
-      "videoCount": 6,
-      "addedDate": "2026-10-11",
-      "updatedDate": "2026-11-14"
-    },
-    {
-      "id": "gap835",
-      "title": "LOST JUDGMENT：裁かれざる記憶",
-      "streamer": "水宮枢",
-      "game": "LOST JUDGMENT:裁かれざる記憶",
-      "genre": "action",
-      "playlistId": "PLLOWP7UoerRc",
-      "thumbnailUrl": "https://i.ytimg.com/vi/9FpDYuWXTgQ/mqdefault.jpg",
-      "videoCount": 3,
-      "addedDate": "2026-10-11",
-      "updatedDate": "2026-11-14"
-    },
-    {
-      "id": "gap951",
-      "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
-      "streamer": "猫屋敷美紅",
-      "game": "ゼルダの伝説 ティアーズ オブ ザ キングダム",
-      "genre": "action",
-      "playlistId": "PLEUCHw2KzwD8",
-      "thumbnailUrl": "https://i.ytimg.com/vi/bc9NdIEDzqA/mqdefault.jpg",
-      "videoCount": 8,
-      "addedDate": "2026-10-12",
-      "updatedDate": "2026-11-14"
-    },
-    {
-      "id": "niji-144",
-      "title": "スプラトゥーン",
-      "streamer": "フミ",
-      "game": "スプラトゥーン",
-      "genre": "fps",
-      "playlistId": "PLWRt-KFHLtpdS15i4LNO9kFkZHkFQWFZ4",
-      "thumbnailUrl": "https://i.ytimg.com/vi/gWrVu8xMu30/mqdefault.jpg",
-      "videoCount": 33,
+      "id": "holo-109",
+      "title": "Minecraft",
+      "streamer": "鷹嶺ルイ",
+      "game": "Minecraft",
+      "genre": "sandbox",
+      "playlistId": "PLD992QYJ2953R-EX7LQLFD6uWmgy76W8F",
+      "thumbnailUrl": "https://i.ytimg.com/vi/8twmC-iwveM/mqdefault.jpg",
+      "videoCount": 37,
       "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-13"
+      "updatedDate": "2026-11-14"
+    },
+    {
+      "id": "niji-063",
+      "title": "スカイリム",
+      "streamer": "一橋綾人",
+      "game": "The Elder Scrolls V: Skyrim",
+      "genre": "rpg",
+      "playlistId": "PLjDz3XfQNeNb8hdz-kTRD-htxOg6PSXqo",
+      "thumbnailUrl": "https://i.ytimg.com/vi/kA-Wi3YF2ao/mqdefault_live.jpg",
+      "videoCount": 10,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-11-14"
+    },
+    {
+      "id": "vspo-lisahanabusa-11",
+      "title": "APEX",
+      "streamer": "英リサ",
+      "game": "Apex Legends",
+      "genre": "fps",
+      "playlistId": "PLMbPsuw36kCglBhUr2Vx_mh_wv7QWl6j2",
+      "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
+      "videoCount": 351,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-11-14"
     }
   ],
   "streamerPicks": [
