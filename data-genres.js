@@ -1473,6 +1473,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap834",
+     "title": "バイオハザード6",
+     "streamer": "鷹嶺ルイ",
+     "game": "バイオハザード6",
+     "genre": "horror",
+     "playlistId": "PLXPW6-4naNnE",
+     "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
+     "videoCount": 2,
+     "addedDate": "2026-10-11",
+     "updatedDate": "2026-11-16"
+    },
+    {
      "id": "gap787",
      "title": "凛LIVE --- R.E.P.O.",
      "streamer": "静凛",
@@ -1579,18 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 30,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-28"
-    },
-    {
-     "id": "niji-chimamachita-02",
-     "title": "黒夢町",
-     "streamer": "町田ちま",
-     "game": "黒夢町",
-     "genre": "horror",
-     "playlistId": "PLz9E_XhmAFEEfhIlBj_MWrA0Zcf1DtQwb",
-     "thumbnailUrl": "https://i.ytimg.com/vi/S5XFlBJQYoo/mqdefault.jpg",
-     "videoCount": 106,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-27"
     }
    ]
   }

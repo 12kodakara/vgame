@@ -32,54 +32,6 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "niji-kirame2434-27",
-      "title": "雀魂🀄✨",
-      "streamer": "空星きらめ",
-      "game": "雀魂",
-      "genre": "other",
-      "playlistId": "PLcEj_AhpEQ3nQ7ETwU85spL0wJlhaNBDa",
-      "thumbnailUrl": "https://i.ytimg.com/vi/rLu4zEvad4Q/mqdefault.jpg",
-      "videoCount": 225,
-      "addedDate": "2026-09-08",
-      "updatedDate": "2026-11-15"
-    },
-    {
-      "id": "holo-021",
-      "title": "FINAL FANTASY XIV",
-      "streamer": "白上フブキ",
-      "game": "FINAL FANTASY XIV",
-      "genre": "rpg",
-      "playlistId": "PL7LdRPp7xCkOk_9-idScV8iKbn4CXZ031",
-      "thumbnailUrl": "https://i.ytimg.com/vi/CFQy9EyQttg/mqdefault.jpg",
-      "videoCount": 123,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-14"
-    },
-    {
-      "id": "holo-109",
-      "title": "Minecraft",
-      "streamer": "鷹嶺ルイ",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLD992QYJ2953R-EX7LQLFD6uWmgy76W8F",
-      "thumbnailUrl": "https://i.ytimg.com/vi/8twmC-iwveM/mqdefault.jpg",
-      "videoCount": 37,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-14"
-    },
-    {
-      "id": "niji-063",
-      "title": "スカイリム",
-      "streamer": "一橋綾人",
-      "game": "The Elder Scrolls V: Skyrim",
-      "genre": "rpg",
-      "playlistId": "PLjDz3XfQNeNb8hdz-kTRD-htxOg6PSXqo",
-      "thumbnailUrl": "https://i.ytimg.com/vi/kA-Wi3YF2ao/mqdefault_live.jpg",
-      "videoCount": 10,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-14"
-    },
-    {
       "id": "vspo-lisahanabusa-11",
       "title": "APEX",
       "streamer": "英リサ",
@@ -89,7 +41,55 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
       "videoCount": 351,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-14"
+      "updatedDate": "2026-11-16"
+    },
+    {
+      "id": "niji-fumivirtual-09",
+      "title": "遊戯王マスターデュエル",
+      "streamer": "フミ",
+      "game": "遊戯王マスターデュエル",
+      "genre": "other",
+      "playlistId": "PLWRt-KFHLtpdw-d19RIsq0dKRQqre09nl",
+      "thumbnailUrl": "https://i.ytimg.com/vi/8lBLmn7W7CA/mqdefault.jpg",
+      "videoCount": 159,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-16"
+    },
+    {
+      "id": "niji-sumeragi0o-14",
+      "title": "スプラ",
+      "streamer": "皇れお",
+      "game": "スプラトゥーン3",
+      "genre": "fps",
+      "playlistId": "PLxu10EeAImVPbvrh0FfwcgoV0CkLm0Wyz",
+      "thumbnailUrl": "https://i.ytimg.com/vi/m-zC5pmuz-g/mqdefault.jpg",
+      "videoCount": 33,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-16"
+    },
+    {
+      "id": "gap834",
+      "title": "バイオハザード6",
+      "streamer": "鷹嶺ルイ",
+      "game": "バイオハザード6",
+      "genre": "horror",
+      "playlistId": "PLXPW6-4naNnE",
+      "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
+      "videoCount": 2,
+      "addedDate": "2026-10-11",
+      "updatedDate": "2026-11-16"
+    },
+    {
+      "id": "niji-558",
+      "title": "LoLだぞ！",
+      "streamer": "宇佐美リト",
+      "game": "League of Legends",
+      "genre": "other",
+      "playlistId": "PLudw-v3eSCjCvwtMFCfXY9-SPPtK9ZD0V",
+      "thumbnailUrl": "https://i.ytimg.com/vi/5JJUMywqcwg/mqdefault.jpg",
+      "videoCount": 34,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-11-15"
     }
   ],
   "streamerPicks": [
