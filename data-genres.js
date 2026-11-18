@@ -1473,6 +1473,30 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap1006",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "白砂あやね",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLF74GEJMvXC8",
+     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
+     "videoCount": 8,
+     "addedDate": "2026-10-26",
+     "updatedDate": "2026-11-17"
+    },
+    {
+     "id": "hd-0127",
+     "title": "R.E.P.O.",
+     "streamer": "白上フブキ",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL7LdRPp7xCkOXRU8NyFuB9WXdAZ9pVizi",
+     "thumbnailUrl": "https://i.ytimg.com/vi/5pQ10AsYS38/mqdefault.jpg",
+     "videoCount": 51,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-11-17"
+    },
+    {
      "id": "gap787",
      "title": "凛LIVE --- R.E.P.O.",
      "streamer": "静凛",
@@ -1509,18 +1533,6 @@ const GENRE_PAGES = {
      "updatedDate": "2026-11-10"
     },
     {
-     "id": "gap1006",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "白砂あやね",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLF74GEJMvXC8",
-     "thumbnailUrl": "https://i.ytimg.com/vi/naA9AkJ9OWM/mqdefault.jpg",
-     "videoCount": 8,
-     "addedDate": "2026-10-26",
-     "updatedDate": "2026-11-07"
-    },
-    {
      "id": "vspo-totokogara-21",
      "title": "DBD",
      "streamer": "小雀とと",
@@ -1555,18 +1567,6 @@ const GENRE_PAGES = {
      "videoCount": 11,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-31"
-    },
-    {
-     "id": "hd-0127",
-     "title": "R.E.P.O.",
-     "streamer": "白上フブキ",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PL7LdRPp7xCkOXRU8NyFuB9WXdAZ9pVizi",
-     "thumbnailUrl": "https://i.ytimg.com/vi/5pQ10AsYS38/mqdefault.jpg",
-     "videoCount": 51,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-10-30"
     },
     {
      "id": "niji-nesssakaki-01",
