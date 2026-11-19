@@ -2325,5 +2325,18 @@ const STANDALONE_PLAYS = [
     separateSeriesFrom: "hd-0514",
     separateSeriesReason: "2021年の再生リスト(ポケモンBD)とは別の実況。2026年10月の「ホロメン6人に貰ったタマゴでクリアを目指す旅」(シャイニングパール)で、再生リストの内容をブラウザで確認し3本が未収録と確認済み",
     playlistCheckedAt: "2026-11-11"
+  },
+  {
+    id: "single-169",
+    title: "【リズム天国】大人気リズムゲームを初見プレイのじゃ！",
+    streamer: "熱千めら",
+    game: "リズム天国 ミラクルスターズ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【リズム天国】大人気リズムゲームを初見プレイのじゃ！【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=mNcFyUgR_B4", publishedDate: "2026-10-11" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-17"
   }
 ];
