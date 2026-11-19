@@ -1473,6 +1473,30 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "gap787",
+     "title": "凛LIVE --- R.E.P.O.",
+     "streamer": "静凛",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
+     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
+     "videoCount": 13,
+     "addedDate": "2026-09-19",
+     "updatedDate": "2026-11-18"
+    },
+    {
+     "id": "niji-chimamachita-02",
+     "title": "黒夢町",
+     "streamer": "町田ちま",
+     "game": "黒夢町",
+     "genre": "horror",
+     "playlistId": "PLz9E_XhmAFEEfhIlBj_MWrA0Zcf1DtQwb",
+     "thumbnailUrl": "https://i.ytimg.com/vi/S5XFlBJQYoo/mqdefault.jpg",
+     "videoCount": 106,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-11-18"
+    },
+    {
      "id": "gap1006",
      "title": "魔法少女ノ魔女裁判",
      "streamer": "白砂あやね",
@@ -1495,18 +1519,6 @@ const GENRE_PAGES = {
      "videoCount": 51,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-11-17"
-    },
-    {
-     "id": "gap787",
-     "title": "凛LIVE --- R.E.P.O.",
-     "streamer": "静凛",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
-     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
-     "videoCount": 13,
-     "addedDate": "2026-09-19",
-     "updatedDate": "2026-11-16"
     },
     {
      "id": "gap834",
@@ -1579,18 +1591,6 @@ const GENRE_PAGES = {
      "videoCount": 4,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-29"
-    },
-    {
-     "id": "niji-blackshibach-06",
-     "title": "黒夢町",
-     "streamer": "黒井しば",
-     "game": "黒夢町",
-     "genre": "horror",
-     "playlistId": "PLMvlv_e08Z6Qtq4Gcqy6W8pEuxtdb7dI8",
-     "thumbnailUrl": "https://i.ytimg.com/vi/PxIZlsjbkSw/mqdefault.jpg",
-     "videoCount": 30,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-28"
     }
    ]
   }
