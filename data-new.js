@@ -150,6 +150,18 @@ const NEW_LIST = {
    "updatedDate": "2021-05-28"
   },
   {
+   "id": "gap930",
+   "title": "Hollow Knight: Silksong",
+   "streamer": "白上フブキ",
+   "game": "Hollow Knight: Silksong",
+   "genre": "action",
+   "playlistId": "PLZfy98ejRo_I",
+   "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
+   "videoCount": 2,
+   "addedDate": "2026-10-12",
+   "updatedDate": "2026-11-19"
+  },
+  {
    "id": "gap951",
    "title": "🎮ゼルダの伝説 ティアーズ オブ ザ キングダム",
    "streamer": "猫屋敷美紅",
@@ -208,18 +220,6 @@ const NEW_LIST = {
    "videoCount": 5,
    "addedDate": "2026-10-12",
    "updatedDate": "2026-11-10"
-  },
-  {
-   "id": "gap930",
-   "title": "Hollow Knight: Silksong",
-   "streamer": "白上フブキ",
-   "game": "Hollow Knight: Silksong",
-   "genre": "action",
-   "playlistId": "PLZfy98ejRo_I",
-   "thumbnailUrl": "https://i.ytimg.com/vi/gbCsK3KnVVE/mqdefault.jpg",
-   "videoCount": 2,
-   "addedDate": "2026-10-12",
-   "updatedDate": "2026-11-05"
   },
   {
    "id": "gap952",

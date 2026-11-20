@@ -32,40 +32,52 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
-      "id": "niji-rou2434-07",
-      "title": "APEX",
-      "streamer": "小柳ロウ",
+      "id": "vspo-saineginjo-01",
+      "title": "STREET FIGHTER6",
+      "streamer": "銀城サイネ",
+      "game": "ストリートファイター6",
+      "genre": "action",
+      "playlistId": "PLftZSTc8m3qY",
+      "thumbnailUrl": "https://i.ytimg.com/vi/vfnRpqEugO8/mqdefault.jpg",
+      "videoCount": 14,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-11-20"
+    },
+    {
+      "id": "niji-1o46v-27",
+      "title": "【麻雀】雀魂",
+      "streamer": "弦月藤士郎",
+      "game": "雀魂",
+      "genre": "other",
+      "playlistId": "PLt1c9byI2pES4r3Y0k0fpfW0ZclymZcdm",
+      "thumbnailUrl": "https://i.ytimg.com/vi/lCd0IS8Je8Q/mqdefault.jpg",
+      "videoCount": 17,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-20"
+    },
+    {
+      "id": "vspoen-remiaaotsuki-01",
+      "title": "CS2 Operation: VTuber Domination",
+      "streamer": "青月レミア",
+      "game": "Counter-Strike 2",
+      "genre": "fps",
+      "playlistId": "PL-Tp9biv1fULV0GIvAvKtUfOCAcdIvNtU",
+      "thumbnailUrl": "https://i.ytimg.com/vi/1LP9a6Q9GGk/mqdefault.jpg",
+      "videoCount": 26,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-20"
+    },
+    {
+      "id": "vspo-totokogara-23",
+      "title": "Apex",
+      "streamer": "小雀とと",
       "game": "Apex Legends",
       "genre": "fps",
-      "playlistId": "PLrRI9wx_gxFPIkIICkqFPB0SJD6l6Fe4b",
-      "thumbnailUrl": "https://i.ytimg.com/vi/BO86JLPSYz8/mqdefault.jpg",
-      "videoCount": 142,
-      "addedDate": "2026-09-08",
+      "playlistId": "PLuXZStCIRGE38N4rik2CnMKDrlXj773h0",
+      "thumbnailUrl": "https://i.ytimg.com/vi/73FnRk_5kOE/mqdefault.jpg",
+      "videoCount": 111,
+      "addedDate": "2026-09-07",
       "updatedDate": "2026-11-19"
-    },
-    {
-      "id": "holo-043",
-      "title": "ホロ７DTD",
-      "streamer": "大神ミオ",
-      "game": "7 Days to Die",
-      "genre": "sandbox",
-      "playlistId": "PLMUtkfkYDjAFrToqQ7H47tBSBaJ7QtAux",
-      "thumbnailUrl": "https://i.ytimg.com/vi/pjOhkCbQWQk/mqdefault.jpg",
-      "videoCount": 14,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-18"
-    },
-    {
-      "id": "niji-558",
-      "title": "LoLだぞ！",
-      "streamer": "宇佐美リト",
-      "game": "League of Legends",
-      "genre": "other",
-      "playlistId": "PLudw-v3eSCjCvwtMFCfXY9-SPPtK9ZD0V",
-      "thumbnailUrl": "https://i.ytimg.com/vi/5JJUMywqcwg/mqdefault.jpg",
-      "videoCount": 34,
-      "addedDate": "2026-09-06",
-      "updatedDate": "2026-11-18"
     },
     {
       "id": "vspo-mimitosaki-04",
@@ -77,19 +89,7 @@ const HOME_SUMMARY = {
       "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
       "videoCount": 279,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-18"
-    },
-    {
-      "id": "vspo-lisahanabusa-11",
-      "title": "APEX",
-      "streamer": "英リサ",
-      "game": "Apex Legends",
-      "genre": "fps",
-      "playlistId": "PLMbPsuw36kCglBhUr2Vx_mh_wv7QWl6j2",
-      "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
-      "videoCount": 351,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-18"
+      "updatedDate": "2026-11-19"
     }
   ],
   "streamerPicks": [
