@@ -1226,6 +1226,7 @@ const GAMES = [
   { name: "鬼武者2", kana: "おにむしゃつー", series: "" },
   { name: "鬼武者シリーズ", kana: "おにむしゃしりーず", series: "" },
   { name: "空気読み。", kana: "くうきよみ", aliases: ["空気読み"], series: "" },
+  { name: "空気読み。2", kana: "くうきよみつー", aliases: ["空気読み2"], series: "" },
   { name: "古銭プッシャーフレンズ参", kana: "こせんぷっしゃーふれんずさん", series: "" },
   { name: "荒野行動", kana: "こうやこうどう", series: "" },
   { name: "黒神話：悟空", kana: "こくしんわごくう", series: "" },

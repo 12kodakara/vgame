@@ -2376,5 +2376,18 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-21"
+  },
+  {
+    id: "single-171",
+    title: "【空気読み。2】無知とは時に卑劣のじゃ…",
+    streamer: "熱千めら",
+    game: "空気読み。2",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【空気読み。2】無知とは時に卑劣のじゃ…【ホロライブ/アソビ★まわり隊！/熱千めら】", url: "https://www.youtube.com/watch?v=poERFwoVxxE", publishedDate: "2026-10-17" }
+    ],
+    note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
+    addedDate: "2026-11-21"
   }
 ];

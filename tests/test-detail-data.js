@@ -131,7 +131,21 @@ for (const page of ['new.html', 'ranking.html']) check('6f. ' + page + ' は dat
 const sitemap = read('sitemap.xml');
 const xmlDecode = (t) => t.replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const gamesInSitemap = [...sitemap.matchAll(/<loc>https:\/\/vgame-navi\.jp\/game\.html\?game=([^<]+)<\/loc>/g)].map((m) => decodeURIComponent(xmlDecode(m[1])));
-check('7a. sitemap のゲーム詳細URLはすべて分割データにエントリがある(空ページを載せていない)', gamesInSitemap.length > 0 && gamesInSitemap.every((g) => all.games[g] && all.games[g].playlists.length), gamesInSitemap.filter((g) => !all.games[g]).slice(0, 5).join(', '));
+// 単発実況(STANDALONE_PLAYS、single / multi どちらも)だけがあるゲームも game.js では noindex にならず、generate-sitemap.ps1 も sitemap に載せる。
+// 判定は game.js と同じく「再生リストが1件以上 または 単発実況の登録が1件以上」(動画本数ではなく登録件数で見る)
+const gameHasDataIn = (shard, standalone, g) => !!(shard[g] && ((shard[g].playlists || []).length > 0 || standalone.some((p) => p.game === g)));
+const gameHasData = (g) => gameHasDataIn(all.games, STANDALONE, g);
+check('7a. sitemap のゲーム詳細URLはすべて分割データにエントリがある(再生リストか単発実況がある・空ページを載せていない)', gamesInSitemap.length > 0 && gamesInSitemap.every(gameHasData), gamesInSitemap.filter((g) => !gameHasData(g)).slice(0, 5).join(', '));
+{
+  // 判定関数の回帰確認(架空のデータ。実データには混ぜない)
+  const shard = { P: { playlists: [{ id: 'x' }] }, S: { playlists: [] }, B: { playlists: [{ id: 'y' }] }, N: { playlists: [] }, M: { playlists: [] } };
+  const sa = [{ game: 'S', format: 'single', videos: [{}] }, { game: 'B', format: 'single', videos: [{}] }, { game: 'M', format: 'multi', videos: [{}, {}, {}] }];
+  const cases = [['再生リストのみ', 'P', true], ['単発実況(single)のみ', 'S', true], ['再生リストと単発実況の両方', 'B', true], ['どちらも無い', 'N', false], ['multi 形式のみ', 'M', true], ['分割データに無い', 'Z', false]];
+  const bad = cases.filter(([, g, want]) => gameHasDataIn(shard, sa, g) !== want).map(([n]) => n);
+  check('7a-2. ゲームの判定: 再生リストのみ・単発のみ・両方・multi のみは合格、どちらも無い・分割データに無いは不合格', !bad.length, bad.join(', '));
+}
+const standaloneOnlyGames = gamesInSitemap.filter((g) => all.games[g] && !(all.games[g].playlists || []).length);
+check('7a-3. 単発実況だけのゲーム(例: 空気読み。2)も sitemap に載り、判定で合格する', standaloneOnlyGames.length > 0 && standaloneOnlyGames.every(gameHasData) && (!GAMES.some((g) => g.name === '空気読み。2') || standaloneOnlyGames.includes('空気読み。2')), standaloneOnlyGames.join(', '));
 const streamersInSitemap = [...sitemap.matchAll(/<loc>https:\/\/vgame-navi\.jp\/streamer\.html\?streamer=([^<]+)<\/loc>/g)].map((m) => decodeURIComponent(xmlDecode(m[1])));
 // 単発実況(STANDALONE_PLAYS)だけがあるVTuberも streamer.js では noindex にならず、generate-sitemap.ps1 も sitemap に載せる
 const streamerHasData = (s) => all.streamers[s] && (all.streamers[s].playlists.length > 0 || STANDALONE.some((p) => p.streamer === s));
