@@ -197,6 +197,13 @@
         </div>
       </section>
 
+      <!-- 関連商品(楽天アフィリエイト)。data-affiliate.js に登録されたゲームだけ game.js が表示する -->
+      <section class="section-box affiliate-section" id="game-affiliate-section" hidden>
+        <h2>関連商品 <span class="pr-label">PR</span></h2>
+        <p class="affiliate-note">この欄は楽天アフィリエイトを利用しています。リンク先は楽天市場の商品ページです。価格・在庫はリンク先でご確認ください。</p>
+        <ul class="affiliate-list" id="game-affiliate-list"></ul>
+      </section>
+
       <section class="section-box" id="game-related-section" hidden>
         <h2>関連ゲーム</h2>
         <ul class="index-list" id="game-related-list"></ul>
@@ -223,6 +230,7 @@
 <script src="data-counts.js"></script>
 <script src="data-standalone.js"></script>
 <script src="data-game-editorial.js"></script>
+<script src="data-affiliate.js"></script>
 <script src="data-series.js"></script>
 <script src="common.js"></script>
 <script src="game.js"></script>

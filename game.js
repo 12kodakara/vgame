@@ -7,6 +7,105 @@
  * 再生リストも単発実況も無い(noindex の)ゲームと、GAME_DESC_LEGACY_GAMES のゲームは従来の文面のまま。
  *   items: そのゲームの再生リスト / standalone: 単発実況
  */
+// ---------- 関連商品(楽天アフィリエイト。登録データは data-affiliate.js の GAME_AFFILIATE) ----------
+// 楽天の正規アフィリエイトリンクのホストだけを許可する(https のみ・ユーザー情報やポート指定のあるURLは不可)。
+const AFFILIATE_MAX_ITEMS = 6;
+const AFFILIATE_LINK_REL = "sponsored noopener noreferrer";
+const RAKUTEN_AFFILIATE_HOSTS = new Set(["hb.afl.rakuten.co.jp"]);
+// 商品画像(imageUrl)として許可するホスト。楽天アフィリエイトの公式画面(商品リンク作成で出力されるHTMLの
+// <img src>)で確認できたものだけを追加する。ここに無いホストの画像は表示せずテキストリンクになる。
+//   hbb.afl.rakuten.co.jp: 楽天アフィリエイトの商品リンク(画像)生成HTMLで確認(2026-11-21)
+const RAKUTEN_AFFILIATE_IMAGE_HOSTS = new Set(["hbb.afl.rakuten.co.jp"]);
+
+function isHttpsUrlOnHosts(url, hosts) {
+  if (typeof url !== "string" || !url) return false;
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch (e) {
+    return false;
+  }
+  return parsed.protocol === "https:" &&
+    hosts.has(parsed.hostname) &&
+    parsed.port === "" && !parsed.username && !parsed.password;
+}
+
+function isRakutenAffiliateUrl(url) {
+  return isHttpsUrlOnHosts(url, RAKUTEN_AFFILIATE_HOSTS);
+}
+
+function isRakutenAffiliateImageUrl(url) {
+  return isHttpsUrlOnHosts(url, RAKUTEN_AFFILIATE_IMAGE_HOSTS);
+}
+
+// 表示してよい商品リンクだけを返す(未登録・不正なURL・空の商品名は除外。DOM に触れない純粋関数)。
+// imageUrl は許可ホストの https URL のときだけ残す(それ以外は付けず、テキストリンクとして表示する)。
+function affiliateItemsOf(game, data) {
+  if (!data || typeof data !== "object" || !Object.prototype.hasOwnProperty.call(data, game)) return [];
+  const list = data[game];
+  if (!Array.isArray(list)) return [];
+  return list
+    .filter((it) => it && typeof it.label === "string" && it.label.trim() && isRakutenAffiliateUrl(it.url))
+    .slice(0, AFFILIATE_MAX_ITEMS)
+    .map((it) => {
+      const item = { label: it.label.trim(), url: it.url };
+      if (isRakutenAffiliateImageUrl(it.imageUrl)) item.imageUrl = it.imageUrl;
+      return item;
+    });
+}
+
+// 画像付きカード(画像 + 商品名を1つのリンクで包む)。画像が読み込めない場合は画像枠を隠し、商品名のリンクだけ残す。
+function createAffiliateCardLink(doc, item) {
+  const a = doc.createElement("a");
+  a.className = "affiliate-card-link";
+  const imageBox = doc.createElement("span");
+  imageBox.className = "affiliate-card-image";
+  const img = doc.createElement("img");
+  img.alt = "";  // 商品名を直後にテキストで表示するため、読み上げの重複を避ける
+  img.loading = "lazy";
+  img.decoding = "async";
+  img.addEventListener("error", () => { imageBox.hidden = true; });
+  img.src = item.imageUrl;
+  imageBox.appendChild(img);
+  const name = doc.createElement("span");
+  name.className = "affiliate-card-name";
+  name.textContent = item.label;
+  a.appendChild(imageBox);
+  a.appendChild(name);
+  return a;
+}
+
+// 関連商品欄を描画する。商品名・URLは textContent / href プロパティで設定し、HTML文字列として挿入しない。
+// 表示する商品が無ければ欄を非表示のままにして false を返す。
+function renderAffiliateSection(doc, items) {
+  const section = doc.getElementById("game-affiliate-section");
+  const list = doc.getElementById("game-affiliate-list");
+  if (!section || !list) return false;
+  while (list.firstChild) list.removeChild(list.firstChild);
+  if (!items || items.length === 0) {
+    section.hidden = true;
+    return false;
+  }
+  for (const item of items) {
+    const li = doc.createElement("li");
+    let a;
+    if (item.imageUrl) {
+      li.className = "affiliate-card";
+      a = createAffiliateCardLink(doc, item);
+    } else {
+      a = doc.createElement("a");
+      a.textContent = item.label;
+    }
+    a.href = item.url;
+    a.target = "_blank";
+    a.rel = AFFILIATE_LINK_REL;
+    li.appendChild(a);
+    list.appendChild(li);
+  }
+  section.hidden = false;
+  return true;
+}
+
 const GAME_DESC_MAX_STREAMERS = 3;
 const GAME_DESC_STREAMER_NAMES_MAX_CHARS = 30;
 // 正規ゲーム名の設計(統合・分割)を保留中のゲーム。再生リストとの対応が今後変わりうるため、
@@ -442,6 +541,9 @@ function buildGameDescription(game, items, standalone) {
         });
       }
     }
+
+    // ---------- 関連商品(data-affiliate.js に登録されているゲームのみ表示) ----------
+    renderAffiliateSection(document, affiliateItemsOf(game, typeof GAME_AFFILIATE === "undefined" ? null : GAME_AFFILIATE));
 
     // ---------- 再生リストカード ----------
     function createPlaylistCard(item) {
