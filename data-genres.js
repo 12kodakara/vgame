@@ -1488,6 +1488,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "hd-0613",
+     "title": "バイオハザード6🐏",
+     "streamer": "角巻わため",
+     "game": "バイオハザード6",
+     "genre": "horror",
+     "playlistId": "PLfPP-p3bNRP4",
+     "thumbnailUrl": "https://i.ytimg.com/vi/fdqaPJFMO3E/mqdefault.jpg",
+     "videoCount": 4,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-11-22"
+    },
+    {
      "id": "gap787",
      "title": "凛LIVE --- R.E.P.O.",
      "streamer": "静凛",
@@ -1594,18 +1606,6 @@ const GENRE_PAGES = {
      "videoCount": 11,
      "addedDate": "2026-09-08",
      "updatedDate": "2026-10-31"
-    },
-    {
-     "id": "niji-nesssakaki-01",
-     "title": "【2026年ホラゲ】SILENT HILL 2",
-     "streamer": "榊ネス",
-     "game": "SILENT HILL 2",
-     "genre": "horror",
-     "playlistId": "PLJgDA-3USeTc",
-     "thumbnailUrl": "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
-     "videoCount": 4,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-29"
     }
    ]
   }
