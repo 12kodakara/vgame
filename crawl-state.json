@@ -1,17 +1,17 @@
 {
-  "nextIndex": 75,
+  "nextIndex": 150,
   "maxChannels": 75,
-  "updatedAt": "2026-11-20T11:09:23",
+  "updatedAt": "2026-11-21T11:03:53",
   "note": "RSS 自動巡回の次の開始位置(streamer-channel-ids.json の並び順、0 始まり)。GitHub Actions が更新する",
   "retryChannelIds": [],
   "retryCounts": {},
   "lastRun": {
     "source": "api",
-    "startIndex": 0,
+    "startIndex": 75,
     "crawlTotal": 293,
     "fetched": 75,
     "fetchFailed": 0,
     "apiCalls": 75,
-    "runId": "44658500098"
+    "runId": "44853542334"
   }
 }
