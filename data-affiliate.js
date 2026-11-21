@@ -33,4 +33,8 @@ const GAME_AFFILIATE = {
     { label: "FINAL FANTASY X/X-2 HD Remaster（Nintendo Switch 2版）", url: "https://hb.afl.rakuten.co.jp/ichiba/59cae608.450475ce.59cae609.4c700fba/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F18669707%2F&link_type=hybrid_url&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJoeWJyaWRfdXJsIiwic2l6ZSI6IjI0MHgyNDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MSwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9",
       imageUrl: "https://hbb.afl.rakuten.co.jp/hgb/59cae608.450475ce.59cae609.4c700fba/?me_id=1213310&item_id=21990014&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbook%2Fcabinet%2F2195%2F4988601012195.jpg%3F_ex%3D400x400&s=400x400&t=pict" },
   ],
+  "Minecraft": [
+    { label: "Minecraft（Nintendo Switch版）", url: "https://hb.afl.rakuten.co.jp/ichiba/59cc15fb.d7b56169.59cc15fc.fa4317aa/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fyamada-denki%2F2815330013%2F&link_type=pict&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0Iiwic2l6ZSI6IjQwMHg0MDAiLCJuYW0iOjEsIm5hbXAiOiJyaWdodCIsImNvbSI6MSwiY29tcCI6ImRvd24iLCJwcmljZSI6MCwiYm9yIjoxLCJjb2wiOjEsImJidG4iOjEsInByb2QiOjAsImFtcCI6ZmFsc2V9",
+      imageUrl: "https://hbb.afl.rakuten.co.jp/hgb/59cc15fb.d7b56169.59cc15fc.fa4317aa/?me_id=1357621&item_id=10176517&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fyamada-denki%2Fcabinet%2Fa07000110%2F2815330013.jpg%3F_ex%3D400x400&s=400x400&t=pict" },
+  ],
 };
