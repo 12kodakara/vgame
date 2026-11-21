@@ -2338,5 +2338,43 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-11-17"
+  },
+  {
+    id: "single-170",
+    title: "ホロ鯖ARK 配信まとめ",
+    streamer: "兎田ぺこら",
+    game: "ARK: Survival Evolved",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#ホロ鯖ARK】DAY1🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=tqzLShTKJkk", publishedDate: "2026-10-10" },
+      { title: "【#ホロ鯖ARK】DAY2🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=UjdcDg3mPnY", publishedDate: "2026-10-11" },
+      { title: "【#ホロ鯖ARK】DAY3🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=7oPO_-SK_CY", publishedDate: "2026-10-12" },
+      { title: "【#ホロ鯖ARK】DAY4🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=RAFETsi0eyA", publishedDate: "2026-10-13" },
+      { title: "【#ホロ鯖ARK】DAY5🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=rQJtAEtidic", publishedDate: "2026-10-14" },
+      { title: "【#ホロ鯖ARK】DAY6🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=mqsCAFeZ2ks", publishedDate: "2026-10-15" },
+      { title: "【#ホロ鯖ARK】DAY7🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=AeGUXowhpOE", publishedDate: "2026-10-17" },
+      { title: "【#ホロ鯖ARK】DAY8🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=SIxl_AYaD70", publishedDate: "2026-10-18" },
+      { title: "【#ホロ鯖ARK】DAY9🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=xPXkTgryIgs", publishedDate: "2026-10-19" },
+      { title: "【#ホロ鯖ARK】DAY10🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=XrvCHE7TDIY", publishedDate: "2026-10-20" },
+      { title: "【#ホロ鯖ARK】DAY11🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=GEa150_DsKY", publishedDate: "2026-10-20" },
+      { title: "【#ホロ鯖ARK】DAY12🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=ioEKuzmwOYI", publishedDate: "2026-10-21" },
+      { title: "【#ホロ鯖ARK】DAY13🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=8X0Pa0P7zZM", publishedDate: "2026-10-24" },
+      { title: "【#ホロ鯖ARK】DAY14🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=T-puonDnjXE", publishedDate: "2026-10-25" },
+      { title: "【#ホロ鯖ARK】緊急ゲリラ‼ 最強ギガノトサウルス発見したからテイムする‼ ぺこ！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=QuhsRznIp9w", publishedDate: "2026-10-25" },
+      { title: "【#ホロ鯖ARK】DAY16🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=Qp37V8rz7QQ", publishedDate: "2026-10-27" },
+      { title: "【#ホロ鯖ARK】DAY17🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=KjEw1qSGTv0", publishedDate: "2026-10-28" },
+      { title: "【#ホロ鯖ARK】DAY18🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=AZPIzPt4cJo", publishedDate: "2026-10-29" },
+      { title: "【#ホロ鯖ARK】ホロメンたちと試練の洞窟へ行く！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=KweMgPbHN9I", publishedDate: "2026-10-29" },
+      { title: "【#ホロ鯖ARK】DAY20🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=J_0fi6QvUfE", publishedDate: "2026-10-31" },
+      { title: "【#ホロ鯖ARK】DAY21🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=1E7eYQJB_58", publishedDate: "2026-10-31" },
+      { title: "【#ホロ鯖ARK】DAY22🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=BWs4Co9bqr0", publishedDate: "2026-11-02" },
+      { title: "【#ホロ鯖ARK】DAY23🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=mVa6zdBSUKg", publishedDate: "2026-11-05" },
+      { title: "【#ホロ鯖ARK】DAY24🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=o1uMpV9ZemQ", publishedDate: "2026-11-07" },
+      { title: "【#ホロ鯖ARK】DAY25🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=uqIGdOy-3J0", publishedDate: "2026-11-08" },
+      { title: "【#ホロ鯖ARK】最終日🦖きｔらああああああああああああああああああああ！！！【ホロライブ/兎田ぺこら】", url: "https://www.youtube.com/watch?v=CSScHhS82x0", publishedDate: "2026-11-09" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-21"
   }
 ];
