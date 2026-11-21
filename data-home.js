@@ -5,17 +5,17 @@
  */
 const HOME_SUMMARY = {
   "version": 3,
-  "playlistCount": 6758,
-  "gameCount": 941,
-  "streamerCount": 274,
+  "playlistCount": 6836,
+  "gameCount": 946,
+  "streamerCount": 280,
   "topGames": [
     {
       "key": "Minecraft",
-      "count": 362
+      "count": 367
     },
     {
       "key": "Apex Legends",
-      "count": 113
+      "count": 117
     },
     {
       "key": "VALORANT",
@@ -23,11 +23,11 @@ const HOME_SUMMARY = {
     },
     {
       "key": "Grand Theft Auto V",
-      "count": 199
+      "count": 204
     },
     {
       "key": "ARK: Survival Evolved",
-      "count": 110
+      "count": 111
     }
   ],
   "recentUpdated": [
@@ -56,40 +56,34 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-11-21"
     },
     {
-      "id": "vspo-hinanotachib-33",
-      "title": "LOL",
-      "streamer": "橘ひなの",
-      "game": "League of Legends",
+      "id": "holo-amanekanata-01",
+      "title": "🐲⛏ ホロドラゴンマイクラ / holoDragonMinecraft",
+      "streamer": "天音かなた",
+      "game": "Minecraft",
+      "genre": "sandbox",
+      "playlistId": "PLNvxSJodVoAttrd4K0eQ9bjWK-1ne1EUV",
+      "videoCount": 3,
+      "addedDate": "2026-11-21"
+    },
+    {
+      "id": "holo-amanekanata-02",
+      "title": "🤖 Detroit: Become Human",
+      "streamer": "天音かなた",
+      "game": "Detroit: Become Human",
       "genre": "other",
-      "playlistId": "PLzzYMrfmt7TAyxtEDuCeBSGKVoCQ55wG_",
-      "thumbnailUrl": "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
-      "videoCount": 64,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-20"
+      "playlistId": "PLNvxSJodVoAu9MLxx5qG17P8nfDzheEgE",
+      "videoCount": 3,
+      "addedDate": "2026-11-21"
     },
     {
-      "id": "vspo-emaaizawa-10",
-      "title": "スト6",
-      "streamer": "藍沢エマ",
-      "game": "ストリートファイター6",
+      "id": "holo-amanekanata-03",
+      "title": "🐍 METAL GEAR SOLID Δ: SNAKE EATER",
+      "streamer": "天音かなた",
+      "game": "METAL GEAR SOLID Δ: SNAKE EATER",
       "genre": "action",
-      "playlistId": "PLyqh3naVl78Gi4C504n43RNBJGjdx1lP9",
-      "thumbnailUrl": "https://i.ytimg.com/vi/2m9N5_KnRDE/mqdefault.jpg",
-      "videoCount": 188,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-20"
-    },
-    {
-      "id": "vspo-kokagetsumug-13",
-      "title": "VALORANT",
-      "streamer": "紡木こかげ",
-      "game": "VALORANT",
-      "genre": "fps",
-      "playlistId": "PLsYH4NvRwnM2cqKLaoZ4mt5s6hSchl5WR",
-      "thumbnailUrl": "https://i.ytimg.com/vi/YStlXqyJVYQ/mqdefault.jpg",
-      "videoCount": 347,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-20"
+      "playlistId": "PLNvxSJodVoAsQ_sGAnnuTy8vt-3EEH2iO",
+      "videoCount": 3,
+      "addedDate": "2026-11-21"
     }
   ],
   "streamerPicks": [
@@ -196,6 +190,7 @@ const HOME_SUMMARY = {
     ["レヨン",1,1,"2026-10-28"],
     ["レヴィ・エリファ",37,33,"2026-09-06"],
     ["ロボ子さん",26,25,"2026-09-06"],
+    ["ローレン・イロアス",6,6,"2026-11-21"],
     ["一ノ瀬うるは",23,23,"2026-09-07"],
     ["一条莉々華",20,18,"2026-09-06"],
     ["一橋綾人",11,11,"2026-09-06"],
@@ -245,6 +240,7 @@ const HOME_SUMMARY = {
     ["大空スバル",79,76,"2026-09-06"],
     ["天ヶ瀬むゆ",8,8,"2026-09-08"],
     ["天宮こころ",57,55,"2026-09-06"],
+    ["天音かなた",23,21,"2026-11-21"],
     ["姫森ルーナ",338,319,"2026-09-06"],
     ["宇佐美リト",54,54,"2026-09-06"],
     ["宇志海いちご",7,7,"2026-09-06"],
@@ -277,10 +273,12 @@ const HOME_SUMMARY = {
     ["東堂コハク",3,3,"2026-09-06"],
     ["栞葉るり",47,45,"2026-09-08"],
     ["桃鈴ねね",62,60,"2026-09-06"],
+    ["桐生ココ",10,9,"2026-11-21"],
     ["桜凛月",30,24,"2026-09-08"],
     ["梅園ジュノ",4,4,"2026-09-08"],
     ["梢桃音",46,40,"2026-09-06"],
     ["森中花咲",14,12,"2026-09-08"],
+    ["椎名唯華",23,23,"2026-11-21"],
     ["榊ネス",23,21,"2026-09-06"],
     ["樋口楓",41,35,"2026-09-06"],
     ["橘ひなの",44,40,"2026-09-07"],
@@ -291,6 +289,8 @@ const HOME_SUMMARY = {
     ["渋谷ハジメ",3,3,"2026-09-08"],
     ["渚トラウト",5,5,"2026-09-06"],
     ["渡会雲雀",48,41,"2026-09-08"],
+    ["湊あくあ",9,7,"2026-11-21"],
+    ["火威青",7,5,"2026-11-21"],
     ["熱千めら",9,9,"2026-09-30"],
     ["物述有栖",9,9,"2026-09-06"],
     ["猫又おかゆ",74,63,"2026-09-06"],

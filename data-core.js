@@ -86,6 +86,7 @@ const STREAMERS = [
   { name: "百鬼あやめ", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/3CeLWGYb6cLUywTJzNt-UpITviNxeGNvtjhIqbV-AIybCqCoFw9onWtg91bjwpqvfEP9mfqIR4Q=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC7fk0CB07ly8oSl0aqKkqFg", x: "https://x.com/nakiriayame" },
   { name: "癒月ちょこ", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/gv-5tmPSiFipkP01atgnCS6WwdxzUxfermmqGw_UhuDNtRFmbdb2NALcL6rR0LxaM5JX9JhE9g=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC1suqwovbL1kzsoaZgFZLKg", x: "https://x.com/yuzukichococh" },
   { name: "大空スバル", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_k5mjdt1wcbaYCXKwmDpVXmSGtOc-LH3WjIyUHVC4soP28=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCvzGlP9oQwU--Y0r9id_jnA", x: "https://x.com/oozorasubaru" },
+  { name: "湊あくあ", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_kaZLtKaya9TSJr3M4lpzV95R2rWdQtGk67fwedroUfSnE=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg", x: "https://x.com/minatoaqua" },
 
   { name: "AZKi", group: "ホロライブ 0期生", icon: "https://yt3.googleusercontent.com/tRZGMhn8vSvYE0_15SjaE_3dTH5JTZzjdnb5gs1StecT1tKn1gQ2tVkRfi_n42Q5fYz13ewdayo=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw", x: "https://x.com/AZKi_VDiVA" },
   { name: "大神ミオ", group: "ホロライブ ゲーマーズ", icon: "https://yt3.googleusercontent.com/JV8VdQFA7eZk5H1cRxHyIdLKQ5wD6EBywjxLzrne2EpY9LSiVgtapvh0iQA6plVNxdIKNxK0NRU=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCp-5t9SrOQwXMU7iIjQfARg", x: "https://x.com/ookamimio" },
@@ -102,6 +103,8 @@ const STREAMERS = [
   { name: "角巻わため", group: "ホロライブ 4期生", icon: "https://yt3.googleusercontent.com/XJYar8ZAQ59ce0nFlf-Dl6V16Dwznu5xfh3XnMW_JE-nCVLHLiRTS-x1gB_eR4_CJY3KDfKxsVo=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA", x: "https://x.com/tsunomakiwatame" },
   { name: "常闇トワ", group: "ホロライブ 4期生", icon: "https://yt3.googleusercontent.com/kF39-I4IfZJOWuGiciawwB-v4M_X9u6_-jxCvAiYSHSRuUS-LdpeWWRHO7c4Pk8sXROBaPl9iMQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC1uv2Oq6kNxgATlCiez59hw", x: "https://x.com/tokoyamitowa" },
   { name: "姫森ルーナ", group: "ホロライブ 4期生", icon: "https://yt3.googleusercontent.com/05zupy7ai3DW0mEmY3tSgkb4CGjHadAXG0bs_PSzg09l0_5MInPrG4Bh-ZRlAWcPncOe9cnQkQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCa9Y57gfeY0Zro_noHRVrnw", x: "https://x.com/himemoriluna" },
+  { name: "天音かなた", group: "ホロライブ 4期生", icon: "https://yt3.googleusercontent.com/KjtzUgvj7v4socyPBkwZVlRJC9YU7Seka_a2lYf-LuBgc_YXXknzaR--5rbtYR46Q-JAWcR-=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCZlDXzGoo7d44bwdNObFacg", x: "https://x.com/amanekanatach" },
+  { name: "桐生ココ", group: "ホロライブ 4期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_mmRUkDQHX-cR1KrKzbbgYB4r3goA0mr_GkHFVfGjFrfsM=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCS9uQI-jC3DE0L4IpXyvr6w", x: "https://x.com/kiryucoco" },
 
   { name: "雪花ラミィ", group: "ホロライブ 5期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_nHPsjV8KMncrIzZh7NPGaG8xzAgzN8Vf9YAj12dRN7sCc=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCFKOVgVbGmX65RxO3EtH3iw", x: "https://x.com/yukihanalamy" },
   { name: "桃鈴ねね", group: "ホロライブ 5期生", icon: "https://yt3.googleusercontent.com/yQDRxiMIkbHsn7e4s6BCIBCNb3WmiV1myrpo6Lq2-dfCmAn1N47y12mhZg0NOfQMWQMYW4Qm=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCAWSyEs_Io8MtpY3m-zqILA", x: "https://x.com/momosuzunene" },
@@ -117,6 +120,7 @@ const STREAMERS = [
   { name: "一条莉々華", group: "ホロライブ ReGLOSS", icon: "https://yt3.googleusercontent.com/JhTtQGtkAfXG5XwH3Adzu9Kl8DBTRElKxHFvWop0Z6J2ndAEJfXfDaU1mLUaBsiAjW_RnXBkOQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@IchijouRirika", x: "https://x.com/ichijouririka" },
   { name: "儒烏風亭らでん", group: "ホロライブ ReGLOSS", icon: "https://yt3.googleusercontent.com/I3u3NWX2xNjmhVDFm7K8oLn1vZKgzZyyZ2X4_ADINsyLLXv-a2VKLXHO_uHYCKXgVSJdkazjbw=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@JuufuuteiRaden", x: "https://x.com/juufuuteiraden" },
   { name: "轟はじめ", group: "ホロライブ ReGLOSS", icon: "https://yt3.googleusercontent.com/6vJDLc-py0cRcuDAgukgsE0SXbuia7AupgIuofdQCAidvdT_fcoy0ib6ssKI7rQO_iZO0Tb40Q=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@TodorokiHajime", x: "https://x.com/todoroki_hajime" },
+  { name: "火威青", group: "ホロライブ ReGLOSS", icon: "https://yt3.googleusercontent.com/nVC4JesCnpLsaI14cM-c3PSecCq9MvnSiLk4V-MuLrY_OL9UYRXnXFUUUy-bCn4iub7j4V0ZOA=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCMGfV7TVTmHhEErVJg1oHBQ", x: "https://x.com/hiodoshiao" },
 
   { name: "響咲リオナ", group: "ホロライブ FLOW GLOW", icon: "https://yt3.googleusercontent.com/SVUeFR_FT5vqSsETqWnu5UVGE5gAdeCoJUJT93aYnX8XF_4uhgM97zG57m3BkddT05WamMnIBQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC9LSiN9hXI55svYEBrrK-tw", x: "https://x.com/isakiriona" },
   { name: "虎金妃笑虎", group: "ホロライブ FLOW GLOW", icon: "https://yt3.googleusercontent.com/DGtZSaUmDAhy_snQvVMofjDgWXHzNkKD-UdjFatWkknIlHXSsrLp8JvPKUCe5Gik_4bhm6eBlQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCuI_opAVX6qbxZY-a-AxFuQ", x: "https://x.com/koganeiniko" },
@@ -152,6 +156,7 @@ const STREAMERS = [
   { name: "本間ひまわり", group: "にじさんじ ゲーマーズ", icon: "https://yt3.googleusercontent.com/ytc/AIdro_mETUlueeX-rqcRw4ToWyzoYoYuAZVL0FGOR_hd2Bsz4Q=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@HonmaHimawari", x: "https://x.com/honmahimawari" },
   { name: "魔界ノりりむ", group: "にじさんじ ゲーマーズ", icon: "https://yt3.googleusercontent.com/ytc/AIdro_m2c36OHhLH-aa5JcDxz2Sp34CvFAMl4i_nLTR1sQYXUYU=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@MakainoRirimu", x: "https://x.com/makaino_ririmu" },
   { name: "葛葉", group: "にじさんじ ゲーマーズ", icon: "https://yt3.googleusercontent.com/ytc/AIdro_kOiA-_aFW-Qz7jxl0wCPDRAKIYL7wDIgs9-iKo7NjztcA=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@Kuzuha", x: "https://x.com/Vamp_Kuzu" },
+  { name: "椎名唯華", group: "にじさんじ ゲーマーズ", icon: "https://yt3.googleusercontent.com/ytc/AIdro_lSKtnq1fRJH-om5Pbg4ob1avtD83-LWmF5RdFSucDVy1Q=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC_4tXjqecqox5Uc05ncxpxg", x: "https://x.com/yuika_siina" },
 
   { name: "ドーラ", group: "にじさんじ SEEDs1期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_lhYG4sK8nzyhknFqTpq23-g2GWZ3cOaCC-TJ-3NpJgubM=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@Dola", x: "https://x.com/___Dola" },
   { name: "轟京子", group: "にじさんじ SEEDs1期生", icon: "https://yt3.googleusercontent.com/C4O01XTyxxXUAIW-KdXxoeuLZVpcgFheQ_KaS8fpLyRbuqnD1yeRt_ewP5KZ5_j3fyJEBAd8vTg=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@TodorokiKyoko", x: "https://x.com/KT_seeds" },
@@ -226,6 +231,7 @@ const STREAMERS = [
   { name: "レオス・ヴィンセント", group: "にじさんじ 2021年", icon: "https://yt3.googleusercontent.com/uzScWSzhSMgT_47g_vDMnycVhkg54EMNLhvHu8dzQqz-k5EdOIce2MCLT5OyeKZAXemj0vTRQQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@LeosVincent", x: "https://x.com/Leos_Vincent" },
   { name: "オリバー・エバンス", group: "にじさんじ 2021年", icon: "https://yt3.googleusercontent.com/pwYpjeLgDelm7RdI-mOTv1sWbOalyDvdz-fQYRMiWVUOb81nDV38Bg0ave8Rnk80XZMMsD5xARI=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@OliverEvans", x: "https://x.com/oliverD_23" },
   { name: "レイン・パターソン", group: "にじさんじ 2021年", icon: "https://yt3.googleusercontent.com/1fYjvgJs9JX0cTvlhOSOyW4TSRLnUb-5qgz9kKKIyNRgZ16Kxw75gV_u1fJZafUSpq3caTjuSw=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@LainPaterson", x: "https://x.com/Lain_Paterson" },
+  { name: "ローレン・イロアス", group: "にじさんじ 2021年", icon: "https://yt3.googleusercontent.com/Qquqkmt5fFj3F-dtO2J9uR7IykqlfU00Ujv0vVm5qkQdpoupnuS14FIAJP4Zkxf46SyLPJic=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCgmFrRcyH7d1zR9sIVQhFow", x: "https://x.com/Lauren_iroas" },
 
   { name: "海妹四葉", group: "にじさんじ 2022年", icon: "https://yt3.googleusercontent.com/pdRQWJyoMMMe8xftVzHxnDuXYzQwTjRs6MmXtfZ0j5yi2da6InwwC7r-VU26plKI0pSNZpAlew=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@UmiseYotsuha", x: "https://x.com/Yotsuha_Umise" },
   { name: "天ヶ瀬むゆ", group: "にじさんじ 2022年", icon: "https://yt3.googleusercontent.com/LlUUKedTzGxcbXIEe2funATv0h0hxsK5dhwRbZ26sQ-pnMjO2WOLqFCZR0lAOKYaDcnfymTj5Hw=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@AmagaseMuyu", x: "https://x.com/Muyu_Amagase" },
@@ -527,6 +533,7 @@ const GAMES = [
   { name: "龍が如く6 命の詩。", kana: "りゅうがごとくろくいのちのうた", aliases: ["龍如", "りゅうじょ", "龍が如く6"], series: "龍が如くシリーズ" },
   { name: "龍が如く極2", kana: "りゅうがごとくきわみに", aliases: ["龍如", "りゅうじょ"], series: "龍が如くシリーズ" },
   { name: "龍が如く7 光と闇の行方", kana: "りゅうがごとくななひかりとやみのゆくえ", aliases: ["龍如", "りゅうじょ"], series: "龍が如くシリーズ" },
+  { name: "龍が如く OF THE END", kana: "りゅうがごとくおぶじえんど", aliases: ["龍如", "りゅうじょ"], series: "" },
   { name: "龍が如く7外伝 名を消した男", kana: "りゅうがごとくなながいでんなをけしたおとこ", aliases: ["龍如", "りゅうじょ", "龍が如く7外伝"], series: "龍が如くシリーズ" },
   { name: "龍が如く8", kana: "りゅうがごとくはち", aliases: ["龍如", "りゅうじょ"], series: "龍が如くシリーズ" },
   { name: "龍が如くシリーズ", kana: "りゅうがごとくしりーず", aliases: ["龍如", "りゅうじょ"], series: "龍が如くシリーズ" },
@@ -612,6 +619,7 @@ const GAMES = [
   { name: "ドラゴンクエストシリーズ", kana: "どらごんくえすとしりーず", aliases: ["ドラクエ"], series: "" },
   { name: "ドンキーコングシリーズ", kana: "どんきーこんぐしりーず", series: "任天堂のゲーム" },
   { name: "パワフルプロ野球2026", kana: "ぱわふるぷろやきゅうにせんにじゅうろく", series: "パワフルプロ野球シリーズ" },
+  { name: "プロ野球スピリッツ2024-2025", kana: "ぷろやきゅうすぴりっつにせんにじゅうよんにせんにじゅうご", series: "" },
   { name: "プリンセスコネクト!Re:Dive", kana: "ぷりんせすこねくとりだいぶ", series: "" },
   { name: "ペルソナ3 リロード", kana: "ぺるそなすりーりろーど", series: "ペルソナシリーズ" },
   { name: "ペルソナ5 ザ・ロイヤル", kana: "ぺるそなふぁいぶざろいやる", series: "ペルソナシリーズ" },
@@ -764,6 +772,7 @@ const GAMES = [
   { name: "放課後オリエンス", kana: "ほうかごおりえんす", series: "" },
   { name: "魔法少女ノ魔女裁判", kana: "まほうしょうじょのまじょさいばん", series: "" },
   { name: "夜廻", kana: "よまわり", series: "" },
+  { name: "夜廻三", kana: "よまわりさん", series: "" },
   { name: "遊戯王マスターデュエル", kana: "ゆうぎおうますたーでゅえる", series: "" },
   { name: "妖怪ウォッチ", kana: "ようかいうぉっち", series: "" },
   { name: "428", kana: "よんにーはち", series: "" },
@@ -883,6 +892,8 @@ const GAMES = [
   { name: "Lethal Company", kana: "りーさるかんぱにー", series: "" },
   { name: "Life is Strange", kana: "らいふいずすとれんじ", series: "" },
   { name: "Life is Strange: True Colors", kana: "らいふいずすとれんじとぅるーからーず", series: "" },
+  { name: "Life is Strange: Double Exposure", kana: "らいふいずすとれんじだぶるえくすぽーじゃー", series: "" },
+  { name: "Liar's Bar", kana: "らいあーずばー", series: "" },
   { name: "LIGHTYEAR FRONTIER", kana: "らいといやーふろんてぃあ", series: "" },
   { name: "LIMBO", kana: "りんぼ", series: "" },
   { name: "LITTLE FRIENDS -DOGS & CATS-", kana: "りとるふれんずどっぐすあんどきゃっつ", series: "" },
