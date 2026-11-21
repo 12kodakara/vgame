@@ -1488,36 +1488,6 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
-     "id": "holo-hiodoshiao-02",
-     "title": "BIOHAZARD 7",
-     "streamer": "火威青",
-     "game": "バイオハザード7 レジデント イービル",
-     "genre": "horror",
-     "playlistId": "PL1oImi9d0AXo__7FyaQBnphESPoM4rYCS",
-     "videoCount": 5,
-     "addedDate": "2026-11-21"
-    },
-    {
-     "id": "niji-laureniroas-02",
-     "title": "夜廻シリーズ",
-     "streamer": "ローレン・イロアス",
-     "game": "夜廻三",
-     "genre": "horror",
-     "playlistId": "PL50NoTTERtFOjhod4wZvpsuGQMI029PyB",
-     "videoCount": 3,
-     "addedDate": "2026-11-21"
-    },
-    {
-     "id": "niji-laureniroas-04",
-     "title": "バイオ ヴィレッジ",
-     "streamer": "ローレン・イロアス",
-     "game": "バイオハザード ヴィレッジ",
-     "genre": "horror",
-     "playlistId": "PL50NoTTERtFO2WD6TMV9A7cnrjLdHRSNr",
-     "videoCount": 4,
-     "addedDate": "2026-11-21"
-    },
-    {
      "id": "gap787",
      "title": "凛LIVE --- R.E.P.O.",
      "streamer": "静凛",
@@ -1600,6 +1570,42 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-11-04"
+    },
+    {
+     "id": "niji-7tamanoi-01",
+     "title": "魔法少女ノ魔女裁判",
+     "streamer": "珠乃井ナナ",
+     "game": "魔法少女ノ魔女裁判",
+     "genre": "horror",
+     "playlistId": "PLXLVC2tRini0",
+     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
+     "videoCount": 3,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-11-03"
+    },
+    {
+     "id": "gap061",
+     "title": "Phasmophobia",
+     "streamer": "Finana Ryugu",
+     "game": "Phasmophobia",
+     "genre": "horror",
+     "playlistId": "PL5XBGPMUTVBQ5GBurKO_SPTt2-9J38oco",
+     "thumbnailUrl": "https://i.ytimg.com/vi/1PiXZDOsOp8/mqdefault.jpg",
+     "videoCount": 11,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-31"
+    },
+    {
+     "id": "niji-nesssakaki-01",
+     "title": "【2026年ホラゲ】SILENT HILL 2",
+     "streamer": "榊ネス",
+     "game": "SILENT HILL 2",
+     "genre": "horror",
+     "playlistId": "PLJgDA-3USeTc",
+     "thumbnailUrl": "https://i.ytimg.com/vi/72Re9SdVn8I/mqdefault.jpg",
+     "videoCount": 4,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-10-29"
     }
    ]
   }

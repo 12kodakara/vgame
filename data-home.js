@@ -56,34 +56,40 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-11-21"
     },
     {
-      "id": "holo-amanekanata-01",
-      "title": "🐲⛏ ホロドラゴンマイクラ / holoDragonMinecraft",
-      "streamer": "天音かなた",
-      "game": "Minecraft",
-      "genre": "sandbox",
-      "playlistId": "PLNvxSJodVoAttrd4K0eQ9bjWK-1ne1EUV",
-      "videoCount": 3,
-      "addedDate": "2026-11-21"
-    },
-    {
-      "id": "holo-amanekanata-02",
-      "title": "🤖 Detroit: Become Human",
-      "streamer": "天音かなた",
-      "game": "Detroit: Become Human",
+      "id": "vspo-hinanotachib-33",
+      "title": "LOL",
+      "streamer": "橘ひなの",
+      "game": "League of Legends",
       "genre": "other",
-      "playlistId": "PLNvxSJodVoAu9MLxx5qG17P8nfDzheEgE",
-      "videoCount": 3,
-      "addedDate": "2026-11-21"
+      "playlistId": "PLzzYMrfmt7TAyxtEDuCeBSGKVoCQ55wG_",
+      "thumbnailUrl": "https://i.ytimg.com/vi/AybLVUDBXXo/mqdefault.jpg",
+      "videoCount": 64,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-11-20"
     },
     {
-      "id": "holo-amanekanata-03",
-      "title": "🐍 METAL GEAR SOLID Δ: SNAKE EATER",
-      "streamer": "天音かなた",
-      "game": "METAL GEAR SOLID Δ: SNAKE EATER",
+      "id": "vspo-emaaizawa-10",
+      "title": "スト6",
+      "streamer": "藍沢エマ",
+      "game": "ストリートファイター6",
       "genre": "action",
-      "playlistId": "PLNvxSJodVoAsQ_sGAnnuTy8vt-3EEH2iO",
-      "videoCount": 3,
-      "addedDate": "2026-11-21"
+      "playlistId": "PLyqh3naVl78Gi4C504n43RNBJGjdx1lP9",
+      "thumbnailUrl": "https://i.ytimg.com/vi/2m9N5_KnRDE/mqdefault.jpg",
+      "videoCount": 188,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-11-20"
+    },
+    {
+      "id": "vspo-kokagetsumug-13",
+      "title": "VALORANT",
+      "streamer": "紡木こかげ",
+      "game": "VALORANT",
+      "genre": "fps",
+      "playlistId": "PLsYH4NvRwnM2cqKLaoZ4mt5s6hSchl5WR",
+      "thumbnailUrl": "https://i.ytimg.com/vi/YStlXqyJVYQ/mqdefault.jpg",
+      "videoCount": 347,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-11-20"
     }
   ],
   "streamerPicks": [
