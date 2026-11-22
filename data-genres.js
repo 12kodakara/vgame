@@ -9,8 +9,8 @@ const GENRE_PAGES = {
    "stats": {
     "games": 123,
     "streamers": 171,
-    "playlists": 655,
-    "videos": 4139
+    "playlists": 654,
+    "videos": 4133
    },
    "games": [
     [
@@ -154,11 +154,6 @@ const GENRE_PAGES = {
      7
     ],
     [
-     "影廊",
-     7,
-     7
-    ],
-    [
      "DEAD SPACE",
      6,
      6
@@ -180,6 +175,11 @@ const GENRE_PAGES = {
     ],
     [
      "バイオハザード6",
+     6,
+     6
+    ],
+    [
+     "影廊",
      6,
      6
     ],
@@ -676,11 +676,6 @@ const GENRE_PAGES = {
      9
     ],
     [
-     "不知火フレア",
-     9,
-     9
-    ],
-    [
      "健屋花那",
      9,
      9
@@ -694,6 +689,11 @@ const GENRE_PAGES = {
      "鷹嶺ルイ",
      9,
      9
+    ],
+    [
+     "不知火フレア",
+     8,
+     8
     ],
     [
      "夢追翔",

@@ -3,7 +3,8 @@
   人間確認で reject 確定済みの playlist を、候補生成の前段で取り除く独立した前処理。
 
 .DESCRIPTION
-  reports/playlist-operations/rejected-playlists.json に記録された playlist を、
+  rejected-playlists.json(リポジトリ直下・Git 管理)と reports/playlist-operations/rejected-playlists.json
+  (各PCローカル)に記録された playlist を、
   discover-playlists.ps1 の出力(候補の入力データ)から除外した新しいJSONを書き出す。
 
   設計方針:
@@ -28,7 +29,10 @@
   除外後のJSONの出力先(必須)。
 
 .PARAMETER RejectedJson
-  reject記録の場所。既定は reports/playlist-operations/rejected-playlists.json。
+  reject記録の場所。省略時は次の2つを読み、両方あれば合わせて使う。
+    1. rejected-playlists.json(リポジトリ直下。Git 管理して全PCで共有する正本)
+    2. reports/playlist-operations/rejected-playlists.json(従来の場所。Git 管理外の各PCローカル記録)
+  同じ playlistId(scope=game-assignment は playlistId + game)が両方にあるときは 1 を優先する。
 
 .PARAMETER PairReport
   scope=game-assignment の除外対象(playlistId + game)を書き出すJSONの出力先(任意)。
@@ -44,7 +48,13 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-if (-not $RejectedJson) { $RejectedJson = Join-Path $PSScriptRoot "reports\playlist-operations\rejected-playlists.json" }
+if ($RejectedJson) { $rejectedPaths = @($RejectedJson) }
+else {
+  $rejectedPaths = @(
+    (Join-Path $PSScriptRoot "rejected-playlists.json"),
+    (Join-Path $PSScriptRoot "reports\playlist-operations\rejected-playlists.json")
+  )
+}
 
 if (-not (Test-Path $DiscoveredJson)) { Write-Error "入力JSONが見つかりません: $DiscoveredJson"; exit 1 }
 
@@ -54,21 +64,26 @@ $discovered = Get-Content $DiscoveredJson -Raw -Encoding UTF8 | ConvertFrom-Json
 $playlistScope = @{}   # playlistId -> 記録
 $pairScope = @{}       # "playlistId|game" -> 記録
 $rejectedCount = 0
-if (Test-Path $RejectedJson) {
-  $rj = Get-Content $RejectedJson -Raw -Encoding UTF8 | ConvertFrom-Json
+foreach ($rejectedPath in $rejectedPaths) {
+  if (-not (Test-Path $rejectedPath)) { Write-Output "reject記録がありません（$rejectedPath）。"; continue }
+  $rj = Get-Content $rejectedPath -Raw -Encoding UTF8 | ConvertFrom-Json
+  $fileCount = 0
   foreach ($r in @($rj.rejected)) {
     if (-not $r.playlistId) { continue }
-    $rejectedCount++
     if ($r.scope -eq "game-assignment" -and $r.game) {
-      $pairScope["$($r.playlistId)|$($r.game)"] = $r
+      $key = "$($r.playlistId)|$($r.game)"
+      if ($pairScope.ContainsKey($key)) { continue }
+      $pairScope[$key] = $r
     } else {
+      if ($playlistScope.ContainsKey($r.playlistId)) { continue }
       $playlistScope[$r.playlistId] = $r
     }
+    $fileCount++
+    $rejectedCount++
   }
-  Write-Output "reject記録を読み込みました: $RejectedJson （$rejectedCount 件）"
-} else {
-  Write-Output "reject記録がありません（$RejectedJson）。除外は行いません。"
+  Write-Output "reject記録を読み込みました: $rejectedPath （新規 $fileCount 件）"
 }
+if ($rejectedCount -eq 0) { Write-Output "reject記録が無いため、除外は行いません。" }
 
 # ---- 入力から scope=playlist のものを間引く ----
 $removed = New-Object System.Collections.Generic.List[object]

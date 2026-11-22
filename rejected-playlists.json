@@ -1,0 +1,255 @@
+{
+  "note": "人間確認で reject 確定済みの playlist(Git 管理・全PC共通)。filter-rejected-playlists.ps1 が run-playlist-cycle.ps1 の候補生成の前段(STEP4-0)で除外する。scope=playlist は playlistId ごと除外、scope=game-assignment は playlistId+game の組だけ除外",
+  "rejected": [
+    {
+      "playlistId": "PLF54qiUa9cTumeGzYVsRccW5vJ9wncIHj",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ロボ子さん",
+      "game": "Muse Dash",
+      "formerId": "hd-0020",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL7LdRPp7xCkNsPXFgmGOAUMWn5woekf8m",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "白上フブキ",
+      "game": "Muse Dash",
+      "formerId": "hd-0242",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL7LdRPp7xCkOo2s6bdHtCE9EeE5_E7OE2",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "白上フブキ",
+      "game": "エースコンバット5",
+      "formerId": "hd-0250",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLKo9UD3uKyyHUvp3isX0ZDQNB5xc82gYk",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "宝鐘マリン",
+      "game": "バニーガーデン",
+      "formerId": "hd-0448",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLBoFNGFmekcPNl77al5-gT_A7IHfJs43L",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "不知火フレア",
+      "game": "影廊",
+      "formerId": "hd-0611",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLBoFNGFmekcPVhCHP90CBNBoPMh3VejjQ",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "不知火フレア",
+      "game": "LIMBO",
+      "formerId": "hd-0612",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLZ34fLWik_iDvFAsCcu-Zee0ZBzREp5ts",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "角巻わため",
+      "game": "FINAL FANTASY IX",
+      "formerId": "hd-0667",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLZ34fLWik_iCOeJNCvTpWrlG5b9AiUdmC",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "角巻わため",
+      "game": "ジラフとアンニカ",
+      "formerId": "hd-0669",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLZ34fLWik_iCDxhip0svSqcPSGA4HdDRH",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "角巻わため",
+      "game": "星のカービィ スーパーデラックス",
+      "formerId": "hd-0671",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLZ34fLWik_iBXTzIHOmNioesK6gcSvcZT",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "角巻わため",
+      "game": "妖怪ウォッチ",
+      "formerId": "hd-0672",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL_tHdrZUlaGk3wOJDmqXlnLcMgwLo00cN",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "花芽なずな",
+      "game": "Grand Theft Auto V",
+      "formerId": "vspo-nazunakaga-01",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL_tHdrZUlaGnVRxiyIq6bbjfBIcdsAiOM",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "花芽なずな",
+      "game": "Shadowverse: Worlds Beyond",
+      "formerId": "vspo-nazunakaga-07",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL_tHdrZUlaGk_d_Z7IOGZBwPGaD93Z_Op",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "花芽なずな",
+      "game": "ピクミンシリーズ",
+      "formerId": "vspo-nazunakaga-08",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL_tHdrZUlaGkqiwxAKj0SYEljTjwaAxYR",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "花芽なずな",
+      "game": "スプラトゥーン3",
+      "formerId": "vspo-nazunakaga-10",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL3DQu__wv2WD8n4MVVk3sT5STmwsrU0vz",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "空澄セナ",
+      "game": "テイルズ オブ シンフォニア",
+      "formerId": "vspo-senaasumi-12",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL3DQu__wv2WBuKnfFjC3oxsmcf6Se-NRM",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "空澄セナ",
+      "game": "ゼルダの伝説 ブレス オブ ザ ワイルド",
+      "formerId": "vspo-senaasumi-19",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLwCa-x--ILnZjr7EIOLb3ZaNawBxLpihx",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "葛葉",
+      "game": "黒い砂漠",
+      "formerId": "niji-vampkuzu-61",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLCO0LVJ0DYy20EpN6A3iaGgR4oOONpYB9",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ガオン",
+      "game": "Eternal Return",
+      "formerId": "niji-gaon2434-06",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLCO0LVJ0DYy2nHODAPZenSbJNF3tAPZWS",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ガオン",
+      "game": "Fall Guys",
+      "formerId": "niji-gaon2434-09",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLCO0LVJ0DYy1tPomqBrkYQptzR3YNuwpD",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ガオン",
+      "game": "原神",
+      "formerId": "niji-gaon2434-10",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLCO0LVJ0DYy0Q1oBi8TExZBnZDR8gT8h3",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ガオン",
+      "game": "VALORANT",
+      "formerId": "niji-gaon2434-11",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLCO0LVJ0DYy0uix7UKGQ6gh2RbJJhFbl2",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ガオン",
+      "game": "Portal 2",
+      "formerId": "gap348",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLYNuWqt7P-4vFK26qYQEuAhMMRvy-zoqo",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ヤン ナリ",
+      "game": "バニーガーデン",
+      "formerId": "gap389",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PL_tHdrZUlaGme0Y5ZSBZNt7N_UvsSVlaJ",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "花芽なずな",
+      "game": "Raft",
+      "formerId": "gap724",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    },
+    {
+      "playlistId": "PLCO0LVJ0DYy2X8SY9YUTeLpbIU1rFc5SZ",
+      "scope": "playlist",
+      "reason": "2026-11-22確認時点で視聴可能な公開動画0本",
+      "streamer": "ガオン",
+      "game": "ARKシリーズ",
+      "formerId": "gap730",
+      "rejectedAt": "2026-11-22",
+      "source": "DISCOVER-132/133/134"
+    }
+  ]
+}
