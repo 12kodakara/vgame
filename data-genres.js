@@ -1488,6 +1488,30 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "niji-kitamicoolgu-01",
+     "title": "パラノマサイト FILE38 伊勢人魚物語",
+     "streamer": "北見遊征",
+     "game": "パラノマサイト FILE38 伊勢人魚物語",
+     "genre": "horror",
+     "playlistId": "PLQGuvrqdUwkg",
+     "thumbnailUrl": "https://i.ytimg.com/vi/ixNSSOodC8E/mqdefault.jpg",
+     "videoCount": 1,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-11-23"
+    },
+    {
+     "id": "gap787",
+     "title": "凛LIVE --- R.E.P.O.",
+     "streamer": "静凛",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
+     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
+     "videoCount": 13,
+     "addedDate": "2026-09-19",
+     "updatedDate": "2026-11-22"
+    },
+    {
      "id": "hd-0613",
      "title": "バイオハザード6🐏",
      "streamer": "角巻わため",
@@ -1500,16 +1524,16 @@ const GENRE_PAGES = {
      "updatedDate": "2026-11-22"
     },
     {
-     "id": "gap787",
-     "title": "凛LIVE --- R.E.P.O.",
-     "streamer": "静凛",
-     "game": "R.E.P.O.",
+     "id": "holo-063",
+     "title": "BIOHAZARDシリーズ",
+     "streamer": "不知火フレア",
+     "game": "バイオハザード6",
      "genre": "horror",
-     "playlistId": "PL0EE7SG9o_r9j9fmgjtbA7Pe6Nv3S_9TG",
-     "thumbnailUrl": "https://i.ytimg.com/vi/40TcCBOlnw0/mqdefault.jpg",
-     "videoCount": 13,
-     "addedDate": "2026-09-19",
-     "updatedDate": "2026-11-20"
+     "playlistId": "PLBoFNGFmekcPNiGwcgEFFVaf0FoLeVpa2",
+     "thumbnailUrl": "https://i.ytimg.com/vi/QKWeYynwbkE/mqdefault_live.jpg",
+     "videoCount": 46,
+     "addedDate": "2026-09-06",
+     "updatedDate": "2026-11-22"
     },
     {
      "id": "niji-chimamachita-02",
@@ -1582,30 +1606,6 @@ const GENRE_PAGES = {
      "videoCount": 38,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-11-04"
-    },
-    {
-     "id": "niji-7tamanoi-01",
-     "title": "魔法少女ノ魔女裁判",
-     "streamer": "珠乃井ナナ",
-     "game": "魔法少女ノ魔女裁判",
-     "genre": "horror",
-     "playlistId": "PLXLVC2tRini0",
-     "thumbnailUrl": "https://i.ytimg.com/vi/M6DRhnzNE-A/mqdefault.jpg",
-     "videoCount": 3,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-11-03"
-    },
-    {
-     "id": "gap061",
-     "title": "Phasmophobia",
-     "streamer": "Finana Ryugu",
-     "game": "Phasmophobia",
-     "genre": "horror",
-     "playlistId": "PL5XBGPMUTVBQ5GBurKO_SPTt2-9J38oco",
-     "thumbnailUrl": "https://i.ytimg.com/vi/1PiXZDOsOp8/mqdefault.jpg",
-     "videoCount": 11,
-     "addedDate": "2026-09-08",
-     "updatedDate": "2026-10-31"
     }
    ]
   }

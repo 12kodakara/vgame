@@ -132,7 +132,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/VpDqGHG17GU/mqdefault.jpg",
    "videoCount": 351,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-11-19",
+   "updatedDate": "2026-11-22",
    "_rank": 10
   },
   {
@@ -249,7 +249,7 @@ const RANKING_LIST = {
    "thumbnailUrl": "https://i.ytimg.com/vi/288wCC5EPpU/mqdefault.jpg",
    "videoCount": 279,
    "addedDate": "2026-09-07",
-   "updatedDate": "2026-11-21",
+   "updatedDate": "2026-11-22",
    "_rank": 19
   },
   {
