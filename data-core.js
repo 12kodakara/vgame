@@ -87,6 +87,7 @@ const STREAMERS = [
   { name: "癒月ちょこ", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/gv-5tmPSiFipkP01atgnCS6WwdxzUxfermmqGw_UhuDNtRFmbdb2NALcL6rR0LxaM5JX9JhE9g=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC1suqwovbL1kzsoaZgFZLKg", x: "https://x.com/yuzukichococh" },
   { name: "大空スバル", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_k5mjdt1wcbaYCXKwmDpVXmSGtOc-LH3WjIyUHVC4soP28=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCvzGlP9oQwU--Y0r9id_jnA", x: "https://x.com/oozorasubaru" },
   { name: "湊あくあ", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/ytc/AIdro_kaZLtKaya9TSJr3M4lpzV95R2rWdQtGk67fwedroUfSnE=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg", x: "https://x.com/minatoaqua" },
+  { name: "紫咲シオン", group: "ホロライブ 2期生", icon: "https://yt3.googleusercontent.com/K91NQLuy_JMQ65n-Opf0Q2FZBO3yOURnMRusO7o5DTjaJ1QVtP-ANN4lehK57X4KXpcI2MiRig=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCXTpFs_3PqI41qX2d9tL2Rw", x: "https://x.com/murasakishionch" },
 
   { name: "AZKi", group: "ホロライブ 0期生", icon: "https://yt3.googleusercontent.com/tRZGMhn8vSvYE0_15SjaE_3dTH5JTZzjdnb5gs1StecT1tKn1gQ2tVkRfi_n42Q5fYz13ewdayo=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw", x: "https://x.com/AZKi_VDiVA" },
   { name: "大神ミオ", group: "ホロライブ ゲーマーズ", icon: "https://yt3.googleusercontent.com/JV8VdQFA7eZk5H1cRxHyIdLKQ5wD6EBywjxLzrne2EpY9LSiVgtapvh0iQA6plVNxdIKNxK0NRU=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCp-5t9SrOQwXMU7iIjQfARg", x: "https://x.com/ookamimio" },
@@ -115,6 +116,7 @@ const STREAMERS = [
   { name: "鷹嶺ルイ", group: "ホロライブ holoX(6期生)", icon: "https://yt3.googleusercontent.com/hoR2TgfGwUZ4mbNY07Ygu88wPLY0JcArmFKZDTwaPOtJmK78gdIg3dmp87NZM8SRBCpxlv02hg=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCs9_O1tRPMQTHQ-N_L6FU2g", x: "https://x.com/takanelui" },
   { name: "博衣こより", group: "ホロライブ holoX(6期生)", icon: "https://yt3.googleusercontent.com/2PoZqbHNPXXxjPRgtAuDGY_p6use0QRNk2rN0oXPeE9NtrQGuTuD1psw6sCFDGy8fO_3JwjQPxw=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw", x: "https://x.com/hakuikoyori" },
   { name: "風真いろは", group: "ホロライブ holoX(6期生)", icon: "https://yt3.googleusercontent.com/gq-oA6rRB25b8hLDHhsLqcU1ZSmuuEtIDQabDoaZV1NS-rwAzOit4RdQHz5Afh3mN4FwYnPIPg=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UC_vMYWcDjmfdpH6r4TTn1MQ", x: "https://x.com/kazamairohach" },
+  { name: "沙花叉クロヱ", group: "ホロライブ holoX(6期生)", icon: "https://yt3.googleusercontent.com/laCUmozlesp2wZd9k_DCDG_AYgQRGJm0yiL5pigqWAJE1TzYaOXQ6VcfEGacl8L-gpgR07I7HA=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/channel/UCIBY1ollUsauvVi4hW4cumw", x: "https://x.com/sakamatachloe" },
 
   { name: "音乃瀬奏", group: "ホロライブ ReGLOSS", icon: "https://yt3.googleusercontent.com/3Naw3X40CVtAsDMP8SFCPIpsfVjP2iUID4oAF8PJgA1ob4akPZ_SQC3LlWAya_kE2INeaLtHUQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@OtonoseKanade", x: "https://x.com/otonosekanade" },
   { name: "一条莉々華", group: "ホロライブ ReGLOSS", icon: "https://yt3.googleusercontent.com/JhTtQGtkAfXG5XwH3Adzu9Kl8DBTRElKxHFvWop0Z6J2ndAEJfXfDaU1mLUaBsiAjW_RnXBkOQ=s900-c-k-c0x00ffffff-no-rj", youtube: "https://www.youtube.com/@IchijouRirika", x: "https://x.com/ichijouririka" },
@@ -1378,6 +1380,20 @@ const GAMES = [
   { name: "つぐのひシリーズ", kana: "つぐのひしりーず", series: "" },
   { name: "日本事故物件監視協会シリーズ", kana: "にほんじこぶっけんかんしきょうかいしりーず", series: "" },
   { name: "スーパー マリオパーティ", kana: "すーぱーまりおぱーてぃ", aliases: ["スーパーマリオパーティー"], series: "マリオシリーズ" },
+  { name: "MiSide", kana: "みさいど", aliases: ["ミサイド"], series: "" },
+  { name: "Buckshot Roulette", kana: "ばっくしょっとるーれっと", series: "" },
+  { name: "Party Animals", kana: "ぱーてぃーあにまるず", series: "" },
+  { name: "Pineapple on pizza", kana: "ぱいなっぷるおんぴざ", series: "" },
+  { name: "A Little to the Left", kana: "えーりとるとぅざれふと", series: "" },
+  { name: "Trombone Champ", kana: "とろんぼーんちゃんぷ", series: "" },
+  { name: "Cats Organized Neatly", kana: "きゃっつおーがないずどにーとりー", series: "" },
+  { name: "Tavern Manager Simulator", kana: "たばーんまねーじゃーしみゅれーたー", series: "" },
+  { name: "DYPING", kana: "だいぴんぐ", series: "" },
+  { name: "Inverted Angel", kana: "いんばーてっどえんじぇる", series: "" },
+  { name: "Pacific Drive", kana: "ぱしふぃっくどらいぶ", series: "" },
+  { name: "Refind Self", kana: "りふぁいんどせるふ", series: "" },
+  { name: "Starfield", kana: "すたーふぃーるど", series: "" },
+  { name: "MINDHACK", kana: "まいんどはっく", series: "" },
 ];
 
 /**

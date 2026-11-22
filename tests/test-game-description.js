@@ -180,7 +180,8 @@ check('9a. 略称を添えるページはストリートファイター6の1件�
   JSON.stringify(Object.keys(ABBR)) === JSON.stringify([SF6]) && !roleOf(SF6), Object.keys(ABBR).join(','));
 check('9b. スト6: description は正式名称と略称で始まり、件数・VTuber名・動画本数は元データから(再生リスト' + sf6Items.length + '件)',
   sf6Items.length > 0 && sf6.startsWith('ストリートファイター6（スト6）のVTuber実況をまとめたページです。') && sf6.split('（スト6）').length === 2
-  && sf6.includes('再生リスト' + sf6Items.length + '件') && sf6.includes('動画' + sf6Items.reduce((a, p) => a + (p.videoCount || 0), 0) + '本')
+  // 動画本数は game.js と同じく 再生リストの videoCount + 単発実況の本数(standalonePlayCount)
+  && sf6.includes('再生リスト' + sf6Items.length + '件') && sf6.includes('動画' + (sf6Items.reduce((a, p) => a + (p.videoCount || 0), 0) + saOf(SF6).reduce((a, p) => a + ctx.standalonePlayCount(p), 0)) + '本')
   && pick(SF6).some((s) => sf6.includes(s)) && !/undefined|null|NaN/.test(sf6), sf6);
 // 表から外したときの文面と比べ、変わるのはスト6の書き出しだけ(他のゲームの description はすべて従来どおり)
 const withAbbr = rows.map((r) => r.d);

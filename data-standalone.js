@@ -2389,5 +2389,1376 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし(サイト未登録。YouTube 側の再生リストへの収録は未確認)",
     addedDate: "2026-11-21"
+  },
+  {
+    id: "single-172",
+    title: "Rust 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Rust",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#holoRUST】ガチ初見RUST！！ホロ鯖冒険します！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=matC32C-i-M", publishedDate: "2025-04-19" },
+      { title: "【#holoRUST】ガチ初見RUST！！ホロ鯖冒険します！！2【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=NyQA-oXdwS4", publishedDate: "2025-04-19" },
+      { title: "【#holoRUST】ホロ鯖RUST！！今日も生き残りたい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=48VYp4T1UKM", publishedDate: "2025-04-21" },
+      { title: "【#holoRUST】ホロ鯖RUST！！冒険したり農業したり！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=qBfBVk_l0TU", publishedDate: "2025-04-23" },
+      { title: "【#holoRUST】ラストのRUST！！たくさん思い出作って楽しむ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=WUe-ylfdHSk", publishedDate: "2025-04-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-173",
+    title: "【スーパーマリオパーティジャンボリー】#マシぺこ (塩田マリ子) でマリパする！👑",
+    streamer: "紫咲シオン",
+    game: "スーパー マリオパーティ ジャンボリー",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【スーパーマリオパーティジャンボリー】#マシぺこ (塩田マリ子) でマリパする！👑【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=MrzXY7e00a0", publishedDate: "2025-04-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-174",
+    title: "GeoGuessr 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "GeoGuessr",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【#あずしお】紫咲シオンをGeoGuessrする配信…！？【ホロライブ/紫咲シオン/AZKi】", url: "https://www.youtube.com/watch?v=pq0Wf288wiI", publishedDate: "2025-04-13" },
+      { title: "【#あずしお】紫咲シオンをGeoGuessrする配信…！？【ホロライブ/紫咲シオン/AZKi】", url: "https://www.youtube.com/watch?v=--1m3Mj8uew", publishedDate: "2025-04-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-175",
+    title: "ポケットモンスター 金・銀 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ポケットモンスター 金・銀",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ポケットモンスター銀】はじめましての新しい冒険！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=u2aEvbFEjRY", publishedDate: "2025-04-05" },
+      { title: "【ポケットモンスター銀】まだ見ぬ新天地目指して冒険だぁ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=gPubrU59GWE", publishedDate: "2025-04-07" },
+      { title: "【ポケットモンスター銀】初めてのカントー地方へ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=IJ5BtotPzU0", publishedDate: "2025-04-09" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-176",
+    title: "【MiSide : ミサイド】彼女とラブラブ新生活始めます！💓(予定)",
+    streamer: "紫咲シオン",
+    game: "MiSide",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【MiSide : ミサイド】彼女とラブラブ新生活始めます！💓(予定)【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=TikDVKv_IZE", publishedDate: "2025-03-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-177",
+    title: "お宝マウンテン 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "お宝マウンテン",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【お宝マウンテン】噂のゲーム遊んでみるぞ～～！！告知あるヨ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=vs-ijWvRdKY", publishedDate: "2024-08-23" },
+      { title: "【お宝マウンテン】久しぶりにいっちょ行きますか…【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=MVx_2lL5Wrc", publishedDate: "2025-03-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-178",
+    title: "モンスターハンターワイルズ 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "モンスターハンターワイルズ",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【モンハンワイルズ】新作モンハンベータテストきた～！！遊ぶ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=OHBA1ZrI90Y", publishedDate: "2024-11-03" },
+      { title: "【モンハンワイルズ】狩猟解禁！！モンハンの世界へいくぞ～～！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=eV0tk3BjyfY", publishedDate: "2025-03-01" },
+      { title: "【モンハンワイルズ】一狩り行くぞ！！ストーリークリアまで！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=awnf6rTMzUs", publishedDate: "2025-03-02" },
+      { title: "【モンハンワイルズ】上位を少し嗜みに行ってみる！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=7LpT5kHEI_k", publishedDate: "2025-03-11" },
+      { title: "【モンハンワイルズ】塩ぺこ天下統一モンハン！！行くぞ！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=TfDN_TjmG3c", publishedDate: "2025-03-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-179",
+    title: "【TrickShot Simulator】話しながら奇跡を起こす配信。",
+    streamer: "紫咲シオン",
+    game: "TrickShot Simulator",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【TrickShot Simulator】話しながら奇跡を起こす配信。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=q62YpF5ec7Q", publishedDate: "2025-02-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-180",
+    title: "【The Forest】#塩シャチ クリスマスデート🎄食人族の住む森へ・・・",
+    streamer: "紫咲シオン",
+    game: "The Forest",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【The Forest】#塩シャチ クリスマスデート🎄食人族の住む森へ・・・【ホロライブ/紫咲シオン/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=inYwH5VuRfs", publishedDate: "2024-12-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-181",
+    title: "ドラゴンクエストIII HD-2D Remake 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ドラゴンクエストIII HD-2D Remake",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ドラクエ3リメイク】完全初見ドラゴンクエスト⚔️そして伝説へ・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=0ZO2Vg6pVpQ", publishedDate: "2024-11-23" },
+      { title: "【ドラクエ3リメイク】完全初見ドラゴンクエスト⚔️伝説のオーブ集め【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=WsP3xMQXgqE", publishedDate: "2024-11-30" },
+      { title: "【ドラクエ3リメイク】完全初見ドラゴンクエスト⚔️いざバラモス城へ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=j5u9KpHXhmc", publishedDate: "2024-12-06" },
+      { title: "【ドラクエ3リメイク】完全初見ドラゴンクエスト⚔️そして伝説になる【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=_PFWjSkrHsQ", publishedDate: "2024-12-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-182",
+    title: "Liar's Bar 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Liar's Bar",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【 Liar's Bar 】命がけのギャンブル…！ #一夜限りのホロハロウィン 🎃【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=OHGqQ3DWmP4", publishedDate: "2024-10-31" },
+      { title: "【 Liar's Bar 】視聴者参加型！夜中のギャンブル大会開催🌟【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=3Hew-oEpEEQ", publishedDate: "2024-11-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-183",
+    title: "TCG Card Shop Simulator 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "TCG Card Shop Simulator",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【TCG Card Shop Simulator】カードショップ開店！！パック開ける仕事したいです！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=GfUnoE6645Y", publishedDate: "2024-10-03" },
+      { title: "【TCG Card Shop Simulator】激レアカード引きたい！買って買って～！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=efcrh-LDhc8", publishedDate: "2024-10-07" },
+      { title: "【TCG Card Shop Simulator】そろそろ激レアカード欲しいよね？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zizR7UkN6oo", publishedDate: "2024-10-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-184",
+    title: "【僕、アルバイトォォ！！】はじめてのコンビニバイト！！頑張ります！",
+    streamer: "紫咲シオン",
+    game: "僕、アルバイトォォ！！",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【僕、アルバイトォォ！！】はじめてのコンビニバイト！！頑張ります！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=MzwYKS604xw", publishedDate: "2024-09-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-185",
+    title: "【Buckshot Roulette】これが命がけのギャンブル・・・ッ！！",
+    streamer: "紫咲シオン",
+    game: "Buckshot Roulette",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Buckshot Roulette】これが命がけのギャンブル・・・ッ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ksBdR9urnCc", publishedDate: "2024-09-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-186",
+    title: "【８番出口】誕生日までに駅から出してください。",
+    streamer: "紫咲シオン",
+    game: "8番出口",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【８番出口】誕生日までに駅から出してください。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=hHRA5nJbnxI", publishedDate: "2023-12-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-187",
+    title: "ストリートファイター6 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ストリートファイター6",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【STREET FIGHTER 6】ガチ初心者、頑張ります！ばぶ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ZhsbdX7D3mE", publishedDate: "2023-11-10" },
+      { title: "【STREET FIGHTER 6】初心者界最強を目指して特訓🔥【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=peKMJ3Xky_s", publishedDate: "2023-11-19" },
+      { title: "【STREET FIGHTER 6】初心者修行。ランク上げたいっ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=HGC78j5h374", publishedDate: "2023-11-29" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-188",
+    title: "【Party Animals】#マシぺこ で動物になって真剣勝負だっ！！",
+    streamer: "紫咲シオン",
+    game: "Party Animals",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【Party Animals】#マシぺこ で動物になって真剣勝負だっ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=MdF8ICGkKF8", publishedDate: "2023-11-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-189",
+    title: "【スーパーマリオブラザーズ ワンダー】最新作のマリオ遊ぶ！！",
+    streamer: "紫咲シオン",
+    game: "スーパーマリオブラザーズ ワンダー",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【スーパーマリオブラザーズ ワンダー】最新作のマリオ遊ぶ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=sGYHS_3R-9I", publishedDate: "2023-10-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-190",
+    title: "スイカゲーム 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "スイカゲーム",
+    genre: "puzzle",
+    format: "multi",
+    videos: [
+      { title: "【スイカゲーム】流行りのスイカ作るゲーム！初見プレイ🍉【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=536oJXjyUb8", publishedDate: "2023-09-28" },
+      { title: "【スイカゲーム】優しくしてください。3000点目指して…【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zgOaL43MnBE", publishedDate: "2023-10-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-191",
+    title: "【漢字でGO!】漢字なんでも読みます！！ネ〇リーグ風漢字クイズ！",
+    streamer: "紫咲シオン",
+    game: "漢字でGO!",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【漢字でGO!】漢字なんでも読みます！！ネ〇リーグ風漢字クイズ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=SPqmehUygjk", publishedDate: "2023-09-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-192",
+    title: "【つぐのひ】船長のホラゲー(？)をやってみる！！",
+    streamer: "紫咲シオン",
+    game: "つぐのひ",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【つぐのひ】船長のホラゲー(？)をやってみる！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=m8SEKjAoQic", publishedDate: "2023-08-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-193",
+    title: "ポケモンユナイト 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ポケモンユナイト",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【ポケモンユナイト】まったりユナイト！守りたい…ッ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Fd5h2qWYDiY", publishedDate: "2021-08-11" },
+      { title: "【ポケモンユナイト】大会に向けてちょっと練習しちゃお！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=fVzRhDsGVDk", publishedDate: "2023-08-09" },
+      { title: "【#ポケモンユナイト世界大会】ホロライブ対抗戦！！！勝つぞおおおお！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=IdtekjqYJ5o", publishedDate: "2023-08-10" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-194",
+    title: "ピクミン4 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ピクミン4",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【ピクミン４】人生はじめてのピクミン！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=8elmnvda8Tk", publishedDate: "2023-07-23" },
+      { title: "【ピクミン４】紫咲ピクミン頑張ります。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=a9He6UOUKVQ", publishedDate: "2023-07-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-195",
+    title: "ONLY UP! 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ONLY UP!",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【OnlyUp!】頂上目指して登ってみる！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=hgXu0qkfrxQ", publishedDate: "2023-07-02" },
+      { title: "【OnlyUp!】頂上まで行きたいリベンジ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=OhBQJ-58VE0", publishedDate: "2023-07-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-196",
+    title: "【Pineapple on pizza】みんなが神ゲーっていうゲームやる。",
+    streamer: "紫咲シオン",
+    game: "Pineapple on pizza",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Pineapple on pizza】みんなが神ゲーっていうゲームやる。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=FJt6RYFqFfc", publishedDate: "2023-06-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-197",
+    title: "【ぷよぷよテトリス2】練習しますか～！？※大会出ません、やりたいだけ！",
+    streamer: "紫咲シオン",
+    game: "ぷよぷよテトリス2",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【ぷよぷよテトリス2】練習しますか～！？※大会出ません、やりたいだけ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=AkTLxzKcrfk", publishedDate: "2023-04-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-198",
+    title: "【Q REMASTERED】難しい問題もハバ卒なら余裕だよねっ",
+    streamer: "紫咲シオン",
+    game: "Q REMASTERED",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【Q REMASTERED】難しい問題もハバ卒なら余裕だよねっ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=97fkzW87PfY", publishedDate: "2023-04-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-199",
+    title: "【A Little to the Left】深夜のお片付け～！！猫ちゃん！",
+    streamer: "紫咲シオン",
+    game: "A Little to the Left",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【A Little to the Left】深夜のお片付け～！！猫ちゃん！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=cOH2NqYpLb0", publishedDate: "2023-03-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-200",
+    title: "HoloCure 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "HoloCure",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【HoloCure】ファンメイドのゲームやるぞ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zBhbH-H4I4o", publishedDate: "2022-06-29" },
+      { title: "【HoloCure】神ゲーをクリアしたい・・・！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=xoQfOBdKKt0", publishedDate: "2022-07-02" },
+      { title: "【HoloCure】2期生キターーー！！遊んでみる！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=q8bvXSVD7mo", publishedDate: "2023-02-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-201",
+    title: "【Trombone Champ】最高のトロンボーンを奏でます。",
+    streamer: "紫咲シオン",
+    game: "Trombone Champ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Trombone Champ】最高のトロンボーンを奏でます。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=kSeHkGEh6HA", publishedDate: "2022-11-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-202",
+    title: "ポケットモンスター スカーレット・バイオレット 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ポケットモンスター スカーレット・バイオレット",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ポケモンSV】最新作！！全力で楽しむバイオレット！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=7kvhzyozAq4", publishedDate: "2022-11-17" },
+      { title: "【ポケモンSV】最新作！！全力で楽しむバイオレット！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=jA5Mcl7_ySI", publishedDate: "2022-11-18" },
+      { title: "【ポケモンSV】最新作！！次の場所を目指して冒険へ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=39eqgSJps50", publishedDate: "2022-11-18" },
+      { title: "【ポケモンSV】四天王倒してチャンピオンになる！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=iaac1oVGAwA", publishedDate: "2022-11-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-203",
+    title: "【Cats Organized Neatly】ﾈｺﾁｬﾝのパズル！ﾈｺﾁｬﾝ！ﾈｺﾁｬﾝ！",
+    streamer: "紫咲シオン",
+    game: "Cats Organized Neatly",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【Cats Organized Neatly】ﾈｺﾁｬﾝのパズル！ﾈｺﾁｬﾝ！ﾈｺﾁｬﾝ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=bQ4eg1Qehak", publishedDate: "2022-11-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-204",
+    title: "スプラトゥーン3 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "スプラトゥーン3",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【 スプラトゥーン３ 】初心者がんばるぞ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=uo27oDWG4uI", publishedDate: "2022-09-16" },
+      { title: "【 スプラトゥーン３ 】バンカラマッチにいく！！腕前Bです。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=PMhU82XVTV8", publishedDate: "2022-09-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-205",
+    title: "モンスターハンターライズ 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "モンスターハンターライズ",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【MONSTER HUNTER RISE】ひと狩りいこうぜ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=-PziNUil23U", publishedDate: "2021-03-30" },
+      { title: "【MONSTER HUNTER RISE】今日も太刀で立ち向かいます！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=AImKIq6CXWE", publishedDate: "2021-04-01" },
+      { title: "【MONSTER HUNTER RISE】視聴者参加型！！みんなの姫です♡【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=_x4VZl1rTPg", publishedDate: "2021-04-17" },
+      { title: "【MONSTER HUNTER RISE】るしおんで優勝する！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=di-JD4P_CI4", publishedDate: "2021-05-15" },
+      { title: "【モンハンサンブレイク】初めてのサンブレイク！！がんばるます！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=8Hn5PmIC5-A", publishedDate: "2022-07-06" },
+      { title: "【モンハンサンブレイク】今日もがんばる赤ちゃんハンター【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=HLJyyGFIWpE", publishedDate: "2022-07-09" },
+      { title: "【モンハンサンブレイク】今日もひと狩り！MR３行くぞ～！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Lsyh93LCD8E", publishedDate: "2022-07-13" },
+      { title: "【モンハンサンブレイク】しおぺこで一狩り行くぞ！！！【ホロライブ/紫咲シオン/兎田ぺこら】", url: "https://www.youtube.com/watch?v=FBCq5qHGCcI", publishedDate: "2022-07-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-206",
+    title: "【stray】猫になって世界を見に行く！",
+    streamer: "紫咲シオン",
+    game: "Stray",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【stray】猫になって世界を見に行く！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=kuq02FVWK9Q", publishedDate: "2022-07-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-207",
+    title: "Nintendo Switch Sports 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Nintendo Switch Sports",
+    genre: "sports",
+    format: "multi",
+    videos: [
+      { title: "【Switch Sports】スポーツは立ってやるものだろ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=yQWwtFwPvpI", publishedDate: "2022-06-04" },
+      { title: "【Switch Sports】美女の真剣勝負。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Ze637H39a6s", publishedDate: "2022-06-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-208",
+    title: "【NEEDY GIRL OVERDOSE】メンヘラ彼女プロデュースします💓",
+    streamer: "紫咲シオン",
+    game: "NEEDY GIRL OVERDOSE",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【NEEDY GIRL OVERDOSE】メンヘラ彼女プロデュースします💓【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=5S2Qm7jn9Tw", publishedDate: "2022-06-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-209",
+    title: "【Unpacking】やっと引っ越しだ・・・！！深夜の片づけだ！",
+    streamer: "紫咲シオン",
+    game: "Unpacking",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【Unpacking】やっと引っ越しだ・・・！！深夜の片づけだ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=SxzGVLjZ4P8", publishedDate: "2022-04-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-210",
+    title: "Pokémon LEGENDS アルセウス 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Pokémon LEGENDS アルセウス",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【Pokémon LEGENDS アルセウス】新たな冒険へ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=47vGw09GELw", publishedDate: "2022-01-28" },
+      { title: "【Pokémon LEGENDS アルセウス】新　世　界【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UD51ml70dv8", publishedDate: "2022-01-29" },
+      { title: "【Pokémon LEGENDS アルセウス】今日からニート編【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=pUwiOJ2eAaU", publishedDate: "2022-02-12" },
+      { title: "【Pokémon LEGENDS アルセウス】僕たちの旅はまだ終わらない【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=d49_lf66mU0", publishedDate: "2022-02-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-211",
+    title: "ポケットモンスター ブリリアントダイヤモンド・シャイニングパール 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ポケットモンスター ブリリアントダイヤモンド・シャイニングパール",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【シャイニングパール】念願のダイパリメイクやるぞ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=hNUpi17Genw", publishedDate: "2021-11-19" },
+      { title: "【シャイニングパール】念願のダイパリメイクやるぞ！！続き！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=pS5TOMFX7ZY", publishedDate: "2021-11-20" },
+      { title: "【シャイニングパール】ダイパリメイク！！殿堂入り後の世界！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=FPXR4vfhQKg", publishedDate: "2021-11-22" },
+      { title: "【シャイニングパール】ダイパリメイク！！いざ全国へ…【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=tybJpxrYB8E", publishedDate: "2021-11-25" },
+      { title: "【シャイニングパール】探検！！そして地下労働・・・！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=8Si1BhNfYns", publishedDate: "2021-11-28" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-212",
+    title: "【マリオパーティ スーパースターズ】みんなでバトルだぁ！！",
+    streamer: "紫咲シオン",
+    game: "マリオパーティ スーパースターズ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【マリオパーティ スーパースターズ】みんなでバトルだぁ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=r7Dsg5nF-cE", publishedDate: "2021-11-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-213",
+    title: "Among Us 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Among Us",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【#ゆるホロAmongUs 】初めてのAmongUs！！You SUS！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Sa-kE9TkJ9g", publishedDate: "2020-12-03" },
+      { title: "【 #ホロハロウィンAmongUs 】怪しくないよ！Trick or SUS！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=KfZzhjXQRds", publishedDate: "2021-10-31" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-214",
+    title: "【Undertale】完全初見！！誰も死なない平和なRPG？",
+    streamer: "紫咲シオン",
+    game: "UNDERTALE",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【Undertale】完全初見！！誰も死なない平和なRPG？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Xi_ubsIVq1E", publishedDate: "2021-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-215",
+    title: "【ポケモンDP】制限時間アリ…！？ダイパを楽しむ！！",
+    streamer: "紫咲シオン",
+    game: "ポケットモンスター ダイヤモンド・パール",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【ポケモンDP】制限時間アリ…！？ダイパを楽しむ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=H7YqZMdbr-k", publishedDate: "2021-09-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-216",
+    title: "【Gartic Phone】噂のお絵描き伝言ゲーム！！視聴者参加型！！",
+    streamer: "紫咲シオン",
+    game: "Gartic Phone",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Gartic Phone】噂のお絵描き伝言ゲーム！！視聴者参加型！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=gH0az8_ai3g", publishedDate: "2021-08-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-217",
+    title: "【ウマ娘】完全初見のウマ娘！！トウカイテイオー！！",
+    streamer: "紫咲シオン",
+    game: "ウマ娘 プリティーダービー",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【ウマ娘】完全初見のウマ娘！！トウカイテイオー！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=wifLiZ5XbFs", publishedDate: "2021-05-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-218",
+    title: "New ポケモンスナップ 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "New ポケモンスナップ",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【Newポケモンスナップ】新作きたー！！全力で楽しむ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=NKvJOLqNGGc", publishedDate: "2021-05-02" },
+      { title: "【Newポケモンスナップ】全力で楽しむポケモンスナップ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UOs8OL3K-1k", publishedDate: "2021-05-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-219",
+    title: "【planet coaster】真夜中遊園地デート💓",
+    streamer: "紫咲シオン",
+    game: "Planet Coaster",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【planet coaster】真夜中遊園地デート💓【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=QNLE24V71tU", publishedDate: "2021-02-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-220",
+    title: "【L4D2】戦場デート！！ししおんで頑張るぞ！！",
+    streamer: "紫咲シオン",
+    game: "Left 4 Dead 2",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【L4D2】戦場デート！！ししおんで頑張るぞ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=yarCKBQ94Pc", publishedDate: "2020-12-29" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-221",
+    title: "Doki Doki Literature Club 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Doki Doki Literature Club",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【DDLC】ドキドキ・・・これってまさか恋？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ZDl-ZhTUjvc", publishedDate: "2020-12-20" },
+      { title: "【DDLC】聖夜だしラブラブします。ごめん・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=6aKW_UMHv4U", publishedDate: "2020-12-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-222",
+    title: "【Dead by Daylight】初見鬼ごっこ！！深夜の眠れるDBD",
+    streamer: "紫咲シオン",
+    game: "Dead by Daylight",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【Dead by Daylight】初見鬼ごっこ！！深夜の眠れるDBD【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=8R2N4tgpZpc", publishedDate: "2020-12-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-223",
+    title: "Papers, Please 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Papers, Please",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【Papers, Please】入国審査官になりました！！でてけ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=IyT0PJQrDH4", publishedDate: "2020-11-25" },
+      { title: "【Papers, Please】入国審査の時間。働きます・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ce3DHJl8yEI", publishedDate: "2020-11-27" },
+      { title: "【Papers, Please】何があっても働くんだよ・・・！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=FXRDAvrh-pU", publishedDate: "2020-12-05" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-224",
+    title: "Tavern Manager Simulator 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Tavern Manager Simulator",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【 Tavern Manager Simulator 】ビアガールになって酒場を復興させる！ 酒場経営シミュレーター！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=WLHtQmZfUjc", publishedDate: "2024-11-03" },
+      { title: "【 Tavern Manager Simulator 】はい！しゅわしゅわ一丁！ 酒場経営シミュレーターやるぞおおおお 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=9zKB_2bScm0", publishedDate: "2024-11-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-225",
+    title: "ゼルダの伝説 ティアーズ オブ ザ キングダム 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "ゼルダの伝説 ティアーズ オブ ザ キングダム",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "#1【新作】人生初のゼルダわっくわくどきどき！ゼルダの伝説　ティアーズ オブ ザ キングダム初見プレイ【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=9f5DrJSH8Ik", publishedDate: "2023-05-13" },
+      { title: "#2【新作】人生初のゼルダ！まさかのゼルダがリンクでした ゼルダの伝説　ティアーズ オブ ザ キングダム初見プレイ【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Hc2wjRf4eyw", publishedDate: "2023-05-22" },
+      { title: "#3【新作】人生初のゼルダ！車が高床式になってしまうシャチ ゼルダの伝説　ティアーズ オブ ザ キングダム初見プレイ【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=pWwFIuhrktc", publishedDate: "2023-05-24" },
+      { title: "#4【新作】人生初のゼルダ！各地の村からみかじめを求める勇者！それが沙花叉 オブ ザ キングダム初見プレイ【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=FUmSyEn1kNI", publishedDate: "2023-06-02" },
+      { title: "【 ティアキン 】ここはどこ主人公ってゼルダ？記憶全ロスで挑むゼルダの伝説ティアーズオブキングダム実況【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=k3TD8Z9PusM", publishedDate: "2023-09-18" },
+      { title: "【 ティアキン 】人生初ゼルダが神ゲーすぎる件について！ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Ue2E11eHvto", publishedDate: "2023-09-19" },
+      { title: "【 ティアキン 】人生初ゼルダ！ゾーラの里をお掃除します♡ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=4r6rvqh_-6M", publishedDate: "2023-09-26" },
+      { title: "【 ティアキン 】人生初ゼルダ！最後の異変調査！ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=YxQE6H0BO6c", publishedDate: "2023-10-23" },
+      { title: "【 ティアキン 】全員記憶を失くした5か月ぶりのゼルダ ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=6jv14r3qZzc", publishedDate: "2024-03-09" },
+      { title: "【 ティアキン 】地上絵の秘密が明らかに！ 龍の泪 編！ ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=TGsGKjFUp2M", publishedDate: "2024-03-21" },
+      { title: "【 ティアキン 】ついにクライマックス！呪われたハイラル城へ… ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=OXrSzV6CEJ0", publishedDate: "2024-07-21" },
+      { title: "【 ティアキン 】そろそろハイラル城を救うぞぉおおおおお…！！！ ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=T4qJ6Bmt8fk", publishedDate: "2024-10-22" },
+      { title: "【 ティアキン 】ラスボス前に強化間に合わせるぞ～～～！！！の回 ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=8ZOjfTN3k90", publishedDate: "2024-10-31" },
+      { title: "【 ティアキン 】未強化の縛りをいざ解かん…！！！ ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=8d2nAFVOuSM", publishedDate: "2024-11-25" },
+      { title: "【 ティアキン 】ラスボス前に最強の剣、マスタードソースを探す！ ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=D9uZEBf0JCg", publishedDate: "2024-12-15" },
+      { title: "【 ティアキン 】いざ最終回！ラスボスへ！ ゼルダの伝説ティアーズオブキングダム【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=JK417zyxs4g", publishedDate: "2025-01-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-226",
+    title: "【 重大告知あり 】不穏なタイピングゲームでミスタイプはゆるされますか…？ DYPING",
+    streamer: "沙花叉クロヱ",
+    game: "DYPING",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 重大告知あり 】不穏なタイピングゲームでミスタイプはゆるされますか…？ DYPING【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=fSx6krtjzEA", publishedDate: "2025-01-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-227",
+    title: "【 違う冬のぼくら 】こよクロで景色も出来事も、それぞれ違う冬を旅する！",
+    streamer: "沙花叉クロヱ",
+    game: "違う冬のぼくら",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 違う冬のぼくら 】こよクロで景色も出来事も、それぞれ違う冬を旅する！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=u5hBkM77dX0", publishedDate: "2025-01-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-228",
+    title: "風来のシレン6 とぐろ島探検録 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "風来のシレン6 とぐろ島探検録",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【 風来のシレン６ 】人生初めての風来のシレン楽しむぞ～～～！ 不思議のダンジョン 風来のシレン６ とぐろ島探検録【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=HAvwPovi7N0", publishedDate: "2024-03-14" },
+      { title: "【 風来のシレン６ 】ここからが本番です！人生初めて初心者シレンジャーの風来のシレン！ 不思議のダンジョン 風来のシレン６ とぐろ島探検録【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=bpJqv0cnbtM", publishedDate: "2024-03-22" },
+      { title: "【 風来のシレン６ 】とぐろ島を越えて…！人生初めて初心者シレンジャーの風来のシレン！ 不思議のダンジョン 風来のシレン６ とぐろ島探検録【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=HQkN-SjKaHQ", publishedDate: "2024-06-30" },
+      { title: "【 風来のシレン６ 】お買い物上手の修験道いってみよ！人生初めて初心者シレンジャーの風来のシレン！ 不思議のダンジョン 風来のシレン６ とぐろ島探検録【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=svLFs4nltEs", publishedDate: "2024-07-11" },
+      { title: "【 風来のシレン６ 】人生初シレン！お正月だしまったり一緒に夜更かし楽しも～～！ 不思議のダンジョン 風来のシレン６ とぐろ島探検録【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=4mrBjN_YdkM", publishedDate: "2025-01-01" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-229",
+    title: "【 Get To Work 】お金も髪の毛もナイおじさんを飛ばす",
+    streamer: "沙花叉クロヱ",
+    game: "Get To Work",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【 Get To Work 】お金も髪の毛もナイおじさんを飛ばす【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=42Rdim2lVDk", publishedDate: "2024-12-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-230",
+    title: "DON'T SCREAM 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "DON'T SCREAM",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【 DON'T SCREAM 】絶対に叫ぶな！絶対だぞ！！！叫んだらリセぽちされるホラーゲーム！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=m3zA80QwiG0", publishedDate: "2024-05-21" },
+      { title: "【 DON'T SCREAM 】叫んだらやり直し！最恐ホラーゲーム再び…！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Z5S_LGXBY88", publishedDate: "2024-11-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-231",
+    title: "Poppy Playtime 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Poppy Playtime",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【 Poppy Playtime 】ホラー耐性０シャチ、いきます【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=qqbIqmx8ovk", publishedDate: "2024-03-12" },
+      { title: "【 Poppy Playtime2 】び、びびビビってないし…！ ホラーゲーム 初見プレイ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=89xHdDcxYeE", publishedDate: "2024-11-10" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-232",
+    title: "Planet Coaster 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Planet Coaster",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【 Planet Coaster 】そうだ、理想の遊園地を作ろう！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=EN0k9MQcLvE", publishedDate: "2024-09-14" },
+      { title: "【 Planet Coaster 】予算4000ドル、来客0から理想のパークを作る！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=kf3UOEOisr4", publishedDate: "2024-09-16" },
+      { title: "【 Planet Coaster 】予算4000ドル→借金地獄！だけど遊園地を成功させたい！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=uGUffqFXLqA", publishedDate: "2024-09-18" },
+      { title: "【 Planet Coaster 】制限時間120分で自作コースターを設置したい！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=JmNCKdLTMoQ", publishedDate: "2024-09-22" },
+      { title: "【 Planet Coaster 】次回作出る前に遊園地完成させちゃうぞ～～！！！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=fvIoREW2O2I", publishedDate: "2024-10-26" },
+      { title: "【 Planet Coaster 】進捗最高です！次回作までにパークを完成させたい！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=jlhH-oBCjpk", publishedDate: "2024-10-27" },
+      { title: "【 Planet Coaster 】最終回！ついに北極 (パーク名) を完成させます！ 【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Fii_wJbwCtI", publishedDate: "2024-11-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-233",
+    title: "TCG Card Shop Simulator 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "TCG Card Shop Simulator",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【 TCG Card Shop Simulator 】 復帰早々、カドショオープンします！！！！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=yYEFbP8C22o", publishedDate: "2024-10-02" },
+      { title: "【 TCG Card Shop Simulator 】 大物新人バイトくん()が来てしまった前途多難なカードショップ！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=8UKjUHKw-Q4", publishedDate: "2024-10-06" },
+      { title: "【 TCG Card Shop Simulator 】 ㊗高額カード出てます！！！エピックパックは今が買い、どうぞお買い求めください！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=xPcbr-Av9iQ", publishedDate: "2024-10-07" },
+      { title: "【 TCG Card Shop Simulator 】 目指せ100万超え＆店舗拡大！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=R4CGKpwAMT0", publishedDate: "2024-10-13" },
+      { title: "【 TCG Card Shop Simulator 】 カドショ777でカードを買ったら彼女ができました！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=gGi-wzv-sT0", publishedDate: "2024-10-19" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-234",
+    title: "お宝マウンテン 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "お宝マウンテン",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【 holoindie 】 新作のお宝マウンテンであそぶぅうううううう！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=gBPCxratYzQ", publishedDate: "2024-08-03" },
+      { title: "【 holoindie 】 holoX参戦！塩シャチ作りたい♡お宝マウンテン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=BIgDNI1ZgNU", publishedDate: "2024-08-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-235",
+    title: "【 推理 】ドア越しにストーカーと会話するヤンデレゲー Inverted Angel",
+    streamer: "沙花叉クロヱ",
+    game: "Inverted Angel",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 推理 】ドア越しにストーカーと会話するヤンデレゲー Inverted Angel【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=J-EgEMJ4jb0", publishedDate: "2024-08-05" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-236",
+    title: "【 僕、アルバイトォォ！！ 】お帰りくださいませ、ご主人様♡",
+    streamer: "沙花叉クロヱ",
+    game: "僕、アルバイトォォ！！",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【 僕、アルバイトォォ！！ 】お帰りくださいませ、ご主人様♡【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=-SAYpK8Sa5Y", publishedDate: "2024-07-19" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-237",
+    title: "Chained Together 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Chained Together",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【 Chained Together 】一人落ちたらやり直し！かなけんの絆が試される！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=WqXTH-tcvmA", publishedDate: "2024-06-27" },
+      { title: "【 Chained Together 】鎖に繋がれかなけんの絆が試される…！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=2ou6x1eOpYA", publishedDate: "2024-07-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-238",
+    title: "モンスターハンター：ワールド 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "モンスターハンター：ワールド",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【 MHW 】ついに来た！ モンハンワールド 初心者ハンター！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=HPlAgnWMc6Y", publishedDate: "2024-03-30" },
+      { title: "【 MHW 】参加型も！ モンハンワールド 初心者双剣ハンター！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=7I_L1WVodjM", publishedDate: "2024-03-31" },
+      { title: "【 モンハンワールド 】参加型あり！ソロでつよつよモンスター捕獲するぞぉおおお！ 初心者双剣ハンター MHW【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=sk75vLlWWkM", publishedDate: "2024-04-01" },
+      { title: "【 モンハンワールド 】ついにソロハン卒業！こよクロ上位クエ無双だ！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=gmoYASlEs2I", publishedDate: "2024-04-04" },
+      { title: "【 モンハンワールド 】参加型あり！ついに上位クエスト突入だぁあああ！！ 初心者双剣ハンター MHW【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=0shFmIWr_xk", publishedDate: "2024-04-07" },
+      { title: "【 モンハンワールド 】古龍三体討伐IKZZZZZ！！ 初心者双剣ハンター MHW【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=FU1ceVRWZTA", publishedDate: "2024-04-10" },
+      { title: "【 モンハンワールド 】ついにアイスボーンに突入だ！つよつよモンスターかかってこい！！ 初心者双剣ハンター MHW【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=5L5crwZ7QR8", publishedDate: "2024-04-16" },
+      { title: "【 モンハンワールド 】アイスボーンでベリオロス討伐するぞおおおお！！！ 初心者双剣ハンター MHW【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=WAZ2cJNT_jY", publishedDate: "2024-04-29" },
+      { title: "【 モンハンワールド 】ついにイヴェルカーナ討伐するぞおおおお！！！ 初心者双剣ハンター MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=dAvv8Bg92Qo", publishedDate: "2024-04-30" },
+      { title: "【 モンハンワールド 】今度こそイヴェルカーナ討伐するぞおおおお！！！ 初心者双剣ハンター MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Fzyn7zSXEN8", publishedDate: "2024-05-05" },
+      { title: "【 モンハンワールド 】いい加減ガチでイヴェルカーナ討伐しにいきます！ 初心者双剣ハンター MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=YvOUD9wFbOc", publishedDate: "2024-05-11" },
+      { title: "【 モンハンワールド 】レイギエナぁあああああああああ！！！！ 初心者双剣ハンター MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=dpwqjqF5OiI", publishedDate: "2024-05-25" },
+      { title: "【 モンハンワールド 】ネロミェール戦いくぞぉおおおお！！！ 初心者双剣ハンター MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=B278Brr5Puw", publishedDate: "2024-06-08" },
+      { title: "【 モンハンワールド 】ラスボス戦！大いなる存在倒す！！！ 初心者双剣ハンター MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=gFmjYZBvJMY", publishedDate: "2024-06-23" },
+      { title: "【 モンハンワールド 】フルパで一狩りいくぞぉおおお！双剣で暴れます！ MHW アイスボーン【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=_w4kQ_8SVRU", publishedDate: "2024-07-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-239",
+    title: "Among Us 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Among Us",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【アモアス】久々にお掃除しちゃいますか！/ホロAmongUs【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=d9FWj93G42o", publishedDate: "2022-11-25" },
+      { title: "【#ホロAmongUs】ほろ酔いでどんどん崩壊していくアモングアス！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=Gj_SJgmXy2w", publishedDate: "2022-12-26" },
+      { title: "【#突発ホロライブ】久しぶりの突発Among Us！アモングアスだ～～～！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=Fr6ijJdZgzw", publishedDate: "2023-05-08" },
+      { title: "【 #ホロAmongUs 】 1年に1度の掃除屋タイム！ AmongUs【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=LoSe9lsuCnE", publishedDate: "2024-06-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-240",
+    title: "【 Buckshot Roulette 】ギャンブラー沙花叉クロヱに勝てない勝負はない。",
+    streamer: "沙花叉クロヱ",
+    game: "Buckshot Roulette",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 Buckshot Roulette 】ギャンブラー沙花叉クロヱに勝てない勝負はない。【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=JM0zrYOM_IQ", publishedDate: "2024-04-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-241",
+    title: "【 迷宮校舎 】先輩、守ってください…！ #しゃちいぬ",
+    streamer: "沙花叉クロヱ",
+    game: "迷宮校舎",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 迷宮校舎 】先輩、守ってください…！ #しゃちいぬ【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=JARBvCaUT20", publishedDate: "2024-03-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-242",
+    title: "【 Lethal Company 】はじめてのリーサルカンパニー！先輩方、引率よろしくお願いします！",
+    streamer: "沙花叉クロヱ",
+    game: "Lethal Company",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 Lethal Company 】はじめてのリーサルカンパニー！先輩方、引率よろしくお願いします！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=vOxP60evAmQ", publishedDate: "2024-03-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-243",
+    title: "【 Pacific Drive 】沙花叉運転の危険なドライブ！超常現象もあるよ！",
+    streamer: "沙花叉クロヱ",
+    game: "Pacific Drive",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【 Pacific Drive 】沙花叉運転の危険なドライブ！超常現象もあるよ！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=kAKPnIfD9g0", publishedDate: "2024-03-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-244",
+    title: "Palworld 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Palworld",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【 PALWORLD 】ついにログインできたパルワールドぉおおおおおおお！！！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=WG94XpAYrus", publishedDate: "2024-01-26" },
+      { title: "【 PALWORLD 】グランモスLv38に挑む初心者！倒すぞぉおおおお！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=1o8BQUjSccI", publishedDate: "2024-01-28" },
+      { title: "【 PALWORLD 】スプラドンLv30捕獲作戦始動です！他ボスも…？【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=lO4wbzm8fko", publishedDate: "2024-02-04" },
+      { title: "【 PALWORLD 】超難易度！レヴィドラLv45に初心者が挑みます！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=DfoHUhT_q7I", publishedDate: "2024-02-05" },
+      { title: "【 PALWORLD 】ボス戦！パリピドンとムラクモ捕まえたい！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Ii8-vk2qqqI", publishedDate: "2024-02-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-245",
+    title: "【 8番出口 】 GPS来いGPS来いｯGPS来いぃいいいッ！！！！！！",
+    streamer: "沙花叉クロヱ",
+    game: "8番出口",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 8番出口 】 GPS来いGPS来いｯGPS来いぃいいいッ！！！！！！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=GZmpASTXEFk", publishedDate: "2023-12-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-246",
+    title: "【Refind Self】きゃ～～沙花叉の可愛い性格がバレちゃう～～～＞＜",
+    streamer: "沙花叉クロヱ",
+    game: "Refind Self",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Refind Self】きゃ～～沙花叉の可愛い性格がバレちゃう～～～＞＜【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=A0Hl_7XFVnQ", publishedDate: "2023-11-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-247",
+    title: "【 誘拐事件 】ガチで怖いと話題のチラズアートさんの新作ホラーゲームやるぞ！",
+    streamer: "沙花叉クロヱ",
+    game: "誘拐事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 誘拐事件 】ガチで怖いと話題のチラズアートさんの新作ホラーゲームやるぞ！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=O7paiuX1l60", publishedDate: "2023-11-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-248",
+    title: "スイカゲーム 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "スイカゲーム",
+    genre: "puzzle",
+    format: "multi",
+    videos: [
+      { title: "【 スイカゲーム 】初見で3000スコア出しちゃいます！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=hKonM8-RooI", publishedDate: "2023-10-10" },
+      { title: "【 スイカゲーム 】勝つのはどっち！？#ベークロ 並走スコア対決！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=o3U_d7d2ek8", publishedDate: "2023-10-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-249",
+    title: "Starfield 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Starfield",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【 STARFIELD 】宇宙の惑星を探索して収集！建設！戦闘！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=C9vIEukw48I", publishedDate: "2023-10-11" },
+      { title: "【 STARFIELD 】宇宙の謎を解くカギは……え、沙花叉ですか！？【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=C5U6avOl6HU", publishedDate: "2023-10-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-250",
+    title: "ONLY UP! 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "ONLY UP!",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【Only Up!】初見プレイ!! 休止中にみんな空登ってた【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=1J76tLhX6RI", publishedDate: "2023-07-10" },
+      { title: "【Only Up!】3時間登ったら変わらぬ景色がそこにありました【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=uEc-TOGCtf4", publishedDate: "2023-07-21" },
+      { title: "【Only Up!】登らせてえええええええええええええええええ【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Ko50Y_S0zBw", publishedDate: "2023-08-03" },
+      { title: "【Only Up!】例のアレで無事落下したシャチが０から登るぞおおおおおおおお【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=caUy9pftWmM", publishedDate: "2023-08-14" },
+      { title: "【Only Up!】ついに最終回！？ドラゴンの唐揚げつくる♡【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=llAYNr1V9Hs", publishedDate: "2023-09-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-251",
+    title: "【 パラソーシャル 】新人Vtuberの沙花叉クロヱですっ！ホラーゲームをやっていくよ！",
+    streamer: "沙花叉クロヱ",
+    game: "パラソーシャル",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【 パラソーシャル 】新人Vtuberの沙花叉クロヱですっ！ホラーゲームをやっていくよ！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=erVcXSSdX3s", publishedDate: "2023-09-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-252",
+    title: "【 漢字でGO 】余裕でしょｗネプ〇ーグ風の漢字クイズに挑戦だ～～！",
+    streamer: "沙花叉クロヱ",
+    game: "漢字でGO!",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【 漢字でGO 】余裕でしょｗネプ〇ーグ風の漢字クイズに挑戦だ～～！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Z4WhsjyePKE", publishedDate: "2023-09-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-253",
+    title: "【完全初見プレイ】人生初カービィは君に決めた！星のカービィスーパーデラックスでホロサマビンゴ開ける！",
+    streamer: "沙花叉クロヱ",
+    game: "星のカービィ スーパーデラックス",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【完全初見プレイ】人生初カービィは君に決めた！星のカービィスーパーデラックスでホロサマビンゴ開ける！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Txy7juIjctc", publishedDate: "2023-08-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-254",
+    title: "【つぐのひ】マリン先輩何があったんですか！！！美魔女の真実マリンの秘宝船",
+    streamer: "沙花叉クロヱ",
+    game: "つぐのひ",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【つぐのひ】マリン先輩何があったんですか！！！美魔女の真実マリンの秘宝船【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=D5kYN0ucG0k", publishedDate: "2023-08-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-255",
+    title: "【グルーヴコースター ワイワイパーティー!!!!】沙花叉が音ゲーに登場だああああああ！！！",
+    streamer: "沙花叉クロヱ",
+    game: "グルーヴコースター ワイワイパーティー",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【グルーヴコースター ワイワイパーティー!!!!】沙花叉が音ゲーに登場だああああああ！！！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Yi5lCzcEhWs", publishedDate: "2023-08-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-256",
+    title: "【#カプとれ】大量ＧＥＴ！？クレーンゲームの腕前、ついに見せちゃうか～～～～！",
+    streamer: "沙花叉クロヱ",
+    game: "カプとれ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#カプとれ】大量ＧＥＴ！？クレーンゲームの腕前、ついに見せちゃうか～～～～！【ホロライブ/沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=E32TImrvRUo", publishedDate: "2023-05-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-257",
+    title: "【#こよクロ】まさかの1年ぶりに再結成！WE WERE HERE TOGETHER",
+    streamer: "沙花叉クロヱ",
+    game: "We Were Here",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【#こよクロ】まさかの1年ぶりに再結成！WE WERE HERE TOGETHER【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=gpJGXG5fvQI", publishedDate: "2023-04-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-258",
+    title: "【MINDHACK】悪人の脳内をお花畑に洗脳しちゃうぞ！ぽえぽえ～",
+    streamer: "沙花叉クロヱ",
+    game: "MINDHACK",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【MINDHACK】悪人の脳内をお花畑に洗脳しちゃうぞ！ぽえぽえ～【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=U2qETvtqPgk", publishedDate: "2023-04-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-259",
+    title: "【Q REMASTERED】激ムズ物理演算パズル！シャチはかしこい…！！！はず………",
+    streamer: "沙花叉クロヱ",
+    game: "Q REMASTERED",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【Q REMASTERED】激ムズ物理演算パズル！シャチはかしこい…！！！はず………【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=rav7Gr38iRs", publishedDate: "2023-04-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-260",
+    title: "【アソビ大全】相性最悪な地獄のコラボが始まるようです…#ポルカオルカ",
+    streamer: "沙花叉クロヱ",
+    game: "世界のアソビ大全51",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【アソビ大全】相性最悪な地獄のコラボが始まるようです…#ポルカオルカ【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=zV9zrrYBiOM", publishedDate: "2023-03-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-261",
+    title: "バイオハザード ヴィレッジ 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "バイオハザード ヴィレッジ",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【#1】今時レアな完全初見プレイで神ストーリーと話題のバイオハザード ヴィレッジ！Resident Evil Village【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=C1D4AhmdRZM", publishedDate: "2023-02-04" },
+      { title: "【#2】ドミトレスク討伐後、今時レアな完全初見プレイで神ストーリーと話題のバイオハザード ヴィレッジ！Resident Evil Village【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=5OEcEz4FsPw", publishedDate: "2023-02-11" },
+      { title: "【#3】ついにハイゼンベルク戦へ！今時レアな完全初見プレイで神ストーリーと話題のバイオハザード ヴィレッジ！Resident Evil Village【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=rBPb6qTjRYM", publishedDate: "2023-02-26" },
+      { title: "【#4】ラスボス、ミランダ戦へ…今時レアな完全初見プレイで神ストーリーと話題のバイオハザード ヴィレッジ！Resident Evil Village【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=sWH5SmUwBzQ", publishedDate: "2023-03-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-262",
+    title: "【Melatonin】チルいリズムゲーで遊んでみる！",
+    streamer: "沙花叉クロヱ",
+    game: "Melatonin",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Melatonin】チルいリズムゲーで遊んでみる！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=D0hIluk1yl8", publishedDate: "2023-03-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-263",
+    title: "帰ってきた魔界村 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "帰ってきた魔界村",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【重大告知あり】遂に帰ってきた魔界村に挑戦…！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=9Qw2L4WIbBM", publishedDate: "2022-12-02" },
+      { title: "【鬼畜ゲー】絶対クリアする！帰ってきた魔界村に挑戦…！初見プレイ【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=STsbgmWNAzg", publishedDate: "2022-12-06" },
+      { title: "【2面クリア耐久】絶対にイライラしない帰ってきた魔界村！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=3BIVJ_qoOZA", publishedDate: "2022-12-30" },
+      { title: "【3面クリア耐久】絶対に叫んではいけない、おしとやかに帰ってきた魔界村！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=TTeopa_tO90", publishedDate: "2023-01-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-264",
+    title: "GeoGuessr 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "GeoGuessr",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【GeoGuessr】地図は読めず都道府県は言えず現在地すら指をさせないシャチ【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=6FSfScdgc6g", publishedDate: "2023-01-12" },
+      { title: "【GeoGuessr】観光地縛りなら地図読めなくてもいけます！(？)【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=XYFZnTzTyH4", publishedDate: "2023-01-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-265",
+    title: "マリオカート8 デラックス 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "マリオカート8 デラックス",
+    genre: "racing",
+    format: "multi",
+    videos: [
+      { title: "【マリカ8DX】9位以下即終了で大会練習だぁああああああああ【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=JpcS7BeHe2Y", publishedDate: "2022-12-27" },
+      { title: "【#ホロお正月CUP2023】Aチーム本番ジャイロオフ、ガチでおしとやかに挑みます！！！マリカ8DX【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=WklOPZAcU3A", publishedDate: "2023-01-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-266",
+    title: "バイオハザード7 レジデント イービル 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "バイオハザード7 レジデント イービル",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【バイオ7】超絶びびりのBIOHAZARD 7初見プレイ！RESIDENT EVIL#1【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=3lV_4bJm0Og", publishedDate: "2022-12-10" },
+      { title: "【バイオ7】超絶びびりのBIOHAZARD 7初見プレイ！土日クリア耐久！RESIDENT EVIL#2【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=FCOGONWkVZ8", publishedDate: "2022-12-17" },
+      { title: "【バイオ7】DLCのNot a hero初見プレイ！RESIDENT EVIL#3【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=FOVg9gzVhSg", publishedDate: "2022-12-18" },
+      { title: "【バイオ7】DLCのEND OF ZOE初見プレイ！RESIDENT EVIL#4【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=mdwu80_dxh8", publishedDate: "2022-12-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
+  },
+  {
+    id: "single-267",
+    title: "【A Little to the Left】部屋片づけたいのに猫が邪魔してくる！！！！",
+    streamer: "沙花叉クロヱ",
+    game: "A Little to the Left",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【A Little to the Left】部屋片づけたいのに猫が邪魔してくる！！！！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=CehiimRZ9Fk", publishedDate: "2022-12-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-22"
   }
 ];
