@@ -1394,6 +1394,9 @@ const GAMES = [
   { name: "Refind Self", kana: "りふぁいんどせるふ", series: "" },
   { name: "Starfield", kana: "すたーふぃーるど", series: "" },
   { name: "MINDHACK", kana: "まいんどはっく", series: "" },
+  { name: "1-2-Switch", kana: "わんつーすいっち", series: "任天堂のゲーム" },
+  { name: "おえかきの森", kana: "おえかきのもり", series: "" },
+  { name: "ラクガキ王国", kana: "らくがきおうこく", series: "" },
 ];
 
 /**

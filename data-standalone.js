@@ -3760,5 +3760,258 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-22"
+  },
+  {
+    id: "single-268",
+    title: "Minecraft 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【マイクラ】ぽんこつ二人の新生活！", url: "https://www.youtube.com/watch?v=USmBGqUDOfY", publishedDate: "2018-11-14" },
+      { title: "【マイクラ】お昼のまったりMinecraft！！Part２", url: "https://www.youtube.com/watch?v=MPRpZrPReYk", publishedDate: "2018-12-14" },
+      { title: "【マイクラ】ホロライブクラフト開会式！紫咲シオン視点【ホロライブサーバー】", url: "https://www.youtube.com/watch?v=7G1hSXQ6UkU", publishedDate: "2018-12-14" },
+      { title: "【マイクラ】洞窟から宝を探せ！！！！", url: "https://www.youtube.com/watch?v=zwGisN4dT0M", publishedDate: "2018-12-15" },
+      { title: "【マイクラ】お昼のまったりMinecraft！！", url: "https://www.youtube.com/watch?v=cGWHep9v94Q", publishedDate: "2018-12-17" },
+      { title: "【マイクラ】ホロサバにいたずらする…！？", url: "https://www.youtube.com/watch?v=4adUk5vt1L8", publishedDate: "2018-12-17" },
+      { title: "【マイクラ】お昼のまったりMinecraft！！", url: "https://www.youtube.com/watch?v=obydHQxxcx4", publishedDate: "2018-12-18" },
+      { title: "【マイクラ】お昼のまったりMinecraft！！", url: "https://www.youtube.com/watch?v=ouWTNgzOMT8", publishedDate: "2018-12-19" },
+      { title: "【マイクラ】午後のまったりMinecraft！！", url: "https://www.youtube.com/watch?v=RsGSiLgM9ec", publishedDate: "2018-12-22" },
+      { title: "【マイクラ】午後のまったりMinecraft！！クリスマス！！", url: "https://www.youtube.com/watch?v=w8DjCBqA-Q4", publishedDate: "2018-12-22" },
+      { title: "【マイクラ】午後のまったりMinecraft！！お正月！！", url: "https://www.youtube.com/watch?v=I8olmj8Q1lo", publishedDate: "2018-12-30" },
+      { title: "【マイクラ】午後のまったりMinecraft！！", url: "https://www.youtube.com/watch?v=1-dFua3_7Kw", publishedDate: "2018-12-31" },
+      { title: "【マイクラ】久しぶりのMinecraft！！いろいろ変わった？！", url: "https://www.youtube.com/watch?v=RvfNsXt466M", publishedDate: "2019-01-11" },
+      { title: "【マインクラフト】二人で初めての共同生活♡【#塩パン】", url: "https://www.youtube.com/watch?v=DKJiYe1NK_8", publishedDate: "2019-04-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-269",
+    title: "【悲報】友達が別売りだったから一人でやるｗｗｗｗ【1-2-Switch】",
+    streamer: "紫咲シオン",
+    game: "1-2-Switch",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【悲報】友達が別売りだったから一人でやるｗｗｗｗ【1-2-Switch】", url: "https://www.youtube.com/watch?v=HzKkFFc_Ldk", publishedDate: "2019-01-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-270",
+    title: "Getting Over It 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Getting Over It",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "鬼畜ゲー？はじめて壺おじさんと遊ぶ！！【getting over it】", url: "https://www.youtube.com/watch?v=3IXn0AqZzOs", publishedDate: "2019-01-19" },
+      { title: "鬼畜ゲー？壺おじさんをクリアしたい…【getting over it】", url: "https://www.youtube.com/watch?v=3s1GBZds7ZU", publishedDate: "2019-01-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-271",
+    title: "Tetris 99 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Tetris 99",
+    genre: "puzzle",
+    format: "multi",
+    videos: [
+      { title: "【TETRIS99】テトリスとかいう神ゲー。バトロワ！？", url: "https://www.youtube.com/watch?v=x_HQ6XlAPtA", publishedDate: "2019-02-19" },
+      { title: "【TETRIS99】神ゲーテトリスで遊ぶ。バトロワ！？", url: "https://www.youtube.com/watch?v=h_qNHxzMGRE", publishedDate: "2019-03-01" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-272",
+    title: "スプラトゥーン2 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "スプラトゥーン2",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【スプラトゥーン2】二人でまったりスプラする！！【#塩がゆ】", url: "https://www.youtube.com/watch?v=CHzP69GMs0s", publishedDate: "2019-04-07" },
+      { title: "【スプラトゥーン2】みんなでスプラトゥーンする！！", url: "https://www.youtube.com/watch?v=lSVETzAVQSI", publishedDate: "2019-04-10" },
+      { title: "【スプラ２】強くなりたいから練習する！！あやめちゃんと！", url: "https://www.youtube.com/watch?v=99TGtZ5vl30", publishedDate: "2019-04-28" },
+      { title: "【スプラトゥーン2】お昼からスプラ練習！！いろいろする！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=1mJ_1cReP6w", publishedDate: "2019-05-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-273",
+    title: "【おえかきの森】３人は絵を描けるのか…！？【#ねむい組】",
+    streamer: "紫咲シオン",
+    game: "おえかきの森",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【おえかきの森】３人は絵を描けるのか…！？【#ねむい組】", url: "https://www.youtube.com/watch?v=xriXDKKiQHs", publishedDate: "2019-04-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-274",
+    title: "【APEX】犬と魔女のチャンピオン物語。【#塩パン】",
+    streamer: "紫咲シオン",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【APEX】犬と魔女のチャンピオン物語。【#塩パン】", url: "https://www.youtube.com/watch?v=fgC5cUZStEc", publishedDate: "2019-04-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-275",
+    title: "【ラクガキ王国】画伯が王国作る！！",
+    streamer: "紫咲シオン",
+    game: "ラクガキ王国",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【ラクガキ王国】画伯が王国作る！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=X5GiAjAJm3I", publishedDate: "2019-05-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-276",
+    title: "UNDERTALE 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "UNDERTALE",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【UNDERTALE】シャチのアンダーテール【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=GMQMhfKsdjw", publishedDate: "2021-12-04" },
+      { title: "【UNDERTALE】#2 シャチのアンダーテール～こうどうを覚えた～【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=afhseq0JsJ8", publishedDate: "2021-12-11" },
+      { title: "【UNDERTALE】#3 パピルスに振られたシャチのアンダーテール【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=WdaNY0MXeFI", publishedDate: "2021-12-15" },
+      { title: "【UNDERTALE】Nルート最終回！シャチのアンダーテール 【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=9hgL70ttqpw", publishedDate: "2021-12-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-277",
+    title: "ポケットモンスター ブリリアントダイヤモンド・シャイニングパール 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "ポケットモンスター ブリリアントダイヤモンド・シャイニングパール",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ポケモンBD】初見2人でダイパリメイク並走！初心者トレーナー！【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=KPd2eJDDoWo", publishedDate: "2021-12-09" },
+      { title: "【ポケモンBD】初心者トレーナーがダイパリメイク初見プレイ！#2【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=lLePwU1Egck", publishedDate: "2021-12-12" },
+      { title: "【ポケモンBD】初心者トレーナーがダイパリメイク初見プレイ！#3【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=iWIdXnna5Cc", publishedDate: "2021-12-17" },
+      { title: "【ポケモンBD】初見プレイ！運PT作りつつバッジ3個目めざす！#4【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=0CP2tV62Ook", publishedDate: "2021-12-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-278",
+    title: "マリオカート8 デラックス 配信まとめ(2021年12月〜2022年2月)",
+    streamer: "沙花叉クロヱ",
+    game: "マリオカート8 デラックス",
+    genre: "racing",
+    format: "multi",
+    videos: [
+      { title: "【マリカ8DX】参加型で飼育員さんたちをぼこぼこにする！【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=rFeulkDGvao", publishedDate: "2021-12-26" },
+      { title: "【マリカ8DX】holoX最強は誰かを決める！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=hX8RoG3XpFg", publishedDate: "2021-12-28" },
+      { title: "【マリカ8DX】本気、見せちゃおっかなｗ【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=HLJGuyQNCRc", publishedDate: "2021-12-29" },
+      { title: "【マリカ8DX】参加型でholoXの集大成、見せつける【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=7prXmg5J7o0", publishedDate: "2022-01-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-279",
+    title: "Among Us 配信まとめ(2021年12月〜2022年2月)",
+    streamer: "沙花叉クロヱ",
+    game: "Among Us",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【AmongUs】全員お掃除☆アモングアス！ホロ宇宙人狼【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=nsC7yksOg5Q", publishedDate: "2021-12-29" },
+      { title: "【AmongUs】日本酒片手にほろ酔いアモングアス！よっぱっぱ～～【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=5DJo5Wz700U", publishedDate: "2022-02-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-280",
+    title: "【GettingOverIt】己の限界を越えていけ　新春壺おじ！",
+    streamer: "沙花叉クロヱ",
+    game: "Getting Over It",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【GettingOverIt】己の限界を越えていけ　新春壺おじ！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=cPOExVGRN28", publishedDate: "2022-01-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-281",
+    title: "Minecraft 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【Minecraft】#マイクラholoX初観光　ドキドキ【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=Bmzhm0qDMag", publishedDate: "2022-01-05" },
+      { title: "【Minecraft】EN鯖の初観光！英語で会話できるかな！？Hakos senpai and Mumei senpai yorosiku desu【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=4gAKkEhvwJ0", publishedDate: "2022-02-12" },
+      { title: "【Minecraft】初のソロマイクラ！スロット台を作る場所探す～！【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=VGP_fBBM7aw", publishedDate: "2022-02-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-282",
+    title: "【Raft】鮫のいる海上でサバイバル！#海犬フレンズ",
+    streamer: "沙花叉クロヱ",
+    game: "Raft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【Raft】鮫のいる海上でサバイバル！#海犬フレンズ【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=Th1Xki6PbZY", publishedDate: "2022-01-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-283",
+    title: "GREEN HELL 配信まとめ",
+    streamer: "沙花叉クロヱ",
+    game: "GREEN HELL",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【GREENHELL】アマゾンの奥地でサバイバル生活！【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=RoUW43iMLgQ", publishedDate: "2022-02-04" },
+      { title: "【GREENHELL】アマゾンの奥地で究極のサバイバル！#2【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=8MSVgT3_KVo", publishedDate: "2022-02-05" },
+      { title: "【GREENHELL】-最終回-物語をTRUEENDへ、ミアを救え【沙花叉クロヱ/ホロライブ】", url: "https://www.youtube.com/watch?v=kdixAMrEwhs", publishedDate: "2022-02-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
+  },
+  {
+    id: "single-284",
+    title: "【JumpKing】遂に初めてのジャンプキング！クリア目指すけど余裕っしょｗｗｗｗｗ",
+    streamer: "沙花叉クロヱ",
+    game: "Jump King",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【JumpKing】遂に初めてのジャンプキング！クリア目指すけど余裕っしょｗｗｗｗｗ【沙花叉クロヱ】", url: "https://www.youtube.com/watch?v=g4epc4Q0_bE", publishedDate: "2022-02-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-23"
   }
 ];
