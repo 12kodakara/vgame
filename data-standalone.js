@@ -3782,7 +3782,57 @@ const STANDALONE_PLAYS = [
       { title: "【マイクラ】午後のまったりMinecraft！！お正月！！", url: "https://www.youtube.com/watch?v=I8olmj8Q1lo", publishedDate: "2018-12-30" },
       { title: "【マイクラ】午後のまったりMinecraft！！", url: "https://www.youtube.com/watch?v=1-dFua3_7Kw", publishedDate: "2018-12-31" },
       { title: "【マイクラ】久しぶりのMinecraft！！いろいろ変わった？！", url: "https://www.youtube.com/watch?v=RvfNsXt466M", publishedDate: "2019-01-11" },
-      { title: "【マインクラフト】二人で初めての共同生活♡【#塩パン】", url: "https://www.youtube.com/watch?v=DKJiYe1NK_8", publishedDate: "2019-04-16" }
+      { title: "【マインクラフト】二人で初めての共同生活♡【#塩パン】", url: "https://www.youtube.com/watch?v=DKJiYe1NK_8", publishedDate: "2019-04-16" },
+      { title: "【Minecraft】いろいろ変わったらしいマイクラを遊ぶ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=dXfEhEoZAuM", publishedDate: "2019-05-21" },
+      { title: "【Minecraft】盗んだ物資で生活してく。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=DtSZCUZi3Ns", publishedDate: "2019-05-24" },
+      { title: "【Minecraft】宝石ほしい！まったり地下探索【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=7DVH-K-0lvA", publishedDate: "2019-06-01" },
+      { title: "【Minecraft】エンチャントしたい！宝石ほしい！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=aZIz9xgVn5s", publishedDate: "2019-06-04" },
+      { title: "【Minecraft】ダイヤ見つける！！最強PCでマイクラやるぞ～【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=cWE6VVgqiAs", publishedDate: "2019-06-08" },
+      { title: "【Minecraft】まったり地下探索！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=LfXRi2dZ-mA", publishedDate: "2019-06-16" },
+      { title: "【Minecraft】自由な3人で共同生活！？マイクラ！【ホロライブ/紫咲シオン/猫又おかゆ/戌神ころね】", url: "https://www.youtube.com/watch?v=vkXu6pmIGig", publishedDate: "2019-06-23" },
+      { title: "【Minecraft】寝起きのマイクラ！ここをキャンプ地とする！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=pJEpfwm5F4M", publishedDate: "2019-08-14" },
+      { title: "【Minecraft】ゆるーいマイクラ！気づいたら略奪者と戦ってた。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=k7hsPgmbPJI", publishedDate: "2019-08-18" },
+      { title: "【Minecraft】ゆるーいマイクラ！今日こそ豪邸を建てるぞ～！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ETJID1ptHNw", publishedDate: "2019-08-20" },
+      { title: "【Minecraft】これぞ青春。まったりマイクラ生活！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=_iy9rSG7exw", publishedDate: "2019-08-24" },
+      { title: "【Minecraft】激レア！茶色のパンダ探し！！#ホロ鯖【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=bEdcE5SVT8c", publishedDate: "2019-09-01" },
+      { title: "【Minecraft】ダイヤを求めて三千里。マグマプールだぁ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=5jx6U6KMB0c", publishedDate: "2019-09-07" },
+      { title: "【Minecraft】新ホロ鯖！！大冒険の始まりだー！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=rRHMdn3b0z0", publishedDate: "2019-10-12" },
+      { title: "【Minecraft】新ホロ鯖！！裕福な暮らしを目指して・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=rAPqbIpDFy4", publishedDate: "2019-10-14" },
+      { title: "【Minecraft】新ホロ鯖！！新居祝いにダイヤがほしい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=wL7O-tjVVao", publishedDate: "2019-10-15" },
+      { title: "【Minecraft】新ホロ鯖！初エンチャントがしたい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=pVAL7QIdE74", publishedDate: "2019-10-17" },
+      { title: "【Minecraft】地図を持って冒険したい！！ホロ鯖旅行！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=k5-H-OQlxP0", publishedDate: "2019-10-21" },
+      { title: "【Minecraft】幸運をみて！！！ダイヤ掘ります！！はろうぃ～ん...。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=IzLFydkjilg", publishedDate: "2019-10-26" },
+      { title: "【Minecraft】綺麗すぎて一同涙！！衝撃の観光＆まったり釣り。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=9Oia0bhZqYs", publishedDate: "2019-10-29" },
+      { title: "【Minecraft】ネザーへ行きたい！訴えられるってマ...！？【ホロライブ】", url: "https://www.youtube.com/watch?v=HeSoHcsFIvE", publishedDate: "2019-11-04" },
+      { title: "【Minecraft】綺麗な海が見たい！旅に行く！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=A7-kErzNSB4", publishedDate: "2019-11-22" },
+      { title: "【Minecraft】新バージョンで蜂さんに会いに行く！！🐝【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=-hBnf6kMhzo", publishedDate: "2019-12-13" },
+      { title: "【Minecraft】地獄の生活も悪くない！こっそり生活。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=FDjRW3pLcoU", publishedDate: "2019-12-15" },
+      { title: "【Minecraft】もうすぐクリスマス！！気分はサンタさんで準備する！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=EJehZDVuYvU", publishedDate: "2019-12-20" },
+      { title: "【Minecraft】おはようのマイクラ！！クリスマス計画実行！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=JwVHrMby5Y0", publishedDate: "2019-12-20" },
+      { title: "【Minecraft】ネザーリベンジ！！今度こそここで生きてく！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Fd8Pdq535F8", publishedDate: "2019-12-23" },
+      { title: "【Minecraft】新春🌸今年の運試し！！お話ししながら掘るぞ～！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=cr0VSEVbdA4", publishedDate: "2020-01-02" },
+      { title: "【Minecraft】ポーションを作りたい！！いざ地獄の戦いへ…【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=gFTGvYhu0kc", publishedDate: "2020-01-06" },
+      { title: "【Minecraft】伝説のコラボ！！協力して鏡餅を作れるのか...！？【#塩パン/紫咲シオン/戌神ころね】", url: "https://www.youtube.com/watch?v=wqV1LZgD5xo", publishedDate: "2020-01-08" },
+      { title: "【Minecraft】資材鯖に行けず大事件が起こりました。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=U6GmImloQ0U", publishedDate: "2020-01-16" },
+      { title: "【Minecraft】家爆発したし…秘密基地に住む！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Ip0n1rVzFEk", publishedDate: "2020-01-17" },
+      { title: "【Minecraft】目指せ地下帝国！！贅沢な暮らしを目指して…。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=YbMimadqwXg", publishedDate: "2020-01-19" },
+      { title: "【Minecraft】欲しいものはお宝！！お宝求めて出発だ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=W-6ohKTfVVE", publishedDate: "2020-01-21" },
+      { title: "【Minecraft】未開拓の地で海底探索！！海賊王になる！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=SWWzFL9K9cw", publishedDate: "2020-01-23" },
+      { title: "【Minecraft】いざ、ジャングルへ！！トライデント最強！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=IphUs0dkZuI", publishedDate: "2020-01-26" },
+      { title: "【Minecraft】ゼロから始めるハードコアの世界。死んだら即終了！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Z4jtrc5oYH8", publishedDate: "2020-01-28" },
+      { title: "【Minecraft】久しぶりのマイクラ！！！地下探索でダイヤ見つけるぞ～！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=7FIBbQhcMsM", publishedDate: "2020-03-18" },
+      { title: "【Minecraft】ホロ鯖！！失われた記憶を取り戻せ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=FtjZ9uyMe0Q", publishedDate: "2020-05-27" },
+      { title: "【Minecraft】ホロ鯖！！深夜のまったり地下探検！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=mTK7tbCH7DI", publishedDate: "2020-06-02" },
+      { title: "【Minecraft】深夜のおしゃべり地下探検！！掘れ…！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=cOo7hsUDR8A", publishedDate: "2020-07-23" },
+      { title: "【マインクラフト】久々深夜のマイクラ作業！！プチ報告も！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=bpu2gHmluCA", publishedDate: "2020-09-18" },
+      { title: "【Minecraft】深夜のマイクラ！！お引越し大作戦だぁ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=I7Z3Ti8gZfc", publishedDate: "2020-09-24" },
+      { title: "【Minecraft】深夜のホロ鯖！！新居作りする！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=5HIRys4QTT0", publishedDate: "2020-09-26" },
+      { title: "【Minecraft】ホロ鯖新居内装作り！！！完成目指して✨【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=-aslVdSaAfU", publishedDate: "2020-09-28" },
+      { title: "【Minecraft】深夜のホロ鯖探検！！ん・・・？なにこれ。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=5GUb02JMabg", publishedDate: "2020-10-01" },
+      { title: "【Minecraft】深夜のホロ鯖！！まったりマイクラ✨【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=CsLhIyGyVjk", publishedDate: "2020-10-14" },
+      { title: "【Minecraft】ホロ鯖マイクラ！！何が起こるかな～！？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=nnPvwD2aT08", publishedDate: "2020-10-18" },
+      { title: "【Minecraft】久しぶりのホロ鯖！！エンドへ行きたい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=A2io0-_aM7E", publishedDate: "2020-11-16" },
+      { title: "【Minecraft】50万人行くまでひたすら掘る…！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=6GCEK54QoDc", publishedDate: "2020-11-23" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-23"
@@ -3809,7 +3859,11 @@ const STANDALONE_PLAYS = [
     format: "multi",
     videos: [
       { title: "鬼畜ゲー？はじめて壺おじさんと遊ぶ！！【getting over it】", url: "https://www.youtube.com/watch?v=3IXn0AqZzOs", publishedDate: "2019-01-19" },
-      { title: "鬼畜ゲー？壺おじさんをクリアしたい…【getting over it】", url: "https://www.youtube.com/watch?v=3s1GBZds7ZU", publishedDate: "2019-01-21" }
+      { title: "鬼畜ゲー？壺おじさんをクリアしたい…【getting over it】", url: "https://www.youtube.com/watch?v=3s1GBZds7ZU", publishedDate: "2019-01-21" },
+      { title: "【壺男】みてぇ！！じょーずでしょ？？いらいらしない！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=oUDVqAF4opk", publishedDate: "2020-04-20" },
+      { title: "【壺男】暴言言ったら即終了！？清楚にクリア目指す！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=pgZI9o9Ig5U", publishedDate: "2020-04-28" },
+      { title: "【壺男】まだ見ぬ世界へ・・！！眠くなるまで壺おじさん！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=mhpnXoZnSEc", publishedDate: "2020-07-06" },
+      { title: "【壺男】壺おじクリア耐久！！今日は勝つ・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=-C_mc22cz-o", publishedDate: "2020-07-24" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-23"
@@ -3823,7 +3877,8 @@ const STANDALONE_PLAYS = [
     format: "multi",
     videos: [
       { title: "【TETRIS99】テトリスとかいう神ゲー。バトロワ！？", url: "https://www.youtube.com/watch?v=x_HQ6XlAPtA", publishedDate: "2019-02-19" },
-      { title: "【TETRIS99】神ゲーテトリスで遊ぶ。バトロワ！？", url: "https://www.youtube.com/watch?v=h_qNHxzMGRE", publishedDate: "2019-03-01" }
+      { title: "【TETRIS99】神ゲーテトリスで遊ぶ。バトロワ！？", url: "https://www.youtube.com/watch?v=h_qNHxzMGRE", publishedDate: "2019-03-01" },
+      { title: "【テトリス９９】１位を目指して！！ボコボコにする！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=P6PL8zW2tR4", publishedDate: "2019-12-22" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-23"
@@ -3839,7 +3894,8 @@ const STANDALONE_PLAYS = [
       { title: "【スプラトゥーン2】二人でまったりスプラする！！【#塩がゆ】", url: "https://www.youtube.com/watch?v=CHzP69GMs0s", publishedDate: "2019-04-07" },
       { title: "【スプラトゥーン2】みんなでスプラトゥーンする！！", url: "https://www.youtube.com/watch?v=lSVETzAVQSI", publishedDate: "2019-04-10" },
       { title: "【スプラ２】強くなりたいから練習する！！あやめちゃんと！", url: "https://www.youtube.com/watch?v=99TGtZ5vl30", publishedDate: "2019-04-28" },
-      { title: "【スプラトゥーン2】お昼からスプラ練習！！いろいろする！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=1mJ_1cReP6w", publishedDate: "2019-05-20" }
+      { title: "【スプラトゥーン2】お昼からスプラ練習！！いろいろする！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=1mJ_1cReP6w", publishedDate: "2019-05-20" },
+      { title: "【スプラトゥーン2】ファイナルフェス！我、混沌なり。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=AqLUvuRFjHU", publishedDate: "2019-07-21" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-23"
@@ -3859,13 +3915,26 @@ const STANDALONE_PLAYS = [
   },
   {
     id: "single-274",
-    title: "【APEX】犬と魔女のチャンピオン物語。【#塩パン】",
+    title: "Apex Legends 配信まとめ",
     streamer: "紫咲シオン",
     game: "Apex Legends",
     genre: "fps",
-    format: "single",
+    format: "multi",
     videos: [
-      { title: "【APEX】犬と魔女のチャンピオン物語。【#塩パン】", url: "https://www.youtube.com/watch?v=fgC5cUZStEc", publishedDate: "2019-04-26" }
+      { title: "【APEX】犬と魔女のチャンピオン物語。【#塩パン】", url: "https://www.youtube.com/watch?v=fgC5cUZStEc", publishedDate: "2019-04-26" },
+      { title: "【APEX】二人なら余裕だよね！！ドン勝したい！！【ホロライブ/紫咲シオン/湊あくあ】", url: "https://www.youtube.com/watch?v=QvtGz052dC0", publishedDate: "2020-04-10" },
+      { title: "【APEX】ランクアップ修行の旅！！クナイ見てえええ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UtAT7oCuvyY", publishedDate: "2020-04-29" },
+      { title: "【APEX】紫龍組のラブラブ戦場デート💓いくぞおおおお！！！【ホロライブ/紫咲シオン/桐生ココ】", url: "https://www.youtube.com/watch?v=kPBS_WjgZsI", publishedDate: "2020-05-01" },
+      { title: "【APEX】目指せランクアップ！！大切なのは優しい気持ち…。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=W8rvli4EM-k", publishedDate: "2020-05-04" },
+      { title: "【APEX】塩がゆ仲良しAPEX！！チャンピオンになりたい！！【ホロライブ/紫咲シオン/猫又おかゆ】", url: "https://www.youtube.com/watch?v=FWW3kMrO6xA", publishedDate: "2020-05-07" },
+      { title: "【APEX】いざ戦場へ！！今日は勝てる気がする！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=mBEJskRG0HU", publishedDate: "2020-05-11" },
+      { title: "【APEX】新シーズン突入！！まったりお昼のあぺ活！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=GVP0Gdl5TIQ", publishedDate: "2020-05-14" },
+      { title: "【APEX】あくしお💓二人でチャンピオンになるんだ・・！！【紫咲シオン/湊あくあ】", url: "https://www.youtube.com/watch?v=uduvRJEZ2Fg", publishedDate: "2020-05-17" },
+      { title: "【APEX】あくしお💓二人でチャンピオンになるんだ・・！！【紫咲シオン/湊あくあ】", url: "https://www.youtube.com/watch?v=AeBNEdEpD_E", publishedDate: "2020-05-17" },
+      { title: "【APEX】100連ガチャ回す！！スパレジェがほしい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=1gz3Wf9yNa0", publishedDate: "2020-05-20" },
+      { title: "【APEX】ねむい組でチャンピオン目指す！！！ぶんぶん！！【紫咲シオン/戌神ころね/猫又おかゆ】", url: "https://www.youtube.com/watch?v=GmCtI235oL0", publishedDate: "2020-06-01" },
+      { title: "【APEX】今シーズン初のAPEX！！楽しむぞぞぞ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=eFvXO-5Ggzk", publishedDate: "2020-09-06" },
+      { title: "【APEX】久しぶりのAPEX練習！！勝ちたーい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=8A0AGgj7XQ8", publishedDate: "2020-10-17" }
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-23"
@@ -4013,5 +4082,610 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-23"
+  },
+  {
+    id: "single-285",
+    title: "ARK: Survival Evolved 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ARK: Survival Evolved",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【ARK】初めての恐竜の世界！！ホロ鯖に参上！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=KfZhXF_6HiY", publishedDate: "2020-01-29" },
+      { title: "【ARK】これがサバイバルの世界！！お家作って生き残りたい。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Y_j2C4YuzkI", publishedDate: "2020-01-30" },
+      { title: "【ARK】空を飛んで大冒険！！仲間を増やして生きる！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=37ryjzY9PE0", publishedDate: "2020-01-31" },
+      { title: "【ARK】肉食恐竜捕獲目指して協力💓初コラボ！！【ホロライブ/紫咲シオン/桐生ココ】", url: "https://www.youtube.com/watch?v=PDvxKio33vA", publishedDate: "2020-02-03" },
+      { title: "【ARK】健康的に生きるには、農業だ！！※そしてペット探し【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=4FKPnxFn_T0", publishedDate: "2020-02-04" },
+      { title: "【ARK】1時間以内にアルゲン捕獲できるのか....！？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=AvP0HKf3GkI", publishedDate: "2020-02-07" },
+      { title: "【ARK】ワイバーンの卵を盗みたい！！泥棒します！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=YA_BXtzBeJk", publishedDate: "2020-02-09" },
+      { title: "【ARK】盗んだワイバーンの卵を孵化！！そしてママになる。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=kRX9O98XA8I", publishedDate: "2020-02-11" },
+      { title: "【ARK】バレンタインイベント！？ペットほしい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=qagcNPM1uLo", publishedDate: "2020-02-13" },
+      { title: "【ARK】空を飛んでまだ見ぬ世界へ！！とまらないバレンタイン💘【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=fGcbm4NQX3k", publishedDate: "2020-02-15" },
+      { title: "【ARK】意のままに、ただやるんだ。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=AHOcQ5LzFOI", publishedDate: "2020-02-18" },
+      { title: "【ARK】トラウマの雪山へ！！！いざ参る！！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=WaJGz0QJXdI", publishedDate: "2020-02-20" },
+      { title: "【#紫龍組】これが新しいARK！！新世界アベレーションで生き抜く…！！【ホロライブ/紫咲シオン/桐生ココ】", url: "https://www.youtube.com/watch?v=LsvoHAs3XSA", publishedDate: "2020-03-24" },
+      { title: "【 #ホロARK探検隊 】ARKの世界にあくしお参戦！！大冒険💓【ホロライブ/紫咲シオン/湊あくあ】", url: "https://www.youtube.com/watch?v=Ws7_UWFc8Ps", publishedDate: "2020-07-05" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-286",
+    title: "あつまれ どうぶつの森 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "あつまれ どうぶつの森",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【あつまれどうぶつの森】無人島生活スタート！？全力で楽しむぞおおお！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=PCHRyqhMA1c", publishedDate: "2020-03-20" },
+      { title: "【あつまれどうぶつの森】無人島生活2日目！！いろいろできるし冒険する！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=HUb0DjnItis", publishedDate: "2020-03-21" },
+      { title: "【あつまれどうぶつの森】のんびり島めぐり！！発展した島を見て👀【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Xkij4PL68bg", publishedDate: "2020-03-22" },
+      { title: "【あつまれどうぶつの森】進化しすぎた島！！たくさんお金ほしい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=d75033fOLKI", publishedDate: "2020-03-25" },
+      { title: "【あつまれどうぶつの森】みんな集合な！！５人で遊ぶよおおお！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=R6W2R9pcUqo", publishedDate: "2020-03-27" },
+      { title: "【あつまれどうぶつの森】視聴者の島に凸撃！！何しちゃおうかな～！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zOhRadU27Z4", publishedDate: "2020-03-29" },
+      { title: "【あつまれどうぶつの森】視聴者の島に凸撃！！自慢の島募集！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=U9utuYNLjxg", publishedDate: "2020-04-02" },
+      { title: "【あつまれどうぶつの森】みてみてイースター！！島を工事で可愛くする！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=fbMnI29059Y", publishedDate: "2020-04-04" },
+      { title: "【あつまれどうぶつの森】おしゃれな島を目指して！！島を工事する！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=uan1WtkGOKg", publishedDate: "2020-04-05" },
+      { title: "【あつ森】視聴者の島に行く！！可愛いもの強奪作戦！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=2oN7l9pFoe0", publishedDate: "2020-04-09" },
+      { title: "【あつ森】住民ガチャできずブサイクに敗北しました。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=OvuBdYIFpvM", publishedDate: "2020-04-14" },
+      { title: "【あつ森】美女がほしい！！リベンジ住民ガチャ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ZUUCuP6_9aY", publishedDate: "2020-04-16" },
+      { title: "【あつ森】離島住民ガチャ！！たくさんガチャしたいなぁ！？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UuREbjAFRYU", publishedDate: "2020-04-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-287",
+    title: "スーパーマリオメーカー2 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "スーパーマリオメーカー2",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【マリオメーカー2】初めてのマリオメーカーで遊ぶ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=K2HzS88b3h0", publishedDate: "2019-06-28" },
+      { title: "【マリオメーカー2】レート戦があるってマジ！？やるしかない！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=j3ABkYdb838", publishedDate: "2019-07-02" },
+      { title: "【マリオメーカー2】進捗どうですか？鬼畜コースできました！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=diMGmWgWV-o", publishedDate: "2019-07-03" },
+      { title: "【マリオメーカー2】レート戦でランクアップ目指して勝負！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=RWOKYNRdfno", publishedDate: "2019-07-05" },
+      { title: "【マリオメーカー2】レートBに行きたい！！トラウマメーカー。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UkYluFsHAI4", publishedDate: "2019-07-11" },
+      { title: "【マリオメーカー2】許してください...！！鬼畜なキノコの言うことを聞く。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zPUBxI70eJI", publishedDate: "2019-07-19" },
+      { title: "【マリオメーカー2】難しいの？余裕～！！みんなのおすすめコースをやる！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Ixy6uGPEFC4", publishedDate: "2019-07-22" },
+      { title: "【マリオメーカー2】なんでもかかってこい～？みんなのおすすめコース遊ぶ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=6ShksPR2E5I", publishedDate: "2019-07-25" },
+      { title: "【マリオメーカー2】どんなコースもクリアする！みんなのおすすめコースで遊ぶ！#3【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=esc-KM_Femw", publishedDate: "2019-08-08" },
+      { title: "【マリオメーカー2】Vtuberの作ったコース？上等だぁ！クリアする！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=3VGAXfsNHZA", publishedDate: "2019-08-13" },
+      { title: "【マリオメーカー2】世界を倒しにきた！！クリアするぞぉ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=EpeibchzFss", publishedDate: "2019-08-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-288",
+    title: "マリオカート8 デラックス 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "マリオカート8 デラックス",
+    genre: "racing",
+    format: "multi",
+    videos: [
+      { title: "【マリオカート８DX】運転初心者の７位以下即終了！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=uUpMYuyTOuA", publishedDate: "2019-05-23" },
+      { title: "【マリオカート８DX】運転初心者悲しみの練習【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=gDGmVpLw808", publishedDate: "2019-05-23" },
+      { title: "【マリオカート８DX】１０位以下で即終了！！これならいけるはず…。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=boLCZp6Zq7E", publishedDate: "2019-05-30" },
+      { title: "【マリオカート8デラックス】１位とる！勝利の味が知りたいなぁｗｗｗ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=lr7SC-H5ioc", publishedDate: "2019-10-20" },
+      { title: "【マリオカート８DX】そろそろ本気で１位がとりたい！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=YIoFbsoSJxM", publishedDate: "2019-10-28" },
+      { title: "【マリオカート８DX】野生の兎と負けられない戦い...！！【ホロライブ】", url: "https://www.youtube.com/watch?v=r4gQLGG_PQY", publishedDate: "2019-11-01" },
+      { title: "【マリオカート8DX】7位以下で即終了！？まあ1時間余裕っしょwww【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=GBewqO88DY8", publishedDate: "2020-01-12" },
+      { title: "【マリオカート8DX】7位で即終了雑談！！負けました。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=RCYCpQAOUAM", publishedDate: "2020-01-18" },
+      { title: "【マリオカート8DX】7位以下で〇〇になる！！負けられない視聴者参加型！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=tqrgGmGRYE4", publishedDate: "2020-03-31" },
+      { title: "【マリオカート8DX】負けられない！！久しぶりでも1時間なんて余裕！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=24jI9oLhsc4", publishedDate: "2020-05-10" },
+      { title: "【マリオカート8DX】7位以下で即終了するマリオカート・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zKTwcNjXT3U", publishedDate: "2020-09-01" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-289",
+    title: "ポケットモンスター ソード・シールド 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "ポケットモンスター ソード・シールド",
+    genre: "rpg",
+    format: "multi",
+    videos: [
+      { title: "【ポケモンシールド】新しい冒険の始まり。いくぞ！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=D3x6qnLiZUw", publishedDate: "2019-11-15" },
+      { title: "【ポケモンシールド】ポケモンマスターになる！殿堂入り耐久！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=KpUpx-bMZcs", publishedDate: "2019-11-17" },
+      { title: "【ポケモンシールド】負けられない戦い。湊あくあが勝負をしかけてきた！【紫咲シオン/湊あくあ】", url: "https://www.youtube.com/watch?v=rlkzDlVCC8I", publishedDate: "2019-11-24" },
+      { title: "【ポケモンシールド】はじめてのランクバトル！4vヒンバス配布する！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UNmJuqg2a78", publishedDate: "2019-11-25" },
+      { title: "【ポケモンシールド】初心者ランクバトル！対戦に慣れて強くなりたい！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ZOmiX8sL2yI", publishedDate: "2019-11-29" },
+      { title: "【ポケモンシールド】ランクアップ目指してバトル！！脳筋パルシェン最強！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=fE4rWdT_mR0", publishedDate: "2019-12-10" },
+      { title: "【ポケモンシールド】もうすぐマスボ級！？目指すはランクアップ！！やっぱパルシェンなんだよなぁ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=d9NwD00CX20", publishedDate: "2019-12-12" },
+      { title: "【ポケモンシールド】マスボ級到達！！順位アップめざしてレート戦！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=cQFpPT9tgR8", publishedDate: "2019-12-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-290",
+    title: "みんなのリズム天国 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "みんなのリズム天国",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【みんなのリズム天国】初挑戦！リズム感はあるのか...！？重大告知も！【#紫咲シオン3D】", url: "https://www.youtube.com/watch?v=cCFE-TWNfIw", publishedDate: "2019-07-28" },
+      { title: "【みんなのリズム天国】真の最強リズム感を見せつける！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=u6GjCMhDrSg", publishedDate: "2019-08-07" },
+      { title: "【みんなのリズム天国】これが最大の敵。リズムに勝つ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=B2fGh1i3_tE", publishedDate: "2019-08-19" },
+      { title: "【みんなのリズム天国】1番苦手なゲーム。実質鬱ゲーに勝ちます。※最後に告知あり！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=KG9gogCrUp0", publishedDate: "2019-08-22" },
+      { title: "【みんなのリズム天国】最も苦手なゲーム。クリアを目指して...！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=zobHIBDsEW0", publishedDate: "2019-08-28" },
+      { title: "【リズム天国】長い地獄も今日で終わり！！苦手ゲームクリア目指す！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=u3LKNwKwVJM", publishedDate: "2019-09-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-291",
+    title: "スーパーマリオワールド 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "スーパーマリオワールド",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【マリオワールド】超有名アクションゲーム！初見プレイ！#1【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Z8AV-ScXi24", publishedDate: "2019-06-20" },
+      { title: "【マリオワールド】超有名アクションゲーム！初見プレイ！#2【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=keqLKSy3TRE", publishedDate: "2019-06-22" },
+      { title: "【マリオワールド】超有名アクションゲーム！激ムズ！！#3【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=cJv2ADbYa2U", publishedDate: "2019-06-25" },
+      { title: "【マリオワールド】絶対ゲームの腕も上がったしクリア余裕っしょ！！#4【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=tDyewy3ue6Y", publishedDate: "2019-07-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-292",
+    title: "大乱闘スマッシュブラザーズ SPECIAL 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "大乱闘スマッシュブラザーズ SPECIAL",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【スマブラSP】視聴者参加型！！半年ぶりのスマブラ余裕すぎwww【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=HrLZwBu7c-0", publishedDate: "2020-01-04" },
+      { title: "【スマブラSP】みんなで仲良く！！視聴者わからせスマブラ大会！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=EsAkZTMpB6A", publishedDate: "2020-01-20" },
+      { title: "【スマブラSP】視聴者参加型バトル！！目指すは5勝！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=2EPBZFj9wFc", publishedDate: "2020-02-06" },
+      { title: "【スマブラSP】視聴者参加型！！優しくしてください。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=tUo-HJCBWVI", publishedDate: "2020-10-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-293",
+    title: "Fall Guys 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Fall Guys",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【FallGuys】初見！！1位目指して頑張るぞおお！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=nuQPZXGAgY8", publishedDate: "2020-08-19" },
+      { title: "【FallGuys】1位になりたああああい！！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=OWCJMKkhzBA", publishedDate: "2020-08-30" },
+      { title: "【FallGuys】4人の絆で1位目指すっ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=BXlRQrSM6O4", publishedDate: "2020-10-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-294",
+    title: "slither.io 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "slither.io",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【Slither.io】世界1位になる！！！！ミミズ界の美女です。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=RBVqMNjvOj8", publishedDate: "2020-03-23" },
+      { title: "【Slither.io】今日こそ世界とる！！リベンジミミズ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=9ZjfpN9LYPo", publishedDate: "2020-03-28" },
+      { title: "【Slither.io】成長しました！！美少女ミミズ最終回…！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=i8qHspqLZg4", publishedDate: "2020-04-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-295",
+    title: "Craftopia 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "Craftopia",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【クラフトピア】なんでもできる世界！？初見プレイ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=8uKTkhUEMd4", publishedDate: "2020-09-14" },
+      { title: "【クラフトピア】仲間が欲しい！！深夜探検するぞ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Geyhx1nG9N0", publishedDate: "2020-09-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-296",
+    title: "おどる メイド イン ワリオ 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "おどる メイド イン ワリオ",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【おどるメイドインワリオ】座っててもダンスできます！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=OC3UMNlu1rI", publishedDate: "2019-10-07" },
+      { title: "【おどるメイドインワリオ】鋼の意思で立たないプロダンサーです！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=-lr74qvkwi8", publishedDate: "2019-10-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-297",
+    title: "雀魂 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "雀魂",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【雀魂】初心者麻雀！！絶対に怒らないでください・・・【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=UDBDPav3m3Q", publishedDate: "2020-07-21" },
+      { title: "【雀魂】ホロメン4人で麻雀！！初心者女子会💓【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=F-CyFM49hm4", publishedDate: "2020-07-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-298",
+    title: "世界のアソビ大全51 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "世界のアソビ大全51",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【世界のアソビ大全51】かかってこい！！深夜のアソビの時間✨【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=-rytDKpD_BA", publishedDate: "2020-08-22" },
+      { title: "【世界のアソビ大全51】アソビだって負けられない・・！！あくしお対決🔥【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=eT0KVQCgArY", publishedDate: "2020-08-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-299",
+    title: "魔女の家 配信まとめ",
+    streamer: "紫咲シオン",
+    game: "魔女の家",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【魔女の家】初見プレイ！！魔女の家にお邪魔する！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=qbMmwg43xJ8", publishedDate: "2020-04-17" },
+      { title: "【魔女の家】初見プレイ！！怖すぎる家から脱出したい！！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=kymzBHvOJQ0", publishedDate: "2020-04-19" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-300",
+    title: "【1-2-Switch】負けたら服従！？てぇてぇ3Dコラボ！【#シオたま3D】",
+    streamer: "紫咲シオン",
+    game: "1-2-Switch",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【1-2-Switch】負けたら服従！？てぇてぇ3Dコラボ！【#シオたま3D】", url: "https://www.youtube.com/watch?v=qyW9bW2Ydac", publishedDate: "2019-07-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-301",
+    title: "【60seconds!】60秒で生死が決まる！家族を救いたい。【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "60 Seconds!",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【60seconds!】60秒で生死が決まる！家族を救いたい。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=D4ka04CDHWg", publishedDate: "2019-12-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-302",
+    title: "【7Days to Die】夜を乗り越えて生き残る！！ホロ鯖暮し！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "7 Days to Die",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【7Days to Die】夜を乗り越えて生き残る！！ホロ鯖暮し！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=jDjWHSKsXo4", publishedDate: "2020-02-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-303",
+    title: "【home sweet home】超ビビりが限界まで頑張るホラーゲーム。【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "HOME SWEET HOME",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【home sweet home】超ビビりが限界まで頑張るホラーゲーム。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=kOZo-lf_EIU", publishedDate: "2020-01-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-304",
+    title: "【KIDS】キッズの人生。ガキが・・・！！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "KIDS",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【KIDS】キッズの人生。ガキが・・・！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=FDT3CoKgfsk", publishedDate: "2020-07-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-305",
+    title: "【Maneater】話題のサメのゲーム！？最強のサメになるぞぉ！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "Maneater",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【Maneater】話題のサメのゲーム！？最強のサメになるぞぉ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=1GSP2lB9UaY", publishedDate: "2020-06-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-306",
+    title: "【PIEN】ぴえんに追いかけられるホラゲー🥺【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "PIEN",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【PIEN】ぴえんに追いかけられるホラゲー🥺【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=fdJ6BBOPtIQ", publishedDate: "2020-06-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-307",
+    title: "【Plug & Play】謎すぎるプラグの人生・・・。【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "Plug & Play",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Plug & Play】謎すぎるプラグの人生・・・。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ao78lYcXNPI", publishedDate: "2020-07-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-308",
+    title: "【Project Winter】ホロライブプロジェクトウィンター！雪山人狼！？【ホロライブ/紫咲シオン視点】",
+    streamer: "紫咲シオン",
+    game: "Project Winter",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【Project Winter】ホロライブプロジェクトウィンター！雪山人狼！？【ホロライブ/紫咲シオン視点】", url: "https://www.youtube.com/watch?v=nZTnczM3QsQ", publishedDate: "2019-07-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-309",
+    title: "【UNO】3人でUNO真剣対決！！【ホロライブ/紫咲シオン/猫又おかゆ/戌神ころね】",
+    streamer: "紫咲シオン",
+    game: "UNO",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【UNO】3人でUNO真剣対決！！【ホロライブ/紫咲シオン/猫又おかゆ/戌神ころね】", url: "https://www.youtube.com/watch?v=LWpntGLC2hE", publishedDate: "2019-06-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-310",
+    title: "【VALORANT】好きなことやラント～！！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "VALORANT",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "【VALORANT】好きなことやラント～！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=_xBNnrJBIKk", publishedDate: "2020-06-06" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-311",
+    title: "【#アズールレーン】幸運を見せつける！ホロ艦絶対コンプする！！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "アズールレーン",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#アズールレーン】幸運を見せつける！ホロ艦絶対コンプする！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=EbNU_CGkC7o", publishedDate: "2019-11-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-312",
+    title: "【お絵かきの森】神絵師と画伯のお絵かき！？視聴者参加型！！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "おえかきの森",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【お絵かきの森】神絵師と画伯のお絵かき！？視聴者参加型！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=9WbBuKfAoJQ", publishedDate: "2020-07-19" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-313",
+    title: "【スーパードンキーコング】はじめてお猿さん達と遊ぶ！ウキッw【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "スーパードンキーコング",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【スーパードンキーコング】はじめてお猿さん達と遊ぶ！ウキッw【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=uCk-SOyNvoU", publishedDate: "2019-06-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-314",
+    title: "【スーパーマリオ64】 Let's Goマリオ！！ガチ初見で楽しむぞ！！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "スーパーマリオ64",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【スーパーマリオ64】 Let's Goマリオ！！ガチ初見で楽しむぞ！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=Ywg19wEg_DQ", publishedDate: "2020-09-19" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-315",
+    title: "【マリオ35】バトロワのマリオ！？目指すは1位！！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "スーパーマリオブラザーズ35",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【マリオ35】バトロワのマリオ！？目指すは1位！！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=sYvKXfTLj4o", publishedDate: "2020-10-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-316",
+    title: "【#るしおん】仲良しいちゃラブどうぶつタワーバトル！！【ホロライブ/紫咲シオン/潤羽るしあ】",
+    streamer: "紫咲シオン",
+    game: "どうぶつタワーバトル",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#るしおん】仲良しいちゃラブどうぶつタワーバトル！！【ホロライブ/紫咲シオン/潤羽るしあ】", url: "https://www.youtube.com/watch?v=nRbgITUTwzE", publishedDate: "2020-07-09" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-317",
+    title: "【どうぶつの森＋】村長になりたかった。【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "どうぶつの森+",
+    genre: "sim",
+    format: "single",
+    videos: [
+      { title: "【どうぶつの森＋】村長になりたかった。【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=NRzF9-B5VfA", publishedDate: "2019-05-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-318",
+    title: "【パスパルトゥー】画伯絵を売ります！！新たな才能で儲けちゃうっ【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "Passpartout: The Starving Artist",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【パスパルトゥー】画伯絵を売ります！！新たな才能で儲けちゃうっ【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=qikL-EvHdao", publishedDate: "2020-09-29" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-319",
+    title: "【マリオスポーツミックス】勝たなきゃ食べられない・・！？闇 の タ コ パ 🔥【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "マリオスポーツミックス",
+    genre: "sports",
+    format: "single",
+    videos: [
+      { title: "【マリオスポーツミックス】勝たなきゃ食べられない・・！？闇 の タ コ パ 🔥【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=X2YG1iTrF5c", publishedDate: "2020-09-09" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-320",
+    title: "【リングフィットアドベンチャー】本気ダイエット！！引きこもりには鬼畜すぎる...【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "リングフィットアドベンチャー",
+    genre: "sports",
+    format: "single",
+    videos: [
+      { title: "【リングフィットアドベンチャー】本気ダイエット！！引きこもりには鬼畜すぎる...【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=ycB9wuGfRpw", publishedDate: "2019-11-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-321",
+    title: "【ルイージマンション3】おばけを怖がらせたい。初見プレイ！！【ホロライブ】",
+    streamer: "紫咲シオン",
+    game: "ルイージマンション3",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【ルイージマンション3】おばけを怖がらせたい。初見プレイ！！【ホロライブ】", url: "https://www.youtube.com/watch?v=ARkTOyfL8uU", publishedDate: "2019-11-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-322",
+    title: "【空気読み２】空気読むのだけは得意です！！任せろ！【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "空気読み。2",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【空気読み２】空気読むのだけは得意です！！任せろ！【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=5S9FVJHZkys", publishedDate: "2019-10-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-323",
+    title: "【青鬼】初見プレイだけど流石に怖くないやろｗｗｗ20万人まで…あれ？？【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "青鬼",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【青鬼】初見プレイだけど流石に怖くないやろｗｗｗ20万人まで…あれ？？【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=rmmpa4MBD2g", publishedDate: "2020-04-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-324",
+    title: "【天穂のサクナヒメ】初めての米作り【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "天穂のサクナヒメ",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【天穂のサクナヒメ】初めての米作り【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=hWmHf9L0nx8", publishedDate: "2020-11-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
+  },
+  {
+    id: "single-325",
+    title: "【夜勤事件】人生初夜勤なんで優しくお願いします！！※ホラゲー閲覧注意※【ホロライブ/紫咲シオン】",
+    streamer: "紫咲シオン",
+    game: "夜勤事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【夜勤事件】人生初夜勤なんで優しくお願いします！！※ホラゲー閲覧注意※【ホロライブ/紫咲シオン】", url: "https://www.youtube.com/watch?v=xTdPBJWJazc", publishedDate: "2020-03-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-24"
   }
 ];

@@ -1397,6 +1397,14 @@ const GAMES = [
   { name: "1-2-Switch", kana: "わんつーすいっち", series: "任天堂のゲーム" },
   { name: "おえかきの森", kana: "おえかきのもり", series: "" },
   { name: "ラクガキ王国", kana: "らくがきおうこく", series: "" },
+  { name: "どうぶつの森+", kana: "どうぶつのもりぷらす", aliases: ["どうぶつの森＋", "どうぶつの森プラス"], series: "任天堂のゲーム" },
+  { name: "おどる メイド イン ワリオ", kana: "おどるめいどいんわりお", aliases: ["おどるメイドインワリオ"], series: "任天堂のゲーム" },
+  { name: "マリオスポーツミックス", kana: "まりおすぽーつみっくす", series: "マリオシリーズ" },
+  { name: "slither.io", kana: "すりざーあいおー", aliases: ["Slither.io", "スリザリオ"], series: "" },
+  { name: "アズールレーン", kana: "あずーるれーん", aliases: ["アズレン"], series: "" },
+  { name: "Plug & Play", kana: "ぷらぐあんどぷれい", series: "" },
+  { name: "どうぶつタワーバトル", kana: "どうぶつたわーばとる", series: "" },
+  { name: "KIDS", kana: "きっず", series: "" },
 ];
 
 /**
