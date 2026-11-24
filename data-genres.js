@@ -1500,6 +1500,18 @@ const GENRE_PAGES = {
      "updatedDate": "2026-11-23"
     },
     {
+     "id": "nijien-sonnybrisko-05",
+     "title": "SILENT HILL 2",
+     "streamer": "Sonny Brisko",
+     "game": "SILENT HILL 2",
+     "genre": "horror",
+     "playlistId": "PLpqGQe-iRfDS4qvq5PnTTsDbD4ykzyo0V",
+     "thumbnailUrl": "https://i.ytimg.com/vi/Jwlm9qAFrrc/mqdefault.jpg",
+     "videoCount": 5,
+     "addedDate": "2026-09-08",
+     "updatedDate": "2026-11-23"
+    },
+    {
      "id": "gap787",
      "title": "凛LIVE --- R.E.P.O.",
      "streamer": "静凛",
@@ -1594,18 +1606,6 @@ const GENRE_PAGES = {
      "videoCount": 25,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-11-10"
-    },
-    {
-     "id": "vspo-totokogara-21",
-     "title": "DBD",
-     "streamer": "小雀とと",
-     "game": "Dead by Daylight",
-     "genre": "horror",
-     "playlistId": "PLuXZStCIRGE32i_dmwvRlmUQ2eDfVG8t4",
-     "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
-     "videoCount": 38,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-11-04"
     }
    ]
   }
