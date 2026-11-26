@@ -5777,5 +5777,967 @@ const STANDALONE_PLAYS = [
     ],
     note: "専用再生リストなし",
     addedDate: "2026-11-26"
+  },
+  {
+    id: "single-402",
+    title: "Keep Talking and Nobody Explodes 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Keep Talking and Nobody Explodes",
+    genre: "puzzle",
+    format: "multi",
+    videos: [
+      { title: "【#角巻わため】#桐生ココ#ホロライブ4期生初コラボ【#天音かなた】", url: "https://www.youtube.com/watch?v=DWDol8mek0w", publishedDate: "2019-12-30" },
+      { title: "【#はあココ】I got your back Coco! Defuse the bomb with THE EXPERT Haato!【English Stream】", url: "https://www.youtube.com/watch?v=hR9hY_ebcyA", publishedDate: "2020-02-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-403",
+    title: "【#桐生ココ】ガチ恋！伏見稲荷で初詣デート！【#ココここ】",
+    streamer: "桐生ココ",
+    game: "Explore Fushimi Inari",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#桐生ココ】ガチ恋！伏見稲荷で初詣デート！【#ココここ】", url: "https://www.youtube.com/watch?v=zgtjEr_i6Y4", publishedDate: "2020-01-01" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-404",
+    title: "Heave Ho 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Heave Ho",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【#角巻わため】#桐生ココ#ホロライブ4期生コラボ 道をつなげ！HEAVE HO【#天音かなた】", url: "https://www.youtube.com/watch?v=8zbBMkOSqhs", publishedDate: "2020-01-03" },
+      { title: "【#角巻わため】#桐生ココ#PPトリオ 道をつなげ！HEAVE HO再び！【#天音かなた】", url: "https://www.youtube.com/watch?v=hd3MJo0cwys", publishedDate: "2020-01-16" },
+      { title: "【#CAMP】#湊あくあ#兎田ぺこら 友の腕に命を預ける！手繋ぎ絆ゲーム！#宝鐘マリン#桐生ココ【HEAVE HO】", url: "https://www.youtube.com/watch?v=OARWq8AC8a8", publishedDate: "2020-02-24" },
+      { title: "【#桐生ココ】HEAVE HO ソロチャレンジ！仲間なしでどこまでいけるか！？！？【#ココここ】", url: "https://www.youtube.com/watch?v=I_L7X3KK7h8", publishedDate: "2020-04-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-405",
+    title: "【#桐生ココ】事故物件訪問…！ホラーゲーム初実況！【#ココここ】",
+    streamer: "桐生ココ",
+    game: "事故物件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【#桐生ココ】事故物件訪問…！ホラーゲーム初実況！【#ココここ】", url: "https://www.youtube.com/watch?v=vfAksX6WhME", publishedDate: "2020-01-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-406",
+    title: "Minecraft 配信まとめ(4期生・2020年1月)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】4期生みんなでMINECRAFTの世界へ【#4期生マイクラ】", url: "https://www.youtube.com/watch?v=mR4TX8QvD2s", publishedDate: "2020-01-13" },
+      { title: "【#桐生ココ】MINECRAFTで初めての家作った！和風建築見ろ【#ココここ】", url: "https://www.youtube.com/watch?v=AQKYQqV6Eqo", publishedDate: "2020-01-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-407",
+    title: "ARK: Survival Evolved 配信まとめ(再生リスト未収録分)",
+    streamer: "桐生ココ",
+    game: "ARK: Survival Evolved",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】ARKの世界で楽しいサバイバル！ひつじよこれが自然界だ【#角巻わため】", url: "https://www.youtube.com/watch?v=UrWeq5Ie0I0", publishedDate: "2020-01-28" },
+      { title: "【#桐生ココ】BANにも負けず！アベレーション攻略開始！【#とまらないARK】", url: "https://www.youtube.com/watch?v=0GritZ8rCpg", publishedDate: "2020-03-21" },
+      { title: "【#桐生ココ】ARK ABERRATION雑談作業配信。のんびりせいかつ。【#とまらないARK】", url: "https://www.youtube.com/watch?v=SoKve-i6yWA", publishedDate: "2020-05-12" },
+      { title: "【#桐生ココ】テキ屋ココ！ARK夏祭り会場を設営！【#とまらないARK】", url: "https://www.youtube.com/watch?v=30f3_DMQDt4", publishedDate: "2020-07-09" },
+      { title: "【#桐生ココ】クロスARKせいかつ。(2PC配信だよ！)【#とまらないARK】", url: "https://www.youtube.com/watch?v=XqBaMgD19N4", publishedDate: "2020-07-20" },
+      { title: "【#桐生ココ】CRYSTAL ISLESの全生物をはく製に！【#とまらないARK】", url: "https://www.youtube.com/watch?v=6fC1-7OY6Gc", publishedDate: "2020-09-17" },
+      { title: "【ARK Survival Evolved】家の建築開始！🏠House Builder Coco#桐生ココ", url: "https://www.youtube.com/watch?v=IxB-CY2q3qA", publishedDate: "2020-11-20" },
+      { title: "【ARK】ボッス戦の戦力を集めろぉ！Prepare for battle!", url: "https://www.youtube.com/watch?v=BrGDzR0xtZQ", publishedDate: "2020-12-30" },
+      { title: "[ARK Survival Evolved] Extiction Cave! 装備を揃えて洞窟凸！[#桐生ココ]", url: "https://www.youtube.com/watch?v=iGSqeCtCfSo", publishedDate: "2021-01-05" },
+      { title: "[ARK] ぶっこわ巣 [アキロゼ/桐生ココ]", url: "https://www.youtube.com/watch?v=hf3hZ-lBJMU", publishedDate: "2021-02-10" }
+    ],
+    note: "本人の再生リスト「ARK Survival Evolved」未収録分の補完登録",
+    addedDate: "2026-11-27",
+    separateSeriesFrom: "holo-kiryucoco-09",
+    separateSeriesReason: "本人の再生リスト「ARK Survival Evolved」の収録87本に含まれない配信の補完(収録IDと照合済み)",
+    playlistCheckedAt: "2026-11-26"
+  },
+  {
+    id: "single-408",
+    title: "7 Days to Die 配信まとめ(ゾンビタウンHOLO)",
+    streamer: "桐生ココ",
+    game: "7 Days to Die",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】7Days to Dieホロサーバー！みんなで地獄に家建てない？【#ゾンビタウンHOLO】", url: "https://www.youtube.com/watch?v=iVa7nqgLFqw", publishedDate: "2020-02-06" },
+      { title: "【#紫龍組】ため口教室の後は敬語禁止！試される日本語力！7Days to Die！【#ゾンビタウンHOLO】", url: "https://www.youtube.com/watch?v=GoHs2Waikuw", publishedDate: "2020-02-07" },
+      { title: "【#PPトリオ】7Days to Die!!おいでよ地獄の森！ゾンビまみれでも生き残れ！【#ゾンビタウンHOLO】", url: "https://www.youtube.com/watch?v=dJczqL3iV4A", publishedDate: "2020-02-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-409",
+    title: "Subnautica 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Subnautica",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】Survive this hell...超危険な海中サバイバル！SUBNAUTICAをプレイ！【#ココここ】", url: "https://www.youtube.com/watch?v=plrv2lW6TA4", publishedDate: "2020-03-10" },
+      { title: "【#桐生ココ】シーモスで海中探検したい！！海中サバイバル！SUBNAUTICA！【#ココここ】", url: "https://www.youtube.com/watch?v=hsLAjK6Tmd8", publishedDate: "2020-03-16" },
+      { title: "【#桐生ココ】海中サバイバルSUBNAUTICA！！シーモス&家建築していく！【#ココここ】", url: "https://www.youtube.com/watch?v=gbj3_-yXTIM", publishedDate: "2020-03-26" },
+      { title: "【#桐生ココ】SUBNAUTICA!!墜落した母船を調べるぞ！！冒険冒険盛りだくさん！！【#ココここ】", url: "https://www.youtube.com/watch?v=ZAFyhyY3kOw", publishedDate: "2020-04-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-410",
+    title: "【#桐生ココ】Project Winter in HOLOLIVE！みんなで騙し合い！？できるかな・・・【初プレイ】",
+    streamer: "桐生ココ",
+    game: "Project Winter",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#桐生ココ】Project Winter in HOLOLIVE！みんなで騙し合い！？できるかな・・・【初プレイ】", url: "https://www.youtube.com/watch?v=Zu3FhpAlqRI", publishedDate: "2020-03-12" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-411",
+    title: "【#桐生ココ】雑談できるほど余裕面でプレイするホラゲ：Palmyra Orphanage【地獄の孤児院】",
+    streamer: "桐生ココ",
+    game: "Palmyra Orphanage",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【#桐生ココ】雑談できるほど余裕面でプレイするホラゲ：Palmyra Orphanage【地獄の孤児院】", url: "https://www.youtube.com/watch?v=T6EGnwmBeIE", publishedDate: "2020-04-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-412",
+    title: "World of Warships 配信まとめ",
+    streamer: "桐生ココ",
+    game: "World of Warships",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】海でも暴れたる！！WoWSで激アツ海上戦だぁ！！【#天音かなた】", url: "https://www.youtube.com/watch?v=XGtPZp7ADYE", publishedDate: "2020-04-14" },
+      { title: "【World of Warships】アズールレーンWoWsコラボだい！！！【桐生ココ/ホロライブ4期生】", url: "https://www.youtube.com/watch?v=_oJZg2p-HHA", publishedDate: "2020-07-25" },
+      { title: "【#桐生ココ】激アツ海上戦！World of Warships！！【#WoWs】", url: "https://www.youtube.com/watch?v=hA6WnL7erk0", publishedDate: "2020-08-02" },
+      { title: "【#桐生ココ】ランダム戦を蹂躙する！かかってこい！【#WoWs】", url: "https://www.youtube.com/watch?v=ItSjTYgUuOo", publishedDate: "2020-08-08" },
+      { title: "【#WoWS】World of Warshipsで視聴者参加型海戦！！【ホロライブ】", url: "https://www.youtube.com/watch?v=AvqeCDDm_Vg", publishedDate: "2020-08-30" },
+      { title: "【#WoWS】トランスフォーマーコラボぉぉ！視聴者参加型海上戦だ！", url: "https://www.youtube.com/watch?v=4ax0CF-w7uo", publishedDate: "2020-09-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-413",
+    title: "Apex Legends 配信まとめ(再生リスト未収録分)",
+    streamer: "桐生ココ",
+    game: "Apex Legends",
+    genre: "fps",
+    format: "multi",
+    videos: [
+      { title: "【#紫龍組】超超超超超初心者のAPEX LEGENDS！！【#ココここ】", url: "https://www.youtube.com/watch?v=XywCjzTjEkg", publishedDate: "2020-05-01" },
+      { title: "ロボ子先輩に丁寧に教えてもらうAPEX!!#ロボココ", url: "https://www.youtube.com/watch?v=8vB-FZNNFKs", publishedDate: "2020-05-25" },
+      { title: "ゲームレベル4のAPEX！スナイパーを目指したい！！【VTuberの桐生ココ】", url: "https://www.youtube.com/watch?v=feqCYoYYHI0", publishedDate: "2020-07-13" },
+      { title: "【#桐生ココ】55万人記念緊急クエスト！FPS初心者⁉うるせぇ55キルしろ！【APEX】", url: "https://www.youtube.com/watch?v=KKqlIvwtlwA", publishedDate: "2020-09-10" }
+    ],
+    note: "本人の再生リスト「APEX Legends」未収録分の補完登録",
+    addedDate: "2026-11-27",
+    separateSeriesFrom: "holo-kiryucoco-08",
+    separateSeriesReason: "本人の再生リスト「APEX Legends」の収録7本に含まれない配信の補完(収録IDと照合済み)",
+    playlistCheckedAt: "2026-11-26"
+  },
+  {
+    id: "single-414",
+    title: "MY FIRST \"PORTAL\" PLAYING 初見ポータル！ドラゴンにもできるかな？#桐生ココ",
+    streamer: "桐生ココ",
+    game: "Portal",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "MY FIRST \"PORTAL\" PLAYING 初見ポータル！ドラゴンにもできるかな？#桐生ココ", url: "https://www.youtube.com/watch?v=FAA0KGiY_7I", publishedDate: "2020-05-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-415",
+    title: "My first time playing H A L F - L I F E 初見ハーフライフやるぞぉぉぉ#桐生ココ",
+    streamer: "桐生ココ",
+    game: "Half-Life",
+    genre: "fps",
+    format: "single",
+    videos: [
+      { title: "My first time playing H A L F - L I F E 初見ハーフライフやるぞぉぉぉ#桐生ココ", url: "https://www.youtube.com/watch?v=lWmyHMSoLQs", publishedDate: "2020-05-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-416",
+    title: "Infliction 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Infliction",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "全然ビビらない無敵VTuberのサクサクげぼやばホラーInfliction", url: "https://www.youtube.com/watch?v=rvHz5hMsycE", publishedDate: "2020-05-22" },
+      { title: "まったくビビらない無敵VTuberのサクサクげぼやばホラーInfliction#2", url: "https://www.youtube.com/watch?v=42KxtioGoeU", publishedDate: "2020-05-23" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-417",
+    title: "脱出系ホラーゲーム\"We Went Back\"余裕でやったる",
+    streamer: "桐生ココ",
+    game: "We Went Back",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "脱出系ホラーゲーム\"We Went Back\"余裕でやったる", url: "https://www.youtube.com/watch?v=ilNnHBkZ9kE", publishedDate: "2020-05-29" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-418",
+    title: "Boxman's Struggle 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Boxman's Struggle",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【箱おじ】イライラ禁止！笑顔で箱おじ！Boxman's Struggle", url: "https://www.youtube.com/watch?v=FT8fju9h7-w", publishedDate: "2020-05-29" },
+      { title: "【箱おじ】攻略してる動画見たからきっと行ける。Boxman's Struggle　VTuber桐生ココ", url: "https://www.youtube.com/watch?v=tEEALAm4OoA", publishedDate: "2020-06-03" },
+      { title: "【箱おじ】斜め45°を極めて優勝するBoxman's Struggle　VTuber桐生ココ", url: "https://www.youtube.com/watch?v=fV3oVHdyV7o", publishedDate: "2020-06-04" },
+      { title: "【箱おじ】バスケコートに余裕でたどり着くBoxman's Struggle　VTuber桐生ココ", url: "https://www.youtube.com/watch?v=ezeBmDFFhDs", publishedDate: "2020-06-07" },
+      { title: "【箱おじ】BOXMAN'S STRUGGLE～軽快なジャズを添えて～【#桐生ココ】", url: "https://www.youtube.com/watch?v=PODD5AbaoYI", publishedDate: "2021-01-15" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-419",
+    title: "Portal 2 配信まとめ(ソロ)",
+    streamer: "桐生ココ",
+    game: "Portal 2",
+    genre: "puzzle",
+    format: "multi",
+    videos: [
+      { title: "PORTAL2ソロプレイ！！VTuber桐生ココのチャレンジ", url: "https://www.youtube.com/watch?v=tf5Z3wS-Y-M", publishedDate: "2020-05-30" },
+      { title: "#2 IQが試される！？VTuber桐生ココのPORTAL2！", url: "https://www.youtube.com/watch?v=_4aHMl6oe5c", publishedDate: "2020-06-01" },
+      { title: "#3 IQ3500ドラゴンVTuber桐生ココのPORTAL2！", url: "https://www.youtube.com/watch?v=4b1U6ntRDZM", publishedDate: "2020-06-06" },
+      { title: "#4 IQ3500ドラゴンVTuber桐生ココのPORTAL2！", url: "https://www.youtube.com/watch?v=vGkhmA9eQXc", publishedDate: "2020-07-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-420",
+    title: "DYING: Reborn 配信まとめ",
+    streamer: "桐生ココ",
+    game: "DYING: Reborn",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【DYING:Reborn】魚男の恐怖！余裕でサクサクやったるホラゲ #桐生ココ", url: "https://www.youtube.com/watch?v=JxkDXEYlg9I", publishedDate: "2020-06-11" },
+      { title: "【DYING:Reborn】#2キッチンの恐怖…ビビらせてみろ！脱出ホラゲ！#桐生ココ", url: "https://www.youtube.com/watch?v=BAlZWd4bmM8", publishedDate: "2020-06-18" },
+      { title: "【DYING:Reborn】#3 通気口を抜けて…ついに出会うか！？魚男！#桐生ココ", url: "https://www.youtube.com/watch?v=vZ68rrQV0aM", publishedDate: "2020-07-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-421",
+    title: "【ガチ恋】桐生ココと田舎町デート。【#NOSTALGIC TRAIN】",
+    streamer: "桐生ココ",
+    game: "NOSTALGIC TRAIN",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【ガチ恋】桐生ココと田舎町デート。【#NOSTALGIC TRAIN】", url: "https://www.youtube.com/watch?v=-5bMrCju9QQ", publishedDate: "2020-06-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-422",
+    title: "egg is broken. heart is too. 配信まとめ",
+    streamer: "桐生ココ",
+    game: "egg is broken. heart is too.",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "命のたまごを優しく守るゲーム。egg is broken. heart is too.", url: "https://www.youtube.com/watch?v=uRb1MPPz7IQ", publishedDate: "2020-06-26" },
+      { title: "【#桐生ココ】卵運搬RTA！！！1時間以内に1面クリア！【egg is broken. heart is too.】", url: "https://www.youtube.com/watch?v=bh78v2Ey_xo", publishedDate: "2020-07-18" },
+      { title: "【#桐生ココ】卵運搬RTA！！1時間以内に2面クリア！【egg is broken. heart is too.】", url: "https://www.youtube.com/watch?v=JWNZxuMaZhs", publishedDate: "2020-08-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-423",
+    title: "サイコブレイク2 配信まとめ",
+    streamer: "桐生ココ",
+    game: "サイコブレイク2",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "The Evil Within 2 【精神的恐怖の世界へ】サイコブレイク２", url: "https://www.youtube.com/watch?v=gIqxMwnUtiA", publishedDate: "2020-06-29" },
+      { title: "#2 The Evil Within 2 【精神世界へ娘を探すパパ】サイコブレイク２", url: "https://www.youtube.com/watch?v=jox89zWmK5Y", publishedDate: "2020-06-30" },
+      { title: "#3 The Evil Within 2 【瞬間移動ジジイを倒せ】サイコブレイク２", url: "https://www.youtube.com/watch?v=UDu93lzNWe4", publishedDate: "2020-07-01" },
+      { title: "#4 The Evil Within 2 【変態芸術家を弱らせる】サイコブレイク２", url: "https://www.youtube.com/watch?v=M6VGrK-_KpE", publishedDate: "2020-07-02" },
+      { title: "#5 The Evil Within 2 【変態芸術家の次は変態牧師！？】サイコブレイク２", url: "https://www.youtube.com/watch?v=7x87M3lrWgI", publishedDate: "2020-07-05" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-424",
+    title: "【#桐生ココ】謎ホラゲ・・・ぴえん・・・【#PIEN】",
+    streamer: "桐生ココ",
+    game: "PIEN",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【#桐生ココ】謎ホラゲ・・・ぴえん・・・【#PIEN】", url: "https://www.youtube.com/watch?v=Uqpib8zRGGs", publishedDate: "2020-07-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-425",
+    title: "和製ホラーゲーム！！Missing Children",
+    streamer: "桐生ココ",
+    game: "Missing Children",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "和製ホラーゲーム！！Missing Children", url: "https://www.youtube.com/watch?v=DEz6_UnkNPU", publishedDate: "2020-07-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-426",
+    title: "Getting Over It 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Getting Over It",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】初めての壺おじ【#Gettingoverit】", url: "https://www.youtube.com/watch?v=9d6ycvo-aJA", publishedDate: "2020-07-22" },
+      { title: "【#桐生ココ】２回目の壺おじで難所を超えたる【#Gettingoverit】", url: "https://www.youtube.com/watch?v=dkI3zXpQEgs", publishedDate: "2020-08-05" },
+      { title: "【#桐生ココ】ランプ越えたんで壺上層階とか余裕なのですね", url: "https://www.youtube.com/watch?v=ZNMnDD66ux4", publishedDate: "2020-08-11" },
+      { title: "THE WORLD'S WORST CLIMBER世界一下手くそな壺おじ#桐生ココ", url: "https://www.youtube.com/watch?v=zH7xnkf8sis", publishedDate: "2020-09-23" },
+      { title: "World's WORST CLIMBER: Getting Over It with Benett Foddy 世界一下手くそ壺", url: "https://www.youtube.com/watch?v=YgK2dFBrrDQ", publishedDate: "2020-09-25" },
+      { title: "【壺男】BATTLE!!!! VS KANATA　1時間併走バトル【桐生ココ/ホロライブ4期生】", url: "https://www.youtube.com/watch?v=uArytUL2h7c", publishedDate: "2020-10-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-427",
+    title: "Minecraft 配信まとめ(なんもわからん)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】予備知識ゼロからはじめるマイクラ生活！【なんもわからん】", url: "https://www.youtube.com/watch?v=PpxKf7trW9w", publishedDate: "2020-07-23" },
+      { title: "【#桐生ココ】なにもわからない初心者のマイクラ【なんもわからん】", url: "https://www.youtube.com/watch?v=mfdrEMOXtJA", publishedDate: "2020-08-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-428",
+    title: "雀魂 配信まとめ",
+    streamer: "桐生ココ",
+    game: "雀魂",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【雀魂】初めての麻雀配信！少しはわかるけど、初めからやってみよう！桐生ココ", url: "https://www.youtube.com/watch?v=69mhTtfhVio", publishedDate: "2020-07-24" },
+      { title: "【#桐生ココ】麻雀の役を覚えたい！まったり練習【雀魂】", url: "https://www.youtube.com/watch?v=gnYLxwCkb-k", publishedDate: "2020-07-30" },
+      { title: "【#桐生ココ】視聴者参加型！ガチンコ勝負で1位目指す！【雀魂】", url: "https://www.youtube.com/watch?v=7zafxGmwmIo", publishedDate: "2020-08-04" },
+      { title: "【#いながわココじ】初心者麻雀！高い点数の役をめざして！【#雀魂】", url: "https://www.youtube.com/watch?v=dAteKWOKTOw", publishedDate: "2020-08-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-429",
+    title: "【#桐生ココ】びっくりポイントはもうわかってるぜ夜勤事件【かかってこいや】",
+    streamer: "桐生ココ",
+    game: "夜勤事件",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【#桐生ココ】びっくりポイントはもうわかってるぜ夜勤事件【かかってこいや】", url: "https://www.youtube.com/watch?v=5FtqR7oRTJA", publishedDate: "2020-07-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-430",
+    title: "【#はあココPORTAL2】名作ポータル2！！協力頭脳プレイじゃい！！",
+    streamer: "桐生ココ",
+    game: "Portal 2",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "【#はあココPORTAL2】名作ポータル2！！協力頭脳プレイじゃい！！", url: "https://www.youtube.com/watch?v=CluLRRz4usM", publishedDate: "2020-08-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-431",
+    title: "カニノケンカ 配信まとめ",
+    streamer: "桐生ココ",
+    game: "カニノケンカ",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】カニノケンカでガチファイト【大乱闘】", url: "https://www.youtube.com/watch?v=MhDOaynWH8Q", publishedDate: "2020-08-13" },
+      { title: "【#カニノケンカ】孤独なカニの本気の戦い・・・！【#桐生ココ】", url: "https://www.youtube.com/watch?v=kNQddErI6Q8", publishedDate: "2020-09-02" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-432",
+    title: "Fall Guys 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Fall Guys",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【#桐生ココ】Fall Guys初プレイ！", url: "https://www.youtube.com/watch?v=809wiuXtFKY", publishedDate: "2020-08-16" },
+      { title: "【#Fall Guys】めんたいココ、TOPへのたび【#桐生ココ】", url: "https://www.youtube.com/watch?v=CjZ6KMULOb4", publishedDate: "2020-08-18" },
+      { title: "【#Fall Guys】トップをとりたい！！！二人でだ！【#ロボココ】", url: "https://www.youtube.com/watch?v=UWiFPJr4cO4", publishedDate: "2020-08-31" },
+      { title: "【#FallGuys】そろそろ勝利が欲しい！..Am I winning dad?【#桐生ココ】", url: "https://www.youtube.com/watch?v=h6i8Bmvzopc", publishedDate: "2020-09-03" },
+      { title: "#FallGuys 1位拝ませろ！I need to win dad【#桐生ココ】", url: "https://www.youtube.com/watch?v=7KHibdKaMWg", publishedDate: "2020-09-15" },
+      { title: "FALL GUYS SEASON2！！新しいステージ！？楽しみ！#桐生ココ", url: "https://www.youtube.com/watch?v=FtUri64J4a8", publishedDate: "2020-10-25" },
+      { title: "FALL GUYS SEASON3👑新シーズンだ！次こそ優勝！#桐生ココ", url: "https://www.youtube.com/watch?v=5P9skO8lBzE", publishedDate: "2021-01-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-433",
+    title: "Mr.President! 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Mr.President!",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【#MrPresident】SPココ宙を舞う！大統領を守れ！【＃桐生ココ】", url: "https://www.youtube.com/watch?v=QIbt7cMq6Fk", publishedDate: "2020-09-04" },
+      { title: "【#MrPresident】SPココが大統領を守る！超難度ステージいくぜ【＃桐生ココ】", url: "https://www.youtube.com/watch?v=ED9Cqc9ZgE8", publishedDate: "2020-09-07" },
+      { title: "【#MrPresident】SPココ働く！これが最終ステージか！？【＃桐生ココ】", url: "https://www.youtube.com/watch?v=jwZiLQUjYsE", publishedDate: "2020-09-08" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-434",
+    title: "【#マイエクササイズ】腹筋【#桐生ココ】",
+    streamer: "桐生ココ",
+    game: "マイエクササイズ",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【#マイエクササイズ】腹筋【#桐生ココ】", url: "https://www.youtube.com/watch?v=hOhhba54ALY", publishedDate: "2020-09-10" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-435",
+    title: "Craftopia 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Craftopia",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【#Craftopia】クラフトピア初プレイだ！【#桐生ココ】", url: "https://www.youtube.com/watch?v=f2Vrz8xpi2s", publishedDate: "2020-09-12" },
+      { title: "【#Craftopia】クラフトピアで生活！！原始人を卒業したい！【#桐生ココ】", url: "https://www.youtube.com/watch?v=yjFm2qsp3Qg", publishedDate: "2020-09-19" },
+      { title: "【#Craftopia】目指せ！神様のいる！？浮島！【#桐生ココ】", url: "https://www.youtube.com/watch?v=qYsOvTwIxpc", publishedDate: "2020-09-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-436",
+    title: "WHAT THE GOLF? 配信まとめ",
+    streamer: "桐生ココ",
+    game: "WHAT THE GOLF?",
+    genre: "sports",
+    format: "multi",
+    videos: [
+      { title: "PRO Golf Player COCO ゴルフじゃい！#桐生ココ", url: "https://www.youtube.com/watch?v=5xl_1kbw3Iw", publishedDate: "2020-10-30" },
+      { title: "WHAT THE GOLF??? ゴルフとは⛳#桐生ココ", url: "https://www.youtube.com/watch?v=03Hh2HWDoSY", publishedDate: "2020-11-05" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-437",
+    title: "テラリア 配信まとめ",
+    streamer: "桐生ココ",
+    game: "テラリア",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【Terraria/テラリア】　DIGGGGGGG!!!!　【初プレイ!!】", url: "https://www.youtube.com/watch?v=PHHVa-puhwM", publishedDate: "2020-10-31" },
+      { title: "【Terraria/テラリア】IRON DIGGGGGGER", url: "https://www.youtube.com/watch?v=G-l9DHJAbrg", publishedDate: "2020-11-02" },
+      { title: "🌳テラリア/Terraria🌳 家🏠完成！？HOME RENOVATION!!", url: "https://www.youtube.com/watch?v=NdQxt14cFs8", publishedDate: "2020-11-08" },
+      { title: "🔴Terraria/テラリア🌳　地底探検！掘り師となる⛏#Hololive #桐生ココ", url: "https://www.youtube.com/watch?v=aBB-9XRxJB4", publishedDate: "2020-11-09" },
+      { title: "🔴🌳Terraria/テラリア🌳　新しいバイオームを探検だ！", url: "https://www.youtube.com/watch?v=ML3ngBlXDcg", publishedDate: "2020-11-13" },
+      { title: "[Terraria] Digging something rare [Deeper!]", url: "https://www.youtube.com/watch?v=qDjKE3HVPJk", publishedDate: "2021-01-04" },
+      { title: "[Terraria] A Dungeon Dragon !?", url: "https://www.youtube.com/watch?v=TjsM6kKeP5M", publishedDate: "2021-01-11" },
+      { title: "[Terraria] BUZZZZZZZZZZZZZ", url: "https://www.youtube.com/watch?v=quf66yb4Eek", publishedDate: "2021-01-14" },
+      { title: "[Terraria] GOING HIGH!!!", url: "https://www.youtube.com/watch?v=WojNYdXH_XE", publishedDate: "2021-01-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-438",
+    title: "Among Us 配信まとめ",
+    streamer: "桐生ココ",
+    game: "Among Us",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "AMONG US!!!!!!!! for the first time", url: "https://www.youtube.com/watch?v=3sS2Qa-hGuc", publishedDate: "2020-11-05" },
+      { title: "🔴AMONG US IQ3500 PLAY #Hololive #kiryucoco", url: "https://www.youtube.com/watch?v=z7eBFOnLqYY", publishedDate: "2020-11-06" },
+      { title: "🔴Among Us 視聴者参加型ガチ対決！VS viewers #桐生ココ#Hololive", url: "https://www.youtube.com/watch?v=fffXpLYlaKY", publishedDate: "2020-11-17" },
+      { title: "ホロAMONG US!! 桐生ココ視点", url: "https://www.youtube.com/watch?v=xhIpartjm6c", publishedDate: "2021-03-14" },
+      { title: "【#ホロAmongUs】ま　け　ん　ぞ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=klX-l3hj8jo", publishedDate: "2021-06-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-439",
+    title: "Minecraft 配信まとめ(ホロ鯖生活・建築)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "🔴MINECRAFT　まじわからないHELP ME", url: "https://www.youtube.com/watch?v=-wz7XS-3n9M", publishedDate: "2020-11-06" },
+      { title: "🔴MINECRAFT⛏　ホロ鯖生活　下級者編", url: "https://www.youtube.com/watch?v=f5x3j3PB69U", publishedDate: "2020-11-08" },
+      { title: "🔴MINECRAFT ホロ鯖の地下には何がある！？素材集め！", url: "https://www.youtube.com/watch?v=KVlLoCB0XpE", publishedDate: "2020-11-11" },
+      { title: "🔴MINECRAFT ネザー探検する！！NETHER? WHAT'S THAT?", url: "https://www.youtube.com/watch?v=-F2f5nNlCH8", publishedDate: "2020-11-16" },
+      { title: "🔴MINECRAFT🏠 マイホーム建築・・・！HOME BUILDER COCO⛏️", url: "https://www.youtube.com/watch?v=IM2nIunXUDk", publishedDate: "2020-11-26" },
+      { title: "[MINECRAFT] 地下冒険の始まりだ！！[桐生ココ]", url: "https://www.youtube.com/watch?v=yCEzW4MbgIU", publishedDate: "2021-01-07" },
+      { title: "【マイクラ】ドット絵に初挑戦！！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=t55zz84TuS4", publishedDate: "2021-03-23" },
+      { title: "【マイクラ】巨大ドット絵を建築！！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=eymnX-JI8Zc", publishedDate: "2021-03-25" },
+      { title: "【マイクラ】巨大ドット絵を建築！！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=FZj32UQsF8Y", publishedDate: "2021-03-25" },
+      { title: "【マイクラ】初めてのドット絵！今日で完成！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=cp7Ycj1PE9I", publishedDate: "2021-03-29" },
+      { title: "【マイクラ】巨大建築の準備をまったりしよう！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=lcvSgblcG4A", publishedDate: "2021-04-25" },
+      { title: "【マイクラ】はい。【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=DPb638J0oz0", publishedDate: "2021-04-26" },
+      { title: "【MINECRAFT】ゆっくり巨大建築しようやぁ【桐生ココ】", url: "https://www.youtube.com/watch?v=GR83g-cXfRI", publishedDate: "2021-05-03" },
+      { title: "【MINECRAFT】巨大YAGOO完成目指すんじゃぁあ【桐生ココ】", url: "https://www.youtube.com/watch?v=VtJaDPoagGM", publishedDate: "2021-05-04" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-440",
+    title: "🔴Phasmophobia　初プレイ！#はあココ#Hololive",
+    streamer: "桐生ココ",
+    game: "Phasmophobia",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "🔴Phasmophobia　初プレイ！#はあココ#Hololive", url: "https://www.youtube.com/watch?v=YtTzGMcdwMs", publishedDate: "2020-11-09" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-441",
+    title: "[VISAGE]👻Friday 13th、ホラゲをやらないなんて　#Hololive",
+    streamer: "桐生ココ",
+    game: "Visage",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "[VISAGE]👻Friday 13th、ホラゲをやらないなんて　#Hololive", url: "https://www.youtube.com/watch?v=fDQpvy5pH8k", publishedDate: "2020-11-14" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-442",
+    title: "【ホラーゲーム】DAT HOUSE ON THE HILL 【#桐生ココ】",
+    streamer: "桐生ココ",
+    game: "MISTS OF AIDEN",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【ホラーゲーム】DAT HOUSE ON THE HILL 【#桐生ココ】", url: "https://www.youtube.com/watch?v=na11tWnBVHU", publishedDate: "2020-12-17" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-443",
+    title: "[7days to die] かかってこい超難関クエスト！ [桐生ココ]",
+    streamer: "桐生ココ",
+    game: "7 Days to Die",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "[7days to die] かかってこい超難関クエスト！ [桐生ココ]", url: "https://www.youtube.com/watch?v=jognpOE6BVw", publishedDate: "2020-12-26" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-444",
+    title: "龍が如く4 伝説を継ぐもの 配信まとめ(近代麻雀玄武杯)",
+    streamer: "桐生ココ",
+    game: "龍が如く4 伝説を継ぐもの",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【初心者雀士ココ】近代麻雀玄武杯、優勝する【龍が如く4©SEGA】", url: "https://www.youtube.com/watch?v=0vPy9nkf8l4", publishedDate: "2021-01-11" },
+      { title: "【初心者雀士ココ】近代麻雀玄武杯、1位とるまでやめられない【龍が如く4©SEGA】", url: "https://www.youtube.com/watch?v=_vZSOSkOuyg", publishedDate: "2021-01-20" }
+    ],
+    note: "再生リスト未収録の別企画(近代麻雀玄武杯)の補完登録",
+    addedDate: "2026-11-27",
+    separateSeriesFrom: "holo-kiryucoco-04",
+    separateSeriesReason: "本編(#1〜#8の再生リスト)とは別の、作中麻雀「近代麻雀玄武杯」だけを遊ぶ企画。収録IDと照合し未収録",
+    playlistCheckedAt: "2026-11-26"
+  },
+  {
+    id: "single-445",
+    title: "Minecraft 配信まとめ(指示厨クラフト)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "コメントの指示に2時間絶対服従したらこうなった【#桐生ココ】", url: "https://www.youtube.com/watch?v=aSDdkqpPsdE", publishedDate: "2021-01-29" },
+      { title: "【マイクラ】3時間コメントの指示だけで動いたらどこまでいける⁉【指示クラ】", url: "https://www.youtube.com/watch?v=SyyEyLSCL64", publishedDate: "2021-01-30" },
+      { title: "MINECRAFT FOR BACKSEATERS [指示厨クラフト]", url: "https://www.youtube.com/watch?v=T0MFrKxRdKo", publishedDate: "2021-02-13" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-446",
+    title: "🔴SUPERLIMINAL♙ 桐生ココ/ホロライブ",
+    streamer: "桐生ココ",
+    game: "Superliminal",
+    genre: "puzzle",
+    format: "single",
+    videos: [
+      { title: "🔴SUPERLIMINAL♙ 桐生ココ/ホロライブ", url: "https://www.youtube.com/watch?v=E3M6nvk_hO0", publishedDate: "2021-02-03" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-447",
+    title: "Minecraft 配信まとめ(うさ建)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "[マイクラ]うさ建⛏️初出勤✨My First day at WERK⛏️[桐生ココ]", url: "https://www.youtube.com/watch?v=Ezs9kJI8f90", publishedDate: "2021-02-23" },
+      { title: "[マイクラ]うさ建⛏️続・地下労働⛏️[桐生ココ]", url: "https://www.youtube.com/watch?v=SerXt3Xk250", publishedDate: "2021-03-08" },
+      { title: "【マイクラ】うさ建新入社員の便所労働【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=cS-p7qaayGE", publishedDate: "2021-04-06" },
+      { title: "【マイクラ】寝ながら　さぎょ　おしずかに", url: "https://www.youtube.com/watch?v=4LQLRQPuZMM", publishedDate: "2021-04-18" },
+      { title: "【マイクラ】うさ建出勤！べんじょ！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=AJK9MVMVP_s", publishedDate: "2021-05-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-448",
+    title: "スーパーマリオブラザーズ 配信まとめ",
+    streamer: "桐生ココ",
+    game: "スーパーマリオブラザーズ",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "MY FIRST EVER MARIO🍄マジガチ初見マリオ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=WOoQzNWaqTY", publishedDate: "2021-02-27" },
+      { title: "初見マリオだけどWORLD2を乗り越えたい【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=3haunPebls8", publishedDate: "2021-03-01" },
+      { title: "【マリオ】４面クリア目指すんだ！！桐生ココ/ホロライブ", url: "https://www.youtube.com/watch?v=69ZUKNoN_Eo", publishedDate: "2021-04-03" },
+      { title: "【マリオ】6面クリアやるぞぉぉぉぉ！！桐生ココ/ホロライブ", url: "https://www.youtube.com/watch?v=MuLHTdfUjiU", publishedDate: "2021-04-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-449",
+    title: "【龍が如く7インターナショナル】本日発売！早速プレイしてみる！【桐生ココ/ホロライブ】",
+    streamer: "桐生ココ",
+    game: "龍が如く7 光と闇の行方",
+    genre: "rpg",
+    format: "single",
+    videos: [
+      { title: "【龍が如く7インターナショナル】本日発売！早速プレイしてみる！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=Aj11HLWkKg0", publishedDate: "2021-03-02" }
+    ],
+    note: "本人の再生リスト「桐生ココが如く！龍が如く７！！」未収録分の補完登録",
+    addedDate: "2026-11-27",
+    separateSeriesFrom: "holo-kiryucoco-06,holo-kiryucoco-10",
+    separateSeriesReason: "インターナショナル版の発売日配信。再生リスト2件の収録IDと照合し未収録(次の回は holo-kiryucoco-06 に収録)",
+    playlistCheckedAt: "2026-11-26"
+  },
+  {
+    id: "single-450",
+    title: "マリオカート8 デラックス 配信まとめ",
+    streamer: "桐生ココ",
+    game: "マリオカート8 デラックス",
+    genre: "racing",
+    format: "multi",
+    videos: [
+      { title: "【マリオカート8DX】はじめてだから姫プしろ【視聴者参加型】桐生ココ", url: "https://www.youtube.com/watch?v=-hvLAbkJYAU", publishedDate: "2021-03-08" },
+      { title: "みんなが頑張って私を1位にするマリオカート8DX", url: "https://www.youtube.com/watch?v=oteljbr-jUs", publishedDate: "2021-03-13" },
+      { title: "【マリオカート8DX】視聴者参加型！3位以内目指す！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=_bpxBguuIEs", publishedDate: "2021-05-25" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-451",
+    title: "ウマ娘 プリティーダービー 配信まとめ",
+    streamer: "桐生ココ",
+    game: "ウマ娘 プリティーダービー",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "初心者ドラゴン娘、ウマ娘トレーナーデビュー！！！", url: "https://www.youtube.com/watch?v=EmBycwxevI8", publishedDate: "2021-03-13" },
+      { title: "【ミホノブルボン】ミ゛ホ゛ノ゛フ゛ル゛ホ゛ン゛ッ【ミホノブルボン】", url: "https://www.youtube.com/watch?v=sr4iFhvz5Ls", publishedDate: "2021-03-18" },
+      { title: "【ウマ娘】ナリタブライアンを神引き＆初育成！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=sZSt0B7PaqQ", publishedDate: "2021-05-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-452",
+    title: "【空気読み。３】あ～読めますね、手に取るように読めます【桐生ココ】",
+    streamer: "桐生ココ",
+    game: "みんなで空気読み。3",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【空気読み。３】あ～読めますね、手に取るように読めます【桐生ココ】", url: "https://www.youtube.com/watch?v=BfUMvLAN-a8", publishedDate: "2021-03-24" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-453",
+    title: "モンスターハンターライズ 配信まとめ",
+    streamer: "桐生ココ",
+    game: "モンスターハンターライズ",
+    genre: "action",
+    format: "multi",
+    videos: [
+      { title: "【 MONSTER HUNTER RISE 】太古のハンター蘇る【 桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=qGVmLyBo2HI", publishedDate: "2021-03-26" },
+      { title: "【モンハンRISE】コラボに向けて古の知識を更新せよ！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=gpsAazLejEY", publishedDate: "2021-04-05" },
+      { title: "【Monster Hunter RISE】いにしえプレイ更新中【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=MI2viqJb9us", publishedDate: "2021-04-08" },
+      { title: "【モンハンRISE】里クエガンガンすすめる！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=L8Q4PfhDIlA", publishedDate: "2021-04-09" },
+      { title: "【モンハンRISE】最終学歴MHP3のいにしえプレイ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=RtY7ayP-n3M", publishedDate: "2021-04-10" },
+      { title: "【モンハンライズ】オフ狩り行こうぜ！！！！【桐生ココ/白上フブキ/アキロゼ/角巻わため】", url: "https://www.youtube.com/watch?v=MgyBFCj-XBU", publishedDate: "2021-04-12" },
+      { title: "【モンハンライズ】上位モンスターきたあああ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=fXmJlXeMdXM", publishedDate: "2021-04-13" },
+      { title: "【モンハンライズ】上位装備がないときつい【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=X4w883zT8Js", publishedDate: "2021-04-15" },
+      { title: "【モンハンライズ】目指せ全身上位装備！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=EG1N7RqOhQA", publishedDate: "2021-04-16" },
+      { title: "【かなココ】上位モンスター狩りに行こうぜ！【ししらみ】", url: "https://www.youtube.com/watch?v=slHzt7mCLY8", publishedDate: "2021-04-20" },
+      { title: "【モンハンライズ】強く、なる！【ノエココかなるし】", url: "https://www.youtube.com/watch?v=20d7-LNaqcY", publishedDate: "2021-04-21" },
+      { title: "【モンハンライズ】★7チャレンジだぁ！！！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=7LIs0PjbT4g", publishedDate: "2021-04-27" },
+      { title: "【モンハンライズ】アプデ後初プレイ★HR上げたい【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=IBNuaGdlJzE", publishedDate: "2021-05-01" },
+      { title: "【モンハンライズ】急務！コラボまでにHRを上げろ！！", url: "https://www.youtube.com/watch?v=7qbGxzHCJAQ", publishedDate: "2021-05-02" },
+      { title: "【かなココししラミ】みんなでたのしく！【桐生ココ視点】", url: "https://www.youtube.com/watch?v=EXOXmwVpu64", publishedDate: "2021-05-02" },
+      { title: "【モンハンライズ】4期生みんなで狩りだぁ【桐生ココ視点】", url: "https://www.youtube.com/watch?v=N264SgsxeX0", publishedDate: "2021-05-05" },
+      { title: "【モンハンライズ】アプデきた！超初見バルファルク狩りじゃ！！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=v8g_rPCaaic", publishedDate: "2021-05-29" },
+      { title: "【モンハンライズ】#かなココとモンハン　視聴者参加型狩り！【桐生ココ/天音かなた】", url: "https://www.youtube.com/watch?v=eowuilXIdGo", publishedDate: "2021-06-01" },
+      { title: "【モンハンライズ】狩りだ狩りだ狩りだーー！【#バカタレドラゴンズ】", url: "https://www.youtube.com/watch?v=0Rm8uKYa51w", publishedDate: "2021-06-07" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-454",
+    title: "影廊 配信まとめ",
+    streamer: "桐生ココ",
+    game: "影廊",
+    genre: "horror",
+    format: "multi",
+    videos: [
+      { title: "【影廊】逃げろ！！！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=3ZBATHjvnK8", publishedDate: "2021-04-08" },
+      { title: "【影廊】逃　 げ　 る【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=Az2PjLiGLH4", publishedDate: "2021-04-16" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-455",
+    title: "slither.io 配信まとめ",
+    streamer: "桐生ココ",
+    game: "slither.io",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【slither.io】初めてのミミズびよーーーーーーーーん【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=p33MZpAIfAA", publishedDate: "2021-05-07" },
+      { title: "【slither.io】へたくそミミズ道🐉長さ1万耐久【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=h0spe3scsOM", publishedDate: "2021-05-18" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-456",
+    title: "あつまれ どうぶつの森 配信まとめ",
+    streamer: "桐生ココ",
+    game: "あつまれ どうぶつの森",
+    genre: "sim",
+    format: "multi",
+    videos: [
+      { title: "【あつまれどうぶつの森】初めての無人島？生活！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=hgIhAh72zJs", publishedDate: "2021-05-16" },
+      { title: "【あつまれどうぶつの森】今日で5000マイル返済ッ！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=H6S4Jr2oA2A", publishedDate: "2021-05-17" },
+      { title: "【あつまれどうぶつの森】マイホームでさらに借金生活ぅぅ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=ShtOgoWj7_4", publishedDate: "2021-05-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-457",
+    title: "【犬鳴トンネル】げぼこわホラゲ【桐生ココ/ホロライブ】",
+    streamer: "桐生ココ",
+    game: "犬鳴トンネル",
+    genre: "horror",
+    format: "single",
+    videos: [
+      { title: "【犬鳴トンネル】げぼこわホラゲ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=PV8s0vkBvNM", publishedDate: "2021-05-21" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-458",
+    title: "【君・・・】マッチングアプリで出会い厨してみた【写真と違わない？】桐生ココ",
+    streamer: "桐生ココ",
+    game: "マッチングアプリで出会い厨してみた",
+    genre: "other",
+    format: "single",
+    videos: [
+      { title: "【君・・・】マッチングアプリで出会い厨してみた【写真と違わない？】桐生ココ", url: "https://www.youtube.com/watch?v=ulEXGKj4ioI", publishedDate: "2021-05-28" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-459",
+    title: "Minecraft 配信まとめ(うさ建夏祭り2021)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【マイクラ】ウサ建夏祭りの準備をしなきゃぁ！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=2ds6W8tK3Ns", publishedDate: "2021-06-03" },
+      { title: "【Minecraft】ウサ建屋台🍉初めての旗づくり！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=jS3AsDT0M7Q", publishedDate: "2021-06-04" },
+      { title: "【マイクラ】高みの見物台をスピード作成！ #うさ建ステージリレー【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=4U8bLa6egiU", publishedDate: "2021-06-24" },
+      { title: "【マイクラ】#うさ建夏祭り 何も考えずに楽しもう！【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=a_Z5MobpBJo", publishedDate: "2021-06-27" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-460",
+    title: "いただきストリート ドラゴンクエスト&ファイナルファンタジー 30th ANNIVERSARY 配信まとめ",
+    streamer: "桐生ココ",
+    game: "いただきストリート ドラゴンクエスト&ファイナルファンタジー 30th ANNIVERSARY",
+    genre: "other",
+    format: "multi",
+    videos: [
+      { title: "【いただきストリートDQ＆FF】わちゃわちゃ資産争奪戦！【#アキるしかなココ】", url: "https://www.youtube.com/watch?v=IpeQYlRdDko", publishedDate: "2021-06-06" },
+      { title: "【いただきストリートDQ＆FF】覚悟ッ！🎲破産覚悟のガチぼこ再戦！💰【#アキるしかなココ】", url: "https://www.youtube.com/watch?v=jB48OrSwapc", publishedDate: "2021-06-22" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-461",
+    title: "Minecraft 配信まとめ(4期生ピクセルアート)",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "multi",
+    videos: [
+      { title: "【マイクラ】4期生ピクセルアート！💗思い出を作ろう💗【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=tzXmZIEfJn4", publishedDate: "2021-06-10" },
+      { title: "【マイクラ】4期生ピクセル作り💗わためぇ💗【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=_cv1CwIkGxQ", publishedDate: "2021-06-13" },
+      { title: "【マイクラ】思い出のピクセルアートすすめましょ【桐生ココ/ホロライブ】", url: "https://www.youtube.com/watch?v=Hax9u8qPpB8", publishedDate: "2021-06-20" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-462",
+    title: "【Quest Rooms】死のゲームのはじまりだぜ💩【#バカタレドラゴンズ】",
+    streamer: "桐生ココ",
+    game: "Quest Rooms",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【Quest Rooms】死のゲームのはじまりだぜ💩【#バカタレドラゴンズ】", url: "https://www.youtube.com/watch?v=DoJbyF_mb8M", publishedDate: "2021-06-11" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-463",
+    title: "【スーパーボンバーマンRオンライン】戦じゃぁ！オラオラオラ～💣【#バカタレドラゴンズ】",
+    streamer: "桐生ココ",
+    game: "ボンバーマン R Online",
+    genre: "action",
+    format: "single",
+    videos: [
+      { title: "【スーパーボンバーマンRオンライン】戦じゃぁ！オラオラオラ～💣【#バカタレドラゴンズ】", url: "https://www.youtube.com/watch?v=stromNFvVIQ", publishedDate: "2021-06-19" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
+  },
+  {
+    id: "single-464",
+    title: "【マイクラ】最後の4期コラボ🐉楽しもう！【＃ほろふぉーす】",
+    streamer: "桐生ココ",
+    game: "Minecraft",
+    genre: "sandbox",
+    format: "single",
+    videos: [
+      { title: "【マイクラ】最後の4期コラボ🐉楽しもう！【＃ほろふぉーす】", url: "https://www.youtube.com/watch?v=3McazDzNuO4", publishedDate: "2021-06-30" }
+    ],
+    note: "専用再生リストなし",
+    addedDate: "2026-11-27"
   }
 ];
