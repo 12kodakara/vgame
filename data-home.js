@@ -32,6 +32,30 @@ const HOME_SUMMARY = {
   ],
   "recentUpdated": [
     {
+      "id": "vspo-yuuhisendo-02",
+      "title": "ドラゴンクエストVII Reimagined",
+      "streamer": "千燈ゆうひ",
+      "game": "ドラゴンクエストVII",
+      "genre": "rpg",
+      "playlistId": "PLCZokg-yey0s",
+      "thumbnailUrl": "https://i.ytimg.com/vi/hs3sJieraEs/mqdefault.jpg",
+      "videoCount": 4,
+      "addedDate": "2026-09-07",
+      "updatedDate": "2026-11-27"
+    },
+    {
+      "id": "niji-1o46v-43",
+      "title": "【コミュニケーション】あつまれどうぶつの森",
+      "streamer": "弦月藤士郎",
+      "game": "あつまれ どうぶつの森",
+      "genre": "sim",
+      "playlistId": "PLt1c9byI2pESB411T9cxg-8Jo8EzDBUoQ",
+      "thumbnailUrl": "https://i.ytimg.com/vi/sjQ43osZHjI/mqdefault.jpg",
+      "videoCount": 12,
+      "addedDate": "2026-09-08",
+      "updatedDate": "2026-11-27"
+    },
+    {
       "id": "holo-118",
       "title": "鳴潮 Wuthering Waves",
       "streamer": "姫森ルーナ",
@@ -44,52 +68,28 @@ const HOME_SUMMARY = {
       "updatedDate": "2026-11-26"
     },
     {
-      "id": "hd-0069",
-      "title": "麻雀",
-      "streamer": "アキ・ローゼンタール",
-      "game": "雀魂",
-      "genre": "other",
-      "playlistId": "PLYt9gyZFZDj_wp9-IFmeDfOyAPBwmeDqZ",
-      "thumbnailUrl": "https://i.ytimg.com/vi/P0KfOu4cuxI/mqdefault.jpg",
-      "videoCount": 19,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-25"
+      "id": "niji-063",
+      "title": "スカイリム",
+      "streamer": "一橋綾人",
+      "game": "The Elder Scrolls V: Skyrim",
+      "genre": "rpg",
+      "playlistId": "PLjDz3XfQNeNb8hdz-kTRD-htxOg6PSXqo",
+      "thumbnailUrl": "https://i.ytimg.com/vi/kA-Wi3YF2ao/mqdefault_live.jpg",
+      "videoCount": 10,
+      "addedDate": "2026-09-06",
+      "updatedDate": "2026-11-26"
     },
     {
-      "id": "vspo-emaaizawa-10",
-      "title": "スト6",
-      "streamer": "藍沢エマ",
-      "game": "ストリートファイター6",
-      "genre": "action",
-      "playlistId": "PLyqh3naVl78Gi4C504n43RNBJGjdx1lP9",
-      "thumbnailUrl": "https://i.ytimg.com/vi/2m9N5_KnRDE/mqdefault.jpg",
-      "videoCount": 188,
+      "id": "hd-0545",
+      "title": "REPO",
+      "streamer": "不知火フレア",
+      "game": "R.E.P.O.",
+      "genre": "horror",
+      "playlistId": "PLBoFNGFmekcOCZrdDMt2FfhIcNfIflyF2",
+      "thumbnailUrl": "https://i.ytimg.com/vi/j4AvE2ucY8Y/mqdefault.jpg",
+      "videoCount": 25,
       "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-25"
-    },
-    {
-      "id": "vspo-kokagetsumug-13",
-      "title": "VALORANT",
-      "streamer": "紡木こかげ",
-      "game": "VALORANT",
-      "genre": "fps",
-      "playlistId": "PLsYH4NvRwnM2cqKLaoZ4mt5s6hSchl5WR",
-      "thumbnailUrl": "https://i.ytimg.com/vi/YStlXqyJVYQ/mqdefault.jpg",
-      "videoCount": 347,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-25"
-    },
-    {
-      "id": "vspo-saineginjo-01",
-      "title": "STREET FIGHTER6",
-      "streamer": "銀城サイネ",
-      "game": "ストリートファイター6",
-      "genre": "action",
-      "playlistId": "PLftZSTc8m3qY",
-      "thumbnailUrl": "https://i.ytimg.com/vi/vfnRpqEugO8/mqdefault.jpg",
-      "videoCount": 14,
-      "addedDate": "2026-09-07",
-      "updatedDate": "2026-11-25"
+      "updatedDate": "2026-11-26"
     }
   ],
   "streamerPicks": [

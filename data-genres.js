@@ -1488,6 +1488,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "hd-0545",
+     "title": "REPO",
+     "streamer": "不知火フレア",
+     "game": "R.E.P.O.",
+     "genre": "horror",
+     "playlistId": "PLBoFNGFmekcOCZrdDMt2FfhIcNfIflyF2",
+     "thumbnailUrl": "https://i.ytimg.com/vi/j4AvE2ucY8Y/mqdefault.jpg",
+     "videoCount": 25,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-11-26"
+    },
+    {
      "id": "niji-kitamicoolgu-01",
      "title": "パラノマサイト FILE38 伊勢人魚物語",
      "streamer": "北見遊征",
@@ -1594,18 +1606,6 @@ const GENRE_PAGES = {
      "videoCount": 2,
      "addedDate": "2026-10-11",
      "updatedDate": "2026-11-16"
-    },
-    {
-     "id": "hd-0545",
-     "title": "REPO",
-     "streamer": "不知火フレア",
-     "game": "R.E.P.O.",
-     "genre": "horror",
-     "playlistId": "PLBoFNGFmekcOCZrdDMt2FfhIcNfIflyF2",
-     "thumbnailUrl": "https://i.ytimg.com/vi/j4AvE2ucY8Y/mqdefault.jpg",
-     "videoCount": 25,
-     "addedDate": "2026-09-07",
-     "updatedDate": "2026-11-10"
     }
    ]
   }
