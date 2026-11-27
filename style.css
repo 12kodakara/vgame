@@ -1473,10 +1473,7 @@ main:has(#grid:empty) #pagination {
 .play-card p{margin:5px 0;color:var(--text-dim);font-size:.9rem}
 .play-card .play-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
 .play-card .play-actions a{display:inline-block;padding:6px 10px;border:1px solid var(--border-strong);border-radius:6px;text-decoration:none;color:var(--link)}
-/* 単発・PLなし実況ページ(singles.html)のカード: 上部に動画サムネイル。PC 3列 / タブレット 2列 / スマートフォン 1列 */
-#single-grid.play-cards{grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:1000px){#single-grid.play-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:480px){#single-grid.play-cards{grid-template-columns:1fr}}
+/* 単発実況のカード(作品・VTuber詳細・検索): 上部に動画サムネイル */
 .singles-card{display:flex;flex-direction:column;min-width:0;overflow:hidden}
 .singles-card h3{overflow-wrap:anywhere}
 /* 画像の枠は 16:9 で先に確保する(読み込み前後で高さが変わらない) */
@@ -1706,6 +1703,61 @@ main:has(#grid:empty) #pagination {
   .editorial-toggle {
     font-size: 0.9rem;
   }
+}
+
+/* ---------- 単発・PLなし実況の表(singles.html) ----------
+   見た目は新着再生リストの表(body.playlists-page)を共用し、ここでは差分(8列の幅・サムネイルのリンク・
+   動画一覧の展開行・スマホ幅の並べ替え欄)だけを指定する。 */
+.singles-page .row-thumb .singles-thumb-fallback { font-size: 0.68rem; text-align: center; }
+.singles-toggle { display: block; margin-top: 4px; padding: 3px 7px; background: #fff; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--link); font-size: 0.74rem; white-space: nowrap; cursor: pointer; }
+.singles-videos { margin: 0; padding-left: 2.4em; line-height: 1.5; }
+.singles-videos li { padding: 3px 0; overflow-wrap: anywhere; }
+.singles-video-date { display: inline-block; min-width: 7em; color: var(--text-dim); font-size: 0.78rem; }
+.singles-mobile-sort { display: none; }
+/* ジャンル名は区切り位置(singles.js の wbr)以外では折り返さない */
+.singles-page .wiki-table .col-genre .badge { word-break: keep-all; overflow-wrap: normal; }
+/* タイトルは3行まで(超えた分は …)。形式ラベルはリンクの外に置き、省略されないようにする */
+.singles-page .title-cell .title-link { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; line-height: 1.45; }
+.singles-page .title-cell .format-badge { margin: 4px 0 0; }
+
+@media (min-width: 721px) {
+  .singles-page .wiki-table td.col-genre { padding-left: 6px; padding-right: 6px; }
+  /* 3行のタイトル+形式ラベルの高さを確保して、行の高さをそろえる */
+  .singles-page .title-cell .row-title-text { min-height: calc(4.35em + 28px); }
+  /* 列が多いので、これより狭くなる画面では表の中だけを横スクロールする */
+  .singles-page .wiki-table { min-width: 900px; }
+  .singles-page .wiki-table .col-genre { width: 10%; }
+  .singles-page .wiki-table .title-cell { width: 29%; }
+  .singles-page .wiki-table .col-game { width: 12.5%; }
+  .singles-page .wiki-table .col-agency { width: 9.5%; }
+  .singles-page .wiki-table .col-streamer { width: 11.5%; }
+  .singles-page .wiki-table .col-count { width: 7.5%; }
+  .singles-page .wiki-table .col-date { width: 10%; }
+  /* 展開行を挟んでも行の交互の背景色がずれないよう、色は行番号ではなくクラスで付ける */
+  .singles-page .wiki-table tbody tr:nth-child(n) { background: transparent; cursor: auto; }
+  .singles-page .wiki-table tbody tr.is-alt:nth-child(n) { background: var(--row-alt); }
+  .singles-page .wiki-table tbody tr:nth-child(n):nth-child(n):hover { background: var(--row-hover); }
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  /* 事務所列は新着と同じくこの幅では隠す */
+  .singles-page .wiki-table { min-width: 760px; }
+  .singles-page .wiki-table th,
+  .singles-page .wiki-table td { padding: 6px 4px; }
+  .singles-page .wiki-table .col-genre { width: 12%; }
+  .singles-page .wiki-table .title-cell { width: 33%; }
+  .singles-page .wiki-table .col-game { width: 13%; }
+  .singles-page .wiki-table .col-streamer { width: 12%; }
+  .singles-page .wiki-table .col-count { width: 10%; }
+  .singles-page .wiki-table .col-date { width: 10%; }
+}
+@media (max-width: 720px) {
+  /* 表の見出しが無いカード表示では、並べ替えをセレクトで選ぶ */
+  .singles-mobile-sort { display: flex; margin-top: 8px; }
+  .controls .singles-mobile-sort select { flex: 1 1 100%; }
+  .singles-page .wiki-table tbody tr { cursor: auto; }
+  .singles-page .wiki-table tbody tr.singles-detail-row { margin-top: -8px; }
+  .singles-page .wiki-table tbody tr[hidden] { display: none; }
+  .singles-toggle { display: inline-block; margin: 0 0 0 8px; min-height: 40px; padding: 8px 14px; font-size: 0.85rem; }
 }
 
 /* ---------- 関連商品(楽天アフィリエイト・ゲーム詳細) ---------- */

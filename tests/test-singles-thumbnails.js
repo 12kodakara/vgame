@@ -1,24 +1,21 @@
 /**
- * 単発・PLなし実況ページ(singles.html)のサムネイル表示の回帰テスト。ブラウザ不要(node tests/test-singles-thumbnails.js)。
+ * 単発・PLなし実況ページ(singles.html)の表の回帰テスト。ブラウザ不要(node tests/test-singles-thumbnails.js)。
  *
  * singles.js を最小限の DOM の上で実際に動かし、次を確かめる。
- *   1. 登録済みの全件にカードがあり、上部にサムネイル(16:9 の枠・alt・遅延読み込み)がある
- *   2. サムネイルの画像は「YouTubeで見る」と同じ動画URLの動画IDから作る(データの動画IDと一致)
- *   3. サムネイルのリンクは「YouTubeで見る」と同じ動画へ、別タブ・noopener で開く
- *   4. カードの情報(ゲーム名・形式バッジ・VTuber名・動画タイトル・動画数・YouTubeで見る・ゲーム詳細)を維持
- *   5. 画像が無いとき(YouTube の 120×90 の灰色画像・読み込み失敗)は 480px → 320px → 代替表示と下げ、繰り返さない
+ *   1. 登録済みの全件が8列の行になり、初期表示は投稿日の新しい順・20件ずつ
+ *   2〜4. サムネイルとタイトルは同じ動画へ別タブで開く。形式・ゲーム・事務所・実況者・動画数・投稿日・更新日
+ *   5. 画像が無いときは 320px → 480px → 代替表示と下げ、繰り返さない
  *   6. 動画IDが取れないURLは推測せず代替表示
- *   7. ゲーム名・VTuber名の検索、形式の絞り込みは従来どおり
+ *   7. 検索・絞り込み(複数条件を含む)
  *   8. singles.html(title・H1・description・canonical)は変更しない
- *  10. 複数回・PLなし(multi)のカードは「全○本を見る」(details・初期状態は閉じる)で全動画へのリンクを登録順に並べ、
- *      それ以外のカードには付けない
+ *   9. 並べ替え(投稿日・更新日・動画数)。日付が不明な行は「—」で、昇順・降順とも末尾。元データは変えない
+ *  10. 複数回・PLなし(multi)は閉じた展開行に全動画(公開日・リンク)を登録順に並べ、ボタンで開閉する
  * 失敗が1件でもあれば終了コード1。
  */
 'use strict';
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
-const { execFileSync } = require('child_process');
 
 const ROOT = path.join(__dirname, '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
@@ -26,7 +23,7 @@ let pass = 0, fail = 0;
 function check(name, ok, detail) {
   if (ok) { pass++; console.log('  [PASS] ' + name); } else { fail++; console.log('  [FAIL] ' + name + (detail ? '\n         ' + String(detail).slice(0, 400) : '')); }
 }
-console.log('=== 単発・PLなし実況ページ サムネイル表示 回帰テスト ===');
+console.log('=== 単発・PLなし実況ページ 表の回帰テスト ===');
 
 // ---- 最小限の DOM(描画処理が触る操作だけを記録する) ----
 class El {
@@ -62,7 +59,10 @@ function makeDocument(html) {
     doc.byId[m[3]] = e;
   }
   doc.getElementById = (id) => doc.byId[id] || null;
-  doc.querySelector = () => null; doc.querySelectorAll = () => [];
+  doc.sortHeaders = [...html.matchAll(/<th class="sortable[^"]*" data-sort="([a-z]+)">/g)].map((m) => {
+    const th = new El('th', doc); th.dataset = { sort: m[1] }; const arrow = new El('span', doc); th.querySelector = () => arrow; th.arrow = arrow; return th;
+  });
+  doc.querySelector = () => null; doc.querySelectorAll = (sel) => (/th\.sortable/.test(sel) ? doc.sortHeaders : []);
   doc.addEventListener = (t, f) => { (doc.listeners[t] = doc.listeners[t] || []).push(f); };
   doc.readyState = 'complete';
   return doc;
@@ -84,17 +84,26 @@ function renderSingles(standalone, dpr) {
   if (standalone) ctx.STANDALONE_PLAYS = standalone; else vm.runInContext(read('data-standalone.js'), ctx, { filename: 'data-standalone.js' });
   vm.runInContext(read('common.js'), ctx, { filename: 'common.js' });
   vm.runInContext(read('singles.js'), ctx, { filename: 'singles.js' });
-  const grid = doc.getElementById('single-grid');
-  // 一覧は24件ずつのページ分け(test-games-pagination.js で確かめる)。ここでは全ページを順にめくってカードを集め、1ページ目に戻す
+  const grid = doc.getElementById('grid');
+  // 一覧は20件ずつのページ分け。ここでは全ページを順にめくって行を集め、1ページ目に戻す
   const next = doc.getElementById('page-next'), prev = doc.getElementById('page-prev');
-  const pageCards = () => grid.children.filter((c) => c.tagName === 'ARTICLE');
-  const cards = () => {
-    const all = pageCards().slice();
-    while (next && !next.disabled && pageCards().length) { next.fire('click'); all.push(...pageCards()); }
+  const flat = () => grid.children;
+  const pageRows = () => flat().filter((c) => c.className.split(/\s+/).includes('singles-row'));
+  const rows = () => {
+    const all = pageRows().slice();
+    while (next && !next.disabled && pageRows().length) { next.fire('click'); all.push(...pageRows()); }
     while (prev && !prev.disabled) prev.fire('click');
     return all;
   };
-  return { doc, ctx, grid, cards, pageCards };
+  const details = () => {
+    const all = [];
+    const take = () => all.push(...flat().filter((c) => c.className.split(/\s+/).includes('singles-detail-row')));
+    take();
+    while (next && !next.disabled && pageRows().length) { next.fire('click'); take(); }
+    while (prev && !prev.disabled) prev.fire('click');
+    return all;
+  };
+  return { doc, ctx, grid, rows, pageRows, details };
 }
 
 // ---- データ ----
@@ -103,175 +112,167 @@ for (const f of ['data-core.js', 'data-standalone.js', 'common.js']) {
   try { vm.runInContext(read(f), dctx); } catch (e) { /* common.js のページ用処理は document が無いと動かないが、関数定義だけ使う */ }
 }
 const PLAYS = vm.runInContext('STANDALONE_PLAYS', dctx);
-// 一覧の表示順(追加日の新しい順・同じ追加日は登録順)。実装の並べ替えは使わず、登録位置を明示した比較で独立に作る
-const byShownOrder = (list) => list.map((p, i) => ({ p, i }))
+// 期待値は実装の関数を使わずに作る
+const first = (p) => p.videos.map((v) => v.publishedDate).sort()[0];
+const last = (p) => p.videos.map((v) => v.publishedDate).sort().slice(-1)[0];
+// 追加日の新しい順(同日は登録順)を土台に、指定の値で並べる
+const BASE = PLAYS.map((p, i) => ({ p, i }))
   .sort((a, b) => ((b.p.addedDate || '') > (a.p.addedDate || '') ? 1 : (b.p.addedDate || '') < (a.p.addedDate || '') ? -1 : a.i - b.i))
   .map((x) => x.p);
-const SHOWN = byShownOrder(PLAYS);
-// 形式ごとのバッジ表示(common.js の playFormatLabel の仕様)。実装の関数は使わず、期待値をここで固定する
+const ordered = (value, dir) => BASE.map((p, i) => ({ p, i, v: value(p) }))
+  .sort((a, b) => (a.v === b.v ? a.i - b.i : (a.v < b.v ? -1 : 1) * dir)).map((x) => x.p);
+const SHOWN = ordered(first, -1);
 const FORMAT_BADGE = { single: '単発', multi: '複数回・PLなし', 'mixed-playlist': '雑多PL内' };
-// データの動画URLから動画IDを独立に取り出す(実装とは別の方法)
 const idFromData = (url) => { const m = /^https:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})$/.exec(url); return m ? m[1] : null; };
+const slash = (d) => d.replace(/-/g, '/');
+const keyOf = (row) => row.byClass('title-link')[0].href;
+const urlsOf = (list) => list.map((p) => p.videos[0].url).join();
 
 const r = renderSingles();
-const cards = r.cards();
+const rows = r.rows();
 
-// ---- 1〜4. 全件のカード ----
+// ---- 1〜4. 全件の行 ----
 {
-  // 件数は固定しない(単発実況を追加しても壊れないように)。0件で「0 = 0」と通らないよう1件以上、id の重複なしも確かめる
-  check('1a. 登録済みの全 ' + PLAYS.length + ' 件にカードがあり、件数表示も一致', PLAYS.length > 0 && new Set(PLAYS.map((p) => p.id)).size === PLAYS.length && cards.length === PLAYS.length && r.doc.getElementById('result-count').textContent === PLAYS.length + ' 件');
+  check('1a. 登録済みの全 ' + PLAYS.length + ' 件が行になり、初期表示は20件。件数と表示範囲を出す',
+    PLAYS.length > 0 && new Set(PLAYS.map((p) => p.id)).size === PLAYS.length && rows.length === PLAYS.length && r.pageRows().length === Math.min(20, PLAYS.length) &&
+    r.doc.getElementById('result-count').textContent.startsWith(PLAYS.length + ' 件 (投稿日の新しい順) — 1〜'), r.doc.getElementById('result-count').textContent);
   const problems = [];
-  cards.forEach((card, i) => {
+  rows.forEach((row, i) => {
     const item = SHOWN[i];
-    const id = idFromData((item.videos[0] || {}).url || '');
-    const thumb = card.children[0];
-    if (!thumb || thumb.className !== 'singles-thumb' || thumb.tagName !== 'A') { problems.push(item.id + ': 先頭にサムネイルが無い'); return; }
-    const img = thumb.byTag('img')[0];
-    if (!img) { problems.push(item.id + ': img が無い'); return; }
-    if (!id) problems.push(item.id + ': データに動画IDが無い');
-    if (img.src !== 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg') problems.push(item.id + ': src ' + img.src);
-    // srcset の幅指定は使わない(naturalWidth が画面の密度で割られ、YouTube の灰色画像を見分けられなくなるため)
-    if (img.hasAttribute('srcset')) problems.push(item.id + ': srcset がある');
-    if (img.width !== 480 || img.height !== 270) problems.push(item.id + ': 枠の大きさ ' + img.width + 'x' + img.height);
-    if (!img.alt || !img.alt.includes(item.title)) problems.push(item.id + ': alt ' + img.alt);
-    if (img.decoding !== 'async' || img.loading !== (i < 3 ? 'eager' : 'lazy')) problems.push(item.id + ': 読み込み設定 ' + img.loading + '/' + img.decoding);
-    // 3. リンク先は「YouTubeで見る」と同じ動画
-    const actions = card.byClass('play-actions')[0];
-    const [yt, detail] = actions.byTag('a');
-    if (thumb.href !== item.videos[0].url || yt.href !== item.videos[0].url || thumb.href !== yt.href) problems.push(item.id + ': リンク先 ' + thumb.href + ' / ' + yt.href);
-    if (thumb.target !== '_blank' || !/\bnoopener\b/.test(thumb.rel)) problems.push(item.id + ': 外部リンクの属性 ' + thumb.target + ' ' + thumb.rel);
-    // 4. カードの情報
-    const h3 = card.byTag('h3')[0];
-    const badge = h3.byClass('format-badge')[0];
-    if (h3.textContent !== vm.runInContext('gameDisplayName', r.ctx)(item.game) + ' ' + badge.textContent || badge.textContent !== FORMAT_BADGE[item.format]) problems.push(item.id + ': ゲーム名・バッジ ' + h3.textContent);
-    const ps = card.byTag('p');
-    const streamerLink = ps[0].byTag('a')[0];
-    if (!streamerLink || streamerLink.textContent !== item.streamer || streamerLink.href !== 'streamer.html?streamer=' + encodeURIComponent(item.streamer)) problems.push(item.id + ': VTuber名');
-    if (ps[1].className !== 'singles-title' || ps[1].textContent !== item.title || ps[1].title !== item.title) problems.push(item.id + ': 動画タイトル(全文の title 属性)');
-    if (ps[2].textContent !== '動画数: ' + item.videos.length + '本') problems.push(item.id + ': 動画数 ' + ps[2].textContent);
-    if (yt.textContent !== 'YouTubeで見る' || yt.target !== '_blank' || yt.rel !== 'noopener') problems.push(item.id + ': YouTubeで見る');
-    if (!detail || detail.textContent !== 'ゲーム詳細' || detail.href !== 'game.html?game=' + encodeURIComponent(item.game)) problems.push(item.id + ': ゲーム詳細 ' + (detail && detail.href));
+    const url = item.videos[0].url, id = idFromData(url);
+    const td = row.children;
+    if (td.length !== 8) { problems.push(item.id + ': 列数 ' + td.length); return; }
+    const thumb = td[1].byClass('row-thumb')[0], img = thumb && thumb.byTag('img')[0];
+    if (!img) { problems.push(item.id + ': サムネイルが無い'); return; }
+    if (img.src !== 'https://i.ytimg.com/vi/' + id + '/mqdefault.jpg') problems.push(item.id + ': src ' + img.src);
+    if (!img.alt.includes(item.title) || img.loading !== (i < 3 ? 'eager' : 'lazy')) problems.push(item.id + ': alt・読み込み設定');
+    const title = td[1].byClass('title-link')[0];
+    if (title.textContent !== item.title || title.href !== url || thumb.href !== url) problems.push(item.id + ': タイトル・リンク先');
+    if (title.target !== '_blank' || !/\bnoopener\b/.test(title.rel) || thumb.target !== '_blank' || !/\bnoopener\b/.test(thumb.rel)) problems.push(item.id + ': 外部リンクの属性');
+    if (title.title !== item.title) problems.push(item.id + ': タイトル全文(title属性)');
+    if (td[1].byClass('format-badge')[0].textContent !== FORMAT_BADGE[item.format] || title.byClass('format-badge').length) problems.push(item.id + ': 形式');
+    if (!td[0].byClass('badge')[0] || !td[0].textContent) problems.push(item.id + ': ジャンル');
+    const game = td[2].byTag('a')[0], agency = td[3].byTag('a')[0], streamer = td[4].byTag('a')[0];
+    if (game.textContent !== item.game || game.href !== 'game.html?game=' + encodeURIComponent(item.game)) problems.push(item.id + ': ゲーム');
+    if (!agency.textContent || agency.href !== 'streamers.html?agency=' + encodeURIComponent(agency.textContent)) problems.push(item.id + ': 事務所');
+    if (streamer.textContent !== item.streamer || streamer.href !== 'streamer.html?streamer=' + encodeURIComponent(item.streamer)) problems.push(item.id + ': 実況者');
+    if (!td[5].textContent.startsWith(item.videos.length + '本')) problems.push(item.id + ': 動画数 ' + td[5].textContent);
+    if (td[6].textContent !== slash(first(item)) || td[7].textContent !== slash(last(item))) problems.push(item.id + ': 日付 ' + td[6].textContent + ' ' + td[7].textContent);
   });
-  check('1b〜4. 全カード: 先頭にサムネイル(16:9 の枠 480×270・alt・先頭3枚以外は遅延読み込み)、画像は動画IDから生成、リンクは「YouTubeで見る」と同じ動画、ほかの情報は維持', problems.length === 0, problems.slice(0, 6).join(' / '));
-  const ids = cards.map((c) => (c.byTag('img')[0] || {}).src);
-  check('2. サムネイルの動画IDはすべて別(同じ画像を重複して読み込まない)', new Set(ids).size === ids.length);
+  check('1b〜4. 全行: 投稿日の新しい順で、サムネイル・タイトル・形式・ジャンル・ゲーム・事務所・実況者・動画数・投稿日(最古)・更新日(最新)', problems.length === 0, problems.slice(0, 6).join(' / '));
+  check('2. サムネイルの動画IDはすべて別', new Set(rows.map((c) => c.byTag('img')[0].src)).size === rows.length);
 }
 
-// ---- 10. 複数回・PLなし(multi)の全動画リンク ----
+// ---- 10. 複数回・PLなし(multi)の展開 ----
 {
+  const s = renderSingles();
+  const multi = SHOWN.filter((p) => p.format === 'multi' && p.videos.length >= 2);
+  const details = s.details();
   const problems = [];
-  let multiCount = 0;
-  cards.forEach((card, i) => {
-    const item = SHOWN[i];
-    const lists = card.byClass('standalone-videos');
-    if (item.format !== 'multi' || item.videos.length < 2) {
-      if (lists.length) problems.push(item.id + ': multi 以外に動画一覧がある');
-      return;
-    }
-    multiCount++;
-    const det = lists[0];
-    if (lists.length !== 1 || det.tagName !== 'DETAILS' || det.open) { problems.push(item.id + ': details が無い・初期状態で開いている'); return; }
-    if (card.children[card.children.length - 1] !== det) problems.push(item.id + ': 一覧がカードの末尾(ボタンの下)に無い');
-    const summary = det.byTag('summary')[0];
-    if (!summary || summary.textContent !== '全' + item.videos.length + '本を見る') problems.push(item.id + ': summary ' + (summary && summary.textContent));
-    const links = det.byTag('a');
-    if (links.length !== item.videos.length) { problems.push(item.id + ': リンク数 ' + links.length + ' / 登録 ' + item.videos.length); return; }
-    links.forEach((a, k) => {
-      const v = item.videos[k];
-      if (a.href !== v.url || a.textContent !== v.title || a.target !== '_blank' || a.rel !== 'noopener') problems.push(item.id + ': ' + (k + 1) + '本目のリンク ' + a.href);
-    });
-    const times = det.byTag('time');
-    if (times.length !== item.videos.filter((v) => v.publishedDate).length || times.some((t, k) => t.dateTime !== item.videos[k].publishedDate)) problems.push(item.id + ': 公開日');
+  details.forEach((d, i) => {
+    const item = multi[i];
+    if (!d.hidden || d.children[0].colSpan !== 8) problems.push(item.id + ': 初期状態・列結合');
+    const links = d.byTag('a');
+    if (links.length !== item.videos.length || links.some((a, k) => a.href !== item.videos[k].url || a.textContent !== item.videos[k].title || a.target !== '_blank' || a.rel !== 'noopener')) problems.push(item.id + ': リンク');
+    const times = d.byTag('time');
+    if (times.length !== item.videos.length || times.some((t, k) => t.textContent !== slash(item.videos[k].publishedDate))) problems.push(item.id + ': 公開日');
   });
-  check('10. 複数回・PLなしの全 ' + multiCount + ' 件: 「全○本を見る」(閉じた details)をカード末尾に置き、登録順の全動画へ正しいURL・別タブで開くリンクと公開日を並べる。それ以外のカードには付けない',
-    multiCount > 0 && problems.length === 0, problems.slice(0, 5).join(' / '));
+  check('10a. 複数回・PLなしの全 ' + multi.length + ' 件: 閉じた展開行に全動画(公開日・リンク)を登録順に並べる。単発には付けない',
+    multi.length > 0 && details.length === multi.length && problems.length === 0 && s.rows().every((row, i) => row.byClass('singles-toggle').length === (SHOWN[i].format === 'multi' && SHOWN[i].videos.length >= 2 ? 1 : 0)), problems.slice(0, 5).join(' / '));
+  const s2 = renderSingles([multi[0]]);
+  const btn = s2.pageRows()[0].byClass('singles-toggle')[0], d = s2.grid.children[1];
+  const closed = [d.hidden, btn.getAttribute('aria-expanded'), btn.textContent].join();
+  btn.fire('click'); const open = [d.hidden, btn.getAttribute('aria-expanded'), btn.textContent].join();
+  btn.fire('click');
+  check('10b. ボタンで開閉し、状態がボタンの文字と aria-expanded に出る', closed === 'true,false,▼ 一覧' && open === 'false,true,▲ 閉じる' && d.hidden === true, closed + ' | ' + open);
 }
 
 // ---- 5. 画像が無いときの切り替え ----
 {
-  const card = cards[5];
-  const thumb = card.children[0], img = thumb.byTag('img')[0];
+  const row = rows[5];
+  const thumb = row.byClass('row-thumb')[0], img = thumb.byTag('img')[0];
   const id = idFromData(SHOWN[5].videos[0].url);
-  const u = (s) => 'https://i.ytimg.com/vi/' + id + '/' + s + '.jpg';
-  // 通常の画面: 1段目(480px)が YouTube の灰色画像(120×90)
+  const u = (n) => 'https://i.ytimg.com/vi/' + id + '/' + n + '.jpg';
   img.naturalWidth = 120; img.naturalHeight = 90; img.fire('load');
-  const s2 = img.src;
-  img.fire('error'); // 2段目(320px)が読み込み失敗
+  img.fire('error');
   const fellBack = !thumb.byTag('img').length && thumb.byClass('singles-thumb-fallback').length === 1;
-  const before = img.srcHistory.length;
-  img.fire('error'); img.fire('load'); // 代替表示の後に来たイベントでは何もしない
-  check('5a. 画像が無いときは 480px → 320px → 代替表示「▶ YouTubeで見る」と下げ、リンクと aria-label は残る',
-    img.srcHistory[0] === u('hqdefault') && s2 === u('mqdefault') && fellBack && thumb.href === SHOWN[5].videos[0].url && !!thumb.getAttribute('aria-label'), [img.srcHistory.join(','), fellBack].join(' | '));
-  check('5b. 読み込み直しは段数(2回)までで、代替表示の後は繰り返さない', img.srcHistory.length === 2 && img.srcHistory.length === before, img.srcHistory.join(' , '));
-  // 高解像度の画面(2倍): 640px → 480px → 320px → 代替表示
-  const hd = renderSingles(null, 2), hcard = hd.cards()[5], himg = hcard.children[0].byTag('img')[0];
-  const first = himg.src;
-  himg.naturalWidth = 120; himg.naturalHeight = 90; himg.fire('load'); himg.fire('error'); himg.fire('load');
-  const hFell = !hcard.children[0].byTag('img').length; himg.fire('error');
-  check('5e. 高解像度の画面では 640px から始め、480px → 320px → 代替表示(最大3回)',
-    first === u('sddefault') && himg.srcHistory.join() === [u('sddefault'), u('hqdefault'), u('mqdefault')].join() && hFell && himg.srcHistory.length === 3, himg.srcHistory.join(' , '));
-  // 正常な画像(320×180 など)では切り替えない
-  const ok = cards[6].byTag('img')[0]; ok.naturalWidth = 480; ok.naturalHeight = 360; ok.fire('load');
-  check('5c. 正常に読み込めた画像はそのまま(切り替えない)', ok.srcHistory.length === 1 && cards[6].children[0].byTag('img').length === 1);
-  // 1枚が失敗しても他のカードは変わらない
-  check('5d. 1枚の失敗は他のカードに影響しない', cards.filter((c) => c.children[0].byTag('img').length).length === cards.length - 1);
+  img.fire('error'); img.fire('load');
+  check('5a. 320px → 480px → 代替表示と下げて繰り返さず、枠とリンクは残る',
+    img.srcHistory.join() === [u('mqdefault'), u('hqdefault')].join() && fellBack && thumb.className === 'row-thumb' && thumb.href === SHOWN[5].videos[0].url && !!thumb.getAttribute('aria-label'), img.srcHistory.join());
 }
 
 // ---- 6. 動画IDが取れないURL ----
 {
   const base = PLAYS[0];
   const fixture = [
-    Object.assign({}, base, { id: 'fx-mixed', format: 'mixed-playlist', mixedPlaylistUrl: 'https://www.youtube.com/playlist?list=PLxxxxxxxxxxxx' }),
-    Object.assign({}, base, { id: 'fx-bad', videos: [{ title: 'x', url: 'https://video.invalid/watch?v=Ac-DypNuXyc', publishedDate: '2026-01-01' }] }),
+    Object.assign({}, base, { id: 'fx-bad', videos: [{ title: 'x', url: 'https://video.invalid/watch?v=Ac-DypNuXyc', publishedDate: '2026-02-01' }] }),
     Object.assign({}, base, { id: 'fx-short', videos: [{ title: 'x', url: 'https://youtu.be/Ac-DypNuXyc', publishedDate: '2026-01-01' }] }),
   ];
-  const fr = renderSingles(fixture), fc = fr.cards();
-  const kinds = fc.map((c) => (c.children[0].byTag('img')[0] ? c.children[0].byTag('img')[0].src : 'fallback'));
-  check('6. 動画IDの無いURL(再生リスト・YouTube以外)は推測せず代替表示、youtu.be 形式は動画IDを使う',
-    kinds[0] === 'fallback' && kinds[1] === 'fallback' && kinds[2] === 'https://i.ytimg.com/vi/Ac-DypNuXyc/hqdefault.jpg', kinds.join(' | '));
+  const kinds = renderSingles(fixture).rows().map((c) => (c.byTag('img')[0] ? c.byTag('img')[0].src : 'fallback'));
+  check('6. 動画IDの無いURLは推測せず代替表示、youtu.be 形式は動画IDを使う', kinds.join() === 'fallback,https://i.ytimg.com/vi/Ac-DypNuXyc/mqdefault.jpg', kinds.join(' | '));
 }
 
 // ---- 7. 検索・絞り込み ----
 {
   const s = renderSingles();
-  const input = s.doc.getElementById('single-search'), format = s.doc.getElementById('format-select');
-  const search = (q) => { input.value = q; input.fire('input'); return s.cards().map((c) => c.byTag('h3')[0].textContent + '/' + c.byTag('p')[0].textContent); };
-  const byGame = search('夜勤清掃');
-  const byStreamer = search('熱千めら');
-  const none = search('存在しないゲーム名');
-  const emptyShown = s.grid.byClass('empty-state').length === 1;
-  search('');
-  format.value = 'multi'; format.fire('change'); const multi = s.cards().length;
-  format.value = 'single'; format.fire('change'); const single = s.cards().length;
-  const exp = (pred) => PLAYS.filter(pred).length;
-  check('7. 検索・絞り込み: ゲーム名「夜勤清掃」' + byGame.length + '件・VTuber名「熱千めら」' + byStreamer.length + '件・該当なしは空表示・形式「複数回」' + multi + '件・「単発」' + single + '件',
-    byGame.length === exp((x) => x.game === '夜勤清掃') && byStreamer.length === exp((x) => x.streamer === '熱千めら') && none.length === 0 && emptyShown &&
-    multi === exp((x) => x.format === 'multi') && single === exp((x) => x.format === 'single'), [byGame.length, byStreamer.length, none.length, emptyShown, multi, single].join(','));
-  // 検索で作り直しても、サムネイルのURLは同じ(ブラウザのキャッシュが使われる)
-  // 形式の絞り込み(single / multi / すべて)ごとに、表示されるカードのサムネイルが、その条件に合う実況の先頭の動画と同じ順で一致するかを見る
-  const thumbsFor = (f) => { format.value = f; format.fire('change'); return s.cards().map((c) => c.byTag('img')[0].src).join(); };
-  const expectThumbs = (f) => SHOWN.filter((x) => !f || x.format === f).map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg').join();
-  const thumbFails = ['single', 'multi', ''].filter((f) => thumbsFor(f) !== expectThumbs(f));
-  check('7b. 作り直し後もサムネイルの URL は同じ(単発・複数回・すべての絞り込みそれぞれ)', thumbFails.length === 0, thumbFails.map((f) => f || 'すべて').join(','));
+  const el = (id) => s.doc.getElementById(id);
+  const set = (values) => {
+    ['search-input', 'genre-select', 'game-select', 'agency-select', 'streamer-select', 'format-select'].forEach((id) => { el(id).value = values[id] || ''; });
+    el('search-input').fire('input'); return s.rows();
+  };
+  const exp = (pred) => urlsOf(SHOWN.filter(pred));
+  const got = (list) => list.map(keyOf).join();
+  const one = PLAYS.find((p) => p.format === 'multi');
+  const agencyOf = vm.runInContext('agencyOf', s.ctx);
+  const cases = [
+    [{ 'search-input': '夜勤清掃' }, (p) => [p.title, p.game, p.note].join(' ').includes('夜勤清掃')],
+    [{ 'genre-select': one.genre }, (p) => p.genre === one.genre],
+    [{ 'game-select': one.game }, (p) => p.game === one.game],
+    [{ 'agency-select': agencyOf(one.streamer) }, (p) => agencyOf(p.streamer) === agencyOf(one.streamer)],
+    [{ 'streamer-select': one.streamer }, (p) => p.streamer === one.streamer],
+    [{ 'format-select': 'single' }, (p) => p.format === 'single'],
+    [{ 'format-select': 'multi' }, (p) => p.format === 'multi'],
+    [{ 'genre-select': one.genre, 'agency-select': agencyOf(one.streamer), 'format-select': 'multi' }, (p) => p.genre === one.genre && agencyOf(p.streamer) === agencyOf(one.streamer) && p.format === 'multi'],
+  ];
+  const bad = cases.map(([v, pred], i) => (got(set(v)) === exp(pred) && exp(pred) ? null : i)).filter((x) => x !== null);
+  const none = set({ 'search-input': '存在しないゲーム名' });
+  check('7. キーワード・ジャンル・ゲーム・事務所・実況者・形式と、その組み合わせで絞り込める。該当なしは空表示', bad.length === 0 && none.length === 0 && s.grid.byClass('empty-state').length === 1, 'cases ' + bad.join());
+  set({}); el('page-next').fire('click');
+  el('format-select').value = 'single'; el('format-select').fire('change');
+  check('7b. 条件を変えると1ページ目に戻る', el('page-indicator').textContent.startsWith('1 / '));
 }
 
-// ---- 9. 並び順(追加日の新しい順・同じ追加日は登録順・元データは変えない) ----
+// ---- 9. 並べ替え ----
 {
   const s = renderSingles();
-  const shownIds = s.cards().map((c) => c.byTag('img')[0].src);
-  const expectIds = SHOWN.map((x) => 'https://i.ytimg.com/vi/' + idFromData(x.videos[0].url) + '/hqdefault.jpg');
-  const dates = SHOWN.map((x) => x.addedDate || '');
-  const desc = dates.every((d, i) => i === 0 || dates[i - 1] >= d);
-  const srcOrder = vm.runInContext('STANDALONE_PLAYS', s.ctx).map((x) => x.id).join();
-  check('9a. 一覧は追加日の新しい順(先頭 ' + dates[0] + '・末尾 ' + dates[dates.length - 1] + ')で、同じ追加日の中は登録順',
-    shownIds.join() === expectIds.join() && desc, shownIds.slice(0, 3).join(' , '));
-  check('9b. 並べ替えは表示用の配列だけで、元データ(STANDALONE_PLAYS)の順番は変わらない', srcOrder === PLAYS.map((x) => x.id).join());
-  // 追加日の無いものは最後、同じ日付の中は登録順(テスト用データで確かめる)
-  const base = PLAYS[0];
-  const fx = [['fx-a', '2026-01-01'], ['fx-b', '2026-03-01'], ['fx-c', undefined], ['fx-d', '2026-03-01'], ['fx-e', '2026-02-01']]
-    .map(([id, d], i) => Object.assign({}, base, { id, addedDate: d, videos: [{ title: id, url: 'https://www.youtube.com/watch?v=fixture000' + i, publishedDate: '2026-01-01' }] }));
-  const order = renderSingles(fx).cards().map((c) => (/\/vi\/fixture000(\d)\//.exec(c.byTag('img')[0].src) || [])[1]);
-  check('9c. 同じ追加日は登録順、追加日の無いものは最後(fx-b → fx-d → fx-e → fx-a → fx-c)', order.join() === ['1', '3', '4', '0', '2'].join(), order.join());
+  const th = (k) => s.doc.sortHeaders.find((h) => h.dataset.sort === k);
+  const arrows = () => s.doc.sortHeaders.map((h) => h.dataset.sort + h.arrow.textContent).join();
+  const initial = arrows();
+  const bad = [];
+  for (const [key, value] of [['posted', first], ['updated', last], ['count', (p) => p.videos.length]]) {
+    // 現在の列でなければ降順から始まり、もう一度押すと昇順
+    for (const dir of key === 'posted' ? [1, -1] : [-1, 1]) {
+      s.doc.getElementById('page-next').fire('click');
+      th(key).fire('click');
+      if (!s.doc.getElementById('page-indicator').textContent.startsWith('1 / ')) bad.push(key + dir + ' page');
+      if (s.rows().map(keyOf).join() !== urlsOf(ordered(value, dir))) bad.push(key + dir);
+      if (th(key).arrow.textContent !== (dir === 1 ? '▲' : '▼') || th(key).getAttribute('aria-sort') !== (dir === 1 ? 'ascending' : 'descending')) bad.push(key + dir + ' arrow');
+    }
+  }
+  check('9a. 初期は投稿日の降順。投稿日・更新日・動画数を全件に対して昇順・降順で並べ替え、1ページ目に戻って矢印を出す', initial === 'count,posted▼,updated' && bad.length === 0, initial + ' ' + bad.join());
+  const sel = s.doc.getElementById('sort-select'); sel.value = 'count-asc'; sel.fire('change');
+  check('9b. 並べ替えセレクト(スマホ幅)でも並べ替えられる', s.rows().map(keyOf).join() === urlsOf(ordered((p) => p.videos.length, 1)));
+  check('9c. 元データ(STANDALONE_PLAYS)の順番は変わらない', vm.runInContext('STANDALONE_PLAYS', s.ctx).map((x) => x.id).join() === PLAYS.map((x) => x.id).join());
+  const v = (n, d) => ({ title: 't' + n, url: 'https://www.youtube.com/watch?v=fixture000' + n, publishedDate: d });
+  const mk = (id, videos, extra) => Object.assign({}, PLAYS[0], { id, title: id, format: videos.length > 1 ? 'multi' : 'single', videos }, extra || {});
+  const fx = renderSingles([mk('none', [v(0)]), mk('old', [v(1, '2025-01-01')]), mk('partial', [v(2, '2027-01-01'), v(3, '')]), mk('new', [v(4, '2026-03-02'), v(5, '2026-01-05')]),
+    mk('invalid', [v(6, '2026-02-30')]), mk('short', [v(7, '2026-05-05')], { videoCount: 3 })]);
+  const titles = () => fx.rows().map((c) => c.byClass('title-link')[0].textContent).join();
+  const unknown = fx.rows().filter((c) => c.children[6].textContent === '—' && c.children[7].textContent === '—').length;
+  const desc = titles(); fx.doc.sortHeaders.find((h) => h.dataset.sort === 'posted').fire('click'); const asc = titles();
+  const multiRow = fx.rows().find((c) => c.byClass('title-link')[0].textContent === 'new');
+  check('9d. 公開日が1本でも不明・不正・未登録なら「—」で、昇順・降順とも末尾。複数本は最古を投稿日・最新を更新日',
+    unknown === 4 && desc.startsWith('new,old,') && asc.startsWith('old,new,') && multiRow.children[6].textContent === '2026/01/05' && multiRow.children[7].textContent === '2026/03/02', [unknown, desc, asc].join(' | '));
 }
 
 // ---- 8. singles.html の検索向け情報は変えない ----

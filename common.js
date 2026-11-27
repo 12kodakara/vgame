@@ -376,8 +376,9 @@ function youtubeVideoIdOf(url) {
  * (srcset の幅指定を使うと naturalWidth が画面の密度で割られ、下の 120×90 の判定ができなくなるため使わない)。
  * 段数が決まっているので、失敗しても再読み込みを繰り返さない。すべて失敗したら代替表示にする。
  */
-function createStandaloneThumbnail(item, url, eager) {
-  const stages = (window.devicePixelRatio || 1) >= 1.5 ? ["sddefault", "hqdefault", "mqdefault"] : ["hqdefault", "mqdefault"];
+function createStandaloneThumbnail(item, url, eager, sizes) {
+  // sizes: 読み込む順を指定する(表の小さな枠用)。省略時はカード向け
+  const stages = sizes || ((window.devicePixelRatio || 1) >= 1.5 ? ["sddefault", "hqdefault", "mqdefault"] : ["hqdefault", "mqdefault"]);
   const link = document.createElement("a");
   link.className = "singles-thumb";
   link.href = url;
@@ -1723,9 +1724,14 @@ function listHiddenNote(hiddenCount) {
  * ページ(新着)でも全件と同じ選択肢になる。URL の q / genre / game / agency / streamer を初期値にする。
  * スマートフォン幅(720px以下)では絞り込み欄(#list-filters の <details>)を折りたためる(PC幅では常に開く)。
  * onChange(): 検索語(入力が落ち着いてから)・絞り込みが変わったときに呼ぶ。
- * 戻り値: { getFilters() } — 現在の条件 { q, genre, game, agency, streamer }
+ * options(省略可。単発実況ページ singles.js が使う):
+ *   gameCounts / streamerCounts: 選択肢に出すゲーム・実況者の件数索引(省略時は再生リストの件数索引)
+ *   extraSelects: [{ el, param }] 追加の絞り込みセレクト。getFilters() に param 名で値が入る
+ * 戻り値: { getFilters(), readFromUrl() } — getFilters は現在の条件 { q, genre, game, agency, streamer }、
+ *   readFromUrl は URL の条件を入力欄に反映し直す(戻る・進む用)
  */
-function initPlaylistListControls(onChange) {
+function initPlaylistListControls(onChange, options) {
+  const extraSelects = (options && options.extraSelects) || [];
   const searchInput = document.getElementById("search-input");
   const genreSelect = document.getElementById("genre-select");
   const gameSelect = document.getElementById("game-select");
@@ -1744,8 +1750,10 @@ function initPlaylistListControls(onChange) {
     });
   }
 
-  const gameCounts = typeof PLAYLIST_COUNTS_BY_GAME === "undefined" ? {} : PLAYLIST_COUNTS_BY_GAME;
-  const streamerCounts = typeof PLAYLIST_COUNTS_BY_STREAMER === "undefined" ? {} : PLAYLIST_COUNTS_BY_STREAMER;
+  const gameCounts = (options && options.gameCounts) ||
+    (typeof PLAYLIST_COUNTS_BY_GAME === "undefined" ? {} : PLAYLIST_COUNTS_BY_GAME);
+  const streamerCounts = (options && options.streamerCounts) ||
+    (typeof PLAYLIST_COUNTS_BY_STREAMER === "undefined" ? {} : PLAYLIST_COUNTS_BY_STREAMER);
   const agencies = [];
   STREAMERS.forEach((s) => {
     const agency = agencyOf(s.name);
@@ -1764,31 +1772,39 @@ function initPlaylistListControls(onChange) {
   fillSelect(gameSelect, uniqueSorted(Object.keys(gameCounts)).map((n) => [n, gameDisplayName(n)]), "すべてのゲーム");
   fillSelect(agencySelect, agencies.map((a) => [a, a]), "すべての事務所");
 
-  // URL からの初期値(選択肢に無い値は「すべて」のまま)
-  searchInput.value = getQueryParam("q") || "";
-  [[genreSelect, "genre"], [gameSelect, "game"], [agencySelect, "agency"]].forEach(([el, name]) => {
-    const v = getQueryParam(name);
-    if (v) el.value = v;
-  });
-  fillStreamers();
-  const initialStreamer = getQueryParam("streamer");
-  if (initialStreamer) streamerSelect.value = initialStreamer;
+  // URL の値を入力欄へ(URL に無い条件は「すべて」)
+  function setFromUrl() {
+    searchInput.value = getQueryParam("q") || "";
+    [[genreSelect, "genre"], [gameSelect, "game"], [agencySelect, "agency"]]
+      .concat(extraSelects.map((x) => [x.el, x.param]))
+      .forEach(([el, name]) => { el.value = getQueryParam(name) || ""; });
+    fillStreamers();
+    streamerSelect.value = getQueryParam("streamer") || "";
+  }
+  setFromUrl();
 
   function getFilters() {
-    return {
+    const filters = {
       q: searchInput.value,
       genre: genreSelect.value,
       game: gameSelect.value,
       agency: agencySelect.value,
       streamer: streamerSelect.value,
     };
+    extraSelects.forEach((x) => { filters[x.param] = x.el.value; });
+    return filters;
+  }
+
+  // 指定中の絞り込み(検索語を除く)の数
+  function selectedCount() {
+    const f = getFilters();
+    return [f.genre, f.game, f.agency, f.streamer].concat(extraSelects.map((x) => f[x.param])).filter(Boolean).length;
   }
 
   // 折りたたみの見出しに、指定中の絞り込みの数を出す(閉じていても条件が分かるように)
   function updateActiveCount() {
     if (!activeCount) return;
-    const f = getFilters();
-    const n = [f.genre, f.game, f.agency, f.streamer].filter(Boolean).length;
+    const n = selectedCount();
     activeCount.textContent = n ? "(" + n + "件指定中)" : "";
   }
 
@@ -1800,13 +1816,12 @@ function initPlaylistListControls(onChange) {
   // 検索欄はキー入力のたびに再描画しないよう、入力が落ち着いてから絞り込む。セレクトは change だけを見る
   searchInput.addEventListener("input", debounce(changed, 150));
   agencySelect.addEventListener("change", () => { fillStreamers(); changed(); });
-  [genreSelect, gameSelect, streamerSelect].forEach((el) => el.addEventListener("change", changed));
+  [genreSelect, gameSelect, streamerSelect].concat(extraSelects.map((x) => x.el))
+    .forEach((el) => el.addEventListener("change", changed));
 
   if (details && window.matchMedia) {
     const mobile = window.matchMedia("(max-width: 720px)");
-    const f = getFilters();
-    const hasSelects = !!(f.genre || f.game || f.agency || f.streamer);
-    details.open = !mobile.matches || hasSelects;
+    details.open = !mobile.matches || selectedCount() > 0;
     // PC幅では見出しを隠して常に開く(スマホ幅で閉じたまま幅を広げても、絞り込み欄が消えたままにならないように)
     const keepOpenOnWide = () => { if (!mobile.matches) details.open = true; };
     if (mobile.addEventListener) mobile.addEventListener("change", keepOpenOnWide);
@@ -1814,7 +1829,7 @@ function initPlaylistListControls(onChange) {
   }
   updateActiveCount();
 
-  return { getFilters: getFilters };
+  return { getFilters: getFilters, readFromUrl: () => { setFromUrl(); updateActiveCount(); } };
 }
 
 /**

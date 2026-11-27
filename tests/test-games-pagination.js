@@ -7,7 +7,7 @@
  *      URL からの復元・かなの小見出しリンク(そのかなの先頭があるページへ移る)・前のページから続くかなの「(続き)」
  *   3. ゲーム名検索: 24件ずつ・並び順(関連度順/件数順)の維持・条件を変えたら1ページ目・URL の q/sort/page からの復元・戻る/進む
  *   4. 既存のページ切り替え(引数2つの呼び出し)は URL を変えない
- *   5. 単発実況の一覧(singles.html): 24件ずつ・全件を重複・欠落なく・URL と戻る・検索で1ページ目・遅延読み込み
+ *   5. 単発実況の一覧(singles.html): 20件ずつ・全件を重複・欠落なく・URL と戻る・検索で1ページ目・ページ指定・遅延読み込み
  * 失敗が1件でもあれば終了コード1。
  */
 'use strict';
@@ -182,24 +182,32 @@ check('3i. 結果が24件以下ならページ切り替えを出さない', p.do
 
 // ---- 5. 単発実況の一覧(singles.html) ----
 const SA = (() => { const c = {}; vm.createContext(c); vm.runInContext(read('data-standalone.js'), c); return JSON.parse(JSON.stringify(vm.runInContext('STANDALONE_PLAYS', c))); })();
-const shownIds = SA.map((x, i) => ({ x, i })).sort((a, b) => ((b.x.addedDate || '') > (a.x.addedDate || '') ? 1 : (b.x.addedDate || '') < (a.x.addedDate || '') ? -1 : a.i - b.i)).map((o) => o.x.id);
-const sPages = Math.ceil(SA.length / 24);
+// 初期表示は投稿日(最も古い動画の公開日)の新しい順。同じ日は追加日の新しい順・登録順
+const posted = (x) => x.videos.map((v) => v.publishedDate).sort()[0];
+const shownIds = SA.map((x, i) => ({ x, i })).sort((a, b) => posted(b.x).localeCompare(posted(a.x)) || (b.x.addedDate || '').localeCompare(a.x.addedDate || '') || a.i - b.i).map((o) => o.x.id);
+const sPages = Math.ceil(SA.length / 20);
 p = openPage('singles.html', 'singles.js', 'https://vgame-navi.jp/singles.html', ['data-standalone.js']);
-const cardsOnPage = () => p.doc.getElementById('single-grid').children.filter((c) => c.tagName === 'ARTICLE');
-// カードの「YouTubeで見る」のリンクから、どの単発実況かを特定する(動画URLは単発実況ごとに異なる)
-const idOfCard = (c) => { const url = c.querySelectorAll('a').find((a) => a.textContent === 'YouTubeで見る').href; return SA.find((x) => (x.videos[0] || {}).url === url).id; };
+const rowsOnPage = () => p.doc.getElementById('grid').children.flatMap((c) => (c.tagName === '#FRAGMENT' ? c.children : [c])).filter((c) => /\bsingles-row\b/.test(c.className));
+// タイトルのリンク(動画URLは単発実況ごとに異なる)から、どの単発実況かを特定する
+const idOfRow = (row) => { const url = row.querySelectorAll('a').find((a) => a.className === 'title-link').href; return SA.find((x) => (x.videos[0] || {}).url === url).id; };
 const perPage = [], seen = [];
-for (let i = 0; i < sPages; i++) { perPage.push(cardsOnPage().length); seen.push(...cardsOnPage().map(idOfCard)); if (i < sPages - 1) p.doc.getElementById('page-next').click(); }
-const expCounts = Array.from({ length: sPages }, (_, i) => Math.min(24, SA.length - i * 24));
-check('5a. 単発実況 ' + SA.length + ' 件を24件ずつ(' + expCounts.join('・') + '件)に分けて表示する', same(perPage, expCounts) && p.doc.getElementById('page-next').disabled && p.doc.getElementById('result-count').textContent === SA.length + ' 件');
-check('5b. 全ページを通して、追加日の新しい順のまま重複・欠落なく全件が並ぶ', seen.length === SA.length && new Set(seen).size === SA.length && same(seen, shownIds));
-check('5c. ページを移ると URL に ?page= を残し、戻るで直前のページを復元する', pageParam(p.loc) === String(sPages) && (p.back(), pageParam(p.loc) === String(sPages - 1) && same(cardsOnPage().map(idOfCard), shownIds.slice((sPages - 2) * 24, (sPages - 1) * 24))));
-const sInput = p.doc.getElementById('single-search');
+for (let i = 0; i < sPages; i++) { perPage.push(rowsOnPage().length); seen.push(...rowsOnPage().map(idOfRow)); if (i < sPages - 1) p.doc.getElementById('page-next').click(); }
+const expCounts = Array.from({ length: sPages }, (_, i) => Math.min(20, SA.length - i * 20));
+check('5a. 単発実況 ' + SA.length + ' 件を20件ずつ ' + sPages + ' ページに分けて表示する', same(perPage, expCounts) && p.doc.getElementById('page-next').disabled && p.doc.getElementById('result-count').textContent.startsWith(SA.length + ' 件'));
+check('5b. 全ページを通して、投稿日の新しい順のまま重複・欠落なく全件が並ぶ', seen.length === SA.length && new Set(seen).size === SA.length && same(seen, shownIds));
+check('5c. ページを移ると URL に ?page= を残し、戻るで直前のページを復元する', pageParam(p.loc) === String(sPages) && (p.back(), pageParam(p.loc) === String(sPages - 1) && same(rowsOnPage().map(idOfRow), shownIds.slice((sPages - 2) * 20, (sPages - 1) * 20))));
+const jump = p.doc.getElementById('page-jump-input');
+jump.value = '3'; (p.doc.getElementById('page-jump-form').listeners.submit || []).forEach((f) => f({ preventDefault() {} }));
+const jumped = pageParam(p.loc) === '3' && same(rowsOnPage().map(idOfRow), shownIds.slice(40, 60));
+const size = p.doc.getElementById('pagesize-select');
+size.value = '50'; (size.listeners.change || []).forEach((f) => f({}));
+check('5d. ページ番号の指定で移動でき、表示件数を変えると1ページ目に戻る(page を外す)', jumped && pageParam(p.loc) === null && rowsOnPage().length === 50);
+const sInput = p.doc.getElementById('search-input');
 sInput.value = '熱千めら'; (sInput.listeners.input || []).forEach((f) => f({})); p.flush();
-check('5d. 検索語を変えると1ページ目に戻り(page を外して q を残す)、24件以下ならページ切り替えを出さない', pageParam(p.loc) === null && qParam(p.loc, 'q') === '熱千めら' && cardsOnPage().length > 0 && p.doc.getElementById('pagination').hidden);
+check('5e. 検索語を変えると1ページ目に戻り(page を外して q を残す)', pageParam(p.loc) === null && qParam(p.loc, 'q') === '熱千めら' && rowsOnPage().length > 0 && p.doc.getElementById('page-indicator').textContent.startsWith('1 / '));
 p = openPage('singles.html', 'singles.js', 'https://vgame-navi.jp/singles.html?page=' + sPages, ['data-standalone.js']);
-const lastImgs = cardsOnPage().map((c) => c.querySelectorAll('img')[0]).filter(Boolean);
-check('5e. URL の ?page= から最終ページを表示し、2ページ目以降のサムネイルは遅延読み込みのまま', same(cardsOnPage().map(idOfCard), shownIds.slice((sPages - 1) * 24)) && lastImgs.length > 0 && lastImgs.every((img) => img.loading === 'lazy'), p.doc.getElementById('page-indicator').textContent + ' cards=' + cardsOnPage().length);
+const lastImgs = rowsOnPage().map((c) => c.querySelectorAll('img')[0]).filter(Boolean);
+check('5f. URL の ?page= から最終ページを表示し、2ページ目以降のサムネイルは遅延読み込みのまま', same(rowsOnPage().map(idOfRow), shownIds.slice((sPages - 1) * 20)) && lastImgs.length > 0 && lastImgs.every((img) => img.loading === 'lazy'), p.doc.getElementById('page-indicator').textContent);
 
 // ---- 4. 既存のページ切り替え(引数2つで呼ぶページ)は URL を変えない ----
 check('4a. URL への記録は urlParam を渡したときだけ。既存の呼び出し(new/ranking/game/streamer)は渡していない', /if \(opts\.urlParam\) writePageToUrl/.test(read('common.js')) && ['new.js', 'ranking.js', 'game.js', 'streamer.js'].every((f) => !/urlParam/.test(read(f))));
