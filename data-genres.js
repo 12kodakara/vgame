@@ -1488,6 +1488,18 @@ const GENRE_PAGES = {
    ],
    "recent": [
     {
+     "id": "vspo-totokogara-21",
+     "title": "DBD",
+     "streamer": "小雀とと",
+     "game": "Dead by Daylight",
+     "genre": "horror",
+     "playlistId": "PLuXZStCIRGE32i_dmwvRlmUQ2eDfVG8t4",
+     "thumbnailUrl": "https://i.ytimg.com/vi/3TcHQx5ivPw/mqdefault.jpg",
+     "videoCount": 38,
+     "addedDate": "2026-09-07",
+     "updatedDate": "2026-11-27"
+    },
+    {
      "id": "hd-0545",
      "title": "REPO",
      "streamer": "不知火フレア",
@@ -1594,18 +1606,6 @@ const GENRE_PAGES = {
      "videoCount": 51,
      "addedDate": "2026-09-07",
      "updatedDate": "2026-11-17"
-    },
-    {
-     "id": "gap834",
-     "title": "バイオハザード6",
-     "streamer": "鷹嶺ルイ",
-     "game": "バイオハザード6",
-     "genre": "horror",
-     "playlistId": "PLXPW6-4naNnE",
-     "thumbnailUrl": "https://i.ytimg.com/vi/WmmhxWD1j2s/mqdefault.jpg",
-     "videoCount": 2,
-     "addedDate": "2026-10-11",
-     "updatedDate": "2026-11-16"
     }
    ]
   }
